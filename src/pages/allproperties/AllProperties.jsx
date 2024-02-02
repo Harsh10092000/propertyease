@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-
+import axios from "axios";
+import { Link } from "react-router-dom";
 const AllProperties = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
+  console.log(data);
   return (
     <div>
       <Navbar />
@@ -12,7 +22,7 @@ const AllProperties = () => {
             <div className="title">
               <h2>All Property</h2>
             </div>
-            {/* <div className="row">
+            <div className="row">
               {data.map((item, index) => (
                 <div className="col-md-12 " key={index}>
                   <div className="view-pro-box">
@@ -22,40 +32,26 @@ const AllProperties = () => {
                         href={"/property-profile/" + item.slug}
                       >
                         <a>
-                          {item.profilePic == "" ||
-                          item.profilePic == undefined ? (
-                            <>
-                              {item.propertyMainType == "Commercial" ? (
-                                <img
-                                  src="/img/commercial.jpg"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                              {item.propertyMainType == "Plot" ? (
-                                <img
-                                  src="/img/plot-land.jpg"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                              {item.propertyMainType == "Residential" ? (
-                                <img
-                                  src="/img/residential.jpg"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                            </>
+                          {item.pro_type == "Commercial" ? (
+                            <img
+                              src="/img/commercial.jpg"
+                              loading="lazy"
+                              alt="house"
+                            />
+                          ) : item.pro_type == "Plot" ? (
+                            <img
+                              src="/img/plot-land.jpg"
+                              loading="lazy"
+                              alt="house"
+                            />
+                          ) : item.pro_type == "Residential" ? (
+                            <img
+                              src="/img/residential.jpg"
+                              loading="lazy"
+                              alt="house"
+                            />
                           ) : (
-                            <>
-                              {" "}
-                              <img
-                                src={item.profilePic}
-                                loading="lazy"
-                                alt="house"
-                              />
-                            </>
+                            ""
                           )}
                         </a>
                       </Link>
@@ -79,7 +75,7 @@ const AllProperties = () => {
                           legacyBehavior
                           href={"/property-profile/" + item.slug}
                         >
-                          <a>{item.propertyType}</a>
+                          <a>{item.pro_sub_cat}</a>
                         </Link>
                       </h5>
                       <ul>
@@ -89,7 +85,7 @@ const AllProperties = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon"></strong>
-                          {item.slug.replaceAll("-", " ")}{" "}
+                          {/* {item.slug.replaceAll("-", " ")}{" "} */}
                         </li>
                         <li>
                           <img
@@ -99,7 +95,7 @@ const AllProperties = () => {
                           <strong className="frontPropIcon">
                             Plot Size&nbsp;
                           </strong>
-                          {item.plotSize} Sq.{item.PlotDimension}
+                          {item.plot_area_size}
                         </li>
                         <li>
                           <img
@@ -109,7 +105,7 @@ const AllProperties = () => {
                           <strong className="frontPropIcon">
                             Dimension&nbsp;
                           </strong>
-                          ({item.plotWidth} Feet * {item.plotLenght} Feet)
+                          ({item.pro_width} Feet * {item.pro_length} Feet)
                         </li>
                         <li>
                           <img
@@ -117,7 +113,7 @@ const AllProperties = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon">Price </strong>
-                          {item.amountExpected} {item.amountCurrency}
+                          {item.pro_amt}
                         </li>
 
                         <li>
@@ -127,8 +123,8 @@ const AllProperties = () => {
                           />
                           <strong className="frontPropIcon">
                             Property Facing
-                          </strong>{" "}
-                          {item.propertyFacing}
+                          </strong>
+                          {item.pro_facing}
                         </li>
                       </ul>
                       <Link
@@ -143,7 +139,7 @@ const AllProperties = () => {
                   </div>
                 </div>
               ))}
-            </div> */}
+            </div>
           </div>
         </section>
       </div>

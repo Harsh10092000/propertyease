@@ -10,7 +10,17 @@ import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { IconPhone } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Index = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchLatestProperty")
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
   return (
     <div>
       <Navbar />
@@ -81,7 +91,7 @@ const Index = () => {
                         <span>
                           <IconCircleCheckFilled className="sidebar-faicon" />
                         </span>
-                        <a href="#">Row House</a>
+                        <a href="#">Raw House</a>
                       </li>
                       <li>
                         <span>
@@ -265,65 +275,44 @@ const Index = () => {
                 <br /> based on feedback gathered from users like you!
               </p>
             </div>
-            {/* <Slider {...settings}>
-              {pageProps.mydata.studentBookmarks.map((object, index) => (
+            <div className="row">
+              {data.map((item, index) => (
                 <div className="uniBlock" key={index}>
                   <div className="recent-box-serv">
                     <div className="re-bus-img">
-                      <Link
-                        
-                        href={"/property-profile/" + object.slug}
-                      >
+                      <Link href={"/property-profile/" + item.slug}>
                         <a>
-                          {object.profilePic == "" ||
-                          object.profilePic == undefined ? (
-                            <>
-                              {object.propertyMainType == "Commercial" ? (
-                                <img
-                                  src="/img/commercial.jpg"
-                                  className="home-slider-img-fluid"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                              {object.propertyMainType == "Plot" ? (
-                                <img
-                                  src="/img/plot-land.jpg"
-                                  className="home-slider-img-fluid"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                              {object.propertyMainType == "Residential" ? (
-                                <img
-                                  src="/img/residential.jpg"
-                                  className="home-slider-img-fluid"
-                                  loading="lazy"
-                                  alt="house"
-                                />
-                              ) : null}
-                            </>
+                          {item.pro_type == "Commercial" ? (
+                            <img
+                              src="/img/commercial.jpg"
+                              className="home-slider-img-fluid"
+                              loading="lazy"
+                              alt="house"
+                            />
+                          ) : item.pro_type == "Plot" ? (
+                            <img
+                              src="/img/plot-land.jpg"
+                              className="home-slider-img-fluid"
+                              loading="lazy"
+                              alt="house"
+                            />
+                          ) : item.pro_type == "Residential" ? (
+                            <img
+                              src="/img/residential.jpg"
+                              className="home-slider-img-fluid"
+                              loading="lazy"
+                              alt="house"
+                            />
                           ) : (
-                            <>
-                              Icon
-                              <img
-                                src={object.profilePic}
-                                className="home-slider-img-fluid"
-                                loading="lazy"
-                                alt="house"
-                              />
-                            </>
+                            ""
                           )}
                         </a>
                       </Link>
                     </div>
                     <div className="recent-bus-content">
                       <h5 className="property-listing-type">
-                        <Link
-                          
-                          href={"/property-profile/" + object.slug}
-                        >
-                          <a target="_blank">{object.propertyType}</a>
+                        <Link href={"/property-profile/" + item.slug}>
+                          <a>{item.pro_sub_cat}</a>
                         </Link>
                       </h5>
                       <ul className="front-all-property-slider">
@@ -333,7 +322,7 @@ const Index = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon">Address </strong>
-                          {object.slug.replaceAll("-", " ")}Icon
+                          {/* {object.slug.replaceAll("-", " ")}Icon */}
                         </li>
                         <li>
                           <img
@@ -343,7 +332,7 @@ const Index = () => {
                           <strong className="frontPropIcon">
                             Plot Size &nbsp;
                           </strong>
-                          {object.plotSize} Sq.{object.PlotDimension}
+                          {item.plot_area_size}
                         </li>
                         <li>
                           <img
@@ -353,8 +342,7 @@ const Index = () => {
                           <strong className="frontPropIcon">
                             Dimension&nbsp;
                           </strong>
-                          ({object.plotWidth} Feet * {object.plotLenght}
-                          Feet)
+                          ({item.pro_width} Feet * {item.pro_length} Feet)
                         </li>
                         <li>
                           <img
@@ -362,10 +350,7 @@ const Index = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon">Price </strong>
-                          {object.amountExpected} {object.amountCurrency}&nbsp;
-                          {pageProps.mydata.priceNegotiable === "Yes"
-                            ? "(Negotiable)"
-                            : "(Fixed Price)"}
+                          {item.pro_amt}
                         </li>
 
                         <li>
@@ -377,13 +362,10 @@ const Index = () => {
                             Property Facing
                           </strong>
                           &nbsp;
-                          {object.propertyFacing}
+                          {item.pro_facing}
                         </li>
                       </ul>
-                      <Link
-                        
-                        href={"/property-profile/" + object.slug}
-                      >
+                      <Link href={"/property-profile/" + item.slug}>
                         <a target="_blank" className="btn-viewmore">
                           View More
                         </a>
@@ -392,8 +374,7 @@ const Index = () => {
                   </div>
                 </div>
               ))}
-            </Slider> */}
-            Slider
+            </div>
           </div>
         </section>
         <section className="promation">

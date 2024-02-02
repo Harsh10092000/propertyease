@@ -1,6 +1,14 @@
-import { IconHome, IconLogin, IconPlus } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconHome,
+  IconLogin,
+  IconPlus,
+} from "@tabler/icons-react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 const Navbar = () => {
+  const { currentUser } = useContext(AuthContext);
   return (
     <header
       className="main-header"
@@ -37,22 +45,23 @@ const Navbar = () => {
                 List Property<span className="blink">Free</span>
               </a>
             </Link>
-
-            <Link to="/login">
-              <a className="login" title="Login">
-                Login
-                <span>
-                  <IconLogin className="sidebar-faicon" />
-                </span>
-              </a>
-            </Link>
-
-            {/* <Link legacyBehavior href="/user/dashboard">
-              <a className="login" title="Dashboard">
-                Dashboard
-                <IconArrowRight />
-              </a>
-            </Link> */}
+            {!currentUser ? (
+              <Link to="/login">
+                <a className="login" title="Login">
+                  Login
+                  <span>
+                    <IconLogin className="sidebar-faicon" />
+                  </span>
+                </a>
+              </Link>
+            ) : (
+              <Link to="/user/dashboard">
+                <a className="login" title="Dashboard">
+                  Dashboard
+                  <IconArrowRight />
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </div>

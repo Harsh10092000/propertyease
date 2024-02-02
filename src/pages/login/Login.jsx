@@ -1,11 +1,13 @@
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+
 const Login = () => {
+  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const [data, setData] = useState({
     email: "",
@@ -28,6 +30,7 @@ const Login = () => {
   const checkLogin = async () => {
     if (data.otp.length === 6) {
       await login(data);
+      navigate("/user/dashboard");
     }
   };
   useEffect(() => {
