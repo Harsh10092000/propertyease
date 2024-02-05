@@ -71,10 +71,7 @@ const AllProperties = () => {
                         </a>
                       </div>
                       <h5 className="property-listing-type">
-                        <Link
-                          legacyBehavior
-                          href={"/property-profile/" + item.slug}
-                        >
+                        <Link to={"/listing/" + item.slug}>
                           <a>{item.pro_sub_cat}</a>
                         </Link>
                       </h5>

@@ -136,7 +136,6 @@ input::-webkit-input-placeholder {
   transition: 0.2s ease-in;
 }
 
-
 .btn:focus {
   box-shadow: inherit;
 }
@@ -2196,10 +2195,9 @@ select.form-control.plotdimensionSelect {
   height: auto !important;
   border-left: 0 !important;
 }
-select {
-  padding: 13px !important;
+/* select {
   word-wrap: normal;
-}
+} */
 .card,
 code {
   word-wrap: break-word;
@@ -2553,7 +2551,7 @@ img.desc {
   text-align: center;
 }
 .share-property {
-  float: right;
+  border: none;
   cursor: pointer;
   font-size: 25px;
   font-weight: 500;
@@ -2622,9 +2620,6 @@ a.cont-btn {
   border-radius: 4px;
   margin-top: 13px;
   cursor: pointer;
-}
-.property-side-detail {
-  height: 677px;
 }
 .property-side-detail h6 {
   font-size: 12px;
@@ -2875,6 +2870,7 @@ section.search-block {
 }
 div#dynamic {
   padding-bottom: 12px;
+  width: 100%;
 }
 a.btn-resiter-earing {
   display: block;
@@ -15359,4 +15355,31 @@ img.book-img {
   .login {
     gap: 0 !important;
   }
+}
+.gap-3 {
+  gap: 15px;
+}
+input[type="file"]::file-selector-button {
+  margin-right: 20px;
+  border: none;
+  background: #084cdf;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: #0d45a5;
+}
+
+input[type="file"] {
+  width: 615px;
+  max-width: 100%;
+  color: #444;
+  padding: 5px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #555;
 }

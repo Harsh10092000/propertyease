@@ -14,9 +14,21 @@ import Terms from "./pages/terms/Terms";
 import Privacy from "./pages/privacy/Privacy";
 import User from "./pages/user/User";
 import UserDashboard from "./pages/userdashboard/UserDashboard";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
 import UserShortlisted from "./pages/shortlisted/UserShortlisted";
+import Property from "./pages/property/Property";
+import EmblaCarousel from "./components/slider/EmblaCarousel";
+import { useLocation } from "react-router-dom";
+import AddProperty from "./pages/addProperty/AddProperty";
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const App = () => {
   const { currentUser } = useContext(AuthContext);
@@ -76,6 +88,19 @@ const App = () => {
           element: <UserShortlisted />,
         },
       ],
+    },
+    {
+      path: "/property/:id",
+      element: (
+        <>
+          <ScrollToTop />
+          <Property />
+        </>
+      ),
+    },
+    {
+      path: "addProperty",
+      element: <AddProperty />,
     },
   ]);
   return (

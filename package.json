@@ -15,8 +15,11 @@
     "@mui/material": "^5.15.7",
     "@tabler/icons-react": "^2.46.0",
     "axios": "^1.6.7",
+    "embla-carousel": "^8.0.0-rc22",
+    "embla-carousel-react": "^8.0.0-rc22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-form-stepper": "^2.0.3",
     "react-router-dom": "^6.21.3"
   },
   "devDependencies": {

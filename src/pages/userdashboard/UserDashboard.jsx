@@ -1,6 +1,22 @@
-import React from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { IconEdit, IconEye } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 const UserDashboard = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/fetchPropertyDataByUserId/${currentUser[0].login_id}`
+      )
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
+  console.log(data);
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -29,106 +45,65 @@ const UserDashboard = () => {
             </div>
             <div className="card-body table-border-style">
               <div className="table-responsive">
-                {/* <table className="table table-hover">
-                  <TableHeader
-                    headers={tableHeaders}
-                    onSorting={(field, order) => setSorting({ field, order })}
-                  />
-                  <tbody>
-                    {commentsData.map((object, i) => {
-                      return (
-                        <tr key={i}>
-                          <td>{object.NO}</td>
-                          <td>{object.sale}</td>
-                          <td>{object.personType}</td>
-                          <td> {object.slug} </td>
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>SNo.</th>
+                      <th>Sale/Resale</th>
+                      <th>Owner/Agent</th>
+                      <th>PropertyID</th>
+                      <th>Address</th>
+                      <th>Locality</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-black">
+                    {data.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.pro_ad_type}</td>
+                        <td>{item.pro_user_type}</td>
+                        <td> SLUG </td>
 
-                          <td>{object.address}</td>
-                          <td>{object.locality}</td>
-
-                          <td>{object.currentTime}</td>
-                          <td>
-                            {object.approve === "yes" ? (
-                              <button
-                                title="approved"
-                                className="btn btn-success btn-sm vbtn"
-                              >
-                                {" "}
-                                Approved{" "}
-                              </button>
-                            ) : (
-                              <button
-                                title="not approved"
-                                className="btn btn-danger btn-sm vbtn"
-                              >
-                                Not Approved{" "}
-                              </button>
-                            )}
-                          </td>
-                          <td>
-                            <button
-                              title="Edit Your Property"
-                              className="btn btn-primary btn-sm vbtn"
+                        <td>{item.pro_city}</td>
+                        <td>{item.pro_locality}</td>
+                        <td>
+                          <button
+                            title="Edit Your Property"
+                            className="btn btn-primary btn-sm vbtn"
+                          >
+                            <Link
+                              href={"/property-edit/" + item.id}
+                              legacyBehavior
                             >
-                              <Link
-                                href={"/property-edit/" + object._id}
-                                legacyBehavior
+                              <a
+                                target="_blank"
+                                className="btn btn-primary btn-sm "
                               >
-                                <a
-                                  target="_blank"
-                                  className="btn btn-primary btn-sm "
-                                >
-                                  <FontAwesomeIcon
-                                    className="admin-faicon"
-                                    icon={faEdit}
-                                  />
-                                </a>
-                              </Link>{" "}
-                            </button>
-                            {object.slug != undefined ? (
-                              <button
-                                title="View Your Property"
-                                className="btn btn-primary btn-sm vbtn"
-                              >
-                                <Link
-                                  href={"/property-profile/" + object.slug}
-                                  legacyBehavior
-                                >
-                                  <a
-                                    target="_blank"
-                                    className="btn btn-primary btn-sm "
-                                  >
-                                    <FontAwesomeIcon
-                                      className="admin-faicon"
-                                      icon={faEye}
-                                    />
-                                  </a>
-                                </Link>{" "}
-                              </button>
-                            ) : (
-                              <button
-                                title="Complete Your Property Details First"
-                                className="btn btn-primary btn-sm vbtn"
-                              >
-                                <FontAwesomeIcon
-                                  className="admin-faicon"
-                                  icon={faEyeSlash}
-                                />
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                                <IconEdit className="admin-faicon" />
+                              </a>
+                            </Link>
+                          </button>
+
+                          <button
+                            title="View Your Property"
+                            className="btn btn-primary btn-sm vbtn"
+                          >
+                            <Link
+                              href={"/property-profile/" + item.slug}
+                              legacyBehavior
+                            >
+                              <a className="btn btn-primary btn-sm ">
+                                <IconEye className="admin-faicon" />
+                              </a>
+                            </Link>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
-                </table> */}
+                </table>
               </div>
-              {/* <Pagination
-                total={totalItems}
-                itemsPerPage={ITEMS_PER_PAGE}
-                currentPage={currentPage}
-                onPageChange={(page) => setCurrentPage(page)}
-              /> */}
             </div>
           </div>
         </div>

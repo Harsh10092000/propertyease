@@ -280,7 +280,7 @@ const Index = () => {
                 <div className="uniBlock" key={index}>
                   <div className="recent-box-serv">
                     <div className="re-bus-img">
-                      <Link href={"/property-profile/" + item.slug}>
+                      <Link to={"/property/" + item.pro_id}>
                         <a>
                           {item.pro_type == "Commercial" ? (
                             <img
@@ -289,7 +289,7 @@ const Index = () => {
                               loading="lazy"
                               alt="house"
                             />
-                          ) : item.pro_type == "Plot" ? (
+                          ) : item.pro_type == "Land" ? (
                             <img
                               src="/img/plot-land.jpg"
                               className="home-slider-img-fluid"
