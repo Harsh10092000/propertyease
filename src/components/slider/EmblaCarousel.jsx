@@ -3,18 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Thumb } from "./EmblaCarouselThumbsButton";
 import "./embla.css";
 const EmblaCarousel = (props) => {
-  const slides = [
-    {
-      src: "/img/house-img1.jpg",
-    },
-    {
-      src: "/img/house-img2.jpg",
-    },
-    {
-      src: "/img/house-img3.jpg",
-    },
-  ];
-  //   const { slides, options } = props;
+  const { slides, options } = props;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(
     Array.from(Array(slides.length).keys())
@@ -48,15 +37,16 @@ const EmblaCarousel = (props) => {
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaMainRef}>
-        <div className="embla__container">
+        <div className="embla__container" onClick={props.open}>
           {slides.map((item, index) => (
             <div className="embla__slide" key={index}>
-              <div className="embla__slide__number">
-                <span>{index + 1}</span>
-              </div>
               <img
                 className="embla__slide__img"
-                src={item.src}
+                src={
+                  import.meta.env.VITE_BACKEND +
+                  "/propertyImages/" +
+                  item.img_link
+                }
                 alt="Your alt text"
               />
             </div>
@@ -72,7 +62,11 @@ const EmblaCarousel = (props) => {
                 onClick={() => onThumbClick(index)}
                 selected={index === selectedIndex}
                 index={index}
-                imgSrc={items.src}
+                imgSrc={
+                  import.meta.env.VITE_BACKEND +
+                  "/propertyImages/" +
+                  items.img_link
+                }
                 key={index}
               />
             ))}

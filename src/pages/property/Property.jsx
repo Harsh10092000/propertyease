@@ -11,9 +11,12 @@ import { Link, useParams } from "react-router-dom";
 import EmblaCarousel from "../../components/slider/EmblaCarousel";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
+import Modal from "@mui/material/Modal";
+
 const Property = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [images, setImages] = useState([]);
   useEffect(() => {
     axios
       .get(
@@ -22,10 +25,22 @@ const Property = () => {
       .then((res) => {
         setData(res.data[0]);
       });
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${id}`)
+      .then((res) => {
+        setImages(res.data);
+      });
   }, []);
-  console.log(data);
+  const [open, setOpen] = useState(false);
   return (
     <div>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <EmblaCarousel slides={images} />
+      </Modal>
       <Navbar />
       <div className="container">
         <div className="row">
@@ -51,7 +66,7 @@ const Property = () => {
                     //   }
                     >
                       <a>
-                        {data.pro_type}
+                        {data.pro_type ? data.pro_type.split(",")[1] : ""}
                         <IconChevronRight className="sidebar-faicon" />
                       </a>
                     </Link>
@@ -63,8 +78,10 @@ const Property = () => {
                   <div className="row">
                     <div className="top" id="dynamic">
                       <h1>
-                        {data.pro_sub_cat} For
-                        {data.pro_ad_type === "new" ? "Sale" : data.pro_ad_type}
+                        {data.pro_type ? data.pro_type.split(",")[0] : ""} For
+                        {data.pro_ad_type === "new"
+                          ? " Sale"
+                          : " " + data.pro_ad_type}
                       </h1>
                       <div className="property-top-address">
                         {data.pro_locality + " , " + data.pro_city}
@@ -72,7 +89,7 @@ const Property = () => {
                       <div className="d-flex align-items-center justify-content-between">
                         <div className="d-flex align-items-center gap-3">
                           <div className="property-price">
-                            {"₹ " + data.pro_amt}
+                            {"₹ " + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
                           <div></div>
                           <button
@@ -107,7 +124,7 @@ const Property = () => {
                           <a
                             rel="noreferrer nofollow"
                             className="facebook-share btn btn-primary"
-                            //   href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property-profile/${schoolDetails}`}
+                            href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
                             target="_blank"
                           >
                             <span className="mobile-hidden">Facebook</span>
@@ -120,7 +137,19 @@ const Property = () => {
                       <div className="col-md-6">
                         <div class="leftblock">
                           <div className="photosection">
-                            <EmblaCarousel />
+                            {images.length > 0 ? (
+                              <EmblaCarousel
+                                slides={images}
+                                open={() => setOpen(true)}
+                              />
+                            ) : (
+                              <img
+                                src="/images/no-image-available-icon-vector.jpg"
+                                alt="No Image"
+                                width={550}
+                                height={550}
+                              />
+                            )}
                             {/* <img src="/img/house-img1.jpg" /> */}
                           </div>
                         </div>
@@ -137,46 +166,50 @@ const Property = () => {
                           </h6>
                           <div className="property-no-detail">
                             <div className={"property-small-detail"}>
-                              {data.pro_type == "Commercial" ||
-                              data.pro_type == "Residential" ? (
-                                <>
-                                  <div className="property-numbers">
-                                    <img src="/img/bedroom.png" />
-                                    <span className="propertyHeading">
-                                      Bedroom(s)
-                                    </span>
-                                    <span className="propertyData">
-                                      {data.pro_bedroom}
-                                    </span>
-                                  </div>
-                                  <div className="property-numbers">
-                                    <img src="/img/shower.png" />
-                                    <span className="propertyHeading">
-                                      Washroom(s)
-                                    </span>
-                                    <span className="propertyData">
-                                      {data.pro_washrooms}
-                                    </span>
-                                  </div>
-                                  <div className="property-numbers">
-                                    <img src="/img/balcony.png" />
-                                    <span className="propertyHeading">
-                                      Balconies
-                                    </span>
-                                    <span className="propertyData">
-                                      {data.pro_balcony}
-                                    </span>
-                                  </div>
-                                  <div className="property-numbers">
-                                    <img src="/img/tiles.png" />
-                                    <span className="propertyHeading">
-                                      Floor(s)
-                                    </span>
-                                    <span className="propertyData">
-                                      {data.pro_floor}
-                                    </span>
-                                  </div>
-                                </>
+                              {data.pro_type ? (
+                                data.pro_type.split(",")[1] == "Commercial" ||
+                                data.pro_type.split(",")[1] == "Residential" ? (
+                                  <>
+                                    <div className="property-numbers">
+                                      <img src="/img/bedroom.png" />
+                                      <span className="propertyHeading">
+                                        Bedroom(s)
+                                      </span>
+                                      <span className="propertyData">
+                                        {data.pro_bedroom}
+                                      </span>
+                                    </div>
+                                    <div className="property-numbers">
+                                      <img src="/img/shower.png" />
+                                      <span className="propertyHeading">
+                                        Washroom(s)
+                                      </span>
+                                      <span className="propertyData">
+                                        {data.pro_washrooms}
+                                      </span>
+                                    </div>
+                                    <div className="property-numbers">
+                                      <img src="/img/balcony.png" />
+                                      <span className="propertyHeading">
+                                        Balconies
+                                      </span>
+                                      <span className="propertyData">
+                                        {data.pro_balcony}
+                                      </span>
+                                    </div>
+                                    <div className="property-numbers">
+                                      <img src="/img/tiles.png" />
+                                      <span className="propertyHeading">
+                                        Floor(s)
+                                      </span>
+                                      <span className="propertyData">
+                                        {data.pro_floor}
+                                      </span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  ""
+                                )
                               ) : (
                                 ""
                               )}
@@ -285,38 +318,42 @@ const Property = () => {
                               </p>
                             </div>
                           </div>
-                          {data.pro_type == "Commercial" ||
-                          data.pro_type == "Residential" ? (
-                            <>
-                              <div className=" mmmm">
-                                <div className="large-detials">
-                                  <img src="/img/age.png" className="desc" />
-                                  <span className="propertyHeading">
-                                    Property Age
-                                  </span>
-                                  <p>
-                                    <span className="propertyData">
-                                      {data.pro_age}
+                          {data.pro_type ? (
+                            data.pro_type.split(",")[1] == "Commercial" ||
+                            data.pro_type.split(",")[1] == "Residential" ? (
+                              <>
+                                <div className=" mmmm">
+                                  <div className="large-detials">
+                                    <img src="/img/age.png" className="desc" />
+                                    <span className="propertyHeading">
+                                      Property Age
                                     </span>
-                                  </p>
-                                </div>
-                                <div className="large-detials">
-                                  <img
-                                    src="/img/furnishing.png"
-                                    className="desc"
-                                  />
-                                  <span className="propertyHeading">
-                                    Furnishing
-                                  </span>
-                                  <p>
-                                    <span className="propertyData">
-                                      {data.pro_furnishing}
+                                    <p>
+                                      <span className="propertyData">
+                                        {data.pro_age}
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div className="large-detials">
+                                    <img
+                                      src="/img/furnishing.png"
+                                      className="desc"
+                                    />
+                                    <span className="propertyHeading">
+                                      Furnishing
                                     </span>
-                                  </p>
+                                    <p>
+                                      <span className="propertyData">
+                                        {data.pro_furnishing}
+                                      </span>
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          ) : null}
+                              </>
+                            ) : null
+                          ) : (
+                            ""
+                          )}
 
                           <div></div>
                         </div>
@@ -365,8 +402,7 @@ const Property = () => {
                                   ? " (Negotiable)"
                                   : " (Fixed Price)"} */}
                                 {/* PRICE */}
-                                {data.pro_amt_unit}
-                                {data.pro_amt}
+                                {"₹ " + data.pro_amt + " " + data.pro_amt_unit}
                               </div>
                             </div>
                             <div className="row moreDetail">
@@ -376,7 +412,6 @@ const Property = () => {
                               <div className="col-md-9 more-detail-left">
                                 {data.pro_locality},&nbsp;
                                 {data.pro_city}
-                                ADDRESS
                               </div>
                             </div>
                             {/* {pageProps.mydata.propertyMainType ==
@@ -401,7 +436,9 @@ const Property = () => {
                                 {/* {pageProps.mydata.facingRoad}&nbsp;
                                 {pageProps.mydata.facingRoadDimension} */}
                                 {/* FACING ROAD WIDTH */}
-                                {data.pro_facing_road_width}
+                                {data.pro_facing_road_width
+                                  ? data.pro_facing_road_width
+                                  : "-"}
                               </div>
                             </div>
                             <div className="row moreDetail">

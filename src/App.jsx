@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import Index from "./pages/index/Index";
 import "./custom.css";
-import Register from "./pages/register/Register";
+
 import Login from "./pages/login/Login";
 import Listing from "./pages/listing/Listing";
 import AllProperties from "./pages/allproperties/AllProperties";
@@ -18,7 +18,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
 import UserShortlisted from "./pages/shortlisted/UserShortlisted";
 import Property from "./pages/property/Property";
-import EmblaCarousel from "./components/slider/EmblaCarousel";
+
 import { useLocation } from "react-router-dom";
 import AddProperty from "./pages/addProperty/AddProperty";
 
@@ -44,12 +44,13 @@ const App = () => {
       element: <Index />,
     },
     {
-      path: "/register",
-      element: <Register />,
-    },
-    {
       path: "/login",
-      element: <Login />,
+      element: (
+        <>
+          <ScrollToTop />
+          <Login />
+        </>
+      ),
     },
     {
       path: "/listing/:cat",

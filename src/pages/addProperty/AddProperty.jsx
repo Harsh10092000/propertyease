@@ -19,8 +19,16 @@ import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 const AddProperty = () => {
   const { currentUser } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
   const regEx = [
     {
       emailRegex:
@@ -73,12 +81,13 @@ const AddProperty = () => {
 
     pro_possession: "",
     pro_sub_cat: "",
-    pro_user_id: currentUser[0].login_id,
+    pro_user_id: currentUser ? currentUser[0].login_id : "",
     pro_area_size_unit: "Yards",
     pro_facing_road_unit: "Feet",
 
     pro_amt_unit: "Lakhs",
     pro_pincode: "",
+    pro_locality_2: "",
   });
 
   const locality = [
@@ -316,6 +325,9 @@ const AddProperty = () => {
   }, [propertyData.pro_locality]);
 
   const handleClick = () => {
+    if (propertyData.pro_locality === "others") {
+      propertyData.pro_locality_2 = otherLocality;
+    }
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
@@ -334,9 +346,30 @@ const AddProperty = () => {
     );
     navigate(`/property/${id}`);
   };
-
+  useEffect(() => {
+    if (!currentUser) {
+      setOpen(true);
+    }
+  }, []);
   return (
     <div>
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Please Login</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            As to Continue Adding your Property please Login.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Link to="/login">
+            <Button>Login</Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
       <Navbar />
       <div className="container">
         <section className="signup-section upper-form-heading post-property">

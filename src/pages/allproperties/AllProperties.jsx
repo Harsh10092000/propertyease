@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
+
 import { Link } from "react-router-dom";
 const AllProperties = () => {
   const [data, setData] = useState([]);
@@ -27,31 +28,20 @@ const AllProperties = () => {
                 <div className="col-md-12 " key={index}>
                   <div className="view-pro-box">
                     <div className="buiness-logo">
-                      <Link
-                        legacyBehavior
-                        href={"/property-profile/" + item.slug}
-                      >
+                      <Link to={"/property/" + item.pro_id}>
                         <a>
-                          {item.pro_type == "Commercial" ? (
+                          {item.img_link ? (
                             <img
-                              src="/img/commercial.jpg"
-                              loading="lazy"
-                              alt="house"
-                            />
-                          ) : item.pro_type == "Plot" ? (
-                            <img
-                              src="/img/plot-land.jpg"
-                              loading="lazy"
-                              alt="house"
-                            />
-                          ) : item.pro_type == "Residential" ? (
-                            <img
-                              src="/img/residential.jpg"
-                              loading="lazy"
-                              alt="house"
+                              src={`${
+                                import.meta.env.VITE_BACKEND
+                              }/propertyImages/${item.img_link}`}
+                              alt="img"
                             />
                           ) : (
-                            ""
+                            <img
+                              src="/images/no-image-available-icon-vector.jpg"
+                              alt="no image"
+                            />
                           )}
                         </a>
                       </Link>
@@ -82,7 +72,8 @@ const AllProperties = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon"></strong>
-                          {/* {item.slug.replaceAll("-", " ")}{" "} */}
+                          {item.pro_locality},&nbsp;
+                          {item.pro_city}
                         </li>
                         <li>
                           <img
@@ -111,6 +102,7 @@ const AllProperties = () => {
                           />
                           <strong className="frontPropIcon">Price </strong>
                           {item.pro_amt}
+                          {item.pro_amt_unit}
                         </li>
 
                         <li>
@@ -124,10 +116,7 @@ const AllProperties = () => {
                           {item.pro_facing}
                         </li>
                       </ul>
-                      <Link
-                        legacyBehavior
-                        href={"/property-profile/" + item.slug}
-                      >
+                      <Link to={"/property/" + item.pro_id}>
                         <a title="View More" className="btn-viewmore">
                           View More
                         </a>

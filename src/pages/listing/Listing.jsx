@@ -1,4 +1,4 @@
-import { IconChevronRight, IconStar } from "@tabler/icons-react";
+import { IconChevronRight } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/Footer";

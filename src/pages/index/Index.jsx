@@ -277,99 +277,101 @@ const Index = () => {
             </div>
             <div className="row">
               {data.map((item, index) => (
-                <div className="uniBlock" key={index}>
-                  <div className="recent-box-serv">
-                    <div className="re-bus-img">
-                      <Link to={"/property/" + item.pro_id}>
-                        <a>
-                          {item.pro_type == "Commercial" ? (
-                            <img
-                              src="/img/commercial.jpg"
-                              className="home-slider-img-fluid"
-                              loading="lazy"
-                              alt="house"
-                            />
-                          ) : item.pro_type == "Land" ? (
-                            <img
-                              src="/img/plot-land.jpg"
-                              className="home-slider-img-fluid"
-                              loading="lazy"
-                              alt="house"
-                            />
-                          ) : item.pro_type == "Residential" ? (
-                            <img
-                              src="/img/residential.jpg"
-                              className="home-slider-img-fluid"
-                              loading="lazy"
-                              alt="house"
-                            />
-                          ) : (
-                            ""
-                          )}
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="recent-bus-content">
-                      <h5 className="property-listing-type">
-                        <Link href={"/property-profile/" + item.slug}>
-                          <a>{item.pro_sub_cat}</a>
+                <div className="col-md-4" key={index}>
+                  <div className="uniBlock">
+                    <div className="recent-box-serv">
+                      <div className="re-bus-img">
+                        <Link to={"/property/" + item.pro_id}>
+                          <a>
+                            {item.pro_type.split(",")[1] == "Commercial" ? (
+                              <img
+                                src="/img/commercial.jpg"
+                                className="home-slider-img-fluid"
+                                loading="lazy"
+                                alt="house"
+                              />
+                            ) : item.pro_type.split(",")[1] == "Land" ? (
+                              <img
+                                src="/img/plot-land.jpg"
+                                className="home-slider-img-fluid"
+                                loading="lazy"
+                                alt="house"
+                              />
+                            ) : item.pro_type.split(",")[1] == "Residential" ? (
+                              <img
+                                src="/img/residential.jpg"
+                                className="home-slider-img-fluid"
+                                loading="lazy"
+                                alt="house"
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </a>
                         </Link>
-                      </h5>
-                      <ul className="front-all-property-slider">
-                        <li className="text-capitalize">
-                          <img
-                            src="/img/location.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">Address </strong>
-                          {/* {object.slug.replaceAll("-", " ")}Icon */}
-                        </li>
-                        <li>
-                          <img
-                            src="/img/face-detection.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">
-                            Plot Size &nbsp;
-                          </strong>
-                          {item.plot_area_size}
-                        </li>
-                        <li>
-                          <img
-                            src="/img/meter.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">
-                            Dimension&nbsp;
-                          </strong>
-                          ({item.pro_width} Feet * {item.pro_length} Feet)
-                        </li>
-                        <li>
-                          <img
-                            src="/img/rupee.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">Price </strong>
-                          {item.pro_amt}
-                        </li>
+                      </div>
+                      <div className="recent-bus-content">
+                        <h5 className="property-listing-type">
+                          <Link href={"/property-profile/" + item.slug}>
+                            <a>{item.pro_sub_cat}</a>
+                          </Link>
+                        </h5>
+                        <ul className="front-all-property-slider">
+                          <li className="text-capitalize">
+                            <img
+                              src="/img/location.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">Address </strong>
+                            {/* {object.slug.replaceAll("-", " ")}Icon */}
+                          </li>
+                          <li>
+                            <img
+                              src="/img/face-detection.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">
+                              Plot Size &nbsp;
+                            </strong>
+                            {item.plot_area_size}
+                          </li>
+                          <li>
+                            <img
+                              src="/img/meter.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">
+                              Dimension&nbsp;
+                            </strong>
+                            ({item.pro_width} Feet * {item.pro_length} Feet)
+                          </li>
+                          <li>
+                            <img
+                              src="/img/rupee.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">Price </strong>
+                            {item.pro_amt}
+                          </li>
 
-                        <li>
-                          <img
-                            src="/img/facing.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">
-                            Property Facing
-                          </strong>
-                          &nbsp;
-                          {item.pro_facing}
-                        </li>
-                      </ul>
-                      <Link href={"/property-profile/" + item.slug}>
-                        <a target="_blank" className="btn-viewmore">
-                          View More
-                        </a>
-                      </Link>
+                          <li>
+                            <img
+                              src="/img/facing.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">
+                              Property Facing
+                            </strong>
+                            &nbsp;
+                            {item.pro_facing}
+                          </li>
+                        </ul>
+                        <Link href={"/property-profile/" + item.slug}>
+                          <a target="_blank" className="btn-viewmore">
+                            View More
+                          </a>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
