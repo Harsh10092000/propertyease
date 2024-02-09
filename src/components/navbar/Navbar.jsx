@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
+
   return (
     <header
       className="main-header"
@@ -18,9 +19,9 @@ const Navbar = () => {
         <div className="header-block">
           <div className="header-left">
             <Link to="/">
-              <a className="logo">
+              <span className="logo">
                 <img src="/images/logo.png" alt="logo" />
-              </a>
+              </span>
             </Link>
           </div>
           <div className="header-center">
@@ -38,28 +39,28 @@ const Navbar = () => {
               </div>
             </Link>
             <Link to="/addproperty">
-              <a className="add" title="List Property">
+              <span className="add" title="List Property">
                 <span>
                   <IconPlus className="sidebar-faicon" />
                 </span>
                 List Property<span className="blink">Free</span>
-              </a>
+              </span>
             </Link>
             {!currentUser ? (
               <Link to="/login">
-                <a className="login" title="Login">
+                <span className="login" title="Login">
                   Login
                   <span>
                     <IconLogin className="sidebar-faicon" />
                   </span>
-                </a>
+                </span>
               </Link>
             ) : (
               <Link to="/user/dashboard">
-                <a className="login" title="Dashboard">
+                <span className="login" title="Dashboard">
                   Dashboard
                   <IconArrowRight />
-                </a>
+                </span>
               </Link>
             )}
           </div>

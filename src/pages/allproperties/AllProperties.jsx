@@ -13,7 +13,7 @@ const AllProperties = () => {
         setData(res.data);
       });
   }, []);
-  console.log(data);
+
   return (
     <div>
       <Navbar />
@@ -28,7 +28,14 @@ const AllProperties = () => {
                 <div className="col-md-12 " key={index}>
                   <div className="view-pro-box">
                     <div className="buiness-logo">
-                      <Link to={"/property/" + item.pro_id}>
+                      <Link
+                        to={`/property/${item.pro_type
+                          .split(",")[0]
+                          .replace(" ", "-")}-${item.pro_ad_type.replace(
+                          " ",
+                          "-"
+                        )}_${item.pro_id}`}
+                      >
                         <a>
                           {item.img_link ? (
                             <img
@@ -62,7 +69,7 @@ const AllProperties = () => {
                       </div>
                       <h5 className="property-listing-type">
                         <Link to={"/listing/" + item.slug}>
-                          <a>{item.pro_sub_cat}</a>
+                          <a>{item.pro_type.split(",")[0]}</a>
                         </Link>
                       </h5>
                       <ul>
@@ -83,7 +90,7 @@ const AllProperties = () => {
                           <strong className="frontPropIcon">
                             Plot Size&nbsp;
                           </strong>
-                          {item.plot_area_size}
+                          {item.plot_area_size ? item.plot_area_size : "-"}
                         </li>
                         <li>
                           <img
@@ -101,8 +108,7 @@ const AllProperties = () => {
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon">Price </strong>
-                          {item.pro_amt}
-                          {item.pro_amt_unit}
+                          &nbsp;{"₹ " + item.pro_amt + " " + item.pro_amt_unit}
                         </li>
 
                         <li>
@@ -113,10 +119,17 @@ const AllProperties = () => {
                           <strong className="frontPropIcon">
                             Property Facing
                           </strong>
-                          {item.pro_facing}
+                          &nbsp;{item.pro_facing}
                         </li>
                       </ul>
-                      <Link to={"/property/" + item.pro_id}>
+                      <Link
+                        to={`/property/${item.pro_type
+                          .split(",")[0]
+                          .replace(" ", "-")}-${item.pro_ad_type.replace(
+                          " ",
+                          "-"
+                        )}_${item.pro_id}`}
+                      >
                         <a title="View More" className="btn-viewmore">
                           View More
                         </a>

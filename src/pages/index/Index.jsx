@@ -281,39 +281,40 @@ const Index = () => {
                   <div className="uniBlock">
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
-                        <Link to={"/property/" + item.pro_id}>
-                          <a>
-                            {item.pro_type.split(",")[1] == "Commercial" ? (
-                              <img
-                                src="/img/commercial.jpg"
-                                className="home-slider-img-fluid"
-                                loading="lazy"
-                                alt="house"
-                              />
-                            ) : item.pro_type.split(",")[1] == "Land" ? (
-                              <img
-                                src="/img/plot-land.jpg"
-                                className="home-slider-img-fluid"
-                                loading="lazy"
-                                alt="house"
-                              />
-                            ) : item.pro_type.split(",")[1] == "Residential" ? (
-                              <img
-                                src="/img/residential.jpg"
-                                className="home-slider-img-fluid"
-                                loading="lazy"
-                                alt="house"
-                              />
-                            ) : (
-                              ""
-                            )}
-                          </a>
+                        <Link
+                          to={`/property/${item.pro_type
+                            .split(",")[0]
+                            .replace(" ", "-")}-${item.pro_ad_type.replace(
+                            " ",
+                            "-"
+                          )}_${item.pro_id}`}
+                        >
+                          {item.img_link ? (
+                            <img
+                              src={`${
+                                import.meta.env.VITE_BACKEND
+                              }/propertyImages/${item.img_link}`}
+                              alt="img"
+                            />
+                          ) : (
+                            <img
+                              src="/images/no-image-available-icon-vector.jpg"
+                              alt="no image"
+                            />
+                          )}
                         </Link>
                       </div>
                       <div className="recent-bus-content">
                         <h5 className="property-listing-type">
-                          <Link href={"/property-profile/" + item.slug}>
-                            <a>{item.pro_sub_cat}</a>
+                          <Link
+                            to={`/property/${item.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${item.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${item.pro_id}`}
+                          >
+                            <a>{item.pro_type.split(",")[0]}</a>
                           </Link>
                         </h5>
                         <ul className="front-all-property-slider">
@@ -322,8 +323,11 @@ const Index = () => {
                               src="/img/location.png"
                               className="property-slider-icon"
                             />
-                            <strong className="frontPropIcon">Address </strong>
-                            {/* {object.slug.replaceAll("-", " ")}Icon */}
+                            <strong className="frontPropIcon">
+                              Address&nbsp;{" "}
+                            </strong>
+                            {item.pro_locality},&nbsp;
+                            {item.pro_city}
                           </li>
                           <li>
                             <img
@@ -333,7 +337,7 @@ const Index = () => {
                             <strong className="frontPropIcon">
                               Plot Size &nbsp;
                             </strong>
-                            {item.plot_area_size}
+                            {item.plot_area_size ? item.plot_area_size : "-"}
                           </li>
                           <li>
                             <img
@@ -343,7 +347,8 @@ const Index = () => {
                             <strong className="frontPropIcon">
                               Dimension&nbsp;
                             </strong>
-                            ({item.pro_width} Feet * {item.pro_length} Feet)
+                            ({item.pro_width ? item.pro_width : "-"} Feet *{" "}
+                            {item.pro_length ? item.pro_length : "-"} Feet)
                           </li>
                           <li>
                             <img
@@ -351,7 +356,8 @@ const Index = () => {
                               className="property-slider-icon"
                             />
                             <strong className="frontPropIcon">Price </strong>
-                            {item.pro_amt}
+                            &nbsp;
+                            {"₹ " + item.pro_amt + " " + item.pro_amt_unit}
                           </li>
 
                           <li>
@@ -366,10 +372,15 @@ const Index = () => {
                             {item.pro_facing}
                           </li>
                         </ul>
-                        <Link href={"/property-profile/" + item.slug}>
-                          <a target="_blank" className="btn-viewmore">
-                            View More
-                          </a>
+                        <Link
+                          to={`/property/${item.pro_type
+                            .split(",")[0]
+                            .replace(" ", "-")}-${item.pro_ad_type.replace(
+                            " ",
+                            "-"
+                          )}_${item.pro_id}`}
+                        >
+                          <a className="btn-viewmore">View More</a>
                         </Link>
                       </div>
                     </div>

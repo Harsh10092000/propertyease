@@ -1,5 +1,6 @@
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import axios from "axios";
@@ -21,7 +22,9 @@ const Login = () => {
   const [otpRequet, setOtpRequet] = useState(false);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(30);
-
+  const [loginStatus, setLoginStatus] = useState("");
+  const [numberErr, setNumberErr] = useState(null);
+  const [numberFormatErr, setNumberFormatErr] = useState(null);
   const addUser = async (e) => {
     e.preventDefault();
     try {
@@ -71,8 +74,12 @@ const Login = () => {
 
   const checkLogin = async () => {
     if (data.otp.length === 6) {
-      await login(data);
-      navigate("/user/dashboard");
+      const result = await login(data);
+      if (result !== false) {
+        navigate("/user/dashboard");
+      } else {
+        setLoginStatus("Wrong Otp Entered");
+      }
     }
   };
   useEffect(() => {
@@ -90,12 +97,29 @@ const Login = () => {
 
   const [nextDisabled, setNextDisabled] = useState(true);
   useEffect(() => {
-    if (emailError) {
-      setNextDisabled(true);
-    } else {
-      setNextDisabled(false);
+    if (err !== null) {
+      if (
+        numberErr !== true &&
+        emailError === false &&
+        err !== null &&
+        numberFormatErr !== true
+      ) {
+        setNextDisabled(false);
+      } else {
+        setNextDisabled(true);
+      }
     }
-  }, [emailError]);
+  }, [emailError, err, numberFormatErr, numberErr]);
+
+  useEffect(() => {
+    if (err === null) {
+      if (emailError === false && err === null) {
+        setNextDisabled(false);
+      } else {
+        setNextDisabled(true);
+      }
+    }
+  }, [emailError, err]);
 
   useEffect(() => {
     if (err !== null) {
@@ -104,6 +128,28 @@ const Login = () => {
       setTimer(false);
     }
   }, [err]);
+
+  const verifyNumber = async () => {
+    try {
+      await axios
+        .get(
+          import.meta.env.VITE_BACKEND + `/api/auth/verifyNumber/${data.phone}`
+        )
+        .then((res) => setNumberErr(res.data));
+    } catch (err) {
+      setNumberErr(null);
+    }
+  };
+
+  useEffect(() => {
+    if (data.phone.length > 9) {
+      console.log("verifyNumber");
+      verifyNumber();
+      setNumberFormatErr(null);
+    } else {
+      setNumberFormatErr(true);
+    }
+  }, [data.phone]);
 
   return (
     <div>
@@ -123,16 +169,16 @@ const Login = () => {
                   label="Email"
                   variant="outlined"
                   size="small"
+                  value={data.email}
                   className="w-100"
                   onChange={(e) => {
-                    setData({ ...data, email: e.target.value }),
+                    setData({
+                      ...data,
+                      email: e.target.value.replace(/[^a-zA-Z.@0-9]/g, ""),
+                    }),
                       setErr(null),
                       setOtpRequet(false);
                   }}
-                  //helperText={otpf ? "OTP sent" : err}
-                  // helperText={
-                  //   emailError !== false ? emailError : otpf ? "OTP sent" : err
-                  // }
                   helperText={emailError !== false ? emailError : err}
                   readOnly={otpRequet === true && err === null}
                   disabled={otpRequet === true && err === null}
@@ -160,9 +206,24 @@ const Login = () => {
                     label="Phone Number"
                     variant="outlined"
                     size="small"
+                    inputProps={{ maxlength: 10 }}
                     className="w-100"
+                    value={data.phone}
+                    helperText={
+                      numberFormatErr !== null
+                        ? "Please enter a valid Phone Number"
+                        : numberErr === true
+                        ? "Phone Number Already Registered"
+                        : ""
+                    }
                     onChange={(e) =>
-                      setData({ ...data, phone: e.target.value })
+                      setData({
+                        ...data,
+                        phone: e.target.value.replace(
+                          regEx[2].phoneNumberValidation,
+                          ""
+                        ),
+                      })
                     }
                   />
                 ) : (
@@ -175,10 +236,19 @@ const Login = () => {
                       label="OTP"
                       variant="outlined"
                       size="small"
+                      inputProps={{ maxlength: 6 }}
                       className="w-100"
-                      onChange={(e) =>
-                        setData({ ...data, otp: e.target.value })
-                      }
+                      value={data.otp}
+                      onChange={(e) => {
+                        setData({
+                          ...data,
+                          otp: e.target.value.replace(
+                            regEx[2].phoneNumberValidation,
+                            ""
+                          ),
+                        }),
+                          setLoginStatus("");
+                      }}
                     />
 
                     {timer === true ? (
@@ -199,7 +269,7 @@ const Login = () => {
                     <div className="left-block" />
                     <button
                       className={
-                        emailError === false ? "logina" : "nextDisabled"
+                        nextDisabled === false ? "logina" : "nextDisabled"
                       }
                       onClick={data.phone === "" ? fetchOtp : addUser}
                       disabled={nextDisabled}
@@ -219,18 +289,7 @@ const Login = () => {
                     </button>
                   </div>
                 )}
-                <div className="submit-my-form">
-                  <div className="row text-center">
-                    <div className="col-md-12">
-                      <p className={"link"}>Haven't created an account yet?</p>
-                      <p className="text-center link_to_login">
-                        <Link to="/register">
-                          <a className={"registerb"}>Register Now</a>
-                        </Link>
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <div>{loginStatus}</div>
               </form>
             </div>
           </div>

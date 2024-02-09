@@ -2,135 +2,157 @@ import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBuilding,
+  IconCurrencyDollar,
   IconDeviceMobile,
   IconGlobe,
   IconHome,
   IconMapPinFilled,
   IconPhone,
   IconScale,
+  IconSchool,
+  IconSquareRoundedCheckFilled,
+  IconWorld,
 } from "@tabler/icons-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { TextField, Button, InputAdornment, Snackbar } from "@mui/material";
+import axios from "axios";
 const Footer = () => {
+  const [open, setOpen] = useState(false);
+  const [snack, setSnack] = useState(false);
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+  });
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSnack = () => {
+    setSnack(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    setSnack(true);
+    handleClose();
+    try {
+      axios.post(import.meta.env.VITE_BACKEND + "/sendMail", data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
-      {/* <Modal show={modal} onHide={() => setModal(false)}>
-        <section className={styles.bg}>
-          <div className={styles.block}>
-            <div className="heading_style">
-              <h4 className={styles.heading}>PropertyEase Free Enquiry </h4>
-            </div>
-            <form method="post" id="register-form" className={styles.form}>
-              <div className="input-group">
-                <label id="nameLabel">
-                  <input
-                    type="text"
-                    className={styles.input}
-                    id="name"
-                    name="name"
-                    onChange={handleChange}
-                    style={{ borderColor: nameBorderColor }}
-                    placeholder="Name..."
-                  />
-                  <span id="namemsg" className="nameHit"></span>
-                </label>
-              </div>
-              <div className="input-group">
-                <label id="emailLabel">
-                  <input
-                    type="email"
-                    className={styles.input}
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    style={{ borderColor: emailBorderColor }}
-                    placeholder="Email..."
-                  />
-                  <span id="emailmsg" className="emailHit"></span>
-                  <div className="error-msg">{emailError}</div>
-                </label>
-              </div>
-              <div className="input-group">
-                <label id="phoneLabel">
-                  <PhoneInput
-                    style={{ borderColor: phoneBorderColor, padding: "5px" }}
-                    defaultCountry={"IN"}
-                    required
-                    name="number"
-                    value={phone}
-                    onChange={setphone}
-                    className={styles.input}
-                  />
-                  <span id="phonemsg" className="phoneHit"></span>
-                </label>
-              </div>
-
-              <div className="submit-my-form w-100">
-                <div className="input-group text-right">
-                  <div className="left-block" />
-                  <button
-                    type="button"
-                    name="register"
-                    className="btn btn-secondary"
-                    onClick={() => setModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={handleSubmit}
-                    name="register"
-                    className="btn btn-primary ml-2"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </form>
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "white",
+            color: "green",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack}
+        autoHideDuration={1000}
+        onClose={handleSnack}
+        message="We Will Contact you soon !.."
+      />
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          <img src="/images/logo.png" />
+          <p className="font-weight-bold text-danger mb-0 call_headline ">
+            Free Enquiry
+          </p>
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            id="name"
+            name="name"
+            label="Name"
+            type="text"
+            value={data.name}
+            onChange={handleChange}
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="email"
+            name="email"
+            label="Email Address"
+            value={data.email}
+            type="email"
+            onChange={handleChange}
+            fullWidth
+            variant="standard"
+          />
+          <div className="mt-3">
+            <TextField
+              id="mobile"
+              fullWidth
+              autoFocus
+              name="mobile"
+              onChange={handleChange}
+              value={data.mobile}
+              margin="dense"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">+91 </InputAdornment>
+                ),
+              }}
+              variant="standard"
+            />
           </div>
-          <div className="our-promise">
-            <h5>Our Promise</h5>
-            <ul>
-              <li>
-                <span>
-                  <FontAwesomeIcon
-                    icon={faCheckSquare}
-                    className="sidebar-faicon"
-                  />
-                </span>
+          <div className="bg-gray-300 mt-4 py-4">
+            <p className="font-weight-bold text-center">Our Promise</p>
+            <div className="d-flex ">
+              <div className="col-md-3 text-center ">
+                <IconSquareRoundedCheckFilled /> <br />
                 Assured <br /> Privacy
-              </li>
-              <li>
-                <span>
-                  <FontAwesomeIcon
-                    icon={faUserGraduate}
-                    className="sidebar-faicon"
-                  />
-                </span>
-                Expert
-                <br /> Consultation
-              </li>
-              <li>
-                <span>
-                  <FontAwesomeIcon icon={faGlobe} className="sidebar-faicon" />
-                </span>
-                Free <br />
-                Site Visit
-              </li>
-              <li>
-                <span>
-                  <FontAwesomeIcon
-                    icon={faDollarSign}
-                    className="sidebar-faicon"
-                  />
-                </span>
-                Best
-                <br /> price
-              </li>
-            </ul>
+              </div>
+              <div className="col-md-3 text-center ">
+                <IconSchool className=" text-red" />
+                <br />
+                Expert <br /> Consultation
+              </div>
+              <div className="col-md-3 text-center">
+                <IconWorld />
+                <br />
+                Free Site Visit
+              </div>
+              <div className="col-md-3 text-center">
+                <IconCurrencyDollar />
+                <br />
+                Best <br />
+                Price
+              </div>
+            </div>
           </div>
-        </section>
-      </Modal> */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
       <section className="find-services">
         <div className="container">
           <div className="section-title">
@@ -371,7 +393,7 @@ const Footer = () => {
           <h5>Complete Support</h5>
           <ul>
             <li className="mobile-hide">
-              <a href="#" title="Get a Call" onClick={() => setModal(true)}>
+              <a href="#" title="Get a Call" onClick={handleClickOpen}>
                 <span className="mr-1">
                   <IconDeviceMobile className="sidebar-faicon" />
                 </span>
@@ -379,7 +401,7 @@ const Footer = () => {
               </a>
             </li>
             <li className="mobile-hide">
-              <a href="#" title="Site Visit" onClick={() => setModal(true)}>
+              <a href="#" title="Site Visit" onClick={handleClickOpen}>
                 <span className="mr-1">
                   <IconGlobe className="sidebar-faicon" />
                 </span>
@@ -387,7 +409,7 @@ const Footer = () => {
               </a>
             </li>
             <li className="mobile-hide">
-              <a href="#" title="Home Loan" onClick={() => setModal(true)}>
+              <a href="#" title="Home Loan" onClick={handleClickOpen}>
                 <span className="mr-1">
                   <IconHome className="sidebar-faicon" />
                 </span>
@@ -395,7 +417,7 @@ const Footer = () => {
               </a>
             </li>
             <li className="mobile-hide">
-              <a href="#" title="Legal Advise" onClick={() => setModal(true)}>
+              <a href="#" title="Legal Advise" onClick={handleClickOpen}>
                 <span className="mr-1">
                   <IconScale className="sidebar-faicon" />
                 </span>

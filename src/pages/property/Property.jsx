@@ -4,7 +4,7 @@ import {
   IconShare3,
   IconStarFilled,
 } from "@tabler/icons-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChevronRight } from "@tabler/icons-react";
 import { Link, useParams } from "react-router-dom";
@@ -12,28 +12,87 @@ import EmblaCarousel from "../../components/slider/EmblaCarousel";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import Modal from "@mui/material/Modal";
+import { AuthContext } from "../../context/AuthContext";
+import { Snackbar } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const Property = () => {
+  const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
+  const proId = id.split("_")[1];
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById/${id}`
+        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById/${proId}`
       )
       .then((res) => {
         setData(res.data[0]);
       });
     axios
-      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${id}`)
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`)
       .then((res) => {
         setImages(res.data);
       });
   }, []);
   const [open, setOpen] = useState(false);
+  const [snack, setSnack] = useState(false);
+  const [err, setErr] = useState(null);
+  const shortlistProperty = async () => {
+    if (!currentUser) {
+      setDialog(true);
+    } else {
+      try {
+        await axios.post(
+          import.meta.env.VITE_BACKEND + "/api/pro/shortlistProperty",
+          { userId: currentUser[0].login_id, propertyId: proId }
+        );
+        setSnack(true);
+      } catch (err) {
+        setErr(err.response.data);
+        setSnack(true);
+      }
+    }
+  };
+  const [dialog, setDialog] = useState(false);
+
   return (
     <div>
+      <Dialog
+        open={dialog}
+        onClose={() => setDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Login</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            As to shorlist the property you have to login first.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Link to="/login">
+            <div>LOGIN</div>
+          </Link>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "black",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack}
+        autoHideDuration={1000}
+        onClose={() => setSnack(false)}
+        message={err ? err : "Property Has been Shortlisted"}
+      />
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -77,7 +136,7 @@ const Property = () => {
                 <div className="property-view-inner">
                   <div className="row">
                     <div className="top" id="dynamic">
-                      <h1>
+                      <h1 className="capitalize">
                         {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                         {data.pro_ad_type === "new"
                           ? " Sale"
@@ -115,6 +174,7 @@ const Property = () => {
                             className="btn btn-outline-primary ml-2"
                             title="Shortlist"
                             // onClick={handleBookmark}
+                            onClick={shortlistProperty}
                           >
                             <IconStarFilled className="property-faicon" />
                             Shortlist
@@ -135,7 +195,7 @@ const Property = () => {
                     </div>
                     <div className="row">
                       <div className="col-md-6">
-                        <div class="leftblock">
+                        <div className="leftblock">
                           <div className="photosection">
                             {images.length > 0 ? (
                               <EmblaCarousel
@@ -158,7 +218,7 @@ const Property = () => {
                         <div className={"property-side-detail"}>
                           <h6>
                             Property ID
-                            <span class="propertypage-id">
+                            <span className="propertypage-id">
                               {/* {pageProps.mydata.propertyIdNumber}
                                */}
                               {id}
@@ -354,15 +414,14 @@ const Property = () => {
                           ) : (
                             ""
                           )}
-
                           <div></div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
+                <div className="row">
+                  <div className="col-md-12">
                     <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
@@ -374,34 +433,11 @@ const Property = () => {
                                 </div>
                               </div>
                             </div>
-                            {/* {(pageProps.mydata.propertyMainType ==
-                              "Commercial" ||
-                              pageProps.mydata.propertyMainType ==
-                                "Residential") &&
-                            pageProps.mydata.otherRoom.length != 0 ? (
-                              <div className="row moreDetail">
-                                <div className="col-md-3 more-detail-left">
-                                  Other Rooms
-                                </div>
-                                <div className="col-md-9 more-detail-right">
-                                  {pageProps.mydata.otherRoom.map((item) => {
-                                    return <>{item},</>;
-                                  })}
-                                </div>
-                              </div>
-                            ) : null} */}
-                            {/* DATA */}
                             <div className="row moreDetail">
                               <div className="col-md-3 more-detail-right">
                                 Price
                               </div>
                               <div className="col-md-9 more-detail-left">
-                                {/* ₹{pageProps.mydata.amountExpected}&nbsp;
-                                {pageProps.mydata.amountCurrency}
-                                {pageProps.mydata.priceNegotiable === "Yes"
-                                  ? " (Negotiable)"
-                                  : " (Fixed Price)"} */}
-                                {/* PRICE */}
                                 {"₹ " + data.pro_amt + " " + data.pro_amt_unit}
                               </div>
                             </div>
@@ -439,6 +475,7 @@ const Property = () => {
                                 {data.pro_facing_road_width
                                   ? data.pro_facing_road_width
                                   : "-"}
+                                {" " + data.pro_facing_road_unit}
                               </div>
                             </div>
                             <div className="row moreDetail">
@@ -446,8 +483,6 @@ const Property = () => {
                                 Description &nbsp;
                               </span>
                               <span className="col-md-9 more-detail-left ">
-                                {/* {pageProps.mydata.propertyDescription} */}
-                                {/* PROPERTY DESCRIPTION */}
                                 {data.pro_desc}
                               </span>
                             </div>

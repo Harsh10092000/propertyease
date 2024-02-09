@@ -16,7 +16,6 @@ const UserDashboard = () => {
         setData(res.data);
       });
   }, []);
-  console.log(data);
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -30,17 +29,7 @@ const UserDashboard = () => {
                 <div className="col-md-6">
                   <h5>Property List</h5>
                 </div>
-                <div className="col-md-6 text-right">
-                  {/* <div className="search-bar">
-                    <Search
-                      onSearch={(value) => {
-                        var trimValue = value.trim();
-                        setSearch(trimValue);
-                        setCurrentPage(1);
-                      }}
-                    />
-                  </div> */}
-                </div>
+                <div className="col-md-6 text-right"></div>
               </div>
             </div>
             <div className="card-body table-border-style">
@@ -51,7 +40,6 @@ const UserDashboard = () => {
                       <th>SNo.</th>
                       <th>Sale/Resale</th>
                       <th>Owner/Agent</th>
-                      <th>PropertyID</th>
                       <th>Address</th>
                       <th>Locality</th>
                       <th>Actions</th>
@@ -63,8 +51,6 @@ const UserDashboard = () => {
                         <td>{index + 1}</td>
                         <td>{item.pro_ad_type}</td>
                         <td>{item.pro_user_type}</td>
-                        <td> SLUG </td>
-
                         <td>{item.pro_city}</td>
                         <td>{item.pro_locality}</td>
                         <td>
@@ -84,20 +70,23 @@ const UserDashboard = () => {
                               </a>
                             </Link>
                           </button>
-
-                          <button
-                            title="View Your Property"
-                            className="btn btn-primary btn-sm vbtn"
+                          <Link
+                            to={`/property/${item.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${item.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${item.pro_id}`}
                           >
-                            <Link
-                              href={"/property-profile/" + item.slug}
-                              legacyBehavior
+                            <button
+                              title="View Your Property"
+                              className="btn btn-primary btn-sm vbtn"
                             >
                               <a className="btn btn-primary btn-sm ">
                                 <IconEye className="admin-faicon" />
                               </a>
-                            </Link>
-                          </button>
+                            </button>
+                          </Link>
                         </td>
                       </tr>
                     ))}

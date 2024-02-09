@@ -5,7 +5,7 @@ import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Listing = () => {
+const SubCat = () => {
   const { cat } = useParams();
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
@@ -22,8 +22,7 @@ const Listing = () => {
       .then((res) => {
         setSubData(res.data);
       });
-  }, []);
-
+  });
   return (
     <div>
       <Navbar />
@@ -61,14 +60,7 @@ const Listing = () => {
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
-                          <Link
-                            to={`/property/${object.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${object.pro_ad_type.replace(
-                              " ",
-                              "-"
-                            )}_${object.pro_id}`}
-                          >
+                          <Link to={"/property/" + object.pro_id}>
                             {object.img_link ? (
                               <img
                                 src={`${
@@ -91,14 +83,8 @@ const Listing = () => {
                           <div className="recent-bus-content">
                             <h5 className="property-listing-type">
                               <Link
-                                to={`/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
-                                    " ",
-                                    "-"
-                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                  object.pro_id
-                                }`}
+                                legacyBehavior
+                                href={"/property/" + object.pro_id}
                               >
                                 <a>{object.pro_type.split(",")[0]}</a>
                               </Link>
@@ -110,20 +96,10 @@ const Listing = () => {
                                   className="property-slider-icon"
                                 />
                                 <strong className="frontPropIcon">
-                                  Plot Size
+                                  Plot Size &amp; Dimension
                                 </strong>
-                                &nbsp; {object.pro_area_size} Sq. Feets
-                              </li>
-                              <li>
-                                <img
-                                  src="/img/meter.png"
-                                  className="property-slider-icon"
-                                />
-                                <strong className="frontPropIcon">
-                                  Dimension
-                                </strong>
-                                &nbsp;({object.pro_width} Feet *
-                                {object.pro_length}
+                                {object.pro_area_size} Sq. Feets (
+                                {object.pro_width} Feet * {object.pro_length}
                                 Feet)
                               </li>
                               <li>
@@ -132,7 +108,6 @@ const Listing = () => {
                                   className="property-slider-icon"
                                 />
                                 <strong className="frontPropIcon">Price</strong>
-                                &nbsp;
                                 {"₹ " +
                                   object.pro_amt +
                                   " " +
@@ -146,7 +121,7 @@ const Listing = () => {
                                 <strong className="frontPropIcon">
                                   Possession
                                 </strong>
-                                &nbsp;{object.pro_possession}
+                                {object.pro_possession}
                               </li>
                               <li>
                                 <img
@@ -156,19 +131,10 @@ const Listing = () => {
                                 <strong className="frontPropIcon">
                                   Property Facing
                                 </strong>
-                                &nbsp;{object.pro_facing}
+                                {object.pro_facing}
                               </li>
                             </ul>
-                            <Link
-                              to={`/property/${object.pro_type
-                                .split(",")[0]
-                                .replace(
-                                  " ",
-                                  "-"
-                                )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                object.pro_id
-                              }`}
-                            >
+                            <Link to={"/property/" + object.pro_id}>
                               <a title="View More" className="btn-viewmore">
                                 View More
                               </a>
@@ -207,4 +173,4 @@ const Listing = () => {
   );
 };
 
-export default Listing;
+export default SubCat;

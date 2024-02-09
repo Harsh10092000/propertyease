@@ -8,19 +8,25 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
   const login = async (inputs) => {
-    console.log("working");
-    const res = await axios.post(
-      import.meta.env.VITE_BACKEND + "/api/auth/checkLogin",
-      { inputs }
-    );
-    setCurrentUser(res.data);
-    console.log(res.data);
+    try {
+      const res = await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/auth/checkLogin",
+        { inputs }
+      );
+      setCurrentUser(res.data);
+      console.log(res.data);
+    } catch (err) {
+      return false;
+    }
   };
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
+  const clearUser = () => {
+    setCurrentUser(null);
+  };
   return (
-    <AuthContext.Provider value={{ currentUser, login }}>
+    <AuthContext.Provider value={{ currentUser, login, clearUser }}>
       {children}
     </AuthContext.Provider>
   );

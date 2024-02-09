@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IconStarFilled } from "@tabler/icons-react";
 import { IconBuilding, IconCategory, IconEye } from "@tabler/icons-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,7 +9,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const User = () => {
-  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { currentUser, clearUser } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,6 +18,10 @@ const User = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const logout = () => {
+    localStorage.removeItem("user");
+    clearUser();
   };
   return (
     <div>
@@ -51,7 +56,7 @@ const User = () => {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </Menu>
             </ul>
           </div>
@@ -88,7 +93,7 @@ const User = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link legacyBehavior href="/addproperty">
+                  <Link to="/addproperty">
                     <div
                       title="Add Property"
                       className="d-flex align-items-center"
