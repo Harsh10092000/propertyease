@@ -19,6 +19,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 const Property = () => {
   const { currentUser } = useContext(AuthContext);
@@ -59,10 +61,74 @@ const Property = () => {
       }
     }
   };
+  const [question, setQuestion] = useState("");
   const [dialog, setDialog] = useState(false);
-
+  const [questionD, setQuestionD] = useState(false);
+  const askQuestion = () => {
+    if (!currentUser) {
+      setDialog(true);
+    } else {
+      setQuestionD(true);
+    }
+  };
+  const [snackQ, setSnackQ] = useState(false);
+  const sendQuestion = async () => {
+    try {
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/contact/askquestion",
+        {
+          userId: currentUser[0].login_email,
+          phone: currentUser[0].login_number,
+          question: question,
+          propertySlug: id,
+        }
+      );
+      setQuestionD(false);
+      setSnackQ(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackQ}
+        autoHideDuration={1000}
+        onClose={() => setSnack(false)}
+        message={"We have recorded your query, we will get back to you soon."}
+      />
+      <Dialog open={questionD} onClose={() => setQuestionD(false)} fullWidth>
+        <DialogTitle>Ask a question</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="email"
+            label="Question"
+            type="text"
+            fullWidth
+            variant="standard"
+            multiline
+            InputProps={{
+              rows: 3,
+            }}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setQuestionD(false)}>Cancel</Button>
+          <Button onClick={sendQuestion}>Submit Query</Button>
+        </DialogActions>
+      </Dialog>
       <Dialog
         open={dialog}
         onClose={() => setDialog(false)}
@@ -72,7 +138,8 @@ const Property = () => {
         <DialogTitle id="alert-dialog-title">Login</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            As to shorlist the property you have to login first.
+            As to shorlist the property or to ask a question regarding property
+            you have to login first.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -140,37 +207,82 @@ const Property = () => {
                       <div className="property-top-address pl-3 pl-md-0">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
+
                       <div className="d-flex align-items-center justify-content-between pl-1">
                         <div className="d-flex align-items-center gap-3">
                           <div className="property-price">
                             {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
                           <div></div>
-                          <button
-                            className="askquestion"
-                            title="Ask a Question"
-                          >
-                            <IconQuestionMark />
-                            <span className="d-none d-md-inline">
-                              Ask a question
-                            </span>
-                          </button>
-                          <button className="interest" title="Show Interest">
-                            <IconSend />
-                            <span className="mobile-hidden">
-                              Interested in Buying
-                            </span>
-                          </button>
-                          <button
-                            className="shortlist"
-                            title="Shortlist"
-                            onClick={shortlistProperty}
-                          >
-                            <IconStarFilled />
-                            <span className="d-none d-md-inline">
-                              Shortlist
-                            </span>
-                          </button>
+                          {currentUser ? (
+                            data.pro_user_id == currentUser[0].login_id ? (
+                              ""
+                            ) : (
+                              <>
+                                <button
+                                  className="askquestion"
+                                  title="Ask a Question"
+                                  onClick={askQuestion}
+                                >
+                                  <IconQuestionMark />
+                                  <span className="d-none d-md-inline">
+                                    Ask a question
+                                  </span>
+                                </button>
+                                <button
+                                  className="interest"
+                                  title="Show Interest"
+                                >
+                                  <IconSend />
+                                  <span className="mobile-hidden">
+                                    Interested in Buying
+                                  </span>
+                                </button>
+                                <button
+                                  className="shortlist"
+                                  title="Shortlist"
+                                  onClick={shortlistProperty}
+                                >
+                                  <IconStarFilled />
+                                  <span className="d-none d-md-inline">
+                                    Shortlist
+                                  </span>
+                                </button>
+                              </>
+                            )
+                          ) : (
+                            <>
+                              <button
+                                className="askquestion"
+                                title="Ask a Question"
+                                onClick={askQuestion}
+                              >
+                                <IconQuestionMark />
+                                <span className="d-none d-md-inline">
+                                  Ask a question
+                                </span>
+                              </button>
+                              <button
+                                className="interest"
+                                title="Show Interest"
+                              >
+                                <IconSend />
+                                <span className="mobile-hidden">
+                                  Interested in Buying
+                                </span>
+                              </button>
+                              <button
+                                className="shortlist"
+                                title="Shortlist"
+                                onClick={shortlistProperty}
+                              >
+                                <IconStarFilled />
+                                <span className="d-none d-md-inline">
+                                  Shortlist
+                                </span>
+                              </button>
+                            </>
+                          )}
                         </div>
                         <button className="fb">
                           <a
