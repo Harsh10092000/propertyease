@@ -138,7 +138,7 @@ const Property = () => {
                     <div className="top" id="dynamic">
                       <h1 className="capitalize">
                         {data.pro_type ? data.pro_type.split(",")[0] : ""} For
-                        {data.pro_ad_type === "new"
+                        {data.pro_ad_type === "New"
                           ? " Sale"
                           : " " + data.pro_ad_type}
                       </h1>
@@ -154,14 +154,13 @@ const Property = () => {
                           <button
                             className="btn btn-success"
                             title="Ask a Question"
-                            // onClick={askQuestion}
                           >
                             <IconQuestionMark className="property-faicon" />
-                            Ask a question
+                            <span className="d-none d-md-inline">
+                              Ask a question
+                            </span>
                           </button>
                           <button
-                            // onClick={showInterest}
-                            href="#interest"
                             className="btn btn-danger"
                             title="Show Interest"
                           >
@@ -177,7 +176,9 @@ const Property = () => {
                             onClick={shortlistProperty}
                           >
                             <IconStarFilled className="property-faicon" />
-                            Shortlist
+                            <span className="d-none d-md-inline">
+                              Shortlist
+                            </span>
                           </button>
                         </div>
                         <button className="share-property">
@@ -208,9 +209,9 @@ const Property = () => {
                                 alt="No Image"
                                 width={550}
                                 height={550}
+                                className="img-fluid"
                               />
                             )}
-                            {/* <img src="/img/house-img1.jpg" /> */}
                           </div>
                         </div>
                       </div>
@@ -218,11 +219,7 @@ const Property = () => {
                         <div className={"property-side-detail"}>
                           <h6>
                             Property ID
-                            <span className="propertypage-id">
-                              {/* {pageProps.mydata.propertyIdNumber}
-                               */}
-                              {id}
-                            </span>
+                            <span className="propertypage-id">{id}</span>
                           </h6>
                           <div className="property-no-detail">
                             <div className={"property-small-detail"}>
@@ -331,10 +328,13 @@ const Property = () => {
                               </span>
                               <p>
                                 <span className="propertyData">
-                                  {data.pro_area_size}
                                   <span className="measure">
-                                    ( {data.pro_width} Feet * {data.pro_length}{" "}
-                                    Feet )
+                                    {data.pro_width
+                                      ? data.pro_width +
+                                        " Feet * " +
+                                        data.pro_length +
+                                        " Feet"
+                                      : "-"}
                                   </span>
                                 </span>
                               </p>
@@ -450,28 +450,11 @@ const Property = () => {
                                 {data.pro_city}
                               </div>
                             </div>
-                            {/* {pageProps.mydata.propertyMainType ==
-                              "Commercial" ||
-                            pageProps.mydata.propertyMainType ==
-                              "Residential" ? (
-                              <div className="row moreDetail">
-                                <div className="col-md-3 more-detail-right">
-                                  Furnishing
-                                </div>
-                                <div className="col-md-9 more-detail-left">
-                                  {pageProps.mydata.furnishing}
-                                </div>
-                              </div>
-                            ) : null} */}
-                            {/* DATA */}
                             <div className="row moreDetail">
                               <div className="col-md-3 more-detail-right">
                                 Facing Road Width
                               </div>
                               <div className="col-md-9 more-detail-left">
-                                {/* {pageProps.mydata.facingRoad}&nbsp;
-                                {pageProps.mydata.facingRoadDimension} */}
-                                {/* FACING ROAD WIDTH */}
                                 {data.pro_facing_road_width
                                   ? data.pro_facing_road_width
                                   : "-"}

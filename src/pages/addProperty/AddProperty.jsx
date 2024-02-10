@@ -154,13 +154,14 @@ const AddProperty = () => {
         dispatch({ type: ACTION_TYPES.DECREASE_SECONDS });
         if (state.minutes > 0 && state.seconds === 1) {
           dispatch({ type: ACTION_TYPES.DECREASE_MINUTES });
+          dispatch({ type: ACTION_TYPES.CHANGE_SECONDS });
         }
       }, 1000);
       return () => clearInterval(intervalId);
     } else {
       dispatch({ type: ACTION_TYPES.CHANGE_TIMER });
     }
-  }, [fetchOtp]);
+  }, [state.timer, state.seconds, state.minutes]);
 
   const checkLogin = async () => {
     if (userData.otp.length === 6) {
@@ -350,33 +351,6 @@ const AddProperty = () => {
     fileSizeExceeded,
     propertyData.pro_type,
   ]);
-
-  // useEffect(() => {
-  //   if (propertyData.pro_type.split(",")[1] !== "Land") {
-  //     console.log("inside step3")
-  //     if (
-  //       propertyData.pro_floor !== "" &&
-  //       propertyData.pro_bedroom !== "" &&
-  //       propertyData.pro_washrooms !== "" &&
-  //       propertyData.pro_balcony !== "" &&
-  //       propertyData.pro_parking !== "" &&
-  //       propertyData.pro_furnishing !== ""
-  //     ) {
-  //       setStep3Disabled(false);
-  //     } else {
-  //       setStep3Disabled(true);
-  //     }
-  //   }
-
-  // }, [
-  //   propertyData.pro_floor,
-  //   propertyData.pro_bedroom,
-  //   propertyData.pro_washrooms,
-  //   propertyData.pro_balcony,
-  //   propertyData.pro_parking,
-  //   propertyData.pro_furnishing,
-  // ]);
-
   useEffect(() => {
     if (propertyData.pro_type.split(",")[1] === "Land") {
       if (
@@ -420,6 +394,7 @@ const AddProperty = () => {
   ]);
 
   const handleClick = () => {
+    propertyData.pro_user_id = currentUser[0].login_id;
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
@@ -913,7 +888,7 @@ const AddProperty = () => {
                                   parseInt(propertyData.pro_state)
                               )
                               .map((item, index) => (
-                                <MenuItem value={item.id} key={index}>
+                                <MenuItem value={item.city_name} key={index}>
                                   {item.city_name}
                                 </MenuItem>
                               ))}

@@ -1,19 +1,5 @@
 import { ACTION_TYPES } from "./FetchActionTypes";
 
-// const handleFetch = () => {
-//     dispatch({ type: ACTION_TYPES.FETCH_START });
-//     fetch("")
-//       .then((res) => {
-//         return res.json();
-//       })
-//       .then((data) => {
-//         dispatch({ type: ACTION_TYPES.FETCH_SUCCESS, payload: data });
-//       })
-//       .catch((err) => {
-//         dispatch({ type: ACTION_TYPES.FETCH_ERROR });
-//       });
-//   };
-
 export const INITIAL_STATE = {
   timer: false,
   otpRequest: false,
@@ -22,7 +8,6 @@ export const INITIAL_STATE = {
   minutes: 1,
   seconds: 30,
   otpErr: null,
-
   emailFormatError: true,
   numberErr: null,
 };
@@ -32,12 +17,12 @@ export const fetchReducer = (state, action) => {
     case ACTION_TYPES.FETCH_START:
       return {
         ...state,
-        timer: true,
         otpRequest: true,
       };
     case ACTION_TYPES.FETCH_SUCCESS:
       return {
         ...state,
+        timer: true,
         otpf: true,
       };
     case ACTION_TYPES.FETCH_ERROR:

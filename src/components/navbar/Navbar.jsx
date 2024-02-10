@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
-
   return (
     <header
       className="main-header"
@@ -35,7 +34,9 @@ const Navbar = () => {
             <Link to="/allproperties">
               <div className="d-flex justify-content-center align-items-center gap-2 btn btn-primary">
                 <IconHome className="sidebar-faicon" />
-                <div>View Properties</div>
+                <div>
+                  View <span className="d-none d-md-inline">Properties</span>
+                </div>
               </div>
             </Link>
             <Link to="/addproperty">
