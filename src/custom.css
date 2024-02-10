@@ -2548,16 +2548,16 @@ img.desc {
   text-align: center;
 }
 .share-property {
+  background-color: #007bff;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  cursor: pointer;
-  font-size: 25px;
-  font-weight: 500;
-  border-radius: 6px;
-  background: transparent;
+  border-radius: 5px;
+  color: white;
 }
-.share-property svg {
-  font-size: 18px;
-}
+
 .property-share-faicon {
   height: 18px;
   width: 18px;
@@ -3865,6 +3865,7 @@ label.labelErr > span {
   margin: 0 !important;
   border-radius: 8px;
   position: relative;
+  min-width: 350px;
 }
 .doc_choice button.btn.btn-secondary {
   background-color: #fff;
@@ -15355,7 +15356,7 @@ img.book-img {
   }
 }
 .gap-3 {
-  gap: 15px;
+  gap: 10px;
 }
 input[type="file"]::file-selector-button {
   margin-right: 20px;
@@ -15395,4 +15396,42 @@ input[type="file"] {
   .signup-form .pro_flex {
     display: block;
   }
+}
+.askquestion {
+  background-color: #00b929;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+}
+.interest {
+  background-color: #fd0707;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+}
+.shortlist {
+  background-color: #007bff;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+  font-size: 12px;
+}
+.fb {
+  border: none;
+  background: transparent;
 }

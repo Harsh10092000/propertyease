@@ -329,27 +329,35 @@ const Index = () => {
                             {item.pro_locality},&nbsp;
                             {item.pro_city}
                           </li>
-                          <li>
-                            <img
-                              src="/img/face-detection.png"
-                              className="property-slider-icon"
-                            />
-                            <strong className="frontPropIcon">
-                              Plot Size &nbsp;
-                            </strong>
-                            {item.plot_area_size ? item.plot_area_size : "-"}
-                          </li>
-                          <li>
-                            <img
-                              src="/img/meter.png"
-                              className="property-slider-icon"
-                            />
-                            <strong className="frontPropIcon">
-                              Dimension&nbsp;
-                            </strong>
-                            ({item.pro_width ? item.pro_width : "-"} Feet *{" "}
-                            {item.pro_length ? item.pro_length : "-"} Feet)
-                          </li>
+                          {item.plot_area_size ? (
+                            <li>
+                              <img
+                                src="/img/face-detection.png"
+                                className="property-slider-icon"
+                              />
+                              <strong className="frontPropIcon">
+                                Plot Size &nbsp;
+                              </strong>
+                              {item.plot_area_size}
+                            </li>
+                          ) : (
+                            ""
+                          )}
+                          {item.pro_width ? (
+                            <li>
+                              <img
+                                src="/img/meter.png"
+                                className="property-slider-icon"
+                              />
+                              <strong className="frontPropIcon">
+                                Dimension&nbsp;
+                              </strong>
+                              ({item.pro_width} Feet * {item.pro_length} Feet)
+                            </li>
+                          ) : (
+                            ""
+                          )}
+
                           <li>
                             <img
                               src="/img/rupee.png"

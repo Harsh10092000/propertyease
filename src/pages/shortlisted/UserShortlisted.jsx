@@ -3,10 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { Snackbar } from "@mui/material";
 const UserShortlisted = () => {
   const { currentUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
+  const [count, setCount] = useState(0);
   useEffect(() => {
     axios
       .get(
@@ -19,11 +20,34 @@ const UserShortlisted = () => {
       .catch((err) => {
         console.log("err", err);
       });
-  }, []);
-
-  console.log(data);
+  }, [count]);
+  const handleDelete = async (delId) => {
+    try {
+      await axios.delete(
+        import.meta.env.VITE_BACKEND + `/api/pro/deleteShortlist/${delId}`
+      );
+      setCount(count + 1);
+      setSnack(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const [snack, setSnack] = useState(false);
   return (
     <div className="container-fluid admin-dashboard admin-icon">
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack}
+        autoHideDuration={1000}
+        onClose={() => setSnack(false)}
+        message={"Deleted Successfully"}
+      />
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">All ShortlistedProperty</h1>
       </div>
@@ -53,17 +77,25 @@ const UserShortlisted = () => {
                       return (
                         <tr key={i}>
                           <td>{i + 1}</td>
-                          <td>{object.pro_locality}</td>
+                          <td>
+                            {object.pro_locality + ", " + object.pro_city}
+                          </td>
                           <td className="text-center">
                             <button
                               title="View"
                               className="btn btn-primary btn-sm vbtn"
                             >
                               <Link
-                                href={"/property-profile/" + object.pro_id}
-                                legacyBehavior
+                                to={`/property/${object.pro_type
+                                  .split(",")[0]
+                                  .replace(
+                                    " ",
+                                    "-"
+                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  object.pro_id
+                                }`}
                               >
-                                <a target="_blank">
+                                <a>
                                   <IconEye />
                                 </a>
                               </Link>
@@ -71,7 +103,7 @@ const UserShortlisted = () => {
                             <button
                               title="Delete"
                               className="btn btn-danger btn-sm vbtn"
-                              onClick={() => handleDelete(object._id)}
+                              onClick={() => handleDelete(object.shortlist_id)}
                             >
                               <IconTrash />
                             </button>

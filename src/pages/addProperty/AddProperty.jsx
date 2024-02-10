@@ -395,6 +395,10 @@ const AddProperty = () => {
 
   const handleClick = () => {
     propertyData.pro_user_id = currentUser[0].login_id;
+    propertyData.pro_state = stateList.filter(
+      (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
+    )[0].name;
+    console.log(propertyData.pro_state[0].name);
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
@@ -402,7 +406,6 @@ const AddProperty = () => {
 
   const addImages = async (id) => {
     console.log(id);
-    console.log("selectedFiles.length : ", selectedFiles.length);
     if (selectedFiles !== null) {
       for (let i = 0; i < selectedFiles.length; i++) {
         console.log(`file ${i + 1} uploading`);

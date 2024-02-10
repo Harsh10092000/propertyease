@@ -100,54 +100,54 @@ const Listing = () => {
                                   object.pro_id
                                 }`}
                               >
-                                <a>{object.pro_type.split(",")[0]}</a>
+                                <a className="text-wrap">
+                                  {object.pro_type.split(",")[0]} In{" "}
+                                  {object.pro_locality}
+                                  ,&nbsp;
+                                  {object.pro_city}
+                                </a>
                               </Link>
                             </h5>
                             <ul>
-                              <li>
+                              <li className="text-capitalize">
                                 <img
-                                  src="/img/meter.png"
+                                  src="/img/location.png"
                                   className="property-slider-icon"
                                 />
-                                <strong className="frontPropIcon">
-                                  Plot Size
-                                </strong>
-                                &nbsp; {object.pro_area_size} Sq. Feets
+                                <strong className="frontPropIcon"></strong>
+                                {object.pro_locality},&nbsp;
+                                {object.pro_city}
                               </li>
-                              <li>
-                                <img
-                                  src="/img/meter.png"
-                                  className="property-slider-icon"
-                                />
-                                <strong className="frontPropIcon">
-                                  Dimension
-                                </strong>
-                                &nbsp;({object.pro_width} Feet *
-                                {object.pro_length}
-                                Feet)
-                              </li>
+                              {object.pro_width ? (
+                                <li>
+                                  <img
+                                    src="/img/meter.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Dimension&nbsp;
+                                  </strong>
+                                  ({object.pro_width} Feet * {object.pro_length}{" "}
+                                  Feet)
+                                </li>
+                              ) : (
+                                ""
+                              )}
                               <li>
                                 <img
                                   src="/img/rupee.png"
                                   className="property-slider-icon"
                                 />
-                                <strong className="frontPropIcon">Price</strong>
+                                <strong className="frontPropIcon">
+                                  Price{" "}
+                                </strong>
                                 &nbsp;
-                                {"₹ " +
+                                {"₹" +
                                   object.pro_amt +
                                   " " +
                                   object.pro_amt_unit}
                               </li>
-                              <li>
-                                <img
-                                  src="/img/possession.png"
-                                  className="property-slider-icon"
-                                />
-                                <strong className="frontPropIcon">
-                                  Possession
-                                </strong>
-                                &nbsp;{object.pro_possession}
-                              </li>
+
                               <li>
                                 <img
                                   src="/img/facing.png"

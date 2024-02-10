@@ -118,12 +118,7 @@ const Property = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
-
-                    //   href={
-                    //     "/property-listing/" + pageProps.mydata.propertyMainType
-                    //   }
-                    >
+                    <Link>
                       <a>
                         {data.pro_type ? data.pro_type.split(",")[1] : ""}
                         <IconChevronRight className="sidebar-faicon" />
@@ -136,57 +131,53 @@ const Property = () => {
                 <div className="property-view-inner">
                   <div className="row">
                     <div className="top" id="dynamic">
-                      <h1 className="capitalize">
+                      <h1 className="capitalize pl-3 pl-md-0">
                         {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                         {data.pro_ad_type === "New"
                           ? " Sale"
                           : " " + data.pro_ad_type}
                       </h1>
-                      <div className="property-top-address">
-                        {data.pro_locality + " , " + data.pro_city}
+                      <div className="property-top-address pl-3 pl-md-0">
+                        {data.pro_locality + ", " + data.pro_city}
                       </div>
-                      <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex align-items-center justify-content-between pl-1">
                         <div className="d-flex align-items-center gap-3">
                           <div className="property-price">
-                            {"₹ " + data.pro_amt + " " + data.pro_amt_unit}
+                            {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
                           <div></div>
                           <button
-                            className="btn btn-success"
+                            className="askquestion"
                             title="Ask a Question"
                           >
-                            <IconQuestionMark className="property-faicon" />
+                            <IconQuestionMark />
                             <span className="d-none d-md-inline">
                               Ask a question
                             </span>
                           </button>
-                          <button
-                            className="btn btn-danger"
-                            title="Show Interest"
-                          >
-                            <IconSend className="property-faicon" />
+                          <button className="interest" title="Show Interest">
+                            <IconSend />
                             <span className="mobile-hidden">
                               Interested in Buying
                             </span>
                           </button>
                           <button
-                            className="btn btn-outline-primary ml-2"
+                            className="shortlist"
                             title="Shortlist"
-                            // onClick={handleBookmark}
                             onClick={shortlistProperty}
                           >
-                            <IconStarFilled className="property-faicon" />
+                            <IconStarFilled />
                             <span className="d-none d-md-inline">
                               Shortlist
                             </span>
                           </button>
                         </div>
-                        <button className="share-property">
+                        <button className="fb">
                           <a
                             rel="noreferrer nofollow"
-                            className="facebook-share btn btn-primary"
                             href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
                             target="_blank"
+                            className="share-property"
                           >
                             <span className="mobile-hidden">Facebook</span>
                             <IconShare3 />
@@ -219,7 +210,9 @@ const Property = () => {
                         <div className={"property-side-detail"}>
                           <h6>
                             Property ID
-                            <span className="propertypage-id">{id}</span>
+                            <span className="propertypage-id">
+                              {5000 + +proId}
+                            </span>
                           </h6>
                           <div className="property-no-detail">
                             <div className={"property-small-detail"}>
@@ -438,7 +431,7 @@ const Property = () => {
                                 Price
                               </div>
                               <div className="col-md-9 more-detail-left">
-                                {"₹ " + data.pro_amt + " " + data.pro_amt_unit}
+                                {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                               </div>
                             </div>
                             <div className="row moreDetail">
@@ -456,9 +449,10 @@ const Property = () => {
                               </div>
                               <div className="col-md-9 more-detail-left">
                                 {data.pro_facing_road_width
-                                  ? data.pro_facing_road_width
+                                  ? data.pro_facing_road_width +
+                                    " " +
+                                    data.pro_facing_road_unit
                                   : "-"}
-                                {" " + data.pro_facing_road_unit}
                               </div>
                             </div>
                             <div className="row moreDetail">

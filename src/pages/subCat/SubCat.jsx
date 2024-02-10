@@ -22,7 +22,8 @@ const SubCat = () => {
       .then((res) => {
         setSubData(res.data);
       });
-  });
+  }, [cat]);
+
   return (
     <div>
       <Navbar />
@@ -60,7 +61,14 @@ const SubCat = () => {
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
-                          <Link to={"/property/" + object.pro_id}>
+                          <Link
+                            to={`/property/${object.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${object.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${object.pro_id}`}
+                          >
                             {object.img_link ? (
                               <img
                                 src={`${
@@ -83,46 +91,63 @@ const SubCat = () => {
                           <div className="recent-bus-content">
                             <h5 className="property-listing-type">
                               <Link
-                                legacyBehavior
-                                href={"/property/" + object.pro_id}
+                                to={`/property/${object.pro_type
+                                  .split(",")[0]
+                                  .replace(
+                                    " ",
+                                    "-"
+                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  object.pro_id
+                                }`}
                               >
-                                <a>{object.pro_type.split(",")[0]}</a>
+                                <a className="text-wrap">
+                                  {object.pro_type.split(",")[0]} In{" "}
+                                  {object.pro_locality}
+                                  ,&nbsp;
+                                  {object.pro_city}
+                                </a>
                               </Link>
                             </h5>
                             <ul>
-                              <li>
+                              <li className="text-capitalize">
                                 <img
-                                  src="/img/meter.png"
+                                  src="/img/location.png"
                                   className="property-slider-icon"
                                 />
-                                <strong className="frontPropIcon">
-                                  Plot Size &amp; Dimension
-                                </strong>
-                                {object.pro_area_size} Sq. Feets (
-                                {object.pro_width} Feet * {object.pro_length}
-                                Feet)
+                                <strong className="frontPropIcon"></strong>
+                                {object.pro_locality},&nbsp;
+                                {object.pro_city}
                               </li>
+                              {object.pro_width ? (
+                                <li>
+                                  <img
+                                    src="/img/meter.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Dimension&nbsp;
+                                  </strong>
+                                  ({object.pro_width} Feet * {object.pro_length}{" "}
+                                  Feet)
+                                </li>
+                              ) : (
+                                ""
+                              )}
                               <li>
                                 <img
                                   src="/img/rupee.png"
                                   className="property-slider-icon"
                                 />
-                                <strong className="frontPropIcon">Price</strong>
-                                {"₹ " +
+                                <strong className="frontPropIcon">
+                                  Price{" "}
+                                </strong>
+                                &nbsp;
+                                {"₹" +
                                   object.pro_amt +
                                   " " +
                                   object.pro_amt_unit}
                               </li>
-                              <li>
-                                <img
-                                  src="/img/possession.png"
-                                  className="property-slider-icon"
-                                />
-                                <strong className="frontPropIcon">
-                                  Possession
-                                </strong>
-                                {object.pro_possession}
-                              </li>
+
                               <li>
                                 <img
                                   src="/img/facing.png"
@@ -131,10 +156,19 @@ const SubCat = () => {
                                 <strong className="frontPropIcon">
                                   Property Facing
                                 </strong>
-                                {object.pro_facing}
+                                &nbsp;{object.pro_facing}
                               </li>
                             </ul>
-                            <Link to={"/property/" + object.pro_id}>
+                            <Link
+                              to={`/property/${object.pro_type
+                                .split(",")[0]
+                                .replace(
+                                  " ",
+                                  "-"
+                                )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                object.pro_id
+                              }`}
+                            >
                               <a title="View More" className="btn-viewmore">
                                 View More
                               </a>

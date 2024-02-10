@@ -54,22 +54,20 @@ const AllProperties = () => {
                       </Link>
                     </div>
                     <div className="recent-bus-content">
-                      <div className="intersted-shortlist">
-                        <span></span>
-                        <a
-                          rel="nofollow"
-                          title="Shortlist"
-                          href="#"
-                          className="btn-shortlist"
-                        >
-                          <span>
-                            <i className="far fa-star" />
-                          </span>
-                        </a>
-                      </div>
                       <h5 className="property-listing-type">
-                        <Link to={"/listing/" + item.slug}>
-                          <a>{item.pro_type.split(",")[0]}</a>
+                        <Link
+                          to={`/property/${item.pro_type
+                            .split(",")[0]
+                            .replace(" ", "-")}-${item.pro_ad_type.replace(
+                            " ",
+                            "-"
+                          )}_${item.pro_id}`}
+                        >
+                          <a className="text-wrap">
+                            {item.pro_type.split(",")[0]} In {item.pro_locality}
+                            ,&nbsp;
+                            {item.pro_city}
+                          </a>
                         </Link>
                       </h5>
                       <ul>
@@ -82,33 +80,27 @@ const AllProperties = () => {
                           {item.pro_locality},&nbsp;
                           {item.pro_city}
                         </li>
-                        <li>
-                          <img
-                            src="/img/face-detection.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">
-                            Plot Size&nbsp;
-                          </strong>
-                          {item.plot_area_size ? item.plot_area_size : "-"}
-                        </li>
-                        <li>
-                          <img
-                            src="/img/meter.png"
-                            className="property-slider-icon"
-                          />
-                          <strong className="frontPropIcon">
-                            Dimension&nbsp;
-                          </strong>
-                          ({item.pro_width} Feet * {item.pro_length} Feet)
-                        </li>
+                        {item.pro_width ? (
+                          <li>
+                            <img
+                              src="/img/meter.png"
+                              className="property-slider-icon"
+                            />
+                            <strong className="frontPropIcon">
+                              Dimension&nbsp;
+                            </strong>
+                            ({item.pro_width} Feet * {item.pro_length} Feet)
+                          </li>
+                        ) : (
+                          ""
+                        )}
                         <li>
                           <img
                             src="/img/rupee.png"
                             className="property-slider-icon"
                           />
                           <strong className="frontPropIcon">Price </strong>
-                          &nbsp;{"₹ " + item.pro_amt + " " + item.pro_amt_unit}
+                          &nbsp;{"₹" + item.pro_amt + " " + item.pro_amt_unit}
                         </li>
 
                         <li>
