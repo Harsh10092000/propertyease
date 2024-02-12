@@ -13,7 +13,7 @@ import {
   IconSquareRoundedCheckFilled,
   IconWorld,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -21,13 +21,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField, Button, InputAdornment, Snackbar } from "@mui/material";
 import axios from "axios";
+import Loader from "../loader/Loader";
 const Footer = () => {
+  const [loader, setLoader] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
-    mobile: "",
+    phone: "",
   });
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,22 +49,36 @@ const Footer = () => {
     setData({ ...data, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    setSnack(true);
-    handleClose();
+  const handleSubmit = async () => {
+    setLoader(true);
+
     try {
-      axios.post(import.meta.env.VITE_BACKEND + "/sendMail", data);
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/contact/freeEnquiry",
+        data
+      );
+      setLoader(false);
+      handleClose();
+      setSnack(true);
     } catch (err) {
       console.log(err);
     }
   };
+  useEffect(() => {
+    if (data.email !== "" && data.name !== "" && data.phone !== "") {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [data]);
   return (
     <div>
+      {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
           sx: {
-            background: "white",
-            color: "green",
+            background: "green",
+            color: "white",
           },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -85,7 +102,6 @@ const Footer = () => {
             name="name"
             label="Name"
             type="text"
-            value={data.name}
             onChange={handleChange}
             fullWidth
             variant="standard"
@@ -97,7 +113,6 @@ const Footer = () => {
             id="email"
             name="email"
             label="Email Address"
-            value={data.email}
             type="email"
             onChange={handleChange}
             fullWidth
@@ -108,9 +123,8 @@ const Footer = () => {
               id="mobile"
               fullWidth
               autoFocus
-              name="mobile"
+              name="phone"
               onChange={handleChange}
-              value={data.mobile}
               margin="dense"
               InputProps={{
                 startAdornment: (
@@ -148,7 +162,7 @@ const Footer = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" onClick={handleSubmit} disabled={disabled}>
             Submit
           </Button>
         </DialogActions>
