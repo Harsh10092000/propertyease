@@ -21,8 +21,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Loader from "../../components/loader/Loader";
 
 const Property = () => {
+  const [loader, setLoader] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
   const proId = id.split("_")[1];
@@ -73,6 +75,7 @@ const Property = () => {
   };
   const [snackQ, setSnackQ] = useState(false);
   const sendQuestion = async () => {
+    setLoader(true);
     try {
       await axios.post(
         import.meta.env.VITE_BACKEND + "/api/contact/askquestion",
@@ -83,14 +86,24 @@ const Property = () => {
           propertySlug: id,
         }
       );
+      setLoader(false);
       setQuestionD(false);
       setSnackQ(true);
     } catch (err) {
       console.log(err);
     }
   };
+  const [disabled1, setDisabled1] = useState(true);
+  useEffect(() => {
+    if (question === "") {
+      setDisabled1(true);
+    } else {
+      setDisabled1(false);
+    }
+  }, [question]);
   return (
     <div>
+      {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
           sx: {
@@ -126,7 +139,9 @@ const Property = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setQuestionD(false)}>Cancel</Button>
-          <Button onClick={sendQuestion}>Submit Query</Button>
+          <Button disabled={disabled1} onClick={sendQuestion}>
+            Submit Query
+          </Button>
         </DialogActions>
       </Dialog>
       <Dialog

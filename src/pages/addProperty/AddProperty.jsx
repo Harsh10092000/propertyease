@@ -29,7 +29,10 @@ import { INITIAL_STATE, fetchReducer } from "./FetchReducer";
 import { city } from "./City";
 import { stateList } from "./State";
 import { regEx } from "../regEx";
+import Loader from "../../components/loader/Loader";
+import { InputAdornment } from "@mui/material";
 const AddProperty = () => {
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -114,6 +117,7 @@ const AddProperty = () => {
   }, [userData.number]);
 
   const fetchOtp = async (e) => {
+    setLoader(true);
     e.preventDefault();
     try {
       dispatch({ type: ACTION_TYPES.FETCH_START });
@@ -125,9 +129,11 @@ const AddProperty = () => {
           dispatch({ type: ACTION_TYPES.FETCH_SUCCESS });
           handleClickOpen();
         });
+      setLoader(false);
     } catch (err) {
       dispatch({ type: ACTION_TYPES.OTP_ERROR, payload: err.response.data });
       handleClickOpen();
+      setLoader(false);
     }
   };
 
@@ -393,12 +399,12 @@ const AddProperty = () => {
     propertyData.pro_amt,
   ]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    setLoader(true);
     propertyData.pro_user_id = currentUser[0].login_id;
     propertyData.pro_state = stateList.filter(
       (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
     )[0].name;
-    console.log(propertyData.pro_state[0].name);
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
@@ -418,11 +424,13 @@ const AddProperty = () => {
         formData
       );
     }
+    setLoader(false);
     navigate(`/property/_${id}`);
   };
 
   return (
     <div>
+      {loader ? <Loader /> : ""}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -430,14 +438,13 @@ const AddProperty = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {state.emailErr !== null ? "Craete account" : "Please Login"}
+          {state.emailErr !== null ? "Create Account" : "Please Login"}
         </DialogTitle>
-
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {state.emailErr !== null
               ? "As to Continue Adding your Property please enter your phone number."
-              : "As to Continue Adding your Property please Login."}
+              : "As to Continue Adding your Property please Login. Check your Mail for OTP."}
           </DialogContentText>
 
           {state.emailErr === null && (
@@ -476,12 +483,19 @@ const AddProperty = () => {
             <TextField
               sx={{ m: 1, width: ["100%"] }}
               id="outlined-basic"
-              variant="outlined"
+              variant="standard"
               size="small"
               label="Phone Number"
               className="w-full"
               name="Phone Number"
-              inputProps={{ maxLength: 10 }}
+              inputProps={{
+                maxLength: 10,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">+91 </InputAdornment>
+                ),
+              }}
               //value={propertyData.pro_plot_no}
               helperText={
                 numberError
@@ -679,9 +693,7 @@ const AddProperty = () => {
                           helperText={
                             state.emailFormatError !== false
                               ? state.emailFormatError
-                              : state.emailErr === null
-                              ? ""
-                              : "Email Id not exists Click Next button to create new account "
+                              : ""
                           }
                           disabled={currentUser === null ? false : true}
                           value={userData.email}
