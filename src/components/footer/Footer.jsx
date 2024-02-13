@@ -176,7 +176,7 @@ const Footer = () => {
             <div className="col-md-12">
               <div className="categores-display">
                 <h6>
-                  <Link to="/property-listing/Residential">
+                  <Link to="/listing/Residential">
                     <a>
                       <span>
                         <IconHome className="sidebar-faicon" />
@@ -187,45 +187,45 @@ const Footer = () => {
                 </h6>
                 <ul>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Apartment</a>
+                    <Link to="/subCat/Apartment">
+                      <a>Apartment</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Independent House/Villa </a>
+                    <Link to="/subCat/Independent House">
+                      <a>Independent House</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Builder Floor </a>
+                    <Link to="/subCat/Builder Floor">
+                      <a>Builder Floor</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Farm House</a>
+                    <Link to="/subCat/Farm House">
+                      <a>Farm House</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Raw House</a>
+                    <Link to="/subCat/Raw House">
+                      <a>Raw House</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Retirement Community</a>
+                    <Link to="/subCat/Retirement Community">
+                      <a>Retirement Community</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Residential">
-                      <a to="#">Studio Apartment</a>
+                    <Link to="/subCat/Studio Apartment">
+                      <a>Studio Apartment</a>
                     </Link>
                   </li>
                 </ul>
               </div>
               <div className="categores-display">
                 <h6>
-                  <Link to="/property-listing/Plot">
+                  <Link to="/listing/Plot">
                     <a>
                       <span>
                         <IconMapPinFilled className="sidebar-faicon" />
@@ -236,35 +236,35 @@ const Footer = () => {
                 </h6>
                 <ul>
                   <li>
-                    <Link to="/property-listing/Plot">
-                      <a to="#">Residential Land </a>
+                    <Link to="/subCat/Residential Land">
+                      <a>Residential Land</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Plot">
-                      <a to="#">Commercial Land </a>
+                    <Link to="/subCat/Commercial Land">
+                      <a>Commercial Land </a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Plot">
-                      <a to="#">Industrial Land </a>
+                    <Link to="/subCat/Industrial Land">
+                      <a>Industrial Land </a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Plot">
-                      <a to="#">Agricultural Land</a>
+                    <Link to="/subCat/Agricultural Land">
+                      <a>Agricultural Land</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Plot">
-                      <a to="#">Farm House Land</a>
+                    <Link to="/subCat/Farm House Land">
+                      <a>Farm House Land</a>
                     </Link>
                   </li>
                 </ul>
               </div>
               <div className="categores-display">
                 <h6>
-                  <Link to="/property-listing/Commercial">
+                  <Link to="/listing/Commercial">
                     <a>
                       <span>
                         <IconBuilding className="sidebar-faicon" />
@@ -275,33 +275,33 @@ const Footer = () => {
                 </h6>
                 <ul>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">Retail Showroom/Shop</a>
+                    <Link to="/subCat/Retail Showroom">
+                      <a>Retail Showroom</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">Commercial Building</a>
+                    <Link to="/subCat/Commercial Building">
+                      <a>Commercial Building</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">Office Complex</a>
+                    <Link to="/subCat/Office Complex">
+                      <a>Office Complex</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">IT/Software Technology Park</a>
+                    <Link to="/subCat/Software Technology Park">
+                      <a>Software Technology Park</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">Warehouse</a>
+                    <Link to="/subCat/Warehouse">
+                      <a>Warehouse</a>
                     </Link>
                   </li>
                   <li>
-                    <Link to="/property-listing/Commercial">
-                      <a to="#">Industrial Estate Contractors</a>
+                    <Link to="/subCat/Industrial Estate Contractors">
+                      <a>Industrial Estate Contractors</a>
                     </Link>
                   </li>
                 </ul>
@@ -362,18 +362,12 @@ const Footer = () => {
                   <li>
                     <a
                       title="Click to view kurukshetra collector rates 2024-25"
-                      href={`${import.meta.env.VITE_URL}/DC-Rates-2024-25.pdf`}
+                      href={`/DC-Rates-2024-25.pdf`}
                       target="_blank"
                       rel="noreferrer"
                     >
                       DC Rates 2024-25
                     </a>
-                  </li>
-
-                  <li>
-                    <Link to="/contact">
-                      <a title="contactus">Contact Us</a>
-                    </Link>
                   </li>
                   <li>
                     <Link to="/termsAndConditions">

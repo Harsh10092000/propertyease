@@ -38,6 +38,12 @@ const App = () => {
     }
     return children;
   };
+  const Unprotected = ({ children }) => {
+    if (currentUser) {
+      return <Navigate to="/user/dashboard" />;
+    }
+    return children;
+  };
   const router = createBrowserRouter([
     {
       path: "/",
@@ -47,10 +53,9 @@ const App = () => {
     {
       path: "/login",
       element: (
-        <>
-          <ScrollToTop />
+        <Unprotected>
           <Login />
-        </>
+        </Unprotected>
       ),
     },
     {
