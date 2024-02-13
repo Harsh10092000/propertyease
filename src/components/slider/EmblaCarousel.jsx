@@ -44,7 +44,7 @@ const EmblaCarousel = (props) => {
                 className="embla__slide__img"
                 src={
                   import.meta.env.VITE_BACKEND +
-                  "/propertyImages/" +
+                  "/propertyImages/watermark/" +
                   item.img_link
                 }
                 alt="Your alt text"
@@ -64,7 +64,7 @@ const EmblaCarousel = (props) => {
                 index={index}
                 imgSrc={
                   import.meta.env.VITE_BACKEND +
-                  "/propertyImages/" +
+                  "/propertyImages/watermark/" +
                   items.img_link
                 }
                 key={index}

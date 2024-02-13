@@ -8,7 +8,7 @@ import {
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import React, { useContext, useEffect } from "react";
-import { useReducer } from "react";
+
 import { useState } from "react";
 import { Stepper, Step } from "react-form-stepper";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,174 +17,22 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import { TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+
 import { AuthContext } from "../../context/AuthContext";
-import { ACTION_TYPES } from "./FetchActionTypes";
-import { INITIAL_STATE, fetchReducer } from "./FetchReducer";
-import { city } from "./City";
-import { stateList } from "./State";
+
+import { city } from "../addProperty/City";
+
+import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
-import Loader from "../../components/loader/Loader";
-import { InputAdornment } from "@mui/material";
-const AddProperty = () => {
-  const [loader, setLoader] = useState(false);
+
+const EditProperty = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-    dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
-  };
 
-  const [state, dispatch] = useReducer(fetchReducer, INITIAL_STATE);
-  const { currentUser, login } = useContext(AuthContext);
-  const [numberError, setNumberError] = useState(true);
-  const [loginStatus, setLoginStatus] = useState("");
-  const [userData, setUserData] = useState({
-    email: "",
-    number: "",
-    otp: "",
-  });
+  const { currentUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    currentUser !== null &&
-      axios
-        .get(
-          import.meta.env.VITE_BACKEND +
-            `/api/act/fetchUserData/${currentUser[0].login_id}`
-        )
-        .then((res) => {
-          setUserData({
-            ...userData,
-            email: res.data[0].login_email,
-            number: res.data[0].login_number,
-          });
-        });
-  }, [currentUser]);
-
-  const verifyEmail = async () => {
-    try {
-      await axios
-        .get(
-          import.meta.env.VITE_BACKEND +
-            `/api/auth/verifyEmail/${userData.email}`
-        )
-        .then((res) => dispatch({ type: ACTION_TYPES.UNSET_FETCH_ERROR }));
-    } catch (err) {
-      dispatch({ type: ACTION_TYPES.FETCH_ERROR, payload: err.response.data });
-    }
-  };
-
-  const verifyNumber = async () => {
-    try {
-      await axios
-        .get(
-          import.meta.env.VITE_BACKEND +
-            `/api/auth/verifyNumber/${userData.number}`
-        )
-        .then((res) =>
-          dispatch({ type: ACTION_TYPES.SET_PHONE_ERROR, payload: res.data })
-        );
-    } catch (err) {
-      dispatch({ type: ACTION_TYPES.UNSET_PHONE_ERROR });
-    }
-  };
-
-  useEffect(() => {
-    dispatch({ type: ACTION_TYPES.UNSET_FETCH_ERROR });
-    if (!regEx[0].emailRegex.test(userData.email)) {
-      dispatch({ type: ACTION_TYPES.SET_FORMAT_ERROR });
-    } else {
-      dispatch({ type: ACTION_TYPES.UNSET_FORMAT_ERROR });
-      verifyEmail();
-    }
-  }, [userData.email]);
-
-  useEffect(() => {
-    if (userData.number.length > 9) {
-      verifyNumber();
-      setNumberError(false);
-    } else {
-      setNumberError(true);
-    }
-  }, [userData.number]);
-
-  const fetchOtp = async (e) => {
-    setLoader(true);
-    e.preventDefault();
-    try {
-      dispatch({ type: ACTION_TYPES.FETCH_START });
-      await axios
-        .get(
-          import.meta.env.VITE_BACKEND + `/api/auth/sendOtp/${userData.email}`
-        )
-        .then((res) => {
-          dispatch({ type: ACTION_TYPES.FETCH_SUCCESS });
-          handleClickOpen();
-        });
-      setLoader(false);
-    } catch (err) {
-      dispatch({ type: ACTION_TYPES.OTP_ERROR, payload: err.response.data });
-      handleClickOpen();
-      setLoader(false);
-    }
-  };
-
-  const addUser = async (e) => {
-    userData.phone = userData.number;
-    e.preventDefault();
-    try {
-      handleClickOpen();
-      dispatch({ type: ACTION_TYPES.FETCH_START });
-      await axios
-        .post(import.meta.env.VITE_BACKEND + `/api/auth/addUser`, userData)
-        .then((res) => {
-          dispatch({ type: ACTION_TYPES.FETCH_SUCCESS });
-          dispatch({ type: ACTION_TYPES.UNSET_FETCH_ERROR });
-        });
-    } catch (err) {
-      dispatch({ type: ACTION_TYPES.OTP_ERROR, payload: err.response.data });
-    }
-  };
-
-  useEffect(() => {
-    if (state.seconds > 0 && state.timer === true) {
-      const intervalId = setInterval(() => {
-        dispatch({ type: ACTION_TYPES.DECREASE_SECONDS });
-        if (state.minutes > 0 && state.seconds === 1) {
-          dispatch({ type: ACTION_TYPES.DECREASE_MINUTES });
-          dispatch({ type: ACTION_TYPES.CHANGE_SECONDS });
-        }
-      }, 1000);
-      return () => clearInterval(intervalId);
-    } else {
-      dispatch({ type: ACTION_TYPES.CHANGE_TIMER });
-    }
-  }, [state.timer, state.seconds, state.minutes]);
-
-  const checkLogin = async () => {
-    if (userData.otp.length === 6) {
-      const result = await login(userData);
-      console.log("result : ", result);
-      if (result !== false) {
-        handleNextStep();
-        handleClose();
-      } else {
-        setLoginStatus("Wrong Otp Entered");
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkLogin();
-  }, [userData.otp]);
+  const { id } = useParams();
 
   const [activeStep, setActiveStep] = useState(0);
   const handleNextStep = () => {
@@ -199,6 +47,7 @@ const AddProperty = () => {
   };
 
   const [propertyData, setPropertyData] = useState({
+    pro_id: "",
     pro_user_type: "",
     pro_ad_type: "",
     pro_type: "",
@@ -240,6 +89,71 @@ const AddProperty = () => {
     pro_state: "",
     pro_negotiable: "",
   });
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById/${id}`
+      )
+      .then((res) => {
+        setPropertyData({
+          ...propertyData,
+          pro_id: res.data[0].pro_id,
+          pro_user_type: res.data[0].pro_user_type,
+          pro_ad_type: res.data[0].pro_ad_type,
+          pro_type: res.data[0].pro_type,
+          pro_city: res.data[0].pro_city,
+          pro_locality: res.data[0].pro_locality,
+
+          pro_plot_no: res.data[0].pro_plot_no,
+          pro_street: res.data[0].pro_street,
+          pro_age: res.data[0].pro_age,
+          pro_floor: res.data[0].pro_floor,
+          pro_bedroom: res.data[0].pro_bedroom,
+
+          pro_washrooms: res.data[0].pro_washrooms,
+          pro_balcony: res.data[0].pro_balcony,
+          pro_parking: res.data[0].pro_parking,
+          pro_facing: res.data[0].pro_facing,
+          pro_area_size: res.data[0].pro_area_size,
+
+          pro_width: res.data[0].pro_width,
+          pro_length: res.data[0].pro_length,
+          pro_facing_road_width: res.data[0].pro_facing_road_width,
+          pro_open_sides: res.data[0].pro_open_sides,
+          pro_furnishing: res.data[0].pro_furnishing,
+
+          pro_ownership_type: res.data[0].pro_ownership_type,
+          pro_approval: res.data[0].pro_approval,
+          pro_amt: res.data[0].pro_amt,
+          pro_rental_status: res.data[0].pro_rental_status,
+          pro_desc: res.data[0].pro_desc,
+
+          pro_possession: res.data[0].pro_possession,
+          pro_area_size_unit: res.data[0].pro_area_size_unit
+            ? res.data[0].pro_area_size_unit
+            : "Yards",
+          pro_facing_road_unit: res.data[0].pro_facing_road_unit
+            ? res.data[0].pro_facing_road_unit
+            : "Feet",
+
+          pro_amt_unit: res.data[0].pro_amt_unit
+            ? res.data[0].pro_amt_unit
+            : "Lakhs",
+          pro_pincode: res.data[0].pro_pincode,
+          //pro_state: res.data[0].pro_state,
+          pro_state: stateList.filter(
+            (item) => item.name === res.data[0].pro_state
+          )[0].id,
+          pro_negotiable: res.data[0].pro_negotiable,
+        });
+      });
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${id}`)
+      .then((res) => {
+        setImages(res.data);
+      });
+  }, []);
 
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
@@ -250,6 +164,8 @@ const AddProperty = () => {
   const formData = new FormData();
   const handleImage = (data) => {
     setFormatError(false);
+    //setSelectedFiles(data.target.files);
+
     const pattern = /image-*/;
     for (let i = 0; i < data.target.files.length; i++) {
       if (data.target.files[i].type.match(pattern)) {
@@ -268,31 +184,26 @@ const AddProperty = () => {
         setFormatError(true);
       }
     }
+
+    for (let i = 0; i < data.target.files.length; i++) {
+      formData.append(`files`, data.target.files[i]);
+    }
   };
 
   let files = "";
 
   if (selectedFiles !== null && selectedFiles !== undefined) {
-    console.log("selectedFiles : ", selectedFiles);
     files = Array.from(selectedFiles);
   }
 
   const [step1Disabled, setStep1Disabled] = useState(true);
   useEffect(() => {
-    if (
-      propertyData.pro_ad_type !== "" &&
-      propertyData.pro_user_type !== "" &&
-      state.emailFormatError === false
-    ) {
+    if (propertyData.pro_ad_type !== "" && propertyData.pro_user_type !== "") {
       setStep1Disabled(false);
     } else {
       setStep1Disabled(true);
     }
-  }, [
-    propertyData.pro_ad_type,
-    propertyData.pro_user_type,
-    state.emailFormatError,
-  ]);
+  }, [propertyData.pro_ad_type, propertyData.pro_user_type]);
 
   const [step2Disabled, setStep2Disabled] = useState(true);
   useEffect(() => {
@@ -352,6 +263,7 @@ const AddProperty = () => {
     fileSizeExceeded,
     propertyData.pro_type,
   ]);
+
   useEffect(() => {
     if (propertyData.pro_type.split(",")[1] === "Land") {
       if (
@@ -394,22 +306,37 @@ const AddProperty = () => {
     propertyData.pro_amt,
   ]);
 
-  const handleClick = async () => {
-    setLoader(true);
-    propertyData.pro_user_id = currentUser[0].login_id;
-    propertyData.pro_state = stateList.filter(
-      (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
-    )[0].name;
+  const handleClick = () => {
+    propertyData.pro_state = stateList
+      .filter((item) => parseInt(item.id) === parseInt(propertyData.pro_state))
+      .map((filteredItem) => filteredItem.name);
     axios
-      .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
-      .then((res) => addImages(res.data));
+      .put(
+        import.meta.env.VITE_BACKEND + "/api/pro/updateProperty",
+        propertyData
+      )
+      // .then((res) => addImages(res.data));
+      .then((res) => addImages(propertyData.pro_id));
+  };
+
+  const deletePropertyImages = () => {
+    try {
+      axios
+        .delete(
+          import.meta.env.VITE_BACKEND +
+            `/api/pro/deletePropertyImages/${propertyData.pro_id}`
+        )
+        // .then((res) => addImages(res.data));
+        .then((res) => console.log(res.data));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const addImages = async (id) => {
-    console.log(id);
     if (selectedFiles !== null) {
+      deletePropertyImages();
       for (let i = 0; i < selectedFiles.length; i++) {
-        console.log(`file ${i + 1} uploading`);
         formData.append(`files`, selectedFiles[i]);
       }
       formData.append("proId", id);
@@ -419,129 +346,10 @@ const AddProperty = () => {
         formData
       );
     }
-    setLoader(false);
     navigate(`/property/_${id}`);
   };
-
   return (
     <div>
-      {loader ? <Loader /> : ""}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {state.emailErr !== null ? "Create Account" : "Please Login"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {state.emailErr !== null
-              ? "As to Continue Adding your Property please enter your phone number."
-              : "As to Continue Adding your Property please Login. Check your Mail for OTP."}
-          </DialogContentText>
-
-          {state.emailErr === null && (
-            <div className="otpWrapper">
-              <TextField
-                label="OTP"
-                variant="outlined"
-                size="small"
-                inputProps={{ maxlength: 6 }}
-                className="w-100"
-                value={userData.otp}
-                onChange={(e) => {
-                  setUserData({
-                    ...userData,
-                    otp: e.target.value.replace(
-                      regEx[2].phoneNumberValidation,
-                      ""
-                    ),
-                  }),
-                    setLoginStatus("");
-                }}
-              />
-
-              {state.timer === true ? (
-                <p>
-                  Time Remaining: {state.minutes}:
-                  {state.seconds < 10 ? `0${state.seconds}` : state.seconds}
-                </p>
-              ) : (
-                <p>Didn't recieve code?</p>
-              )}
-            </div>
-          )}
-
-          {state.emailErr !== null && (
-            <TextField
-              sx={{ m: 1, width: ["100%"] }}
-              id="outlined-basic"
-              variant="standard"
-              size="small"
-              label="Phone Number"
-              className="w-full"
-              name="Phone Number"
-              inputProps={{
-                maxLength: 10,
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">+91 </InputAdornment>
-                ),
-              }}
-              //value={propertyData.pro_plot_no}
-              helperText={
-                numberError
-                  ? "Please enter a valid Phone Number"
-                  : state.numberErr === true
-                  ? "Phone Number Already Registered"
-                  : ""
-              }
-              disabled={currentUser === null ? false : true}
-              value={userData.number}
-              onChange={(e) =>
-                setUserData({
-                  ...userData,
-                  number: e.target.value.replace(/[^0-9/]/g, ""),
-                })
-              }
-              required
-            />
-          )}
-          <div className="input-group text-center">
-            <div className="left-block" />
-            {state.emailErr !== null ? (
-              <button
-                className={
-                  numberError === false && state.numberErr !== true
-                    ? "logina"
-                    : "nextDisabled"
-                }
-                onClick={addUser}
-                // disabled={state.timer === true ? true : false}
-                disabled={
-                  numberError === false && state.numberErr !== true
-                    ? false
-                    : true
-                }
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                className={state.timer === true ? "nextDisabled " : "logina"}
-                onClick={fetchOtp}
-                disabled={state.timer === true ? true : false}
-              >
-                Resend Otp
-              </button>
-            )}
-          </div>
-          <div>{loginStatus === "" ? "" : loginStatus}</div>
-        </DialogContent>
-      </Dialog>
       <Navbar />
       <div className="container">
         <section className="signup-section upper-form-heading post-property">
@@ -550,7 +358,7 @@ const AddProperty = () => {
               <span>
                 <IconMapPin className="sidebar-faicon" />
               </span>
-              Post Property
+              Edit Property
             </h4>
             <p>
               Do fill this form with attention so that your Property details are
@@ -675,35 +483,7 @@ const AddProperty = () => {
                           </FormControl>
                         </div>
                       </div>
-                      <div className="pro_flex">
-                        <TextField
-                          sx={{ m: 1, width: ["100%"] }}
-                          id="outlined-basic"
-                          variant="outlined"
-                          size="small"
-                          label="Email"
-                          className="w-full"
-                          name="Email"
-                          //inputProps={{ maxLength: 60 }}
-                          helperText={
-                            state.emailFormatError !== false
-                              ? state.emailFormatError
-                              : ""
-                          }
-                          disabled={currentUser === null ? false : true}
-                          value={userData.email}
-                          onChange={(e) =>
-                            setUserData({
-                              ...userData,
-                              email: e.target.value.replace(
-                                /[^a-zA-Z.@0-9/]/g,
-                                ""
-                              ),
-                            })
-                          }
-                          required
-                        />
-                      </div>
+
                       <div className="btn-con ">
                         <button
                           className="btn btn-primary"
@@ -849,15 +629,18 @@ const AddProperty = () => {
                           <InputLabel id="demo-simple-select-label">
                             State
                           </InputLabel>
+
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
+                            //value={ isNaN(propertyData.pro_state) === true ? stateList.filter((item) =>  item.name ===  propertyData.pro_state)[0].id : propertyData.pro_state  }
                             value={propertyData.pro_state}
                             label="State"
                             onChange={(e) =>
                               setPropertyData({
                                 ...propertyData,
                                 pro_state: e.target.value,
+                                pro_city: "",
                               })
                             }
                           >
@@ -879,10 +662,12 @@ const AddProperty = () => {
                           <InputLabel id="demo-simple-select-label">
                             City
                           </InputLabel>
+
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={propertyData.pro_city}
+                            //value={46}
                             label="City"
                             onChange={(e) =>
                               setPropertyData({
@@ -1502,6 +1287,17 @@ const AddProperty = () => {
                         </div>
 
                         <div>
+                          {selectedFiles === null
+                            ? images.map((item) => (
+                                <div>
+                                  <div>{item.img_link}</div>
+                                  <div></div>
+                                </div>
+                              ))
+                            : ""}
+                        </div>
+
+                        <div>
                           {formatError ? "Invalid Format" : ""}
                           {fileSizeExceeded
                             ? "File size must be greater than 10KB and less than 2MB"
@@ -1706,11 +1502,11 @@ const AddProperty = () => {
                         <div>
                           <h3>Already on Rented</h3>
                           <div className="div_radio">
-                            <label htmlFor="Yes">
+                            <label htmlFor="Yes2">
                               <input
                                 type="radio"
                                 name="Rented"
-                                id="Yes"
+                                id="Yes2"
                                 defaultChecked={
                                   propertyData.pro_rental_status === "Yes"
                                     ? true
@@ -1725,11 +1521,11 @@ const AddProperty = () => {
                               />
                               Yes
                             </label>
-                            <label htmlFor="No">
+                            <label htmlFor="No2">
                               <input
                                 type="radio"
                                 name="Rented"
-                                id="No"
+                                id="No2"
                                 defaultChecked={
                                   propertyData.pro_rental_status === "No"
                                     ? true
@@ -1853,4 +1649,4 @@ const AddProperty = () => {
   );
 };
 
-export default AddProperty;
+export default EditProperty;

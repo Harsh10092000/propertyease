@@ -58,10 +58,7 @@ const UserDashboard = () => {
                             title="Edit Your Property"
                             className="btn btn-primary btn-sm vbtn"
                           >
-                            <Link
-                              href={"/property-edit/" + item.id}
-                              legacyBehavior
-                            >
+                            <Link to={"/editProperty/" + item.pro_id}>
                               <a
                                 target="_blank"
                                 className="btn btn-primary btn-sm "

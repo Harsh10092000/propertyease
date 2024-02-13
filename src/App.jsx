@@ -20,6 +20,7 @@ import Property from "./pages/property/Property";
 import { useLocation } from "react-router-dom";
 import AddProperty from "./pages/addProperty/AddProperty";
 import SubCat from "./pages/subCat/SubCat";
+import EditProperty from "./pages/editProperty/EditProperty";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -106,6 +107,10 @@ const App = () => {
     {
       path: "/subCat/:cat",
       element: <SubCat />,
+    },
+    {
+      path: "/editProperty/:id",
+      element: <EditProperty />,
     },
   ]);
   return (

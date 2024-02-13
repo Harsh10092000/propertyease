@@ -41,7 +41,7 @@ const AllProperties = () => {
                             <img
                               src={`${
                                 import.meta.env.VITE_BACKEND
-                              }/propertyImages/${item.img_link}`}
+                              }/propertyImages/watermark/${item.img_link}`}
                               alt="img"
                             />
                           ) : (

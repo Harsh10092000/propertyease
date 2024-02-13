@@ -73,7 +73,7 @@ const SubCat = () => {
                               <img
                                 src={`${
                                   import.meta.env.VITE_BACKEND
-                                }/propertyImages/${object.img_link}`}
+                                }/propertyImages/watermark/${object.img_link}`}
                                 alt="img"
                               />
                             ) : (
