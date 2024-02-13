@@ -22,6 +22,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { TextField, Button, InputAdornment, Snackbar } from "@mui/material";
 import axios from "axios";
 import Loader from "../loader/Loader";
+import { regEx } from "../../pages/regEx";
+
 const Footer = () => {
   const [loader, setLoader] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -44,11 +46,6 @@ const Footer = () => {
     setSnack(false);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
-
   const handleSubmit = async () => {
     setLoader(true);
 
@@ -64,13 +61,22 @@ const Footer = () => {
       console.log(err);
     }
   };
+  const [emailError, setEmailError] = useState(true);
   useEffect(() => {
-    if (data.email !== "" && data.name !== "" && data.phone !== "") {
+    if (!regEx[0].emailRegex.test(data.email)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }, [data.email]);
+
+  useEffect(() => {
+    if (emailError === false && data.name !== "" && data.phone.length > 9) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [data]);
+  }, [data, emailError]);
   return (
     <div>
       {loader ? <Loader /> : ""}
@@ -102,7 +108,17 @@ const Footer = () => {
             name="name"
             label="Name"
             type="text"
-            onChange={handleChange}
+            value={data.name}
+            helperText={data.name === "" ? "Required" : ""}
+            onChange={(e) =>
+              setData({
+                ...data,
+                name: e.target.value.replace(/[^a-zA-Z ]/g, ""),
+              })
+            }
+            inputProps={{
+              maxLength: 40,
+            }}
             fullWidth
             variant="standard"
           />
@@ -114,7 +130,17 @@ const Footer = () => {
             name="email"
             label="Email Address"
             type="email"
-            onChange={handleChange}
+            inputProps={{
+              maxLength: 40,
+            }}
+            helperText={emailError ? "Please enter valid email address" : ""}
+            value={data.email}
+            onChange={(e) =>
+              setData({
+                ...data,
+                email: e.target.value.replace(/[^a-zA-Z.@0-9/]/g, ""),
+              })
+            }
             fullWidth
             variant="standard"
           />
@@ -124,7 +150,22 @@ const Footer = () => {
               fullWidth
               autoFocus
               name="phone"
-              onChange={handleChange}
+              helperText={
+                data.phone.length < 10 ? "Please enter valid phone number" : ""
+              }
+              value={data.phone}
+              inputProps={{
+                maxLength: 10,
+              }}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  phone: e.target.value.replace(
+                    regEx[2].phoneNumberValidation,
+                    ""
+                  ),
+                })
+              }
               margin="dense"
               InputProps={{
                 startAdornment: (

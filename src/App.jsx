@@ -21,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import AddProperty from "./pages/addProperty/AddProperty";
 import SubCat from "./pages/subCat/SubCat";
 import EditProperty from "./pages/editProperty/EditProperty";
+import NotFound from "./pages/notfound/NotFound";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -49,7 +50,10 @@ const App = () => {
       path: "/",
       element: <Index />,
     },
-
+    {
+      path: "*",
+      element: <NotFound />,
+    },
     {
       path: "/login",
       element: (
