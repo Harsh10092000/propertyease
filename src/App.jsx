@@ -119,7 +119,12 @@ const App = () => {
     },
     {
       path: "/editProperty/:id",
-      element: <EditProperty />,
+
+      element: (
+        <ProtectedRoute>
+          <EditProperty />
+        </ProtectedRoute>
+      ),
     },
   ]);
   return (
