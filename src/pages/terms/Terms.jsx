@@ -1,10 +1,13 @@
 import React from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
-
+import { Helmet } from "react-helmet";
 const Terms = () => {
   return (
     <div>
+      <Helmet>
+        <title>Propertyease - Terms & Conditions</title>
+      </Helmet>
       <Navbar />
       <div className="container">
         <section className="main-content">

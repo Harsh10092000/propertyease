@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 const SubCat = () => {
   const { cat } = useParams();
@@ -26,6 +27,9 @@ const SubCat = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Propertyease - {cat}</title>
+      </Helmet>
       <Navbar />
       <section className="search-block">
         <div className="container">

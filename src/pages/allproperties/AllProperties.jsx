@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
-
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 const AllProperties = () => {
   const [data, setData] = useState([]);
@@ -16,6 +16,9 @@ const AllProperties = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Propertyease - All Properties</title>
+      </Helmet>
       <Navbar />
       <div className={"main"}>
         <section className="main-content">

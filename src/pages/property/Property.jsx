@@ -113,13 +113,23 @@ const Property = () => {
             " - Propertyease"}
         </title>
         <meta
-          name="description"
+          name="og:title"
           content={
             "Property in " +
             data.pro_city +
             ", " +
             data.pro_state +
             " - Propertyease"
+          }
+        />
+        <meta
+          name="og:image"
+          content={
+            images.length > 0
+              ? import.meta.env.VITE_BACKEND +
+                "/propertyImages/watermark/" +
+                images[0].img_link
+              : "/images/no-image-available-icon-vector.jpg"
           }
         />
       </Helmet>

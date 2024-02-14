@@ -1,12 +1,13 @@
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { regEx } from "../regEx";
+import { Helmet } from "react-helmet";
 import "../register/register.css";
 const Login = () => {
   const navigate = useNavigate();
@@ -153,6 +154,9 @@ const Login = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Propertyease - Login</title>
+      </Helmet>
       <Navbar />
       <section className={"bg"}>
         <div>
