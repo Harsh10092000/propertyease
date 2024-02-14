@@ -22,6 +22,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Loader from "../../components/loader/Loader";
+import { Helmet } from "react-helmet";
 
 const Property = () => {
   const [loader, setLoader] = useState(false);
@@ -103,6 +104,25 @@ const Property = () => {
   }, [question]);
   return (
     <div>
+      <Helmet>
+        <title>
+          {"Property in " +
+            data.pro_city +
+            ", " +
+            data.pro_state +
+            " - Propertyease"}
+        </title>
+        <meta
+          name="description"
+          content={
+            "Property in " +
+            data.pro_city +
+            ", " +
+            data.pro_state +
+            " - Propertyease"
+          }
+        />
+      </Helmet>
       {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{

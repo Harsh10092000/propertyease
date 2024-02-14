@@ -2,10 +2,13 @@ import React from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
 const NotFound = () => {
   return (
     <div>
+      <Helmet>
+        <title>Propertyease - 404 </title>
+      </Helmet>
       <div className="main-content">
         <div className="full-width-header">
           <Navbar />

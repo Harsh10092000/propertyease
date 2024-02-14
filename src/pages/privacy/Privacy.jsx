@@ -1,10 +1,21 @@
 import React from "react";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
+import { Helmet } from "react-helmet";
 
 const Privacy = () => {
   return (
     <div>
+      <Helmet>
+        <title>
+          Propertyease - Buy Best Property in Kurukshetra - Verified & Lowest
+          Pricing
+        </title>
+        <meta
+          name="description"
+          content="Propertyease - Buy Best Property in Kurukshetra - Verified & Lowest Pricing"
+        />
+      </Helmet>
       <Navbar />
 
       <div className="container">
