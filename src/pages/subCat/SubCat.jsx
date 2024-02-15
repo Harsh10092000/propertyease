@@ -109,7 +109,10 @@ const SubCat = () => {
                                   {object.pro_ad_type === "Rent"
                                     ? "Rent"
                                     : "Sale"}{" "}
-                                  in {object.pro_locality}
+                                  in{" "}
+                                  <span className="text-capitalize">
+                                    {object.pro_locality}
+                                  </span>
                                   ,&nbsp;
                                   {object.pro_city}
                                 </a>

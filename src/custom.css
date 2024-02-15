@@ -2841,7 +2841,7 @@ section.search-block {
   color: #cf0000;
   font-size: 31px;
 }
-.shortlist {
+/* .shortlist {
   padding: 6px 10px;
   background-color: #fff !important;
   border-radius: 4px;
@@ -2857,11 +2857,11 @@ section.search-block {
   font-weight: 600;
   font-size: 16px;
   border: 1px solid #1a74bb !important;
-}
-.shortlist:hover {
+} */
+/* .shortlist:hover {
   background-color: #1a74bb !important;
   color: #fff !important;
-}
+} */
 .phicon {
   width: 50px;
   margin-right: 12px;
@@ -15419,7 +15419,7 @@ input[type="file"] {
   color: white;
   gap: 4px;
 }
-.shortlist {
+/* .shortlist {
   background-color: #007bff;
   padding: 10px 12px;
   display: flex;
@@ -15430,6 +15430,22 @@ input[type="file"] {
   color: white;
   gap: 4px;
   font-size: 12px;
+} */
+.shortlist {
+  padding: 5px;
+  border: 1px solid lightgrey;
+  color: lightgrey;
+  border-radius: 35%;
+  background: white;
+  transition: all 400ms ease-in-out;
+}
+.shortlist:hover {
+  color: #4fa640;
+  border-color: #4fa640;
+}
+.shortlistIcon {
+  width: 20px;
+  height: 20px;
 }
 .fb {
   border: none;

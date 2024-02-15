@@ -71,7 +71,7 @@ const Property = () => {
     if (!currentUser) {
       setDialog(true);
     } else {
-      setQuestionD(true);
+      sendQuestion();
     }
   };
   const [snackQ, setSnackQ] = useState(false);
@@ -83,7 +83,6 @@ const Property = () => {
         {
           userId: currentUser[0].login_email,
           phone: currentUser[0].login_number,
-          question: question,
           propertySlug: id,
         }
       );
@@ -102,6 +101,22 @@ const Property = () => {
       setDisabled1(false);
     }
   }, [question]);
+  const [sticky, setSticky] = useState(false);
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY; // => scroll position
+    if (scrollPosition > 100) {
+      setSticky(true);
+    } else {
+      setSticky(false);
+    }
+  };
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <div>
       <Helmet>
@@ -144,36 +159,11 @@ const Property = () => {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={snackQ}
         autoHideDuration={1000}
-        onClose={() => setSnack(false)}
-        message={"We have recorded your query, we will get back to you soon."}
+        onClose={() => setSnackQ(false)}
+        message={
+          "Thank You for showing interest in this property, we will get back to you soon."
+        }
       />
-      <Dialog open={questionD} onClose={() => setQuestionD(false)} fullWidth>
-        <DialogTitle>Ask a question</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="email"
-            label="Question"
-            type="text"
-            fullWidth
-            variant="standard"
-            multiline
-            InputProps={{
-              rows: 3,
-            }}
-            onChange={(e) => setQuestion(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setQuestionD(false)}>Cancel</Button>
-          <Button disabled={disabled1} onClick={sendQuestion}>
-            Submit Query
-          </Button>
-        </DialogActions>
-      </Dialog>
       <Dialog
         open={dialog}
         onClose={() => setDialog(false)}
@@ -183,8 +173,8 @@ const Property = () => {
         <DialogTitle id="alert-dialog-title">Login</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            As to shorlist the property or to ask a question regarding property
-            you have to login first.
+            As to shorlist the property or to show interest in Property you have
+            to login first.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -242,55 +232,55 @@ const Property = () => {
 
                 <div className="property-view-inner">
                   <div className="row">
-                    <div className="top" id="dynamic">
-                      <h1 className="capitalize pl-3 pl-md-0">
+                    <div
+                      className={sticky ? "top newClass" : "top"}
+                      id="dynamic"
+                    >
+                      <h1 className="capitalize p-2 pl-md-0 d-flex gap-3 align-items-center">
                         {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                         {data.pro_ad_type === "New"
                           ? " Sale"
-                          : " " + data.pro_ad_type}
+                          : " " + data.pro_ad_type}{" "}
+                        {currentUser ? (
+                          data.pro_user_id == currentUser[0].login_id ? (
+                            ""
+                          ) : (
+                            <button
+                              className="shortlist"
+                              title="Shortlist this property"
+                              onClick={shortlistProperty}
+                            >
+                              <IconStarFilled className="shortlistIcon" />
+                            </button>
+                          )
+                        ) : (
+                          ""
+                        )}
                       </h1>
-                      <div className="property-top-address pl-3 pl-md-0">
+                      <div className="property-top-address pl-3 pl-md-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between pl-1">
-                        <div className="d-flex align-items-center gap-3">
+                      <div className="d-flex align-items-center justify-content-between p-1">
+                        <div className="d-flex align-items-center justify-content-between">
                           <div className="property-price">
                             {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
-                          <div></div>
+                        </div>
+                        <div className="d-flex gap-3 align-items-center">
                           {currentUser ? (
                             data.pro_user_id == currentUser[0].login_id ? (
                               ""
                             ) : (
                               <>
                                 <button
-                                  className="askquestion"
-                                  title="Ask a Question"
-                                  onClick={askQuestion}
-                                >
-                                  <IconQuestionMark />
-                                  <span className="d-none d-md-inline">
-                                    Ask a question
-                                  </span>
-                                </button>
-                                <button
                                   className="interest"
                                   title="Show Interest"
+                                  onClick={askQuestion}
                                 >
                                   <IconSend />
                                   <span className="mobile-hidden">
                                     Interested in Buying
-                                  </span>
-                                </button>
-                                <button
-                                  className="shortlist"
-                                  title="Shortlist"
-                                  onClick={shortlistProperty}
-                                >
-                                  <IconStarFilled />
-                                  <span className="d-none d-md-inline">
-                                    Shortlist
                                   </span>
                                 </button>
                               </>
@@ -298,48 +288,29 @@ const Property = () => {
                           ) : (
                             <>
                               <button
-                                className="askquestion"
-                                title="Ask a Question"
-                                onClick={askQuestion}
-                              >
-                                <IconQuestionMark />
-                                <span className="d-none d-md-inline">
-                                  Ask a question
-                                </span>
-                              </button>
-                              <button
                                 className="interest"
                                 title="Show Interest"
+                                onClick={askQuestion}
                               >
                                 <IconSend />
                                 <span className="mobile-hidden">
                                   Interested in Buying
                                 </span>
                               </button>
-                              <button
-                                className="shortlist"
-                                title="Shortlist"
-                                onClick={shortlistProperty}
-                              >
-                                <IconStarFilled />
-                                <span className="d-none d-md-inline">
-                                  Shortlist
-                                </span>
-                              </button>
                             </>
-                          )}
+                          )}{" "}
+                          <button className="fb">
+                            <a
+                              rel="noreferrer nofollow"
+                              href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
+                              target="_blank"
+                              className="share-property"
+                            >
+                              <IconShare3 />
+                              <span className="mobile-hidden ml-1">Share</span>
+                            </a>
+                          </button>
                         </div>
-                        <button className="fb">
-                          <a
-                            rel="noreferrer nofollow"
-                            href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
-                            target="_blank"
-                            className="share-property"
-                          >
-                            <span className="mobile-hidden">Facebook</span>
-                            <IconShare3 />
-                          </a>
-                        </button>
                       </div>
                     </div>
                     <div className="row">
