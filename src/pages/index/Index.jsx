@@ -22,6 +22,7 @@ const Index = () => {
         setData(res.data);
       });
   }, []);
+
   return (
     <div>
       <Helmet>
@@ -53,7 +54,7 @@ const Index = () => {
             <div className="row">
               <div className="col-md-4">
                 <div className="cate-box">
-                  <Link to="/listing/residential">
+                  <Link to={import.meta.env.VITE_URL + "/listing/residential"}>
                     <div className="cat-img-icon">
                       <div className="cate-img">
                         <img
@@ -110,7 +111,9 @@ const Index = () => {
                         <a href="#">Studio Apartment</a>
                       </li>
                     </ul>
-                    <Link to="/listing/residential">
+                    <Link
+                      to={import.meta.env.VITE_URL + "/listing/residential"}
+                    >
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -171,7 +174,7 @@ const Index = () => {
                         <a href="#">Farm House Land</a>
                       </li>
                     </ul>
-                    <Link to="/listing/land">
+                    <Link to={import.meta.env.VITE_URL + "/listing/land"}>
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -179,7 +182,7 @@ const Index = () => {
               </div>
               <div className="col-md-4">
                 <div className="cate-box">
-                  <Link to="/listing/commercial">
+                  <Link to={import.meta.env.VITE_URL + "/listing/commercial"}>
                     <a>
                       <div className="cat-img-icon">
                         <div className="cate-img">
@@ -233,7 +236,7 @@ const Index = () => {
                       </li>
                     </ul>
 
-                    <Link to="/listing/commercial">
+                    <Link to={import.meta.env.VITE_URL + "/listing/commercial"}>
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -286,12 +289,15 @@ const Index = () => {
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
                         <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
-                            "-"
-                          )}_${item.pro_id}`}
+                          to={
+                            import.meta.env.VITE_URL +
+                            `/property/${item.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${item.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${item.pro_id}`
+                          }
                         >
                           {item.img_link ? (
                             <img
@@ -311,12 +317,15 @@ const Index = () => {
                       <div className="recent-bus-content">
                         <h5 className="property-listing-type">
                           <Link
-                            to={`/property/${item.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${item.pro_ad_type.replace(
-                              " ",
-                              "-"
-                            )}_${item.pro_id}`}
+                            to={
+                              import.meta.env.VITE_URL +
+                              `/property/${item.pro_type
+                                .split(",")[0]
+                                .replace(" ", "-")}-${item.pro_ad_type.replace(
+                                " ",
+                                "-"
+                              )}_${item.pro_id}`
+                            }
                           >
                             <a>{item.pro_type.split(",")[0]}</a>
                           </Link>
@@ -385,12 +394,15 @@ const Index = () => {
                           </li>
                         </ul>
                         <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
-                            "-"
-                          )}_${item.pro_id}`}
+                          to={
+                            import.meta.env.VITE_URL +
+                            `/property/${item.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${item.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${item.pro_id}`
+                          }
                         >
                           <a className="btn-viewmore">View More</a>
                         </Link>
