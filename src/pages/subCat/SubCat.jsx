@@ -105,8 +105,11 @@ const SubCat = () => {
                                 }`}
                               >
                                 <a className="text-wrap">
-                                  {object.pro_type.split(",")[0]} In{" "}
-                                  {object.pro_locality}
+                                  {object.pro_type.split(",")[0]} for{" "}
+                                  {object.pro_ad_type === "Rent"
+                                    ? "Rent"
+                                    : "Sale"}{" "}
+                                  in {object.pro_locality}
                                   ,&nbsp;
                                   {object.pro_city}
                                 </a>

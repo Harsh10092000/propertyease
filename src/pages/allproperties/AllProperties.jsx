@@ -67,7 +67,9 @@ const AllProperties = () => {
                           )}_${item.pro_id}`}
                         >
                           <a className="text-wrap">
-                            {item.pro_type.split(",")[0]} In {item.pro_locality}
+                            {item.pro_type.split(",")[0]} for{" "}
+                            {item.pro_ad_type === "Rent" ? "Rent" : "Sale"} in{" "}
+                            {item.pro_locality}
                             ,&nbsp;
                             {item.pro_city}
                           </a>

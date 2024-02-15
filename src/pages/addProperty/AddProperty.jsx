@@ -177,7 +177,7 @@ const AddProperty = () => {
         handleNextStep();
         handleClose();
       } else {
-        setLoginStatus("Wrong Otp Entered");
+        setLoginStatus("Wrong OTP Entered");
       }
     }
   };
@@ -535,7 +535,7 @@ const AddProperty = () => {
                 onClick={fetchOtp}
                 disabled={state.timer === true ? true : false}
               >
-                Resend Otp
+                Resend OTP
               </button>
             )}
           </div>
