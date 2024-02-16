@@ -1,9 +1,4 @@
-import {
-  IconQuestionMark,
-  IconSend,
-  IconShare3,
-  IconStarFilled,
-} from "@tabler/icons-react";
+import { IconSend, IconShare3, IconStarFilled } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -19,8 +14,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Loader from "../../components/loader/Loader";
 import { Helmet } from "react-helmet";
 
@@ -31,6 +24,34 @@ const Property = () => {
   const proId = id.split("_")[1];
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
+  const [shortlist, setShortlist] = useState(false);
+  const [interested, setInterested] = useState(false);
+  const checkShortlist = async () => {
+    if (currentUser) {
+      try {
+        await axios.post(
+          import.meta.env.VITE_BACKEND + "/api/pro/checkShortlist",
+          { proId, cnctId: currentUser[0].login_id }
+        );
+        setShortlist(true);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  const checkInterested = async () => {
+    if (currentUser) {
+      try {
+        await axios.post(
+          import.meta.env.VITE_BACKEND + "/api/pro/checkInterested",
+          { proId, cnctId: currentUser[0].login_id }
+        );
+        setInterested(true);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   useEffect(() => {
     axios
       .get(
@@ -44,6 +65,8 @@ const Property = () => {
       .then((res) => {
         setImages(res.data);
       });
+    checkShortlist();
+    checkInterested();
   }, []);
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
@@ -58,15 +81,15 @@ const Property = () => {
           { userId: currentUser[0].login_id, propertyId: proId }
         );
         setSnack(true);
+        checkShortlist();
       } catch (err) {
         setErr(err.response.data);
         setSnack(true);
       }
     }
   };
-  const [question, setQuestion] = useState("");
+
   const [dialog, setDialog] = useState(false);
-  const [questionD, setQuestionD] = useState(false);
   const askQuestion = () => {
     if (!currentUser) {
       setDialog(true);
@@ -84,23 +107,17 @@ const Property = () => {
           userId: currentUser[0].login_email,
           phone: currentUser[0].login_number,
           propertySlug: id,
+          proId,
+          user_id: currentUser[0].login_id,
         }
       );
       setLoader(false);
-      setQuestionD(false);
       setSnackQ(true);
+      checkInterested();
     } catch (err) {
       console.log(err);
     }
   };
-  const [disabled1, setDisabled1] = useState(true);
-  useEffect(() => {
-    if (question === "") {
-      setDisabled1(true);
-    } else {
-      setDisabled1(false);
-    }
-  }, [question]);
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -154,6 +171,7 @@ const Property = () => {
           sx: {
             background: "green",
             color: "white",
+            textAlign: "center",
           },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -186,12 +204,14 @@ const Property = () => {
       <Snackbar
         ContentProps={{
           sx: {
-            background: "black",
+            background: "green",
+            display: "flex",
+            justifyContent: "center",
           },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={snack}
-        autoHideDuration={1000}
+        autoHideDuration={2000}
         onClose={() => setSnack(false)}
         message={err ? err : "Property Has been Shortlisted"}
       />
@@ -246,7 +266,9 @@ const Property = () => {
                             ""
                           ) : (
                             <button
-                              className="shortlist"
+                              className={
+                                shortlist ? "shortlisted" : "shortlist"
+                              }
                               title="Shortlist this property"
                               onClick={shortlistProperty}
                             >
@@ -254,7 +276,13 @@ const Property = () => {
                             </button>
                           )
                         ) : (
-                          ""
+                          <button
+                            className="shortlist"
+                            title="Shortlist this property"
+                            onClick={shortlistProperty}
+                          >
+                            <IconStarFilled className="shortlistIcon" />
+                          </button>
                         )}
                       </h1>
                       <div className="property-top-address pl-3 pl-md-0 text-capitalize">
@@ -273,16 +301,28 @@ const Property = () => {
                               ""
                             ) : (
                               <>
-                                <button
-                                  className="interest"
-                                  title="Show Interest"
-                                  onClick={askQuestion}
-                                >
-                                  <IconSend />
-                                  <span className="mobile-hidden">
-                                    Interested in Buying
-                                  </span>
-                                </button>
+                                {interested ? (
+                                  <button
+                                    className="interested"
+                                    title="Show Interest"
+                                  >
+                                    <IconSend />
+                                    <span className="mobile-hidden">
+                                      Already Interested
+                                    </span>
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="interest"
+                                    title="Show Interest"
+                                    onClick={askQuestion}
+                                  >
+                                    <IconSend />
+                                    <span className="mobile-hidden">
+                                      Show Interest
+                                    </span>
+                                  </button>
+                                )}
                               </>
                             )
                           ) : (
@@ -294,7 +334,7 @@ const Property = () => {
                               >
                                 <IconSend />
                                 <span className="mobile-hidden">
-                                  Interested in Buying
+                                  Show Interest
                                 </span>
                               </button>
                             </>

@@ -15439,6 +15439,14 @@ input[type="file"] {
   background: white;
   transition: all 400ms ease-in-out;
 }
+.shortlisted {
+  padding: 5px;
+  color: white;
+  border-radius: 35%;
+  background: red;
+  transition: all 400ms ease-in-out;
+  border: none;
+}
 .shortlist:hover {
   color: #4fa640;
   border-color: #4fa640;
@@ -15450,4 +15458,21 @@ input[type="file"] {
 .fb {
   border: none;
   background: transparent;
+}
+.text-bold {
+  font-size: 16px;
+  color: black;
+  font-weight: 600;
+}
+.interested {
+  background-color: lightgrey;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+  cursor: not-allowed !important;
 }

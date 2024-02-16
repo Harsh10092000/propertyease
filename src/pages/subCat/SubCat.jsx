@@ -1,4 +1,3 @@
-import { IconChevronRight } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
@@ -31,35 +30,14 @@ const SubCat = () => {
         <title>Propertyease - {cat}</title>
       </Helmet>
       <Navbar />
-      <section className="search-block">
-        <div className="container">
-          <nav aria-label="breadcrumb">
-            <ul className="coming-field-content">
-              <li>
-                <Link to="/">
-                  <a>
-                    Home
-                    <span>
-                      <IconChevronRight className="sidebar-faicon" />
-                    </span>
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link to="#">
-                  <a>
-                    {cat}
-                    <span>
-                      <IconChevronRight className="sidebar-faicon" />
-                    </span>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-          <div className="row">
-            <div className="row col-md-8">
-              <div className="col-md-12">
+      <div className={"main"}>
+        <section className="main-content">
+          <div className="container">
+            <div className="title">
+              <h2 className="text-capitalize">{cat}</h2>
+            </div>
+            <div className="row">
+              <div className="col-md-9">
                 {data.map((object, index) => (
                   <div className="list-group" key={index}>
                     <div className="row">
@@ -93,7 +71,7 @@ const SubCat = () => {
                       <div className="col" style={{ minWidth: 0 }}>
                         <div className="recent-box-serv">
                           <div className="recent-bus-content">
-                            <h5 className="property-listing-type">
+                            <div className="property-listing-type">
                               <Link
                                 to={`/property/${object.pro_type
                                   .split(",")[0]
@@ -104,7 +82,7 @@ const SubCat = () => {
                                   object.pro_id
                                 }`}
                               >
-                                <a className="text-wrap">
+                                <span className="text-wrap text-bold">
                                   {object.pro_type.split(",")[0]} for{" "}
                                   {object.pro_ad_type === "Rent"
                                     ? "Rent"
@@ -115,9 +93,9 @@ const SubCat = () => {
                                   </span>
                                   ,&nbsp;
                                   {object.pro_city}
-                                </a>
+                                </span>
                               </Link>
-                            </h5>
+                            </div>
                             <ul>
                               <li className="text-capitalize">
                                 <img
@@ -190,28 +168,28 @@ const SubCat = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="col-md-4">
-              <div className="p-1 shadow">
-                <div className="p-3 font-weight-bold text-black">
-                  Categories
+              <div className="col-md-3">
+                <div className="p-1 shadow">
+                  <div className="p-3 font-weight-bold text-black">
+                    Categories
+                  </div>
+                  {subData.map((sub, index) => (
+                    <Link
+                      to={`/subCat/${sub.pro_type.split(",")[0]}`}
+                      key={index}
+                    >
+                      <div className="d-flex justify-content-between px-3 py-2">
+                        <div>{sub.pro_type.split(",")[0]}</div>
+                        <div>({sub.pro_sub_cat_number})</div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-                {subData.map((sub, index) => (
-                  <Link
-                    to={`/subCat/${sub.pro_type.split(",")[0]}`}
-                    key={index}
-                  >
-                    <div className="d-flex justify-content-between px-3 py-2">
-                      <div>{sub.pro_type.split(",")[0]}</div>
-                      <div>({sub.pro_sub_cat_number})</div>
-                    </div>
-                  </Link>
-                ))}
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
       <Footer />
     </div>
   );

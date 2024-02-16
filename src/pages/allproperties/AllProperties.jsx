@@ -35,24 +35,24 @@ const AllProperties = () => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {data.map((item, index) => (
-                  <div className="col-md-12 " key={index}>
-                    <div className="view-pro-box">
-                      <div className="buiness-logo">
-                        <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
-                            "-"
-                          )}_${item.pro_id}`}
-                        >
-                          <a>
-                            {item.img_link ? (
+                {data.map((object, index) => (
+                  <div className="list-group" key={index}>
+                    <div className="row">
+                      <div className="col-md-auto flex-column text-center">
+                        <div className="buiness-logo">
+                          <Link
+                            to={`/property/${object.pro_type
+                              .split(",")[0]
+                              .replace(" ", "-")}-${object.pro_ad_type.replace(
+                              " ",
+                              "-"
+                            )}_${object.pro_id}`}
+                          >
+                            {object.img_link ? (
                               <img
                                 src={`${
                                   import.meta.env.VITE_BACKEND
-                                }/propertyImages/watermark/${item.img_link}`}
+                                }/propertyImages/watermark/${object.img_link}`}
                                 alt="img"
                               />
                             ) : (
@@ -61,86 +61,105 @@ const AllProperties = () => {
                                 alt="no image"
                               />
                             )}
-                          </a>
-                        </Link>
-                      </div>
-                      <div className="recent-bus-content">
-                        <h5 className="property-listing-type">
-                          <Link
-                            to={`/property/${item.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${item.pro_ad_type.replace(
-                              " ",
-                              "-"
-                            )}_${item.pro_id}`}
-                          >
-                            <a className="text-wrap">
-                              {item.pro_type.split(",")[0]} for{" "}
-                              {item.pro_ad_type === "Rent" ? "Rent" : "Sale"} in{" "}
-                              <span className="text-capitalize">
-                                {item.pro_locality}
-                              </span>
-                              ,&nbsp;
-                              {item.pro_city}
-                            </a>
                           </Link>
-                        </h5>
-                        <ul>
-                          <li className="text-capitalize">
-                            <img
-                              src="/img/location.png"
-                              className="property-slider-icon"
-                            />
-                            <strong className="frontPropIcon"></strong>
-                            {item.pro_locality},&nbsp;
-                            {item.pro_city}
-                          </li>
-                          {item.pro_width ? (
-                            <li>
-                              <img
-                                src="/img/meter.png"
-                                className="property-slider-icon"
-                              />
-                              <strong className="frontPropIcon">
-                                Dimension&nbsp;
-                              </strong>
-                              ({item.pro_width} Feet * {item.pro_length} Feet)
-                            </li>
-                          ) : (
-                            ""
-                          )}
-                          <li>
-                            <img
-                              src="/img/rupee.png"
-                              className="property-slider-icon"
-                            />
-                            <strong className="frontPropIcon">Price </strong>
-                            &nbsp;{"₹" + item.pro_amt + " " + item.pro_amt_unit}
-                          </li>
+                        </div>
+                      </div>
 
-                          <li>
-                            <img
-                              src="/img/facing.png"
-                              className="property-slider-icon"
-                            />
-                            <strong className="frontPropIcon">
-                              Property Facing
-                            </strong>
-                            &nbsp;{item.pro_facing}
-                          </li>
-                        </ul>
-                        <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
-                            "-"
-                          )}_${item.pro_id}`}
-                        >
-                          <a title="View More" className="btn-viewmore">
-                            View More
-                          </a>
-                        </Link>
+                      <div className="col" style={{ minWidth: 0 }}>
+                        <div className="recent-box-serv">
+                          <div className="recent-bus-content">
+                            <div className="property-listing-type">
+                              <Link
+                                to={`/property/${object.pro_type
+                                  .split(",")[0]
+                                  .replace(
+                                    " ",
+                                    "-"
+                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  object.pro_id
+                                }`}
+                              >
+                                <span className="text-wrap text-bold">
+                                  {object.pro_type.split(",")[0]} for{" "}
+                                  {object.pro_ad_type === "Rent"
+                                    ? "Rent"
+                                    : "Sale"}{" "}
+                                  in{" "}
+                                  <span className="text-capitalize">
+                                    {object.pro_locality}
+                                  </span>
+                                  ,&nbsp;
+                                  {object.pro_city}
+                                </span>
+                              </Link>
+                            </div>
+                            <ul>
+                              <li className="text-capitalize">
+                                <img
+                                  src="/img/location.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon"></strong>
+                                {object.pro_locality},&nbsp;
+                                {object.pro_city}
+                              </li>
+                              {object.pro_width ? (
+                                <li>
+                                  <img
+                                    src="/img/meter.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Dimension&nbsp;
+                                  </strong>
+                                  ({object.pro_width} Feet * {object.pro_length}{" "}
+                                  Feet)
+                                </li>
+                              ) : (
+                                ""
+                              )}
+                              <li>
+                                <img
+                                  src="/img/rupee.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon">
+                                  Price{" "}
+                                </strong>
+                                &nbsp;
+                                {"₹" +
+                                  object.pro_amt +
+                                  " " +
+                                  object.pro_amt_unit}
+                              </li>
+
+                              <li>
+                                <img
+                                  src="/img/facing.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon">
+                                  Property Facing
+                                </strong>
+                                &nbsp;{object.pro_facing}
+                              </li>
+                            </ul>
+                            <Link
+                              to={`/property/${object.pro_type
+                                .split(",")[0]
+                                .replace(
+                                  " ",
+                                  "-"
+                                )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                object.pro_id
+                              }`}
+                            >
+                              <a title="View More" className="btn-viewmore">
+                                View More
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
