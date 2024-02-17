@@ -26,6 +26,7 @@ import Admin from "./pages/admin/Admin";
 import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
 import { AdminContext } from "./context/AdminContext";
 import AdminLogin from "./pages/adminLogin/AdminLogin";
+import AdminInterest from "./pages/adminInterest/AdminInterest";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -163,6 +164,10 @@ const App = () => {
         {
           path: "dashboard",
           element: <AdminDashboard />,
+        },
+        {
+          path: "interested",
+          element: <AdminInterest />,
         },
       ],
     },

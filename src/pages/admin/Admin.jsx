@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { IconLogout, IconMenu, IconUser } from "@tabler/icons-react";
+import { IconLogout, IconMenu, IconSend, IconUser } from "@tabler/icons-react";
 import { useContext, useEffect } from "react";
 import { AdminContext } from "../../context/AdminContext";
 
@@ -46,7 +46,15 @@ const Admin = () => {
                     </a>
                   </Link>
                 </li>
-                <li onClick={logout}>
+                <li>
+                  <Link to="/admin/interested">
+                    <a title="Interested">
+                      <IconSend />
+                      <span>Interested</span>
+                    </a>
+                  </Link>
+                </li>
+                <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout />
                     <span>Logout</span>

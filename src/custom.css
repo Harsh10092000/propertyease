@@ -15478,3 +15478,6 @@ input[type="file"] {
   background-color: #ca2e2e;
   border-radius: 5px;
 }
+.pointer{
+  cursor: pointer;
+}
