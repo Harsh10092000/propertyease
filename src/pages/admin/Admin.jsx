@@ -1,0 +1,67 @@
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { IconLogout, IconMenu, IconUser } from "@tabler/icons-react";
+import { useContext, useEffect } from "react";
+import { AdminContext } from "../../context/AdminContext";
+
+const Admin = () => {
+  const { clearAdmin } = useContext(AdminContext);
+  const logout = () => {
+    localStorage.removeItem("admin");
+    clearAdmin();
+  };
+  return (
+    <div>
+      <div className="studentLayout">
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="brand">
+            <Link to="/admin/dashboard">
+              <img
+                src="/images/logo.png"
+                alt="Propertyease Logo"
+                className="img-responsive logo-only-mobile"
+              />
+            </Link>
+          </div>
+        </nav>
+        <a to="#" className="mobile-menu">
+          <span>
+            <IconMenu />
+          </span>
+          MENU
+        </a>
+        <div id="sidebar-nav" className={"sidebar mobile-show"}>
+          <div className="sidebar-scroll">
+            <div className="brand">
+              <Link to="/">
+                <img src="/images/white-logo.png" alt="coursemetnor Logo" />
+              </Link>
+            </div>
+            <nav>
+              <ul className="nav">
+                <li>
+                  <Link to="/admin/dashboard">
+                    <a title="Dashboard">
+                      <IconUser />
+                      <span>Dashboard</span>
+                    </a>
+                  </Link>
+                </li>
+                <li onClick={logout}>
+                  <a title="Logout">
+                    <IconLogout />
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div className="mainmain">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default Admin;

@@ -22,6 +22,10 @@ import AddProperty from "./pages/addProperty/AddProperty";
 import SubCat from "./pages/subCat/SubCat";
 import EditProperty from "./pages/editProperty/EditProperty";
 import NotFound from "./pages/notfound/NotFound";
+import Admin from "./pages/admin/Admin";
+import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
+import { AdminContext } from "./context/AdminContext";
+import AdminLogin from "./pages/adminLogin/AdminLogin";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -33,6 +37,7 @@ const ScrollToTop = () => {
 
 const App = () => {
   const { currentUser } = useContext(AuthContext);
+  const { admin } = useContext(AdminContext);
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/login" />;
@@ -42,6 +47,18 @@ const App = () => {
   const Unprotected = ({ children }) => {
     if (currentUser) {
       return <Navigate to="/user/dashboard" />;
+    }
+    return children;
+  };
+  const ProtectedAdmin = ({ children }) => {
+    if (!admin) {
+      return <Navigate to="/adminlogin" />;
+    }
+    return children;
+  };
+  const UnprotectedAdmin = ({ children }) => {
+    if (admin) {
+      return <Navigate to="/admin/dashboard" />;
     }
     return children;
   };
@@ -125,6 +142,29 @@ const App = () => {
           <EditProperty />
         </ProtectedRoute>
       ),
+    },
+    {
+      path: "/adminlogin",
+
+      element: (
+        <UnprotectedAdmin>
+          <AdminLogin />
+        </UnprotectedAdmin>
+      ),
+    },
+    {
+      path: "/admin",
+      element: (
+        <ProtectedAdmin>
+          <Admin />
+        </ProtectedAdmin>
+      ),
+      children: [
+        {
+          path: "dashboard",
+          element: <AdminDashboard />,
+        },
+      ],
     },
   ]);
   return (

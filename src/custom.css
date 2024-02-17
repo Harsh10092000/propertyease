@@ -15419,18 +15419,6 @@ input[type="file"] {
   color: white;
   gap: 4px;
 }
-/* .shortlist {
-  background-color: #007bff;
-  padding: 10px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  gap: 4px;
-  font-size: 12px;
-} */
 .shortlist {
   padding: 5px;
   border: 1px solid lightgrey;
@@ -15475,4 +15463,18 @@ input[type="file"] {
   color: white;
   gap: 4px;
   cursor: not-allowed !important;
+}
+.view {
+  border: none;
+  padding: 5px;
+  color: white;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+.del {
+  border: none;
+  padding: 5px;
+  color: white;
+  background-color: #ca2e2e;
+  border-radius: 5px;
 }
