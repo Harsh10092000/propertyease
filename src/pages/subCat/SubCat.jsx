@@ -4,11 +4,18 @@ import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import Pagination from "@mui/material/Pagination";
 
 const SubCat = () => {
   const { cat } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
+  const records = data.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(
@@ -35,10 +42,15 @@ const SubCat = () => {
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{cat}</h2>
+              <Pagination
+                count={nPages}
+                color="primary"
+                onChange={(e, value) => setCurrentPage(value)}
+              />
             </div>
             <div className="row">
               <div className="col-md-9">
-                {data.map((object, index) => (
+                {records.map((object, index) => (
                   <div className="list-group" key={index}>
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">

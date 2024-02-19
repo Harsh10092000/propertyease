@@ -956,7 +956,9 @@ section.find-services h3 {
   font-weight: 700;
 }
 footer {
-  background-color: #005293;
+  border: 1px solid #4f4f4f;
+  text-align: center;
+  background-color: #191919;
   padding: 34px 0;
 }
 footer p {
@@ -1031,7 +1033,7 @@ span.featured-list {
   padding-left: 0;
 }
 .sub-categories .panel ul li {
-  list-style: square;
+  list-style: none;
 }
 .sub-categories .panel ul li a:hover {
   color: #15a7de;
@@ -1645,7 +1647,7 @@ section.main-content ul {
 section.main-content ul li {
   line-height: 26px;
   color: #262626;
-  list-style: square;
+  list-style: none;
   margin-bottom: 16px;
 }
 .main-title ol.breadcrumb {
@@ -2812,7 +2814,7 @@ section.search-block {
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  box-shadow: 0 5px 22px #ccc;
+  box-shadow: 0 16px 22px #ccc;
   z-index: 3;
 }
 .footer-bottom ul li {
@@ -15478,6 +15480,44 @@ input[type="file"] {
   background-color: #ca2e2e;
   border-radius: 5px;
 }
-.pointer{
+.pointer {
   cursor: pointer;
+}
+.categores-displays ul li a {
+  color: white;
+}
+.categores-displays ul li {
+  list-style: none;
+}
+.categores-displays p {
+  color: white;
+  font-size: 14px;
+}
+.categores-displays a {
+  color: white;
+  font-size: 14px;
+}
+.categores-displays ul {
+  margin-left: -36px;
+}
+.categores-displays h4 {
+  padding-top: 30px;
+  color: white;
+  font-size: 18px;
+}
+.social_icon-f {
+  text-align: right;
+}
+.social_icon_f ul li {
+  float: left;
+}
+.footer-logo {
+  margin-bottom: 10px;
+}
+section.find-services {
+  /* background-repeat: no-repeat; */
+  background: url("/images/footer-bg.jpg") no-repeat center bottom;
+  clear: both;
+  padding: 38px 0;
+  background-color: #191919;
 }

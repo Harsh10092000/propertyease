@@ -1,12 +1,10 @@
 import {
   IconBrandFacebook,
   IconBrandInstagram,
-  IconBuilding,
   IconCurrencyDollar,
   IconDeviceMobile,
   IconGlobe,
   IconHome,
-  IconMapPinFilled,
   IconPhone,
   IconScale,
   IconSchool,
@@ -210,22 +208,97 @@ const Footer = () => {
       </Dialog>
       <section className="find-services">
         <div className="container">
-          <div className="section-title">
-            <h3>Find by Categories</h3>
-          </div>
           <div className="row">
-            <div className="col-md-12">
-              <div className="categores-display">
-                <h6>
-                  <Link to="/listing/Residential">
-                    <a>
-                      <span>
-                        <IconHome className="sidebar-faicon" />
-                      </span>
-                      Residential / Plots
-                    </a>
+            <div className="col-md-3">
+              <div className="categores-displays">
+                <div className="footer-logo">
+                  <Link to="/">
+                    <span className="logo">
+                      <img src="/images/footer-white-logo.png" alt="logo" />
+                    </span>
                   </Link>
-                </h6>
+                </div>
+                {
+                  // <p>All the information displayed is as posted by the User and displayed on the website for informational purposes only. Propertyease.in makes no representations and warranties of any kind, whether expressed or implied, for the Services and in relation to the accuracy or quality of any information transmitted or obtained at Propertyease.in. You are hereby strongly advised to verify all information including visiting the relevant authorities before taking any decision based on the contents displayed on the website.</p>
+                }
+                <p>
+                  All the information displayed is as posted by the User and
+                  displayed on the website for informational purposes only.
+                  Propertyease.in
+                </p>
+                <div className="social_icon_f">
+                  <ul>
+                    <li>
+                      <div>
+                        <a
+                          title="facebook"
+                          rel="noreferrer nofollow"
+                          href="https://www.facebook.com/Propertyease.in/"
+                          target="_blank"
+                        >
+                          <IconBrandFacebook />
+                        </a>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <a
+                          title="Instagram"
+                          rel="noreferrer nofollow"
+                          href="https://www.instagram.com/propertyease.in/"
+                          target="_blank"
+                        >
+                          <IconBrandInstagram />
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div className="categores-displays">
+                <h4>Corporate Links</h4>
+                <ul>
+                  <li>
+                    <Link to="/about">
+                      <a title="contactus">About Us</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      title="Click to view kurukshetra collector rates 2024-25"
+                      href={`/DC-Rates-2024-25.pdf`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      DC Rates 2024-25
+                    </a>
+                  </li>
+                  <li>
+                    <Link to="/termsAndConditions">
+                      <a title="contactus">Terms &amp; Conditions</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/privacypolicy">
+                      <a title="contactus">Privacy Policy</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href="/documentsneededtobuyproperty.pdf"
+                      title="Documents Needed to buy Property"
+                    >
+                      Documents Needed To Buy Property
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div className="categores-displays">
+                <h4>Residential / Plots</h4>
                 <ul>
                   <li>
                     <Link to="/subCat/Apartment">
@@ -264,17 +337,10 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="categores-display">
-                <h6>
-                  <Link to="/listing/Plot">
-                    <a>
-                      <span>
-                        <IconMapPinFilled className="sidebar-faicon" />
-                      </span>
-                      Land
-                    </a>
-                  </Link>
-                </h6>
+            </div>
+            <div className="col-md-2">
+              <div className="categores-displays">
+                <h4>Land</h4>
                 <ul>
                   <li>
                     <Link to="/subCat/Residential Land">
@@ -303,17 +369,10 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div className="categores-display">
-                <h6>
-                  <Link to="/listing/Commercial">
-                    <a>
-                      <span>
-                        <IconBuilding className="sidebar-faicon" />
-                      </span>
-                      Commercial
-                    </a>
-                  </Link>
-                </h6>
+            </div>
+            <div className="col-md-3">
+              <div className="categores-displays">
+                <h4>Commercial</h4>
                 <ul>
                   <li>
                     <Link to="/subCat/Retail Showroom">
@@ -354,41 +413,11 @@ const Footer = () => {
       <footer>
         <div className="container">
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-12">
               <p>
                 Copyright © {new Date().getFullYear()} Propertyease -
                 Information. All Rights Reserved
               </p>
-            </div>
-            <div className="col-md-4">
-              <div className="social_icons botom">
-                <ul>
-                  <li>
-                    <div>
-                      <a
-                        title="facebook"
-                        rel="noreferrer nofollow"
-                        href="https://www.facebook.com/Propertyease.in/"
-                        target="_blank"
-                      >
-                        <IconBrandFacebook />
-                      </a>
-                    </div>
-                  </li>
-                  <li>
-                    <div>
-                      <a
-                        title="Instagram"
-                        rel="noreferrer nofollow"
-                        href="https://www.instagram.com/propertyease.in/"
-                        target="_blank"
-                      >
-                        <IconBrandInstagram />
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
           <div className="row">
@@ -420,23 +449,33 @@ const Footer = () => {
                       <a title="contactus">Privacy Policy</a>
                     </Link>
                   </li>
+                  <li>
+                    <a
+                      href="/documentsneededtobuyproperty.pdf"
+                      title="contactus"
+                    >
+                      Documents Needed To Buy Property
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="Disclaimer">
-            <p className="Disclaimer-content">
-              All the information displayed is as posted by the User and
-              displayed on the website for informational purposes only.
-              Propertyease.in makes no representations and warranties of any
-              kind, whether expressed or implied, for the Services and in
-              relation to the accuracy or quality of any information transmitted
-              or obtained at Propertyease.in. You are hereby strongly advised to
-              verify all information including visiting the relevant authorities
-              before taking any decision based on the contents displayed on the
-              website.
-            </p>
-          </div>
+          {
+            // <div className="Disclaimer">
+            //   <p className="Disclaimer-content">
+            //     All the information displayed is as posted by the User and
+            //     displayed on the website for informational purposes only.
+            //     Propertyease.in makes no representations and warranties of any
+            //     kind, whether expressed or implied, for the Services and in
+            //     relation to the accuracy or quality of any information transmitted
+            //     or obtained at Propertyease.in. You are hereby strongly advised to
+            //     verify all information including visiting the relevant authorities
+            //     before taking any decision based on the contents displayed on the
+            //     website.
+            //   </p>
+            // </div>
+          }
         </div>
         <div className="footer-bottom">
           <h5>Complete Support</h5>
