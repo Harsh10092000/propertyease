@@ -161,7 +161,7 @@ const Property = () => {
               ? import.meta.env.VITE_BACKEND +
                 "/propertyImages/watermark/" +
                 images[0].img_link
-              : "/images/no-image-available-icon-vector.jpg"
+              : "/images/default.png"
           }
         />
       </Helmet>
@@ -364,7 +364,7 @@ const Property = () => {
                               />
                             ) : (
                               <img
-                                src="/images/no-image-available-icon-vector.jpg"
+                                src="/images/default.png"
                                 alt="No Image"
                                 width={550}
                                 height={550}

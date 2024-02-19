@@ -59,10 +59,7 @@ const SubCat = () => {
                                 alt="img"
                               />
                             ) : (
-                              <img
-                                src="/images/no-image-available-icon-vector.jpg"
-                                alt="no image"
-                              />
+                              <img src="/images/default.png" alt="no image" />
                             )}
                           </Link>
                         </div>

@@ -27,6 +27,8 @@ import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
 import { AdminContext } from "./context/AdminContext";
 import AdminLogin from "./pages/adminLogin/AdminLogin";
 import AdminInterest from "./pages/adminInterest/AdminInterest";
+import NriService from "./pages/nriService/NriService";
+import AdminUsers from "./pages/adminUsers/AdminUsers";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -169,7 +171,15 @@ const App = () => {
           path: "interested",
           element: <AdminInterest />,
         },
+        {
+          path: "allUsers",
+          element: <AdminUsers />,
+        },
       ],
+    },
+    {
+      path: "/nriService",
+      element: <NriService />,
     },
   ]);
   return (
