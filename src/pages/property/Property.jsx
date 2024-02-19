@@ -63,7 +63,7 @@ const Property = () => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`)
       .then((res) => {
-        setImages(res.data);
+        setImages([...res.data, { img_link: "default.png" }]);
       });
     checkShortlist();
     checkInterested();
@@ -134,6 +134,7 @@ const Property = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <div>
       <Helmet>

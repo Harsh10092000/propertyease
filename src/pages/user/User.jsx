@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IconStarFilled } from "@tabler/icons-react";
+import { IconLogout, IconStarFilled } from "@tabler/icons-react";
 import { IconBuilding, IconCategory, IconEye } from "@tabler/icons-react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -118,6 +118,12 @@ const User = () => {
                       <span>Shortlisted</span>
                     </a>
                   </Link>
+                </li>
+                <li onClick={logout} className="pointer">
+                  <a title="Logout">
+                    <IconLogout className="sidebar-faicon" />
+                    <span>Logout</span>
+                  </a>
                 </li>
               </ul>
             </nav>

@@ -47,7 +47,7 @@ const EmblaCarousel = (props) => {
                   "/propertyImages/watermark/" +
                   item.img_link
                 }
-                alt="Your alt text"
+                alt="Propertyease"
               />
             </div>
           ))}
