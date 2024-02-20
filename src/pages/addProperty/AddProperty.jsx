@@ -243,7 +243,7 @@ const AddProperty = () => {
 
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
-  const maxFileSize = 2000000;
+  const maxFileSize = 1000000;
   const minFileSize = 10000;
 
   const [selectedFiles, setSelectedFiles] = useState(null);
@@ -1504,7 +1504,7 @@ const AddProperty = () => {
                         <div>
                           {formatError ? "Invalid Format" : ""}
                           {fileSizeExceeded
-                            ? "File size must be greater than 10KB and less than 2MB"
+                            ? "File size must be greater than 10KB and less than 1MB"
                             : ""}
                         </div>
                       </div>

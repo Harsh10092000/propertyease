@@ -37,7 +37,10 @@ const AllProperties = () => {
         <section className="main-content">
           <div className="container">
             <div className="title">
-              <h2>All Property</h2>
+              <h2>
+                All Properties{" "}
+                <span className="numberProperties">{data.length}</span>
+              </h2>
               <Pagination
                 count={nPages}
                 color="primary"

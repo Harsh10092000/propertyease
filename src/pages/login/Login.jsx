@@ -190,7 +190,7 @@ const Login = () => {
 
                 {otpRequet && err === null && (
                   <div className="editOtp">
-                    <div>{otpf ? "OTP sent" : err}</div>
+                    <div>{otpf ? "Check Mail for OTP" : err}</div>
                     <div
                       onClick={() => (
                         setOtpRequet(false),
@@ -261,7 +261,7 @@ const Login = () => {
                         {seconds < 10 ? `0${seconds}` : seconds}
                       </p>
                     ) : (
-                      <p>Didn't recieve code?</p>
+                      <p>Didn't recieve OTP?</p>
                     )}
                   </div>
                 ) : (
@@ -289,7 +289,7 @@ const Login = () => {
                       onClick={fetchOtp}
                       disabled={timer === true ? true : false}
                     >
-                      Resend Otp
+                      Resend OTP
                     </button>
                   </div>
                 )}

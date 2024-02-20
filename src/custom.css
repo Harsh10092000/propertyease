@@ -271,7 +271,7 @@ header.sticky-header {
 header {
   box-shadow: rgba(13, 109, 253, 0.25) 0 25px 50px -10px;
   padding: 10px 0;
-  position: absolute;
+  position: sticky;
   z-index: 99;
   top: 0;
   width: 100%;
@@ -1580,7 +1580,6 @@ span.select-unit {
   clear: both;
   min-height: 690px;
   padding: 25px 0;
-  margin-top: 100px;
 }
 .box:hover,
 .main-title {
@@ -15520,4 +15519,10 @@ section.find-services {
   clear: both;
   padding: 38px 0;
   background-color: #191919;
+}
+.numberProperties {
+  border-radius: 25%;
+  background: #0087ff36;
+  font-size: 15px;
+  padding: 5px 15px;
 }
