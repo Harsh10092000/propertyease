@@ -2870,6 +2870,7 @@ section.search-block {
 div#dynamic {
   padding-bottom: 12px;
   width: 100%;
+  z-index: 100;
 }
 a.btn-resiter-earing {
   display: block;
@@ -3866,7 +3867,7 @@ label.labelErr > span {
   margin: 0 !important;
   border-radius: 8px;
   position: relative;
-  min-width: 350px;
+  max-width: 520px;
 }
 .doc_choice button.btn.btn-secondary {
   background-color: #fff;
