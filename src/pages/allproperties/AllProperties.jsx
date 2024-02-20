@@ -38,7 +38,7 @@ const AllProperties = () => {
           <div className="container">
             <div className="title">
               <h2>
-                All Properties{" "}
+                All Properties
                 <span className="numberProperties">{data.length}</span>
               </h2>
               <Pagination

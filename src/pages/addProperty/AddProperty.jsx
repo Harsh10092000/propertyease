@@ -300,7 +300,6 @@ const AddProperty = () => {
       propertyData.pro_type !== "" &&
       propertyData.pro_city !== "" &&
       propertyData.pro_locality !== "" &&
-      propertyData.pro_street !== "" &&
       propertyData.pro_pincode.length > 5
     ) {
       setStep2Disabled(false);
@@ -311,7 +310,6 @@ const AddProperty = () => {
     propertyData.pro_type,
     propertyData.pro_city,
     propertyData.pro_locality,
-    propertyData.pro_street,
     propertyData.pro_pincode,
   ]);
 
@@ -643,7 +641,9 @@ const AddProperty = () => {
                               <MenuItem value="Rent">Rent</MenuItem>
                             </Select>
                             {propertyData.pro_ad_type === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
 
@@ -670,7 +670,9 @@ const AddProperty = () => {
                               <MenuItem value="Owner">Owner</MenuItem>
                             </Select>
                             {propertyData.pro_user_type === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </div>
@@ -684,6 +686,7 @@ const AddProperty = () => {
                           label="Email"
                           className="w-full"
                           name="Email"
+                          FormHelperTextProps={{ sx: { color: "red" } }}
                           //inputProps={{ maxLength: 60 }}
                           helperText={
                             state.emailFormatError !== false
@@ -811,7 +814,9 @@ const AddProperty = () => {
                             </optgroup>
                           </Select>
                           {propertyData.pro_type === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
 
@@ -868,7 +873,9 @@ const AddProperty = () => {
                             ))}
                           </Select>
                           {propertyData.pro_state === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
 
@@ -905,13 +912,15 @@ const AddProperty = () => {
                           </Select>
                           {propertyData.pro_city === "" &&
                             propertyData.pro_state === "" && (
-                              <FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
                                 Select State to add City
                               </FormHelperText>
                             )}
                           {propertyData.pro_city === "" &&
                             propertyData.pro_state !== "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                         </FormControl>
                       </div>
@@ -927,6 +936,7 @@ const AddProperty = () => {
                           name="Enter Locality"
                           inputProps={{ maxLength: 50 }}
                           value={propertyData.pro_locality}
+                          FormHelperTextProps={{ sx: { color: "red" } }}
                           helperText={
                             propertyData.pro_locality === "" ? "Required" : ""
                           }
@@ -958,9 +968,6 @@ const AddProperty = () => {
                           name="Complete Address"
                           inputProps={{ maxLength: 100 }}
                           value={propertyData.pro_street}
-                          helperText={
-                            propertyData.pro_street === "" ? "Required" : ""
-                          }
                           onChange={(e) =>
                             setPropertyData({
                               ...propertyData,
@@ -983,6 +990,7 @@ const AddProperty = () => {
                           className="w-full"
                           name="Pin Code"
                           inputProps={{ maxLength: 6 }}
+                          FormHelperTextProps={{ sx: { color: "red" } }}
                           value={propertyData.pro_pincode}
                           helperText={
                             propertyData.pro_pincode.length < 6
@@ -1049,7 +1057,9 @@ const AddProperty = () => {
                             <MenuItem value={"10+"}>10+</MenuItem>
                           </Select>
                           {propertyData.pro_age === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
                         <FormControl
@@ -1077,7 +1087,9 @@ const AddProperty = () => {
                             <MenuItem value={"4"}>4</MenuItem>
                           </Select>
                           {propertyData.pro_open_sides === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
                       </div>
@@ -1110,7 +1122,9 @@ const AddProperty = () => {
                               <MenuItem value={"5+"}>5+</MenuItem>
                             </Select>
                             {propertyData.pro_bedroom === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
 
@@ -1141,7 +1155,9 @@ const AddProperty = () => {
                               <MenuItem value={"5+"}>5+</MenuItem>
                             </Select>
                             {propertyData.pro_washrooms === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </div>
@@ -1176,7 +1192,9 @@ const AddProperty = () => {
                               <MenuItem value={"5+"}>5+</MenuItem>
                             </Select>
                             {propertyData.pro_balcony === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
 
@@ -1207,7 +1225,9 @@ const AddProperty = () => {
                               <MenuItem value={"5+"}>5+</MenuItem>
                             </Select>
                             {propertyData.pro_parking === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </div>
@@ -1242,7 +1262,9 @@ const AddProperty = () => {
                             <MenuItem value={"North-West"}>North-West</MenuItem>
                           </Select>
                           {propertyData.pro_facing === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
 
@@ -1273,7 +1295,9 @@ const AddProperty = () => {
                             </MenuItem>
                           </Select>
                           {propertyData.pro_possession === "" && (
-                            <FormHelperText>Required</FormHelperText>
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
                           )}
                         </FormControl>
                       </div>
@@ -1436,7 +1460,9 @@ const AddProperty = () => {
                               <MenuItem value={"5+"}>5+</MenuItem>
                             </Select>
                             {propertyData.pro_floor === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
 
@@ -1470,7 +1496,9 @@ const AddProperty = () => {
                               </MenuItem>
                             </Select>
                             {propertyData.pro_furnishing === "" && (
-                              <FormHelperText>Required</FormHelperText>
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </div>
@@ -1759,6 +1787,7 @@ const AddProperty = () => {
                           name="Expected Amount"
                           inputProps={{ maxLength: 10 }}
                           value={propertyData.pro_amt}
+                          FormHelperTextProps={{ sx: { color: "red" } }}
                           helperText={
                             propertyData.pro_amt < 1 ? "Enter Valid Amount" : ""
                           }
@@ -1807,6 +1836,7 @@ const AddProperty = () => {
                           name="Property Description"
                           inputProps={{ maxLength: 100 }}
                           value={propertyData.pro_desc}
+                          FormHelperTextProps={{ sx: { color: "red" } }}
                           InputProps={{
                             rows: 5,
                           }}

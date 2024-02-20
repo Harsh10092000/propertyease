@@ -489,7 +489,7 @@ const EditProperty = () => {
                             </div>
                           </div>
 
-                          <div className="btn-con ">
+                          <div className="d-flex justify-content-end">
                             <button
                               className="btn btn-primary"
                               disabled={step1Disabled}
@@ -806,7 +806,7 @@ const EditProperty = () => {
                               required
                             />
                           </div>
-                          <div className="btn-con ">
+                          <div className="d-flex justify-content-between ">
                             {activeStep > 0 ? (
                               <button className="btn" onClick={handleBackStep}>
                                 Back
@@ -1340,7 +1340,7 @@ const EditProperty = () => {
                             </div>
                           </div>
 
-                          <div className="btn-con ">
+                          <div className="d-flex justify-content-between">
                             {activeStep > 0 ? (
                               <button className="btn" onClick={handleBackStep}>
                                 Back
@@ -1656,7 +1656,7 @@ const EditProperty = () => {
                             />
                           </div>
 
-                          <div className="btn-con ">
+                          <div className="d-flex justify-content-between">
                             {activeStep > 0 ? (
                               <button className="btn" onClick={handleBackStep}>
                                 Back

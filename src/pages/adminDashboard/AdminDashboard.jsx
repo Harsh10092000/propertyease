@@ -3,11 +3,18 @@ import axios from "axios";
 import { IconEye, IconTrashFilled } from "@tabler/icons-react";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
 
 const AdminDashboard = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [change, setChange] = useState(0);
   const [snack, setSnack] = useState(false);
+  const records = data.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/admin/fetchAll")
@@ -42,7 +49,14 @@ const AdminDashboard = () => {
         message={"Deleted Successfully"}
       />
       <div className="card-body table-border-style">
-        <h1>All Properties</h1>
+        <h1>
+          All Properties
+          <Pagination
+            count={nPages}
+            color="primary"
+            onChange={(e, value) => setCurrentPage(value)}
+          />
+        </h1>
         <div className="table-responsive">
           <table className="table table-hover">
             <thead>
@@ -58,7 +72,7 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
+              {records.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item.pro_ad_type}</td>
