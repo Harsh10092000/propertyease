@@ -212,7 +212,6 @@ const EditProperty = () => {
       propertyData.pro_type !== "" &&
       propertyData.pro_city !== "" &&
       propertyData.pro_locality !== "" &&
-      propertyData.pro_street !== "" &&
       propertyData.pro_pincode.length > 5
     ) {
       setStep2Disabled(false);
@@ -223,7 +222,6 @@ const EditProperty = () => {
     propertyData.pro_type,
     propertyData.pro_city,
     propertyData.pro_locality,
-    propertyData.pro_street,
     propertyData.pro_pincode,
   ]);
 
