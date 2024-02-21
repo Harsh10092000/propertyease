@@ -977,7 +977,6 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          required
                         />
                       </div>
                       <div>
