@@ -1,4 +1,4 @@
-import { IconSend, IconShare3, IconStarFilled } from "@tabler/icons-react";
+import { IconSend, IconShare3, IconStarFilled, IconBrandWhatsapp,IconBrandFacebook  } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -257,7 +257,8 @@ const Property = () => {
                       className={sticky ? "top newClass" : "top"}
                       id="dynamic"
                     >
-                      <h1 className="capitalize p-2 pl-md-0 d-flex gap-3 align-items-center">
+                      <div className="d-flex flex-column" style={{gap:"0"}}>
+                      <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center">
                         {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                         {data.pro_ad_type === "New"
                           ? " Sale"
@@ -270,9 +271,10 @@ const Property = () => {
                               className={
                                 shortlist ? "shortlisted" : "shortlist"
                               }
-                              title="Shortlist this property"
+                              title="Shortlisted"
                               onClick={shortlistProperty}
                             >
+                              
                               <IconStarFilled className="shortlistIcon" />
                             </button>
                           )
@@ -286,6 +288,8 @@ const Property = () => {
                           </button>
                         )}
                       </h1>
+                      <span className="listed">Listed by {" "+data.pro_user_type}</span>
+                      </div>
                       <div className="property-top-address pl-3 pl-md-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
@@ -296,7 +300,8 @@ const Property = () => {
                             {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
                         </div>
-                        <div className="d-flex gap-3 align-items-center">
+                        
+                        <div className="d-flex gap-2 align-items-center">
                           {currentUser ? (
                             data.pro_user_id == currentUser[0].login_id ? (
                               ""
@@ -304,12 +309,13 @@ const Property = () => {
                               <>
                                 {interested ? (
                                   <button
-                                    className="interested"
-                                    title="Show Interest"
+                                    className="interest"
+                                    title="Already Contacted"
+                                    onClick={askQuestion}
                                   >
                                     <IconSend />
                                     <span className="mobile-hidden">
-                                      Already Interested
+                                      Already Contacted
                                     </span>
                                   </button>
                                 ) : (
@@ -320,7 +326,7 @@ const Property = () => {
                                   >
                                     <IconSend />
                                     <span className="mobile-hidden">
-                                      Show Interest
+                                      Contact Us
                                     </span>
                                   </button>
                                 )}
@@ -339,7 +345,7 @@ const Property = () => {
                                 </span>
                               </button>
                             </>
-                          )}{" "}
+                          )}
                           <button className="fb">
                             <a
                               rel="noreferrer nofollow"
@@ -347,11 +353,26 @@ const Property = () => {
                               target="_blank"
                               className="share-property"
                             >
-                              <IconShare3 />
-                              <span className="mobile-hidden ml-1">Share</span>
+                              <IconBrandFacebook />
+                              <span className="mobile-hidden">Share</span>
+                            </a>
+                          </button>
+                          <button className="wp">
+                            <a
+                              rel="noreferrer nofollow"
+                              href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
+                              target="_blank"
+                              className="share-propertywp"
+                            >
+                              <IconBrandWhatsapp />
+                              <span className="mobile-hidden">Share</span>
                             </a>
                           </button>
                         </div>
+
+
+
+
                       </div>
                     </div>
                     <div className="row">

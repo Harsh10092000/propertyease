@@ -81,7 +81,7 @@ const EditProperty = () => {
     pro_possession: "",
     pro_sub_cat: "",
     pro_user_id: "",
-    pro_area_size_unit: "Yards",
+    pro_area_size_unit: "Acres",
     pro_facing_road_unit: "Feet",
 
     pro_amt_unit: "Lakhs",
@@ -109,9 +109,9 @@ const EditProperty = () => {
           pro_street: res.data[0].pro_street,
           pro_age: res.data[0].pro_age,
           pro_floor: res.data[0].pro_floor,
-          pro_bedroom: res.data[0].pro_bedroom,
+          pro_bedroom: res.data[0].pro_bedroom === 0 ? "" : res.data[0].pro_bedroom,
 
-          pro_washrooms: res.data[0].pro_washrooms,
+          pro_washrooms: res.data[0].pro_washrooms === 0 ? "" : res.data[0].pro_washrooms,
           pro_balcony: res.data[0].pro_balcony,
           pro_parking: res.data[0].pro_parking,
           pro_facing: res.data[0].pro_facing,
@@ -132,7 +132,7 @@ const EditProperty = () => {
           pro_possession: res.data[0].pro_possession,
           pro_area_size_unit: res.data[0].pro_area_size_unit
             ? res.data[0].pro_area_size_unit
-            : "Yards",
+            : "Acres",
           pro_facing_road_unit: res.data[0].pro_facing_road_unit
             ? res.data[0].pro_facing_road_unit
             : "Feet",
@@ -293,7 +293,8 @@ const EditProperty = () => {
     if (
       propertyData.pro_ownership_type !== "" &&
       propertyData.pro_approval !== "" &&
-      propertyData.pro_amt > 0
+      propertyData.pro_amt > 0 && 
+      (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000)
     ) {
       setSubmitDisabled(false);
     } else {
@@ -303,6 +304,7 @@ const EditProperty = () => {
     propertyData.pro_ownership_type,
     propertyData.pro_approval,
     propertyData.pro_amt,
+    propertyData.pro_desc,
   ]);
 
   const handleClick = () => {
@@ -441,6 +443,7 @@ const EditProperty = () => {
                                   labelId="demo-simple-select-label"
                                   id="demo-simple-select"
                                   value={propertyData.pro_ad_type}
+                                  
                                   label="Ad Type"
                                   onChange={(e) =>
                                     setPropertyData({
@@ -454,7 +457,7 @@ const EditProperty = () => {
                                   <MenuItem value="Rent">Rent</MenuItem>
                                 </Select>
                                 {propertyData.pro_ad_type === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
 
@@ -469,6 +472,7 @@ const EditProperty = () => {
                                   labelId="demo-simple-select-label"
                                   id="demo-simple-select"
                                   value={propertyData.pro_user_type}
+                                  
                                   label="Are you an ?"
                                   onChange={(e) =>
                                     setPropertyData({
@@ -481,7 +485,7 @@ const EditProperty = () => {
                                   <MenuItem value="Owner">Owner</MenuItem>
                                 </Select>
                                 {propertyData.pro_user_type === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
                             </div>
@@ -519,6 +523,7 @@ const EditProperty = () => {
                                 defaultValue=""
                                 id="grouped-native-select"
                                 label="Property Type"
+                                
                                 onChange={(e) =>
                                   setPropertyData({
                                     ...propertyData,
@@ -604,7 +609,7 @@ const EditProperty = () => {
                                 </optgroup>
                               </Select>
                               {propertyData.pro_type === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
 
@@ -618,9 +623,7 @@ const EditProperty = () => {
                               name="Plot Number"
                               inputProps={{ maxLength: 10 }}
                               value={propertyData.pro_plot_no}
-                              // helperText={
-                              //   propertyData.pro_plot_no === "" ? "Required" : ""
-                              // }
+                              
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
@@ -648,6 +651,7 @@ const EditProperty = () => {
                                 id="demo-simple-select"
                                 //value={ isNaN(propertyData.pro_state) === true ? stateList.filter((item) =>  item.name ===  propertyData.pro_state)[0].id : propertyData.pro_state  }
                                 value={propertyData.pro_state}
+                                
                                 label="State"
                                 onChange={(e) =>
                                   setPropertyData({
@@ -664,7 +668,7 @@ const EditProperty = () => {
                                 ))}
                               </Select>
                               {propertyData.pro_state === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
 
@@ -680,7 +684,7 @@ const EditProperty = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={propertyData.pro_city}
-                                //value={46}
+                                
                                 label="City"
                                 onChange={(e) =>
                                   setPropertyData({
@@ -706,13 +710,13 @@ const EditProperty = () => {
                               </Select>
                               {propertyData.pro_city === "" &&
                                 propertyData.pro_state === "" && (
-                                  <FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>
                                     Select State to add City
                                   </FormHelperText>
                                 )}
                               {propertyData.pro_city === "" &&
                                 propertyData.pro_state !== "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                             </FormControl>
                           </div>
@@ -728,6 +732,7 @@ const EditProperty = () => {
                               name="Enter Locality"
                               inputProps={{ maxLength: 50 }}
                               value={propertyData.pro_locality}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
                                 propertyData.pro_locality === ""
                                   ? "Required"
@@ -757,13 +762,13 @@ const EditProperty = () => {
                               variant="outlined"
                               size="small"
                               label="Complete Address"
+                              FormHelperTextProps={{ sx: { color: "red" } }}
                               className="w-full"
                               name="Complete Address"
-                              inputProps={{ maxLength: 100 }}
+                              inputProps={{ maxLength: 200 }}
+                              helperText={propertyData.pro_desc.length < 2001 ? "" : "Description should be smaller than 2000 characters"  }
                               value={propertyData.pro_street}
-                              helperText={
-                                propertyData.pro_street === "" ? "Required" : ""
-                              }
+                              
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
@@ -783,6 +788,7 @@ const EditProperty = () => {
                               variant="outlined"
                               size="small"
                               label="Pin Code"
+                              FormHelperTextProps={{ sx: { color: "red" } }}
                               className="w-full"
                               name="Pin Code"
                               inputProps={{ maxLength: 6 }}
@@ -852,7 +858,7 @@ const EditProperty = () => {
                                 <MenuItem value={"10+"}>10+</MenuItem>
                               </Select>
                               {propertyData.pro_age === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
                             <FormControl
@@ -880,7 +886,7 @@ const EditProperty = () => {
                                 <MenuItem value={"4"}>4</MenuItem>
                               </Select>
                               {propertyData.pro_open_sides === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
                           </div>
@@ -912,8 +918,8 @@ const EditProperty = () => {
                                   <MenuItem value={"4"}>4</MenuItem>
                                   <MenuItem value={"5+"}>5+</MenuItem>
                                 </Select>
-                                {propertyData.pro_bedroom === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                {(propertyData.pro_bedroom === "" || propertyData.pro_bedroom === 0) &&  (
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
 
@@ -943,8 +949,9 @@ const EditProperty = () => {
 
                                   <MenuItem value={"5+"}>5+</MenuItem>
                                 </Select>
-                                {propertyData.pro_washrooms === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                
+                                {(propertyData.pro_washrooms === "" || propertyData.pro_washrooms === 0) &&  (
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
                             </div>
@@ -970,7 +977,7 @@ const EditProperty = () => {
                                     })
                                   }
                                 >
-                                  <MenuItem value={"1"}>0</MenuItem>
+                                  <MenuItem value={"0"}>0</MenuItem>
                                   <MenuItem value={"1"}>1</MenuItem>
                                   <MenuItem value={"2"}>2</MenuItem>
                                   <MenuItem value={"3"}>3</MenuItem>
@@ -979,7 +986,7 @@ const EditProperty = () => {
                                   <MenuItem value={"5+"}>5+</MenuItem>
                                 </Select>
                                 {propertyData.pro_balcony === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
 
@@ -1010,7 +1017,7 @@ const EditProperty = () => {
                                   <MenuItem value={"5+"}>5+</MenuItem>
                                 </Select>
                                 {propertyData.pro_parking === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
                             </div>
@@ -1053,7 +1060,7 @@ const EditProperty = () => {
                                 </MenuItem>
                               </Select>
                               {propertyData.pro_facing === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
 
@@ -1090,7 +1097,7 @@ const EditProperty = () => {
                                 </MenuItem>
                               </Select>
                               {propertyData.pro_possession === "" && (
-                                <FormHelperText>Required</FormHelperText>
+                                <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                               )}
                             </FormControl>
                           </div>
@@ -1131,9 +1138,10 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                <MenuItem value={"Yards"}>Yards</MenuItem>
-                                <MenuItem value={"Acres"}>Acres</MenuItem>
-                                <MenuItem value={"Marla"}>Marla</MenuItem>
+                                <MenuItem value={"Sq. Yards"}>Sq. Yards</MenuItem>
+                            <MenuItem value={"Sq. Mts"}>Sq. Mts</MenuItem>
+                            <MenuItem value={"Acres"}>Acres</MenuItem>
+                            <MenuItem value={"Marla"}>Marla</MenuItem>
                               </Select>
                             </FormControl>
 
@@ -1253,7 +1261,7 @@ const EditProperty = () => {
                                   <MenuItem value={"5+"}>5+</MenuItem>
                                 </Select>
                                 {propertyData.pro_floor === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
 
@@ -1287,7 +1295,7 @@ const EditProperty = () => {
                                   </MenuItem>
                                 </Select>
                                 {propertyData.pro_furnishing === "" && (
-                                  <FormHelperText>Required</FormHelperText>
+                                  <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
                                 )}
                               </FormControl>
                             </div>
@@ -1301,6 +1309,8 @@ const EditProperty = () => {
                                 accept="image/x-png,image/gif,image/jpeg"
                                 required
                                 onChange={(event) => {
+                                  setFormatError(false) ,
+                                  setFileSizeExceeded(false),
                                   setSelectedFiles(event.target.files),
                                     handleImage(event);
                                 }}
@@ -1316,11 +1326,11 @@ const EditProperty = () => {
                                       <div></div>
                                     </div>
                                   ))
-                                : "no file selected"}
+                                : ""}
                             </div>
-
+                             {console.log(formatError , fileSizeExceeded)}
                             <div>
-                              {selectedFiles === null
+                              {(selectedFiles === null && formatError === false && fileSizeExceeded === false)
                                 ? images.map((item) => (
                                     <div>
                                       <div>{item.img_link}</div>
@@ -1330,7 +1340,7 @@ const EditProperty = () => {
                                 : ""}
                             </div>
 
-                            <div>
+                            <div className="text-danger ml-0">
                               {formatError ? "Invalid Format" : ""}
                               {fileSizeExceeded
                                 ? "File size must be greater than 10KB and less than 1MB"
@@ -1358,7 +1368,70 @@ const EditProperty = () => {
                       ) : activeStep === 3 ? (
                         <div className="flex-col mainDiv">
                           <h2>Pricing and Others</h2>
-                          <div className="radio_1 ">
+                          <div className="pro_flex">
+                        <FormControl
+                          sx={{ m: 1, width: ["100%"] }}
+                          size="small"
+                        >
+                          <InputLabel id="demo-simple-select-label">
+                            Ownership
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={propertyData.pro_ownership_type}
+                            label="Ownership"
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_ownership_type: e.target.value,
+                              })
+                            }
+                          >
+                            <MenuItem value={"Ownership"}>Ownership</MenuItem>
+                            <MenuItem value={"Power of Attorney"}>
+                              Power of Attorney
+                            </MenuItem>
+                          </Select>
+                          {propertyData.pro_ownership_type === "" && (
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+
+                        <FormControl
+                          sx={{ m: 1, width: ["100%"] }}
+                          size="small"
+                        >
+                          <InputLabel id="demo-simple-select-label">
+                            Authority Approved
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={propertyData.pro_approval}
+                            label="Authority Approved"
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_approval: e.target.value,
+                              })
+                            }
+                          >
+                            <MenuItem value={"HSVP"}>HSVP</MenuItem>
+                            <MenuItem value={"MC"}>MC</MenuItem>
+                            <MenuItem value={"DTP"}>DTP</MenuItem>
+                            <MenuItem value={"Other"}>Other</MenuItem>
+                          </Select>
+                          {propertyData.pro_approval === "" && (
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+                      </div>
+                          {/* <div className="radio_1 ">
                             <div>
                               <h3>Ownership</h3>
                               <div className="div_radio">
@@ -1447,8 +1520,9 @@ const EditProperty = () => {
                                 </label>
                               </div>
                             </div>
-                          </div>
-
+                          </div> */}
+                          
+                          {/* 
                           <div className="radio_1">
                             <div>
                               <h3>Authority Approved</h3>
@@ -1576,7 +1650,7 @@ const EditProperty = () => {
                                 </label>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="pro_flex">
                             <TextField
@@ -1589,6 +1663,7 @@ const EditProperty = () => {
                               name="Expected Amount"
                               inputProps={{ maxLength: 10 }}
                               value={propertyData.pro_amt}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
                                 propertyData.pro_amt < 1
                                   ? "Enter Valid Amount"
@@ -1627,6 +1702,67 @@ const EditProperty = () => {
                             </FormControl>
                           </div>
 
+
+                          <div className="pro_flex">
+                        <FormControl
+                          sx={{ m: 1, width: ["100%"] }}
+                          size="small"
+                        >
+                          <InputLabel id="demo-simple-select-label">
+                            Price Negotiable
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={propertyData.pro_negotiable}
+                            label="Price Negotiable"
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_negotiable: e.target.value,
+                              })
+                            }
+                          >
+                            <MenuItem value={"Yes"}>Yes</MenuItem>
+                            <MenuItem value={"No"}>No</MenuItem>
+                          </Select>
+                          {propertyData.pro_negotiable === "" && (
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+
+                        <FormControl
+                          sx={{ m: 1, width: ["100%"] }}
+                          size="small"
+                        >
+                          <InputLabel id="demo-simple-select-label">
+                            Already on Rented
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={propertyData.pro_rental_status}
+                            label="Already on Rented"
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_rental_status: e.target.value,
+                              })
+                            }
+                          >
+                            <MenuItem value={"Yes"}>Yes</MenuItem>
+                            <MenuItem value={"No"}>No</MenuItem>
+                          </Select>
+                          {propertyData.pro_rental_status === "" && (
+                            <FormHelperText sx={{ color: "red" }}>
+                              Required
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+                      </div>
+
                           <div>
                             <TextField
                               multiline
@@ -1637,8 +1773,10 @@ const EditProperty = () => {
                               label="Property Description"
                               className="w-full"
                               name="Property Description"
-                              inputProps={{ maxLength: 100 }}
+                              inputProps={{ maxLength: 2000 }}
                               value={propertyData.pro_desc}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                              helperText={propertyData.pro_desc.length < 2001 ? "" : "Description should be smaller than 2000 characters"  }
                               InputProps={{
                                 rows: 5,
                               }}

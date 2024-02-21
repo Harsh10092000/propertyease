@@ -2549,8 +2549,18 @@ img.desc {
   text-align: center;
 }
 .share-property {
-  background-color: #007bff;
-  padding: 10px 12px;
+  background-color: #3f51b5;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+.share-propertywp {
+  background-color: #25d366;
+  padding: 5px 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15412,7 +15422,7 @@ input[type="file"] {
 }
 .interest {
   background-color: #fd0707;
-  padding: 10px 12px;
+  padding: 5px 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15446,6 +15456,10 @@ input[type="file"] {
   height: 20px;
 }
 .fb {
+  border: none;
+  background: transparent;
+}
+.wp {
   border: none;
   background: transparent;
 }
@@ -15526,4 +15540,7 @@ section.find-services {
   background: #0087ff36;
   font-size: 15px;
   padding: 5px 15px;
+}
+.listed{
+font-size: 12px;
 }

@@ -30,6 +30,7 @@ import AdminInterest from "./pages/adminInterest/AdminInterest";
 import NriService from "./pages/nriService/NriService";
 import AdminUsers from "./pages/adminUsers/AdminUsers";
 import PostRequirements from "./pages/postRequirements/PostRequirements";
+import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -175,7 +176,10 @@ const App = () => {
         {
           path: "allUsers",
           element: <AdminUsers />,
-        },
+        },{
+          path:"shortlisted",
+          element:<AdminShortlisted/>
+        }
       ],
     },
     {

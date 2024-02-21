@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
-
+import { TextField } from "@mui/material";
 const Listing = () => {
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,8 +14,8 @@ const Listing = () => {
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
-  const records = data.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(data.length / recordsPerPage);
+  //const records = data.slice(firstIndex, lastIndex);
+  //const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(
@@ -30,6 +30,16 @@ const Listing = () => {
         setSubData(res.data);
       });
   }, []);
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = data.filter(
+    (code) =>
+      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_pincode.startsWith(searchValue) ||
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   return (
     <div>
@@ -42,11 +52,29 @@ const Listing = () => {
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{cat}</h2>
-              <Pagination
+              {/* <Pagination
                 count={nPages}
                 color="primary"
                 onChange={(e, value) => setCurrentPage(value)}
-              />
+              /> */}
+              <div className="row justify-content-between align-items-center my-2">
+                <Pagination
+                  count={nPages}
+                  color="primary"
+                  onChange={(e, value) => setCurrentPage(value)}
+                  className="col-md-6"
+                />
+                <TextField
+                  variant="outlined"
+                  className="col-md-3 mx-4 mx-md-0"
+                  size="small"
+                  label="Search for properties..."
+                  onChange={(e) => {
+                    setCurrentPage(1);
+                    setSearchValue(e.target.value);
+                  }}
+                />
+              </div>
             </div>
             <div className="row">
               <div className="col-md-9">

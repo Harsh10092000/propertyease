@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
+import { TextField } from "@mui/material";
 
 const SubCat = () => {
   const { cat } = useParams();
@@ -14,8 +15,8 @@ const SubCat = () => {
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
-  const records = data.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(data.length / recordsPerPage);
+  //const records = data.slice(firstIndex, lastIndex);
+  //const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(
@@ -30,6 +31,16 @@ const SubCat = () => {
         setSubData(res.data);
       });
   }, [cat]);
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = data.filter(
+    (code) =>
+      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_pincode.startsWith(searchValue) ||
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   return (
     <div>
@@ -42,11 +53,25 @@ const SubCat = () => {
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{cat}</h2>
-              <Pagination
-                count={nPages}
-                color="primary"
-                onChange={(e, value) => setCurrentPage(value)}
-              />
+              
+              <div className="row justify-content-between align-items-center my-2">
+                <Pagination
+                  count={nPages}
+                  color="primary"
+                  onChange={(e, value) => setCurrentPage(value)}
+                  className="col-md-6"
+                />
+                <TextField
+                  variant="outlined"
+                  className="col-md-3 mx-4 mx-md-0"
+                  size="small"
+                  label="Search for properties..."
+                  onChange={(e) => {
+                    setCurrentPage(1);
+                    setSearchValue(e.target.value);
+                  }}
+                />
+              </div>
             </div>
             <div className="row">
               <div className="col-md-9">
@@ -186,7 +211,9 @@ const SubCat = () => {
                     <Link
                       to={`/subCat/${sub.pro_type.split(",")[0]}`}
                       key={index}
+                      className={sub.pro_type.split(",")[0] === cat ? "text-primary m-0" : "text-secondary m-0"}
                     >
+                      
                       <div className="d-flex justify-content-between px-3 py-2">
                         <div>{sub.pro_type.split(",")[0]}</div>
                         <div>({sub.pro_sub_cat_number})</div>

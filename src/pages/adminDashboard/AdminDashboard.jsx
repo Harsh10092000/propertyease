@@ -4,7 +4,7 @@ import { IconEye, IconTrashFilled } from "@tabler/icons-react";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
-
+import { TextField } from "@mui/material";
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -13,8 +13,8 @@ const AdminDashboard = () => {
   const [data, setData] = useState([]);
   const [change, setChange] = useState(0);
   const [snack, setSnack] = useState(false);
-  const records = data.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(data.length / recordsPerPage);
+  //const records = data.slice(firstIndex, lastIndex);
+  //const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/admin/fetchAll")
@@ -22,6 +22,22 @@ const AdminDashboard = () => {
         setData(res.data);
       });
   }, [change]);
+
+  data.forEach((item, i) => {
+    item.serial_no = i + 1;
+  });
+
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = data.filter(
+    (code) =>
+      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_pincode.startsWith(searchValue) ||
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
+
   const deleteProperty = async (id) => {
     try {
       await axios.delete(
@@ -49,14 +65,25 @@ const AdminDashboard = () => {
         message={"Deleted Successfully"}
       />
       <div className="card-body table-border-style">
-        <h1>
-          All Properties
+        <h1>All Properties</h1>
+        <div className="row justify-content-between align-items-center my-2">
           <Pagination
             count={nPages}
             color="primary"
             onChange={(e, value) => setCurrentPage(value)}
+            className="col-md-6"
           />
-        </h1>
+          <TextField
+            variant="outlined"
+            className="col-md-3 mx-4 mx-md-0 mt-3"
+            size="small"
+            label="Search for properties..."
+            onChange={(e) => {
+              setCurrentPage(1);
+              setSearchValue(e.target.value);
+            }}
+          />
+        </div>
         <div className="table-responsive">
           <table className="table table-hover">
             <thead>
@@ -74,7 +101,7 @@ const AdminDashboard = () => {
             <tbody>
               {records.map((item, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{item.serial_no}</td>
                   <td>{item.pro_ad_type}</td>
                   <td>{item.pro_user_type}</td>
                   <td>{item.pro_type}</td>

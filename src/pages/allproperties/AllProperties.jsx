@@ -5,15 +5,17 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
+import { TextField } from "@mui/material";
 const AllProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
+  let firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
-  const records = data.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(data.length / recordsPerPage);
+
+  // const records = data.slice(firstIndex, lastIndex);
+  // const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
@@ -26,6 +28,16 @@ const AllProperties = () => {
         setSubData(res.data);
       });
   }, []);
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = data.filter(
+    (code) =>
+      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_pincode.startsWith(searchValue) ||
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   return (
     <div>
@@ -39,13 +51,27 @@ const AllProperties = () => {
             <div className="title">
               <h2>
                 All Properties
-                <span className="numberProperties">{data.length}</span>
+                <span className="ml-2 numberProperties">{data.length}</span>
               </h2>
-              <Pagination
-                count={nPages}
-                color="primary"
-                onChange={(e, value) => setCurrentPage(value)}
-              />
+
+              <div className="row justify-content-between align-items-center my-2">
+                <Pagination
+                  count={nPages}
+                  color="primary"
+                  onChange={(e, value) => setCurrentPage(value)}
+                  className="col-md-6"
+                />
+                <TextField
+                  variant="outlined"
+                  className="col-md-3 mx-4 mx-md-0"
+                  size="small"
+                  label="Search for properties..."
+                  onChange={(e) => {
+                    setCurrentPage(1);
+                    setSearchValue(e.target.value);
+                  }}
+                />
+              </div>
             </div>
             <div className="row">
               <div className="col-md-9">
@@ -185,6 +211,7 @@ const AllProperties = () => {
                     <Link
                       to={`/subCat/${sub.pro_type.split(",")[0]}`}
                       key={index}
+                      
                     >
                       <div className="d-flex justify-content-between px-3 py-2">
                         <div>{sub.pro_type.split(",")[0]}</div>

@@ -33,7 +33,7 @@ const Navbar = () => {
           <div className="header-right">
             <Link to="/allproperties">
               <div className="d-flex justify-content-center align-items-center gap-2 btn btn-primary">
-                <IconHome className="sidebar-faicon" />
+                <IconHome className="sidebar-faicon pr-1" />
                 <div>
                   View <span className="d-none d-md-inline">Properties</span>
                 </div>

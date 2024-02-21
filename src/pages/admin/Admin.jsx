@@ -3,6 +3,7 @@ import {
   IconLogout,
   IconMenu,
   IconSend,
+  IconStar,
   IconUser,
   IconUsers,
 } from "@tabler/icons-react";
@@ -57,6 +58,14 @@ const Admin = () => {
                     <a title="All Users">
                       <IconUsers />
                       <span>All Users</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/shortlisted">
+                    <a title="Shortlisted">
+                      <IconStar />
+                      <span>Shortlisted</span>
                     </a>
                   </Link>
                 </li>
