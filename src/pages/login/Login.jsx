@@ -175,6 +175,7 @@ const Login = () => {
                   size="small"
                   value={data.email}
                   className="w-100"
+                  FormHelperTextProps={{ sx: { color: "red" } }}
                   onChange={(e) => {
                     setData({
                       ...data,
@@ -183,7 +184,7 @@ const Login = () => {
                       setErr(null),
                       setOtpRequet(false);
                   }}
-                  helperText={emailError !== false ? emailError : err}
+                  helperText={emailError ? emailError : ""}
                   readOnly={otpRequet === true && err === null}
                   disabled={otpRequet === true && err === null}
                 />
@@ -213,6 +214,7 @@ const Login = () => {
                     inputProps={{ maxlength: 10 }}
                     className="w-100"
                     value={data.phone}
+                    FormHelperTextProps={{ sx: { color: "red" } }}
                     helperText={
                       numberFormatErr !== null
                         ? "Please enter a valid Phone Number"
@@ -293,7 +295,7 @@ const Login = () => {
                     </button>
                   </div>
                 )}
-                <div>{loginStatus}</div>
+                <div style={{ color: "red" }}>{loginStatus}</div>
               </form>
             </div>
           </div>

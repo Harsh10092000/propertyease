@@ -376,35 +376,6 @@ const AddProperty = () => {
   ]);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  //const [descError, setDescError] = useState(false);
-  // useEffect(() => {
-  //   console.log("dsfg")
-  //   setDescError(true);
-  //   const descriptionValidationRegex =  new RegExp("^[a-zA-Z0-9.,]");
-  //   if(descriptionValidationRegex.test(propertyData.pro_desc)) {
-  //     setDescError(false);
-  //   } else {
-  //     setDescError(true);
-  //   }
-  // }  , [propertyData.pro_desc])
-
-  // useEffect(() => {
-  // Initialize the error state to true
-  // let isValid = true;
-
-  // // Define the regular expression pattern
-  // const descriptionValidationRegex = /^[a-zA-Z0-9.,]+$/;
-
-  // // Check if the description matches the pattern
-  // if (!descriptionValidationRegex.test(propertyData.pro_desc)) {
-  //   // If it doesn't match, set isValid to false
-  //   isValid = false;
-  // }
-
-  // // Update the error state based on the validation result
-  // setDescError(isValid === false ? true : false);
-
-  //}, [propertyData.pro_desc, setDescError]);
 
   useEffect(() => {
     if (

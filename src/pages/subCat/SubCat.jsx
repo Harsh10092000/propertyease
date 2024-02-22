@@ -13,13 +13,11 @@ import MenuItem from "@mui/material/MenuItem";
 const SubCat = () => {
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
-  //const records = data.slice(firstIndex, lastIndex);
-  //const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(

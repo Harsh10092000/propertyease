@@ -22,6 +22,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Loader from "../../components/loader/Loader";
 import { Helmet } from "react-helmet";
+import PopSlider from "../../components/popSlider/PopSlider";
 
 const Property = () => {
   const [loader, setLoader] = useState(false);
@@ -227,7 +228,8 @@ const Property = () => {
         onClose={() => setOpen(false)}
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <EmblaCarousel slides={images} />
+        {/* <EmblaCarousel slides={images} /> */}
+        <PopSlider slides={images} />
       </Modal>
       <Navbar />
       <div className="container">
