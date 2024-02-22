@@ -3,7 +3,13 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { IconEdit, IconEye } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
+import { TextField } from "@mui/material";
 const UserDashboard = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
   const { currentUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -16,10 +22,40 @@ const UserDashboard = () => {
         setData(res.data);
       });
   }, []);
+  data.forEach((item, i) => {
+    item.serial_no = i + 1;
+  });
+  const [searchValue, setSearchValue] = useState("");
+  const filteredData = data.filter(
+    (code) =>
+      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_pincode.startsWith(searchValue) ||
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+  );
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">All Property</h1>
+      </div>
+      <div className="row justify-content-between align-items-center my-2">
+        <Pagination
+          count={nPages}
+          color="primary"
+          onChange={(e, value) => setCurrentPage(value)}
+          className="col-md-6"
+        />
+        <TextField
+          variant="outlined"
+          className="col-md-3 mx-4 mx-md-0 mt-3"
+          size="small"
+          label="Search for properties..."
+          onChange={(e) => {
+            setCurrentPage(1);
+            setSearchValue(e.target.value);
+          }}
+        />
       </div>
       <div className="row">
         <div className="col-md-12">
@@ -46,7 +82,7 @@ const UserDashboard = () => {
                     </tr>
                   </thead>
                   <tbody className="text-black">
-                    {data.map((item, index) => (
+                    {records.map((item, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{item.pro_ad_type}</td>

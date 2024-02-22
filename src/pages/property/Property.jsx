@@ -1,4 +1,10 @@
-import { IconSend, IconShare3, IconStarFilled, IconBrandWhatsapp,IconBrandFacebook  } from "@tabler/icons-react";
+import {
+  IconSend,
+  IconShare3,
+  IconStarFilled,
+  IconBrandWhatsapp,
+  IconBrandFacebook,
+} from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -257,38 +263,38 @@ const Property = () => {
                       className={sticky ? "top newClass" : "top"}
                       id="dynamic"
                     >
-                      <div className="d-flex flex-column" style={{gap:"0"}}>
-                      <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center">
-                        {data.pro_type ? data.pro_type.split(",")[0] : ""} For
-                        {data.pro_ad_type === "New"
-                          ? " Sale"
-                          : " " + data.pro_ad_type}{" "}
-                        {currentUser ? (
-                          data.pro_user_id == currentUser[0].login_id ? (
-                            ""
+                      <div className="d-flex flex-column" style={{ gap: "0" }}>
+                        <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center">
+                          {data.pro_area_size + data.pro_area_size_unit + " "}
+                          {data.pro_type ? data.pro_type.split(",")[0] : ""} For
+                          {" " + data.pro_ad_type}
+                          {currentUser ? (
+                            data.pro_user_id == currentUser[0].login_id ? (
+                              ""
+                            ) : (
+                              <button
+                                className={
+                                  shortlist ? "shortlisted" : "shortlist"
+                                }
+                                title="Shortlisted"
+                                onClick={shortlistProperty}
+                              >
+                                <IconStarFilled className="shortlistIcon" />
+                              </button>
+                            )
                           ) : (
                             <button
-                              className={
-                                shortlist ? "shortlisted" : "shortlist"
-                              }
-                              title="Shortlisted"
+                              className="shortlist"
+                              title="Shortlist this property"
                               onClick={shortlistProperty}
                             >
-                              
                               <IconStarFilled className="shortlistIcon" />
                             </button>
-                          )
-                        ) : (
-                          <button
-                            className="shortlist"
-                            title="Shortlist this property"
-                            onClick={shortlistProperty}
-                          >
-                            <IconStarFilled className="shortlistIcon" />
-                          </button>
-                        )}
-                      </h1>
-                      <span className="listed">Listed by {" "+data.pro_user_type}</span>
+                          )}
+                        </h1>
+                        <span className="listed">
+                          Listed by {" " + data.pro_user_type}
+                        </span>
                       </div>
                       <div className="property-top-address pl-3 pl-md-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
@@ -300,7 +306,7 @@ const Property = () => {
                             {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
                         </div>
-                        
+
                         <div className="d-flex gap-2 align-items-center">
                           {currentUser ? (
                             data.pro_user_id == currentUser[0].login_id ? (
@@ -369,17 +375,13 @@ const Property = () => {
                             </a>
                           </button>
                         </div>
-
-
-
-
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-md-6">
                         <div className="leftblock">
                           <div className="photosection">
-                            {images.length > 0 ? (
+                            {images.length > 1 ? (
                               <EmblaCarousel
                                 slides={images}
                                 open={() => setOpen(true)}

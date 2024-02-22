@@ -176,10 +176,11 @@ const App = () => {
         {
           path: "allUsers",
           element: <AdminUsers />,
-        },{
-          path:"shortlisted",
-          element:<AdminShortlisted/>
-        }
+        },
+        {
+          path: "shortlisted",
+          element: <AdminShortlisted />,
+        },
       ],
     },
     {

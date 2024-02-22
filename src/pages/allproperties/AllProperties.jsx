@@ -6,16 +6,18 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 const AllProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   let firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
 
-  // const records = data.slice(firstIndex, lastIndex);
-  // const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
@@ -29,13 +31,23 @@ const AllProperties = () => {
       });
   }, []);
   const [searchValue, setSearchValue] = useState("");
-  const filteredData = data.filter(
-    (code) =>
-      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
-      code.pro_pincode.startsWith(searchValue) ||
-      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
-  );
-
+  const [filter, setFilter] = useState("All");
+  const filteredData = data
+    .filter((code) => {
+      if (filter === "Sale") {
+        return code.pro_ad_type === "Sale";
+      } else if (filter === "Rent") {
+        return code.pro_ad_type === "Rent";
+      } else if (filter === "All") {
+        return true;
+      }
+    })
+    .filter(
+      (code) =>
+        code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+        code.pro_pincode.startsWith(searchValue) ||
+        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+    );
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
@@ -54,16 +66,10 @@ const AllProperties = () => {
                 <span className="ml-2 numberProperties">{data.length}</span>
               </h2>
 
-              <div className="row justify-content-between align-items-center my-2">
-                <Pagination
-                  count={nPages}
-                  color="primary"
-                  onChange={(e, value) => setCurrentPage(value)}
-                  className="col-md-6"
-                />
+              <div className="row align-items-center my-2 mx-1 gap-3">
                 <TextField
                   variant="outlined"
-                  className="col-md-3 mx-4 mx-md-0"
+                  className="col-md-5 mx-4 mx-md-0"
                   size="small"
                   label="Search for properties..."
                   onChange={(e) => {
@@ -71,6 +77,26 @@ const AllProperties = () => {
                     setSearchValue(e.target.value);
                   }}
                 />
+                <FormControl
+                  sx={{ m: 1, width: ["100%"] }}
+                  size="small"
+                  className="col-md-3 mx-4 mx-md-0"
+                >
+                  <InputLabel id="demo-simple-select-label">
+                    Filter By
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={filter}
+                    label="Filter By"
+                    onChange={(e) => setFilter(e.target.value)}
+                  >
+                    <MenuItem value={"All"}>All</MenuItem>
+                    <MenuItem value={"Sale"}>Sale</MenuItem>
+                    <MenuItem value={"Rent"}>Rent</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
             </div>
             <div className="row">
@@ -117,7 +143,12 @@ const AllProperties = () => {
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_type.split(",")[0]} for{" "}
+                                  {object.pro_area_size +
+                                    object.pro_area_size_unit +
+                                    " " +
+                                    object.pro_type.split(",")[0] +
+                                    " "}
+                                  for{" "}
                                   {object.pro_ad_type === "Rent"
                                     ? "Rent"
                                     : "Sale"}{" "}
@@ -149,8 +180,9 @@ const AllProperties = () => {
                                   <strong className="frontPropIcon">
                                     Dimension&nbsp;
                                   </strong>
-                                  ({object.pro_width} Feet * {object.pro_length}{" "}
-                                  Feet)
+                                  {object.pro_width} Feet *{" "}
+                                  {object.pro_length + " "}
+                                  Feet
                                 </li>
                               ) : (
                                 ""
@@ -202,26 +234,33 @@ const AllProperties = () => {
                   </div>
                 ))}
               </div>
-              <div className="col-md-3">
-                <div className="p-1 shadow">
-                  <div className="p-3 font-weight-bold text-black">
-                    Categories
+              <div className="col-md-3 d-flex flex-column gap-3">
+                <div>
+                  <div className="p-1 shadow">
+                    <div className="p-3 font-weight-bold text-black">
+                      Categories
+                    </div>
+                    {subData.map((sub, index) => (
+                      <Link
+                        to={`/subCat/${sub.pro_type.split(",")[0]}`}
+                        key={index}
+                      >
+                        <div className="d-flex justify-content-between px-3 py-2">
+                          <div>{sub.pro_type.split(",")[0]}</div>
+                          <div>({sub.pro_sub_cat_number})</div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
-                  {subData.map((sub, index) => (
-                    <Link
-                      to={`/subCat/${sub.pro_type.split(",")[0]}`}
-                      key={index}
-                      
-                    >
-                      <div className="d-flex justify-content-between px-3 py-2">
-                        <div>{sub.pro_type.split(",")[0]}</div>
-                        <div>({sub.pro_sub_cat_number})</div>
-                      </div>
-                    </Link>
-                  ))}
                 </div>
               </div>
             </div>
+            <Pagination
+              count={nPages}
+              color="primary"
+              onChange={(e, value) => setCurrentPage(value)}
+              className="col-md-6"
+            />
           </div>
         </section>
       </div>

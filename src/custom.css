@@ -4501,9 +4501,7 @@ sub {
 sup {
   top: -0.5em;
 }
-a:hover {
-  color: #224abe;
-}
+
 a:not([href]):not([class]),
 a:not([href]):not([class]):hover {
   color: inherit;
@@ -15541,6 +15539,6 @@ section.find-services {
   font-size: 15px;
   padding: 5px 15px;
 }
-.listed{
-font-size: 12px;
+.listed {
+  font-size: 12px;
 }

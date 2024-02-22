@@ -388,7 +388,7 @@ const AddProperty = () => {
   //   }
   // }  , [propertyData.pro_desc])
 
- // useEffect(() => {
+  // useEffect(() => {
   // Initialize the error state to true
   // let isValid = true;
 
@@ -404,15 +404,13 @@ const AddProperty = () => {
   // // Update the error state based on the validation result
   // setDescError(isValid === false ? true : false);
 
-//}, [propertyData.pro_desc, setDescError]);
-
-
+  //}, [propertyData.pro_desc, setDescError]);
 
   useEffect(() => {
     if (
       propertyData.pro_ownership_type !== "" &&
       propertyData.pro_approval !== "" &&
-      propertyData.pro_amt > 0 && 
+      propertyData.pro_amt > 0 &&
       (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000)
     ) {
       setSubmitDisabled(false);
@@ -423,8 +421,7 @@ const AddProperty = () => {
     propertyData.pro_ownership_type,
     propertyData.pro_approval,
     propertyData.pro_amt,
-    propertyData.pro_desc
-   
+    propertyData.pro_desc,
   ]);
 
   const handleClick = async () => {
@@ -671,8 +668,7 @@ const AddProperty = () => {
                                 })
                               }
                             >
-                              <MenuItem value="New">New</MenuItem>
-                              <MenuItem value="Resale">Resale</MenuItem>
+                              <MenuItem value="Sale">Sale</MenuItem>
                               <MenuItem value="Rent">Rent</MenuItem>
                             </Select>
                             {propertyData.pro_ad_type === "" && (
@@ -1002,7 +998,11 @@ const AddProperty = () => {
                           className="w-full"
                           name="Complete Address"
                           FormHelperTextProps={{ sx: { color: "red" } }}
-                          helperText={propertyData.pro_desc.length < 2001 ? "" : "Description should be smaller than 2000 characters"  }
+                          helperText={
+                            propertyData.pro_desc.length < 2001
+                              ? ""
+                              : "Description should be smaller than 2000 characters"
+                          }
                           inputProps={{ maxLength: 2000 }}
                           value={propertyData.pro_street}
                           onChange={(e) =>
@@ -1549,16 +1549,19 @@ const AddProperty = () => {
                             accept="image/x-png,image/gif,image/jpeg"
                             required
                             onChange={(event) => {
-                              setFormatError(false) ,
-                              setFileSizeExceeded(false),
-                              setSelectedFiles(event.target.files),
+                              setFormatError(false),
+                                setFileSizeExceeded(false),
+                                setSelectedFiles(event.target.files),
                                 handleImage(event);
                             }}
                           />
                         </label>
 
                         <div>
-                          {selectedFiles != null && selectedFiles != undefined && formatError === false && fileSizeExceeded === false
+                          {selectedFiles != null &&
+                          selectedFiles != undefined &&
+                          formatError === false &&
+                          fileSizeExceeded === false
                             ? files.map((item) => (
                                 <div>
                                   <div>{item.name}</div>
@@ -1768,7 +1771,7 @@ const AddProperty = () => {
                           )}
                         </FormControl>
                       </div>
-                      
+
                       <div>
                         <TextField
                           multiline
@@ -1781,8 +1784,11 @@ const AddProperty = () => {
                           name="Property Description"
                           inputProps={{ maxLength: 2000 }}
                           value={propertyData.pro_desc}
-                          helperText={propertyData.pro_desc.length < 2001 ? "" : "Description should be smaller than 2000 characters"  }
-                          
+                          helperText={
+                            propertyData.pro_desc.length < 2001
+                              ? ""
+                              : "Description should be smaller than 2000 characters"
+                          }
                           FormHelperTextProps={{ sx: { color: "red" } }}
                           InputProps={{
                             rows: 5,
@@ -1796,7 +1802,6 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          
                         />
                       </div>
 
