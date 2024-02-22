@@ -116,6 +116,7 @@ const Property = () => {
           propertySlug: id,
           proId,
           user_id: currentUser[0].login_id,
+          pro_user_id: data.pro_user_id,
         }
       );
       setLoader(false);
@@ -267,7 +268,7 @@ const Property = () => {
                     >
                       <div className="d-flex flex-column" style={{ gap: "0" }}>
                         <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center">
-                          {data.pro_area_size + data.pro_area_size_unit + " "}
+                          {data.pro_area_size + " " + data.pro_area_size_unit + " "}
                           {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                           {" " + data.pro_ad_type}
                           {currentUser ? (

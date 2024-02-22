@@ -232,7 +232,7 @@ const AddProperty = () => {
     pro_possession: "",
     pro_sub_cat: "",
     pro_user_id: currentUser ? currentUser[0].login_id : "",
-    pro_area_size_unit: "Acres",
+    pro_area_size_unit: "Marla",
     pro_facing_road_unit: "Feet",
 
     pro_amt_unit: "Lakhs",
@@ -248,17 +248,36 @@ const AddProperty = () => {
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
+  // const handleImage = (data) => {
+  //   setFormatError(false);
+  //   const pattern = /image-*/;
+  //   for (let i = 0; i < data.target.files.length; i++) {
+  //     if (data.target.files[i].type.match(pattern)) {
+  //       setFormatError(false);
+  //       if (
+  //         data.target.files[i].size < maxFileSize &&
+  //         data.target.files[i].size > minFileSize
+  //       ) {
+  //         formData.append(`files`, data.target.files[i]);
+  //         setFileSizeExceeded(false);
+  //       } else {
+  //         setFileSizeExceeded(true);
+  //         return;
+  //       }
+  //     } else {
+  //       setFormatError(true);
+  //     }
+  //   }
+  // };
+
   const handleImage = (data) => {
     setFormatError(false);
     const pattern = /image-*/;
-    for (let i = 0; i < data.target.files.length; i++) {
-      if (data.target.files[i].type.match(pattern)) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].type.match(pattern)) {
         setFormatError(false);
-        if (
-          data.target.files[i].size < maxFileSize &&
-          data.target.files[i].size > minFileSize
-        ) {
-          formData.append(`files`, data.target.files[i]);
+        if (data[i].size < maxFileSize && data[i].size > minFileSize) {
+          formData.append(`files`, data[i]);
           setFileSizeExceeded(false);
         } else {
           setFileSizeExceeded(true);
@@ -267,6 +286,22 @@ const AddProperty = () => {
       } else {
         setFormatError(true);
       }
+    }
+  };
+
+  const handleDrag = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      console.log("e.dataTransfer.files : ", e.dataTransfer.files);
+      setSelectedFiles(e.dataTransfer.files);
+      handleImage(e.dataTransfer.files);
     }
   };
 
@@ -327,6 +362,7 @@ const AddProperty = () => {
         propertyData.pro_possession !== "" &&
         propertyData.pro_open_sides !== "" &&
         propertyData.pro_furnishing !== "" &&
+        propertyData.pro_area_size !== "" &&
         formatError === false &&
         fileSizeExceeded === false
       ) {
@@ -349,6 +385,7 @@ const AddProperty = () => {
     formatError,
     fileSizeExceeded,
     propertyData.pro_type,
+    propertyData.pro_area_size,
   ]);
   useEffect(() => {
     if (propertyData.pro_type.split(",")[1] === "Land") {
@@ -540,7 +577,7 @@ const AddProperty = () => {
               </button>
             )}
           </div>
-          <div>{loginStatus === "" ? "" : loginStatus}</div>
+          <div style={{ color: "red" }} className="pt-2 d-flex justify-content-center ">{loginStatus === "" ? "" : loginStatus}</div>
         </DialogContent>
       </Dialog>
       <Navbar />
@@ -615,9 +652,9 @@ const AddProperty = () => {
                   {activeStep === 0 ? (
                     <div className="mainDiv flex-col">
                       <h2 style={{ textAlign: "center" }}>
-                        Start Posting your Property,It's Free
+                        Start Posting your Property for Free
                       </h2>
-                      <h2 style={{ textAlign: "center" }}>Basic Details</h2>
+                      
                       <div className="whole_radio">
                         <div className="pro_flex">
                           <FormControl
@@ -1320,6 +1357,10 @@ const AddProperty = () => {
                           name="Area Plot Size"
                           inputProps={{ maxLength: 100 }}
                           value={propertyData.pro_area_size}
+                          FormHelperTextProps={{ sx: { color: "red" } }}
+                          helperText={
+                            propertyData.pro_area_size === "" ? "Required" : ""
+                          }
                           onChange={(e) =>
                             setPropertyData({
                               ...propertyData,
@@ -1330,6 +1371,7 @@ const AddProperty = () => {
                             })
                           }
                         />
+                        
                         <FormControl
                           sx={{ mt: 1, width: ["30%"] }}
                           size="small"
@@ -1350,6 +1392,7 @@ const AddProperty = () => {
                             <MenuItem value={"Acres"}>Acres</MenuItem>
                             <MenuItem value={"Marla"}>Marla</MenuItem>
                           </Select>
+                          
                         </FormControl>
 
                         <TextField
@@ -1511,7 +1554,7 @@ const AddProperty = () => {
                           </FormControl>
                         </div>
                       )}
-                      <div className="">
+                      {/* <div className="">
                         <label for="images" htmlFor="file-1">
                           <input
                             multiple
@@ -1543,6 +1586,54 @@ const AddProperty = () => {
                         </div>
 
                         <div className="text-danger ml-0">
+                          {formatError ? "Invalid Format" : ""}
+                          {fileSizeExceeded
+                            ? "File size must be greater than 10KB and less than 1MB"
+                            : ""}
+                        </div>
+                      </div> */}
+
+<div className=" w-30 m-8">
+                        <input
+                          multiple
+                          type="file"
+                          id="file-1"
+                          class="hidden sr-only w-full"
+                          accept="image/x-png,image/gif,image/jpeg"
+                          onChange={(event) => {
+                            setFormatError(false),
+                              setFileSizeExceeded(false),
+                              setSelectedFiles(event.target.files),
+                              handleImage(event.target.files);
+                          }}
+                        />
+                        <label
+                          htmlFor="file-1"
+                          className="border py-4 mx-2 rounded-2 border-secondary"
+                          onDragEnter={handleDrag}
+                          onDragLeave={handleDrag}
+                          onDragOver={handleDrag}
+                          onDrop={handleDrop}
+                        >
+                          <div className="d-flex flex-column  align-items-center">
+                            <div >Drop files here</div>
+                            <div className="py-1">Or</div>
+                            <div className="border py-2 px-4">Browse</div>
+                          </div>
+                        </label>
+                        <div>
+                          {selectedFiles != null &&
+                          selectedFiles != undefined 
+                            ? files.map((item) => (
+                                <div className="ml-2">
+                                  <div>{item.name}</div>
+                                  <div></div>
+                                </div>
+                              ))
+                            : ""}
+                        </div>
+
+                        <div className="text-danger ml-2 ">
                           {formatError ? "Invalid Format" : ""}
                           {fileSizeExceeded
                             ? "File size must be greater than 10KB and less than 1MB"

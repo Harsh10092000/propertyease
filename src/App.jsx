@@ -31,6 +31,7 @@ import NriService from "./pages/nriService/NriService";
 import AdminUsers from "./pages/adminUsers/AdminUsers";
 import PostRequirements from "./pages/postRequirements/PostRequirements";
 import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
+import Rent from "./pages/rent/Rent";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -138,6 +139,10 @@ const App = () => {
     {
       path: "/subCat/:cat",
       element: <SubCat />,
+    },
+    {
+      path: "/rent/:cat",
+      element: <Rent />,
     },
     {
       path: "/editProperty/:id",

@@ -34,6 +34,13 @@ const Listing = () => {
         setSubData(res.data);
       });
   }, []);
+
+  useEffect(() => {
+    data.forEach((item, i) => {
+      item.pro_modified_id = 5000 + parseInt(item.pro_id);
+    });
+  } , [data])
+
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
   const filteredData = data
@@ -48,9 +55,10 @@ const Listing = () => {
     })
     .filter(
       (code) =>
-        code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
         code.pro_pincode.startsWith(searchValue) ||
-        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+        code.pro_modified_id.toString().startsWith(searchValue) ||
+        code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
     );
 
   const records = filteredData.slice(firstIndex, lastIndex);
@@ -144,7 +152,7 @@ const Listing = () => {
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_area_size +
+                                  {object.pro_area_size+ " " +
                                     object.pro_area_size_unit +
                                     " " +
                                     object.pro_type.split(",")[0] +
@@ -257,7 +265,7 @@ const Listing = () => {
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
-              className="col-md-6"
+              className="col-md-6 mx-auto py-2"
             />
           </div>
         </section>

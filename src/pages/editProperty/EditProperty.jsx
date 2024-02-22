@@ -81,7 +81,7 @@ const EditProperty = () => {
     pro_possession: "",
     pro_sub_cat: "",
     pro_user_id: "",
-    pro_area_size_unit: "Acres",
+    pro_area_size_unit: "Marla",
     pro_facing_road_unit: "Feet",
 
     pro_amt_unit: "Lakhs",
@@ -165,19 +165,42 @@ const EditProperty = () => {
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
+  // const handleImage = (data) => {
+  //   setFormatError(false);
+  //   //setSelectedFiles(data.target.files);
+
+  //   const pattern = /image-*/;
+  //   for (let i = 0; i < data.target.files.length; i++) {
+  //     if (data.target.files[i].type.match(pattern)) {
+  //       setFormatError(false);
+  //       if (
+  //         data.target.files[i].size < maxFileSize &&
+  //         data.target.files[i].size > minFileSize
+  //       ) {
+  //         formData.append(`files`, data.target.files[i]);
+  //         setFileSizeExceeded(false);
+  //       } else {
+  //         setFileSizeExceeded(true);
+  //         return;
+  //       }
+  //     } else {
+  //       setFormatError(true);
+  //     }
+  //   }
+
+  //   for (let i = 0; i < data.target.files.length; i++) {
+  //     formData.append(`files`, data.target.files[i]);
+  //   }
+  // };
+
   const handleImage = (data) => {
     setFormatError(false);
-    //setSelectedFiles(data.target.files);
-
     const pattern = /image-*/;
-    for (let i = 0; i < data.target.files.length; i++) {
-      if (data.target.files[i].type.match(pattern)) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].type.match(pattern)) {
         setFormatError(false);
-        if (
-          data.target.files[i].size < maxFileSize &&
-          data.target.files[i].size > minFileSize
-        ) {
-          formData.append(`files`, data.target.files[i]);
+        if (data[i].size < maxFileSize && data[i].size > minFileSize) {
+          formData.append(`files`, data[i]);
           setFileSizeExceeded(false);
         } else {
           setFileSizeExceeded(true);
@@ -187,9 +210,21 @@ const EditProperty = () => {
         setFormatError(true);
       }
     }
+  };
 
-    for (let i = 0; i < data.target.files.length; i++) {
-      formData.append(`files`, data.target.files[i]);
+  const handleDrag = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      console.log("e.dataTransfer.files : ", e.dataTransfer.files);
+      setSelectedFiles(e.dataTransfer.files);
+      handleImage(e.dataTransfer.files);
     }
   };
 
@@ -242,7 +277,8 @@ const EditProperty = () => {
         propertyData.pro_open_sides !== "" &&
         propertyData.pro_furnishing !== "" &&
         formatError === false &&
-        fileSizeExceeded === false
+        fileSizeExceeded === false &&
+        propertyData.pro_area_size !== ""
       ) {
         setStep3Disabled(false);
       } else {
@@ -263,6 +299,7 @@ const EditProperty = () => {
     formatError,
     fileSizeExceeded,
     propertyData.pro_type,
+    propertyData.pro_area_size,
   ]);
 
   useEffect(() => {
@@ -1139,6 +1176,10 @@ const EditProperty = () => {
                               name="Area Plot Size"
                               inputProps={{ maxLength: 100 }}
                               value={propertyData.pro_area_size}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                          helperText={
+                            propertyData.pro_area_size === "" ? "Required" : ""
+                          }
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
@@ -1333,40 +1374,50 @@ const EditProperty = () => {
                             </div>
                           )}
                           <div className="">
-                            <label for="images" htmlFor="file-1">
-                              <input
-                                multiple
-                                type="file"
-                                id="images"
-                                accept="image/x-png,image/gif,image/jpeg"
-                                required
-                                onChange={(event) => {
-                                  setFormatError(false),
-                                    setFileSizeExceeded(false),
-                                    setSelectedFiles(event.target.files),
-                                    handleImage(event);
-                                }}
-                              />
-                            </label>
-
-                            <div>
-                              {selectedFiles != null &&
-                              selectedFiles != undefined
-                                ? files.map((item) => (
-                                    <div>
-                                      <div>{item.name}</div>
-                                      <div></div>
-                                    </div>
-                                  ))
-                                : ""}
-                            </div>
-                            {console.log(formatError, fileSizeExceeded)}
+                          <input
+                          multiple
+                          type="file"
+                          id="file-1"
+                          class="hidden sr-only w-full"
+                          accept="image/x-png,image/gif,image/jpeg"
+                          onChange={(event) => {
+                            setFormatError(false),
+                              setFileSizeExceeded(false),
+                              setSelectedFiles(event.target.files),
+                              handleImage(event.target.files);
+                          }}
+                        />
+                        <label
+                          htmlFor="file-1"
+                          className="border py-4 mx-2 rounded-2 border-secondary"
+                          onDragEnter={handleDrag}
+                          onDragLeave={handleDrag}
+                          onDragOver={handleDrag}
+                          onDrop={handleDrop}
+                        >
+                          <div className="d-flex flex-column  align-items-center">
+                            <div >Drop files here</div>
+                            <div className="py-1">Or</div>
+                            <div className="border py-2 px-4">Browse</div>
+                          </div>
+                        </label>
+                        <div>
+                          {selectedFiles != null &&
+                          selectedFiles != undefined 
+                            ? files.map((item) => (
+                                <div className="ml-2">
+                                  <div>{item.name}</div>
+                                  <div></div>
+                                </div>
+                              ))
+                            : ""}
+                        </div>
                             <div>
                               {selectedFiles === null &&
                               formatError === false &&
                               fileSizeExceeded === false
                                 ? images.map((item) => (
-                                    <div>
+                                    <div className="ml-2">
                                       <div>{item.img_link}</div>
                                       <div></div>
                                     </div>
@@ -1374,7 +1425,7 @@ const EditProperty = () => {
                                 : ""}
                             </div>
 
-                            <div className="text-danger ml-0">
+                            <div className="text-danger ml-2">
                               {formatError ? "Invalid Format" : ""}
                               {fileSizeExceeded
                                 ? "File size must be greater than 10KB and less than 1MB"

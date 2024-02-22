@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-const SubCat = () => {
+const Rent = () => {
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -18,10 +18,11 @@ const SubCat = () => {
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
+  const [rentData, setRentData] = useState([]);
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataByCat/${cat}`
+        import.meta.env.VITE_BACKEND + `/api/pro/rentalProperty/${cat}`
       )
       .then((res) => {
         setData(res.data);
@@ -30,6 +31,11 @@ const SubCat = () => {
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
       .then((res) => {
         setSubData(res.data);
+      });
+      axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
+      .then((res) => {
+        setRentData(res.data);
       });
   }, [cat]);
 
@@ -264,6 +270,24 @@ const SubCat = () => {
                     </Link>
                   ))}
                 </div>
+                <div>
+                  <div className="p-1 shadow">
+                    <div className="p-3 font-weight-bold text-black">
+                      Rent
+                    </div>
+                    {rentData.map((rent, index) => (
+                      <Link
+                        to={`/rent/${rent.pro_city}`}
+                        key={index}
+                      >
+                        <div className="d-flex justify-content-between px-3 py-2">
+                          <div>{rent.pro_type.split(",")[0]}</div>
+                          <div>({rent.pro_sub_cat_number})</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <Pagination
@@ -280,4 +304,4 @@ const SubCat = () => {
   );
 };
 
-export default SubCat;
+export default Rent;

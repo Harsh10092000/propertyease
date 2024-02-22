@@ -22,19 +22,26 @@ const UserDashboard = () => {
         setData(res.data);
       });
   }, []);
+  useEffect(() => {
+    data.forEach((item, i) => {
+      item.pro_modified_id = 5000 + parseInt(item.pro_id);
+    });
+  } , [data])
   data.forEach((item, i) => {
     item.serial_no = i + 1;
   });
   const [searchValue, setSearchValue] = useState("");
   const filteredData = data.filter(
     (code) =>
-      code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
       code.pro_pincode.startsWith(searchValue) ||
-      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+      code.pro_modified_id.toString().startsWith(searchValue) ||
+      code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
   );
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
   return (
+    
     <div className="container-fluid admin-dashboard admin-icon">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">All Property</h1>
@@ -74,21 +81,35 @@ const UserDashboard = () => {
                   <thead>
                     <tr>
                       <th>SNo.</th>
+                      <th>Property Id</th>
                       <th>Sale/Resale</th>
-                      <th>Owner/Agent</th>
+                      <th>Property Title</th>
                       <th>Address</th>
-                      <th>Locality</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody className="text-black">
                     {records.map((item, index) => (
                       <tr key={index}>
-                        <td>{index + 1}</td>
+                        <td>{item.serial_no}</td>
+                        <td>{5000 + parseInt(item.pro_id)}</td>
                         <td>{item.pro_ad_type}</td>
-                        <td>{item.pro_user_type}</td>
-                        <td>{item.pro_city}</td>
-                        <td>{item.pro_locality}</td>
+                        <td>
+                          {" "}
+                          <span className="text-wrap">
+                            {item.pro_area_size +
+                              " " +
+                              item.pro_area_size_unit +
+                              " " +
+                              item.pro_type.split(",")[0] +
+                              " "}
+                            for {item.pro_ad_type === "Rent" ? "Rent" : "Sale"}{" "}
+                            in {item.pro_locality}
+                            ,&nbsp;
+                            {item.pro_city}
+                          </span>
+                        </td>
+                        <td>{item.pro_locality + ", " + item.pro_city}</td>
                         <td>
                           <button
                             title="Edit Your Property"

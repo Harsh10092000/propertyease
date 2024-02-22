@@ -17,6 +17,7 @@ const AllProperties = () => {
   let firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
+  const [rentData, setRentData] = useState([]);
 
   useEffect(() => {
     axios
@@ -29,7 +30,24 @@ const AllProperties = () => {
       .then((res) => {
         setSubData(res.data);
       });
+   
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
+      .then((res) => {
+        setRentData(res.data);
+      });
+
   }, []);
+
+  
+  useEffect(() => {
+    data.forEach((item, i) => {
+      item.pro_modified_id = 5000 + parseInt(item.pro_id);
+    });
+  } , [data])
+
+  
+
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
   const filteredData = data
@@ -44,9 +62,10 @@ const AllProperties = () => {
     })
     .filter(
       (code) =>
-        code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
         code.pro_pincode.startsWith(searchValue) ||
-        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+        code.pro_modified_id.toString().startsWith(searchValue) ||
+        code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
     );
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
@@ -143,7 +162,7 @@ const AllProperties = () => {
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_area_size +
+                                  {object.pro_area_size + " " +
                                     object.pro_area_size_unit +
                                     " " +
                                     object.pro_type.split(",")[0] +
@@ -253,14 +272,56 @@ const AllProperties = () => {
                     ))}
                   </div>
                 </div>
+                {/* <div>
+                  <div className="p-1 shadow">
+                    <div className="p-3 font-weight-bold text-black">
+                      Cities
+                    </div>
+                    {cityData.map((city, index) => (
+                      <Link
+                        to={`/city/${city.pro_city}`}
+                        key={index}
+                      >
+                        <div className="d-flex justify-content-between px-3 py-2">
+                          <div>{city.pro_city.split(",")[0]}</div>
+                          <div>({city.pro_city_number})</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div> */}
+
+
+                <div>
+                  <div className="p-1 shadow">
+                    <div className="p-3 font-weight-bold text-black">
+                      Rent
+                    </div>
+                    {rentData.map((rent, index) => (
+                      <Link
+                        to={`/rent/${rent.pro_type.split(",")[0]}`}
+                        key={index}
+                      >
+                        <div className="d-flex justify-content-between px-3 py-2">
+                          <div>{rent.pro_type.split(",")[0]}</div>
+                          <div>({rent.pro_sub_cat_number})</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
+              
             </div>
+            
             <Pagination
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
-              className="col-md-6"
+              className="col-md-6 mx-auto py-2"
             />
+           
+            
           </div>
         </section>
       </div>
