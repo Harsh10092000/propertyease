@@ -823,7 +823,7 @@ const EditProperty = () => {
                                   ),
                                 })
                               }
-                              required
+                              
                             />
                           </div>
                           <div>
@@ -1174,12 +1174,15 @@ const EditProperty = () => {
                               label="Area Plot Size"
                               className="w-full pro_flex_select"
                               name="Area Plot Size"
+                              required
                               inputProps={{ maxLength: 100 }}
                               value={propertyData.pro_area_size}
                               FormHelperTextProps={{ sx: { color: "red" } }}
-                          helperText={
-                            propertyData.pro_area_size === "" ? "Required" : ""
-                          }
+                              helperText={
+                                propertyData.pro_area_size === ""
+                                  ? "Required"
+                                  : ""
+                              }
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
@@ -1234,7 +1237,6 @@ const EditProperty = () => {
                                   ),
                                 })
                               }
-                              required
                             />
                             <FormControl
                               sx={{ mt: 1, width: ["30%"] }}
@@ -1376,44 +1378,44 @@ const EditProperty = () => {
                             </div>
                           )}
                           <div className="">
-                          <input
-                          multiple
-                          type="file"
-                          id="file-1"
-                          class="hidden sr-only w-full"
-                          accept="image/x-png,image/gif,image/jpeg"
-                          onChange={(event) => {
-                            setFormatError(false),
-                              setFileSizeExceeded(false),
-                              setSelectedFiles(event.target.files),
-                              handleImage(event.target.files);
-                          }}
-                        />
-                        <label
-                          htmlFor="file-1"
-                          className="border py-4 mx-2 rounded-2 border-secondary"
-                          onDragEnter={handleDrag}
-                          onDragLeave={handleDrag}
-                          onDragOver={handleDrag}
-                          onDrop={handleDrop}
-                        >
-                          <div className="d-flex flex-column  align-items-center">
-                            <div >Drop files here</div>
-                            <div className="py-1">Or</div>
-                            <div className="border py-2 px-4">Browse</div>
-                          </div>
-                        </label>
-                        <div>
-                          {selectedFiles != null &&
-                          selectedFiles != undefined 
-                            ? files.map((item) => (
-                                <div className="ml-2">
-                                  <div>{item.name}</div>
-                                  <div></div>
-                                </div>
-                              ))
-                            : ""}
-                        </div>
+                            <input
+                              multiple
+                              type="file"
+                              id="file-1"
+                              class="hidden sr-only w-full"
+                              accept="image/x-png,image/gif,image/jpeg"
+                              onChange={(event) => {
+                                setFormatError(false),
+                                  setFileSizeExceeded(false),
+                                  setSelectedFiles(event.target.files),
+                                  handleImage(event.target.files);
+                              }}
+                            />
+                            <label
+                              htmlFor="file-1"
+                              className="border py-4 mx-2 rounded-2 border-secondary"
+                              onDragEnter={handleDrag}
+                              onDragLeave={handleDrag}
+                              onDragOver={handleDrag}
+                              onDrop={handleDrop}
+                            >
+                              <div className="d-flex flex-column  align-items-center">
+                                <div>Drop files here</div>
+                                <div className="py-1">Or</div>
+                                <div className="border py-2 px-4">Browse</div>
+                              </div>
+                            </label>
+                            <div>
+                              {selectedFiles != null &&
+                              selectedFiles != undefined
+                                ? files.map((item) => (
+                                    <div className="ml-2">
+                                      <div>{item.name}</div>
+                                      <div></div>
+                                    </div>
+                                  ))
+                                : ""}
+                            </div>
                             <div>
                               {selectedFiles === null &&
                               formatError === false &&
@@ -1520,9 +1522,6 @@ const EditProperty = () => {
                               )}
                             </FormControl>
                           </div>
-                         
-
-                          
 
                           <div className="pro_flex">
                             <TextField
@@ -1681,7 +1680,7 @@ const EditProperty = () => {
                               disabled={submitDisabled}
                               onClick={handleClick}
                             >
-                              Submit
+                              Add Property
                             </button>
                           </div>
                         </div>

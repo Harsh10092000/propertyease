@@ -270,7 +270,7 @@ const Rent = () => {
                     </Link>
                   ))}
                 </div>
-                <div>
+                <div className="pt-2">
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">
                       Rent

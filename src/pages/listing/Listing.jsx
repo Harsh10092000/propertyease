@@ -249,6 +249,7 @@ const Listing = () => {
                 ))}
               </div>
               <div className="col-md-3">
+                <div>
                 <div className="p-1 shadow">
                   <div className="p-3 font-weight-bold text-black">
                     Categories
@@ -264,8 +265,9 @@ const Listing = () => {
                       </div>
                     </Link>
                   ))}
+                  </div>
                 </div>
-                <div>
+                <div className="pt-2">
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">
                       Rent

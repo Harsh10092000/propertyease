@@ -1384,6 +1384,7 @@ const AddProperty = () => {
                           id="outlined-basic"
                           variant="outlined"
                           size="small"
+                          required
                           label="Area Plot Size"
                           className="w-full pro_flex_select "
                           name="Area Plot Size"
@@ -1446,7 +1447,7 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          required
+                          
                         />
                         <FormControl
                           sx={{ mt: 1, width: ["30%"] }}
@@ -1587,44 +1588,7 @@ const AddProperty = () => {
                           </FormControl>
                         </div>
                       )}
-                      {/* <div className="">
-                        <label for="images" htmlFor="file-1">
-                          <input
-                            multiple
-                            type="file"
-                            id="images"
-                            accept="image/x-png,image/gif,image/jpeg"
-                            required
-                            onChange={(event) => {
-                              setFormatError(false),
-                                setFileSizeExceeded(false),
-                                setSelectedFiles(event.target.files),
-                                handleImage(event);
-                            }}
-                          />
-                        </label>
-
-                        <div>
-                          {selectedFiles != null &&
-                          selectedFiles != undefined &&
-                          formatError === false &&
-                          fileSizeExceeded === false
-                            ? files.map((item) => (
-                                <div>
-                                  <div>{item.name}</div>
-                                  <div></div>
-                                </div>
-                              ))
-                            : ""}
-                        </div>
-
-                        <div className="text-danger ml-0">
-                          {formatError ? "Invalid Format" : ""}
-                          {fileSizeExceeded
-                            ? "File size must be greater than 10KB and less than 1MB"
-                            : ""}
-                        </div>
-                      </div> */}
+                     
 
                       <div className=" w-30 m-8">
                         <input
