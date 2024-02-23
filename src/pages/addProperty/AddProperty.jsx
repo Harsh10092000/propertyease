@@ -270,6 +270,12 @@ const AddProperty = () => {
   //   }
   // };
 
+
+  const [filesData , setFilesData] = useState({
+    fileName : "",
+    error: "",
+  })
+
   const handleImage = (data) => {
     setFormatError(false);
     const pattern = /image-*/;
@@ -749,7 +755,7 @@ const AddProperty = () => {
                       <div className="d-flex justify-content-end">
                         <button
                           className="btn btn-primary"
-                          //disabled={step1Disabled}
+                          disabled={step1Disabled}
                           //onClick={handleNextStep}
                           onClick={
                             currentUser !== null ? handleNextStep : fetchOtp
@@ -1063,7 +1069,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          //disabled={step2Disabled}
+                          disabled={step2Disabled}
                           onClick={handleNextStep}
                         >
                           Next
@@ -1653,7 +1659,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          //disabled={step3Disabled}
+                          disabled={step3Disabled}
                           onClick={handleNextStep}
                         >
                           Next
