@@ -12,7 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 const AllProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 10;
+  const recordsPerPage = 3;
   const lastIndex = currentPage * recordsPerPage;
   let firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
@@ -50,6 +50,7 @@ const AllProperties = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
+  
   const filteredData = data
     .filter((code) => {
       if (filter === "Sale") {
@@ -109,7 +110,7 @@ const AllProperties = () => {
                     id="demo-simple-select"
                     value={filter}
                     label="Filter By"
-                    onChange={(e) => setFilter(e.target.value)}
+                    onChange={(e) => { setFilter(e.target.value) , setCurrentPage(1) }}
                   >
                     <MenuItem value={"All"}>All</MenuItem>
                     <MenuItem value={"Sale"}>Sale</MenuItem>
@@ -316,7 +317,8 @@ const AllProperties = () => {
             
             <Pagination
               count={nPages}
-              color="primary"
+              color= "primary"
+              page={currentPage}
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
             />

@@ -47,17 +47,17 @@ const Rent = () => {
   } , [data])
 
   const [searchValue, setSearchValue] = useState("");
-  const [filter, setFilter] = useState("All");
+  //const [filter, setFilter] = useState("All");
   const filteredData = data
-    .filter((code) => {
-      if (filter === "Sale") {
-        return code.pro_ad_type === "Sale";
-      } else if (filter === "Rent") {
-        return code.pro_ad_type === "Rent";
-      } else if (filter === "All") {
-        return true;
-      }
-    })
+    // .filter((code) => {
+    //   if (filter === "Sale") {
+    //     return code.pro_ad_type === "Sale";
+    //   } else if (filter === "Rent") {
+    //     return code.pro_ad_type === "Rent";
+    //   } else if (filter === "All") {
+    //     return true;
+    //   }
+    // })
     .filter(
       (code) =>
         code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -92,7 +92,7 @@ const Rent = () => {
                     setSearchValue(e.target.value);
                   }}
                 />
-                <FormControl
+                {/* <FormControl
                   sx={{ m: 1, width: ["100%"] }}
                   size="small"
                   className="col-md-3 mx-4 mx-md-0"
@@ -111,7 +111,7 @@ const Rent = () => {
                     <MenuItem value={"Sale"}>Sale</MenuItem>
                     <MenuItem value={"Rent"}>Rent</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </div>
             </div>
             <div className="row">
@@ -257,11 +257,11 @@ const Rent = () => {
                     <Link
                       to={`/subCat/${sub.pro_type.split(",")[0]}`}
                       key={index}
-                      className={
-                        sub.pro_type.split(",")[0] === cat
-                          ? "text-primary m-0"
-                          : "text-secondary m-0"
-                      }
+                      // className={
+                      //   sub.pro_type.split(",")[0] === cat
+                      //     ? "text-primary m-0"
+                      //     : "text-secondary m-0"
+                      // }
                     >
                       <div className="d-flex justify-content-between px-3 py-2">
                         <div>{sub.pro_type.split(",")[0]}</div>
@@ -277,8 +277,14 @@ const Rent = () => {
                     </div>
                     {rentData.map((rent, index) => (
                       <Link
-                        to={`/rent/${rent.pro_city}`}
+                        
+                        to={`/rent/${rent.pro_type.split(",")[0]}`}
                         key={index}
+                        className={
+                          rent.pro_type.split(",")[0] === cat
+                            ? "text-primary m-0"
+                            : "text-secondary m-0"
+                        }
                       >
                         <div className="d-flex justify-content-between px-3 py-2">
                           <div>{rent.pro_type.split(",")[0]}</div>
@@ -291,6 +297,7 @@ const Rent = () => {
               </div>
             </div>
             <Pagination
+              page={currentPage}
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
