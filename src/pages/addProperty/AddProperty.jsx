@@ -270,16 +270,23 @@ const AddProperty = () => {
   //   }
   // };
 
-
-  const [filesData , setFilesData] = useState({
-    fileName : "",
-    error: "",
-  })
+  const [filesData, setFilesData] = useState([]);
 
   const handleImage = (data) => {
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
+      // console.log(data[i].name);
+      // if (filesData.some((item) => item.fileName.name === data[i].name) === false || filesData.length === 0) {
+      //   console.log(data[i].name);
+      //   setFilesData([
+      //     {
+      //       fileName: data[i],
+      //       error: false,
+      //     },
+      //     ...filesData,
+      //   ]);
+      // }
       if (data[i].type.match(pattern)) {
         setFormatError(false);
         if (data[i].size < maxFileSize && data[i].size > minFileSize) {
@@ -287,6 +294,16 @@ const AddProperty = () => {
           setFileSizeExceeded(false);
         } else {
           setFileSizeExceeded(true);
+          // setFilesData((filesData) =>
+          //   filesData.map((item) =>
+          //     data[i].name === item.fileName.name
+          //       ? {
+          //           ...item,
+          //           error: true,
+          //         }
+          //       : item
+          //   )
+          // );
           return;
         }
       } else {
@@ -294,6 +311,8 @@ const AddProperty = () => {
       }
     }
   };
+
+  //console.log(filesData);
 
   const handleDrag = function (e) {
     e.preventDefault();
@@ -583,7 +602,12 @@ const AddProperty = () => {
               </button>
             )}
           </div>
-          <div style={{ color: "red" }} className="pt-2 d-flex justify-content-center ">{loginStatus === "" ? "" : loginStatus}</div>
+          <div
+            style={{ color: "red" }}
+            className="pt-2 d-flex justify-content-center "
+          >
+            {loginStatus === "" ? "" : loginStatus}
+          </div>
         </DialogContent>
       </Dialog>
       <Navbar />
@@ -660,7 +684,7 @@ const AddProperty = () => {
                       <h2 style={{ textAlign: "center" }}>
                         Start Posting your Property for Free
                       </h2>
-                      
+
                       <div className="whole_radio">
                         <div className="pro_flex">
                           <FormControl
@@ -1354,14 +1378,14 @@ const AddProperty = () => {
                         </FormControl>
                       </div>
 
-                      <div className="pro_flex">
+                      <div className="pro_flex ">
                         <TextField
                           sx={{ m: 1, mr: 0, width: ["70%"] }}
                           id="outlined-basic"
                           variant="outlined"
                           size="small"
                           label="Area Plot Size"
-                          className="w-full"
+                          className="w-full pro_flex_select "
                           name="Area Plot Size"
                           inputProps={{ maxLength: 100 }}
                           value={propertyData.pro_area_size}
@@ -1379,10 +1403,11 @@ const AddProperty = () => {
                             })
                           }
                         />
-                        
+
                         <FormControl
                           sx={{ mt: 1, width: ["30%"] }}
                           size="small"
+                          className="pro_flex_select2"
                         >
                           <Select
                             id="demo-simple-select"
@@ -1400,7 +1425,6 @@ const AddProperty = () => {
                             <MenuItem value={"Acres"}>Acres</MenuItem>
                             <MenuItem value={"Marla"}>Marla</MenuItem>
                           </Select>
-                          
                         </FormControl>
 
                         <TextField
@@ -1409,7 +1433,7 @@ const AddProperty = () => {
                           variant="outlined"
                           size="small"
                           label="Facing road Width"
-                          className="w-full"
+                          className="w-full pro_flex_select pro_flex_select3"
                           name="Facing road Width"
                           inputProps={{ maxLength: 100 }}
                           value={propertyData.pro_facing_road_width}
@@ -1427,6 +1451,7 @@ const AddProperty = () => {
                         <FormControl
                           sx={{ mt: 1, width: ["30%"] }}
                           size="small"
+                          className="pro_flex_select2"
                         >
                           <Select
                             id="demo-simple-select"
@@ -1624,17 +1649,16 @@ const AddProperty = () => {
                           onDrop={handleDrop}
                         >
                           <div className="d-flex flex-column  align-items-center">
-                            <div >Drop files here</div>
+                            <div>Drop files here</div>
                             <div className="py-1">Or</div>
                             <div className="border py-2 px-4">Browse</div>
                           </div>
                         </label>
                         <div>
-                          {selectedFiles != null &&
-                          selectedFiles != undefined 
+                          {selectedFiles != null && selectedFiles != undefined
                             ? files.map((item) => (
                                 <div className="ml-2">
-                                  <div>{item.name}</div>
+                                  <div>{item.name }</div>
                                   <div></div>
                                 </div>
                               ))
@@ -1734,14 +1758,14 @@ const AddProperty = () => {
                         </FormControl>
                       </div>
 
-                      <div className="pro_flex">
+                      <div className="pro_flex ">
                         <TextField
                           sx={{ m: 1, width: ["80%"], mr: 0 }}
                           id="outlined-basic"
                           variant="outlined"
                           size="small"
                           label="Expected Amount"
-                          className="w-full"
+                          className="w-full pro_flex_select"
                           name="Expected Amount"
                           inputProps={{ maxLength: 10 }}
                           value={propertyData.pro_amt}
@@ -1763,6 +1787,7 @@ const AddProperty = () => {
                         <FormControl
                           sx={{ mt: 1, mr: 1, width: ["20%"] }}
                           size="small"
+                          className="pro_flex_select2"
                         >
                           <Select
                             id="demo-simple-select"
@@ -1888,7 +1913,7 @@ const AddProperty = () => {
                           disabled={submitDisabled}
                           onClick={handleClick}
                         >
-                          Submit
+                          Add Property
                         </button>
                       </div>
                     </div>

@@ -15406,7 +15406,23 @@ input[type="file"] {
   .signup-form .pro_flex {
     display: block;
   }
+
+  .signup-form .pro_flex_select {
+    width: 69%;
+  }
+
+  .signup-form .pro_flex_select2 {
+    width: 27%;
+    margin-right: 0;
+  }
+
+  .signup-form .pro_flex_select3 {
+    margin-left: 8px;
+  }
+
 }
+
+
 .askquestion {
   background-color: #00b929;
   padding: 10px 12px;
@@ -15542,3 +15558,4 @@ section.find-services {
 .listed {
   font-size: 12px;
 }
+

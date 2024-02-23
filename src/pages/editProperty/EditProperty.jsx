@@ -1172,7 +1172,7 @@ const EditProperty = () => {
                               variant="outlined"
                               size="small"
                               label="Area Plot Size"
-                              className="w-full"
+                              className="w-full pro_flex_select"
                               name="Area Plot Size"
                               inputProps={{ maxLength: 100 }}
                               value={propertyData.pro_area_size}
@@ -1193,6 +1193,7 @@ const EditProperty = () => {
                             <FormControl
                               sx={{ mt: 1, width: ["30%"] }}
                               size="small"
+                              className="pro_flex_select2"
                             >
                               <Select
                                 id="demo-simple-select"
@@ -1220,7 +1221,7 @@ const EditProperty = () => {
                               variant="outlined"
                               size="small"
                               label="Facing road Width"
-                              className="w-full"
+                              className="w-full pro_flex_select pro_flex_select3"
                               name="Facing road Width"
                               inputProps={{ maxLength: 100 }}
                               value={propertyData.pro_facing_road_width}
@@ -1238,6 +1239,7 @@ const EditProperty = () => {
                             <FormControl
                               sx={{ mt: 1, width: ["30%"] }}
                               size="small"
+                              className="pro_flex_select2"
                             >
                               <Select
                                 id="demo-simple-select"
@@ -1518,226 +1520,9 @@ const EditProperty = () => {
                               )}
                             </FormControl>
                           </div>
-                          {/* <div className="radio_1 ">
-                            <div>
-                              <h3>Ownership</h3>
-                              <div className="div_radio">
-                                <label htmlFor="freehold">
-                                  <input
-                                    type="radio"
-                                    name="ownnership"
-                                    id="freehold"
-                                    defaultChecked={
-                                      propertyData.pro_ownership_type ===
-                                      "Freehold"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_ownership_type: "Freehold",
-                                      })
-                                    }
-                                  />
-                                  Freehold
-                                </label>
-                                <label htmlFor="Power of Attorney">
-                                  <input
-                                    type="radio"
-                                    name="ownnership"
-                                    id="Power of Attorney"
-                                    defaultChecked={
-                                      propertyData.pro_ownership_type ===
-                                      "Power of Attorney"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_ownership_type: "Power of Attorney",
-                                      })
-                                    }
-                                  />
-                                  Power of Attorney
-                                </label>
-                              </div>
-                            </div>
-                            <div>
-                              <h3>Price Negotiable</h3>
-                              <div className="div_radio">
-                                <label htmlFor="Yes">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    id="Yes"
-                                    defaultChecked={
-                                      propertyData.pro_negotiable === "Yes"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_negotiable: "Yes",
-                                      })
-                                    }
-                                  />
-                                  Yes
-                                </label>
-                                <label htmlFor="No">
-                                  <input
-                                    type="radio"
-                                    name="price"
-                                    id="No"
-                                    defaultChecked={
-                                      propertyData.pro_negotiable === "No"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_negotiable: "No",
-                                      })
-                                    }
-                                  />
-                                  No
-                                </label>
-                              </div>
-                            </div>
-                          </div> */}
+                         
 
-                          {/* 
-                          <div className="radio_1">
-                            <div>
-                              <h3>Authority Approved</h3>
-                              <div className="div_radio">
-                                <label htmlFor="HSVP">
-                                  <input
-                                    type="radio"
-                                    name="approval"
-                                    id="HSVP"
-                                    defaultChecked={
-                                      propertyData.pro_approval === "HSVP"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_approval: "HSVP",
-                                      })
-                                    }
-                                  />
-                                  HSVP
-                                </label>
-                                <label htmlFor="MC">
-                                  <input
-                                    type="radio"
-                                    name="approval"
-                                    id="MC"
-                                    defaultChecked={
-                                      propertyData.pro_approval === "MC"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_approval: "MC",
-                                      })
-                                    }
-                                  />
-                                  MC
-                                </label>
-
-                                <label htmlFor="DTP">
-                                  <input
-                                    type="radio"
-                                    name="approval"
-                                    id="DTP"
-                                    defaultChecked={
-                                      propertyData.pro_approval === "DTP"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_approval: "DTP",
-                                      })
-                                    }
-                                  />
-                                  DTP
-                                </label>
-
-                                <label htmlFor="Other">
-                                  <input
-                                    type="radio"
-                                    name="approval"
-                                    id="Other"
-                                    defaultChecked={
-                                      propertyData.pro_approval === "Other"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_approval: "Other",
-                                      })
-                                    }
-                                  />
-                                  Other
-                                </label>
-                              </div>
-                            </div>
-                            <div>
-                              <h3>Already on Rented</h3>
-                              <div className="div_radio">
-                                <label htmlFor="Yes2">
-                                  <input
-                                    type="radio"
-                                    name="Rented"
-                                    id="Yes2"
-                                    defaultChecked={
-                                      propertyData.pro_rental_status === "Yes"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_rental_status: "Yes",
-                                      })
-                                    }
-                                  />
-                                  Yes
-                                </label>
-                                <label htmlFor="No2">
-                                  <input
-                                    type="radio"
-                                    name="Rented"
-                                    id="No2"
-                                    defaultChecked={
-                                      propertyData.pro_rental_status === "No"
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_rental_status: "No",
-                                      })
-                                    }
-                                  />
-                                  No
-                                </label>
-                              </div>
-                            </div>
-                          </div> */}
+                          
 
                           <div className="pro_flex">
                             <TextField
@@ -1746,7 +1531,7 @@ const EditProperty = () => {
                               variant="outlined"
                               size="small"
                               label="Expected Amount"
-                              className="w-full"
+                              className="w-full pro_flex_select"
                               name="Expected Amount"
                               inputProps={{ maxLength: 10 }}
                               value={propertyData.pro_amt}
@@ -1770,6 +1555,7 @@ const EditProperty = () => {
                             <FormControl
                               sx={{ mt: 1, width: ["20%"] }}
                               size="small"
+                              className="pro_flex_select2"
                             >
                               <Select
                                 id="demo-simple-select"
