@@ -20,6 +20,10 @@ const AllProperties = () => {
   const [rentData, setRentData] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {

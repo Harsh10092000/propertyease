@@ -749,7 +749,7 @@ const AddProperty = () => {
                       <div className="d-flex justify-content-end">
                         <button
                           className="btn btn-primary"
-                          disabled={step1Disabled}
+                          //disabled={step1Disabled}
                           //onClick={handleNextStep}
                           onClick={
                             currentUser !== null ? handleNextStep : fetchOtp
@@ -1063,7 +1063,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          disabled={step2Disabled}
+                          //disabled={step2Disabled}
                           onClick={handleNextStep}
                         >
                           Next
@@ -1159,6 +1159,7 @@ const AddProperty = () => {
                                 })
                               }
                             >
+                              <MenuItem value={"0"}>0</MenuItem>
                               <MenuItem value={"1"}>1</MenuItem>
                               <MenuItem value={"2"}>2</MenuItem>
                               <MenuItem value={"3"}>3</MenuItem>
@@ -1191,6 +1192,7 @@ const AddProperty = () => {
                                 })
                               }
                             >
+                              <MenuItem value={"0"}>0</MenuItem>
                               <MenuItem value={"1"}>1</MenuItem>
                               <MenuItem value={"2"}>2</MenuItem>
                               <MenuItem value={"3"}>3</MenuItem>
@@ -1593,7 +1595,7 @@ const AddProperty = () => {
                         </div>
                       </div> */}
 
-<div className=" w-30 m-8">
+                      <div className=" w-30 m-8">
                         <input
                           multiple
                           type="file"
@@ -1651,7 +1653,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          disabled={step3Disabled}
+                          //disabled={step3Disabled}
                           onClick={handleNextStep}
                         >
                           Next

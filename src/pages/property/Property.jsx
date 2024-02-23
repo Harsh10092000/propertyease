@@ -266,8 +266,8 @@ const Property = () => {
                       className={sticky ? "top newClass" : "top"}
                       id="dynamic"
                     >
-                      <div className="d-flex flex-column" style={{ gap: "0" }}>
-                        <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center">
+                      <div className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0" style={{ gap: "0" }}>
+                        <h1 className="capitalize  pl-md-0 d-flex gap-3 align-items-center">
                           {data.pro_area_size + " " + data.pro_area_size_unit + " "}
                           {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                           {" " + data.pro_ad_type}
@@ -304,7 +304,7 @@ const Property = () => {
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between p-1">
-                        <div className="d-flex align-items-center justify-content-between">
+                        <div className="d-flex align-items-center justify-content-between pl-3 pl-md-0">
                           <div className="property-price">
                             {"₹" + data.pro_amt + " " + data.pro_amt_unit}
                           </div>
