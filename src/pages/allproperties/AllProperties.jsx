@@ -12,7 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 const AllProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 3;
+  const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   let firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
