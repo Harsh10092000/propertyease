@@ -126,7 +126,7 @@ section.recent-business,
 section.top-categories {
   padding: 60px 0;
 }
-input:focus::-webkit-input-placeholder {
+/* input:focus::-webkit-input-placeholder {
   font-size: 0.75em;
   position: relative;
   top: -15px;
@@ -134,7 +134,7 @@ input:focus::-webkit-input-placeholder {
 }
 input::-webkit-input-placeholder {
   transition: 0.2s ease-in;
-}
+} */
 
 .btn:focus {
   box-shadow: inherit;
@@ -4537,9 +4537,9 @@ th {
   text-align: inherit;
   text-align: -webkit-match-parent;
 }
-input.form-control::placeholder {
+/* input.form-control::placeholder {
   color: #858585;
-}
+} */
 button,
 select {
   text-transform: none;
@@ -5310,7 +5310,7 @@ span.msgRefreshRight {
   border-color: #bac8f3;
   outline: 0;
 }
-.form-control::-webkit-input-placeholder {
+/* .form-control::-webkit-input-placeholder {
   color: #858585;
 }
 .form-control::-moz-placeholder {
@@ -5324,7 +5324,7 @@ span.msgRefreshRight {
 }
 .form-control::placeholder {
   color: #858585;
-}
+} */
 .form-control:disabled,
 .form-control[readonly] {
   background-color: #eaecf4;

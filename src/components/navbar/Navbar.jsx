@@ -1,5 +1,6 @@
 import {
   IconArrowRight,
+  IconSearch,
   IconHome,
   IconLogin,
   IconPlus,
@@ -33,9 +34,9 @@ const Navbar = () => {
           <div className="header-right">
             <Link to="/allproperties">
               <div className="d-flex justify-content-center align-items-center gap-2 btn btn-primary">
-                <IconHome className="sidebar-faicon pr-1" />
+                <IconSearch className="sidebar-faicon pr-1" />
                 <div>
-                  View <span className="d-none d-md-inline">Properties</span>
+                  Search <span className="d-none d-md-inline">Properties</span>
                 </div>
               </div>
             </Link>
@@ -49,8 +50,8 @@ const Navbar = () => {
             </Link>
             {!currentUser ? (
               <Link to="/login">
-                <span className="login" title="Login">
-                  Login
+                <span className="login" title="Get Started">
+                  Get Started
                   <span>
                     <IconLogin className="sidebar-faicon" />
                   </span>

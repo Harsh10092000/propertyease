@@ -165,7 +165,7 @@ const Login = () => {
           </div>
           <div className={"block"}>
             <div className="heading_style">
-              <h4 className={"heading"}>LogIn</h4>
+              <h4 className={"heading"}>Get Started</h4>
             </div>
             <div>
               <form method="post" className={"form"}>

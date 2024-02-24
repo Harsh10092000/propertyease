@@ -486,6 +486,9 @@ const AddProperty = () => {
     navigate(`/property/_${id}`);
   };
 
+
+  //console.log("state.emailErr : " , state.emailErr);
+
   return (
     <div>
       {loader ? <Loader /> : ""}
@@ -496,13 +499,13 @@ const AddProperty = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {state.emailErr !== null ? "Create Account" : "Please Login"}
+          {state.emailErr !== null ? "Create Account" : "Get Started"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {state.emailErr !== null
-              ? "As to Continue Adding your Property please enter your phone number."
-              : "As to Continue Adding your Property please Login. Check your Mail for OTP."}
+              ? "Please enter your phone number."
+              : "Check your Mail for OTP."}
           </DialogContentText>
 
           {state.emailErr === null && (
@@ -715,6 +718,8 @@ const AddProperty = () => {
                               </FormHelperText>
                             )}
                           </FormControl>
+
+                          
 
                           <FormControl
                             sx={{ m: 1, width: ["100%"] }}

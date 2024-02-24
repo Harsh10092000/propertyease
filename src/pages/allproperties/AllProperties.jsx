@@ -93,9 +93,10 @@ const AllProperties = () => {
               <div className="row align-items-center my-2 mx-1 gap-3">
                 <TextField
                   variant="outlined"
-                  className="col-md-5 mx-4 mx-md-0"
+                  className="col-md-6 mx-4 mx-md-0"
                   size="small"
                   label="Search for properties..."
+                  placeholder="e.g. Sector 7 "
                   onChange={(e) => {
                     setCurrentPage(1);
                     setSearchValue(e.target.value);
@@ -262,7 +263,7 @@ const AllProperties = () => {
                 <div>
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">
-                      Categories
+                      For Sale
                     </div>
                     {subData.map((sub, index) => (
                       <Link
@@ -277,24 +278,7 @@ const AllProperties = () => {
                     ))}
                   </div>
                 </div>
-                {/* <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      Cities
-                    </div>
-                    {cityData.map((city, index) => (
-                      <Link
-                        to={`/city/${city.pro_city}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{city.pro_city.split(",")[0]}</div>
-                          <div>({city.pro_city_number})</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div> */}
+               
 
 
                 <div>

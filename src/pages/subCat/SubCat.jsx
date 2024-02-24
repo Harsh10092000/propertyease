@@ -85,9 +85,10 @@ const SubCat = () => {
               <div className="row gap-3 align-items-center my-2 mx-1">
                 <TextField
                   variant="outlined"
-                  className="col-md-3 mx-4 mx-md-0"
+                  className="col-md-6 mx-4 mx-md-0"
                   size="small"
                   label="Search for properties..."
+                  placeholder="e.g. Sector 7 "
                   onChange={(e) => {
                     setCurrentPage(1);
                     setSearchValue(e.target.value);
@@ -253,7 +254,7 @@ const SubCat = () => {
                 <div>
                 <div className="p-1 shadow">
                   <div className="p-3 font-weight-bold text-black">
-                    Categories
+                  For Sale
                   </div>
                   {subData.map((sub, index) => (
                     <Link
