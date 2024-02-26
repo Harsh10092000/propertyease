@@ -412,75 +412,19 @@ const Footer = () => {
       </section>
       <footer>
         <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <p>
+          <div className="row mb-5">
+            <div className="col-md-6 d-md-flex justify-content-start">
+              <p className="listed">
                 Copyright © {new Date().getFullYear()} Propertyease -
                 Information. All Rights Reserved
               </p>
             </div>
-            <div className="col-md-6">
-              <p className="fs-1">
+            <div className="col-md-6 d-md-flex justify-content-end">
+              <p className="listed">
                 Powered By CALinfo Training & Consultancy Private Limited
               </p>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="footer-nav">
-                <ul>
-                  <li>
-                    <Link to="/about">
-                      <a title="contactus">About Us</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      title="Click to view kurukshetra collector rates 2024-25"
-                      href={`/DC-Rates-2024-25.pdf`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      DC Rates 2024-25
-                    </a>
-                  </li>
-                  <li>
-                    <Link to="/termsAndConditions">
-                      <a title="contactus">Terms &amp; Conditions</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/privacypolicy">
-                      <a title="contactus">Privacy Policy</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="/documentsneededtobuyproperty.pdf"
-                      title="contactus"
-                    >
-                      Documents Needed To Buy Property
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {
-            // <div className="Disclaimer">
-            //   <p className="Disclaimer-content">
-            //     All the information displayed is as posted by the User and
-            //     displayed on the website for informational purposes only.
-            //     Propertyease.in makes no representations and warranties of any
-            //     kind, whether expressed or implied, for the Services and in
-            //     relation to the accuracy or quality of any information transmitted
-            //     or obtained at Propertyease.in. You are hereby strongly advised to
-            //     verify all information including visiting the relevant authorities
-            //     before taking any decision based on the contents displayed on the
-            //     website.
-            //   </p>
-            // </div>
-          }
         </div>
         <div className="footer-bottom">
           <h5>Complete Support</h5>

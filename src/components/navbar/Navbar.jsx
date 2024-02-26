@@ -33,19 +33,20 @@ const Navbar = () => {
           </div>
           <div className="header-right">
             <Link to="/allproperties">
-              <div className="d-flex justify-content-center align-items-center gap-2 btn btn-primary">
+              <span className="d-flex justify-content-center align-items-center gap-2 btn btn-primary">
                 <IconSearch className="sidebar-faicon pr-1" />
-                <div>
+                <span>
                   Search <span className="d-none d-md-inline">Properties</span>
-                </div>
-              </div>
+                </span>
+              </span>
             </Link>
             <Link to="/addproperty">
               <span className="add" title="List Property">
                 <span>
                   <IconPlus className="sidebar-faicon" />
                 </span>
-                List Property<span className="blink">Free</span>
+                List Property
+                <span className="blink d-none d-md-inline">Free</span>
               </span>
             </Link>
             {!currentUser ? (

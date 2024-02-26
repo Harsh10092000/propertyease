@@ -422,7 +422,7 @@ const Index = () => {
                   >
                     <div className="btn btn-primary w-75 d-flex justify-content-center align-items-center gap-4">
                       <IconHomePlus />
-                      Add Property
+                      &nbsp; Add Property
                     </div>
                   </Link>
                 </div>
@@ -446,7 +446,7 @@ const Index = () => {
                   <span>
                     <IconPhone />
                   </span>
-                  <div className="ph-content">
+                  <div className="ph-content" style={{ fontSize: "18px" }}>
                     <strong>TALK TO EXPERTS</strong>
                     <br />
                     Call: +91 99967 16787

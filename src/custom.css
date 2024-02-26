@@ -2899,7 +2899,7 @@ a.btn-resiter-earing:hover {
 }
 .ph-content strong {
   color: #d7f114;
-  font-size: 22px;
+  font-size: 15px;
 }
 a.btn-resiter-earing span {
   font-size: 48px;
@@ -15303,7 +15303,20 @@ img.book-img {
   color: white;
   background-color: #f91942 !important;
 }
-
+.search {
+  padding: 6px 12px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #065fa5;
+  transition: all 400ms ease-in-out;
+}
+.search:hover {
+  color: white;
+  background-color: #0d45a5 !important;
+}
 .blink {
   font-weight: 700;
   font-size: 10px;
@@ -15419,9 +15432,7 @@ input[type="file"] {
   .signup-form .pro_flex_select3 {
     margin-left: 8px;
   }
-
 }
-
 
 .askquestion {
   background-color: #00b929;
@@ -15558,4 +15569,3 @@ section.find-services {
 .listed {
   font-size: 12px;
 }
-
