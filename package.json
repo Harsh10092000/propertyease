@@ -10,18 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/url-gen": "^1.18.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.7",
     "@tabler/icons-react": "^2.46.0",
     "axios": "^1.6.7",
+    "cloudinary": "^2.0.1",
     "embla-carousel": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
+    "js-file-download": "^0.4.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-form-stepper": "^2.0.3",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.21.3"
+    "react-router-dom": "^6.21.3",
+    "react-spinners": "^0.13.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

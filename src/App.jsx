@@ -32,6 +32,7 @@ import AdminUsers from "./pages/adminUsers/AdminUsers";
 import PostRequirements from "./pages/postRequirements/PostRequirements";
 import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
 import Rent from "./pages/rent/Rent";
+import Watermark from "./pages/watermark/Watermark";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -215,6 +216,10 @@ const App = () => {
     {
       path: "/postRequirements",
       element: <PostRequirements />,
+    },
+    {
+      path: "/watermark",
+      element: <Watermark />,
     },
   ]);
   return (
