@@ -14,9 +14,12 @@ const Terms = () => {
           <div className="container">
             <div className="col-md-12">
               <h2>TERMS &amp; CONDITIONS</h2>
-              Before reading below understand the following definitions to know
-              better:
+
               <ul>
+                <li>
+                  Before reading below understand the following definitions to
+                  know better:
+                </li>
                 <li>
                   Here propertyease.in is a website and registered service of
                   CAL INFO TRAINING & CONSULTANCY PRIVATE LIMITED and hereafter
