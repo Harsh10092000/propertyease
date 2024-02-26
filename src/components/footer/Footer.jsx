@@ -413,10 +413,15 @@ const Footer = () => {
       <footer>
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-6">
               <p>
                 Copyright © {new Date().getFullYear()} Propertyease -
                 Information. All Rights Reserved
+              </p>
+            </div>
+            <div className="col-md-6">
+              <p className="fs-1">
+                Powered By CALinfo Training & Consultancy Private Limited
               </p>
             </div>
           </div>

@@ -95,15 +95,30 @@ const App = () => {
     },
     {
       path: "/about",
-      element: <About />,
+      element: (
+        <>
+          <ScrollToTop />
+          <About />
+        </>
+      ),
     },
     {
       path: "/termsAndConditions",
-      element: <Terms />,
+      element: (
+        <>
+          <ScrollToTop />
+          <Terms />
+        </>
+      ),
     },
     {
       path: "/privacypolicy",
-      element: <Privacy />,
+      element: (
+        <>
+          <ScrollToTop />
+          <Privacy />
+        </>
+      ),
     },
     {
       path: "/user",
@@ -190,7 +205,12 @@ const App = () => {
     },
     {
       path: "/nriService",
-      element: <NriService />,
+      element: (
+        <>
+          <ScrollToTop />
+          <NriService />
+        </>
+      ),
     },
     {
       path: "/postRequirements",

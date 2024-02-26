@@ -412,11 +412,14 @@ const Index = () => {
                 </div>
               </div>
               <div className="col-md-6 ">
-                <div className="prom-right">
+                <div className="prom-right ">
                   <h4>
                     List on Propertyease for <span className="free">FREE!</span>
                   </h4>
-                  <Link to="">
+                  <Link
+                    to="/addproperty"
+                    className="d-flex justify-content-center"
+                  >
                     <div className="btn btn-primary w-75 d-flex justify-content-center align-items-center gap-4">
                       <IconHomePlus />
                       Add Property
