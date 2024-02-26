@@ -40,6 +40,7 @@ const AddProperty = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setUserData({...userData , number : ""})
     dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
   };
 
@@ -70,6 +71,7 @@ const AddProperty = () => {
   }, [currentUser]);
 
   const verifyEmail = async () => {
+    
     try {
       await axios
         .get(
@@ -77,7 +79,9 @@ const AddProperty = () => {
             `/api/auth/verifyEmail/${userData.email}`
         )
         .then((res) => dispatch({ type: ACTION_TYPES.UNSET_FETCH_ERROR }));
+        
     } catch (err) {
+     
       dispatch({ type: ACTION_TYPES.FETCH_ERROR, payload: err.response.data });
     }
   };
@@ -172,7 +176,6 @@ const AddProperty = () => {
   const checkLogin = async () => {
     if (userData.otp.length === 6) {
       const result = await login(userData);
-      console.log("result : ", result);
       if (result !== false) {
         handleNextStep();
         handleClose();
@@ -312,7 +315,7 @@ const AddProperty = () => {
     }
   };
 
-  //console.log(filesData);
+
 
   const handleDrag = function (e) {
     e.preventDefault();
@@ -324,7 +327,6 @@ const AddProperty = () => {
     e.stopPropagation();
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      console.log("e.dataTransfer.files : ", e.dataTransfer.files);
       setSelectedFiles(e.dataTransfer.files);
       handleImage(e.dataTransfer.files);
     }
@@ -333,7 +335,6 @@ const AddProperty = () => {
   let files = "";
 
   if (selectedFiles !== null && selectedFiles !== undefined) {
-    console.log("selectedFiles : ", selectedFiles);
     files = Array.from(selectedFiles);
   }
 
@@ -469,10 +470,8 @@ const AddProperty = () => {
   };
 
   const addImages = async (id) => {
-    console.log(id);
     if (selectedFiles !== null) {
       for (let i = 0; i < selectedFiles.length; i++) {
-        console.log(`file ${i + 1} uploading`);
         formData.append(`files`, selectedFiles[i]);
       }
       formData.append("proId", id);
@@ -487,7 +486,7 @@ const AddProperty = () => {
   };
 
 
-  //console.log("state.emailErr : " , state.emailErr);
+
 
   return (
     <div>

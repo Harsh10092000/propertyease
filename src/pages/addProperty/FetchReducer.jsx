@@ -84,7 +84,7 @@ export const fetchReducer = (state, action) => {
         minutes: 1,
         seconds: 30,
         otpf: false,
-        emailErr: null,
+        //emailErr: null,
         timer: false,
       };
     case ACTION_TYPES.SET_FORMAT_ERROR:
