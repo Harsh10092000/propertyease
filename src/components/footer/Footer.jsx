@@ -421,7 +421,7 @@ const Footer = () => {
             </div>
             <div className="col-md-6 d-md-flex justify-content-end">
               <p className="listed">
-                Powered By CALinfo Training & Consultancy Private Limited
+                Powered By CAL info Training & Consultancy Private Limited
               </p>
             </div>
           </div>
