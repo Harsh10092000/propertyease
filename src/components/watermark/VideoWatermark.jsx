@@ -114,15 +114,15 @@ const VideoWatermark = () => {
         </label>
       </div>
 
-
+{console.log(invalidFile , selectedVideo)}
       <div className="ml-2">
         {!loader ? (
           <button
             className={
-              invalidFile === false  && selectedVideo === null ? "btn btn-secondary py-2 px-4" : "btn btn-primary py-2 px-4"
+              invalidFile === false  && selectedVideo !== null ? "btn btn-primary py-2 px-4" : "btn btn-secondary py-2 px-4"
             }
             onClick={handleUpload}
-            disabled={invalidFile === false && selectedVideo === null ? true : false}
+            disabled={invalidFile === false && selectedVideo !== null ? false : true}
           >
             Upload
           </button>
@@ -140,7 +140,7 @@ const VideoWatermark = () => {
       ) : (
         ""
       )}
-	  <div className="mt-4 col-md-6 embed-responsive embed-responsive-16by9">
+	  <div className="mt-4  embed-responsive embed-responsive-16by9">
 	  {pid ? <Video cloudName="dqct40k0n" watermarkId="logo_2_nximfp" /> : ""}
 	  </div>
     
