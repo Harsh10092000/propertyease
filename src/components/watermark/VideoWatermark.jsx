@@ -13,17 +13,18 @@ const VideoWatermark = () => {
   const cld = new Cloudinary({ cloud: { cloudName: "dqct40k0n" } });
 
   const handleFileChange = (event) => {
+    //console.log(event[0].type);
     setInvalidFile(false);
     setselectedVideo(null);
     setPid(null);
-    const temp = event.target.files[0];
-
+    //const temp = event.target.files[0];
+    const temp = event;
     if (!temp) return;
-    console.log("temp: ", temp.type);
-    if (temp.type !== "video/mp4") {
+    //console.log("temp: ", temp[0].type);
+    if (temp[0].type !== "video/mp4") {
       setInvalidFile(true);
     }
-    setselectedVideo(event.target.files);
+    setselectedVideo(event);
   };
 
   const handleUpload = async () => {
@@ -63,6 +64,20 @@ const VideoWatermark = () => {
     }
   }
 
+  const handleDrag1 = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop1 = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("e.dataTransfer.files : " , e.dataTransfer.files);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileChange(e.dataTransfer.files);
+    }
+  };
+
   return (
     <div className="d-flex flex-column gap-12 justify-content-center p-5  ">
       <div className="  m-8">
@@ -71,11 +86,15 @@ const VideoWatermark = () => {
           type="file"
           multiple
           className="hidden sr-only w-full"
-          onChange={handleFileChange}
+          onChange={(e) => handleFileChange(e.target.files)}
         />
         <label
           htmlFor="file-2"
           className="border py-4 mx-2 rounded-2 border-secondary"
+          onDragEnter={handleDrag1}
+          onDragLeave={handleDrag1}
+          onDragOver={handleDrag1}
+          onDrop={handleDrop1}
         >
           {!selectedVideo && (
             <div className="d-flex flex-column align-items-center">
