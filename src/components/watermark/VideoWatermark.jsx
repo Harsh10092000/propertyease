@@ -40,7 +40,7 @@ const VideoWatermark = () => {
       import.meta.env.VITE_BACKEND + "/api/watermark/uploadVideo",
       formData
     );
-    console.log(ans.data.public_id);
+  
     setPid(ans.data.public_id);
   };
 
@@ -121,10 +121,10 @@ const VideoWatermark = () => {
       ) : (
         ""
       )}
-	  <div className="ml-2 mt-4">
+	  <div className="mt-4 col-md-6 embed-responsive embed-responsive-16by9">
 	  {pid ? <Video cloudName="dqct40k0n" watermarkId="logo_2_nximfp" /> : ""}
 	  </div>
-     
+    
     </div>
   );
 };

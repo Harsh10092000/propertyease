@@ -30,7 +30,7 @@ const ImageWatermark = () => {
       if (data[i].type.match(pattern)) {
         setFormatError(false);
         setBtn(false);
-        if (data[i].size < maxFileSize && data[i].size > minFileSize) {
+        if (data[i].size > minFileSize) {
           formData.append(`files`, data[i]);
           setFileSizeExceeded(false);
           setBtn(false);
