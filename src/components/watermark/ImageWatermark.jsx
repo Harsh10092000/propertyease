@@ -3,26 +3,22 @@ import axios from "axios";
 import fileDownload from "js-file-download";
 import { useState } from "react";
 import { HashLoader } from "react-spinners";
-import { Cloudinary } from "@cloudinary/url-gen";
 
 const ImageWatermark = () => {
     const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
-  const maxFileSize = 1000000;
   const minFileSize = 10000;
   const formData = new FormData();
-  //const maxSize = 9000;
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [txt, showtxt] = useState(false);
   const [btn, setBtn] = useState(true);
-  const [invalidFile, setInvalidFile] = useState(true);
   const [numFile, setNumFile] = useState(0);
   const [circle, showCircle] = useState(false);
-  const [less, setLess] = useState(true);
-  const [maxFile, setMaxFile] = useState(false);
   const [prev, setprev] = useState(true);
 
   const handleImage = (data) => {
+    console.log("data : " , data)
+   
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
