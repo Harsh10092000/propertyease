@@ -91,7 +91,7 @@ const ImageWatermark = () => {
       })
       .then((res) => {
         console.log(res.data);
-        fileDownload(res.data, "watermarked.zip");
+        fileDownload(res.data, "wm-"+Date.now()+".zip");
       });
 
     setSelectedFiles(null);
