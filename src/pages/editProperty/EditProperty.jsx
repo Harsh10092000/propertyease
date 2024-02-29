@@ -424,14 +424,14 @@ const EditProperty = () => {
                           <span>
                             <IconUser className="sidebar-faicon" />
                           </span>
-                          <strong>Create Account</strong>Register your personal
+                          <strong>Edit Account</strong>Update your personal
                           information.
                         </li>
                         <li>
                           <span>
                             <IconMail className="sidebar-faicon" />
                           </span>
-                          <strong>Add Location </strong>Enter all details of
+                          <strong>Edit Location </strong>Enter all details of
                           your property location
                         </li>
                         <li>
@@ -445,7 +445,7 @@ const EditProperty = () => {
                           <span>
                             <IconWallet className="sidebar-faicon" />
                           </span>
-                          <strong>Pricing</strong>Add property Pricing
+                          <strong>Pricing</strong>Edit property Pricing
                         </li>
                       </ul>
                     </div>
@@ -1682,7 +1682,7 @@ const EditProperty = () => {
                               disabled={submitDisabled}
                               onClick={handleClick}
                             >
-                              Add Property
+                              Edit Property
                             </button>
                           </div>
                         </div>
