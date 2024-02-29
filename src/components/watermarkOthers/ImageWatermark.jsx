@@ -1,11 +1,12 @@
 
+
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { useState } from "react";
 import { HashLoader } from "react-spinners";
 
 const ImageWatermark = () => {
-    const [formatError, setFormatError] = useState(false);
+  const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const minFileSize = 10000;
   const formData = new FormData();
@@ -15,15 +16,20 @@ const ImageWatermark = () => {
   const [numFile, setNumFile] = useState(0);
   const [circle, showCircle] = useState(false);
   const [prev, setprev] = useState(true);
+	const [type, setType] = useState('cm');
+  const [maxFileError , setMaxFileError] = useState(false);
+
+  const handleType = (e) => {
+		const { name, value } = e.target;
+		setType(value);
+	};
 
   const handleImage = (data) => {
-    console.log("data : " , data)
-   
+
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
-      
-      if (data[i].type.match(pattern)) {
+      if (data[i].type.match(pattern) && data.length < 11 ) {
         setFormatError(false);
         setBtn(false);
         if (data[i].size > minFileSize) {
@@ -36,6 +42,7 @@ const ImageWatermark = () => {
           return;
         }
       } else {
+        setMaxFileError(true)
         setFormatError(true);
         setBtn(true);
         return;
@@ -49,7 +56,10 @@ const ImageWatermark = () => {
   };
 
   const handleDrop = function (e) {
-    setBtn(true)
+    setFormatError(false),
+    setFileSizeExceeded(false),
+    setMaxFileError(false),
+    setBtn(true);
     e.preventDefault();
     e.stopPropagation();
 
@@ -65,17 +75,16 @@ const ImageWatermark = () => {
     files = Array.from(selectedFiles);
   }
 
-
-
   const handleUpload = async () => {
     for (let i = 0; i < selectedFiles.length; i++) {
       console.log(`file ${i + 1} uploading`);
       formData.append(`files`, selectedFiles[i]);
     }
+    formData.append('typeLogo', type);
     setprev(false);
     showCircle(false);
     await axios.post(
-      import.meta.env.VITE_BACKEND + "/api/watermark/upload",
+      import.meta.env.VITE_BACKEND + "/api/watermark2/upload",
       formData
     );
   };
@@ -86,12 +95,12 @@ const ImageWatermark = () => {
     showtxt(true);
     showCircle(true);
     await axios
-      .get(import.meta.env.VITE_BACKEND + `/api/watermark/download`, {
+      .get(import.meta.env.VITE_BACKEND + `/api/watermark2/download`, {
         responseType: "blob",
       })
       .then((res) => {
         console.log(res.data);
-        fileDownload(res.data, "wm-"+Date.now()+".zip");
+        fileDownload(res.data, "wm-" + Date.now() + ".zip");
       });
 
     setSelectedFiles(null);
@@ -103,7 +112,6 @@ const ImageWatermark = () => {
 
   return (
     <div className="d-flex flex-column gap-12 justify-content-center p-5  ">
-      
       <div className="  m-8">
         <input
           multiple
@@ -116,6 +124,7 @@ const ImageWatermark = () => {
               setFileSizeExceeded(false),
               setSelectedFiles(event.target.files),
               setBtn(true),
+              setMaxFileError(false),
               handleImage(event.target.files);
           }}
         />
@@ -143,9 +152,52 @@ const ImageWatermark = () => {
             </div>
           )}
         </label>
-       
         <div>
-          {selectedFiles != null && selectedFiles != undefined && prev !== false 
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio1"
+              value="cm"
+              onChange={handleType}
+						 defaultChecked
+            />
+            <label class="form-check-label mb-0" for="inlineRadio1">
+            CourseMentor
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio2"
+              value="iwin"
+              onChange={handleType}
+            />
+            <label class="form-check-label mb-0" for="inlineRadio2">
+             Iwin
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio3"
+              
+              value="both"
+              onChange={handleType}
+            />
+            <label class="form-check-label mb-0" for="inlineRadio3">
+              Both
+            </label>
+          </div>
+        </div>
+        <div>
+          {selectedFiles != null && selectedFiles != undefined && prev !== false
             ? files.map((item) => (
                 <div className="ml-2">
                   <div>{item.name}</div>
@@ -156,18 +208,21 @@ const ImageWatermark = () => {
         </div>
 
         <div className="text-danger ml-2 ">
-          {formatError ? "Invalid File Format ( Accepted format are : jpg, png, jpeg, webp)" : ""}
-          {fileSizeExceeded
-            ? "File Size is below 10kb"
+          {maxFileError === true ? 
+          "Maximum file exceeded (10 Files are allowed)"
+          : formatError
+            ? "Invalid File Format ( Accepted format are : jpg, png, jpeg, webp)"
             : ""}
+          {fileSizeExceeded ? "File Size is below 10kb" : ""}
         </div>
       </div>
-
 
       <div className="ml-2">
         {prev && (
           <button
-            className={btn ? "btn btn-secondary p-2 px-4" : "btn btn-primary py-2 px-4" }
+            className={
+              btn ? "btn btn-secondary p-2 px-4" : "btn btn-primary py-2 px-4"
+            }
             disabled={btn}
             onClick={handleUpload}
           >
@@ -175,16 +230,11 @@ const ImageWatermark = () => {
           </button>
         )}
         {!prev && !circle && (
-          <button
-            className="btn btn-primary"
-            onClick={handleDownload}
-          >
+          <button className="btn btn-primary" onClick={handleDownload}>
             Download
           </button>
-         )} 
+        )}
       </div>
-
-      
 
       {txt && (
         <div className="text-slate-500 text-xl">
@@ -192,9 +242,7 @@ const ImageWatermark = () => {
         </div>
       )}
       {circle && <HashLoader />}
-      
     </div>
-    
   );
 };
 

@@ -33,6 +33,8 @@ import PostRequirements from "./pages/postRequirements/PostRequirements";
 import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
 import Rent from "./pages/rent/Rent";
 import Watermark from "./pages/watermark/Watermark";
+import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
+//import Test from "./pages/test/test";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -221,6 +223,14 @@ const App = () => {
       path: "/watermark",
       element: <Watermark />,
     },
+    {
+      path: "/watermark2",
+      element: <WatermarkOthers />,
+    },
+    // {
+    //   path: "/test",
+    //   element: <Test />,
+    // },
   ]);
   return (
     <>
