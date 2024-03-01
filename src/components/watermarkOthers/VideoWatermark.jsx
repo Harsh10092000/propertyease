@@ -146,13 +146,13 @@ const VideoWatermark = () => {
           <input
             class="form-check-input"
             type="radio"
-            name="inlineRadioOptions"
-            id="inlineRadio1"
+            name="inlineRadioOptions1"
+            id="inlineRadio4"
             value="cm"
             onChange={handleType}
             defaultChecked
           />
-          <label class="form-check-label mb-0" for="inlineRadio1">
+          <label class="form-check-label mb-0" for="inlineRadio4">
             CourseMentor
           </label>
         </div>
@@ -160,12 +160,12 @@ const VideoWatermark = () => {
           <input
             class="form-check-input"
             type="radio"
-            name="inlineRadioOptions"
-            id="inlineRadio2"
+            name="inlineRadioOptions1"
+            id="inlineRadio5"
             value="iwin"
             onChange={handleType}
           />
-          <label class="form-check-label mb-0" for="inlineRadio2">
+          <label class="form-check-label mb-0" for="inlineRadio5">
             Iwin
           </label>
         </div>

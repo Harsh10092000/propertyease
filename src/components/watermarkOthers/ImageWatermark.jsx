@@ -152,31 +152,32 @@ const ImageWatermark = () => {
             </div>
           )}
         </label>
-        <div>
+         <div>
 
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
               type="radio"
               name="inlineRadioOptions"
-              id="inlineRadio1"
+              id="cm"
               value="cm"
               onChange={handleType}
-						 defaultChecked
+              defaultChecked
             />
-            <label class="form-check-label mb-0" for="inlineRadio1">
+            <label class="form-check-label mb-0" for="cm">
             CourseMentor
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio2"
-              value="iwin"
-              onChange={handleType}
-            />
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="inlineRadio2"
+            value="iwin"
+            onChange={handleType}
+            
+          />
             <label class="form-check-label mb-0" for="inlineRadio2">
              Iwin
             </label>
@@ -196,6 +197,7 @@ const ImageWatermark = () => {
             </label>
           </div>
         </div>
+        
         <div>
           {selectedFiles != null && selectedFiles != undefined && prev !== false
             ? files.map((item) => (
