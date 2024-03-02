@@ -297,10 +297,10 @@ const Property = () => {
                         </h1>
                         
                       </div>
-                      <div className="property-top-address pl-3 pl-md-0 text-capitalize">
+                      <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
-                      <span className="listed">
+                      <span className="listed pl-3 pl-md-0 ">
                           Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()} 
                         </span>
                       <div className="d-flex align-items-center justify-content-between p-1">
