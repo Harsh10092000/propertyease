@@ -82,7 +82,9 @@ const UserDashboard = () => {
                     <tr>
                       <th>SNo.</th>
                       <th>Property Id</th>
+                      <th>Property Type</th>
                       <th>Sale/Resale</th>
+                      <th>Price</th>
                       <th>Property Title</th>
                       <th>Address</th>
                       <th>Actions</th>
@@ -93,7 +95,9 @@ const UserDashboard = () => {
                       <tr key={index}>
                         <td>{item.serial_no}</td>
                         <td>{5000 + parseInt(item.pro_id)}</td>
+                        <td>{item.pro_type}</td>
                         <td>{item.pro_ad_type}</td>
+                        <td>{item.pro_amt + " " + item.pro_amt_unit}</td>
                         <td>
                           {" "}
                           <span className="text-wrap">

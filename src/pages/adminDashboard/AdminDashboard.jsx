@@ -26,12 +26,18 @@ const AdminDashboard = () => {
   data.forEach((item, i) => {
     item.serial_no = i + 1;
   });
-
+  useEffect(() => {
+    data.forEach((item, i) => {
+      item.pro_modified_id = 5000 + parseInt(item.pro_id);
+    });
+  } , [data])
   const [searchValue, setSearchValue] = useState("");
+  
   const filteredData = data.filter(
     (code) =>
       code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
       code.pro_pincode.startsWith(searchValue) ||
+      code.pro_modified_id.toString().startsWith(searchValue) ||
       code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
   );
 
@@ -89,6 +95,7 @@ const AdminDashboard = () => {
             <thead>
               <tr>
                 <th>Sno.</th>
+                <th>Property Id</th>
                 <th>Sale/Resale</th>
                 <th>Owner/Agent</th>
                 <th>Property Type</th>
@@ -102,6 +109,7 @@ const AdminDashboard = () => {
               {records.map((item, index) => (
                 <tr key={index}>
                   <td>{item.serial_no}</td>
+                  <td>{5000 + parseInt(item.pro_id)}</td>
                   <td>{item.pro_ad_type}</td>
                   <td>{item.pro_user_type}</td>
                   <td>{item.pro_type}</td>

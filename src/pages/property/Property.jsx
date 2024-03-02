@@ -295,14 +295,14 @@ const Property = () => {
                             </button>
                           )}
                         </h1>
-                        <span className="listed">
-                          Listed by {" " + data.pro_user_type}
-                        </span>
+                        
                       </div>
                       <div className="property-top-address pl-3 pl-md-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
-
+                      <span className="listed">
+                          Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()} 
+                        </span>
                       <div className="d-flex align-items-center justify-content-between p-1">
                         <div className="d-flex align-items-center justify-content-between pl-md-0">
                           <div className="property-price">
