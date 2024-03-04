@@ -45,8 +45,7 @@ const PostRequirement = () => {
       userData.data_in_city !== "" &&
       userData.data_pro_type !== "" &&
       userData.data_pro_size !== "" &&
-      userData.data_price_quo !== "" &&
-      (userData.data_desc === "" || userData.data_desc < 2000)
+      userData.data_price_quo !== "" 
     ) {
       setSubmitDisabled(false);
     } else {
@@ -60,17 +59,16 @@ const PostRequirement = () => {
     userData.data_pro_type,
     userData.data_pro_size,
     userData.data_price_quo,
-    userData.data_desc,
   ]);
-
-
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      
       await axios
-        .post(import.meta.env.VITE_BACKEND + `/api/postRequirement/postRequirement`, userData)
+        .post(
+          import.meta.env.VITE_BACKEND + `/api/postRequirement/postRequirement`,
+          userData
+        )
         .then((res) => {
           setUserData({
             data_name: "",
@@ -86,7 +84,7 @@ const PostRequirement = () => {
         });
     } catch (err) {
       //setErr(err.response.data);
-      console.log(err.response.data)
+      console.log(err.response.data);
     }
   };
 
@@ -325,37 +323,31 @@ const PostRequirement = () => {
           </div>
         </div>
         <div className="pro_flex">
-        <FormControl
-                            sx={{ m: 1, width: ["100%"] }}
-                            size="small"
-                          >
-                            <InputLabel id="demo-simple-select-label">
-                            Price Quotation
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                            
-                              label="Price Quotation"
-                              onChange={(e) =>
-                                setUserData({
-                                  ...userData,
-                                  data_price_quo: e.target.value,
-                                })
-                              }
-                              value={userData.data_price_quo}
-                            >
-                              <MenuItem value="50 lakh to 1.5cr">50 lakh to 1.5cr</MenuItem>
-            <MenuItem value="1.5cr to 2.5 cr">1.5cr to 2.5 cr</MenuItem>
-            <MenuItem value="2.5cr to 3.5 cr">2.5cr to 3.5 cr</MenuItem>
-            <MenuItem value="3.5cr and above">3.5cr and above</MenuItem>
-                            </Select>
-                           {userData.data_price_quo === "" && (
+          <FormControl sx={{ m: 1, width: ["100%"] }} size="small">
+            <InputLabel id="demo-simple-select-label">
+              Price Quotation
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Price Quotation"
+              onChange={(e) =>
+                setUserData({
+                  ...userData,
+                  data_price_quo: e.target.value,
+                })
+              }
+              value={userData.data_price_quo}
+            >
+              <MenuItem value="50 lakh to 1.5cr">50 lakh to 1.5cr</MenuItem>
+              <MenuItem value="1.5cr to 2.5 cr">1.5cr to 2.5 cr</MenuItem>
+              <MenuItem value="2.5cr to 3.5 cr">2.5cr to 3.5 cr</MenuItem>
+              <MenuItem value="3.5cr and above">3.5cr and above</MenuItem>
+            </Select>
+            {userData.data_price_quo === "" && (
               <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
             )}
-                          </FormControl>
-
-         
+          </FormControl>
         </div>
         <div className="pro_flex">
           <TextField
@@ -399,7 +391,6 @@ const PostRequirement = () => {
           >
             Submit
           </button>
-          
         </div>
       </div>
       <Footer />
