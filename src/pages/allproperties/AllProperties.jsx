@@ -10,12 +10,10 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
+
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 const AllProperties = () => {
-  // TimeAgo.addDefaultLocale(en)
-  // const timeAgo = new TimeAgo('en-US')
+
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
