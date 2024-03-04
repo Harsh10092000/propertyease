@@ -318,7 +318,7 @@ const Property = () => {
                               <>
                                 {interested ? (
                                   <button
-                                    className="interest"
+                                    className="interest-showed"
                                     title="Already Contacted"
                                     onClick={askQuestion}
                                   >

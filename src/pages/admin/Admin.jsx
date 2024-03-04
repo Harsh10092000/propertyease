@@ -77,6 +77,14 @@ const Admin = () => {
                     </a>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/admin/requirements">
+                    <a title="Post Requirements">
+                      <IconSend />
+                      <span>Post Requirements</span>
+                    </a>
+                  </Link>
+                </li>
                 <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout />

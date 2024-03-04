@@ -34,7 +34,9 @@ import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
 import Rent from "./pages/rent/Rent";
 import Watermark from "./pages/watermark/Watermark";
 import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
-//import Test from "./pages/test/test";
+import PostRequirement from "./pages/postRequirement/PostRequirement";
+import AdminRequirement from "./pages/adminRequirement/AdminRequirement";
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -204,6 +206,10 @@ const App = () => {
           path: "shortlisted",
           element: <AdminShortlisted />,
         },
+        {
+          path: "requirements",
+          element: <AdminRequirement />,
+        },
       ],
     },
     {
@@ -227,10 +233,16 @@ const App = () => {
       path: "/watermark2",
       element: <WatermarkOthers />,
     },
-    // {
-    //   path: "/test",
-    //   element: <Test />,
-    // },
+    {
+      path: "/postRequirement",
+      element: (
+        <>
+          <ScrollToTop />
+          <PostRequirement />
+        </>
+      ),
+    },
+    
   ]);
   return (
     <>

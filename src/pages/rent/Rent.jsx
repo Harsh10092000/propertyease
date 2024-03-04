@@ -228,20 +228,46 @@ const Rent = () => {
                                 &nbsp;{object.pro_facing}
                               </li>
                             </ul>
-                            <Link
-                              to={`/property/${object.pro_type
-                                .split(",")[0]
-                                .replace(
-                                  " ",
-                                  "-"
-                                )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                object.pro_id
-                              }`}
-                            >
-                              <a title="View More" className="btn-viewmore">
-                                View More
-                              </a>
-                            </Link>
+                            
+                          </div>
+                          <div className="pt-3 d-flex justify-content-between  align-items-center">
+                            <div className="listed pl-md-0  ">
+                              Listed On
+                              <br />
+                              {new Date(object.pro_date).toDateString()}
+                            </div>
+                            <div className="d-flex">
+                              <div className="mr-2 mt-1 ">
+                                <Link
+                                  to={`/property/${object.pro_type
+                                    .split(",")[0]
+                                    .replace(
+                                      " ",
+                                      "-"
+                                    )}-${object.pro_ad_type.replace(
+                                    " ",
+                                    "-"
+                                  )}_${object.pro_id}`}
+                                >
+                                  <a
+                                    title="View More"
+                                    className=" btn-viewmore"
+                                  >
+                                    View More
+                                  </a>
+                                </Link>
+                              </div>
+                              <div>
+                                <a
+                                  rel="noreferrer nofollow"
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_id}`}
+                                  target="_blank"
+                                  className="conatct-propertywp "
+                                >
+                                  Contact
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -765,7 +765,7 @@ a.btn-viewmore {
   background-color: #f9d6dc;
   color: #f91942;
   font-size: 12px;
-  padding: 6px 8px;
+  padding: 10px 8px;
   text-decoration: none;
 }
 a.btn-viewmore:hover {
@@ -2558,6 +2558,11 @@ img.desc {
   border-radius: 5px;
   color: white;
 }
+
+.view-more {
+  padding: 10px 8px;
+}
+
 .share-propertywp {
   background-color: #25d366;
   padding: 5px 8px;
@@ -2567,6 +2572,21 @@ img.desc {
   border: none;
   border-radius: 5px;
   color: white;
+}
+
+.conatct-propertywp {
+  background-color: #6699CC;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+:hover.conatct-propertywp {
+  background-color: #0039a6;
 }
 
 .property-share-faicon {
@@ -3168,7 +3188,7 @@ a.btn-resiter-earing span {
     position: inherit;
     font-size: 12px;
     font-weight: 600;
-    padding: 6px 8px;
+    padding: 10px 8px;
     border-radius: 3px;
     text-decoration: none;
   }
@@ -3350,7 +3370,7 @@ a.btn-resiter-earing span {
     position: inherit;
     font-size: 12px;
     font-weight: 600;
-    padding: 6px 8px;
+    padding: 10px 8px;
     border-radius: 3px;
     text-decoration: none;
   }
@@ -15456,6 +15476,20 @@ input[type="file"] {
   color: white;
   gap: 4px;
 }
+
+.interest-showed {
+  background-color: #F08080;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+}
+
+
 .shortlist {
   padding: 5px;
   border: 1px solid lightgrey;
@@ -15568,4 +15602,38 @@ section.find-services {
 }
 .listed {
   font-size: 12px;
+}
+
+
+.post-requierment-wrapper {
+  margin: auto;
+  width: 55%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.post-requierment-wrapper .pro_flex {
+  display: flex;
+}
+
+@media screen and (max-width: 480px) {
+  .post-requierment-wrapper {
+    margin: auto;
+    width: 100%;
+   
+    padding: 30px 40px 30px 40px;
+  }
+  .post-requierment-wrapper .pro_flex {
+    display: block;
+  }
+}
+
+.post-requierment-heading {
+  font-size: 35px;
+  margin: 10px;
+  font-weight: 600;
+}
+
+.cursor-not-allowed-btn {
+  cursor: not-allowed;
 }

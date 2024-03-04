@@ -10,7 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
 const AllProperties = () => {
+  // TimeAgo.addDefaultLocale(en)
+  // const timeAgo = new TimeAgo('en-US')
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -34,27 +39,23 @@ const AllProperties = () => {
       .then((res) => {
         setSubData(res.data);
       });
-   
+
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
       .then((res) => {
         setRentData(res.data);
       });
-
   }, []);
 
-  
   useEffect(() => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
-  } , [data])
-
-  
+  }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
-  
+
   const filteredData = data
     .filter((code) => {
       if (filter === "Sale") {
@@ -115,7 +116,9 @@ const AllProperties = () => {
                     id="demo-simple-select"
                     value={filter}
                     label="Filter By"
-                    onChange={(e) => { setFilter(e.target.value) , setCurrentPage(1) }}
+                    onChange={(e) => {
+                      setFilter(e.target.value), setCurrentPage(1);
+                    }}
                   >
                     <MenuItem value={"All"}>All</MenuItem>
                     <MenuItem value={"Sale"}>Sale</MenuItem>
@@ -168,7 +171,8 @@ const AllProperties = () => {
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_area_size + " " +
+                                  {object.pro_area_size +
+                                    " " +
                                     object.pro_area_size_unit +
                                     " " +
                                     object.pro_type.split(",")[0] +
@@ -238,7 +242,7 @@ const AllProperties = () => {
                                 &nbsp;{object.pro_facing}
                               </li>
                             </ul>
-                            <Link
+                            {/* <Link
                               to={`/property/${object.pro_type
                                 .split(",")[0]
                                 .replace(
@@ -251,7 +255,46 @@ const AllProperties = () => {
                               <a title="View More" className="btn-viewmore">
                                 View More
                               </a>
-                            </Link>
+                            </Link> */}
+                          </div>
+                          <div className="pt-3 d-flex justify-content-between  align-items-center">
+                            <div className="listed pl-md-0  ">
+                              Listed On
+                              <br />
+                              {new Date(object.pro_date).toDateString()}
+                            </div>
+                            <div className="d-flex">
+                              <div className="mr-2 mt-1 ">
+                                <Link
+                                  to={`/property/${object.pro_type
+                                    .split(",")[0]
+                                    .replace(
+                                      " ",
+                                      "-"
+                                    )}-${object.pro_ad_type.replace(
+                                    " ",
+                                    "-"
+                                  )}_${object.pro_id}`}
+                                >
+                                  <a
+                                    title="View More"
+                                    className=" btn-viewmore"
+                                  >
+                                    View More
+                                  </a>
+                                </Link>
+                              </div>
+                              <div>
+                                <a
+                                  rel="noreferrer nofollow"
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_id}`}
+                                  target="_blank"
+                                  className="conatct-propertywp "
+                                >
+                                  Contact
+                                </a>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -278,14 +321,10 @@ const AllProperties = () => {
                     ))}
                   </div>
                 </div>
-               
-
 
                 <div>
                   <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      Rent
-                    </div>
+                    <div className="p-3 font-weight-bold text-black">Rent</div>
                     {rentData.map((rent, index) => (
                       <Link
                         to={`/rent/${rent.pro_type.split(",")[0]}`}
@@ -300,18 +339,15 @@ const AllProperties = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
-            
+
             <Pagination
               count={nPages}
-              color= "primary"
+              color="primary"
               page={currentPage}
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
             />
-           
-            
           </div>
         </section>
       </div>

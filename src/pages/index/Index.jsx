@@ -254,9 +254,9 @@ const Index = () => {
                   Be inspired to achieve more, get on top
                   <br /> of every Property challenge today
                 </h4>
-                <Link to="/addproperty">
+                <Link to="/postRequirement">
                   <a className="explore-more">
-                    Be Interested
+                    Post Requirement
                     <span>
                       <IconCircleArrowRightFilled />
                     </span>
