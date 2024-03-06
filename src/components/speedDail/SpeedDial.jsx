@@ -12,17 +12,17 @@ import {
 
 const actions = [
   {
-    icon: <IconBrandWhatsapp />,
+    icon: <IconBrandWhatsapp color="green" />,
     name: "Whatsapp",
     linkTo: "https://wa.me/919996716787",
   },
   {
-    icon: <IconBrandFacebook />,
+    icon: <IconBrandFacebook color="blue" />,
     name: "Facebook",
     linkTo: "https://www.facebook.com/Propertyease.in/",
   },
-  { icon: <IconPhone />, name: "Phone", linkTo: "tel:9996716787" },
-  { icon: <IconMail />, name: "Mail", linkTo: "mailto:propertyease.in@gmail.com" },
+  { icon: <IconPhone color="blue" />, name: "Phone", linkTo: "tel:9996716787" },
+  { icon: <IconMail color="red" />, name: "Mail", linkTo: "mailto:propertyease.in@gmail.com" },
 ];
 
 const SpeedDialComp = () => {
