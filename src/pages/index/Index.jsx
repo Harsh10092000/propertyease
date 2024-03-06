@@ -13,6 +13,7 @@ import Footer from "../../components/footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+
 const Index = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -29,6 +30,7 @@ const Index = () => {
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <Navbar />
+      
       <div>
         <section className="slider-home">
           <img src="/images/banner1.jpg" alt="banner" />

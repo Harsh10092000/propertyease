@@ -53,7 +53,7 @@ const Navbar = () => {
             </div>
             <div className=" header-2">
             <Link to="/postRequirement">
-              <span className="add justify-content-center" title="List Property">
+              <span className="post-requiremnet justify-content-center" title="Post Requiremnet">
                 <span>
                   <IconPlus className="sidebar-faicon" />
                 </span>

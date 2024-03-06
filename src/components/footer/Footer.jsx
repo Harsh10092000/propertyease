@@ -21,6 +21,7 @@ import { TextField, Button, InputAdornment, Snackbar } from "@mui/material";
 import axios from "axios";
 import Loader from "../loader/Loader";
 import { regEx } from "../../pages/regEx";
+import SpeedDialComp from "../speedDail/SpeedDial";
 
 const Footer = () => {
   const [loader, setLoader] = useState(false);
@@ -76,7 +77,9 @@ const Footer = () => {
     }
   }, [data, emailError]);
   return (
+    <>
     <div>
+      
       {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
@@ -474,6 +477,10 @@ const Footer = () => {
         </div>
       </footer>
     </div>
+    <SpeedDialComp />
+
+    </>
+
   );
 };
 

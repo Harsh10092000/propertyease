@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
 const SubCat = () => {
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
@@ -265,7 +266,8 @@ const SubCat = () => {
                                   target="_blank"
                                   className="conatct-propertywp "
                                 >
-                                  Contact
+                                  <IconBrandWhatsapp />
+                                  <span className="pl-1">Whatsapp</span>
                                 </a>
                               </div>
                             </div>
