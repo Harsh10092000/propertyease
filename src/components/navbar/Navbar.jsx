@@ -4,6 +4,7 @@ import {
   IconHome,
   IconLogin,
   IconPlus,
+  IconSend,
 } from "@tabler/icons-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
@@ -35,7 +36,7 @@ const Navbar = () => {
             <div className=" header-1">
             <Link to="/allproperties">
               <span className="search justify-content-center">
-                <IconSearch className="sidebar-faicon pr-1"  />
+                <IconSearch className="sidebar-faicon "  />
                 <span>
                   Search <span className="d-none d-inline">Properties</span>
                 </span>
@@ -55,7 +56,7 @@ const Navbar = () => {
             <Link to="/postRequirement">
               <span className="post-requiremnet justify-content-center" title="Post Requiremnet">
                 <span>
-                  <IconPlus className="sidebar-faicon" />
+                  <IconSend  className="sidebar-faicon" />
                 </span>
                 Post Requirement
                 

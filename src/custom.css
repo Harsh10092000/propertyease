@@ -816,6 +816,7 @@ a.explore-more {
 a.explore-more span {
   font-size: 16px;
   margin-left: 8px;
+  padding-right: 5px;
 }
 a.explore-more:hover {
   background-color: #fff;
@@ -14897,7 +14898,7 @@ span.msgRefresh svg {
 }
 .admin-faicon,
 .sidebar-faicon {
-  height: 16px;
+  height: 21px;
   width: 16px;
 }
 .Home_navcontainer__1-_Sr {
@@ -15390,7 +15391,7 @@ img.book-img {
 .post-requiremnet {
   padding: 6px 12px;
   display: flex;
-  gap: 5px;
+  /* gap: 5px; */
   align-items: center;
   border-radius: 5px;
   color: #fff;
@@ -15406,7 +15407,7 @@ img.book-img {
 .search {
   padding: 6px 12px;
   display: flex;
-  gap: 5px;
+  /* gap: 5px; */
   align-items: center;
   border-radius: 5px;
   color: #fff;
@@ -15417,6 +15418,9 @@ img.book-img {
   color: white;
   background-color: #0d45a5 !important;
 }
+
+
+
 .blink {
   font-weight: 700;
   font-size: 10px;
@@ -15736,4 +15740,14 @@ section.find-services {
   position: fixed !important;
   bottom: 16px;
   right: 16px;
+}
+
+.header-1 .sidebar-faicon {
+  width: 25px;
+  padding-right: 0px;
+}
+
+.header-2 .sidebar-faicon {
+  width: 25px;
+  padding-right: 0px;
 }

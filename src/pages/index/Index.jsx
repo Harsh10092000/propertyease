@@ -5,6 +5,7 @@ import {
   IconHome,
   IconHomePlus,
   IconMapPinFilled,
+  IconSend,
 } from "@tabler/icons-react";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { IconPhone } from "@tabler/icons-react";
@@ -258,10 +259,11 @@ const Index = () => {
                 </h4>
                 <Link to="/postRequirement">
                   <a className="explore-more">
-                    Post Requirement
-                    <span>
-                      <IconCircleArrowRightFilled />
+                  <span>
+                      <IconSend />
                     </span>
+                    Post Requirement
+                    
                   </a>
                 </Link>
               </div>

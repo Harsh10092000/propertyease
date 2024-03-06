@@ -23,12 +23,18 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Loader from "../../components/loader/Loader";
 import { Helmet } from "react-helmet";
 import PopSlider from "../../components/popSlider/PopSlider";
+import { useNavigate } from "react-router-dom";
 
 const Property = () => {
+  const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
   const proId = id.split("_")[1];
+  useEffect(() => {
+    isNaN(proId) && navigate(`/PageNotFound`) 
+  }, [proId] )
+  
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
   const [shortlist, setShortlist] = useState(false);
@@ -152,6 +158,7 @@ const Property = () => {
 
   return (
     <div>
+      
       <Helmet>
         <title>
           {"Property in " +

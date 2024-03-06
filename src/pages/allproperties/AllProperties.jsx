@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 
+
 const AllProperties = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
