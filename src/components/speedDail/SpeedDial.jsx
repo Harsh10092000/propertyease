@@ -8,6 +8,7 @@ import {
   IconBrandWhatsapp,
   IconMail,
   IconPhone,
+  IconPhoneCall,
 } from "@tabler/icons-react";
 
 const actions = [
@@ -33,12 +34,15 @@ const SpeedDialComp = () => {
     <SpeedDial
       ariaLabel="SpeedDial controlled open example"
       sx={{ position: "absolute", bottom: 16, right: 16 }}
-      icon={<SpeedDialIcon />}
+      icon={<IconPhoneCall />}
+      //icon={"Contact"}
       onClose={handleClose}
+
       onOpen={handleOpen}
       open={open}
       className="speed-dial"
-    >
+      
+    > 
       
         {actions.map((action) => (
             
