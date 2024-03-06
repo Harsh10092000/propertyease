@@ -262,7 +262,15 @@ const SubCat = () => {
                               <div>
                                 <a
                                   rel="noreferrer nofollow"
-                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_id}`}
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_type
+                                  .split(",")[0]
+                                  .replace(
+                                    " ",
+                                    "-"
+                                  )}-${object.pro_ad_type.replace(
+                                  " ",
+                                  "-"
+                                )}_${object.pro_id}`}
                                   target="_blank"
                                   className="conatct-propertywp "
                                   title=" Whatsapp/Contact for this property"
