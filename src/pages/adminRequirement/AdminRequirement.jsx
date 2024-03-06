@@ -60,6 +60,7 @@ const AdminRequirement = () => {
               <th>Ploat Size</th>
 
               <th>Client Budget</th>
+              <th>Comments</th>
               {/* <th>Actions</th> */}
             </tr>
           </thead>
@@ -75,6 +76,8 @@ const AdminRequirement = () => {
 
                 <td>{item.data_pro_size + " " + item.data_pro_size_unit}</td>
                 <td>{item.data_price_quo}</td>
+                {console.log(item.data_desc)}
+                <td>{item.data_desc !== null && item.data_desc !== "" ? item.data_desc : "-"}</td>
                 {/* <td className="d-flex gap-3">
                   <Link
                     to={`/property/${item.pro_type

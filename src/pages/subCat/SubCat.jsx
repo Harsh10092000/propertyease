@@ -252,7 +252,7 @@ const SubCat = () => {
                                   )}_${object.pro_id}`}
                                 >
                                   <a
-                                    title="View More"
+                                    title="View complete details of this property"
                                     className=" btn-viewmore"
                                   >
                                     View More
@@ -265,6 +265,7 @@ const SubCat = () => {
                                   href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_id}`}
                                   target="_blank"
                                   className="conatct-propertywp "
+                                  title=" Whatsapp/Contact for this property"
                                 >
                                   <IconBrandWhatsapp />
                                   <span className="pl-1">Whatsapp</span>
