@@ -12,6 +12,15 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { regEx } from "../regEx";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 const PostRequirement = () => {
   const [userData, setUserData] = useState({
@@ -26,9 +35,10 @@ const PostRequirement = () => {
     data_desc: "",
   });
 
+  const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [emailFormatError, setEmailFormatError] = useState(true);
-
+  const [loader , setLoader] = useState(false);
   useEffect(() => {
     if (!regEx[0].emailRegex.test(userData.data_email)) {
       setEmailFormatError(true);
@@ -49,7 +59,7 @@ const PostRequirement = () => {
     ) {
       setSubmitDisabled(false);
     } else {
-      setSubmitDisabled(true);
+      setSubmitDisabled(false);
     }
   }, [
     userData.data_name,
@@ -61,7 +71,16 @@ const PostRequirement = () => {
     userData.data_price_quo,
   ]);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    navigate(`/allproperties`);
+  };
+
   const handleClick = async (e) => {
+   // setLoader(true);
+    setOpen(true);
     e.preventDefault();
     try {
       await axios
@@ -70,6 +89,8 @@ const PostRequirement = () => {
           userData
         )
         .then((res) => {
+          setLoader(false);
+          setOpen(true);
           setUserData({
             data_name: "",
             data_phone: "",
@@ -83,16 +104,41 @@ const PostRequirement = () => {
           });
         });
     } catch (err) {
-      //setErr(err.response.data);
       console.log(err.response.data);
     }
   };
 
   return (
+   
+     
+    
     <div>
+      {loader && 
+      <Loader /> }
+       <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" className="fs-2">
+        Thank you
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Your Requirments has been successfully <br/>
+            submitted.Thanks!
+          </DialogContentText>
+          <DialogActions>
+          <button onClick={handleClose} className="px-4 btn btn-success">OK</button>
+        </DialogActions>
+              
+        </DialogContent>
+      </Dialog>
       <Navbar />
       <div className="post-requierment-wrapper ">
         <div className=" post-requierment-heading ">Post Requirement</div>
+        <div className="pl-2 pt-2 pb-2">Are you searching to buy any property? Please fill out this form to let us know about your preferred city, locality, and your budget. </div>
         <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
@@ -395,6 +441,7 @@ const PostRequirement = () => {
       </div>
       <Footer />
     </div>
+   
   );
 };
 

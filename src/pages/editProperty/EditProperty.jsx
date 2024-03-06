@@ -388,7 +388,7 @@ const EditProperty = () => {
     }
     navigate(`/property/_${id}`);
   };
-  console.log();
+ 
   return (
     <div>
       {propertyData.pro_user_id === currentUser[0].login_id ? (
@@ -405,9 +405,7 @@ const EditProperty = () => {
                   Edit Property
                 </h4>
                 <p>
-                  Do fill this form with attention so that your Property details
-                  are more accurate than the competitors. We know the form is a
-                  little bit lengthy, but it is for your own good.
+                Do fill this form with attention so that your Property details are more accurate for the potential buyers.
                 </p>
               </div>
               <div className="signup-form">

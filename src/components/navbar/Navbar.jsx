@@ -24,34 +24,46 @@ const Navbar = () => {
               </span>
             </Link>
           </div>
-          <div className="header-center">
+          {/* <div className="header-center">
             <div className="main-search">
               <div id="highlightsearchdiv">
                 <div className="form-group"></div>
               </div>
             </div>
-          </div>
-          <div className="header-right">
+          </div> */}
+          <div className="header-right d-flex flex-row ">
+            <div className=" header-1">
             <Link to="/allproperties">
-              <span className="search">
-                <IconSearch className="sidebar-faicon pr-1" />
+              <span className="search justify-content-center">
+                <IconSearch className="sidebar-faicon pr-1"  />
                 <span>
-                  Search <span className="d-none d-md-inline">Properties</span>
+                  Search <span className="d-none d-inline">Properties</span>
                 </span>
               </span>
             </Link>
-            <Link to="/addproperty">
+            <Link to="/addproperty" className="list-property">
               <span className="add" title="List Property">
                 <span>
                   <IconPlus className="sidebar-faicon" />
                 </span>
                 List Property
-                <span className="blink d-none d-md-inline">Free</span>
+                <span className="blink d-none d-inline">Free</span>
+              </span>
+            </Link>
+            </div>
+            <div className=" header-2">
+            <Link to="/postRequirement">
+              <span className="add justify-content-center" title="List Property">
+                <span>
+                  <IconPlus className="sidebar-faicon" />
+                </span>
+                Post Requirement
+                
               </span>
             </Link>
             {!currentUser ? (
-              <Link to="/login">
-                <span className="login" title="Get Started">
+              <Link to="/login" className="get-started">
+                <span className="login justify-content-center" title="Get Started">
                   Get Started
                   <span>
                     <IconLogin className="sidebar-faicon" />
@@ -59,13 +71,15 @@ const Navbar = () => {
                 </span>
               </Link>
             ) : (
-              <Link to="/user/dashboard">
-                <span className="login" title="Dashboard">
+              <Link to="/user/dashboard" className="dashboard text-center">
+                <div className="login text-center" title="Dashboard">
                   Dashboard
                   <IconArrowRight />
-                </span>
+                </div>
               </Link>
             )}
+            </div>
+            
           </div>
         </div>
       </div>

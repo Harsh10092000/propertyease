@@ -49,6 +49,7 @@ const AdminDashboard = () => {
       await axios.delete(
         import.meta.env.VITE_BACKEND + `/api/admin/deletePro/${id}`
       );
+      setSearchValue("")
       setChange(change + 1);
       setSnack(true);
     } catch (err) {
@@ -84,6 +85,7 @@ const AdminDashboard = () => {
             className="col-md-3 mx-4 mx-md-0 mt-3"
             size="small"
             label="Search for properties..."
+            value={searchValue}
             onChange={(e) => {
               setCurrentPage(1);
               setSearchValue(e.target.value);

@@ -29,6 +29,7 @@ const AdminShortlisted = () => {
           </thead>
           <tbody>
             {data.map((item, index) => (
+               item.pro_id !== null &&
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.login_email}</td>

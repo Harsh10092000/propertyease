@@ -105,7 +105,9 @@ const Property = () => {
     }
   };
   const [snackQ, setSnackQ] = useState(false);
+  console.log("data , currentUser : " , data , currentUser);
   const sendQuestion = async () => {
+    
     setLoader(true);
     try {
       await axios.post(
@@ -119,6 +121,11 @@ const Property = () => {
           pro_user_id: data.pro_user_id,
         }
       );
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/contact/interestShowed" ,
+        {
+          pro_user_id: data.pro_user_id,
+        });
       setLoader(false);
       setSnackQ(true);
       checkInterested();
@@ -350,7 +357,7 @@ const Property = () => {
                               >
                                 <IconSend />
                                 <span className="mobile-hidden">
-                                  Show Interest
+                                Contact Us
                                 </span>
                               </button>
                             </>

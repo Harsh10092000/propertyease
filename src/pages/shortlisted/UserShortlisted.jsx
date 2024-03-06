@@ -74,7 +74,7 @@ const UserShortlisted = () => {
                   </thead>
                   <tbody>
                     {data.map((object, i) => {
-                      return (
+                      object.pro_id !== null &&
                         <tr key={i}>
                           <td>{i + 1}</td>
                           <td>
@@ -109,7 +109,7 @@ const UserShortlisted = () => {
                             </button>
                           </td>
                         </tr>
-                      );
+                      
                     })}
                   </tbody>
                 </table>
