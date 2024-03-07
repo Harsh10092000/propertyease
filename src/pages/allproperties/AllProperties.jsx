@@ -76,26 +76,6 @@ const AllProperties = () => {
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
 
-  // function formatDate(date) {
-  //   const formattedDate = date.replace(/-/g, '/');
-  //   var diff = new Date(formattedDate) - formattedDate;
-  //   var seconds = diff / 1000;
-  //   var minutes = seconds / 60;
-  //   var hours = minutes / 60;
-  //   var days = hours / 24;
-  
-  //   if (seconds < 60) {
-  //     return "just now";
-  //   } else if (minutes < 60) {
-  //     return minutes + " minutes ago";
-  //   } else if (hours < 24) {
-  //     return hours + " hours ago";
-  //   } else {
-  //     return days + " days ago";
-  //   }
-  // }
-
-  // const dateString = '2024-03-06 04:22:34';
   function formatDate(dateString) {
     const formattedDate = dateString.replace(/-/g, '/');
     const date = new Date(formattedDate);
@@ -106,22 +86,25 @@ const AllProperties = () => {
     const diffMinutes = Math.floor(diffTime / (1000 * 60));
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffWeeks = Math.floor(diffDays / 7);
     const diffMonths = Math.floor(diffDays / 30);
     const diffYears = Math.floor(diffMonths / 12);
 
-    if (diffSeconds < 60) {
-        return "just now";
-    } else if (diffMinutes < 60) {
-        return diffMinutes + " minute" + (diffMinutes > 1 ? 's' : '') + " ago";
-    } else if (diffHours < 24) {
-        return diffHours + " hour" + (diffHours > 1 ? 's' : '') + " ago";
-    }  else if (diffDays < 30) {
-      return diffDays + " day" + (diffDays > 1 ? 's' : '') + " ago";
-  } else if (diffMonths < 12) {
-      return diffMonths + " month" + (diffMonths > 1 ? 's' : '') + " ago";
-  } else {
-      return diffYears + " year" + (diffYears > 1 ? 's' : '') + " ago";
-  }
+  if (diffSeconds < 60) {
+    return "just now";
+} else if (diffMinutes < 60) {
+    return diffMinutes + " minute" + (diffMinutes > 1 ? 's' : '') + " ago";
+} else if (diffHours < 24) {
+    return diffHours + " hour" + (diffHours > 1 ? 's' : '') + " ago";
+} else if (diffDays < 7) {
+    return diffDays + " day" + (diffDays > 1 ? 's' : '') + " ago";
+} else if (diffWeeks < 4) {
+    return diffWeeks + " week" + (diffWeeks > 1 ? 's' : '') + " ago";
+} else if (diffMonths < 12) {
+    return diffMonths + " month" + (diffMonths > 1 ? 's' : '') + " ago";
+} else {
+    return diffYears + " year" + (diffYears > 1 ? 's' : '') + " ago";
+}
 }
 
   return (
@@ -310,6 +293,7 @@ const AllProperties = () => {
                               Listed On
                               <br />
                               {formatDate(new Date(object.pro_date).toDateString())} 
+                              
                             </div>
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">
