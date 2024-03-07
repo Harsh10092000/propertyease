@@ -261,7 +261,7 @@ const Rent = () => {
                           </div>
                           <div className="pt-3 d-flex justify-content-between  align-items-center">
                             <div className="listed pl-md-0  ">
-                              Listed On
+                              Listed
                               <br />
                               {formatDate(new Date(object.pro_date).toDateString())} 
                             </div>
