@@ -344,7 +344,7 @@ const Property = () => {
                                 ) : (
                                   <button
                                     className="interest"
-                                    title="Show Interest"
+                                    title="Contact Us"
                                     onClick={askQuestion}
                                   >
                                     <IconSend />
@@ -359,7 +359,7 @@ const Property = () => {
                             <>
                               <button
                                 className="interest"
-                                title="Show Interest"
+                                title="Contact Us"
                                 onClick={askQuestion}
                               >
                                 <IconSend />
@@ -369,7 +369,7 @@ const Property = () => {
                               </button>
                             </>
                           )}
-                          <button className="fb">
+                          <button className="fb" title="Share On Facebook">
                             <a
                               rel="noreferrer nofollow"
                               href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
@@ -380,7 +380,7 @@ const Property = () => {
                               <span className="mobile-hidden">Share</span>
                             </a>
                           </button>
-                          <button className="wp">
+                          <button className="wp" title="Share On Whatsapp">
                             <a
                               rel="noreferrer nofollow"
                               href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
