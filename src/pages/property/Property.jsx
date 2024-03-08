@@ -34,7 +34,7 @@ const Property = () => {
   const proId = arrproId[arrproId.length - 1];
 
   useEffect(() => {
-    isNaN(proId) && navigate(`/PageNotFound`);
+    isNaN(proId) && navigate(`/notfound`);
   }, [proId]);
 
   const [data, setData] = useState({});

@@ -77,10 +77,14 @@ const App = () => {
       path: "/",
       element: <Index />,
     },
-    // {
-    //   path: "*",
-    //   element: <NotFound />,
-    // },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+    {
+      path: "/notfound",
+      element: <NotFound />,
+    },
     {
       path: "/login",
       element: (
@@ -107,7 +111,7 @@ const App = () => {
       ),
     },
     {
-      path: "/termsAndConditions",
+      path: "/termsandconditions",
       element: (
         <>
           <ScrollToTop />
@@ -152,7 +156,7 @@ const App = () => {
       ),
     },
     {
-      path: "addProperty",
+      path: "addproperty",
       element: <AddProperty />,
     },
     {
@@ -212,7 +216,7 @@ const App = () => {
       ],
     },
     {
-      path: "/nriService",
+      path: "/nriservice",
       element: (
         <>
           <ScrollToTop />
@@ -221,7 +225,7 @@ const App = () => {
       ),
     },
     {
-      path: "/postRequirements",
+      path: "/postrequirements",
       element: <PostRequirements />,
     },
     {
@@ -233,7 +237,7 @@ const App = () => {
       element: <WatermarkOthers />,
     },
     {
-      path: "/postRequirement",
+      path: "/postrequirement",
       element: (
         <>
           <ScrollToTop />

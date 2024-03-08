@@ -257,7 +257,7 @@ const Index = () => {
                   Be inspired to achieve more, get on top
                   <br /> of every Property challenge today
                 </h4>
-                <Link to="/postRequirement">
+                <Link to="/postrequirement">
                   <a className="explore-more">
                     <span>
                       <IconSend />
@@ -290,12 +290,26 @@ const Index = () => {
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
                         <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
+                          to={`/${
+                            item.pro_area_size.toLowerCase() +
+                            "-" +
+                            item.pro_area_size_unit.toLowerCase() +
                             "-"
-                          )}_${item.pro_id}`}
+                          }${
+                            item.pro_type
+                              ? item.pro_type
+                                  .split(",")[0]
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")
+                              : ""
+                          }-for-${
+                            item.pro_ad_type === "rent" ? "rent" : "sale"
+                          }-in-${item.pro_locality
+                            .toLowerCase()
+                            .replaceAll(
+                              " ",
+                              "-"
+                            )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
                         >
                           {item.img_link ? (
                             <img
@@ -312,12 +326,26 @@ const Index = () => {
                       <div className="recent-bus-content">
                         <h5 className="property-listing-type">
                           <Link
-                            to={`/property/${item.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${item.pro_ad_type.replace(
-                              " ",
+                            to={`/${
+                              item.pro_area_size.toLowerCase() +
+                              "-" +
+                              item.pro_area_size_unit.toLowerCase() +
                               "-"
-                            )}_${item.pro_id}`}
+                            }${
+                              item.pro_type
+                                ? item.pro_type
+                                    .split(",")[0]
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")
+                                : ""
+                            }-for-${
+                              item.pro_ad_type === "rent" ? "rent" : "sale"
+                            }-in-${item.pro_locality
+                              .toLowerCase()
+                              .replaceAll(
+                                " ",
+                                "-"
+                              )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
                           >
                             <a>{item.pro_type.split(",")[0]}</a>
                           </Link>
@@ -386,12 +414,26 @@ const Index = () => {
                           </li>
                         </ul>
                         <Link
-                          to={`/property/${item.pro_type
-                            .split(",")[0]
-                            .replace(" ", "-")}-${item.pro_ad_type.replace(
-                            " ",
+                          to={`/${
+                            item.pro_area_size.toLowerCase() +
+                            "-" +
+                            item.pro_area_size_unit.toLowerCase() +
                             "-"
-                          )}_${item.pro_id}`}
+                          }${
+                            item.pro_type
+                              ? item.pro_type
+                                  .split(",")[0]
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")
+                              : ""
+                          }-for-${
+                            item.pro_ad_type === "rent" ? "rent" : "sale"
+                          }-in-${item.pro_locality
+                            .toLowerCase()
+                            .replaceAll(
+                              " ",
+                              "-"
+                            )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
                         >
                           <a className="btn-viewmore">View More</a>
                         </Link>

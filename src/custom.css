@@ -803,11 +803,11 @@ section.business-banner .banner-heading {
   color: #fff;
 }
 a.explore-more {
-  border: 1px solid #fff;
+  border: 1px solid #dda20a;
   padding: 10px 20px;
   margin-top: 40px;
   font-size: 18px;
-  color: #fff;
+  color: #dda20a;
   display: inline-block;
   font-weight: 600;
   border-radius: 3px;
@@ -820,7 +820,7 @@ a.explore-more span {
 }
 a.explore-more:hover {
   background-color: #fff;
-  color: #f91942;
+  color: #dda20a;
   text-decoration: none;
 }
 .recent-bus-content ul li {
@@ -15747,4 +15747,13 @@ section.find-services {
 .fontFoot {
   font-size: 25px !important;
   color: white;
+}
+.interest:hover {
+  background-color: #b33c03;
+}
+.share-property:hover {
+  background: #051952;
+}
+.share-propertywp:hover {
+  background-color: #13855c;
 }

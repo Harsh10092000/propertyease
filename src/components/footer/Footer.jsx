@@ -280,7 +280,7 @@ const Footer = () => {
                       </a>
                     </li>
                     <li>
-                      <Link to="/termsAndConditions">
+                      <Link to="/termsandconditions">
                         <a title="contactus">Terms &amp; Conditions</a>
                       </Link>
                     </li>
@@ -305,37 +305,37 @@ const Footer = () => {
                   <p className="fontBig">Residential / Plots</p>
                   <ul>
                     <li>
-                      <Link to="/subCat/Apartment">
+                      <Link to="/residential/apartment">
                         <a>Apartment</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Independent House">
+                      <Link to="/residential/independent-house">
                         <a>Independent House</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Builder Floor">
+                      <Link to="/residential/builder-floor">
                         <a>Builder Floor</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Farm House">
+                      <Link to="/residential/farm-house">
                         <a>Farm House</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Raw House">
+                      <Link to="/residential/raw-house">
                         <a>Raw House</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Retirement Community">
+                      <Link to="/residential/retirement-community">
                         <a>Retirement Community</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Studio Apartment">
+                      <Link to="/residential/studio-apartment">
                         <a>Studio Apartment</a>
                       </Link>
                     </li>
@@ -347,27 +347,27 @@ const Footer = () => {
                   <p className="fontBig">Land</p>
                   <ul>
                     <li>
-                      <Link to="/subCat/Residential Land">
+                      <Link to="/land/residential-land">
                         <a>Residential Land</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Commercial Land">
+                      <Link to="/land/commercial-land">
                         <a>Commercial Land </a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Industrial Land">
+                      <Link to="/land/industrial-land">
                         <a>Industrial Land </a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Agricultural Land">
+                      <Link to="/land/agricultural-land">
                         <a>Agricultural Land</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Farm House Land">
+                      <Link to="/land/farm-house-land">
                         <a>Farm House Land</a>
                       </Link>
                     </li>
@@ -379,32 +379,32 @@ const Footer = () => {
                   <p className="fontBig">Commercial</p>
                   <ul>
                     <li>
-                      <Link to="/subCat/Retail Showroom">
+                      <Link to="/commercial/retail-showroom">
                         <a>Retail Showroom</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Commercial Building">
+                      <Link to="/commercial/commercial-building">
                         <a>Commercial Building</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Office Complex">
+                      <Link to="/commercial/office-complex">
                         <a>Office Complex</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Software Technology Park">
+                      <Link to="/commercial/software-technology-park">
                         <a>Software Technology Park</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Warehouse">
+                      <Link to="/commercial/warehouse">
                         <a>Warehouse</a>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/subCat/Industrial Estate Contractors">
+                      <Link to="/commercial/industrial-estate-contractors">
                         <a>Industrial Estate Contractors</a>
                       </Link>
                     </li>
