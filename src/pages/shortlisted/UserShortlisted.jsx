@@ -33,6 +33,7 @@ const UserShortlisted = () => {
     }
   };
   const [snack, setSnack] = useState(false);
+  console.log(data);
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       <Snackbar
@@ -74,42 +75,62 @@ const UserShortlisted = () => {
                   </thead>
                   <tbody>
                     {data.map((object, i) => {
-                      object.pro_id !== null &&
-                        <tr key={i}>
-                          <td>{i + 1}</td>
-                          <td>
-                            {object.pro_locality + ", " + object.pro_city}
-                          </td>
-                          <td className="text-center">
-                            <button
-                              title="View"
-                              className="btn btn-primary btn-sm vbtn"
-                            >
-                              <Link
-                                to={`/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
-                                    " ",
-                                    "-"
-                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                  object.pro_id
-                                }`}
+                      return (
+                        object.pro_id !== null && (
+                          <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>
+                              {object.pro_locality + ", " + object.pro_city}
+                            </td>
+                            <td className="text-center">
+                              <button
+                                title="View"
+                                className="btn btn-primary btn-sm vbtn"
                               >
-                                <a>
-                                  <IconEye />
-                                </a>
-                              </Link>
-                            </button>
-                            <button
-                              title="Delete"
-                              className="btn btn-danger btn-sm vbtn"
-                              onClick={() => handleDelete(object.shortlist_id)}
-                            >
-                              <IconTrash />
-                            </button>
-                          </td>
-                        </tr>
-                      
+                                <Link
+                                  to={`/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
+                                    "-"
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
+                                      " ",
+                                      "-"
+                                    )}-${object.pro_city.toLowerCase()}-${
+                                    object.pro_id
+                                  }`}
+                                >
+                                  <a>
+                                    <IconEye />
+                                  </a>
+                                </Link>
+                              </button>
+                              <button
+                                title="Delete"
+                                className="btn btn-danger btn-sm vbtn"
+                                onClick={() =>
+                                  handleDelete(object.shortlist_id)
+                                }
+                              >
+                                <IconTrash />
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      );
                     })}
                   </tbody>
                 </table>

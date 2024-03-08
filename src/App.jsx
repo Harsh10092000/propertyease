@@ -37,7 +37,6 @@ import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
 import PostRequirement from "./pages/postRequirement/PostRequirement";
 import AdminRequirement from "./pages/adminRequirement/AdminRequirement";
 
-
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -78,10 +77,10 @@ const App = () => {
       path: "/",
       element: <Index />,
     },
-    {
-      path: "*",
-      element: <NotFound />,
-    },
+    // {
+    //   path: "*",
+    //   element: <NotFound />,
+    // },
     {
       path: "/login",
       element: (
@@ -91,7 +90,7 @@ const App = () => {
       ),
     },
     {
-      path: "/listing/:cat",
+      path: "/property/:cat",
       element: <Listing />,
     },
     {
@@ -144,7 +143,7 @@ const App = () => {
       ],
     },
     {
-      path: "/property/:id",
+      path: "/:id",
       element: (
         <>
           <ScrollToTop />
@@ -157,11 +156,11 @@ const App = () => {
       element: <AddProperty />,
     },
     {
-      path: "/subCat/:cat",
+      path: "/:id/:cat",
       element: <SubCat />,
     },
     {
-      path: "/rent/:cat",
+      path: "/rental/:cat",
       element: <Rent />,
     },
     {
@@ -242,7 +241,6 @@ const App = () => {
         </>
       ),
     },
-    
   ]);
   return (
     <>

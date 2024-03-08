@@ -30,11 +30,13 @@ const Property = () => {
   const [loader, setLoader] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
-  const proId = id.split("_")[1];
+  const arrproId = id.split("-");
+  const proId = arrproId[arrproId.length - 1];
+
   useEffect(() => {
-    isNaN(proId) && navigate(`/PageNotFound`) 
-  }, [proId] )
-  
+    isNaN(proId) && navigate(`/PageNotFound`);
+  }, [proId]);
+
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
   const [shortlist, setShortlist] = useState(false);
@@ -111,9 +113,8 @@ const Property = () => {
     }
   };
   const [snackQ, setSnackQ] = useState(false);
-  console.log("data , currentUser : " , data , currentUser);
+  console.log("data , currentUser : ", data, currentUser);
   const sendQuestion = async () => {
-    
     setLoader(true);
     try {
       await axios.post(
@@ -128,10 +129,11 @@ const Property = () => {
         }
       );
       await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/contact/interestShowed" ,
+        import.meta.env.VITE_BACKEND + "/api/contact/interestShowed",
         {
           pro_user_id: data.pro_user_id,
-        });
+        }
+      );
       setLoader(false);
       setSnackQ(true);
       checkInterested();
@@ -157,7 +159,7 @@ const Property = () => {
   }, []);
 
   function formatDate(dateString) {
-    const formattedDate = dateString.replace(/-/g, '/');
+    const formattedDate = dateString.replace(/-/g, "/");
     const date = new Date(formattedDate);
     const now = new Date();
     const diffTime = now - date;
@@ -170,43 +172,45 @@ const Property = () => {
     const diffMonths = Math.floor(diffDays / 30);
     const diffYears = Math.floor(diffMonths / 12);
 
-  if (diffSeconds < 60) {
-    return "just now";
-} else if (diffMinutes < 60) {
-    return diffMinutes + " minute" + (diffMinutes > 1 ? 's' : '') + " ago";
-} else if (diffHours < 24) {
-    return diffHours + " hour" + (diffHours > 1 ? 's' : '') + " ago";
-} else if (diffDays < 7) {
-    return diffDays + " day" + (diffDays > 1 ? 's' : '') + " ago";
-} else if (diffWeeks < 4) {
-    return diffWeeks + " week" + (diffWeeks > 1 ? 's' : '') + " ago";
-} else if (diffMonths < 12) {
-    return diffMonths + " month" + (diffMonths > 1 ? 's' : '') + " ago";
-} else {
-    return diffYears + " year" + (diffYears > 1 ? 's' : '') + " ago";
-}
-}
-  
+    if (diffSeconds < 60) {
+      return "just now";
+    } else if (diffMinutes < 60) {
+      return diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+    } else if (diffHours < 24) {
+      return diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+    } else if (diffDays < 7) {
+      return diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+    } else if (diffWeeks < 4) {
+      return diffWeeks + " week" + (diffWeeks > 1 ? "s" : "") + " ago";
+    } else if (diffMonths < 12) {
+      return diffMonths + " month" + (diffMonths > 1 ? "s" : "") + " ago";
+    } else {
+      return diffYears + " year" + (diffYears > 1 ? "s" : "") + " ago";
+    }
+  }
+  const location = window.location.href;
   return (
     <div>
-      
       <Helmet>
         <title>
-          {"Property in " +
-            data.pro_city +
-            ", " +
-            data.pro_state +
-            " - Propertyease"}
+          {`${data.pro_area_size + " " + data.pro_area_size_unit + " "}${
+            data.pro_type ? data.pro_type.split(",")[0] : ""
+          }
+          for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
+          ${data.pro_locality}
+          ${data.pro_city}
+`}
         </title>
+        <link rel="canonical" href={location} />
         <meta
           name="og:title"
-          content={
-            "Property in " +
-            data.pro_city +
-            ", " +
-            data.pro_state +
-            " - Propertyease"
-          }
+          content={`${
+            data.pro_area_size + " " + data.pro_area_size_unit + " "
+          }${data.pro_type ? data.pro_type.split(",")[0] : ""}
+          for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
+          ${data.pro_locality}
+          ${data.pro_city}
+`}
         />
         <meta
           name="og:image"
@@ -278,7 +282,7 @@ const Property = () => {
         <PopSlider slides={images} />
       </Modal>
       <Navbar />
-      
+
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -312,9 +316,15 @@ const Property = () => {
                       className={sticky ? "top newClass" : "top"}
                       id="dynamic"
                     >
-                      <div className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0" style={{ gap: "0" }}>
+                      <div
+                        className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0"
+                        style={{ gap: "0" }}
+                      >
                         <h1 className="capitalize  pl-md-0 d-flex gap-3 align-items-center">
-                          {data.pro_area_size + " " + data.pro_area_size_unit + " "}
+                          {data.pro_area_size +
+                            " " +
+                            data.pro_area_size_unit +
+                            " "}
                           {data.pro_type ? data.pro_type.split(",")[0] : ""} For
                           {" " + data.pro_ad_type}
                           {currentUser ? (
@@ -341,16 +351,15 @@ const Property = () => {
                             </button>
                           )}
                         </h1>
-                        
                       </div>
                       <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
                         {data.pro_locality + ", " + data.pro_city}
                       </div>
                       <span className="listed pl-3 pl-md-0 ">
-                          {/* Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()}  */}
-                          Listed by {" " + data.pro_user_type} {formatDate(new Date(data.pro_date).toDateString())} 
-                          
-                        </span>
+                        {/* Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()}  */}
+                        Listed by {" " + data.pro_user_type}{" "}
+                        {formatDate(new Date(data.pro_date).toDateString())}
+                      </span>
                       <div className="d-flex align-items-center justify-content-between p-1">
                         <div className="d-flex align-items-center justify-content-between pl-md-0">
                           <div className="property-price">
@@ -398,7 +407,7 @@ const Property = () => {
                               >
                                 <IconSend />
                                 <span className="mobile-hidden">
-                                Contact Us
+                                  Contact Us
                                 </span>
                               </button>
                             </>
@@ -451,12 +460,12 @@ const Property = () => {
                       </div>
                       <div className="col-md-6">
                         <div className={"property-side-detail"}>
-                          <h6>
+                          <div>
                             Property ID
                             <span className="propertypage-id">
                               {5000 + +proId}
                             </span>
-                          </h6>
+                          </div>
                           <div className="property-no-detail">
                             <div className={"property-small-detail"}>
                               {data.pro_type ? (

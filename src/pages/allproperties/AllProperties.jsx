@@ -12,9 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 
-
 const AllProperties = () => {
-
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -75,9 +73,8 @@ const AllProperties = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-
   function formatDate(dateString) {
-    const formattedDate = dateString.replace(/-/g, '/');
+    const formattedDate = dateString.replace(/-/g, "/");
     const date = new Date(formattedDate);
     const now = new Date();
     const diffTime = now - date;
@@ -90,22 +87,22 @@ const AllProperties = () => {
     const diffMonths = Math.floor(diffDays / 30);
     const diffYears = Math.floor(diffMonths / 12);
 
-  if (diffSeconds < 60) {
-    return "just now";
-} else if (diffMinutes < 60) {
-    return diffMinutes + " minute" + (diffMinutes > 1 ? 's' : '') + " ago";
-} else if (diffHours < 24) {
-    return diffHours + " hour" + (diffHours > 1 ? 's' : '') + " ago";
-} else if (diffDays < 7) {
-    return diffDays + " day" + (diffDays > 1 ? 's' : '') + " ago";
-} else if (diffWeeks < 4) {
-    return diffWeeks + " week" + (diffWeeks > 1 ? 's' : '') + " ago";
-} else if (diffMonths < 12) {
-    return diffMonths + " month" + (diffMonths > 1 ? 's' : '') + " ago";
-} else {
-    return diffYears + " year" + (diffYears > 1 ? 's' : '') + " ago";
-}
-}
+    if (diffSeconds < 60) {
+      return "just now";
+    } else if (diffMinutes < 60) {
+      return diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+    } else if (diffHours < 24) {
+      return diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+    } else if (diffDays < 7) {
+      return diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+    } else if (diffWeeks < 4) {
+      return diffWeeks + " week" + (diffWeeks > 1 ? "s" : "") + " ago";
+    } else if (diffMonths < 12) {
+      return diffMonths + " month" + (diffMonths > 1 ? "s" : "") + " ago";
+    } else {
+      return diffYears + " year" + (diffYears > 1 ? "s" : "") + " ago";
+    }
+  }
 
   return (
     <div>
@@ -166,12 +163,28 @@ const AllProperties = () => {
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
                           <Link
-                            to={`/property/${object.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${object.pro_ad_type.replace(
-                              " ",
+                            to={`/${
+                              object.pro_area_size.toLowerCase() +
+                              "-" +
+                              object.pro_area_size_unit.toLowerCase() +
                               "-"
-                            )}_${object.pro_id}`}
+                            }${
+                              object.pro_type
+                                ? object.pro_type
+                                    .split(",")[0]
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")
+                                : ""
+                            }-for-${
+                              object.pro_ad_type === "rent" ? "rent" : "sale"
+                            }-in-${object.pro_locality
+                              .toLowerCase()
+                              .replaceAll(
+                                " ",
+                                "-"
+                              )}-${object.pro_city.toLowerCase()}-${
+                              object.pro_id
+                            }`}
                           >
                             {object.img_link ? (
                               <img
@@ -192,12 +205,28 @@ const AllProperties = () => {
                           <div className="recent-bus-content">
                             <div className="property-listing-type">
                               <Link
-                                to={`/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
+                                to={`/${
+                                  object.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  object.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  object.pro_type
+                                    ? object.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  object.pro_ad_type === "rent"
+                                    ? "rent"
+                                    : "sale"
+                                }-in-${object.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(
                                     " ",
                                     "-"
-                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  )}-${object.pro_city.toLowerCase()}-${
                                   object.pro_id
                                 }`}
                               >
@@ -292,21 +321,37 @@ const AllProperties = () => {
                             <div className="listed pl-md-0  ">
                               Listed
                               <br />
-                              {formatDate(new Date(object.pro_date).toDateString())} 
-                              
+                              {formatDate(
+                                new Date(object.pro_date).toDateString()
+                              )}
                             </div>
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">
                                 <Link
-                                  to={`/property/${object.pro_type
-                                    .split(",")[0]
-                                    .replace(
+                                  to={`/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
+                                    "-"
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
                                       " ",
                                       "-"
-                                    )}-${object.pro_ad_type.replace(
-                                    " ",
-                                    "-"
-                                  )}_${object.pro_id}`}
+                                    )}-${object.pro_city.toLowerCase()}-${
+                                    object.pro_id
+                                  }`}
                                 >
                                   <a
                                     title="View complete details of this property"
@@ -319,22 +364,36 @@ const AllProperties = () => {
                               <div>
                                 <a
                                   rel="noreferrer nofollow"
-                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
-                                    " ",
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
                                     "-"
-                                  )}-${object.pro_ad_type.replace(
-                                  " ",
-                                  "-"
-                                )}_${object.pro_id}`}
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
+                                      " ",
+                                      "-"
+                                    )}-${object.pro_city.toLowerCase()}-${
+                                    object.pro_id
+                                  }`}
                                   target="_blank"
                                   className="conatct-propertywp"
                                   title=" Whatsapp/Contact for this property"
                                 >
                                   <IconBrandWhatsapp />
                                   <span className="pl-1">Whatsapp</span>
-                                  
                                 </a>
                               </div>
                             </div>
@@ -353,7 +412,12 @@ const AllProperties = () => {
                     </div>
                     {subData.map((sub, index) => (
                       <Link
-                        to={`/subCat/${sub.pro_type.split(",")[0]}`}
+                        to={`/${sub.pro_type
+                          .split(",")[1]
+                          .toLowerCase()}/${sub.pro_type
+                          .split(",")[0]
+                          .replaceAll(" ", "-")
+                          .toLowerCase()}`}
                         key={index}
                       >
                         <div className="d-flex justify-content-between px-3 py-2">
@@ -370,7 +434,10 @@ const AllProperties = () => {
                     <div className="p-3 font-weight-bold text-black">Rent</div>
                     {rentData.map((rent, index) => (
                       <Link
-                        to={`/rent/${rent.pro_type.split(",")[0]}`}
+                        to={`/rental/${rent.pro_type
+                          .split(",")[0]
+                          .replaceAll(" ", "-")
+                          .toLowerCase()}`}
                         key={index}
                       >
                         <div className="d-flex justify-content-between px-3 py-2">

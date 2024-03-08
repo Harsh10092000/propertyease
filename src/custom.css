@@ -3080,7 +3080,6 @@ a.btn-resiter-earing span {
   .header-right .header-2 {
     display: flex;
     padding-left: 10px;
-    
   }
 }
 
@@ -3119,8 +3118,6 @@ a.btn-resiter-earing span {
   .header-right .header-2 .get-started .login {
     justify-content: center;
   }
-
- 
 }
 
 @media only screen and (max-width: 768px) {
@@ -3254,8 +3251,6 @@ a.btn-resiter-earing span {
     padding-left: 200px;
   }
 }
-
-
 
 @media only screen and (max-width: 767px) {
   .cate-img img,
@@ -15403,7 +15398,6 @@ img.book-img {
   background-color: #b33c03 !important;
 }
 
-
 .search {
   padding: 6px 12px;
   display: flex;
@@ -15418,8 +15412,6 @@ img.book-img {
   color: white;
   background-color: #0d45a5 !important;
 }
-
-
 
 .blink {
   font-weight: 700;
@@ -15562,7 +15554,7 @@ input[type="file"] {
 }
 
 .interest-showed {
-  background-color: #F08080;
+  background-color: #f08080;
   padding: 5px 8px;
   display: flex;
   align-items: center;
@@ -15572,7 +15564,6 @@ input[type="file"] {
   color: white;
   gap: 4px;
 }
-
 
 .shortlist {
   padding: 5px;
@@ -15688,7 +15679,6 @@ section.find-services {
   font-size: 12px;
 }
 
-
 .post-requierment-wrapper {
   margin: auto;
   width: 55%;
@@ -15704,7 +15694,7 @@ section.find-services {
   .post-requierment-wrapper {
     margin: auto;
     width: 100%;
-   
+
     padding: 30px 40px 30px 40px;
   }
   .post-requierment-wrapper .pro_flex {
@@ -15750,4 +15740,11 @@ section.find-services {
 .header-2 .sidebar-faicon {
   width: 25px;
   padding-right: 0px;
+}
+.fontBig {
+  font-size: 20px !important;
+}
+.fontFoot {
+  font-size: 25px !important;
+  color: white;
 }

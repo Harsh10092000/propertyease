@@ -31,7 +31,7 @@ const Index = () => {
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <Navbar />
-      
+
       <div>
         <section className="slider-home">
           <img src="/images/banner1.jpg" alt="banner" />
@@ -57,7 +57,7 @@ const Index = () => {
             <div className="row">
               <div className="col-md-4">
                 <div className="cate-box">
-                  <Link to={"/listing/residential"}>
+                  <Link to={"/property/residential"}>
                     <div className="cat-img-icon">
                       <div className="cate-img">
                         <img
@@ -114,7 +114,7 @@ const Index = () => {
                         <a href="#">Studio Apartment</a>
                       </li>
                     </ul>
-                    <Link to={"/listing/residential"}>
+                    <Link to={"/property/residential"}>
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -122,7 +122,7 @@ const Index = () => {
               </div>
               <div className="col-md-4">
                 <div className="cate-box">
-                  <Link to="/listing/land">
+                  <Link to="/property/land">
                     <a>
                       <div className="cat-img-icon">
                         <div className="cate-img">
@@ -175,7 +175,7 @@ const Index = () => {
                         <a href="#">Farm House Land</a>
                       </li>
                     </ul>
-                    <Link to={"/listing/land"}>
+                    <Link to={"/property/land"}>
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -183,7 +183,7 @@ const Index = () => {
               </div>
               <div className="col-md-4">
                 <div className="cate-box">
-                  <Link to={"/listing/commercial"}>
+                  <Link to={"/property/commercial"}>
                     <a>
                       <div className="cat-img-icon">
                         <div className="cate-img">
@@ -237,7 +237,7 @@ const Index = () => {
                       </li>
                     </ul>
 
-                    <Link to={"/listing/commercial"}>
+                    <Link to={"/property/commercial"}>
                       <a className="btn-viewmore">View More</a>
                     </Link>
                   </div>
@@ -259,11 +259,10 @@ const Index = () => {
                 </h4>
                 <Link to="/postRequirement">
                   <a className="explore-more">
-                  <span>
+                    <span>
                       <IconSend />
                     </span>
                     Post Requirement
-                    
                   </a>
                 </Link>
               </div>

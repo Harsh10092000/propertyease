@@ -9,6 +9,7 @@ import { TextField } from "@mui/material";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 const Rent = () => {
   const { cat } = useParams();
+  const filCat = cat.replaceAll("-", " ");
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -18,9 +19,7 @@ const Rent = () => {
   const [rentData, setRentData] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/rentalProperty/${cat}`
-      )
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalProperty/${filCat}`)
       .then((res) => {
         setData(res.data);
       });
@@ -29,19 +28,18 @@ const Rent = () => {
       .then((res) => {
         setSubData(res.data);
       });
-      axios
+    axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
       .then((res) => {
         setRentData(res.data);
       });
   }, [cat]);
 
-
   useEffect(() => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
-  } , [data])
+  }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
   //const [filter, setFilter] = useState("All");
@@ -67,7 +65,7 @@ const Rent = () => {
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   function formatDate(dateString) {
-    const formattedDate = dateString.replace(/-/g, '/');
+    const formattedDate = dateString.replace(/-/g, "/");
     const date = new Date(formattedDate);
     const now = new Date();
     const diffTime = now - date;
@@ -80,35 +78,34 @@ const Rent = () => {
     const diffMonths = Math.floor(diffDays / 30);
     const diffYears = Math.floor(diffMonths / 12);
 
-  if (diffSeconds < 60) {
-    return "just now";
-} else if (diffMinutes < 60) {
-    return diffMinutes + " minute" + (diffMinutes > 1 ? 's' : '') + " ago";
-} else if (diffHours < 24) {
-    return diffHours + " hour" + (diffHours > 1 ? 's' : '') + " ago";
-} else if (diffDays < 7) {
-    return diffDays + " day" + (diffDays > 1 ? 's' : '') + " ago";
-} else if (diffWeeks < 4) {
-    return diffWeeks + " week" + (diffWeeks > 1 ? 's' : '') + " ago";
-} else if (diffMonths < 12) {
-    return diffMonths + " month" + (diffMonths > 1 ? 's' : '') + " ago";
-} else {
-    return diffYears + " year" + (diffYears > 1 ? 's' : '') + " ago";
-}
-}
-
+    if (diffSeconds < 60) {
+      return "just now";
+    } else if (diffMinutes < 60) {
+      return diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
+    } else if (diffHours < 24) {
+      return diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
+    } else if (diffDays < 7) {
+      return diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
+    } else if (diffWeeks < 4) {
+      return diffWeeks + " week" + (diffWeeks > 1 ? "s" : "") + " ago";
+    } else if (diffMonths < 12) {
+      return diffMonths + " month" + (diffMonths > 1 ? "s" : "") + " ago";
+    } else {
+      return diffYears + " year" + (diffYears > 1 ? "s" : "") + " ago";
+    }
+  }
 
   return (
     <div>
       <Helmet>
-        <title>Propertyease - {cat}</title>
+        <title>Propertyease - {filCat}</title>
       </Helmet>
       <Navbar />
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
             <div className="title">
-              <h2 className="text-capitalize">{cat}</h2>
+              <h2 className="text-capitalize">{filCat}</h2>
 
               <div className="row gap-3 align-items-center my-2 mx-1">
                 <TextField
@@ -152,12 +149,28 @@ const Rent = () => {
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
                           <Link
-                            to={`/property/${object.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${object.pro_ad_type.replace(
-                              " ",
+                            to={`/${
+                              object.pro_area_size.toLowerCase() +
+                              "-" +
+                              object.pro_area_size_unit.toLowerCase() +
                               "-"
-                            )}_${object.pro_id}`}
+                            }${
+                              object.pro_type
+                                ? object.pro_type
+                                    .split(",")[0]
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")
+                                : ""
+                            }-for-${
+                              object.pro_ad_type === "rent" ? "rent" : "sale"
+                            }-in-${object.pro_locality
+                              .toLowerCase()
+                              .replaceAll(
+                                " ",
+                                "-"
+                              )}-${object.pro_city.toLowerCase()}-${
+                              object.pro_id
+                            }`}
                           >
                             {object.img_link ? (
                               <img
@@ -178,17 +191,34 @@ const Rent = () => {
                           <div className="recent-bus-content">
                             <div className="property-listing-type">
                               <Link
-                                to={`/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
+                                to={`/${
+                                  object.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  object.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  object.pro_type
+                                    ? object.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  object.pro_ad_type === "rent"
+                                    ? "rent"
+                                    : "sale"
+                                }-in-${object.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(
                                     " ",
                                     "-"
-                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  )}-${object.pro_city.toLowerCase()}-${
                                   object.pro_id
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_area_size + " " +
+                                  {object.pro_area_size +
+                                    " " +
                                     object.pro_area_size_unit +
                                     " " +
                                     object.pro_type.split(",")[0] +
@@ -257,26 +287,42 @@ const Rent = () => {
                                 &nbsp;{object.pro_facing}
                               </li>
                             </ul>
-                            
                           </div>
                           <div className="pt-3 d-flex justify-content-between  align-items-center">
                             <div className="listed pl-md-0  ">
                               Listed
                               <br />
-                              {formatDate(new Date(object.pro_date).toDateString())} 
+                              {formatDate(
+                                new Date(object.pro_date).toDateString()
+                              )}
                             </div>
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">
                                 <Link
-                                  to={`/property/${object.pro_type
-                                    .split(",")[0]
-                                    .replace(
+                                  to={`/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
+                                    "-"
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
                                       " ",
                                       "-"
-                                    )}-${object.pro_ad_type.replace(
-                                    " ",
-                                    "-"
-                                  )}_${object.pro_id}`}
+                                    )}-${object.pro_city.toLowerCase()}-${
+                                    object.pro_id
+                                  }`}
                                 >
                                   <a
                                     title="View complete details of this property"
@@ -289,15 +335,30 @@ const Rent = () => {
                               <div>
                                 <a
                                   rel="noreferrer nofollow"
-                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
-                                    " ",
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
                                     "-"
-                                  )}-${object.pro_ad_type.replace(
-                                  " ",
-                                  "-"
-                                )}_${object.pro_id}`}
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
+                                      " ",
+                                      "-"
+                                    )}-${object.pro_city.toLowerCase()}-${
+                                    object.pro_id
+                                  }`}
                                   target="_blank"
                                   className="conatct-propertywp "
                                   title=" Whatsapp/Contact for this property"
@@ -317,17 +378,17 @@ const Rent = () => {
               <div className="col-md-3">
                 <div className="p-1 shadow">
                   <div className="p-3 font-weight-bold text-black">
-                  For Sale
+                    For Sale
                   </div>
                   {subData.map((sub, index) => (
                     <Link
-                      to={`/subCat/${sub.pro_type.split(",")[0]}`}
+                      to={`/${sub.pro_type
+                        .split(",")[1]
+                        .toLowerCase()}/${sub.pro_type
+                        .split(",")[0]
+                        .replaceAll(" ", "-")
+                        .toLowerCase()}`}
                       key={index}
-                      // className={
-                      //   sub.pro_type.split(",")[0] === cat
-                      //     ? "text-primary m-0"
-                      //     : "text-secondary m-0"
-                      // }
                     >
                       <div className="d-flex justify-content-between px-3 py-2">
                         <div>{sub.pro_type.split(",")[0]}</div>
@@ -338,16 +399,16 @@ const Rent = () => {
                 </div>
                 <div className="pt-2">
                   <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      Rent
-                    </div>
+                    <div className="p-3 font-weight-bold text-black">Rent</div>
                     {rentData.map((rent, index) => (
                       <Link
-                        
-                        to={`/rent/${rent.pro_type.split(",")[0]}`}
+                        to={`/rental/${rent.pro_type
+                          .split(",")[0]
+                          .replaceAll(" ", "-")
+                          .toLowerCase()}`}
                         key={index}
                         className={
-                          rent.pro_type.split(",")[0] === cat
+                          rent.pro_type.split(",")[0] === filCat
                             ? "text-primary m-0"
                             : "text-secondary m-0"
                         }

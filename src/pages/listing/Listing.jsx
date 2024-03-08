@@ -45,7 +45,7 @@ const Listing = () => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
-  } , [data])
+  }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
@@ -86,7 +86,6 @@ const Listing = () => {
                   variant="outlined"
                   className="col-md-6 mx-4 mx-md-0"
                   size="small"
-                  
                   label="Search for properties..."
                   placeholder="e.g. Sector 7 "
                   onChange={(e) => {
@@ -124,12 +123,28 @@ const Listing = () => {
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
                           <Link
-                            to={`/property/${object.pro_type
-                              .split(",")[0]
-                              .replace(" ", "-")}-${object.pro_ad_type.replace(
-                              " ",
+                            to={`/${
+                              object.pro_area_size.toLowerCase() +
+                              "-" +
+                              object.pro_area_size_unit.toLowerCase() +
                               "-"
-                            )}_${object.pro_id}`}
+                            }${
+                              object.pro_type
+                                ? object.pro_type
+                                    .split(",")[0]
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")
+                                : ""
+                            }-for-${
+                              object.pro_ad_type === "rent" ? "rent" : "sale"
+                            }-in-${object.pro_locality
+                              .toLowerCase()
+                              .replaceAll(
+                                " ",
+                                "-"
+                              )}-${object.pro_city.toLowerCase()}-${
+                              object.pro_id
+                            }`}
                           >
                             {object.img_link ? (
                               <img
@@ -150,17 +165,34 @@ const Listing = () => {
                           <div className="recent-bus-content">
                             <div className="property-listing-type">
                               <Link
-                                to={`/property/${object.pro_type
-                                  .split(",")[0]
-                                  .replace(
+                                to={`/${
+                                  object.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  object.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  object.pro_type
+                                    ? object.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  object.pro_ad_type === "rent"
+                                    ? "rent"
+                                    : "sale"
+                                }-in-${object.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(
                                     " ",
                                     "-"
-                                  )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                  )}-${object.pro_city.toLowerCase()}-${
                                   object.pro_id
                                 }`}
                               >
                                 <span className="text-wrap text-bold">
-                                  {object.pro_area_size+ " " +
+                                  {object.pro_area_size +
+                                    " " +
                                     object.pro_area_size_unit +
                                     " " +
                                     object.pro_type.split(",")[0] +
@@ -230,12 +262,26 @@ const Listing = () => {
                               </li>
                             </ul>
                             <Link
-                              to={`/property/${object.pro_type
-                                .split(",")[0]
-                                .replace(
+                              to={`/${
+                                object.pro_area_size.toLowerCase() +
+                                "-" +
+                                object.pro_area_size_unit.toLowerCase() +
+                                "-"
+                              }${
+                                object.pro_type
+                                  ? object.pro_type
+                                      .split(",")[0]
+                                      .toLowerCase()
+                                      .replaceAll(" ", "-")
+                                  : ""
+                              }-for-${
+                                object.pro_ad_type === "rent" ? "rent" : "sale"
+                              }-in-${object.pro_locality
+                                .toLowerCase()
+                                .replaceAll(
                                   " ",
                                   "-"
-                                )}-${object.pro_ad_type.replace(" ", "-")}_${
+                                )}-${object.pro_city.toLowerCase()}-${
                                 object.pro_id
                               }`}
                             >
@@ -252,32 +298,37 @@ const Listing = () => {
               </div>
               <div className="col-md-3">
                 <div>
-                <div className="p-1 shadow">
-                  <div className="p-3 font-weight-bold text-black">
-                    For Sale
-                  </div>
-                  {subData.map((sub, index) => (
-                    <Link
-                      to={`/subCat/${sub.pro_type.split(",")[0]}`}
-                      key={index}
-                    >
-                      <div className="d-flex justify-content-between px-3 py-2">
-                        <div>{sub.pro_type.split(",")[0]}</div>
-                        <div>({sub.pro_sub_cat_number})</div>
-                      </div>
-                    </Link>
-                  ))}
+                  <div className="p-1 shadow">
+                    <div className="p-3 font-weight-bold text-black">
+                      For Sale
+                    </div>
+                    {subData.map((sub, index) => (
+                      <Link
+                        to={`/${sub.pro_type
+                          .split(",")[1]
+                          .toLowerCase()}/${sub.pro_type
+                          .split(",")[0]
+                          .replaceAll(" ", "-")
+                          .toLowerCase()}`}
+                        key={index}
+                      >
+                        <div className="d-flex justify-content-between px-3 py-2">
+                          <div>{sub.pro_type.split(",")[0]}</div>
+                          <div>({sub.pro_sub_cat_number})</div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
                 <div className="pt-2">
                   <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      Rent
-                    </div>
+                    <div className="p-3 font-weight-bold text-black">Rent</div>
                     {rentData.map((rent, index) => (
                       <Link
-                        
-                        to={`/rent/${rent.pro_type.split(",")[0]}`}
+                        to={`/rental/${rent.pro_type
+                          .split(",")[0]
+                          .replaceAll(" ", "-")
+                          .toLowerCase()}`}
                         key={index}
                         className={
                           rent.pro_type.split(",")[0] === cat
@@ -296,7 +347,7 @@ const Listing = () => {
               </div>
             </div>
             <Pagination
-            page={currentPage}
+              page={currentPage}
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
