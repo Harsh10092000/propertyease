@@ -48,6 +48,7 @@ const AddProperty = () => {
   const { currentUser, login } = useContext(AuthContext);
   const [numberError, setNumberError] = useState(true);
   const [loginStatus, setLoginStatus] = useState("");
+  const [getOtp, setGetOtp] = useState(false);
   const [userData, setUserData] = useState({
     email: "",
     number: "",
@@ -145,6 +146,7 @@ const AddProperty = () => {
     userData.phone = userData.number;
     e.preventDefault();
     try {
+      setGetOtp(true);
       handleClickOpen();
       dispatch({ type: ACTION_TYPES.FETCH_START });
       await axios
@@ -587,7 +589,7 @@ const AddProperty = () => {
                 onClick={addUser}
                 // disabled={state.timer === true ? true : false}
                 disabled={
-                  numberError === false && state.numberErr !== true
+                  numberError === false && state.numberErr !== true && getOtp === false
                     ? false
                     : true
                 }
