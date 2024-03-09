@@ -222,6 +222,10 @@ const Property = () => {
               : "/images/default.png"
           }
         />
+        <meta name="description" content={`Check out this ${
+            data.pro_area_size + " " + data.pro_area_size_unit + " "
+          }${data.pro_type ? data.pro_type.split(",")[0] : ""}
+          for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"}. It is an ideal investment opportunity in a prime ${data.pro_type ? data.pro_type.split(",")[0] : ""} area with verified property assurance.`} />
       </Helmet>
       {loader ? <Loader /> : ""}
       <Snackbar
