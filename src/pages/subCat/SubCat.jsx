@@ -274,13 +274,13 @@ const SubCat = () => {
                                   className="property-slider-icon"
                                 />
                                 <strong className="frontPropIcon">
-                                  Price{" "}
+                                {object.pro_amt && "Price"}
                                 </strong>
                                 &nbsp;
-                                {"₹" +
+                                {object.pro_amt ?"₹" +
                                   object.pro_amt +
                                   " " +
-                                  object.pro_amt_unit}
+                                  object.pro_amt_unit : "Ask Price"}
                               </li>
 
                               <li>

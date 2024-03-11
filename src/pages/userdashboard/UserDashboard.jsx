@@ -97,7 +97,7 @@ const UserDashboard = () => {
                         <td>{5000 + parseInt(item.pro_id)}</td>
                         <td>{item.pro_type}</td>
                         <td>{item.pro_ad_type}</td>
-                        <td>{item.pro_amt + " " + item.pro_amt_unit}</td>
+                        <td>{item.pro_amt ? item.pro_amt + " " + item.pro_amt_unit : "-"}</td>
                         <td>
                           {" "}
                           <span className="text-wrap">

@@ -762,14 +762,14 @@ span.cate-name {
   padding: 18px;
 }
 a.btn-viewmore {
-  background-color: #f9d6dc;
-  color: #f91942;
+  background-color: #fd0707;
+  color: #ffffff;
   font-size: 12px;
   padding: 10px 8px;
   text-decoration: none;
 }
 a.btn-viewmore:hover {
-  background-color: #f91942;
+  background-color: #e60000;
   color: #fff;
   text-decoration: none;
 }
@@ -2550,7 +2550,7 @@ img.desc {
   text-align: center;
 }
 .share-property {
-  background-color: #3f51b5;
+  background-color: #3c4caa;
   padding: 5px 8px;
   display: flex;
   align-items: center;
@@ -2565,7 +2565,7 @@ img.desc {
 }
 
 .share-propertywp {
-  background-color: #25d366;
+  background-color: #2eb82e;
   padding: 5px 8px;
   display: flex;
   align-items: center;
@@ -2576,7 +2576,7 @@ img.desc {
 }
 
 .conatct-propertywp {
-  background-color: #66e093;
+  background-color: #2eb82e;
   padding: 5px 8px;
   display: flex;
   align-items: center;
@@ -2587,7 +2587,7 @@ img.desc {
 }
 
 :hover.conatct-propertywp {
-  background-color: #25d366;
+  background-color: #248f24;
 }
 
 .property-share-faicon {
@@ -15551,6 +15551,7 @@ input[type="file"] {
   border-radius: 5px;
   color: white;
   gap: 4px;
+  font-weight:bold;
 }
 
 .interest-showed {
@@ -15749,11 +15750,13 @@ section.find-services {
   color: white;
 }
 .interest:hover {
-  background-color: #b33c03;
+  /* background-color: #b33c03; */
+  background-color: #e60000;
+
 }
 .share-property:hover {
-  background: #051952;
+  background: #283371;
 }
 .share-propertywp:hover {
-  background-color: #13855c;
+  background-color: #248f24;
 }

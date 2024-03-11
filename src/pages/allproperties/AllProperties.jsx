@@ -11,6 +11,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
+import {Skeleton} from "@mui/material";
 
 const AllProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,6 +21,7 @@ const AllProperties = () => {
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
+  const [skeleton, setSkeleton]=useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,6 +32,7 @@ const AllProperties = () => {
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setData(res.data);
+        setSkeleton(false);
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
@@ -157,8 +160,8 @@ const AllProperties = () => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {records.map((object, index) => (
-                  <div className="list-group" key={index}>
+                {!skeleton ? records.map((object, index) =>
+                 <div className="list-group" key={index}>
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
@@ -282,13 +285,13 @@ const AllProperties = () => {
                                   className="property-slider-icon"
                                 />
                                 <strong className="frontPropIcon">
-                                  Price{" "}
+                                {object.pro_amt && "Price"}
                                 </strong>
                                 &nbsp;
-                                {"₹" +
+                                {object.pro_amt ?"₹" +
                                   object.pro_amt +
                                   " " +
-                                  object.pro_amt_unit}
+                                  object.pro_amt_unit : "Ask Price"}
                               </li>
 
                               <li>
@@ -402,7 +405,16 @@ const AllProperties = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                                
+                ):
+                <div>
+                  <Skeleton variant="rectangular" width={813} height={200}/>
+                  <Skeleton variant="rectangular" width={813} height={200} className="mt-3"/>
+                  <Skeleton variant="rectangular" width={813} height={200} className="mt-3"/>
+                  <Skeleton variant="rectangular" width={813} height={200} className="mt-3"/>
+                </div>
+              }
+
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
                 <div>

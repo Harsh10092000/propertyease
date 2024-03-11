@@ -446,7 +446,7 @@ const AddProperty = () => {
     if (
       propertyData.pro_ownership_type !== "" &&
       propertyData.pro_approval !== "" &&
-      propertyData.pro_amt > 0 &&
+      //propertyData.pro_amt > 0 &&
       (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000)
     ) {
       setSubmitDisabled(false);
@@ -456,7 +456,7 @@ const AddProperty = () => {
   }, [
     propertyData.pro_ownership_type,
     propertyData.pro_approval,
-    propertyData.pro_amt,
+    //propertyData.pro_amt,
     propertyData.pro_desc,
   ]);
 
@@ -484,8 +484,9 @@ const AddProperty = () => {
       );
     }
     setLoader(false);
-    navigate(`/property/_${id}`);
-  };
+    navigate(`/${id}`);
+   
+  }
 
 
 
@@ -1738,9 +1739,9 @@ const AddProperty = () => {
                           inputProps={{ maxLength: 10 }}
                           value={propertyData.pro_amt}
                           FormHelperTextProps={{ sx: { color: "red" } }}
-                          helperText={
-                            propertyData.pro_amt < 1 ? "Enter Valid Amount" : ""
-                          }
+                          // helperText={
+                          //   propertyData.pro_amt < 1 ? "Enter Valid Amount" : ""
+                          // }
                           onChange={(e) =>
                             setPropertyData({
                               ...propertyData,
@@ -1750,7 +1751,7 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          required
+                          
                         />
                         <FormControl
                           sx={{ mt: 1, mr: 1, width: ["20%"] }}
