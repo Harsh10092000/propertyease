@@ -120,12 +120,13 @@ const AdminDashboard = () => {
                   <td>{item.pro_locality + ", " + item.pro_city}</td>
                   <td className="d-flex gap-3">
                     <Link
-                      to={`/property/${item.pro_type
-                        .split(",")[0]
-                        .replace(" ", "-")}-${item.pro_ad_type.replace(
-                        " ",
-                        "-"
-                      )}_${item.pro_id}`}
+                      // to={`/property/${item.pro_type
+                      //   .split(",")[0]
+                      //   .replace(" ", "-")}-${item.pro_ad_type.replace(
+                      //   " ",
+                      //   "-"
+                      // )}_${item.pro_id}`}
+                      to={`/${item.pro_id}`}
                     >
                       <button className="view" title="View">
                         <IconEye />
