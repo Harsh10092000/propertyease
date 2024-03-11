@@ -332,7 +332,7 @@ const EditProperty = () => {
     if (
       propertyData.pro_ownership_type !== "" &&
       propertyData.pro_approval !== "" &&
-      //propertyData.pro_amt > 0 &&
+      (propertyData.pro_amt === "" || propertyData.pro_amt > 0) &&
       (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000)
     ) {
       setSubmitDisabled(false);
@@ -342,7 +342,7 @@ const EditProperty = () => {
   }, [
     propertyData.pro_ownership_type,
     propertyData.pro_approval,
-    //propertyData.pro_amt,
+    propertyData.pro_amt,
     propertyData.pro_desc,
   ]);
 
@@ -1535,11 +1535,9 @@ const EditProperty = () => {
                               inputProps={{ maxLength: 10 }}
                               value={propertyData.pro_amt}
                               FormHelperTextProps={{ sx: { color: "red" } }}
-                              // helperText={
-                              //   propertyData.pro_amt < 1
-                              //     ? "Enter Valid Amount"
-                              //     : ""
-                              // }
+                              helperText={
+                                propertyData.pro_amt > 0 || propertyData.pro_amt === "" ? "" : "Enter Valid Amount" 
+                              }
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
