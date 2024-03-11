@@ -6,7 +6,7 @@ import { AdminContextProvider } from "./context/AdminContext.jsx";
 import TagManager from 'react-gtm-module'
 
 const tagManagerArgs = {
-  gtmId: 'GTM-XXXXXX'
+  gtmId: 'G-7MLLD7SP2K'
 }
 
 TagManager.initialize(tagManagerArgs)
