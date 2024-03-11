@@ -23,6 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-form-stepper": "^2.0.3",
+    "react-gtm-module": "^2.0.11",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.21.3",
     "react-spinners": "^0.13.8"
