@@ -160,10 +160,11 @@ const EditProperty = () => {
             ? res.data[0].pro_amt_unit
             : "Lakhs",
           pro_pincode: res.data[0].pro_pincode,
-          //pro_state: res.data[0].pro_state,
-          pro_state: stateList.filter(
-            (item) => item.name === res.data[0].pro_state
-          )[0].id,
+          pro_state: res.data[0].pro_state,
+          pro_sub_district: res.data[0].pro_sub_district,
+          // pro_state: stateList.filter(
+          //   (item) => item.name === res.data[0].pro_state
+          // )[0].id,
           pro_negotiable: res.data[0].pro_negotiable,
           pro_user_id: res.data[0].pro_user_id,
         });
@@ -703,6 +704,8 @@ const EditProperty = () => {
                               <InputLabel id="demo-simple-select-label">
                                 State
                               </InputLabel>
+
+{console.log(propertyData.pro_state , propertyData)}
 
                               <Select
                                 labelId="demo-simple-select-label"

@@ -381,7 +381,8 @@ const Property = () => {
                           {data.pro_sub_district
                             ? data.pro_sub_district + ", "
                             : ""}
-                          {data.pro_city}
+                          {data.pro_city},&nbsp;
+                                  {data.pro_state}
                         </div>
                       ) : (
                         <Skeleton
@@ -756,7 +757,8 @@ const Property = () => {
                                 {data.pro_sub_district
                                   ? data.pro_sub_district + ", "
                                   : ""}
-                                {data.pro_city}
+                                {data.pro_city},&nbsp;
+                                  {data.pro_state}
                               </div>
                             </div>
                             <div className="row moreDetail">

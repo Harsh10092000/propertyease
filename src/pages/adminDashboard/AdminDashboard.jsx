@@ -39,7 +39,8 @@ const AdminDashboard = () => {
       code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
       code.pro_pincode.startsWith(searchValue) ||
       code.pro_modified_id.toString().startsWith(searchValue) ||
-      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+      code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
   );
 
   const records = filteredData.slice(firstIndex, lastIndex);
@@ -122,7 +123,8 @@ const AdminDashboard = () => {
                                 {item.pro_sub_district
                                   ? item.pro_sub_district + ", "
                                   : ""}
-                                {item.pro_city}</td>
+                                {item.pro_city},&nbsp;
+                                  {item.pro_state}</td>
                   <td className="d-flex gap-3">
                     <Link
                       // to={`/property/${item.pro_type

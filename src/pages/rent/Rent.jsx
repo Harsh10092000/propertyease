@@ -59,7 +59,8 @@ const Rent = () => {
         code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
         code.pro_pincode.includes(searchValue) ||
         code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
+        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+        code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
     );
 
   const records = filteredData.slice(firstIndex, lastIndex);
@@ -234,7 +235,8 @@ const Rent = () => {
                                   </span>
                                   ,&nbsp;
                                   {object.pro_sub_district ? object.pro_sub_district + ", " : ""}
-                                  {object.pro_city}
+                                  {object.pro_city},&nbsp;
+                                  {object.pro_state}
                                 </span>
                               </Link>
                             </div>

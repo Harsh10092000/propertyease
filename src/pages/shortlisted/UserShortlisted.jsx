@@ -84,7 +84,8 @@ const UserShortlisted = () => {
                                 {item.pro_sub_district
                                   ? item.pro_sub_district + ", "
                                   : ""}
-                                {item.pro_city}
+                                {item.pro_city},&nbsp;
+                                  {item.pro_state}
                             </td>
                             <td className="text-center">
                               <button

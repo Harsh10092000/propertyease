@@ -40,7 +40,8 @@ const AdminInterest = () => {
                                 {item.pro_sub_district
                                   ? item.pro_sub_district + ", "
                                   : ""}
-                                {item.pro_city}</td>
+                                {item.pro_city},&nbsp;
+                                  {item.pro_state}</td>
                 <td className="d-flex gap-3">
                   <Link
                     to={`/property/${item.pro_type
