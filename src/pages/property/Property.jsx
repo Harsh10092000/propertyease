@@ -4,6 +4,7 @@ import {
   IconStarFilled,
   IconBrandWhatsapp,
   IconBrandFacebook,
+  IconX
 } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
@@ -42,6 +43,7 @@ const Property = () => {
   const [shortlist, setShortlist] = useState(false);
   const [interested, setInterested] = useState(false);
   const [skeleton, setSkeleton] = useState(true);
+  const [currentImage , setCurrentImage] = useState("");
   const checkShortlist = async () => {
     if (currentUser) {
       try {
@@ -191,6 +193,9 @@ const Property = () => {
     }
   }
   const location = window.location.href;
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <div>
       <Helmet>
@@ -293,7 +298,7 @@ const Property = () => {
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         {/* <EmblaCarousel slides={images} /> */}
-        <PopSlider slides={images} />
+        <PopSlider slides={images} handleClose={handleClose} />
       </Modal>
       <Navbar />
 
@@ -507,6 +512,7 @@ const Property = () => {
                               <EmblaCarousel
                                 slides={images}
                                 open={() => setOpen(true)}
+
                               />
                             ) : (
                               <img
@@ -515,6 +521,7 @@ const Property = () => {
                                 width={550}
                                 height={550}
                                 className="img-fluid"
+                                
                               />
                             )}
                           </div>
