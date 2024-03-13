@@ -40,7 +40,7 @@ const AddProperty = () => {
   };
   const handleClose = () => {
     setOpen(false);
-    setUserData({...userData , number : ""})
+    setUserData({ ...userData, number: "" });
     dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
   };
 
@@ -49,11 +49,29 @@ const AddProperty = () => {
   const [numberError, setNumberError] = useState(true);
   const [loginStatus, setLoginStatus] = useState("");
   const [getOtp, setGetOtp] = useState(false);
+  const [subDistrict, setSubDistrict] = useState();
+  const [cityState, setCityState] = useState();
   const [userData, setUserData] = useState({
     email: "",
     number: "",
     otp: "",
   });
+
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictData`)
+      .then((res) => {
+        setSubDistrict(res.data);
+      });
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateCityData`)
+      .then((res) => {
+        setCityState(res.data);
+      });
+  }, []);
+
+
+
 
   useEffect(() => {
     currentUser !== null &&
@@ -72,7 +90,6 @@ const AddProperty = () => {
   }, [currentUser]);
 
   const verifyEmail = async () => {
-    
     try {
       await axios
         .get(
@@ -80,9 +97,7 @@ const AddProperty = () => {
             `/api/auth/verifyEmail/${userData.email}`
         )
         .then((res) => dispatch({ type: ACTION_TYPES.UNSET_FETCH_ERROR }));
-        
     } catch (err) {
-     
       dispatch({ type: ACTION_TYPES.FETCH_ERROR, payload: err.response.data });
     }
   };
@@ -243,6 +258,7 @@ const AddProperty = () => {
     pro_amt_unit: "Lakhs",
     pro_pincode: "",
     pro_state: "",
+    pro_sub_district: "",
     pro_negotiable: "",
   });
 
@@ -317,8 +333,6 @@ const AddProperty = () => {
     }
   };
 
-
-
   const handleDrag = function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -362,6 +376,7 @@ const AddProperty = () => {
     if (
       propertyData.pro_type !== "" &&
       propertyData.pro_city !== "" &&
+      propertyData.pro_sub_district !== "" &&
       propertyData.pro_locality !== "" &&
       propertyData.pro_pincode.length > 5
     ) {
@@ -374,6 +389,7 @@ const AddProperty = () => {
     propertyData.pro_city,
     propertyData.pro_locality,
     propertyData.pro_pincode,
+    propertyData.pro_sub_district,
   ]);
 
   const [step3Disabled, setStep3Disabled] = useState(true);
@@ -461,15 +477,15 @@ const AddProperty = () => {
     propertyData.pro_amt,
     propertyData.pro_desc,
     propertyData.pro_negotiable,
-    propertyData.pro_rental_status
+    propertyData.pro_rental_status,
   ]);
 
   const handleClick = async () => {
     setLoader(true);
     propertyData.pro_user_id = currentUser[0].login_id;
-    propertyData.pro_state = stateList.filter(
-      (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
-    )[0].name;
+    // propertyData.pro_state = stateList.filter(
+    //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
+    // )[0].name;
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
@@ -489,11 +505,7 @@ const AddProperty = () => {
     }
     setLoader(false);
     navigate(`/${id}`);
-   
-  }
-
-
-
+  };
 
   return (
     <div>
@@ -594,7 +606,9 @@ const AddProperty = () => {
                 onClick={addUser}
                 // disabled={state.timer === true ? true : false}
                 disabled={
-                  numberError === false && state.numberErr !== true && getOtp === false
+                  numberError === false &&
+                  state.numberErr !== true &&
+                  getOtp === false
                     ? false
                     : true
                 }
@@ -630,7 +644,8 @@ const AddProperty = () => {
               Post Property
             </h4>
             <p>
-            Do fill this form with attention so that your Property details are more accurate for the potential buyers.
+              Do fill this form with attention so that your Property details are
+              more accurate for the potential buyers.
             </p>
           </div>
           <div className="signup-form">
@@ -723,8 +738,6 @@ const AddProperty = () => {
                             )}
                           </FormControl>
 
-                          
-
                           <FormControl
                             sx={{ m: 1, width: ["100%"] }}
                             size="small"
@@ -788,7 +801,7 @@ const AddProperty = () => {
                       <div className="d-flex justify-content-end">
                         <button
                           className="btn btn-primary"
-                          disabled={step1Disabled}
+                          //disabled={step1Disabled}
                           //onClick={handleNextStep}
                           onClick={
                             currentUser !== null ? handleNextStep : fetchOtp
@@ -945,7 +958,7 @@ const AddProperty = () => {
                             }
                           >
                             {stateList.map((item, index) => (
-                              <MenuItem value={item.id} key={index}>
+                              <MenuItem value={item.name} key={index}>
                                 {item.name}
                               </MenuItem>
                             ))}
@@ -976,15 +989,11 @@ const AddProperty = () => {
                               })
                             }
                           >
-                            {city
-                              .filter(
-                                (i) =>
-                                  parseInt(i.state_id) ===
-                                  parseInt(propertyData.pro_state)
-                              )
+                            {cityState
+                              .filter((i) => i.state === propertyData.pro_state)
                               .map((item, index) => (
-                                <MenuItem value={item.city_name} key={index}>
-                                  {item.city_name}
+                                <MenuItem value={item.district} key={index}>
+                                  {item.district}
                                 </MenuItem>
                               ))}
                           </Select>
@@ -1003,7 +1012,48 @@ const AddProperty = () => {
                         </FormControl>
                       </div>
 
-                      <div>
+                      <div className="pro_flex">
+                      <FormControl
+                          sx={{ m: 1, width: ["100%"] }}
+                          size="small"
+                        >
+                          <InputLabel id="demo-simple-select-label">
+                            Sub District
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={propertyData.pro_sub_district}
+                            label="Sub District"
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_sub_district: e.target.value,
+                              })
+                            }
+                          >
+                            {subDistrict
+                              .filter((i) => i.district === propertyData.pro_city)
+                              .map((item, index) => (
+                                <MenuItem value={item.sub_district} key={index}>
+                                  {item.sub_district}
+                                </MenuItem>
+                              ))}
+                          </Select>
+                          {(propertyData.pro_city === "" ||
+                            propertyData.pro_state === "") && (
+                              <FormHelperText sx={{ color: "red" }}>
+                                Select State and City to add Sub District
+                              </FormHelperText>
+                            )}
+                          {propertyData.pro_sub_district === "" &&
+                          propertyData.pro_city !== "" &&
+                            propertyData.pro_state !== "" && (
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
+                            )}
+                        </FormControl>
                         <TextField
                           sx={{ m: 1, width: ["100%"] }}
                           id="outlined-basic"
@@ -1102,7 +1152,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          disabled={step2Disabled}
+                          //disabled={step2Disabled}
                           onClick={handleNextStep}
                         >
                           Next
@@ -1456,7 +1506,6 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          
                         />
                         <FormControl
                           sx={{ mt: 1, width: ["30%"] }}
@@ -1597,7 +1646,6 @@ const AddProperty = () => {
                           </FormControl>
                         </div>
                       )}
-                     
 
                       <div className=" w-30 m-8">
                         <input
@@ -1631,7 +1679,7 @@ const AddProperty = () => {
                           {selectedFiles != null && selectedFiles != undefined
                             ? files.map((item) => (
                                 <div className="ml-2">
-                                  <div>{item.name }</div>
+                                  <div>{item.name}</div>
                                   <div></div>
                                 </div>
                               ))
@@ -1656,7 +1704,7 @@ const AddProperty = () => {
                         )}
                         <button
                           className="btn btn-primary"
-                          disabled={step3Disabled}
+                          //disabled={step3Disabled}
                           onClick={handleNextStep}
                         >
                           Next
@@ -1744,7 +1792,10 @@ const AddProperty = () => {
                           value={propertyData.pro_amt}
                           FormHelperTextProps={{ sx: { color: "red" } }}
                           helperText={
-                            propertyData.pro_amt > 0 || propertyData.pro_amt === "" ? "" : "Enter Valid Amount" 
+                            propertyData.pro_amt > 0 ||
+                            propertyData.pro_amt === ""
+                              ? ""
+                              : "Enter Valid Amount"
                           }
                           onChange={(e) =>
                             setPropertyData({
@@ -1755,7 +1806,6 @@ const AddProperty = () => {
                               ),
                             })
                           }
-                          
                         />
                         <FormControl
                           sx={{ mt: 1, mr: 1, width: ["20%"] }}

@@ -36,7 +36,11 @@ const AdminInterest = () => {
                 <td>{item.login_email}</td>
                 <td>+91{item.login_number}</td>
                 <td>{item.pro_type}</td>
-                <td>{item.pro_locality + ", " + item.pro_city}</td>
+                <td>{item.pro_locality},&nbsp;
+                                {item.pro_sub_district
+                                  ? item.pro_sub_district + ", "
+                                  : ""}
+                                {item.pro_city}</td>
                 <td className="d-flex gap-3">
                   <Link
                     to={`/property/${item.pro_type

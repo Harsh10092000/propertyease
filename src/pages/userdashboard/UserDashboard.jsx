@@ -34,6 +34,7 @@ const UserDashboard = () => {
   const filteredData = data.filter(
     (code) =>
       code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
+      code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
       code.pro_pincode.startsWith(searchValue) ||
       code.pro_modified_id.toString().startsWith(searchValue) ||
       code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
@@ -113,7 +114,11 @@ const UserDashboard = () => {
                             {item.pro_city}
                           </span>
                         </td>
-                        <td>{item.pro_locality + ", " + item.pro_city}</td>
+                        <td>{item.pro_locality},&nbsp;
+                                {item.pro_sub_district
+                                  ? item.pro_sub_district + ", "
+                                  : ""}
+                                {item.pro_city}</td>
                         <td>
                           <button
                             title="Edit Your Property"

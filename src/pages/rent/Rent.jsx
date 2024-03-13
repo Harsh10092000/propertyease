@@ -56,6 +56,7 @@ const Rent = () => {
     .filter(
       (code) =>
         code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
+        code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
         code.pro_pincode.includes(searchValue) ||
         code.pro_modified_id.toString().startsWith(searchValue) ||
         code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
@@ -232,6 +233,7 @@ const Rent = () => {
                                     {object.pro_locality}
                                   </span>
                                   ,&nbsp;
+                                  {object.pro_sub_district ? object.pro_sub_district + ", " : ""}
                                   {object.pro_city}
                                 </span>
                               </Link>

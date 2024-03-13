@@ -36,6 +36,7 @@ const AdminDashboard = () => {
   const filteredData = data.filter(
     (code) =>
       code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+      code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
       code.pro_pincode.startsWith(searchValue) ||
       code.pro_modified_id.toString().startsWith(searchValue) ||
       code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase())
@@ -117,7 +118,11 @@ const AdminDashboard = () => {
                   <td>{item.pro_type}</td>
                   <td>{item.login_email}</td>
                   <td>+91{item.login_number}</td>
-                  <td>{item.pro_locality + ", " + item.pro_city}</td>
+                  <td>{item.pro_locality},&nbsp;
+                                {item.pro_sub_district
+                                  ? item.pro_sub_district + ", "
+                                  : ""}
+                                {item.pro_city}</td>
                   <td className="d-flex gap-3">
                     <Link
                       // to={`/property/${item.pro_type

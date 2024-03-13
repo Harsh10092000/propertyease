@@ -361,7 +361,10 @@ const Index = () => {
                               Address&nbsp;{" "}
                             </strong>
                             {item.pro_locality},&nbsp;
-                            {item.pro_city}
+                                {item.pro_sub_district
+                                  ? item.pro_sub_district + ", "
+                                  : ""}
+                                {item.pro_city}
                           </li>
                           {item.plot_area_size ? (
                             <li>

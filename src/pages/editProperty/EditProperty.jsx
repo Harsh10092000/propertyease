@@ -46,6 +46,21 @@ const EditProperty = () => {
     completedBgColor: "#00ee99",
   };
 
+  const [subDistrict, setSubDistrict] = useState();
+  const [cityState, setCityState] = useState();
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictData`)
+      .then((res) => {
+        setSubDistrict(res.data);
+      });
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateCityData`)
+      .then((res) => {
+        setCityState(res.data);
+      });
+  }, []);
+
   const [propertyData, setPropertyData] = useState({
     pro_id: "",
     pro_user_type: "",
@@ -87,8 +102,10 @@ const EditProperty = () => {
     pro_amt_unit: "Lakhs",
     pro_pincode: "",
     pro_state: "",
+    pro_sub_district: "",
     pro_negotiable: "",
   });
+
   const [images, setImages] = useState([]);
   useEffect(() => {
     axios
@@ -248,6 +265,7 @@ const EditProperty = () => {
     if (
       propertyData.pro_type !== "" &&
       propertyData.pro_city !== "" &&
+      propertyData.pro_sub_district !== "" &&
       propertyData.pro_locality !== "" &&
       propertyData.pro_pincode.length > 5
     ) {
@@ -260,6 +278,7 @@ const EditProperty = () => {
     propertyData.pro_city,
     propertyData.pro_locality,
     propertyData.pro_pincode,
+    propertyData.pro_sub_district,
   ]);
 
   const [step3Disabled, setStep3Disabled] = useState(true);
@@ -347,9 +366,9 @@ const EditProperty = () => {
   ]);
 
   const handleClick = () => {
-    propertyData.pro_state = stateList
-      .filter((item) => parseInt(item.id) === parseInt(propertyData.pro_state))
-      .map((filteredItem) => filteredItem.name);
+    // propertyData.pro_state = stateList
+    //   .filter((item) => parseInt(item.id) === parseInt(propertyData.pro_state))
+    //   .map((filteredItem) => filteredItem.name);
     axios
       .put(
         import.meta.env.VITE_BACKEND + "/api/pro/updateProperty",
@@ -388,7 +407,7 @@ const EditProperty = () => {
     }
     navigate(`/${id}`);
   };
- 
+
   return (
     <div>
       {propertyData.pro_user_id === currentUser[0].login_id ? (
@@ -405,7 +424,8 @@ const EditProperty = () => {
                   Edit Property
                 </h4>
                 <p>
-                Do fill this form with attention so that your Property details are more accurate for the potential buyers.
+                  Do fill this form with attention so that your Property details
+                  are more accurate for the potential buyers.
                 </p>
               </div>
               <div className="signup-form">
@@ -699,7 +719,7 @@ const EditProperty = () => {
                                 }
                               >
                                 {stateList.map((item, index) => (
-                                  <MenuItem value={item.id} key={index}>
+                                  <MenuItem value={item.name} key={index}>
                                     {item.name}
                                   </MenuItem>
                                 ))}
@@ -731,18 +751,13 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                {city
+                                {cityState
                                   .filter(
-                                    (i) =>
-                                      parseInt(i.state_id) ===
-                                      parseInt(propertyData.pro_state)
+                                    (i) => i.state === propertyData.pro_state
                                   )
                                   .map((item, index) => (
-                                    <MenuItem
-                                      value={item.city_name}
-                                      key={index}
-                                    >
-                                      {item.city_name}
+                                    <MenuItem value={item.district} key={index}>
+                                      {item.district}
                                     </MenuItem>
                                   ))}
                               </Select>
@@ -761,7 +776,53 @@ const EditProperty = () => {
                             </FormControl>
                           </div>
 
-                          <div>
+                          <div className="pro_flex">
+                            <FormControl
+                              sx={{ m: 1, width: ["100%"] }}
+                              size="small"
+                            >
+                              <InputLabel id="demo-simple-select-label">
+                                Sub District
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={propertyData.pro_sub_district}
+                                label="Sub District"
+                                onChange={(e) =>
+                                  setPropertyData({
+                                    ...propertyData,
+                                    pro_sub_district: e.target.value,
+                                  })
+                                }
+                              >
+                                {subDistrict
+                                  .filter(
+                                    (i) => i.district === propertyData.pro_city
+                                  )
+                                  .map((item, index) => (
+                                    <MenuItem
+                                      value={item.sub_district}
+                                      key={index}
+                                    >
+                                      {item.sub_district}
+                                    </MenuItem>
+                                  ))}
+                              </Select>
+                              {(propertyData.pro_city === "" ||
+                                propertyData.pro_state === "") && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  Select State and City to add Sub District
+                                </FormHelperText>
+                              )}
+                              {propertyData.pro_sub_district === "" &&
+                                propertyData.pro_city !== "" &&
+                                propertyData.pro_state !== "" && (
+                                  <FormHelperText sx={{ color: "red" }}>
+                                    Required
+                                  </FormHelperText>
+                                )}
+                            </FormControl>
                             <TextField
                               sx={{ m: 1, width: ["100%"] }}
                               id="outlined-basic"
@@ -821,7 +882,6 @@ const EditProperty = () => {
                                   ),
                                 })
                               }
-                              
                             />
                           </div>
                           <div>
@@ -1536,7 +1596,10 @@ const EditProperty = () => {
                               value={propertyData.pro_amt}
                               FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
-                                propertyData.pro_amt > 0 || propertyData.pro_amt === "" ? "" : "Enter Valid Amount" 
+                                propertyData.pro_amt > 0 ||
+                                propertyData.pro_amt === ""
+                                  ? ""
+                                  : "Enter Valid Amount"
                               }
                               onChange={(e) =>
                                 setPropertyData({
