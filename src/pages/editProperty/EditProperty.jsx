@@ -705,7 +705,7 @@ const EditProperty = () => {
                                 State
                               </InputLabel>
 
-{console.log(propertyData.pro_state , propertyData)}
+
 
                               <Select
                                 labelId="demo-simple-select-label"
@@ -718,6 +718,7 @@ const EditProperty = () => {
                                     ...propertyData,
                                     pro_state: e.target.value,
                                     pro_city: "",
+                                    pro_sub_district: "",
                                   })
                                 }
                               >
@@ -751,6 +752,7 @@ const EditProperty = () => {
                                   setPropertyData({
                                     ...propertyData,
                                     pro_city: e.target.value,
+                                    pro_sub_district: "",
                                   })
                                 }
                               >

@@ -954,6 +954,8 @@ const AddProperty = () => {
                               setPropertyData({
                                 ...propertyData,
                                 pro_state: e.target.value,
+                                pro_city: "",
+                                pro_sub_district: "",
                               })
                             }
                           >
@@ -982,11 +984,15 @@ const AddProperty = () => {
                             id="demo-simple-select"
                             value={propertyData.pro_city}
                             label="City"
-                            onChange={(e) =>
+                            onChange={(e) => {
+
                               setPropertyData({
                                 ...propertyData,
                                 pro_city: e.target.value,
-                              })
+                                pro_sub_district: "",
+                              }) 
+
+                            }
                             }
                           >
                             {cityState
@@ -997,8 +1003,8 @@ const AddProperty = () => {
                                 </MenuItem>
                               ))}
                           </Select>
-                          {propertyData.pro_city === "" &&
-                            propertyData.pro_state === "" && (
+                          {propertyData.pro_city === "" && propertyData.pro_city === null &&
+                            propertyData.pro_state === "" && propertyData.pro_state === null && (
                               <FormHelperText sx={{ color: "red" }}>
                                 Select State to add City
                               </FormHelperText>
