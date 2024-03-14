@@ -47,8 +47,8 @@ const PopSlider = (props) => {
           />
         </button>
       </div> */}
-      <button className="close-button">
-      <div class="close-container" onClick={props.handleClose} title="close">
+      <button className="close-button" onClick={props.handleClose} title="close">
+      <div class="close-container" >
         <div class="leftright"></div>
         <div class="rightleft"></div>
       </div>
