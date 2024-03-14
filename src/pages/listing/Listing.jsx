@@ -12,6 +12,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 const Listing = () => {
+
+ 
+
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -22,6 +25,11 @@ const Listing = () => {
   const [rentData, setRentData] = useState([]);
   //const records = data.slice(firstIndex, lastIndex);
   //const nPages = Math.ceil(data.length / recordsPerPage);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   useEffect(() => {
     axios
       .get(
