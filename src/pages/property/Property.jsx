@@ -1003,7 +1003,7 @@ const Property = () => {
                                         item.pro_id
                                       }`}
                                     >
-                                      <a className="btn-viewmore">View More</a>
+                                      <a title="View complete details of this property" className="btn-viewmore">View More</a>
                                     </Link>
                                   </div>
                                 </div>
@@ -1013,7 +1013,7 @@ const Property = () => {
                         </div>
                       <div className="d-flex flex-row-reverse mt-4 mr-3">
                         <Link to={`/property/${proType}`}>
-                          <a className="btn-viewall px-4 ">View All</a>
+                          <a title="Click to view all properties" className="btn-viewall px-4 ">View All</a>
                         </Link>
                       </div>
                       </div>

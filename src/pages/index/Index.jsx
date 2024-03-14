@@ -116,7 +116,7 @@ const Index = () => {
                       </li>
                     </ul>
                     <Link to={"/property/residential"}>
-                      <a className="btn-viewmore">View More</a>
+                      <a title="Click to view all properties" className="btn-viewmore">View More</a>
                     </Link>
                   </div>
                 </div>
@@ -177,7 +177,7 @@ const Index = () => {
                       </li>
                     </ul>
                     <Link to={"/property/land"}>
-                      <a className="btn-viewmore">View More</a>
+                      <a title="Click to view all properties" className="btn-viewmore">View More</a>
                     </Link>
                   </div>
                 </div>
@@ -239,7 +239,7 @@ const Index = () => {
                     </ul>
 
                     <Link to={"/property/commercial"}>
-                      <a className="btn-viewmore">View More</a>
+                      <a title="Click to view all properties " className="btn-viewmore">View More</a>
                     </Link>
                   </div>
                 </div>
@@ -259,7 +259,7 @@ const Index = () => {
                   <br /> of every Property challenge today
                 </h4>
                 <Link to="/postrequirement">
-                  <a className="explore-more">
+                  <a className="explore-more" title="Post Requirement">
                     <span>
                       <IconSend />
                     </span>
@@ -439,7 +439,7 @@ const Index = () => {
                               "-"
                             )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
                         >
-                          <a className="btn-viewmore">View More</a>
+                          <a title="View complete details of this property" className="btn-viewmore">View More</a>
                         </Link>
                       </div>
                     </div>
@@ -468,6 +468,7 @@ const Index = () => {
                   <Link
                     to="/addproperty"
                     className="d-flex justify-content-center"
+                    title="List Property"
                   >
                     <div className="btn btn-primary w-75 d-flex justify-content-center align-items-center gap-4">
                       <IconHomePlus />
