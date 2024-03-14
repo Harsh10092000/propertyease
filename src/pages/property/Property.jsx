@@ -4,7 +4,7 @@ import {
   IconStarFilled,
   IconBrandWhatsapp,
   IconBrandFacebook,
-  IconX
+  IconX,
 } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
@@ -43,7 +43,7 @@ const Property = () => {
   const [shortlist, setShortlist] = useState(false);
   const [interested, setInterested] = useState(false);
   const [skeleton, setSkeleton] = useState(true);
-  const [currentImage , setCurrentImage] = useState("");
+  const [currentImage, setCurrentImage] = useState("");
   const checkShortlist = async () => {
     if (currentUser) {
       try {
@@ -70,6 +70,7 @@ const Property = () => {
       }
     }
   };
+  const [proType, setProType] = useState("");
   useEffect(() => {
     axios
       .get(
@@ -77,6 +78,7 @@ const Property = () => {
       )
       .then((res) => {
         setData(res.data[0]);
+        setProType(res.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
       });
     axios
@@ -87,6 +89,19 @@ const Property = () => {
     checkShortlist();
     checkInterested();
   }, []);
+
+  const [latestProperty, setLatestProperty] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/fetchLatestPropertyByCat/${proType}`
+      )
+      .then((res) => {
+        setLatestProperty(res.data);
+      });
+  }, [data]);
+
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
   const [err, setErr] = useState(null);
@@ -195,7 +210,11 @@ const Property = () => {
   const location = window.location.href;
   const handleClose = () => {
     setOpen(false);
-  }
+  };
+  const handleCurrentImage = (item) => {
+    setCurrentImage(item);
+  };
+
   return (
     <div>
       <Helmet>
@@ -298,7 +317,11 @@ const Property = () => {
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         {/* <EmblaCarousel slides={images} /> */}
-        <PopSlider slides={images} handleClose={handleClose} />
+        <PopSlider
+          slides={images}
+          handleClose={handleClose}
+          currentImage={currentImage}
+        />
       </Modal>
       <Navbar />
 
@@ -387,7 +410,7 @@ const Property = () => {
                             ? data.pro_sub_district + ", "
                             : ""}
                           {data.pro_city},&nbsp;
-                                  {data.pro_state}
+                          {data.pro_state}
                         </div>
                       ) : (
                         <Skeleton
@@ -453,9 +476,7 @@ const Property = () => {
                                     onClick={askQuestion}
                                   >
                                     <IconSend />
-                                    <span className="mobile-hidden">
-                                      Contact Us
-                                    </span>
+                                    <span className="">Contact Us</span>
                                   </button>
                                 )}
                               </>
@@ -468,9 +489,7 @@ const Property = () => {
                                 onClick={askQuestion}
                               >
                                 <IconSend />
-                                <span className="mobile-hidden">
-                                  Contact Us
-                                </span>
+                                <span className="">Contact Us</span>
                               </button>
                             </>
                           )}
@@ -490,7 +509,7 @@ const Property = () => {
                               </span>
                             </a>
                           </button>
-                          <button className="wp" title="Share On Whatsapp">
+                          <button className="wp pl-0" title="Share On Whatsapp">
                             <a
                               rel="noreferrer nofollow"
                               href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
@@ -508,11 +527,12 @@ const Property = () => {
                       <div className="col-md-6">
                         <div className="leftblock">
                           <div className="photosection">
+                            {console.log(currentImage)}
                             {images.length > 1 ? (
                               <EmblaCarousel
                                 slides={images}
                                 open={() => setOpen(true)}
-
+                                handleCurrentImage={handleCurrentImage}
                               />
                             ) : (
                               <img
@@ -521,7 +541,6 @@ const Property = () => {
                                 width={550}
                                 height={550}
                                 className="img-fluid"
-                                
                               />
                             )}
                           </div>
@@ -765,7 +784,7 @@ const Property = () => {
                                   ? data.pro_sub_district + ", "
                                   : ""}
                                 {data.pro_city},&nbsp;
-                                  {data.pro_state}
+                                {data.pro_state}
                               </div>
                             </div>
                             <div className="row moreDetail">
@@ -792,6 +811,213 @@ const Property = () => {
                         </div>
                       </div>
                     </div>
+                    <section className="most-view-Property mt-5 mb-5">
+                      <div className="container">
+                        <div className="section-title">
+                          <h3>
+                            Recent Listed <span>Properties</span>
+                          </h3>
+                          <p>
+                            Looking for a service? Discover the most recent
+                            service providers in your city, vetted and selected
+                            by our dedicated team of analysts
+                            <br /> based on feedback gathered from users like
+                            you!
+                          </p>
+                        </div>
+                        <div className="row">
+                          {latestProperty.map((item, index) => (
+                            <div className="col-md-4" key={index}>
+                              <div className="uniBlock">
+                                <div className="recent-box-serv">
+                                  <div className="re-bus-img">
+                                    <Link
+                                      to={`/${
+                                        item.pro_area_size.toLowerCase() +
+                                        "-" +
+                                        item.pro_area_size_unit.toLowerCase() +
+                                        "-"
+                                      }${
+                                        item.pro_type
+                                          ? item.pro_type
+                                              .split(",")[0]
+                                              .toLowerCase()
+                                              .replaceAll(" ", "-")
+                                          : ""
+                                      }-for-${
+                                        item.pro_ad_type === "rent"
+                                          ? "rent"
+                                          : "sale"
+                                      }-in-${item.pro_locality
+                                        .toLowerCase()
+                                        .replaceAll(
+                                          " ",
+                                          "-"
+                                        )}-${item.pro_city.toLowerCase()}-${
+                                        item.pro_id
+                                      }`}
+                                    >
+                                      {item.img_link ? (
+                                        <img
+                                          src={`${
+                                            import.meta.env.VITE_BACKEND
+                                          }/propertyImages/watermark/${
+                                            item.img_link
+                                          }`}
+                                          alt="img"
+                                        />
+                                      ) : (
+                                        <img
+                                          src="/images/default.png"
+                                          alt="no image"
+                                        />
+                                      )}
+                                    </Link>
+                                  </div>
+                                  <div className="recent-bus-content">
+                                    <h5 className="property-listing-type">
+                                      <Link
+                                        to={`/${
+                                          item.pro_area_size.toLowerCase() +
+                                          "-" +
+                                          item.pro_area_size_unit.toLowerCase() +
+                                          "-"
+                                        }${
+                                          item.pro_type
+                                            ? item.pro_type
+                                                .split(",")[0]
+                                                .toLowerCase()
+                                                .replaceAll(" ", "-")
+                                            : ""
+                                        }-for-${
+                                          item.pro_ad_type === "rent"
+                                            ? "rent"
+                                            : "sale"
+                                        }-in-${item.pro_locality
+                                          .toLowerCase()
+                                          .replaceAll(
+                                            " ",
+                                            "-"
+                                          )}-${item.pro_city.toLowerCase()}-${
+                                          item.pro_id
+                                        }`}
+                                      >
+                                        <a>{item.pro_type.split(",")[0]}</a>
+                                      </Link>
+                                    </h5>
+                                    <ul className="front-all-property-slider">
+                                      <li className="text-capitalize">
+                                        <img
+                                          src="/img/location.png"
+                                          className="property-slider-icon"
+                                        />
+                                        <strong className="frontPropIcon">
+                                          Address&nbsp;{" "}
+                                        </strong>
+                                        {item.pro_locality},&nbsp;
+                                        {item.pro_sub_district
+                                          ? item.pro_sub_district + ", "
+                                          : ""}
+                                        {item.pro_city}
+                                      </li>
+                                      {item.plot_area_size ? (
+                                        <li>
+                                          <img
+                                            src="/img/face-detection.png"
+                                            className="property-slider-icon"
+                                          />
+                                          <strong className="frontPropIcon">
+                                            Plot Size &nbsp;
+                                          </strong>
+                                          {item.plot_area_size}
+                                        </li>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {item.pro_width ? (
+                                        <li>
+                                          <img
+                                            src="/img/meter.png"
+                                            className="property-slider-icon"
+                                          />
+                                          <strong className="frontPropIcon">
+                                            Dimension&nbsp;
+                                          </strong>
+                                          ({item.pro_width} Feet *{" "}
+                                          {item.pro_length} Feet)
+                                        </li>
+                                      ) : (
+                                        ""
+                                      )}
+
+                                      <li>
+                                        <img
+                                          src="/img/rupee.png"
+                                          className="property-slider-icon"
+                                        />
+                                        <strong className="frontPropIcon">
+                                          Price{" "}
+                                        </strong>
+                                        &nbsp;
+                                        {"₹ " +
+                                          item.pro_amt +
+                                          " " +
+                                          item.pro_amt_unit}
+                                      </li>
+
+                                      <li>
+                                        <img
+                                          src="/img/facing.png"
+                                          className="property-slider-icon"
+                                        />
+                                        <strong className="frontPropIcon">
+                                          Property Facing
+                                        </strong>
+                                        &nbsp;
+                                        {item.pro_facing}
+                                      </li>
+                                    </ul>
+                                    <Link
+                                      to={`/${
+                                        item.pro_area_size.toLowerCase() +
+                                        "-" +
+                                        item.pro_area_size_unit.toLowerCase() +
+                                        "-"
+                                      }${
+                                        item.pro_type
+                                          ? item.pro_type
+                                              .split(",")[0]
+                                              .toLowerCase()
+                                              .replaceAll(" ", "-")
+                                          : ""
+                                      }-for-${
+                                        item.pro_ad_type === "rent"
+                                          ? "rent"
+                                          : "sale"
+                                      }-in-${item.pro_locality
+                                        .toLowerCase()
+                                        .replaceAll(
+                                          " ",
+                                          "-"
+                                        )}-${item.pro_city.toLowerCase()}-${
+                                        item.pro_id
+                                      }`}
+                                    >
+                                      <a className="btn-viewmore">View More</a>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      <div className="d-flex flex-row-reverse mt-4 mr-3">
+                        <Link to={`/property/${proType}`}>
+                          <a className="btn-viewall px-4 ">View All</a>
+                        </Link>
+                      </div>
+                      </div>
+                    </section>
                     <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">

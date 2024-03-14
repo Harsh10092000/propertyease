@@ -39,9 +39,13 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container" onClick={props.open}>
           {slides.map((item, index) => (
+            
             <div className="embla__slide" key={index}>
-              <img
-                className="embla__slide__img"
+              
+              <img 
+              
+                title="Click to Enlarge Image"
+                className="embla__slide__img coursor-pointer"
                 src={
                   import.meta.env.VITE_BACKEND +
                   "/propertyImages/watermark/" +
@@ -59,7 +63,7 @@ const EmblaCarousel = (props) => {
           <div className="embla-thumbs__container">
             {slides.map((items, index) => (
               <Thumb
-                onClick={() => onThumbClick(index)}
+                onClick={() => {onThumbClick(index) , props.handleCurrentImage(index)}}
                 selected={index === selectedIndex}
                 index={index}
                 imgSrc={

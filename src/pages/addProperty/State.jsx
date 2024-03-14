@@ -14,7 +14,7 @@ export const stateList = [
     {"id":"13","name":"Gujarat"},
     {"id":"14","name":"Haryana"},
     {"id":"15","name":"Himachal Pradesh"},
-    {"id":"16","name":"Jammu and Kashmir"},
+    {"id":"16","name":"Jammu And Kashmir"},
     {"id":"17","name":"Jharkhand"},
     {"id":"18","name":"Karnataka"},
     {"id":"19","name":"Kerala"},
