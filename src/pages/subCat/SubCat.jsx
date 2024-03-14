@@ -182,7 +182,7 @@ const SubCat = () => {
                               .replaceAll(
                                 " ",
                                 "-"
-                              )}-${object.pro_city.toLowerCase()}-${
+                              )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
                               object.pro_id
                             }`}
                           >
@@ -226,7 +226,7 @@ const SubCat = () => {
                                   .replaceAll(
                                     " ",
                                     "-"
-                                  )}-${object.pro_city.toLowerCase()}-${
+                                  )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
                                   object.pro_id
                                 }`}
                               >
@@ -336,7 +336,7 @@ const SubCat = () => {
                                     .replaceAll(
                                       " ",
                                       "-"
-                                    )}-${object.pro_city.toLowerCase()}-${
+                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
                                     object.pro_id
                                   }`}
                                 >
@@ -372,7 +372,7 @@ const SubCat = () => {
                                     .replaceAll(
                                       " ",
                                       "-"
-                                    )}-${object.pro_city.toLowerCase()}-${
+                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
                                     object.pro_id
                                   }`}
                                   target="_blank"

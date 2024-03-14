@@ -771,7 +771,9 @@ const Property = () => {
                                 Price
                               </div>
                               <div className="col-md-9 more-detail-left">
-                                {"₹" + data.pro_amt + " " + data.pro_amt_unit}
+                              {data.pro_amt
+                                ? "₹" + data.pro_amt + " " + data.pro_amt_unit
+                                : "Ask Price"}
                               </div>
                             </div>
                             <div className="row moreDetail">
