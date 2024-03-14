@@ -47,10 +47,12 @@ const PopSlider = (props) => {
           />
         </button>
       </div> */}
+      <button className="close-button">
       <div class="close-container" onClick={props.handleClose} title="close">
         <div class="leftright"></div>
         <div class="rightleft"></div>
       </div>
+      </button>
       <div className="embla__viewportpop" ref={emblaMainRef}>
         <div className="embla__containerpop" onClick={props.open}>
           {slides.map((item, index) => (
