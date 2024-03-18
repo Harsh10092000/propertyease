@@ -17,7 +17,7 @@ import DateTime from "../../dateTime";
 //import { history } from 'react-router-dom';
 //import  HistoryRouterProps  from "react-router-dom";
 
-const AllProperties = () => {
+const AllProperties = (props) => {
   // const url = new URL(window.location.href);
   // const originURL = url.origin;
   //const result = window.location.origin;
@@ -68,11 +68,12 @@ const AllProperties = () => {
   }, [data]);
 
   useEffect(() => {
-    var origin_url = document.referrer;
-    if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null) {
-      axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-      document.referrer = null;
-    } 
+    
+    // if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null) {
+    //   axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+    //   document.referrer = null;
+    // } 
+
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
