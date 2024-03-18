@@ -71,7 +71,7 @@ const AllProperties = () => {
     var origin_url = document.referrer;
     if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null) {
       axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-      origin_url = null;
+      document.referrer = null;
     } 
   }, []);
 
