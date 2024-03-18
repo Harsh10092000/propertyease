@@ -21,8 +21,8 @@ const AllProperties = () => {
   // const url = new URL(window.location.href);
   // const originURL = url.origin;
   //const result = window.location.origin;
-  var origin_url = document.referrer;
-  console.log("origin_url : ", origin_url );
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -68,9 +68,10 @@ const AllProperties = () => {
   }, [data]);
 
   useEffect(() => {
+    var origin_url = document.referrer;
     if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null) {
       axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-      origin_url = window.location.origin;
+      origin_url = null;
     } 
   }, []);
 
