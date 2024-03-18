@@ -13,8 +13,13 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import { Skeleton } from "@mui/material";
 import DateTime from "../../dateTime";
-
+import { useLocation } from 'react-router-dom';
 const AllProperties = () => {
+  // const url = new URL(window.location.href);
+  // const originURL = url.origin;
+  //const result = window.location.origin;
+  var origin_url = document.referrer;
+  console.log("origin_url : ", origin_url );
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -54,6 +59,10 @@ const AllProperties = () => {
     });
   }, [data]);
 
+  useEffect(() => {
+    axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+  }, []);
+
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
 
@@ -80,8 +89,6 @@ const AllProperties = () => {
     );
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
-
-
 
   return (
     <div>
@@ -159,12 +166,9 @@ const AllProperties = () => {
                                 object.pro_ad_type === "rent" ? "rent" : "sale"
                               }-in-${object.pro_locality
                                 .toLowerCase()
-                                .replaceAll(
-                                  " ",
-                                  "-"
-                                )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                object.pro_id
-                              }`}
+                                .replaceAll(" ", "-")}-${object.pro_city
+                                .toLowerCase()
+                                .replaceAll(" ", "-")}-${object.pro_id}`}
                             >
                               {object.img_link ? (
                                 <img
@@ -205,12 +209,9 @@ const AllProperties = () => {
                                       : "sale"
                                   }-in-${object.pro_locality
                                     .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                    object.pro_id
-                                  }`}
+                                    .replaceAll(" ", "-")}-${object.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${object.pro_id}`}
                                 >
                                   <span className="text-wrap text-bold">
                                     {object.pro_area_size +
@@ -335,12 +336,9 @@ const AllProperties = () => {
                                         : "sale"
                                     }-in-${object.pro_locality
                                       .toLowerCase()
-                                      .replaceAll(
-                                        " ",
-                                        "-"
-                                      )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                      object.pro_id
-                                    }`}
+                                      .replaceAll(" ", "-")}-${object.pro_city
+                                      .toLowerCase()
+                                      .replaceAll(" ", "-")}-${object.pro_id}`}
                                   >
                                     <a
                                       title="View complete details of this property"
@@ -371,12 +369,9 @@ const AllProperties = () => {
                                         : "sale"
                                     }-in-${object.pro_locality
                                       .toLowerCase()
-                                      .replaceAll(
-                                        " ",
-                                        "-"
-                                      )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                      object.pro_id
-                                    }`}
+                                      .replaceAll(" ", "-")}-${object.pro_city
+                                      .toLowerCase()
+                                      .replaceAll(" ", "-")}-${object.pro_id}`}
                                     target="_blank"
                                     className="conatct-propertywp"
                                     title=" Whatsapp/Contact for this property"

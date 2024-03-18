@@ -1004,14 +1004,14 @@ const AddProperty = () => {
                                 </MenuItem>
                               ))}
                           </Select>
-                          {propertyData.pro_city === "" && propertyData.pro_city === null &&
-                            propertyData.pro_state === "" && propertyData.pro_state === null && (
+                          {propertyData.pro_city === "" &&
+                            propertyData.pro_state !== "" && propertyData.pro_state !== null && (
                               <FormHelperText sx={{ color: "red" }}>
                                 Select State to add City
                               </FormHelperText>
                             )}
                           {propertyData.pro_city === "" &&
-                            propertyData.pro_state !== "" && (
+                            propertyData.pro_state === "" && (
                               <FormHelperText sx={{ color: "red" }}>
                                 Required
                               </FormHelperText>
