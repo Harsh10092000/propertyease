@@ -25,8 +25,26 @@ import Loader from "../../components/loader/Loader";
 import { Helmet } from "react-helmet";
 import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
+import DateTime from "../../dateTime";
 
 const Property = () => {
+  const curr_date = Date.now();
+  const date = new Date(1710738331821);
+  console.log(date)
+  date.setUTCHours(date.getUTCHours() + 5);
+  date.setUTCMinutes(date.getUTCMinutes() + 30);
+
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+  const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+
+  console.log("t_date : ", formattedTimestamp);
+
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const { currentUser } = useContext(AuthContext);
@@ -178,10 +196,25 @@ const Property = () => {
   }, []);
 
   function formatDate(dateString) {
-    const formattedDate = dateString.replace(/-/g, "/");
-    const date = new Date(formattedDate);
+    
+    const date = new Date(parseInt(dateString));
+
+  date.setUTCHours(date.getUTCHours() + 5);
+  date.setUTCMinutes(date.getUTCMinutes() + 30);
+
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+  const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  console.log("dateString : ", dateString , formattedTimestamp , typeof dateString);
+    //const formattedDate = dateString.replace(/-/g, "/");
+    const date1 = new Date(formattedTimestamp);
     const now = new Date();
-    const diffTime = now - date;
+    const diffTime = now - date1;
     const diffSeconds = Math.floor(diffTime / 1000);
 
     const diffMinutes = Math.floor(diffTime / (1000 * 60));
@@ -422,9 +455,7 @@ const Property = () => {
                       )}
                       {!skeleton ? (
                         <span className="listed pl-3 pl-md-0 ">
-                          {/* Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()}  */}
-                          Listed by {" " + data.pro_user_type}{" "}
-                          {formatDate(new Date(data.pro_date).toDateString())}
+                          Listed by {" " + data.pro_user_type } {DateTime(data.pro_date)} 
                         </span>
                       ) : (
                         <Skeleton
@@ -436,7 +467,7 @@ const Property = () => {
                       )}
                       <div className="d-flex align-items-center justify-content-between p-1">
                         {!skeleton ? (
-                          <div className="d-flex align-items-center justify-content-between pl-md-0">
+                          <div className="d-flex align-items-center justify-content-between pl-md-0 pl-3">
                             <div className="property-price">
                               {data.pro_amt
                                 ? "₹" + data.pro_amt + " " + data.pro_amt_unit
@@ -466,7 +497,10 @@ const Property = () => {
                                   >
                                     <IconSend />
                                     <span className="mobile-hidden">
-                                      Already Contacted
+                                      Already
+                                    </span>
+                                    <span className="">
+                                       Contacted
                                     </span>
                                   </button>
                                 ) : (
@@ -771,9 +805,9 @@ const Property = () => {
                                 Price
                               </div>
                               <div className="col-md-9 more-detail-left">
-                              {data.pro_amt
-                                ? "₹" + data.pro_amt + " " + data.pro_amt_unit
-                                : "Ask Price"}
+                                {data.pro_amt
+                                  ? "₹" + data.pro_amt + " " + data.pro_amt_unit
+                                  : "Ask Price"}
                               </div>
                             </div>
                             <div className="row moreDetail">
@@ -1005,7 +1039,12 @@ const Property = () => {
                                         item.pro_id
                                       }`}
                                     >
-                                      <a title="View complete details of this property" className="btn-viewmore">View More</a>
+                                      <a
+                                        title="View complete details of this property"
+                                        className="btn-viewmore"
+                                      >
+                                        View More
+                                      </a>
                                     </Link>
                                   </div>
                                 </div>
@@ -1013,11 +1052,16 @@ const Property = () => {
                             </div>
                           ))}
                         </div>
-                      <div className="d-flex flex-row-reverse mt-4 mr-3">
-                        <Link to={`/property/${proType}`}>
-                          <a title="Click to view all properties" className="btn-viewall px-4 ">View All</a>
-                        </Link>
-                      </div>
+                        <div className="d-flex flex-row-reverse mt-4 mr-3">
+                          <Link to={`/property/${proType}`}>
+                            <a
+                              title="Click to view all properties"
+                              className="btn-viewall px-4 "
+                            >
+                              View All
+                            </a>
+                          </Link>
+                        </div>
                       </div>
                     </section>
                     <div className="property-more-detail">

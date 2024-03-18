@@ -7,6 +7,8 @@ import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
+import DateTime from "../../dateTime";
+
 const Rent = () => {
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
@@ -71,36 +73,7 @@ const Rent = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-  function formatDate(dateString) {
-    const formattedDate = dateString.replace(/-/g, "/");
-    const date = new Date(formattedDate);
-    const now = new Date();
-    const diffTime = now - date;
-    const diffSeconds = Math.floor(diffTime / 1000);
-
-    const diffMinutes = Math.floor(diffTime / (1000 * 60));
-    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffWeeks = Math.floor(diffDays / 7);
-    const diffMonths = Math.floor(diffDays / 30);
-    const diffYears = Math.floor(diffMonths / 12);
-
-    if (diffSeconds < 60) {
-      return "just now";
-    } else if (diffMinutes < 60) {
-      return diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
-    } else if (diffHours < 24) {
-      return diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
-    } else if (diffDays < 7) {
-      return diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
-    } else if (diffWeeks < 4) {
-      return diffWeeks + " week" + (diffWeeks > 1 ? "s" : "") + " ago";
-    } else if (diffMonths < 12) {
-      return diffMonths + " month" + (diffMonths > 1 ? "s" : "") + " ago";
-    } else {
-      return diffYears + " year" + (diffYears > 1 ? "s" : "") + " ago";
-    }
-  }
+  
 
   return (
     <div>
@@ -301,9 +274,10 @@ const Rent = () => {
                             <div className="listed pl-md-0  ">
                               Listed
                               <br />
-                              {formatDate(
+                              {/* {formatDate(
                                 new Date(object.pro_date).toDateString()
-                              )}
+                              )} */}
+                              {DateTime(object.pro_date)}
                             </div>
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">

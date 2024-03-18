@@ -43,7 +43,7 @@ const AddProperty = () => {
     setUserData({ ...userData, number: "" });
     dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
   };
-
+  const curr_date = Date.now();
   const [state, dispatch] = useReducer(fetchReducer, INITIAL_STATE);
   const { currentUser, login } = useContext(AuthContext);
   const [numberError, setNumberError] = useState(true);
@@ -483,6 +483,7 @@ const AddProperty = () => {
   const handleClick = async () => {
     setLoader(true);
     propertyData.pro_user_id = currentUser[0].login_id;
+    propertyData.pro_date = Date.now();
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
     // )[0].name;
