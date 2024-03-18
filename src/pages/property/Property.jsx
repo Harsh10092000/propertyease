@@ -467,7 +467,7 @@ const Property = () => {
                       )}
                       <div className="d-flex align-items-center justify-content-between p-1">
                         {!skeleton ? (
-                          <div className="d-flex align-items-center justify-content-between pl-md-0 pl-3">
+                          <div className="d-flex align-items-center justify-content-between pl-md-0 ">
                             <div className="property-price">
                               {data.pro_amt
                                 ? "₹" + data.pro_amt + " " + data.pro_amt_unit
