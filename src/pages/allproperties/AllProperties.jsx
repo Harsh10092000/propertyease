@@ -13,13 +13,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import { Skeleton } from "@mui/material";
 import DateTime from "../../dateTime";
-import { useLocation } from 'react-router-dom';
+
+//import { history } from 'react-router-dom';
+//import  HistoryRouterProps  from "react-router-dom";
+
 const AllProperties = () => {
   // const url = new URL(window.location.href);
   // const originURL = url.origin;
   //const result = window.location.origin;
   var origin_url = document.referrer;
-  console.log("origin_url : ", origin_url );
+  //console.log("origin_url : ", origin_url );
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -28,6 +31,11 @@ const AllProperties = () => {
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
   const [skeleton, setSkeleton] = useState(true);
+
+  // const changeReferrerUrl = () => {
+  //   console.log("Dfg")
+  //   HistoryRouterProps.replaceState(null, null, window.location.origin);
+  // };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,7 +68,11 @@ const AllProperties = () => {
   }, [data]);
 
   useEffect(() => {
-    axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+    if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false) {
+
+      axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+      origin_url = window.location.origin;
+    } 
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
