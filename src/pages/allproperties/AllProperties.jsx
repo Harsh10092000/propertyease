@@ -59,9 +59,9 @@ const AllProperties = () => {
     });
   }, [data]);
 
-  // useEffect(() => {
-  //   axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-  // }, []);
+  useEffect(() => {
+    axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+  }, []);
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
