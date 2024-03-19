@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar/Navbar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -12,7 +12,20 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
+import NoResult from "../../components/noResult/NoResult";
+import { Skeleton } from "@mui/material";
 const SubCat = () => {
+  const [skeleton, setSkeleton] = useState(true);
+  //let { search } = useParams();
+  const location = useLocation();
+  const searchParams = location.search.split("=")[1];
+  useEffect(() => {
+    if (searchParams !== undefined) {
+      console.log("search : ", searchParams, typeof searchParams);
+      setSearchValue(searchParams.replaceAll("%20", " "));
+    }
+  }, [searchParams]);
+
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +48,7 @@ const SubCat = () => {
       )
       .then((res) => {
         setData(res.data);
+        setSkeleton(false);
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
@@ -69,9 +83,11 @@ const SubCat = () => {
     .filter(
       (code) =>
         code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
+        code.pro_sub_district
+          .toLowerCase()
+          .includes(searchValue.toLowerCase()) ||
         code.pro_pincode.includes(searchValue) ||
-        code.pro_modified_id.toString().startsWith(searchValue) ||
+        //code.pro_modified_id.toString().startsWith(searchValue) ||
         code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
         code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
     );
@@ -79,7 +95,7 @@ const SubCat = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-
+  console.log("serachvalue : ", searchValue);
 
   return (
     <div>
@@ -100,6 +116,7 @@ const SubCat = () => {
                   size="small"
                   label="Search for properties..."
                   placeholder="e.g. Sector 7 "
+                  value={searchValue}
                   onChange={(e) => {
                     setCurrentPage(1);
                     setSearchValue(e.target.value);
@@ -128,8 +145,11 @@ const SubCat = () => {
               </div>
             </div>
             <div className="row">
+              
+             
               <div className="col-md-9">
-                {records.map((object, index) => (
+              {!skeleton && records.length > 0 ?
+                records.map((object, index) => (
                   <div className="list-group" key={index}>
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
@@ -151,12 +171,9 @@ const SubCat = () => {
                               object.pro_ad_type === "rent" ? "rent" : "sale"
                             }-in-${object.pro_locality
                               .toLowerCase()
-                              .replaceAll(
-                                " ",
-                                "-"
-                              )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                              object.pro_id
-                            }`}
+                              .replaceAll(" ", "-")}-${object.pro_city
+                              .toLowerCase()
+                              .replaceAll(" ", "-")}-${object.pro_id}`}
                           >
                             {object.img_link ? (
                               <img
@@ -195,12 +212,9 @@ const SubCat = () => {
                                     : "sale"
                                 }-in-${object.pro_locality
                                   .toLowerCase()
-                                  .replaceAll(
-                                    " ",
-                                    "-"
-                                  )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                  object.pro_id
-                                }`}
+                                  .replaceAll(" ", "-")}-${object.pro_city
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")}-${object.pro_id}`}
                               >
                                 <span className="text-wrap text-bold">
                                   {object.pro_area_size +
@@ -218,7 +232,9 @@ const SubCat = () => {
                                     {object.pro_locality}
                                   </span>
                                   ,&nbsp;
-                                  {object.pro_sub_district ? object.pro_sub_district + ", " : ""}
+                                  {object.pro_sub_district
+                                    ? object.pro_sub_district + ", "
+                                    : ""}
                                   {object.pro_city},&nbsp;
                                   {object.pro_state}
                                 </span>
@@ -255,13 +271,15 @@ const SubCat = () => {
                                   className="property-slider-icon"
                                 />
                                 <strong className="frontPropIcon">
-                                {object.pro_amt && "Price"}
+                                  {object.pro_amt && "Price"}
                                 </strong>
                                 &nbsp;
-                                {object.pro_amt ?"₹" +
-                                  object.pro_amt +
-                                  " " +
-                                  object.pro_amt_unit : "Ask Price"}
+                                {object.pro_amt
+                                  ? "₹" +
+                                    object.pro_amt +
+                                    " " +
+                                    object.pro_amt_unit
+                                  : "Ask Price"}
                               </li>
 
                               <li>
@@ -284,7 +302,6 @@ const SubCat = () => {
                                 new Date(object.pro_date).toDateString()
                               )} */}
                               {DateTime(object.pro_date)}
-                              
                             </div>
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">
@@ -307,12 +324,9 @@ const SubCat = () => {
                                       : "sale"
                                   }-in-${object.pro_locality
                                     .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                    object.pro_id
-                                  }`}
+                                    .replaceAll(" ", "-")}-${object.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${object.pro_id}`}
                                 >
                                   <a
                                     title="View complete details of this property"
@@ -343,12 +357,9 @@ const SubCat = () => {
                                       : "sale"
                                   }-in-${object.pro_locality
                                     .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                    object.pro_id
-                                  }`}
+                                    .replaceAll(" ", "-")}-${object.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${object.pro_id}`}
                                   target="_blank"
                                   className="conatct-propertywp "
                                   title=" Whatsapp/Contact for this property"
@@ -363,8 +374,32 @@ const SubCat = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) 
+                : skeleton ? (
+                  <div>
+                    <Skeleton variant="rectangular" width={813} height={200} />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                  </div>
+                ) : <NoResult searchValue={searchValue} />}
               </div>
+              
               <div className="col-md-3">
                 <div>
                   <div className="p-1 shadow">
@@ -373,6 +408,7 @@ const SubCat = () => {
                     </div>
                     {subData.map((sub, index) => (
                       <Link
+                      onClick={() => setSearchValue("")}
                         to={`/${sub.pro_type
                           .split(",")[1]
                           .toLowerCase()}/${sub.pro_type
@@ -415,13 +451,14 @@ const SubCat = () => {
                 </div>
               </div>
             </div>
+            {records.length > 0 &&
             <Pagination
               page={currentPage}
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
-            />
+            />}
           </div>
         </section>
       </div>

@@ -8,8 +8,10 @@ import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
-
+import NoResult from "../../components/noResult/NoResult";
+import { Skeleton } from "@mui/material";
 const Rent = () => {
+  const [skeleton, setSkeleton] = useState(true);
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +31,7 @@ const Rent = () => {
       .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalProperty/${filCat}`)
       .then((res) => {
         setData(res.data);
+        setSkeleton(false);
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
@@ -123,7 +126,7 @@ const Rent = () => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {records.map((object, index) => (
+                {!skeleton && records.length > 0  ? records.map((object, index) => (
                   <div className="list-group" key={index}>
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
@@ -356,7 +359,29 @@ const Rent = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : skeleton ? (
+                  <div>
+                    <Skeleton variant="rectangular" width={813} height={200} />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      width={813}
+                      height={200}
+                      className="mt-3"
+                    />
+                  </div>
+                ) : <NoResult searchValue={searchValue} />}
               </div>
               <div className="col-md-3">
                 <div className="p-1 shadow">
@@ -406,13 +431,14 @@ const Rent = () => {
                 </div>
               </div>
             </div>
+            {records.length > 0 &&
             <Pagination
               page={currentPage}
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
-            />
+            />}
           </div>
         </section>
       </div>

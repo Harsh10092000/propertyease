@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import { Skeleton } from "@mui/material";
 import DateTime from "../../dateTime";
-
+import NoResult from "../../components/noResult/NoResult";
 
 
 const AllProperties = (props) => {
@@ -166,7 +166,7 @@ const AllProperties = (props) => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {!skeleton ? (
+                {!skeleton && records.length > 0  ? (
                   records.map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
@@ -410,7 +410,7 @@ const AllProperties = (props) => {
                       </div>
                     </div>
                   ))
-                ) : (
+                ) : skeleton ? (
                   <div>
                     <Skeleton variant="rectangular" width={813} height={200} />
                     <Skeleton
@@ -432,7 +432,7 @@ const AllProperties = (props) => {
                       className="mt-3"
                     />
                   </div>
-                )}
+                ) : <NoResult searchValue={searchValue} /> }
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
                 <div>
@@ -480,14 +480,14 @@ const AllProperties = (props) => {
                 </div>
               </div>
             </div>
-
+            {records.length > 0 &&
             <Pagination
               count={nPages}
               color="primary"
               page={currentPage}
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
-            />
+            />}
           </div>
         </section>
       </div>

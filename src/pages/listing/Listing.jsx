@@ -12,10 +12,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
+import NoResult from "../../components/noResult/NoResult";
+
 const Listing = () => {
 
- 
-
+  
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -72,6 +73,9 @@ const Listing = () => {
     .filter(
       (code) =>
         code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
+        code.pro_sub_district
+          .toLowerCase()
+          .includes(searchValue.toLowerCase()) ||
         code.pro_pincode.startsWith(searchValue) ||
         code.pro_modified_id.toString().startsWith(searchValue) ||
         code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
@@ -129,7 +133,7 @@ const Listing = () => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {records.map((object, index) => (
+                {records.length > 0 ? records.map((object, index) => (
                   <div className="list-group" key={index}>
                     <div className="row">
                       <div className="col-md-auto flex-column text-center">
@@ -388,7 +392,7 @@ const Listing = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : <NoResult searchValue={searchValue} />}
               </div>
               <div className="col-md-3">
                 <div>
@@ -440,13 +444,14 @@ const Listing = () => {
                 </div>
               </div>
             </div>
+            {records.length > 0 &&
             <Pagination
               page={currentPage}
               count={nPages}
               color="primary"
               onChange={(e, value) => setCurrentPage(value)}
               className="col-md-6 mx-auto py-2"
-            />
+            />}
           </div>
         </section>
       </div>

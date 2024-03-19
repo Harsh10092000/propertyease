@@ -51,7 +51,20 @@ const EmblaCarousel = (props) => {
                   "/propertyImages/watermark/" +
                   item.img_link
                 }
-                alt="Propertyease"
+                // alt={props.pro_area_size +
+                //   " " +
+                //   props.pro_area_size_unit +
+                //   " " +
+                // props.pro_type.split(",")[0] 
+                // + " For" +
+                // " " + props.pro_ad_type + " in " + props.pro_city}
+                alt={`/${props.pro_area_size +
+                  " " +
+                  props.pro_area_size_unit +
+                  " " }
+                ${props.pro_type ? props.pro_type.split(",")[0] : ""
+                 } For ${
+                " " + props.pro_ad_type + " in " + props.pro_city}}`}
               />
             </div>
           ))}
@@ -72,6 +85,13 @@ const EmblaCarousel = (props) => {
                   items.img_link
                 }
                 key={index}
+                alt={`/${props.pro_area_size +
+                  " " +
+                  props.pro_area_size_unit +
+                  " " }
+                ${props.pro_type ? props.pro_type.split(",")[0] : ""
+                 } For ${
+                " " + props.pro_ad_type + " in " + props.pro_city}}`}
               />
             ))}
           </div>

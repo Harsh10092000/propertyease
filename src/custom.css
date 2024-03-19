@@ -865,10 +865,21 @@ a.explore-more:hover {
   font-size: 14px;
 }
 .recent-box-serv .re-bus-img a img {
-  width: 320px;
+  /* width: 320px; */
+  width: 100vw;
+    max-width: 100%;
   height: 254px;
   filter: brightness(95%);
 }
+
+/* .recent-box-serv .re-bus-img a .recent-pro-img {
+  width: 350px !important;
+  height: 254px;
+  filter: brightness(95%);
+} */
+
+
+
 .recent-box-serv {
   border: 1px solid #cccccc70;
   min-height: 500px;
@@ -15724,6 +15735,39 @@ section.find-services {
   font-weight: 600;
 }
 
+
+.user-profile-form-wrapper {
+  /* margin: auto; */
+  width: 55%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: 30px;
+}
+
+.user-profile-form-wrapper .pro_flex {
+  display: flex;
+}
+
+@media screen and (max-width: 480px) {
+  .user-profile-form-wrapper {
+    margin: auto;
+    width: 100%;
+
+    padding: 30px 40px 30px 40px;
+  }
+  .user-profile-form-wrapper .pro_flex {
+    display: block;
+  }
+}
+
+.user-profile-form-heading {
+  font-size: 35px;
+  margin: 10px;
+  font-weight: 600;
+}
+
+
+
 .cursor-not-allowed-btn {
   cursor: not-allowed;
 }
@@ -15778,3 +15822,143 @@ section.find-services {
 
 
 
+.interest:hover {
+  /* / background-color: #b33c03; / */
+  background-color: #e60000;
+
+}
+.share-property:hover {
+  background: #283371;
+}
+.share-propertywp:hover {
+  background-color: #248f24;
+}
+
+.profile-pict {
+  width: 114px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  margin-right: 15px;
+}
+.profile-left { 
+  display: flex;
+}
+.profile-pict img {
+    max-width: 100%;
+}
+.profile-block {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+}
+.loc-list {
+  margin-bottom: 14px;
+}
+.loc-list a {
+  box-shadow: 0 2px 2px -1px #c7d5ff;
+  border:1px solid #ededed;
+  padding: 5px 10px;
+  margin-right: 13px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.loc-list span{
+  box-shadow: 0 2px 2px -1px #c7d5ff;
+  border:1px solid #ededed;
+  padding: 5px 10px;
+  margin-right: 13px;
+  font-weight: 400;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.profilepict {
+  height: 190px;
+  overflow: hidden;
+  margin-bottom: 20px;
+
+}
+.siderbar-profile {
+  /* / background-color: #F6F8FF; / */
+  padding-bottom: 10px;
+  position: sticky;
+  top: 80px;
+  box-shadow: 0 3.6896px 9.83895px 5px rgb(31 92 163 / 10%);
+}
+.card-block {
+  margin: 0px auto;
+  width: 262px;
+  padding: 20px 0px;
+}
+.agentdetail h3 span {
+  display: block;
+  font-size: 13px;
+  color: #838181;
+  margin-top: 7px;
+}
+.agentdetail h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.agent-deatil ul {
+  padding-left: 0;
+}
+.agent-deatil ul li {
+  list-style: none;
+  margin-bottom:4px;
+}
+.agent-deatil ul li span {
+  margin-right: 9px;
+}
+.agent-deatil ul li a {
+  color: #000;
+  font-size: 16px;
+}
+.social-link ul {
+  padding-left: 0;
+}
+.social-link ul li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 10px;
+}
+.agent-form fieldset {
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 0 180px 10px 13px;
+  border-radius: 4px;
+}
+
+.agent-form legend {
+  font-size: 14px;
+  font-weight: 600;
+}
+.agent-form {
+  margin: 0 16px;
+  background-color: #fff;
+  margin-bottom: 16px;
+}
+.get-schedule {
+  border: none;
+  padding: 15px 30px;
+  width: 100%;
+}
+.agent-form h5 {
+  background-color: #4a67cd;
+  padding: 12px;
+  margin-bottom: 30px;
+  color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.agent-form form {
+  padding: 0px 18px 20px 18px;
+}
+
+.tags-link .loc-list span:hover{
+  color: #4e73df !important;
+}

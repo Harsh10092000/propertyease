@@ -30,7 +30,7 @@ import DateTime from "../../dateTime";
 const Property = () => {
   const curr_date = Date.now();
   const date = new Date(1710738331821);
-  console.log(date)
+  console.log(date);
   date.setUTCHours(date.getUTCHours() + 5);
   date.setUTCMinutes(date.getUTCMinutes() + 30);
 
@@ -43,8 +43,7 @@ const Property = () => {
 
   const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
-  console.log("t_date : ", formattedTimestamp);
-
+  
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const { currentUser } = useContext(AuthContext);
@@ -195,51 +194,6 @@ const Property = () => {
     };
   }, []);
 
-  function formatDate(dateString) {
-    
-    const date = new Date(parseInt(dateString));
-
-  date.setUTCHours(date.getUTCHours() + 5);
-  date.setUTCMinutes(date.getUTCMinutes() + 30);
-
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const hours = String(date.getUTCHours()).padStart(2, "0");
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-
-  const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-  console.log("dateString : ", dateString , formattedTimestamp , typeof dateString);
-    //const formattedDate = dateString.replace(/-/g, "/");
-    const date1 = new Date(formattedTimestamp);
-    const now = new Date();
-    const diffTime = now - date1;
-    const diffSeconds = Math.floor(diffTime / 1000);
-
-    const diffMinutes = Math.floor(diffTime / (1000 * 60));
-    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const diffWeeks = Math.floor(diffDays / 7);
-    const diffMonths = Math.floor(diffDays / 30);
-    const diffYears = Math.floor(diffMonths / 12);
-
-    if (diffSeconds < 60) {
-      return "just now";
-    } else if (diffMinutes < 60) {
-      return diffMinutes + " minute" + (diffMinutes > 1 ? "s" : "") + " ago";
-    } else if (diffHours < 24) {
-      return diffHours + " hour" + (diffHours > 1 ? "s" : "") + " ago";
-    } else if (diffDays < 7) {
-      return diffDays + " day" + (diffDays > 1 ? "s" : "") + " ago";
-    } else if (diffWeeks < 4) {
-      return diffWeeks + " week" + (diffWeeks > 1 ? "s" : "") + " ago";
-    } else if (diffMonths < 12) {
-      return diffMonths + " month" + (diffMonths > 1 ? "s" : "") + " ago";
-    } else {
-      return diffYears + " year" + (diffYears > 1 ? "s" : "") + " ago";
-    }
-  }
   const location = window.location.href;
   const handleClose = () => {
     setOpen(false);
@@ -248,6 +202,19 @@ const Property = () => {
     setCurrentImage(item);
   };
 
+  const [subDistrict, setSubDistrict] = useState();
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/SubDistrictDataByCity/${data.pro_city}`
+      )
+      .then((res) => {
+        setSubDistrict(res.data);
+      });
+  }, [data.pro_city]);
+
+  console.log("subDistrict : ", subDistrict);
   return (
     <div>
       <Helmet>
@@ -455,7 +422,8 @@ const Property = () => {
                       )}
                       {!skeleton ? (
                         <span className="listed pl-3 pl-md-0 ">
-                          Listed by {" " + data.pro_user_type } {DateTime(data.pro_date)} 
+                          Listed by {" " + data.pro_user_type}{" "}
+                          {DateTime(data.pro_date)}
                         </span>
                       ) : (
                         <Skeleton
@@ -499,9 +467,7 @@ const Property = () => {
                                     <span className="mobile-hidden">
                                       Already
                                     </span>
-                                    <span className="">
-                                       Contacted
-                                    </span>
+                                    <span className="">Contacted</span>
                                   </button>
                                 ) : (
                                   <button
@@ -561,9 +527,13 @@ const Property = () => {
                       <div className="col-md-6">
                         <div className="leftblock">
                           <div className="photosection">
-                            {console.log(currentImage)}
                             {images.length > 1 ? (
                               <EmblaCarousel
+                                pro_area_size={data.pro_area_size}
+                                pro_area_size_unit={data.pro_area_size_unit}
+                                pro_type={data.pro_type}
+                                pro_ad_type={data.pro_ad_type}
+                                pro_city={data.pro_city}
                                 slides={images}
                                 open={() => setOpen(true)}
                                 handleCurrentImage={handleCurrentImage}
@@ -571,7 +541,19 @@ const Property = () => {
                             ) : (
                               <img
                                 src="/images/default.png"
-                                alt="No Image"
+                                //alt="No Image"
+                                // alt={
+                                //   data.pro_area_size +
+                                //   " " +
+                                //   data.pro_area_size_unit +
+                                //   " " +
+                                //   data.pro_type && data.pro_type.split(",")[0] +
+                                //   " For" +
+                                //   " " +
+                                //   data.pro_ad_type +
+                                //   " in " +
+                                //   data.pro_city
+                                // }
                                 width={550}
                                 height={550}
                                 className="img-fluid"
@@ -842,6 +824,46 @@ const Property = () => {
                               <span className="col-md-9 more-detail-left ">
                                 {data.pro_desc}
                               </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="property-more-detail">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="details">
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="more-detail-heading">
+                                  View Near By Properties
+                                </div>
+                                {subDistrict && data && (
+                                  <div className="d-flex flex-wrap tags-link ">
+                                    
+                                      {subDistrict.map((item) => (
+                                        <Link
+                                      to={`/${data.pro_type
+                                        .split(",")[1]
+                                        .toLowerCase()}/${data.pro_type
+                                        .split(",")[0]
+                                        .replaceAll(" ", "-")
+                                        .toLowerCase()}?search=${item.sub_district}`}
+                                    >
+                                        
+                                        <div className="loc-list mb-0">
+                            <span className="text-dark">
+                              {data.pro_type &&
+                                data.pro_type.split(",")[0] +
+                                  " in " +
+                                  item.sub_district}{" "}
+                            </span>
+                          </div>
+                                    </Link>
+                                      ))}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
