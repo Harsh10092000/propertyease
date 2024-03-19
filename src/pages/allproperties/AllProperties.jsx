@@ -14,8 +14,7 @@ import { IconBrandWhatsapp } from "@tabler/icons-react";
 import { Skeleton } from "@mui/material";
 import DateTime from "../../dateTime";
 
-//import { history } from 'react-router-dom';
-//import  HistoryRouterProps  from "react-router-dom";
+
 
 const AllProperties = (props) => {
   // const url = new URL(window.location.href);
@@ -67,13 +66,15 @@ const AllProperties = (props) => {
     });
   }, [data]);
 
+  var origin_url = document.referrer;
+  console.log("origin_url 1111111 : " , origin_url )
   useEffect(() => {
     
-    // if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null) {
-    //   axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-    //   document.referrer = null;
-    // } 
-
+    if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null && origin_url !== "") {
+      axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
+      document.referrer = null;
+      console.log("origin_url 22222 : " , origin_url )
+    } 
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
