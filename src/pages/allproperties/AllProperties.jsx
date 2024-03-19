@@ -66,16 +66,25 @@ const AllProperties = (props) => {
     });
   }, [data]);
 
+  //const [items , setItems] = useState("");
   var origin_url = document.referrer;
-  console.log("origin_url 1111111 : " , origin_url )
+  //console.log("origin_url 1111111 : " , origin_url )
   useEffect(() => {
+    //localStorage.setItem('origin_url', JSON.stringify("ghjgh"));  
+    const items = JSON.parse(localStorage.getItem('origin_url'));
+    console.log("items : " , items , origin_url)
+    if (items === null) {
+    //setItems(items);
     
     if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null && origin_url !== "") {
+      localStorage.setItem('origin_url', JSON.stringify(origin_url));  
       axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
       //document.referrer = null;
       console.log("origin_url 22222 : " , origin_url )
     } 
+  }
   }, []);
+  //console.log("local storage items : " , items);
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
