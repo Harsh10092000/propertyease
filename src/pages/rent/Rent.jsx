@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
+import {InputAdornment} from "@mui/material";
+import SearchBar from "../../components/searchBar/SearchBar";
 const Rent = () => {
   const [skeleton, setSkeleton] = useState(true);
   const { cat } = useParams();
@@ -21,6 +23,8 @@ const Rent = () => {
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -53,30 +57,27 @@ const Rent = () => {
 
   const [searchValue, setSearchValue] = useState("");
   //const [filter, setFilter] = useState("All");
-  const filteredData = data
-    // .filter((code) => {
-    //   if (filter === "Sale") {
-    //     return code.pro_ad_type === "Sale";
-    //   } else if (filter === "Rent") {
-    //     return code.pro_ad_type === "Rent";
-    //   } else if (filter === "All") {
-    //     return true;
-    //   }
-    // })
-    .filter(
-      (code) =>
-        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_pincode.includes(searchValue) ||
-        code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
-        code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
-    );
 
-  const records = filteredData.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-  
+ 
+
+ 
+
+  const [records, setRecords] = useState([]);
+  const [nPages, setNPages] = useState(0);
+
+  const handleRecordsChange = (newRecords) => {
+    setRecords(newRecords);
+  };
+
+  const handleNPagesChange = (newNPages) => {
+    setNPages(newNPages);
+  };
+
+  const handleSearchValue = (value) => {
+    console.log(value);
+    setSearchValue(value);
+  };
 
   return (
     <div>
@@ -90,39 +91,13 @@ const Rent = () => {
             <div className="title">
               <h2 className="text-capitalize">{filCat}</h2>
 
-              <div className="row gap-3 align-items-center my-2 mx-1">
-                <TextField
-                  variant="outlined"
-                  className="col-md-6 mx-4 mx-md-0"
-                  size="small"
-                  label="Search for properties..."
-                  placeholder="e.g. Sector 7 "
-                  onChange={(e) => {
-                    setCurrentPage(1);
-                    setSearchValue(e.target.value);
-                  }}
-                />
-                {/* <FormControl
-                  sx={{ m: 1, width: ["100%"] }}
-                  size="small"
-                  className="col-md-3 mx-4 mx-md-0"
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    Filter By
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={filter}
-                    label="Filter By"
-                    onChange={(e) => setFilter(e.target.value)}
-                  >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Sale"}>Sale</MenuItem>
-                    <MenuItem value={"Rent"}>Rent</MenuItem>
-                  </Select>
-                </FormControl> */}
-              </div>
+              <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+                searchValue={searchValue}
+              />
             </div>
             <div className="row">
               <div className="col-md-9">
@@ -407,7 +382,7 @@ const Rent = () => {
                 </div>
                 <div className="pt-2">
                   <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">Rent</div>
+                    <div className="p-3 font-weight-bold ">Rent</div>
                     {rentData.map((rent, index) => (
                       <Link
                         to={`/rental/${rent.pro_type
@@ -415,11 +390,12 @@ const Rent = () => {
                           .replaceAll(" ", "-")
                           .toLowerCase()}`}
                         key={index}
-                        className={
-                          rent.pro_type.split(",")[0] === filCat
-                            ? "text-primary m-0"
-                            : "text-secondary m-0"
-                        }
+                        // className={
+                        //   rent.pro_type.split(",")[0] === filCat
+                        //     ? "text-primary m-0"
+                        //     : "text-secondary m-0"
+                        // }
+                        className="text-primary m-0"
                       >
                         <div className="d-flex justify-content-between px-3 py-2">
                           <div>{rent.pro_type.split(",")[0]}</div>

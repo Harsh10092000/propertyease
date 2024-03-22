@@ -10,10 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
+import {InputAdornment} from "@mui/material";
+import SearchBar from "../../components/searchBar/SearchBar";
 const SubCat = () => {
   const [skeleton, setSkeleton] = useState(true);
   //let { search } = useParams();
@@ -25,6 +27,8 @@ const SubCat = () => {
       setSearchValue(searchParams.replaceAll("%20", " "));
     }
   }, [searchParams]);
+  
+  
 
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
@@ -35,7 +39,10 @@ const SubCat = () => {
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
 
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
@@ -70,33 +77,169 @@ const SubCat = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
-  const filteredData = data
-    .filter((code) => {
-      if (filter === "Sale") {
-        return code.pro_ad_type === "Sale";
-      } else if (filter === "Rent") {
-        return code.pro_ad_type === "Rent";
-      } else if (filter === "All") {
-        return true;
-      }
-    })
-    .filter(
-      (code) =>
-        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district
-          .toLowerCase()
-          .includes(searchValue.toLowerCase()) ||
-        code.pro_pincode.includes(searchValue) ||
-        //code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
-        code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
-    );
+  // const filteredData = data
+  //   .filter((code) => {
+  //     if (filter === "Sale") {
+  //       return code.pro_ad_type === "Sale";
+  //     } else if (filter === "Rent") {
+  //       return code.pro_ad_type === "Rent";
+  //     } else if (filter === "All") {
+  //       return true;
+  //     }
+  //   })
+  //   .filter(
+  //     (code) =>
+  //       code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
+  //       code.pro_sub_district
+  //         .toLowerCase()
+  //         .includes(searchValue.toLowerCase()) ||
+  //       code.pro_pincode.includes(searchValue) ||
+  //       //code.pro_modified_id.toString().startsWith(searchValue) ||
+  //       code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+  //       code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
+  //   );
 
-  const records = filteredData.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-  console.log("serachvalue : ", searchValue);
+  //const records = filteredData.slice(firstIndex, lastIndex);
+  //const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
+  // const [userLocation, setUserLocation] = useState(null);
+
+  // function handleLocationClick() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(success);
+  //   } else {
+  //     console.log("Geolocation not supported");
+  //   }
+  // }
+
+  // function success(position) {
+  //   const latitude = position.coords.latitude;
+  //   const longitude = position.coords.longitude;
+  //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+  //   axios
+  //     .get(
+  //       `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=825008d9e23247daa5600c3878106833`
+  //       //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
+  //     )
+  //     .then((res) => {
+  //       setSearchValue(res.data.features[0].properties.city.trim());
+  //       setUserLocation(res.data);
+  //       //setSearchValue(res.data.address.city);
+  //       //setSearchValue("kurukshetra");
+  //     });
+  // }
+
+  // const [results, setResults] = useState();
+  // useEffect(() => {
+  //   //console.log(searchValue)
+
+  //   const unique1 = Array.from(
+  //     new Set(data.slice(0, 60).map((item) => item.pro_city.trim()))
+  //   );
+  //   const uniqueState = Array.from(
+  //     new Set(data.slice(0, 60).map((item) => item.pro_state.trim()))
+  //   );
+
+  //   const unique2 = Array.from(
+  //     new Set(
+  //       data
+  //         .slice(0, 60)
+  //         .map(
+  //           (item) =>
+  //             (item.pro_sub_district
+  //               ? item.pro_sub_district.trim() + ", "
+  //               : "") + item.pro_city.trim()
+  //         )
+  //     )
+  //   );
+  //   const unique3 = Array.from(
+  //     new Set(
+  //       data
+  //         .slice(0, 60)
+  //         .map(
+  //           (item) =>
+  //             (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
+  //             (item.pro_sub_district
+  //               ? item.pro_sub_district.trim() + ", "
+  //               : "") +
+  //             item.pro_city.trim()
+  //         )
+  //     )
+  //   );
+  //   const arr = [...unique1, ...uniqueState, ...unique2, ...unique3];
+  //   const unique4 = Array.from(
+  //     new Set(arr.slice(0, 200).map((item) => item.trim()))
+  //   );
+
+  //   const unique = unique4.filter((i) =>
+  //     i.toLowerCase().startsWith(searchValue.toLowerCase())
+  //   );
+  //   setSuggestions(unique);
+  //   //console.log("unique : " , unique , unique1 , unique2 , unique3 , unique4)
+  //   let searchWords = searchValue.toLowerCase().split(",");
+  //   //console.log(searchWords)
+  //   const filteredData = data
+  //     .filter((code) => {
+  //       if (filter === "Sale") {
+  //         return code.pro_ad_type === "Sale";
+  //       } else if (filter === "Rent") {
+  //         return code.pro_ad_type === "Rent";
+  //       } else if (filter === "All") {
+  //         return true;
+  //       }
+  //     })
+  //     .filter((item) => {
+  //       const itemValues =
+  //         item.pro_locality +
+  //         " " +
+  //         item.pro_city +
+  //         " " +
+  //         item.pro_sub_district +
+  //         " " +
+  //         item.pro_street +
+  //         " " +
+  //         item.pro_state;
+
+  //       return searchWords.every((word) =>
+  //         itemValues.toLowerCase().includes(word)
+  //       );
+  //     });
+  //     //console.log("filteredData : " , filteredData)
+  //   setResults(filteredData);
+  //   //console.log("searchWords : ", searchWords, filteredData);
+  // }, [searchValue, userLocation,filter, data]);
+  
+  // const records =
+  //   searchValue === "" && filter === "All"
+  //   ? data.slice(firstIndex, lastIndex)
+  //     : results.slice(firstIndex, lastIndex);
+      
+  // const nPages = Math.ceil(
+  //   searchValue === "" && filter === "All"
+  //     ? data.length / recordsPerPage
+  //     : results.length / recordsPerPage
+      
+  // );
+
+  // console.log("suggestions : ", suggestions);
+
+  const [records, setRecords] = useState([]);
+  const [nPages, setNPages] = useState(0);
+
+  const handleRecordsChange = (newRecords) => {
+    setRecords(newRecords);
+  };
+
+  const handleNPagesChange = (newNPages) => {
+    setNPages(newNPages);
+  };
+
+  const handleSearchValue = (value) => {
+    console.log(value);
+    setSearchValue(value);
+  };
+  console.log(searchValue)
   return (
     <div>
       <Helmet>
@@ -109,41 +252,17 @@ const SubCat = () => {
             <div className="title">
               <h2 className="text-capitalize">{filCat}</h2>
 
-              <div className="row gap-3 align-items-center my-2 mx-1">
-                <TextField
-                  variant="outlined"
-                  className="col-md-6 mx-4 mx-md-0"
-                  size="small"
-                  label="Search for properties..."
-                  placeholder="e.g. Sector 7 "
-                  value={searchValue}
-                  onChange={(e) => {
-                    setCurrentPage(1);
-                    setSearchValue(e.target.value);
-                  }}
-                />
-                <FormControl
-                  sx={{ m: 1, width: ["100%"] }}
-                  size="small"
-                  className="col-md-3 mx-4 mx-md-0"
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    Filter By
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={filter}
-                    label="Filter By"
-                    onChange={(e) => setFilter(e.target.value)}
-                  >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Sale"}>Sale</MenuItem>
-                    <MenuItem value={"Rent"}>Rent</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+              
+                 <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+                searchValue={searchValue}
+              />
             </div>
+            
+        
             <div className="row">
               
              
@@ -397,7 +516,7 @@ const SubCat = () => {
                       className="mt-3"
                     />
                   </div>
-                ) : <NoResult searchValue={searchValue} />}
+                ) : <NoResult searchValue={searchValue} handleSearchValue={handleSearchValue} />}
               </div>
               
               <div className="col-md-3">

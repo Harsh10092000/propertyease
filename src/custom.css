@@ -15744,9 +15744,23 @@ section.find-services {
   margin-left: 30px;
 }
 
+
+
 .user-profile-form-wrapper .pro_flex {
   display: flex;
 }
+
+
+
+.user-profile-form-wrapper .user-search-suggestions {
+  height: 200px ;
+  overflow-y: scroll;
+  position: absolute;
+  z-index: 999;
+  background-color: white;
+   width: 55%;
+}
+
 
 @media screen and (max-width: 480px) {
   .user-profile-form-wrapper {
@@ -15961,4 +15975,25 @@ section.find-services {
 
 .tags-link .loc-list span:hover{
   color: #4e73df !important;
+}
+
+.search-suggestions {
+  overflow-y: scroll;
+  max-height: 210px;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+  z-index: 999;
+}
+
+.search-suggestions .suggesion-item:hover {
+  background-color: #eeeeee !important;
+}
+
+.main-content .title {
+  position: relative;
+}
+
+.location-icon:hover {
+  color: blue;
 }

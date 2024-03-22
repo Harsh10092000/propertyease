@@ -42,6 +42,33 @@ const UserDashboard = () => {
   );
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
+
+
+  const [proDate , setProDate] = useState("");
+  const FormatDate = (dateString) => {
+    if (dateString.includes("-")) {
+      setProDate(dateString);
+      return dateString
+    } else {
+      const date = new Date(parseInt(dateString));
+
+    date.setUTCHours(date.getUTCHours() + 5);
+    date.setUTCMinutes(date.getUTCMinutes() + 30);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+
+    // const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const formattedTimestamp = `${year}-${month}-${day} `;
+    //setProDate(formattedTimestamp);
+    return formattedTimestamp;
+    }
+  }
+
   return (
     
     <div className="container-fluid admin-dashboard admin-icon">
@@ -66,6 +93,7 @@ const UserDashboard = () => {
           }}
         />
       </div>
+     
       <div className="row">
         <div className="col-md-12">
           <div className="card">
@@ -85,21 +113,25 @@ const UserDashboard = () => {
                       <th>SNo.</th>
                       <th>Property Id</th>
                       <th>Property Type</th>
-                      <th>Sale/Resale</th>
+                      <th>Sale/Rent</th>
                       <th>Price</th>
+                      <th>Posted On</th>
                       <th>Property Title</th>
-                      <th>Address</th>
+                      {/* <th>Address</th> */}
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody className="text-black">
                     {records.map((item, index) => (
                       <tr key={index}>
+                         {console.log(item)}
                         <td>{item.serial_no}</td>
                         <td>{5000 + parseInt(item.pro_id)}</td>
-                        <td>{item.pro_type}</td>
+                        <td>{item.pro_type.split(",")[0]}</td>
                         <td>{item.pro_ad_type}</td>
                         <td>{item.pro_amt ? item.pro_amt + " " + item.pro_amt_unit : "-"}</td>
+                        {/* <td>{item.pro_date }</td> */}
+                        {<td>{FormatDate(item.pro_date)}</td>}
                         <td>
                           {" "}
                           <span className="text-wrap">
@@ -115,12 +147,12 @@ const UserDashboard = () => {
                             {item.pro_city}
                           </span>
                         </td>
-                        <td>{item.pro_locality},&nbsp;
+                        {/* <td>{item.pro_locality},&nbsp;
                                 {item.pro_sub_district
                                   ? item.pro_sub_district + ", "
                                   : ""}
                                 {item.pro_city},&nbsp;
-                                  {item.pro_state}</td>
+                                  {item.pro_state}</td> */}
                         <td>
                           <button
                             title="Edit Your Property"

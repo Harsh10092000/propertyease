@@ -10,18 +10,14 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import { Skeleton } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
-
+import { InputAdornment } from "@mui/material";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const AllProperties = (props) => {
-  // const url = new URL(window.location.href);
-  // const originURL = url.origin;
-  //const result = window.location.origin;
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -30,11 +26,10 @@ const AllProperties = (props) => {
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
   const [skeleton, setSkeleton] = useState(true);
-
-  // const changeReferrerUrl = () => {
-  //   console.log("Dfg")
-  //   HistoryRouterProps.replaceState(null, null, window.location.origin);
-  // };
+  //const [suggestions, setSuggestions] = useState();
+  //const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  //const [filter, setFilter] = useState("All");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,58 +55,47 @@ const AllProperties = (props) => {
       });
   }, []);
 
+  
+
   useEffect(() => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
   }, [data]);
 
-  //const [items , setItems] = useState("");
   var origin_url = document.referrer;
-  //console.log("origin_url 1111111 : " , origin_url )
   useEffect(() => {
-    //sessionStorage.setItem('origin_url', JSON.stringify("ghjgh"));  
-    const items = JSON.parse(sessionStorage.getItem('origin_url'));
-    console.log("items : " , items , origin_url)
+    const items = JSON.parse(sessionStorage.getItem("origin_url"));
     if (items === null) {
-    //setItems(items);
-    
-    if(origin_url.startsWith("https://propertyease.in/") === false && origin_url.startsWith("https://www.propertyease.in/") === false && origin_url !== null && origin_url !== "") {
-      sessionStorage.setItem('origin_url', JSON.stringify(origin_url));  
-      axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [origin_url]);
-      //document.referrer = null;
-      console.log("origin_url 22222 : " , origin_url )
-    } 
-  }
-  }, []);
-  //console.log("local storage items : " , items);
-
-  const [searchValue, setSearchValue] = useState("");
-  const [filter, setFilter] = useState("All");
-
-  const filteredData = data
-    .filter((code) => {
-      if (filter === "Sale") {
-        return code.pro_ad_type === "Sale";
-      } else if (filter === "Rent") {
-        return code.pro_ad_type === "Rent";
-      } else if (filter === "All") {
-        return true;
+      if (
+        origin_url.startsWith("https://propertyease.in/") === false &&
+        origin_url.startsWith("https://www.propertyease.in/") === false &&
+        origin_url !== null &&
+        origin_url !== ""
+      ) {
+        sessionStorage.setItem("origin_url", JSON.stringify(origin_url));
+        // axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [
+        //   origin_url,
+        // ]);
       }
-    })
-    .filter(
-      (code) =>
-        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district
-          .toLowerCase()
-          .includes(searchValue.toLowerCase()) ||
-        code.pro_pincode.startsWith(searchValue) ||
-        code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
-    );
-  const records = filteredData.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(filteredData.length / recordsPerPage);
+    }
+  }, []);
+
+  const [records, setRecords] = useState([]);
+  const [nPages, setNPages] = useState(0);
+
+  const handleRecordsChange = (newRecords) => {
+    setRecords(newRecords);
+  };
+
+  const handleNPagesChange = (newNPages) => {
+    setNPages(newNPages);
+  };
+
+  const handleSearchValue = (value) => {
+    console.log(value);
+    setSearchValue(value);
+  };
 
   return (
     <div>
@@ -128,45 +112,16 @@ const AllProperties = (props) => {
                 <span className="ml-2 numberProperties">{data.length}</span>
               </h2>
 
-              <div className="row align-items-center my-2 mx-1 gap-3">
-                <TextField
-                  variant="outlined"
-                  className="col-md-6 mx-4 mx-md-0"
-                  size="small"
-                  label="Search for properties..."
-                  placeholder="e.g. Sector 7 "
-                  onChange={(e) => {
-                    setCurrentPage(1);
-                    setSearchValue(e.target.value);
-                  }}
-                />
-                <FormControl
-                  sx={{ m: 1, width: ["100%"] }}
-                  size="small"
-                  className="col-md-3 mx-4 mx-md-0"
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    Filter By
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={filter}
-                    label="Filter By"
-                    onChange={(e) => {
-                      setFilter(e.target.value), setCurrentPage(1);
-                    }}
-                  >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Sale"}>Sale</MenuItem>
-                    <MenuItem value={"Rent"}>Rent</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+              <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+              />
             </div>
             <div className="row">
               <div className="col-md-9">
-                {!skeleton && records.length > 0  ? (
+                {!skeleton && records.length > 0 ? (
                   records.map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
@@ -432,7 +387,9 @@ const AllProperties = (props) => {
                       className="mt-3"
                     />
                   </div>
-                ) : <NoResult searchValue={searchValue} /> }
+                ) : (
+                  <NoResult searchValue={searchValue} />
+                )}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
                 <div>
@@ -480,14 +437,15 @@ const AllProperties = (props) => {
                 </div>
               </div>
             </div>
-            {records.length > 0 &&
-            <Pagination
-              count={nPages}
-              color="primary"
-              page={currentPage}
-              onChange={(e, value) => setCurrentPage(value)}
-              className="col-md-6 mx-auto py-2"
-            />}
+            {records.length > 0 && (
+              <Pagination
+                count={nPages}
+                color="primary"
+                page={currentPage}
+                onChange={(e, value) => setCurrentPage(value)}
+                className="col-md-6 mx-auto py-2"
+              />
+            )}
           </div>
         </section>
       </div>

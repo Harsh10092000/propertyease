@@ -8,6 +8,7 @@ const NoResult = (props) => {
 
   const [data, setData] = useState([]);
   const [city, setCity] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState([]);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchLatestProperty")
@@ -16,21 +17,70 @@ const NoResult = (props) => {
         setCity(res.data[0].pro_city);
       });
   }, []);
-
+  const [location, setLocation] = useState(null);
   useEffect(() => {
+    //console.log("currentLocation : " , currentLocation)
+    const locations = currentLocation
+      .filter((location) => location !== "District")
+      .join(" ");
+    //console.log("locations : " , locations)
+    currentLocation !== ""
+      ? axios
+          .get(
+            import.meta.env.VITE_BACKEND +
+              `/api/pro/SubDistrictDataByCity/${locations}`
+          )
+          .then((res) => {
+            setSubDistrict(res.data);
+          })
+      : axios
+          .get(
+            import.meta.env.VITE_BACKEND +
+              `/api/pro/SubDistrictDataByCity/${city}`
+          )
+          .then((res) => {
+            setSubDistrict(res.data);
+          });
+  }, [city, currentLocation, location]);
+
+  function handleLocationClick() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success);
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
+
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    //const latitude = 30.16;
+    //const longitude = 76.87;
+   // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictDataByCity/${city}`
+        `https://us1.locationiq.com/v1/reverse?key=pk.3eb0dad6a47a7a08dd01b454f38ad2be&lat=${latitude}&lon=${longitude}&format=json&`
+
+        //`https://api.geoapify.com/v1/geocode/reverse?lat=28.6818&lon=77.2290&apiKey=825008d9e23247daa5600c3878106833`
+        //`https://geocode.maps.co/reverse?lat=28.6818&lon=77.2290&api_key=65fa9be01b679584333361bhid151b9`
       )
       .then((res) => {
-        setSubDistrict(res.data);
+        //setSearchValue(res.data.features[0].properties.city.trim());
+        //setCurrentLocation(res.data.features[0].properties.city.trim());
+        //setLocation(res.data.features[0].properties.city);
+        setLocation(res.data);
+        setCurrentLocation(res.data.address.state_district.split(" "));
       });
-  }, [city]);
+  }
+  useEffect(() => {
+    handleLocationClick();
+  }, []);
 
+  //console.log("location : " , currentLocation);
 
   return (
     <div className="m-1">
-      
       {props.searchValue.length > 0 ? (
         <div className="pt-2 pb-3 alert alert-info">
           <div>
@@ -75,7 +125,7 @@ const NoResult = (props) => {
                             .toLowerCase()}?search=${item.sub_district}`}
                         >
                           <div className="loc-list mb-0">
-                            <span className="text-dark">
+                            <span className="text-dark font-weight-bold">
                               {data[0].pro_type &&
                                 data[0].pro_type.split(",")[0] +
                                   " in " +

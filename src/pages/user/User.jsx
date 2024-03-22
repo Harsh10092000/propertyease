@@ -119,6 +119,14 @@ const User = () => {
                     </a>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/user/userProfileForm">
+                    <a title="userProfileForm">
+                      <IconStarFilled className="sidebar-faicon" />
+                      <span>userProfileForm</span>
+                    </a>
+                  </Link>
+                </li>
                 <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout className="sidebar-faicon" />

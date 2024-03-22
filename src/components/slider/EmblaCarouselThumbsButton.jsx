@@ -20,7 +20,13 @@ export const Thumb = (props) => {
         <img
           className="embla-thumbs__slide__img"
           src={imgSrc}
-          alt="Propertyease"
+          //alt="Propertyease"
+          alt={`/${
+            props.pro_area_size + " " + props.pro_area_size_unit + " "
+          }
+          ${props.pro_type ? props.pro_type.split(",")[0] : ""} For ${
+            " " + props.pro_ad_type + " in " + props.pro_city
+          }}`}
         />
       </button>
     </div>

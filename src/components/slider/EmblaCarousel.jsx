@@ -39,11 +39,8 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container" onClick={props.open}>
           {slides.map((item, index) => (
-            
             <div className="embla__slide" key={index}>
-              
-              <img 
-              
+              <img
                 title="Click to Enlarge Image"
                 className="embla__slide__img coursor-pointer"
                 src={
@@ -55,16 +52,15 @@ const EmblaCarousel = (props) => {
                 //   " " +
                 //   props.pro_area_size_unit +
                 //   " " +
-                // props.pro_type.split(",")[0] 
+                // props.pro_type.split(",")[0]
                 // + " For" +
                 // " " + props.pro_ad_type + " in " + props.pro_city}
-                alt={`/${props.pro_area_size +
-                  " " +
-                  props.pro_area_size_unit +
-                  " " }
-                ${props.pro_type ? props.pro_type.split(",")[0] : ""
-                 } For ${
-                " " + props.pro_ad_type + " in " + props.pro_city}}`}
+                alt={`/${
+                  props.pro_area_size + " " + props.pro_area_size_unit + " "
+                }
+                ${props.pro_type ? props.pro_type.split(",")[0] : ""} For ${
+                  " " + props.pro_ad_type + " in " + props.pro_city
+                }}`}
               />
             </div>
           ))}
@@ -76,7 +72,14 @@ const EmblaCarousel = (props) => {
           <div className="embla-thumbs__container">
             {slides.map((items, index) => (
               <Thumb
-                onClick={() => {onThumbClick(index) , props.handleCurrentImage(index)}}
+                pro_area_size={props.pro_area_size}
+                pro_area_size_unit={props.pro_area_size_unit}
+                pro_type={props.pro_type}
+                pro_ad_type={props.pro_ad_type}
+                pro_city={props.pro_city}
+                onClick={() => {
+                  onThumbClick(index), props.handleCurrentImage(index);
+                }}
                 selected={index === selectedIndex}
                 index={index}
                 imgSrc={
@@ -85,13 +88,12 @@ const EmblaCarousel = (props) => {
                   items.img_link
                 }
                 key={index}
-                alt={`/${props.pro_area_size +
-                  " " +
-                  props.pro_area_size_unit +
-                  " " }
-                ${props.pro_type ? props.pro_type.split(",")[0] : ""
-                 } For ${
-                " " + props.pro_ad_type + " in " + props.pro_city}}`}
+                alt={`/${
+                  props.pro_area_size + " " + props.pro_area_size_unit + " "
+                }
+                ${props.pro_type ? props.pro_type.split(",")[0] : ""} For ${
+                  " " + props.pro_ad_type + " in " + props.pro_city
+                }}`}
               />
             ))}
           </div>

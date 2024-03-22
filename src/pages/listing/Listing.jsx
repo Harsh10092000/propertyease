@@ -10,9 +10,11 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
+import {InputAdornment} from "@mui/material";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 const Listing = () => {
 
@@ -25,6 +27,8 @@ const Listing = () => {
   const [data, setData] = useState([]);
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
   //const records = data.slice(firstIndex, lastIndex);
   //const nPages = Math.ceil(data.length / recordsPerPage);
 
@@ -59,33 +63,24 @@ const Listing = () => {
   }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
-  const [filter, setFilter] = useState("All");
-  const filteredData = data
-    .filter((code) => {
-      if (filter === "Sale") {
-        return code.pro_ad_type === "Sale";
-      } else if (filter === "Rent") {
-        return code.pro_ad_type === "Rent";
-      } else if (filter === "All") {
-        return true;
-      }
-    })
-    .filter(
-      (code) =>
-        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district
-          .toLowerCase()
-          .includes(searchValue.toLowerCase()) ||
-        code.pro_pincode.startsWith(searchValue) ||
-        code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().includes(searchValue.toLowerCase())
-    );
-
-  const records = filteredData.slice(firstIndex, lastIndex);
-  const nPages = Math.ceil(filteredData.length / recordsPerPage);
-
+ // const [filter, setFilter] = useState("All");
  
+ const [records, setRecords] = useState([]);
+ const [nPages, setNPages] = useState(0);
 
+ const handleRecordsChange = (newRecords) => {
+   setRecords(newRecords);
+ };
+
+ const handleNPagesChange = (newNPages) => {
+   setNPages(newNPages);
+ };
+
+ const handleSearchValue = (value) => {
+   console.log(value);
+   setSearchValue(value);
+ };
+  
   return (
     <div>
       <Helmet>
@@ -97,39 +92,13 @@ const Listing = () => {
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{cat}</h2>
-              <div className="row align-items-center my-2 mx-1 gap-3">
-                <TextField
-                  variant="outlined"
-                  className="col-md-6 mx-4 mx-md-0"
-                  size="small"
-                  label="Search for properties..."
-                  placeholder="e.g. Sector 7 "
-                  onChange={(e) => {
-                    setCurrentPage(1);
-                    setSearchValue(e.target.value);
-                  }}
-                />
-                <FormControl
-                  sx={{ m: 1, width: ["100%"] }}
-                  size="small"
-                  className="col-md-3 mx-4 mx-md-0"
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    Filter By
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={filter}
-                    label="Filter By"
-                    onChange={(e) => setFilter(e.target.value)}
-                  >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Sale"}>Sale</MenuItem>
-                    <MenuItem value={"Rent"}>Rent</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+              <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+                searchValue={searchValue}
+              />
             </div>
             <div className="row">
               <div className="col-md-9">
