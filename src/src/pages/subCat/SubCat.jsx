@@ -14,8 +14,7 @@ import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
-import { InputAdornment } from "@mui/material";
-import SearchBar from "../../components/searchBar/SearchBar";
+import {InputAdornment} from "@mui/material";
 const SubCat = () => {
   const [skeleton, setSkeleton] = useState(true);
   //let { search } = useParams();
@@ -23,10 +22,11 @@ const SubCat = () => {
   const searchParams = location.search.split("=")[1];
   useEffect(() => {
     if (searchParams !== undefined) {
-      //console.log("search : ", searchParams, typeof searchParams);
+      console.log("search : ", searchParams, typeof searchParams);
       setSearchValue(searchParams.replaceAll("%20", " "));
     }
   }, [searchParams]);
+  
 
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
@@ -74,22 +74,31 @@ const SubCat = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
+  // const filteredData = data
+  //   .filter((code) => {
+  //     if (filter === "Sale") {
+  //       return code.pro_ad_type === "Sale";
+  //     } else if (filter === "Rent") {
+  //       return code.pro_ad_type === "Rent";
+  //     } else if (filter === "All") {
+  //       return true;
+  //     }
+  //   })
+  //   .filter(
+  //     (code) =>
+  //       code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
+  //       code.pro_sub_district
+  //         .toLowerCase()
+  //         .includes(searchValue.toLowerCase()) ||
+  //       code.pro_pincode.includes(searchValue) ||
+  //       //code.pro_modified_id.toString().startsWith(searchValue) ||
+  //       code.pro_city.toLowerCase().startsWith(searchValue.toLowerCase()) ||
+  //       code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
+  //   );
 
-  // const [records, setRecords] = useState([]);
-  // const [nPages, setNPages] = useState(0);
 
-  // const handleRecordsChange = (newRecords) => {
-  //   setRecords(newRecords);
-  // };
-
-  // const handleNPagesChange = (newNPages) => {
-  //   setNPages(newNPages);
-  // };
-
-  // const handleSearchValue = (value) => {
-  //   //console.log(value);
-  //   setSearchValue(value);
-  // };
+  //const records = filteredData.slice(firstIndex, lastIndex);
+  //const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   const [userLocation, setUserLocation] = useState(null);
 
@@ -210,6 +219,7 @@ const SubCat = () => {
       
   );
 
+  console.log("suggestions : ", suggestions);
 
   return (
     <div>
@@ -217,21 +227,12 @@ const SubCat = () => {
         <title>Propertyease - {filCat}</title>
       </Helmet>
       <Navbar />
-
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{filCat}</h2>
 
-              {/* <SearchBar
-                handleNPagesChange={handleNPagesChange}
-                handleRecordsChange={handleRecordsChange}
-                data={data}
-                handleSearchValue={handleSearchValue}
-                searchValue={searchValue}
-                searchParams={searchParams}
-              /> */}
               <div className="row gap-3 align-items-center my-2 mx-1">
                 <TextField
                   variant="outlined"
@@ -301,56 +302,169 @@ const SubCat = () => {
                   </div>
                  )} 
             </div>
-
+            
+        
             <div className="row">
+              
+             
               <div className="col-md-9">
-                {!skeleton && records.length > 0 ? (
-                  records.map((object, index) => (
-                    <div className="list-group" key={index}>
-                      <div className="row">
-                        <div className="col-md-auto flex-column text-center">
-                          <div className="buiness-logo">
-                            <Link
-                              to={`/${
-                                object.pro_area_size.toLowerCase() +
-                                "-" +
-                                object.pro_area_size_unit.toLowerCase() +
-                                "-"
-                              }${
-                                object.pro_type
-                                  ? object.pro_type
-                                      .split(",")[0]
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                  : ""
-                              }-for-${
-                                object.pro_ad_type === "rent" ? "rent" : "sale"
-                              }-in-${object.pro_locality
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_city
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_id}`}
-                            >
-                              {object.img_link ? (
-                                <img
-                                  src={`${
-                                    import.meta.env.VITE_BACKEND
-                                  }/propertyImages/watermark/${
-                                    object.img_link
-                                  }`}
-                                  alt="img"
-                                />
-                              ) : (
-                                <img src="/images/default.png" alt="no image" />
-                              )}
-                            </Link>
-                          </div>
+              {!skeleton && records.length > 0 ?
+                records.map((object, index) => (
+                  <div className="list-group" key={index}>
+                    <div className="row">
+                      <div className="col-md-auto flex-column text-center">
+                        <div className="buiness-logo">
+                          <Link
+                            to={`/${
+                              object.pro_area_size.toLowerCase() +
+                              "-" +
+                              object.pro_area_size_unit.toLowerCase() +
+                              "-"
+                            }${
+                              object.pro_type
+                                ? object.pro_type
+                                    .split(",")[0]
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")
+                                : ""
+                            }-for-${
+                              object.pro_ad_type === "rent" ? "rent" : "sale"
+                            }-in-${object.pro_locality
+                              .toLowerCase()
+                              .replaceAll(" ", "-")}-${object.pro_city
+                              .toLowerCase()
+                              .replaceAll(" ", "-")}-${object.pro_id}`}
+                          >
+                            {object.img_link ? (
+                              <img
+                                src={`${
+                                  import.meta.env.VITE_BACKEND
+                                }/propertyImages/watermark/${object.img_link}`}
+                                alt="img"
+                              />
+                            ) : (
+                              <img src="/images/default.png" alt="no image" />
+                            )}
+                          </Link>
                         </div>
+                      </div>
 
-                        <div className="col" style={{ minWidth: 0 }}>
-                          <div className="recent-box-serv">
-                            <div className="recent-bus-content">
-                              <div className="property-listing-type">
+                      <div className="col" style={{ minWidth: 0 }}>
+                        <div className="recent-box-serv">
+                          <div className="recent-bus-content">
+                            <div className="property-listing-type">
+                              <Link
+                                to={`/${
+                                  object.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  object.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  object.pro_type
+                                    ? object.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  object.pro_ad_type === "rent"
+                                    ? "rent"
+                                    : "sale"
+                                }-in-${object.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")}-${object.pro_city
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")}-${object.pro_id}`}
+                              >
+                                <span className="text-wrap text-bold">
+                                  {object.pro_area_size +
+                                    " " +
+                                    object.pro_area_size_unit +
+                                    " " +
+                                    object.pro_type.split(",")[0] +
+                                    " "}
+                                  for{" "}
+                                  {object.pro_ad_type === "Rent"
+                                    ? "Rent"
+                                    : "Sale"}{" "}
+                                  in{" "}
+                                  <span className="text-capitalize">
+                                    {object.pro_locality}
+                                  </span>
+                                  ,&nbsp;
+                                  {object.pro_sub_district
+                                    ? object.pro_sub_district + ", "
+                                    : ""}
+                                  {object.pro_city},&nbsp;
+                                  {object.pro_state}
+                                </span>
+                              </Link>
+                            </div>
+                            <ul>
+                              <li className="text-capitalize">
+                                <img
+                                  src="/img/location.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon"></strong>
+                                {object.pro_locality},&nbsp;
+                                {object.pro_city}
+                              </li>
+                              {object.pro_width ? (
+                                <li>
+                                  <img
+                                    src="/img/meter.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Dimension&nbsp;
+                                  </strong>
+                                  ({object.pro_width} Feet * {object.pro_length}{" "}
+                                  Feet)
+                                </li>
+                              ) : (
+                                ""
+                              )}
+                              <li>
+                                <img
+                                  src="/img/rupee.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon">
+                                  {object.pro_amt && "Price"}
+                                </strong>
+                                &nbsp;
+                                {object.pro_amt
+                                  ? "₹" +
+                                    object.pro_amt +
+                                    " " +
+                                    object.pro_amt_unit
+                                  : "Ask Price"}
+                              </li>
+
+                              <li>
+                                <img
+                                  src="/img/facing.png"
+                                  className="property-slider-icon"
+                                />
+                                <strong className="frontPropIcon">
+                                  Property Facing
+                                </strong>
+                                &nbsp;{object.pro_facing}
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="pt-3 d-flex justify-content-between  align-items-center">
+                            <div className="listed pl-md-0  ">
+                              Listed
+                              <br />
+                              {/* {formatDate(
+                                new Date(object.pro_date).toDateString()
+                              )} */}
+                              {DateTime(object.pro_date)}
+                            </div>
+                            <div className="d-flex">
+                              <div className="mr-2 mt-1 ">
                                 <Link
                                   to={`/${
                                     object.pro_area_size.toLowerCase() +
@@ -374,166 +488,54 @@ const SubCat = () => {
                                     .toLowerCase()
                                     .replaceAll(" ", "-")}-${object.pro_id}`}
                                 >
-                                  <span className="text-wrap text-bold">
-                                    {object.pro_area_size +
-                                      " " +
-                                      object.pro_area_size_unit +
-                                      " " +
-                                      object.pro_type.split(",")[0] +
-                                      " "}
-                                    for{" "}
-                                    {object.pro_ad_type === "Rent"
-                                      ? "Rent"
-                                      : "Sale"}{" "}
-                                    in{" "}
-                                    <span className="text-capitalize">
-                                      {object.pro_locality}
-                                    </span>
-                                    ,&nbsp;
-                                    {object.pro_sub_district
-                                      ? object.pro_sub_district + ", "
-                                      : ""}
-                                    {object.pro_city},&nbsp;
-                                    {object.pro_state}
-                                  </span>
+                                  <a
+                                    title="View complete details of this property"
+                                    className=" btn-viewmore"
+                                  >
+                                    View More
+                                  </a>
                                 </Link>
                               </div>
-                              <ul>
-                                <li className="text-capitalize">
-                                  <img
-                                    src="/img/location.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon"></strong>
-                                  {object.pro_locality},&nbsp;
-                                  {object.pro_city}
-                                </li>
-                                {object.pro_width ? (
-                                  <li>
-                                    <img
-                                      src="/img/meter.png"
-                                      className="property-slider-icon"
-                                    />
-                                    <strong className="frontPropIcon">
-                                      Dimension&nbsp;
-                                    </strong>
-                                    ({object.pro_width} Feet *{" "}
-                                    {object.pro_length} Feet)
-                                  </li>
-                                ) : (
-                                  ""
-                                )}
-                                <li>
-                                  <img
-                                    src="/img/rupee.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    {object.pro_amt && "Price"}
-                                  </strong>
-                                  &nbsp;
-                                  {object.pro_amt
-                                    ? "₹" +
-                                      object.pro_amt +
-                                      " " +
-                                      object.pro_amt_unit
-                                    : "Ask Price"}
-                                </li>
-
-                                <li>
-                                  <img
-                                    src="/img/facing.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Property Facing
-                                  </strong>
-                                  &nbsp;{object.pro_facing}
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
-                                Listed
-                                <br />
-                                {/* {formatDate(
-                                new Date(object.pro_date).toDateString()
-                              )} */}
-                                {DateTime(object.pro_date)}
-                              </div>
-                              <div className="d-flex">
-                                <div className="mr-2 mt-1 ">
-                                  <Link
-                                    to={`/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit.toLowerCase() +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
-                                  >
-                                    <a
-                                      title="View complete details of this property"
-                                      className=" btn-viewmore"
-                                    >
-                                      View More
-                                    </a>
-                                  </Link>
-                                </div>
-                                <div>
-                                  <a
-                                    rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit.toLowerCase() +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
-                                    target="_blank"
-                                    className="conatct-propertywp "
-                                    title=" Whatsapp/Contact for this property"
-                                  >
-                                    <IconBrandWhatsapp />
-                                    <span className="pl-1">Whatsapp</span>
-                                  </a>
-                                </div>
+                              <div>
+                                <a
+                                  rel="noreferrer nofollow"
+                                  href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
+                                    object.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    object.pro_area_size_unit.toLowerCase() +
+                                    "-"
+                                  }${
+                                    object.pro_type
+                                      ? object.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    object.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${object.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${object.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${object.pro_id}`}
+                                  target="_blank"
+                                  className="conatct-propertywp "
+                                  title=" Whatsapp/Contact for this property"
+                                >
+                                  <IconBrandWhatsapp />
+                                  <span className="pl-1">Whatsapp</span>
+                                </a>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  ))
-                ) : skeleton ? (
+                  </div>
+                )) 
+                : skeleton ? (
                   <div>
                     <Skeleton variant="rectangular" width={813} height={200} />
                     <Skeleton
@@ -555,14 +557,9 @@ const SubCat = () => {
                       className="mt-3"
                     />
                   </div>
-                ) : (
-                  <NoResult
-                    searchValue={searchValue}
-                    //handleSearchValue={handleSearchValue}
-                  />
-                )}
+                ) : <NoResult searchValue={searchValue} />}
               </div>
-
+              
               <div className="col-md-3">
                 <div>
                   <div className="p-1 shadow">
@@ -571,7 +568,7 @@ const SubCat = () => {
                     </div>
                     {subData.map((sub, index) => (
                       <Link
-                        onClick={() => setSearchValue("")}
+                      onClick={() => setSearchValue("")}
                         to={`/${sub.pro_type
                           .split(",")[1]
                           .toLowerCase()}/${sub.pro_type
@@ -614,15 +611,14 @@ const SubCat = () => {
                 </div>
               </div>
             </div>
-            {records.length > 0 && (
-              <Pagination
-                page={currentPage}
-                count={nPages}
-                color="primary"
-                onChange={(e, value) => setCurrentPage(value)}
-                className="col-md-6 mx-auto py-2"
-              />
-            )}
+            {records.length > 0 &&
+            <Pagination
+              page={currentPage}
+              count={nPages}
+              color="primary"
+              onChange={(e, value) => setCurrentPage(value)}
+              className="col-md-6 mx-auto py-2"
+            />}
           </div>
         </section>
       </div>

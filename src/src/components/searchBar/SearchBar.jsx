@@ -19,16 +19,9 @@ const SearchBar = (props) => {
   const [skeleton, setSkeleton] = useState(true);
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
-  const [searchValue1, setSearchValue1] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
   const [location, setLocation] = useState(null);
-
-  useEffect(() => {
-    if (props.searchParams !== undefined) {
-      //console.log("search : ", props.searchParams, typeof props.searchParams);
-      setSearchValue1(props.searchParams.replaceAll("%20", " "));
-    }
-  }, [props.searchParams]);
 
   function handleLocationClick() {
     if (navigator.geolocation) {
@@ -41,7 +34,6 @@ const SearchBar = (props) => {
   function success(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     axios
       .get(
@@ -49,17 +41,15 @@ const SearchBar = (props) => {
         //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
       )
       .then((res) => {
-        setSearchValue1(res.data.features[0].properties.city.trim());
-        props.handleSearchValue(res.data.features[0].properties.city.trim());
+        setSearchValue(res.data.features[0].properties.city.trim());
+        //props.handleSearchValue(res.data.features[0].properties.city.trim());
         setLocation(res.data);
-        //setSearchValue1(res.data.address.city);
-        //setSearchValue1("kurukshetra");
+        //setSearchValue(res.data.address.city);
+        //setSearchValue("kurukshetra");
       });
   }
 
-  //console.log("props.handleSearchValue : " , props.handleSearchValue)
-
-  //console.log("serach value : " , searchValue1)
+  //console.log("serach value : " , searchValue)
   const [results, setResults] = useState();
   useEffect(() => {
     const unique1 = Array.from(
@@ -101,11 +91,11 @@ const SearchBar = (props) => {
     );
 
     const unique = unique4.filter((i) =>
-      i.toLowerCase().startsWith(searchValue1.toLowerCase())
+      i.toLowerCase().startsWith(searchValue.toLowerCase())
     );
     setSuggestions(unique);
 
-    let searchWords = searchValue1.toLowerCase().split(",");
+    let searchWords = searchValue.toLowerCase().split(",");
 
     const filteredData = props.data
       .filter((code) => {
@@ -129,21 +119,22 @@ const SearchBar = (props) => {
           " " +
           item.pro_state;
 
-          console.log("itemValues : " ,  itemValues,searchWords, props.searchValue)
         return searchWords.every((word) =>
           itemValues.toLowerCase().includes(word)
         );
       });
+    console.log("filteredData : ", filteredData);
     setResults(filteredData);
-  }, [searchValue1, location, filter, props.searchValue , props.searchParams]);
-  //console.log("props.searchValue : " ,  props.searchValue)
+    //console.log("searchWords : ", searchWords, filteredData);
+  }, [searchValue, location, filter]);
+
   const records =
-    searchValue1 === "" && filter === "All"
+    searchValue === "" && filter === "All"
       ? props.data.slice(firstIndex, lastIndex)
       : results.slice(firstIndex, lastIndex);
 
   const nPages = Math.ceil(
-    searchValue1 === "" && filter === "All"
+    searchValue === "" && filter === "All"
       ? props.data.length / recordsPerPage
       : results.length / recordsPerPage
   );
@@ -153,9 +144,6 @@ const SearchBar = (props) => {
     props.handleNPagesChange(nPages);
   }, [records, nPages]);
 
-  console.log("searchValue1 || props.searchValue : " , searchValue1 || props.searchValue)
-  //console.log("searchValue1  : " , searchValue1 );
-  //console.log("props.searchValue  : " , props.searchValue );
   return (
     <>
       <div className="row align-items-center my-2 mx-1 gap-3">
@@ -165,7 +153,7 @@ const SearchBar = (props) => {
           size="small"
           label="Search for properties..."
           placeholder="e.g. Sector 7 "
-          value={searchValue1}
+          value={searchValue}
           InputProps={{
             endAdornment: (
               <InputAdornment
@@ -182,8 +170,7 @@ const SearchBar = (props) => {
           onChange={(e) => {
             setOpenSuggestions(true);
             setCurrentPage(1);
-            setSearchValue1(e.target.value);
-            props.handleSearchValue(e.target.value);
+            setSearchValue(e.target.value);
           }}
         />
         <FormControl
@@ -208,17 +195,17 @@ const SearchBar = (props) => {
         </FormControl>
       </div>
       {openSuggestions &&
-        searchValue1 !== "" &&
-        searchValue1 !== null &&
+        searchValue !== "" &&
+        searchValue !== null &&
         suggestions !== null &&
         suggestions !== "" &&
         suggestions.length > 0 && (
           <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
             {suggestions.map((item) => (
               <div
-                className="py-2 pl-2 suggesion-item pointer"
+                className="py-2 pl-2 suggesion-item"
                 onClick={() => {
-                  setSearchValue1(item), setOpenSuggestions(false);
+                  setSearchValue(item), setOpenSuggestions(false);
                 }}
               >
                 {item}

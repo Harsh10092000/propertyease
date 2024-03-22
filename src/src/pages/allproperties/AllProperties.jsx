@@ -18,6 +18,8 @@ import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 
 const AllProperties = (props) => {
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -26,10 +28,11 @@ const AllProperties = (props) => {
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
   const [skeleton, setSkeleton] = useState(true);
-  //const [suggestions, setSuggestions] = useState();
-  //const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  //const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("All");
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -55,7 +58,16 @@ const AllProperties = (props) => {
       });
   }, []);
 
-  
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       import.meta.env.VITE_BACKEND +
+  //         `/api/pro/fetchSuggestions/${searchValue}`
+  //     )
+  //     .then((res) => {
+  //       setSuggestions(res.data);
+  //     });
+  // }, [searchValue]);
 
   useEffect(() => {
     data.forEach((item, i) => {
@@ -74,13 +86,130 @@ const AllProperties = (props) => {
         origin_url !== ""
       ) {
         sessionStorage.setItem("origin_url", JSON.stringify(origin_url));
-        axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [
-          origin_url,
-        ]);
+        // axios.post(import.meta.env.VITE_BACKEND + "/api/pro/addOrigin", [
+        //   origin_url,
+        // ]);
       }
     }
   }, []);
 
+  const [location, setLocation] = useState(null);
+
+  function handleLocationClick() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success);
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
+
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    //console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    axios
+      .get(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=825008d9e23247daa5600c3878106833`
+        //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
+      )
+      .then((res) => {
+        setSearchValue(res.data.features[0].properties.city.trim());
+        setLocation(res.data);
+        //setSearchValue(res.data.address.city);
+        //setSearchValue("kurukshetra");
+      });
+  }
+
+  const [results, setResults] = useState();
+  useEffect(() => {
+    const unique1 = Array.from(
+      new Set(data.slice(0, 60).map((item) => item.pro_city.trim()))
+    );
+    const uniqueState = Array.from(
+      new Set(data.slice(0, 60).map((item) => item.pro_state.trim()))
+    );
+
+    const unique2 = Array.from(
+      new Set(
+        data
+          .slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") + item.pro_city.trim()
+          )
+      )
+    );
+    const unique3 = Array.from(
+      new Set(
+        data
+          .slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") +
+              item.pro_city.trim()
+          )
+      )
+    );
+    const arr = [...unique1, ...uniqueState, ...unique2, ...unique3];
+    const unique4 = Array.from(
+      new Set(arr.slice(0, 200).map((item) => item.trim()))
+    );
+
+    const unique = unique4.filter((i) =>
+      i.toLowerCase().startsWith(searchValue.toLowerCase())
+    );
+    setSuggestions(unique);
+
+    let searchWords = searchValue.toLowerCase().split(",");
+    
+    const filteredData = data
+      .filter((code) => {
+        if (filter === "Sale") {
+          return code.pro_ad_type === "Sale";
+        } else if (filter === "Rent") {
+          return code.pro_ad_type === "Rent";
+        } else if (filter === "All") {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const itemValues =
+          item.pro_locality +
+          " " +
+          item.pro_city +
+          " " +
+          item.pro_sub_district +
+          " " +
+          item.pro_street +
+          " " +
+          item.pro_state;
+
+        return searchWords.every((word) =>
+          itemValues.toLowerCase().includes(word)
+        );
+      });
+      //console.log("filteredData : " , filteredData)
+    setResults(filteredData);
+    //console.log("searchWords : ", searchWords, filteredData);
+  }, [searchValue, location,filter]);
+
+
+  // const records =
+  //   searchValue === "" && filter === "All"
+  //   ? data.slice(firstIndex, lastIndex)
+  //     : results.slice(firstIndex, lastIndex);
+      
+  // const nPages = Math.ceil(
+  //   searchValue === "" && filter === "All"
+  //     ? data.length / recordsPerPage
+  //     : results.length / recordsPerPage
+      
+  // );
   const [records, setRecords] = useState([]);
   const [nPages, setNPages] = useState(0);
 
@@ -93,7 +222,7 @@ const AllProperties = (props) => {
   };
 
   const handleSearchValue = (value) => {
-    console.log(value);
+    //console.log("value : " , value)
     setSearchValue(value);
   };
 
@@ -112,12 +241,77 @@ const AllProperties = (props) => {
                 <span className="ml-2 numberProperties">{data.length}</span>
               </h2>
 
-              <SearchBar
-                handleNPagesChange={handleNPagesChange}
-                handleRecordsChange={handleRecordsChange}
-                data={data}
-                handleSearchValue={handleSearchValue}
-              />
+              {/* <div className="row align-items-center my-2 mx-1 gap-3">
+                <TextField
+                  variant="outlined"
+                  className="col-md-6 mx-4 mx-md-0"
+                  size="small"
+                  label="Search for properties..."
+                  placeholder="e.g. Sector 7 "
+                  value={searchValue}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position="end"
+                        title="Detect your current location"
+                      >
+                        <IconMapPin
+                          className="pointer location-icon"
+                          onClick={handleLocationClick}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => {
+                    setOpenSuggestions(true);
+                    setCurrentPage(1);
+                    setSearchValue(e.target.value);
+                  }}
+                />
+                <FormControl
+                  sx={{ m: 1, width: ["100%"] }}
+                  size="small"
+                  className="col-md-3 mx-4 mx-md-0"
+                >
+                  <InputLabel id="demo-simple-select-label">
+                    Filter By
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={filter}
+                    label="Filter By"
+                    onChange={(e) => {
+                      setFilter(e.target.value), setCurrentPage(1);
+                    }}
+                  >
+                    <MenuItem value={"All"}>All</MenuItem>
+                    <MenuItem value={"Sale"}>Sale</MenuItem>
+                    <MenuItem value={"Rent"}>Rent</MenuItem>
+                  </Select>
+                </FormControl>
+              </div> */}
+
+              {/* {openSuggestions &&
+                searchValue !== "" &&
+                searchValue !== null &&
+                suggestions !== null &&
+                suggestions !== "" &&
+                suggestions.length > 0 && (
+                  <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
+                    {suggestions.map((item) => (
+                      <div
+                        className="py-2 pl-2 suggesion-item pointer"
+                        onClick={() => {
+                          setSearchValue(item), setOpenSuggestions(false);
+                        }}
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                )} */}
+                <SearchBar handleNPagesChange={handleNPagesChange} handleRecordsChange={handleRecordsChange} data={data} handleSearchValue={handleSearchValue} />
             </div>
             <div className="row">
               <div className="col-md-9">

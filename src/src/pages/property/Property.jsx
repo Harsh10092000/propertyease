@@ -54,12 +54,6 @@ const Property = () => {
     isNaN(proId) && navigate(`/notfound`);
   }, [proId]);
 
-  const propertyType = [
-    {type: "View Residentail Properties" , link: "/property/residential"},
-    {type: "View Commerical Properties" , link: "/property/commercial"},
-    {type: "View Land/Plots Properties" , link: "/property/land"},
-  ]
-
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
   const [shortlist, setShortlist] = useState(false);
@@ -843,7 +837,7 @@ const Property = () => {
                                 <div className="more-detail-heading">
                                   View Near By Properties
                                 </div>
-                                {subDistrict && data ? (
+                                {subDistrict && data && (
                                   <div className="d-flex flex-wrap tags-link ">
                                     {subDistrict.map((item) => (
                                       <Link
@@ -867,125 +861,65 @@ const Property = () => {
                                       </Link>
                                     ))}
                                   </div>
-                                ):<div className="d-flex flex-wrap tags-link ">
-                  {propertyType.map((item) => (
-                    <Link
-                      to={item.link}
-                    >
-                      <div className="loc-list mb-0">
-                        <span className="text-dark font-weight-bold">
-                          {item.type}
-                        </span>
-                        
-                      </div>
-                    </Link>
-                  ))}
-                </div>}
+                                )}
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
                     <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
                           <div className="details">
                             <div className="row">
-                              {data.pro_type && (
-                                <div className="col-md-12">
-                                  <div className="more-detail-heading">
-                                    Additional Features
-                                  </div>
-
-                                  {data.pro_type.split(",")[1] ===
-                                  "Residential" ? (
-                                    <p>
-                                      Its neighborhood is great for a dream
-                                      home. Located near the{" "}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}. A lovely backyard was
-                                      recently renovated, with a patio ideal for
-                                      entertaining guests. Good schools, parks,
-                                      and shops are nearby. Whether you are
-                                      moving in tomorrow or today, this house is
-                                      ready to be occupied.
-                                    </p>
-                                  ) : data.pro_type.split(",")[1] ==
-                                    "Commercial" ? (
-                                    <p>
-                                     
-                                      {data.pro_area_size +
-                                        " " +
-                                        data.pro_area_size_unit +
-                                        " "}
-                                      {data.pro_type
-                                        ? data.pro_type.split(",")[0]
-                                        : ""}
-                                      for{" "}
-                                      {data.pro_ad_type === "Rent"
-                                        ? "Rent"
-                                        : "Sale"}{" "}
-                                      in
-                                      {data.pro_locality
-                                        ? data.pro_locality + ", "
-                                        : ""}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}
-                                      in a convenient spot. Lots of parking
-                                      spaces. Easy to see from the road.
-                                      Flexible open spaces inside. Secure entry.
-                                      Close to highways and shopping areas.
-                                      Perfect place for your executing your
-                                      commercial goals Great commercial property
-                                      is available at key locations at
-                                      affordable rates! Don't miss this
-                                      fantastic opportunity!
-                                    </p>
-                                  ) : data.pro_type.split(",")[1] === "Land" ? (
-                                    <p>
-                                      {data.pro_area_size +
-                                        " " +
-                                        data.pro_area_size_unit +
-                                        " "}
-                                      {data.pro_type
-                                        ? data.pro_type.split(",")[0]
-                                        : ""}
-                                      for{" "}
-                                      {data.pro_ad_type === "Rent"
-                                        ? "Rent"
-                                        : "Sale"}{" "}
-                                      in
-                                      {data.pro_locality
-                                        ? " "+data.pro_locality + ", "
-                                        : ""}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}. Pretty, calm setting
-                                      with lovely views. Gently sloping ground
-                                      is perfect for building your dream home.
-                                      The property is ideal for multiple-purpose
-                                      use because of the good connectivity with
-                                      the city. Utilities are ready, so you can
-                                      start building right away. Neighborhood
-                                      rules help keep things looking nice.
-                                      Flexible zoning for different property
-                                      uses. Low taxes and HOA fees. This is an
-                                      excellent chance to invest in or build
-                                      your peaceful natural hideaway.
-                                    </p>
-                                  ) : (
-                                    ""
-                                  )}
+                            {data.pro_type  &&
+                              <div className="col-md-12">
+                                <div className="more-detail-heading">
+                                Additional Features
                                 </div>
-                              )}
+                               
+                                {data.pro_type.split(",")[1] === "Residential" ?
+                                <p>
+                                  Its neighborhood is great for a dream home.
+                                  Located near the {data.pro_sub_district}{" "}
+                                  {" ," + data.pro_city}. A lovely backyard was
+                                  recently renovated, with a patio ideal for
+                                  entertaining guests. Good schools, parks, and
+                                  shops are nearby. Whether you are moving in
+                                  tomorrow or today, this house is ready to be
+                                  occupied.
+                                </p>
+                                : data.pro_type.split(",")[1] === "Commercial " ?
+                                <p>
+                                  Great commercial property in a convenient
+                                  spot. Lots of parking spaces. Easy to see from
+                                  the road. Flexible open spaces inside. Secure
+                                  entry. Close to highways and shopping areas.
+                                  Perfect place for your executing your
+                                  commercial goals Great commercial property is
+                                  available at key locations at affordable
+                                  rates! Don't miss this fantastic opportunity!
+                                </p>
+                              : data.pro_type.split(",")[1] === "Land" ?
+                                <p>
+                                  Pretty, calm setting with lovely views. Gently
+                                  sloping ground is perfect for building your
+                                  dream home. The property is ideal for
+                                  multiple-purpose use because of the good
+                                  connectivity with the city. Utilities are
+                                  ready, so you can start building right away.
+                                  Neighborhood rules help keep things looking
+                                  nice. Flexible zoning for different property
+                                  uses. Low taxes and HOA fees. This is an
+                                  excellent chance to invest in or build your
+                                  peaceful natural hideaway.
+                                </p>
+                                : ""}
+                              </div>
+                              }
                             </div>
+
                           </div>
                         </div>
                       </div>

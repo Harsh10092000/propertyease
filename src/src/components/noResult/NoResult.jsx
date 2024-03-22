@@ -9,13 +9,6 @@ const NoResult = (props) => {
   const [data, setData] = useState([]);
   const [city, setCity] = useState([]);
   const [currentLocation, setCurrentLocation] = useState([]);
-
-  const propertyType = [
-    {type: "View Residentail Properties" , link: "/property/residential"},
-    {type: "View Commerical Properties" , link: "/property/commercial"},
-    {type: "View Land/Plots Properties" , link: "/property/land"},
-  ]
-
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchLatestProperty")
@@ -61,8 +54,8 @@ const NoResult = (props) => {
   function success(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    //const latitude = "328.6818";
-   // const longitude = "77.2290";
+    //const latitude = 30.16;
+    //const longitude = 76.87;
    // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
     axios
@@ -118,9 +111,9 @@ const NoResult = (props) => {
               <div className="row">
                 <div className="col-md-12">
                   <div className="more-detail-heading">
-                    View Properties
+                    View Near By Properties
                   </div>
-                  {subDistrict && data ? (
+                  {subDistrict && data && (
                     <div className="d-flex flex-wrap tags-link ">
                       {subDistrict.map((item) => (
                         <Link
@@ -138,25 +131,11 @@ const NoResult = (props) => {
                                   " in " +
                                   item.sub_district}{" "}
                             </span>
-                            
                           </div>
                         </Link>
                       ))}
                     </div>
-                  ) :<div className="d-flex flex-wrap tags-link ">
-                  {propertyType.map((item) => (
-                    <Link
-                      to={item.link}
-                    >
-                      <div className="loc-list mb-0">
-                        <span className="text-dark font-weight-bold">
-                          {item.type}
-                        </span>
-                        
-                      </div>
-                    </Link>
-                  ))}
-                </div>}
+                  )}
                 </div>
               </div>
             </div>
