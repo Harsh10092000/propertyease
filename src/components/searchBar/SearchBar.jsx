@@ -53,7 +53,7 @@ const SearchBar = (props) => {
     cityData.filter((item) => item.district === "All India").length === 0
       ? setCityData([...cityData, { district: "All India" }])
       : "";
-  }, []);
+  }, [cityData]);
 
   function success(position) {
     const latitude = position.coords.latitude;
@@ -323,7 +323,7 @@ const SearchBar = (props) => {
           {cityData && (
             <Autocomplete
               size="small"
-              disableClearable
+              //disableClearable
               id="combo-box-demo"
               options={cityData.map((option) => option.district)}
               onInputChange={(event, newInputValue) => {

@@ -272,7 +272,7 @@ header {
   box-shadow: rgba(13, 109, 253, 0.25) 0 25px 50px -10px;
   padding: 10px 0;
   position: sticky;
-  z-index: 99;
+  z-index: 99999;
   top: 0;
   width: 100%;
   background-color: #fff !important;
@@ -307,10 +307,13 @@ span.arrow-pos {
   font-size: 3vw;
 }
 .header-block {
+  
+  
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-around;
+
 }
 .header-center {
   width: 40%;
@@ -15756,7 +15759,7 @@ section.find-services {
   height: 200px ;
   overflow-y: scroll;
   position: absolute;
-  z-index: 999;
+  z-index: 9;
   background-color: white;
    width: 55%;
 }

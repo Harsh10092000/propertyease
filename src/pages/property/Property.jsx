@@ -55,10 +55,10 @@ const Property = () => {
   }, [proId]);
 
   const propertyType = [
-    {type: "View Residentail Properties" , link: "/property/residential"},
-    {type: "View Commerical Properties" , link: "/property/commercial"},
-    {type: "View Land/Plots Properties" , link: "/property/land"},
-  ]
+    { type: "View Residentail Properties", link: "/property/residential" },
+    { type: "View Commerical Properties", link: "/property/commercial" },
+    { type: "View Land/Plots Properties", link: "/property/land" },
+  ];
 
   const [data, setData] = useState({});
   const [images, setImages] = useState([]);
@@ -219,7 +219,6 @@ const Property = () => {
       });
   }, [data.pro_city]);
 
-  console.log("subDistrict : ", subDistrict);
   return (
     <div>
       <Helmet>
@@ -867,20 +866,19 @@ const Property = () => {
                                       </Link>
                                     ))}
                                   </div>
-                                ):<div className="d-flex flex-wrap tags-link ">
-                  {propertyType.map((item) => (
-                    <Link
-                      to={item.link}
-                    >
-                      <div className="loc-list mb-0">
-                        <span className="text-dark font-weight-bold">
-                          {item.type}
-                        </span>
-                        
-                      </div>
-                    </Link>
-                  ))}
-                </div>}
+                                ) : (
+                                  <div className="d-flex flex-wrap tags-link ">
+                                    {propertyType.map((item) => (
+                                      <Link to={item.link}>
+                                        <div className="loc-list mb-0">
+                                          <span className="text-dark font-weight-bold">
+                                            {item.type}
+                                          </span>
+                                        </div>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -917,7 +915,6 @@ const Property = () => {
                                   ) : data.pro_type.split(",")[1] ==
                                     "Commercial" ? (
                                     <p>
-                                     
                                       {data.pro_area_size +
                                         " " +
                                         data.pro_area_size_unit +
@@ -962,17 +959,17 @@ const Property = () => {
                                         : "Sale"}{" "}
                                       in
                                       {data.pro_locality
-                                        ? " "+data.pro_locality + ", "
+                                        ? " " + data.pro_locality + ", "
                                         : ""}
                                       {data.pro_sub_district
                                         ? data.pro_sub_district + ", "
                                         : ""}
-                                      {data.pro_city}. Pretty, calm setting
-                                      with lovely views. Gently sloping ground
-                                      is perfect for building your dream home.
-                                      The property is ideal for multiple-purpose
-                                      use because of the good connectivity with
-                                      the city. Utilities are ready, so you can
+                                      {data.pro_city}. Pretty, calm setting with
+                                      lovely views. Gently sloping ground is
+                                      perfect for building your dream home. The
+                                      property is ideal for multiple-purpose use
+                                      because of the good connectivity with the
+                                      city. Utilities are ready, so you can
                                       start building right away. Neighborhood
                                       rules help keep things looking nice.
                                       Flexible zoning for different property
