@@ -30,7 +30,7 @@ const AllProperties = (props) => {
   //const [openSuggestions, setOpenSuggestions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   //const [filter, setFilter] = useState("All");
-
+  const [userCurrLocation , setUserCurrLocation] = useState("");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
@@ -97,6 +97,10 @@ const AllProperties = (props) => {
     setSearchValue(value);
   };
 
+  const handleUserLocation = (value) => {
+    setUserCurrLocation(value);
+  };
+
   return (
     <div>
       <Helmet>
@@ -117,6 +121,8 @@ const AllProperties = (props) => {
                 handleRecordsChange={handleRecordsChange}
                 data={data}
                 handleSearchValue={handleSearchValue}
+                handleUserLocation={handleUserLocation}
+                searchValue={searchValue}
               />
             </div>
             <div className="row">
@@ -388,7 +394,7 @@ const AllProperties = (props) => {
                     />
                   </div>
                 ) : (
-                  <NoResult searchValue={searchValue} />
+                  <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />
                 )}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">

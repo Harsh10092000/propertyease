@@ -62,7 +62,7 @@ const Rent = () => {
  
 
  
-
+  const [userCurrLocation , setUserCurrLocation] = useState("");
   const [records, setRecords] = useState([]);
   const [nPages, setNPages] = useState(0);
 
@@ -74,9 +74,14 @@ const Rent = () => {
     setNPages(newNPages);
   };
 
+
   const handleSearchValue = (value) => {
     console.log(value);
     setSearchValue(value);
+  };
+
+  const handleUserLocation = (value) => {
+    setUserCurrLocation(value);
   };
 
   return (
@@ -91,11 +96,19 @@ const Rent = () => {
             <div className="title">
               <h2 className="text-capitalize">{filCat}</h2>
 
+              {/* <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+                searchValue={searchValue}
+              /> */}
               <SearchBar
                 handleNPagesChange={handleNPagesChange}
                 handleRecordsChange={handleRecordsChange}
                 data={data}
                 handleSearchValue={handleSearchValue}
+                handleUserLocation={handleUserLocation}
                 searchValue={searchValue}
               />
             </div>
@@ -356,7 +369,7 @@ const Rent = () => {
                       className="mt-3"
                     />
                   </div>
-                ) : <NoResult searchValue={searchValue} />}
+                ) : <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />}
               </div>
               <div className="col-md-3">
                 <div className="p-1 shadow">

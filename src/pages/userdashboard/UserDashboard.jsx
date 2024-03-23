@@ -26,10 +26,10 @@ const UserDashboard = () => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
+    data.forEach((item, i) => {
+      item.serial_no = i + 1;
+    });
   } , [data])
-  data.forEach((item, i) => {
-    item.serial_no = i + 1;
-  });
   const [searchValue, setSearchValue] = useState("");
   const filteredData = data.filter(
     (code) =>
@@ -47,7 +47,7 @@ const UserDashboard = () => {
   const [proDate , setProDate] = useState("");
   const FormatDate = (dateString) => {
     if (dateString.includes("-")) {
-      setProDate(dateString);
+      ()=>setProDate(dateString);
       return dateString
     } else {
       const date = new Date(parseInt(dateString));

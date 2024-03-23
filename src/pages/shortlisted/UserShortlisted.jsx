@@ -80,12 +80,12 @@ const UserShortlisted = () => {
                           <tr key={i}>
                             <td>{i + 1}</td>
                             <td>
-                            {item.pro_locality},&nbsp;
-                                {item.pro_sub_district
-                                  ? item.pro_sub_district + ", "
+                            {object.pro_locality},&nbsp;
+                                {object.pro_sub_district
+                                  ? object.pro_sub_district + ", "
                                   : ""}
-                                {item.pro_city},&nbsp;
-                                  {item.pro_state}
+                                {object.pro_city},&nbsp;
+                                  {object.pro_state}
                             </td>
                             <td className="text-center">
                               <button

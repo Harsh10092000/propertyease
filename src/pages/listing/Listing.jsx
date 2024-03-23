@@ -29,6 +29,12 @@ const Listing = () => {
   const [rentData, setRentData] = useState([]);
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [userCurrLocation , setUserCurrLocation] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  // const [filter, setFilter] = useState("All");
+  const [records, setRecords] = useState([]);
+  const [nPages, setNPages] = useState(0);
+
   //const records = data.slice(firstIndex, lastIndex);
   //const nPages = Math.ceil(data.length / recordsPerPage);
 
@@ -62,11 +68,7 @@ const Listing = () => {
     });
   }, [data]);
 
-  const [searchValue, setSearchValue] = useState("");
- // const [filter, setFilter] = useState("All");
  
- const [records, setRecords] = useState([]);
- const [nPages, setNPages] = useState(0);
 
  const handleRecordsChange = (newRecords) => {
    setRecords(newRecords);
@@ -80,6 +82,10 @@ const Listing = () => {
    console.log(value);
    setSearchValue(value);
  };
+
+ const handleUserLocation = (value) => {
+  setUserCurrLocation(value);
+};
   
   return (
     <div>
@@ -92,11 +98,19 @@ const Listing = () => {
           <div className="container">
             <div className="title">
               <h2 className="text-capitalize">{cat}</h2>
+              {/* <SearchBar
+                handleNPagesChange={handleNPagesChange}
+                handleRecordsChange={handleRecordsChange}
+                data={data}
+                handleSearchValue={handleSearchValue}
+                searchValue={searchValue}
+              /> */}
               <SearchBar
                 handleNPagesChange={handleNPagesChange}
                 handleRecordsChange={handleRecordsChange}
                 data={data}
                 handleSearchValue={handleSearchValue}
+                handleUserLocation={handleUserLocation}
                 searchValue={searchValue}
               />
             </div>
@@ -361,7 +375,7 @@ const Listing = () => {
                       </div>
                     </div>
                   </div>
-                )) : <NoResult searchValue={searchValue} />}
+                )) : <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />}
               </div>
               <div className="col-md-3">
                 <div>

@@ -3,18 +3,24 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const NoResult = (props) => {
+  let pageLocation = useLocation();
+  console.log(pageLocation);
+
   const [subDistrict, setSubDistrict] = useState();
 
   const [data, setData] = useState([]);
   const [city, setCity] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState(
+    props.userCurrLocation
+  );
 
   const propertyType = [
-    {type: "View Residentail Properties" , link: "/property/residential"},
-    {type: "View Commerical Properties" , link: "/property/commercial"},
-    {type: "View Land/Plots Properties" , link: "/property/land"},
-  ]
+    { type: "View Residentail Properties", link: "/property/residential" },
+    { type: "View Commerical Properties", link: "/property/commercial" },
+    { type: "View Land/Plots Properties", link: "/property/land" },
+  ];
 
   useEffect(() => {
     axios
@@ -23,19 +29,33 @@ const NoResult = (props) => {
         setData(res.data);
         setCity(res.data[0].pro_city);
       });
-  }, []);
+    if (currentLocation !== "All India") {
+      axios
+        .get(
+          import.meta.env.VITE_BACKEND +
+            `/api/pro/fetchLatestPropertyByCity/${currentLocation}`
+        )
+        .then((res) => {
+          setData(res.data);
+          setCity(res.data[0].pro_city);
+        });
+    }
+  }, [currentLocation]);
+
+  console.log("data : " , data);
+
   const [location, setLocation] = useState(null);
   useEffect(() => {
     //console.log("currentLocation : " , currentLocation)
-    const locations = currentLocation
-      .filter((location) => location !== "District")
-      .join(" ");
+    // const locations = currentLocation
+    //   .filter((location) => location !== "District")
+    //   .join(" ");
     //console.log("locations : " , locations)
     currentLocation !== ""
       ? axios
           .get(
             import.meta.env.VITE_BACKEND +
-              `/api/pro/SubDistrictDataByCity/${locations}`
+              `/api/pro/SubDistrictDataByCity/${currentLocation}`
           )
           .then((res) => {
             setSubDistrict(res.data);
@@ -62,8 +82,8 @@ const NoResult = (props) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     //const latitude = "328.6818";
-   // const longitude = "77.2290";
-   // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    // const longitude = "77.2290";
+    // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
     axios
       .get(
@@ -77,14 +97,12 @@ const NoResult = (props) => {
         //setCurrentLocation(res.data.features[0].properties.city.trim());
         //setLocation(res.data.features[0].properties.city);
         setLocation(res.data);
-        setCurrentLocation(res.data.address.state_district.split(" "));
+        //setCurrentLocation(res.data.address.state_district.split(" "));
       });
   }
   useEffect(() => {
     handleLocationClick();
   }, []);
-
-  //console.log("location : " , currentLocation);
 
   return (
     <div className="m-1">
@@ -116,48 +134,191 @@ const NoResult = (props) => {
           <div className="col-md-12">
             <div className="details">
               <div className="row">
-                <div className="col-md-12">
-                  <div className="more-detail-heading">
-                    View Properties
-                  </div>
-                  {subDistrict && data ? (
-                    <div className="d-flex flex-wrap tags-link ">
-                      {subDistrict.map((item) => (
-                        <Link
-                          to={`/${data[0].pro_type
-                            .split(",")[1]
-                            .toLowerCase()}/${data[0].pro_type
-                            .split(",")[0]
-                            .replaceAll(" ", "-")
-                            .toLowerCase()}?search=${item.sub_district}`}
+                {pageLocation.pathname === "/allproperties" ||
+                pageLocation.pathname.startsWith("/rental") ? (
+                  <div className="col-md-12">
+                    <div className="more-detail-heading">View Properties</div>
+                    {subDistrict &&
+                    data?.length > 0 &&
+                    currentLocation !== "All India" ? (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {subDistrict.map((item) => (
+                          <Link
+                            // to={`/${data[0].pro_type
+                            //   .split(",")[1]
+                            //   .toLowerCase()}/${data[0].pro_type
+                            //   .split(",")[0]
+                            //   .replaceAll(" ", "-")
+                            //   .toLowerCase()}?search=${item.sub_district}`}
+                            onClick={() =>
+                              props.handleSearchValue(item.sub_district)
+                            }
+                          >
+                            {/* <div className="loc-list mb-0">
+                              <span className="text-dark font-weight-bold">
+                                {data[0].pro_type &&
+                                  data[0].pro_type.split(",")[0] +
+                                    " in " +
+                                    item.sub_district}{" "}
+                              </span>
+                            </div> */}
+                            <div className="loc-list mb-0">
+                              <span className="text-dark font-weight-bold">
+                                {"Properties" + " in " + item.sub_district}{" "}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {propertyType.map((item) => (
+                          <Link to={item.link}>
+                            <div
+                              className="loc-list mb-0 pointer"
+                              onClick={() => props.handleSearchValue("")}
+                            >
+                              <span className="text-dark font-weight-bold">
+                                {item.type}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                        <div
+                          className="loc-list mb-0 pointer"
+                          onClick={() => props.handleSearchValue("")}
                         >
-                          <div className="loc-list mb-0">
+                          <span className="text-dark font-weight-bold">
+                            View All Properties
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : pageLocation.pathname.startsWith("/property") ? (
+                  <div className="col-md-12">
+                    <div className="more-detail-heading">View Properties</div>
+                    {subDistrict &&
+                    data?.length > 0 &&
+                    currentLocation !== "All India" ? (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {subDistrict.map((item) => (
+                          <Link
+                            to={`/${data[0].pro_type
+                              .split(",")[1]
+                              .toLowerCase()}/${data[0].pro_type
+                              .split(",")[0]
+                              .replaceAll(" ", "-")
+                              .toLowerCase()}?search=${item.sub_district}`}
+                          >
+                            <div className="loc-list mb-0">
+                              <span className="text-dark font-weight-bold">
+                                {data[0].pro_type &&
+                                  data[0].pro_type.split(",")[0] +
+                                    " in " +
+                                    item.sub_district}{" "}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {propertyType.map((item) => (
+                          <Link to={item.link}>
+                            <div
+                              className="loc-list mb-0 pointer"
+                              onClick={() => props.handleSearchValue("")}
+                            >
+                              <span className="text-dark font-weight-bold">
+                                {item.type}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                        <Link to="/allproperties">
+                          <div
+                            className="loc-list mb-0 pointer"
+                            onClick={() => props.handleSearchValue("")}
+                          >
                             <span className="text-dark font-weight-bold">
-                              {data[0].pro_type &&
-                                data[0].pro_type.split(",")[0] +
-                                  " in " +
-                                  item.sub_district}{" "}
+                              View All Properties
                             </span>
-                            
                           </div>
                         </Link>
-                      ))}
-                    </div>
-                  ) :<div className="d-flex flex-wrap tags-link ">
-                  {propertyType.map((item) => (
-                    <Link
-                      to={item.link}
-                    >
-                      <div className="loc-list mb-0">
-                        <span className="text-dark font-weight-bold">
-                          {item.type}
-                        </span>
-                        
                       </div>
-                    </Link>
-                  ))}
-                </div>}
-                </div>
+                    )}
+                  </div>
+                ) : pageLocation.pathname.startsWith("/land") ||
+                  pageLocation.pathname.startsWith("/commercial") ||
+                  pageLocation.pathname.startsWith("/residential") ? (
+                  <div className="col-md-12">
+                    <div className="more-detail-heading">View Properties</div>
+                    {subDistrict &&
+                    data?.length > 0 &&
+                    currentLocation !== "All India" ? (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {subDistrict.map((item) => (
+                          <Link
+                            // to={`/${data[0].pro_type
+                            //   .split(",")[1]
+                            //   .toLowerCase()}/${data[0].pro_type
+                            //   .split(",")[0]
+                            //   .replaceAll(" ", "-")
+                            //   .toLowerCase()}?search=${item.sub_district}`}
+                            to={`/${pageLocation.pathname
+                              ?.split("/")[1]
+                              .toLowerCase()}/${pageLocation.pathname
+                              ?.split("/")[2]
+                              .replaceAll(" ", "-")
+                              .toLowerCase()}?search=${item.sub_district}`}
+                            //to={`/${pageLocation.pathname?.split("/")[1]/pageLocation.pathname?.split("/")[1]}`}
+                          >
+                            <div className="loc-list mb-0">
+                              <span className="text-dark font-weight-bold">
+                                {pageLocation.pathname
+                                  ?.split("/")[2]
+                                  .charAt(0)
+                                  .toUpperCase() +
+                                  pageLocation.pathname
+                                    ?.split("/")[2]
+                                    .slice(1)
+                                    .replaceAll("-", " ") +
+                                  " in " +
+                                  item.sub_district}{" "}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="d-flex flex-wrap tags-link ">
+                        {propertyType.map((item) => (
+                          <Link to={item.link}>
+                            <div
+                              className="loc-list mb-0 pointer"
+                              onClick={() => props.handleSearchValue("")}
+                            >
+                              <span className="text-dark font-weight-bold">
+                                {item.type}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                        <div
+                          className="loc-list mb-0 pointer"
+                          onClick={() => props.handleSearchValue("")}
+                        >
+                          <span className="text-dark font-weight-bold">
+                            View All Properties
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>

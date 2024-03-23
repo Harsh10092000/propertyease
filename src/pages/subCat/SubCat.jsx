@@ -10,24 +10,36 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin, IconCurrentLocation  } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
 import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
+import Autocomplete from "@mui/material/Autocomplete";
 const SubCat = () => {
   const [skeleton, setSkeleton] = useState(true);
+  const [cityData, setCityData] = useState();
+  const [userLocation, setUserLocation] = useState(null);
+  const [filter, setFilter] = useState("All");
   //let { search } = useParams();
-  const location = useLocation();
-  const searchParams = location.search.split("=")[1];
+  const pagelocation = useLocation();
+  const searchParams = pagelocation.search.split("=")[1];
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
+    cityData &&
+    cityData.filter((item) => item.district === "All India").length === 0
+      ? setCityData([...cityData, { district: "All India" }])
+      : "";
     if (searchParams !== undefined) {
       //console.log("search : ", searchParams, typeof searchParams);
       setSearchValue(searchParams.replaceAll("%20", " "));
     }
-  }, [searchParams]);
 
+  }, [searchParams, cityData]);
+
+  
+  const [location, setLocation] = useState("All India");
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +51,7 @@ const SubCat = () => {
   const [rentData, setRentData] = useState([]);
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [userCurrLocation , setUserCurrLocation] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -72,8 +85,24 @@ const SubCat = () => {
     });
   }, [data]);
 
-  const [searchValue, setSearchValue] = useState("");
-  const [filter, setFilter] = useState("All");
+  
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
+      .then((res) => {
+        setCityData(res.data);
+      });
+  }, []);
+
+
+  // useEffect(() => {
+  //   cityData &&
+  //   cityData.filter((item) => item.district === "All India").length === 0
+  //     ? setCityData([...cityData, { district: "All India" }])
+  //     : "";
+  // }, [cityData]);
+
+  
 
   // const [records, setRecords] = useState([]);
   // const [nPages, setNPages] = useState(0);
@@ -86,12 +115,12 @@ const SubCat = () => {
   //   setNPages(newNPages);
   // };
 
-  // const handleSearchValue = (value) => {
-  //   //console.log(value);
-  //   setSearchValue(value);
-  // };
+  const handleSearchValue = (value) => {
+    //console.log(value);
+    setSearchValue(value);
+  };
 
-  const [userLocation, setUserLocation] = useState(null);
+  
 
   function handleLocationClick() {
     if (navigator.geolocation) {
@@ -100,6 +129,8 @@ const SubCat = () => {
       console.log("Geolocation not supported");
     }
   }
+
+
 
   function success(position) {
     const latitude = position.coords.latitude;
@@ -111,8 +142,12 @@ const SubCat = () => {
         //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
       )
       .then((res) => {
-        setSearchValue(res.data.features[0].properties.city.trim());
-        setUserLocation(res.data);
+        //setSearchValue(res.data.features[0].properties.city.trim());
+        //setUserLocation(res.data);
+        setLocation(res.data.features[0].properties.city.trim());
+        //props.handleUserLocation(res.data.features[0].properties.city.trim());
+        setSearchValue("");
+        //props.handleSearchValue("");
         //setSearchValue(res.data.address.city);
         //setSearchValue("kurukshetra");
       });
@@ -120,7 +155,7 @@ const SubCat = () => {
 
   const [results, setResults] = useState();
   useEffect(() => {
-    //console.log(searchValue)
+    
 
     const unique1 = Array.from(
       new Set(data.slice(0, 60).map((item) => item.pro_city.trim()))
@@ -210,6 +245,16 @@ const SubCat = () => {
       
   );
 
+  // const handleSearchValue = (value) => {
+  //   console.log(value);
+  //   setSearchValue(value);
+  // };
+
+  const handleUserLocation = (value) => {
+    setUserCurrLocation(value);
+  };
+
+  console.log("serach value : " , searchValue)
 
   return (
     <div>
@@ -232,74 +277,122 @@ const SubCat = () => {
                 searchValue={searchValue}
                 searchParams={searchParams}
               /> */}
-              <div className="row gap-3 align-items-center my-2 mx-1">
+              <div className="row align-items-center my-2 mx-1 gap-3">
+        <TextField
+          variant="outlined"
+          className="col-md-5 mx-4 mx-md-0"
+          size="small"
+          label="Search for properties..."
+          placeholder="e.g. Sector 7 "
+          value={searchValue}
+          onChange={(e) => {
+            setOpenSuggestions(true);
+            setCurrentPage(1);
+            setSearchValue(e.target.value);
+            //handleSearchValue(e.target.value);
+          }}
+        />
+
+        <div className="col-md-3 mx-4 mx-md-0 pl-0">
+          {cityData && (
+            <Autocomplete
+              size="small"
+              //disableClearable
+              id="combo-box-demo"
+              options={cityData.map((option) => option.district)}
+              onInputChange={(event, newInputValue) => {
+                setLocation(newInputValue);
+                handleUserLocation(newInputValue);
+                setSearchValue("");
+                //handleSearchValue("");
+              }}
+              sx={{ m: 1, width: ["100%"] }}
+              value={location}
+              renderInput={(params) => (
                 <TextField
-                  variant="outlined"
-                  className="col-md-6 mx-4 mx-md-0"
-                  size="small"
-                  label="Search for properties..."
-                  placeholder="e.g. Sector 7 "
-                  value={searchValue}
+                  {...params}
+                  //value={"All India"}
                   InputProps={{
-                    endAdornment: (
+                    ...params.InputProps,
+                    startAdornment: (
                       <InputAdornment
-                        position="end"
+                        position="start"
                         title="Detect your current location"
                       >
-                        <IconMapPin
+                        <IconCurrentLocation
                           className="pointer location-icon"
                           onClick={handleLocationClick}
                         />
                       </InputAdornment>
                     ),
                   }}
-                  onChange={(e) => {
-                    setOpenSuggestions(true);
-                    setCurrentPage(1);
-                    setSearchValue(e.target.value);
-                  }}
                 />
-                <FormControl
-                  sx={{ m: 1, width: ["100%"] }}
-                  size="small"
-                  className="col-md-3 mx-4 mx-md-0"
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    Filter By
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={filter}
-                    label="Filter By"
-                    onChange={(e) => setFilter(e.target.value)}
-                  >
-                    <MenuItem value={"All"}>All</MenuItem>
-                    <MenuItem value={"Sale"}>Sale</MenuItem>
-                    <MenuItem value={"Rent"}>Rent</MenuItem>
-                  </Select>
-                </FormControl>
+              )}
+            />
+          )}
+        </div>
+
+        <FormControl
+          sx={{ m: 1, width: ["100%"] }}
+          size="small"
+          className="col-md-3 mx-4 mx-md-0"
+        >
+          <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={filter}
+            label="Filter By"
+            onChange={(e) => {
+              setFilter(e.target.value), setCurrentPage(1);
+            }}
+          >
+            <MenuItem value={"All"}>All</MenuItem>
+            <MenuItem value={"Sale"}>Sale</MenuItem>
+            <MenuItem value={"Rent"}>Rent</MenuItem>
+          </Select>
+        </FormControl>
+        {/* <FormControl
+          sx={{ m: 1, width: ["100%"] }}
+          size="small"
+          className="col-md-2 mx-4 mx-md-0"
+        >
+          <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={filter2}
+            label="Filter By"
+            onChange={(e) => {
+              setFilter2(e.target.value), setCurrentPage(1);
+            }}
+          >
+            <MenuItem value={"All"}>All</MenuItem>
+            <MenuItem value={"Residential"}>Residential</MenuItem>
+            <MenuItem value={"Commerical"}>Commerical</MenuItem>
+            <MenuItem value={"Land"}>Land/Plots</MenuItem>
+          </Select>
+        </FormControl> */}
+      </div>
+      {openSuggestions &&
+        searchValue !== "" &&
+        searchValue !== null &&
+        suggestions !== null &&
+        suggestions !== "" &&
+        suggestions.length > 0 && (
+          <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
+            {suggestions.map((item) => (
+              <div
+                className="py-2 pl-2 suggesion-item pointer"
+                onClick={() => {
+                  setSearchValue(item), setOpenSuggestions(false);
+                }}
+              >
+                {item}
               </div>
-              
-              {openSuggestions &&
-                searchValue !== "" &&
-                searchValue !== null &&
-                suggestions !== null &&
-                suggestions !== "" &&
-                suggestions.length > 0 && (
-                  <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
-                    {suggestions.map((item) => (
-                      <div
-                        className="py-2 pl-2 suggesion-item pointer"
-                        onClick={() => {
-                          setSearchValue(item), setOpenSuggestions(false);
-                        }}
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                 )} 
+            ))}
+          </div>
+        )}
             </div>
 
             <div className="row">
@@ -556,10 +649,7 @@ const SubCat = () => {
                     />
                   </div>
                 ) : (
-                  <NoResult
-                    searchValue={searchValue}
-                    //handleSearchValue={handleSearchValue}
-                  />
+                  <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue}  />
                 )}
               </div>
 
