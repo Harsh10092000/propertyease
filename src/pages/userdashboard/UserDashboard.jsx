@@ -19,6 +19,10 @@ const UserDashboard = () => {
           `/api/pro/fetchPropertyDataByUserId/${currentUser[0].login_id}`
       )
       .then((res) => {
+        
+        res.data.forEach((item, i) => {
+          item.serial_no = i + 1;
+        });
         setData(res.data);
       });
   }, []);
@@ -26,10 +30,16 @@ const UserDashboard = () => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
-    data.forEach((item, i) => {
-      item.serial_no = i + 1;
-    });
+    
   } , [data])
+
+  //useEffect(() => {
+  // data &&
+  //   data.forEach((item, i) => {
+  //     item.serial_no = i + 1;
+  //   });
+  // }, [data])
+
   const [searchValue, setSearchValue] = useState("");
   const filteredData = data.filter(
     (code) =>
@@ -124,8 +134,11 @@ const UserDashboard = () => {
                   <tbody className="text-black">
                     {records.map((item, index) => (
                       <tr key={index}>
-                         {console.log(item)}
-                        <td>{item.serial_no}</td>
+                         {/* {console.log("item : " , item , item.serial_no)}
+                         {item.serial_no}
+                         {item.pro_modified_id}
+                         {item.pro_ad_type} */}
+                        <td>{ item.serial_no}</td>
                         <td>{5000 + parseInt(item.pro_id)}</td>
                         <td>{item.pro_type.split(",")[0]}</td>
                         <td>{item.pro_ad_type}</td>

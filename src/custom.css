@@ -272,7 +272,7 @@ header {
   box-shadow: rgba(13, 109, 253, 0.25) 0 25px 50px -10px;
   padding: 10px 0;
   position: sticky;
-  z-index: 99999;
+  z-index: 89999;
   top: 0;
   width: 100%;
   background-color: #fff !important;
@@ -2930,7 +2930,7 @@ section.search-block {
 div#dynamic {
   padding-bottom: 12px;
   width: 100%;
-  z-index: 100;
+  z-index: 99999;
 }
 a.btn-resiter-earing {
   display: block;
@@ -15868,7 +15868,7 @@ section.find-services {
 }
 .profile-block {
   display: flex;
-  align-items: end;
+  /* align-items: end; */
   justify-content: space-between;
 }
 .loc-list {

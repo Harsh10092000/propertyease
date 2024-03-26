@@ -138,7 +138,7 @@ const PostRequirement = () => {
       <Navbar />
       <div className="post-requierment-wrapper ">
         <div className=" post-requierment-heading ">Post Requirement</div>
-        <div className="pl-2 pt-2 pb-2">Are you searching to buy any property? Please fill out this form to let us know about your preferred city, locality, and your budget. </div>
+        <div className="pl-2 pt-2 pb-2">Are you searching to buy any property? Please fill out this form to let us know about your preferred city, property type, and your budget. </div>
         <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}

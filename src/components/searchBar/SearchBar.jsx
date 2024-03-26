@@ -51,9 +51,14 @@ const SearchBar = (props) => {
   useEffect(() => {
     cityData &&
     cityData.filter((item) => item.district === "All India").length === 0
-      ? setCityData([...cityData, { district: "All India" }])
+      ? //setCityData([...cityData, { district: "All India" }])
+        cityData.unshift({ district: "All India" })
       : "";
   }, [cityData]);
+
+  const cities = [
+    {district: "All India"}
+  ]
 
   function success(position) {
     const latitude = position.coords.latitude;
@@ -285,22 +290,10 @@ const SearchBar = (props) => {
   }, [records, nPages]);
 
   useEffect(() => {
-    setSearchValue1(props.searchValue)
-  }, [props.searchValue])
+    setSearchValue1(props.searchValue);
+  }, [props.searchValue]);
 
-  // useEffect(() => {
-  //   if (location === "") {
-  //     setLocation("All India");
-  //     props.handleUserLocation("All India");
-  //   }
-  // }, [location]);
-
-  // console.log(
-  //   "searchValue1 || props.searchValue : ",
-  //   searchValue1 || props.searchValue
-  // );
-  //console.log("searchValue1  : " , searchValue1 );
-  //console.log("location  : ", location);
+ 
   return (
     <>
       <div className="row align-items-center my-2 mx-1 gap-3">
@@ -318,14 +311,14 @@ const SearchBar = (props) => {
             props.handleSearchValue(e.target.value);
           }}
         />
-
+       
         <div className="col-md-3 mx-4 mx-md-0 pl-0">
-          {cityData && (
+          {cityData ? (
             <Autocomplete
               size="small"
               //disableClearable
               id="combo-box-demo"
-              options={cityData.map((option) => option.district)}
+              options={cityData.sort().map((option) => option.district)}
               onInputChange={(event, newInputValue) => {
                 setLocation(newInputValue);
                 props.handleUserLocation(newInputValue);
@@ -348,6 +341,36 @@ const SearchBar = (props) => {
                         <IconCurrentLocation
                           className="pointer location-icon"
                           onClick={handleLocationClick}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+            />
+          ) : (
+            <Autocomplete
+              size="small"
+              
+              id="combo-box-demo"
+               options={cities.map((option) => option.district)}
+             
+              sx={{ m: 1, width: ["100%"] }}
+              value={location}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                 
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        title="Detect your current location"
+                      >
+                        <IconCurrentLocation
+                          className="pointer location-icon"
+                         
                         />
                       </InputAdornment>
                     ),
