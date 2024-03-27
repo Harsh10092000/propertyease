@@ -19,7 +19,6 @@ const UserDashboard = () => {
           `/api/pro/fetchPropertyDataByUserId/${currentUser[0].login_id}`
       )
       .then((res) => {
-        
         res.data.forEach((item, i) => {
           item.serial_no = i + 1;
         });
@@ -30,8 +29,7 @@ const UserDashboard = () => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
-    
-  } , [data])
+  }, [data]);
 
   //useEffect(() => {
   // data &&
@@ -53,34 +51,48 @@ const UserDashboard = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-
-  const [proDate , setProDate] = useState("");
+  const [proDate, setProDate] = useState("");
   const FormatDate = (dateString) => {
     if (dateString.includes("-")) {
-      ()=>setProDate(dateString);
-      return dateString
+      () => setProDate(dateString);
+      const date = new Date(dateString);
+
+      // Options for formatting the date
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+
+      // Format the date according to the options
+      const formattedDate = date.toLocaleDateString("en-US", options);
+
+      return formattedDate;
     } else {
       const date = new Date(parseInt(dateString));
 
-    date.setUTCHours(date.getUTCHours() + 5);
-    date.setUTCMinutes(date.getUTCMinutes() + 30);
+      date.setUTCHours(date.getUTCHours() + 5);
+      date.setUTCMinutes(date.getUTCMinutes() + 30);
 
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-
-    // const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    const formattedTimestamp = `${year}-${month}-${day} `;
-    //setProDate(formattedTimestamp);
-    return formattedTimestamp;
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      // const hours = String(date.getUTCHours()).padStart(2, "0");
+      // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+      // const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      const formattedTimestamp = `${year}-${month}-${day} `;
+      const date2 = new Date(formattedTimestamp);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = date2.toLocaleDateString("en-US", options);
+      return formattedDate;
     }
-  }
+  };
+
+  // Create a new string in the format "26 March 2024"
+  //const formattedDate = `${day} ${month} ${year}`;
 
   return (
-    
     <div className="container-fluid admin-dashboard admin-icon">
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800">All Property</h1>
@@ -103,7 +115,7 @@ const UserDashboard = () => {
           }}
         />
       </div>
-     
+
       <div className="row">
         <div className="col-md-12">
           <div className="card">
@@ -122,7 +134,7 @@ const UserDashboard = () => {
                     <tr>
                       <th>SNo.</th>
                       <th>Property Id</th>
-                      <th>Property Type</th>
+                      {/* <th>Property Type</th> */}
                       <th>Sale/Rent</th>
                       <th>Price</th>
                       <th>Posted On</th>
@@ -134,15 +146,15 @@ const UserDashboard = () => {
                   <tbody className="text-black">
                     {records.map((item, index) => (
                       <tr key={index}>
-                         {/* {console.log("item : " , item , item.serial_no)}
-                         {item.serial_no}
-                         {item.pro_modified_id}
-                         {item.pro_ad_type} */}
-                        <td>{ item.serial_no}</td>
-                        <td>{5000 + parseInt(item.pro_id)}</td>
+                        <td>{item.serial_no}</td>
+                        {/* <td>{5000 + parseInt(item.pro_id)}</td> */}
                         <td>{item.pro_type.split(",")[0]}</td>
                         <td>{item.pro_ad_type}</td>
-                        <td>{item.pro_amt ? item.pro_amt + " " + item.pro_amt_unit : "-"}</td>
+                        <td>
+                          {item.pro_amt
+                            ? item.pro_amt + " " + item.pro_amt_unit
+                            : "-"}
+                        </td>
                         {/* <td>{item.pro_date }</td> */}
                         {<td>{FormatDate(item.pro_date)}</td>}
                         <td>
@@ -180,9 +192,7 @@ const UserDashboard = () => {
                               </a>
                             </Link>
                           </button>
-                          <Link
-                            to={`/${item.pro_id}`}
-                          >
+                          <Link to={`/${item.pro_id}`}>
                             <button
                               title="View Your Property"
                               className="btn btn-primary btn-sm vbtn"
