@@ -52,7 +52,7 @@ const SearchBar = (props) => {
   function showError(error) {
    console.log("error : " , error);
    if(error.PERMISSION_DENIED) {
-    alert("User Denied Permoission access")
+    alert("User Denied the request for Geolocation")
     //setSnack(true);
     //props.handleLocationSnack(true);
    }
