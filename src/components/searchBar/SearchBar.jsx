@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import Autocomplete from "@mui/material/Autocomplete";
+import {Snackbar } from "@mui/material";
 const SearchBar = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -23,7 +24,7 @@ const SearchBar = (props) => {
   const [filter, setFilter] = useState("All");
   const [filter2, setFilter2] = useState("All");
   const [location, setLocation] = useState("All India");
-
+  const [snack, setSnack] = useState(false);
   const [cityData, setCityData] = useState();
   useEffect(() => {
     axios
@@ -42,11 +43,21 @@ const SearchBar = (props) => {
 
   function handleLocationClick() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success);
+      navigator.geolocation.getCurrentPosition(success, showError);
     } else {
       console.log("Geolocation not supported");
     }
   }
+
+  function showError(error) {
+   console.log("error : " , error);
+   if(error.PERMISSION_DENIED) {
+    alert("User Denied Permoission access")
+    //setSnack(true);
+    //props.handleLocationSnack(true);
+   }
+  }
+
 
   useEffect(() => {
     cityData &&
@@ -81,6 +92,10 @@ const SearchBar = (props) => {
         //setSearchValue1("kurukshetra");
       });
   }
+
+  useEffect(() => {
+    handleLocationClick
+  }, [])
 
   //console.log("props.handleSearchValue : " , props.handleSearchValue)
 
@@ -296,6 +311,7 @@ const SearchBar = (props) => {
  
   return (
     <>
+    
       <div className="row align-items-center my-2 mx-1 gap-3">
         <TextField
           variant="outlined"
@@ -327,6 +343,13 @@ const SearchBar = (props) => {
               }}
               sx={{ m: 1, width: ["100%"] }}
               value={location}
+             slotProps={{
+                    popper: {
+                      sx: {
+                        zIndex: 1
+                      }
+                    }
+                  }}
               renderInput={(params) => (
                 <TextField
                   {...params}

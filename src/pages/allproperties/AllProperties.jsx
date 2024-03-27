@@ -11,7 +11,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment } from "@mui/material";
@@ -31,6 +31,12 @@ const AllProperties = (props) => {
   const [searchValue, setSearchValue] = useState("");
   //const [filter, setFilter] = useState("All");
   const [userCurrLocation , setUserCurrLocation] = useState("");
+  const [locationSnack, setLocationSnack] = useState(false);
+
+  const handleLocationSnack = (value) => {
+    setLocationSnack(value);
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
@@ -107,6 +113,22 @@ const AllProperties = (props) => {
         <title>Propertyease - All Properties</title>
       </Helmet>
       <Navbar />
+      {/* <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={locationSnack}
+        autoHideDuration={1000}
+        onClose={() => setLocationSnack(false)}
+        message={
+          "Thank You for showing interest in this property, we will get back to you soon."
+        }
+      /> */}
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
@@ -123,6 +145,7 @@ const AllProperties = (props) => {
                 handleSearchValue={handleSearchValue}
                 handleUserLocation={handleUserLocation}
                 searchValue={searchValue}
+                handleLocationSnack={handleLocationSnack}
               />
             </div>
             <div className="row">

@@ -44,12 +44,12 @@ const DateTime = (dateString) => {
     const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
     const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
-    console.log(
-      "dateString : ",
-      dateString,
-      formattedTimestamp,
-      typeof dateString
-    );
+    // console.log(
+    //   "dateString : ",
+    //   dateString,
+    //   formattedTimestamp,
+    //   typeof dateString
+    // );
     //const formattedDate = dateString.replace(/-/g, "/");
     const date1 = new Date(formattedTimestamp);
     const now = new Date();
