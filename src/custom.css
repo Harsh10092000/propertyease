@@ -2447,8 +2447,6 @@ span.property-description-right {
 .property-view-inner {
   padding: 30px;
   margin: 0 0 30px;
-  z-index: 0;
-  position: relative;
 }
 span.property-description-left {
   color: #303030;
@@ -2467,15 +2465,9 @@ span.property-description-right {
 .property-more-detail {
   width: auto;
   margin-bottom: 30px;
- 
   padding: 20px 23px;
   border-radius: 7px;
   background-color: #fff;
-}
-
-.remove-margin {
-  margin-top: 30px;
-  margin-bottom: 0px;
 }
 .details p {
   color: #3a3b45;
@@ -15547,17 +15539,15 @@ input[type="file"] {
 
 .signup-form .pro_flex {
   display: flex;
-  
 }
 
 .signup-form .pro_flex_1 {
-  /* margin-bottom: 32px; */
+  margin-bottom: 32px;
 }
 
 @media screen and (max-width: 480px) {
   .signup-form .pro_flex {
     display: block;
-    /* margin-bottom: 32px; */
   }
 
   .signup-form .pro_flex_select {
@@ -15762,26 +15752,10 @@ section.find-services {
   margin-left: 30px;
 }
 
-.user-profile-form-wrapper .file-name-wrapper {
-  background-color:  #F5F7FB;
-  padding: 10px 20px;
-  border-radius: 5px;
-
-
-}
-
-.user-profile-form-wrapper .file-name {
-  font-size: 18px;
-  font-weight: 500;
-  color: black;
-  padding-right: 5px;
-}
-
 
 
 .user-profile-form-wrapper .pro_flex {
   display: flex;
-  margin-top: 5px;
 }
 
 
@@ -15800,12 +15774,11 @@ section.find-services {
   .user-profile-form-wrapper {
     margin: auto;
     width: 100%;
-    
+
     padding: 30px 40px 30px 40px;
   }
   .user-profile-form-wrapper .pro_flex {
     display: block;
-    margin-top: 5px;
   }
 }
 
@@ -15884,8 +15857,8 @@ section.find-services {
 }
 
 .profile-pict {
-  width: 94px;
-  height: 100px;
+  width: 114px;
+  height: 120px;
   overflow: hidden;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -15925,36 +15898,12 @@ section.find-services {
   display: inline-block;
   margin-bottom: 10px;
 }
-/* .profilepict {
+.profilepict {
   height: 190px;
   overflow: hidden;
   margin-bottom: 20px;
 
-} */
-
-.profilepict {
-  /* width: 290px ;
-  height: 190px;
-  object-fit: cover; */
- 
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 6px;
-  margin-bottom: 16px;
-  
-
 }
-
-.profilepict img {
-  /* width: 0px ;
-  height: 190px; */
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  
-
-}
-
 .siderbar-profile {
   /* / background-color: #F6F8FF; / */
   padding-bottom: 10px;
@@ -16099,87 +16048,42 @@ section.find-services {
 .pro_radio_btn {
   border: 1px solid rgb(153, 153, 153);
   /* border-radius: 20px; */
-  padding: 8px 15px;
+  padding: 9px 20px;
   min-width: 50px;
   /* margin: 0px 15px 5px 0px; */
   transition: all 0.2s ease-out 0s;
   text-align: center;
   border-left: 0;
-  cursor: pointer;
 }
 
-/* .pro_radio_btn_first {
+.pro_radio_btn_first {
   border-left: 1px solid rgb(153, 153, 153);
-} */
-
-.pro_radio_btn:first-child {
-  border-left: 1px solid rgb(153, 153, 153);
-  /* border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px; */
+  
 }
 
 .pro_radio_btn_1 {
   border: 1px solid rgb(153, 153, 153);
   border-radius: 20px;
-  padding: 8px 15px;
+  padding: 9px 20px;
+  min-width: 100px;
   margin: 0px 15px 5px 0px;
   transition: all 0.2s ease-out 0s;
   text-align: center;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.pro_radio_btn_1:hover {
-  border-color: 	#696969;
-  background-color: 	#E8E8E8;
-  color: black;
 }
 
 .pro_heading{
+
   font-size: 16px;
   line-height: 20px;
   font-weight: 600;
+  /* color: #091E42; */
   color: black;
   display: block;
   text-align: left;
   margin-bottom: 12px;
-  width: 100%;
 }
 
 .pro_selected {
- background-color:#cfecf7;
- font-weight: 600;
- border-color: #62c1e5;
- color: black;
+ background-color: #f0f9ff;
+ font-weight: 700;
 }
-
-.pro_selected:hover {
-  background-color: #a0d9ef;
-  border-color: #62c1e5;
- }
-
- .continue-btn {
-  background-color: #24A2D4;
-  color: white;
-  font-weight: 700;
-  padding: 10px 20px;
-  
- }
-
- .continue-btn:hover {
-  background-color: #186C8D;
-  color: white;
-  font-weight: 700;
-  
- }
-
- .error_msg {
-  color: red;
-  padding-bottom: 10px;
-  font-size: 12px;
-  padding-top: 4px;
-  padding-left: 14px;
- }
-
-
