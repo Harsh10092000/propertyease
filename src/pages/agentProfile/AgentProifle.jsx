@@ -19,9 +19,10 @@ import {
 } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const AgentProifle = () => {
+  const { agentId } = useParams();
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -31,7 +32,7 @@ const AgentProifle = () => {
       setSticky(false);
     }
   };
-  const agentId = 20;
+  //const agentId = 20;
   const [agentData, setAgentData] = useState();
   const [agentWorkPlaceData, setAgentWorkPlaceData] = useState();
   useEffect(() => {

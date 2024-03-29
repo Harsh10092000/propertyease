@@ -252,7 +252,7 @@ const App = () => {
       element: <Watermark />,
     },
     {
-      path: "/agentProfile",
+      path: "/agentProfile/:agentId",
       element: <AgentProifle />,
     },
     {
