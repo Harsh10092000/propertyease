@@ -57,14 +57,12 @@ const UserDashboard = () => {
       () => setProDate(dateString);
       const date = new Date(dateString);
 
-      // Options for formatting the date
       const options = {
         year: "numeric",
         month: "long",
         day: "numeric",
       };
 
-      // Format the date according to the options
       const formattedDate = date.toLocaleDateString("en-US", options);
 
       return formattedDate;

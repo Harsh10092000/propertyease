@@ -13,7 +13,7 @@ import Terms from "./pages/terms/Terms";
 import Privacy from "./pages/privacy/Privacy";
 import User from "./pages/user/User";
 import UserDashboard from "./pages/userdashboard/UserDashboard";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import UserShortlisted from "./pages/shortlisted/UserShortlisted";
 import Property from "./pages/property/Property";
@@ -36,6 +36,8 @@ import Watermark from "./pages/watermark/Watermark";
 import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
 import PostRequirement from "./pages/postRequirement/PostRequirement";
 import AdminRequirement from "./pages/adminRequirement/AdminRequirement";
+import UserProfileForm from "./pages/userProfileForm/UserProfileForm";
+import AgentProifle from "./pages/agentProfile/AgentProifle";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -44,6 +46,16 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
+
+// const Origin =()=>{
+//   const [referrer,setRefferer]=useState("")
+//   useEffect(()=>{
+//     console.log(referrer)
+//     setRefferer(document.referrer)
+//     console.log(referrer)
+//   },[])
+//   return null;
+// }
 
 const App = () => {
   const { currentUser } = useContext(AuthContext);
@@ -99,7 +111,10 @@ const App = () => {
     },
     {
       path: "/allproperties",
-      element: <AllProperties />,
+      element: (<>
+      {/* <Origin/> */}
+      <AllProperties  />
+      </>),
     },
     {
       path: "/about",
@@ -143,6 +158,10 @@ const App = () => {
         {
           path: "shortlisted",
           element: <UserShortlisted />,
+        },
+        {
+          path: "userProfileForm",
+          element: <UserProfileForm />,
         },
       ],
     },
@@ -231,6 +250,10 @@ const App = () => {
     {
       path: "/watermark",
       element: <Watermark />,
+    },
+    {
+      path: "/agentProfile",
+      element: <AgentProifle />,
     },
     {
       path: "/watermark2",
