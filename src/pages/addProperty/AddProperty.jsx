@@ -890,8 +890,8 @@ const AddProperty = () => {
                         Start Posting your Property for Free
                       </h2>
 
-                      <div className="pro_flex m-1 mt-3">
-                        <div className="w-100 m-1">
+                      <div className="pro_flex m-1 mt-3 pl-md-5">
+                        <div className="w-50 m-1">
                           <span className="pro_heading">Ad Type</span>
                           <div className="d-flex mb-1">
                             {propertyAdType.map((item) => (
@@ -917,7 +917,7 @@ const AddProperty = () => {
                               <div className="error_msg">Required</div>
                             )}
                         </div>
-                        <div className="w-100 m-1">
+                        <div className="w-50 m-1">
                           <span className="pro_heading">Are you an ?</span>
                           <div className="d-flex mb-1">
                             {propertyUserType.map((item) => (
@@ -946,7 +946,7 @@ const AddProperty = () => {
                       </div>
 
                       {currentUser === null && (
-                        <div className="pro_flex">
+                        <div className="pro_flex pl-md-5">
                           <TextField
                             sx={{ m: 1, width: ["100%"] }}
                             id="outlined-basic"
@@ -977,7 +977,7 @@ const AddProperty = () => {
                           />
                         </div>
                       )}
-                      <div className="d-flex justify-content-start ml-2 mt-2">
+                      <div className="d-flex justify-content-start ml-2 mt-2 pl-md-5">
                         <button
                           className="btn continue-btn"
                           //disabled={step1Disabled}
