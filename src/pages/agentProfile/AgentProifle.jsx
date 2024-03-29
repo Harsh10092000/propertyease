@@ -113,7 +113,7 @@ const AgentProifle = () => {
                     <li>{agentData.agent_name}</li>
                   </ul>
 
-                  <div className="property-view-inner">
+                  <div className="property-view-inner agent-profile-wrapper">
                     <div className="row">
                       <div
                         className={sticky ? "top newClass" : "top"}
