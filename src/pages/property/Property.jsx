@@ -679,9 +679,12 @@ const Property = () => {
                             {data.pro_type ? data.pro_type.split(",")[0] : ""}{" "}
                             For
                             {" " + data.pro_ad_type} in{" "}
-                            {/* <span className="text-capitalize"> */}
+                            {/* <span className="text-capitalize">
                               {data.pro_locality + ","}
-                            {/* </span> */}
+                            </span> */}
+                            {data.pro_locality[0].toUpperCase() +
+                              data.pro_locality.slice(1) +
+                              ","}
                             {data.pro_sub_district
                               ? data.pro_sub_district + ", "
                               : ""}

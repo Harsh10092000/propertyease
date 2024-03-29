@@ -1475,7 +1475,7 @@ const EditProperty = () => {
                                   ))}
                                 </div>
                                 {step3 === true &&
-                                  propertyData.pro_open_sides === "" && (
+                                  (propertyData.pro_open_sides === "" || propertyData.pro_open_sides === 0) && (
                                     <div className="error_msg">Required</div>
                                   )}
                               </div>
