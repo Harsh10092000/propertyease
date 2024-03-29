@@ -123,7 +123,7 @@ const Rent = () => {
                             to={`/${
                               object.pro_area_size.toLowerCase() +
                               "-" +
-                              object.pro_area_size_unit.toLowerCase() +
+                              object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
                               "-"
                             }${
                               object.pro_type
@@ -165,7 +165,7 @@ const Rent = () => {
                                 to={`/${
                                   object.pro_area_size.toLowerCase() +
                                   "-" +
-                                  object.pro_area_size_unit.toLowerCase() +
+                                  object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
                                   "-"
                                 }${
                                   object.pro_type
@@ -276,7 +276,7 @@ const Rent = () => {
                                   to={`/${
                                     object.pro_area_size.toLowerCase() +
                                     "-" +
-                                    object.pro_area_size_unit.toLowerCase() +
+                                    object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
                                     "-"
                                   }${
                                     object.pro_type
@@ -312,7 +312,7 @@ const Rent = () => {
                                   href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
                                     object.pro_area_size.toLowerCase() +
                                     "-" +
-                                    object.pro_area_size_unit.toLowerCase() +
+                                    object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
                                     "-"
                                   }${
                                     object.pro_type

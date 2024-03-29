@@ -4,6 +4,8 @@ import {
   IconMapPin,
   IconUser,
   IconWallet,
+  IconSquare,
+  IconSquareCheckFilled,
 } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -26,8 +28,11 @@ import { city } from "../addProperty/City";
 
 import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
+import Checkbox from "@mui/material/Checkbox";
 
 const EditProperty = () => {
+  const icon = <IconSquare fontSize="small" />;
+  const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
   const navigate = useNavigate();
 
   const { currentUser } = useContext(AuthContext);
@@ -60,6 +65,71 @@ const EditProperty = () => {
         setCityState(res.data);
       });
   }, []);
+
+  const propertyAge = [
+    { value: "0" },
+    { value: "0-1" },
+    { value: "1-3" },
+    { value: "3-5" },
+    { value: "5-10" },
+    { value: "10+" },
+  ];
+
+  const propertyBedrooms = [
+    { value: "0" },
+    { value: "1" },
+    { value: "2" },
+    { value: "3" },
+    { value: "4" },
+    { value: "5+" },
+  ];
+
+  const propertyFacing = [
+    { value: "North" },
+    { value: "North-East" },
+    { value: "East" },
+    { value: "South-East" },
+    { value: "South" },
+    { value: "South-West" },
+    { value: "West" },
+    { value: "North-West" },
+  ];
+
+  const propertyFurnishing = [
+    { value: "Fully Furnished" },
+    { value: "Semi Furnished" },
+    { value: "Unfurnished" },
+  ];
+
+  const propertySides = [
+    { value: "1" },
+    { value: "2" },
+    { value: "3" },
+    { value: "4" },
+  ];
+
+  const propertyAdType = [{ value: "Sale" }, { value: "Rent" }];
+
+  const propertyUserType = [{ value: "Agent" }, { value: "Owner" }];
+
+  const propertyAuthority = [
+    { value: "HSVP" },
+    { value: "MC" },
+    { value: "DTP" },
+    { value: "Other" },
+  ];
+
+  const propertyOwnership = [
+    { value: "Ownership" },
+    { value: "Power of Attorney" },
+  ];
+
+  const propertyPossession = [
+    { value: "Immediate" },
+    { value: "0-3 Month" },
+    { value: "3-6 Month" },
+    { value: "After 6 Months" },
+  ];
 
   const [propertyData, setPropertyData] = useState({
     pro_id: "",
@@ -125,21 +195,26 @@ const EditProperty = () => {
           pro_plot_no: res.data[0].pro_plot_no,
           pro_street: res.data[0].pro_street,
           pro_age: res.data[0].pro_age,
-          pro_floor: res.data[0].pro_floor,
+          pro_floor: res.data[0].pro_floor === 0 ? "" : res.data[0].pro_floor,
           pro_bedroom:
             res.data[0].pro_bedroom === 0 ? "" : res.data[0].pro_bedroom,
 
           pro_washrooms:
             res.data[0].pro_washrooms === 0 ? "" : res.data[0].pro_washrooms,
-          pro_balcony: res.data[0].pro_balcony,
-          pro_parking: res.data[0].pro_parking,
+          //pro_bedroom: res.data[0].pro_bedroom,
+          //pro_washrooms: res.data[0].pro_washrooms,
+          pro_balcony:
+            res.data[0].pro_balcony === 0 ? "" : res.data[0].pro_balcony,
+          pro_parking:
+            res.data[0].pro_parking === 0 ? "" : res.data[0].pro_parking,
           pro_facing: res.data[0].pro_facing,
           pro_area_size: res.data[0].pro_area_size,
 
           pro_width: res.data[0].pro_width,
           pro_length: res.data[0].pro_length,
           pro_facing_road_width: res.data[0].pro_facing_road_width,
-          pro_open_sides: res.data[0].pro_open_sides,
+          pro_open_sides:
+            res.data[0].pro_open_sides === 0 ? "" : res.data[0].pro_open_sides,
           pro_furnishing: res.data[0].pro_furnishing,
 
           pro_ownership_type: res.data[0].pro_ownership_type,
@@ -252,17 +327,23 @@ const EditProperty = () => {
     files = Array.from(selectedFiles);
   }
 
-  const [step1Disabled, setStep1Disabled] = useState(true);
-  useEffect(() => {
-    if (propertyData.pro_ad_type !== "" && propertyData.pro_user_type !== "") {
-      setStep1Disabled(false);
+  const [step1, setStep1] = useState(false);
+  const handleStep1 = () => {
+    if (
+      propertyData.pro_ad_type !== "" &&
+      propertyData.pro_user_type !== ""
+      //state.emailFormatError === false &&
+      //currentUser !== null
+    ) {
+      setStep1(false);
+      setActiveStep(activeStep + 1);
     } else {
-      setStep1Disabled(true);
+      setStep1(true);
     }
-  }, [propertyData.pro_ad_type, propertyData.pro_user_type]);
+  };
 
-  const [step2Disabled, setStep2Disabled] = useState(true);
-  useEffect(() => {
+  const [step2, setStep2] = useState(false);
+  const handleStep2 = () => {
     if (
       propertyData.pro_type !== "" &&
       propertyData.pro_city !== "" &&
@@ -270,20 +351,15 @@ const EditProperty = () => {
       propertyData.pro_locality !== "" &&
       propertyData.pro_pincode.length > 5
     ) {
-      setStep2Disabled(false);
+      setStep2(false);
+      setActiveStep(activeStep + 1);
     } else {
-      setStep2Disabled(true);
+      setStep2(true);
     }
-  }, [
-    propertyData.pro_type,
-    propertyData.pro_city,
-    propertyData.pro_locality,
-    propertyData.pro_pincode,
-    propertyData.pro_sub_district,
-  ]);
+  };
 
-  const [step3Disabled, setStep3Disabled] = useState(true);
-  useEffect(() => {
+  const [step3, setStep3] = useState(false);
+  const handleStep3 = () => {
     if (propertyData.pro_type.split(",")[1] !== "Land") {
       if (
         propertyData.pro_age !== "" &&
@@ -296,56 +372,139 @@ const EditProperty = () => {
         propertyData.pro_possession !== "" &&
         propertyData.pro_open_sides !== "" &&
         propertyData.pro_furnishing !== "" &&
-        formatError === false &&
-        fileSizeExceeded === false &&
-        propertyData.pro_area_size !== ""
-      ) {
-        setStep3Disabled(false);
-      } else {
-        setStep3Disabled(true);
-      }
-    }
-  }, [
-    propertyData.pro_age,
-    propertyData.pro_floor,
-    propertyData.pro_bedroom,
-    propertyData.pro_washrooms,
-    propertyData.pro_balcony,
-    propertyData.pro_parking,
-    propertyData.pro_facing,
-    propertyData.pro_possession,
-    propertyData.pro_open_sides,
-    propertyData.pro_furnishing !== "",
-    formatError,
-    fileSizeExceeded,
-    propertyData.pro_type,
-    propertyData.pro_area_size,
-  ]);
-
-  useEffect(() => {
-    if (propertyData.pro_type.split(",")[1] === "Land") {
-      if (
-        propertyData.pro_age !== "" &&
-        propertyData.pro_facing !== "" &&
-        propertyData.pro_possession !== "" &&
-        propertyData.pro_open_sides !== "" &&
+        propertyData.pro_area_size !== "" &&
         formatError === false &&
         fileSizeExceeded === false
       ) {
-        setStep3Disabled(false);
+        setStep3(false);
+        setActiveStep(activeStep + 1);
       } else {
-        setStep3Disabled(true);
+        setStep3(true);
       }
+    } else if (
+      propertyData.pro_age !== "" &&
+      propertyData.pro_facing !== "" &&
+      propertyData.pro_possession !== "" &&
+      propertyData.pro_area_size !== "" &&
+      formatError === false &&
+      fileSizeExceeded === false
+    ) {
+      setStep3(false);
+      setActiveStep(activeStep + 1);
+    } else {
+      setStep3(true);
     }
-  }, [
-    propertyData.pro_age,
-    propertyData.pro_facing,
-    propertyData.pro_possession,
-    propertyData.pro_open_sides,
-    formatError,
-    fileSizeExceeded,
-    propertyData.pro_type,
-  ]);
+  };
+
+  
+
+  const [step4, setStep4] = useState(false);
+  const handleStep4 = () => {
+    if (
+      propertyData.pro_ownership_type !== "" &&
+      propertyData.pro_approval !== ""
+    ) {
+      setStep4(false);
+      handleClick();
+    } else {
+      setStep4(true);
+    }
+  };
+
+  // const [step1Disabled, setStep1Disabled] = useState(true);
+  // useEffect(() => {
+  //   if (propertyData.pro_ad_type !== "" && propertyData.pro_user_type !== "") {
+  //     setStep1Disabled(false);
+  //   } else {
+  //     setStep1Disabled(true);
+  //   }
+  // }, [propertyData.pro_ad_type, propertyData.pro_user_type]);
+
+  // const [step2Disabled, setStep2Disabled] = useState(true);
+  // useEffect(() => {
+  //   if (
+  //     propertyData.pro_type !== "" &&
+  //     propertyData.pro_city !== "" &&
+  //     propertyData.pro_sub_district !== "" &&
+  //     propertyData.pro_locality !== "" &&
+  //     propertyData.pro_pincode.length > 5
+  //   ) {
+  //     setStep2Disabled(false);
+  //   } else {
+  //     setStep2Disabled(true);
+  //   }
+  // }, [
+  //   propertyData.pro_type,
+  //   propertyData.pro_city,
+  //   propertyData.pro_locality,
+  //   propertyData.pro_pincode,
+  //   propertyData.pro_sub_district,
+  // ]);
+
+  // const [step3Disabled, setStep3Disabled] = useState(true);
+  // useEffect(() => {
+  //   if (propertyData.pro_type.split(",")[1] !== "Land") {
+  //     if (
+  //       propertyData.pro_age !== "" &&
+  //       propertyData.pro_floor !== "" &&
+  //       propertyData.pro_bedroom !== "" &&
+  //       propertyData.pro_washrooms !== "" &&
+  //       propertyData.pro_balcony !== "" &&
+  //       propertyData.pro_parking !== "" &&
+  //       propertyData.pro_facing !== "" &&
+  //       propertyData.pro_possession !== "" &&
+  //       propertyData.pro_open_sides !== "" &&
+  //       propertyData.pro_furnishing !== "" &&
+  //       formatError === false &&
+  //       fileSizeExceeded === false &&
+  //       propertyData.pro_area_size !== ""
+  //     ) {
+  //       setStep3Disabled(false);
+  //     } else {
+  //       setStep3Disabled(true);
+  //     }
+  //   }
+  // }, [
+  //   propertyData.pro_age,
+  //   propertyData.pro_floor,
+  //   propertyData.pro_bedroom,
+  //   propertyData.pro_washrooms,
+  //   propertyData.pro_balcony,
+  //   propertyData.pro_parking,
+  //   propertyData.pro_facing,
+  //   propertyData.pro_possession,
+  //   propertyData.pro_open_sides,
+  //   propertyData.pro_furnishing !== "",
+  //   formatError,
+  //   fileSizeExceeded,
+  //   propertyData.pro_type,
+  //   propertyData.pro_area_size,
+  // ]);
+
+  // useEffect(() => {
+  //   if (propertyData.pro_type.split(",")[1] === "Land") {
+  //     if (
+  //       propertyData.pro_age !== "" &&
+  //       propertyData.pro_facing !== "" &&
+  //       propertyData.pro_possession !== "" &&
+  //       propertyData.pro_open_sides !== "" &&
+  //       formatError === false &&
+  //       fileSizeExceeded === false
+  //     ) {
+  //       setStep3Disabled(false);
+  //     } else {
+  //       setStep3Disabled(true);
+  //     }
+  //   }
+  // }, [
+  //   propertyData.pro_age,
+  //   propertyData.pro_facing,
+  //   propertyData.pro_possession,
+  //   propertyData.pro_open_sides,
+  //   formatError,
+  //   fileSizeExceeded,
+  //   propertyData.pro_type,
+  // ]);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
   useEffect(() => {
@@ -488,7 +647,7 @@ const EditProperty = () => {
                             Start Posting your Property,It's Free
                           </h2>
                           <h2 style={{ textAlign: "center" }}>Basic Details</h2>
-                          <div className="whole_radio">
+                          {/* <div className="whole_radio">
                             <div className="pro_flex">
                               <FormControl
                                 sx={{ m: 1, width: ["100%"] }}
@@ -548,16 +707,69 @@ const EditProperty = () => {
                                 )}
                               </FormControl>
                             </div>
+                          </div> */}
+
+                          <div className="pro_flex m-1 mt-3">
+                            <div className="w-100 m-1">
+                              <span className="pro_heading">Ad Type</span>
+                              <div className="d-flex mb-1">
+                                {propertyAdType.map((item) => (
+                                  <div
+                                    onClick={(e) => {
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_ad_type: item.value,
+                                      });
+                                    }}
+                                    className={
+                                      propertyData.pro_ad_type === item.value
+                                        ? "pro_radio_btn_1 pro_selected mb-1"
+                                        : "pro_radio_btn_1 mb-1"
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step1 === true &&
+                                propertyData.pro_ad_type === "" && (
+                                  <div className="error_msg">Required</div>
+                                )}
+                            </div>
+                            <div className="w-100 m-1">
+                              <span className="pro_heading">Are you an ?</span>
+                              <div className="d-flex mb-1">
+                                {propertyUserType.map((item) => (
+                                  <div
+                                    onClick={(e) => {
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_user_type: item.value,
+                                      });
+                                    }}
+                                    className={
+                                      propertyData.pro_user_type === item.value
+                                        ? "pro_radio_btn_1 pro_selected mb-1"
+                                        : "pro_radio_btn_1 mb-1"
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step1 === true &&
+                                propertyData.pro_user_type === "" && (
+                                  <div className="error_msg">Required</div>
+                                )}
+                            </div>
                           </div>
 
-                          <div className="d-flex justify-content-end">
+                          <div className="d-flex justify-content-start">
                             <button
-                              className="btn btn-primary"
-                              disabled={step1Disabled}
+                              className="btn continue-btn"
+                              //disabled={step1Disabled}
                               //onClick={handleNextStep}
-                              onClick={
-                                currentUser !== null ? handleNextStep : fetchOtp
-                              }
+                              onClick={handleStep1}
                             >
                               Next
                             </button>
@@ -705,14 +917,13 @@ const EditProperty = () => {
                                 State
                               </InputLabel>
 
-
-
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 //value={ isNaN(propertyData.pro_state) === true ? stateList.filter((item) =>  item.name ===  propertyData.pro_state)[0].id : propertyData.pro_state  }
                                 value={propertyData.pro_state}
                                 label="State"
+                                
                                 onChange={(e) =>
                                   setPropertyData({
                                     ...propertyData,
@@ -748,6 +959,7 @@ const EditProperty = () => {
                                 id="demo-simple-select"
                                 value={propertyData.pro_city}
                                 label="City"
+                                title={propertyData.pro_state === "" && "Select State to add City"}
                                 onChange={(e) =>
                                   setPropertyData({
                                     ...propertyData,
@@ -756,7 +968,7 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                {cityState
+                                {cityState && cityState
                                   .filter(
                                     (i) => i.state === propertyData.pro_state
                                   )
@@ -792,6 +1004,7 @@ const EditProperty = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
+                                title={propertyData.pro_state !== "" && propertyData.pro_city === "" && "Select City to add sub district"}
                                 value={propertyData.pro_sub_district}
                                 label="Sub District"
                                 onChange={(e) =>
@@ -801,7 +1014,7 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                {subDistrict
+                                {subDistrict && subDistrict
                                   .filter(
                                     (i) => i.district === propertyData.pro_city
                                   )
@@ -928,8 +1141,9 @@ const EditProperty = () => {
                             )}
                             <button
                               className="btn btn-primary"
-                              disabled={step2Disabled}
-                              onClick={handleNextStep}
+                              //disabled={step2Disabled}
+                              // onClick={handleNextStep}
+                              onClick={handleStep2}
                             >
                               Next
                             </button>
@@ -939,297 +1153,318 @@ const EditProperty = () => {
                         <div className="flex-col-sm mainDiv">
                           <h2>Property Details</h2>
 
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
+                          <div className="pro_flex pro_flex_1">
+                            <div className="w-100 m-1">
+                              <span className="pro_heading">
                                 Age of Property (in year)
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_age}
-                                label="Age of Property  (in year)"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_age: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"0-1"}>0-1</MenuItem>
-                                <MenuItem value={"1-3"}>1-3</MenuItem>
-                                <MenuItem value={"3-5"}>3-5</MenuItem>
-                                <MenuItem value={"5-10"}>5-10</MenuItem>
-                                <MenuItem value={"10+"}>10+</MenuItem>
-                              </Select>
-                              {propertyData.pro_age === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
-                                Number of Open Sides
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_open_sides}
-                                label="Number of Open Sides"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_open_sides: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"1"}>1</MenuItem>
-                                <MenuItem value={"2"}>2</MenuItem>
-                                <MenuItem value={"3"}>3</MenuItem>
-                                <MenuItem value={"4"}>4</MenuItem>
-                              </Select>
-                              {propertyData.pro_open_sides === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
+                              </span>
+                              <div className="d-flex flex-wrap ">
+                                {propertyAge.map((item) => (
+                                  <div
+                                    className={
+                                      propertyData.pro_age === item.value
+                                        ? "pro_radio_btn_1 pro_selected"
+                                        : "pro_radio_btn_1 "
+                                    }
+                                    onClick={(e) =>
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_age: item.value,
+                                      })
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step3 === true &&
+                                propertyData.pro_age === "" && (
+                                  <div className="error_msg">Required</div>
+                                )}
+                            </div>
                           </div>
 
                           {propertyData.pro_type.split(",")[1] !== "Land" && (
-                            <div className="pro_flex">
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
+                            <div className="pro_flex pro_flex_1">
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">
                                   Number of bedrooms
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_bedroom}
-                                  label="Number of bedrooms"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_bedroom: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"0"}>0</MenuItem>
-                                  <MenuItem value={"1"}>1</MenuItem>
-                                  <MenuItem value={"2"}>2</MenuItem>
-                                  <MenuItem value={"3"}>3</MenuItem>
-                                  <MenuItem value={"4"}>4</MenuItem>
-                                  <MenuItem value={"5+"}>5+</MenuItem>
-                                </Select>
-                                {(propertyData.pro_bedroom === "" ||
-                                  propertyData.pro_bedroom === 0) && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
+                                </span>
+                                <div className="d-flex ">
+                                  {propertyBedrooms.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_bedroom === item.value
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_bedroom: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_bedroom === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">
                                   Number of Washrooms
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_washrooms}
-                                  label="Number of Washrooms"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_washrooms: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"0"}>0</MenuItem>
-                                  <MenuItem value={"1"}>1</MenuItem>
-                                  <MenuItem value={"2"}>2</MenuItem>
-                                  <MenuItem value={"3"}>3</MenuItem>
-                                  <MenuItem value={"4"}>4</MenuItem>
-
-                                  <MenuItem value={"5+"}>5+</MenuItem>
-                                </Select>
-
-                                {(propertyData.pro_washrooms === "" ||
-                                  propertyData.pro_washrooms === 0) && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
+                                </span>
+                                <div className="d-flex ">
+                                  {propertyBedrooms.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_washrooms ===
+                                        item.value
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_washrooms: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_washrooms === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
                             </div>
                           )}
                           {propertyData.pro_type.split(",")[1] !== "Land" && (
-                            <div className="pro_flex">
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
+                            <div className="pro_flex pro_flex_1">
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">
                                   Number of Balconies
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_balcony}
-                                  label="Number of Balconies"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_balcony: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"0"}>0</MenuItem>
-                                  <MenuItem value={"1"}>1</MenuItem>
-                                  <MenuItem value={"2"}>2</MenuItem>
-                                  <MenuItem value={"3"}>3</MenuItem>
-                                  <MenuItem value={"4"}>4</MenuItem>
-
-                                  <MenuItem value={"5+"}>5+</MenuItem>
-                                </Select>
-                                {propertyData.pro_balcony === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
-                                  Car Parking
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_parking}
-                                  label="Car Parking"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_parking: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"0"}>0</MenuItem>
-                                  <MenuItem value={"1"}>1</MenuItem>
-                                  <MenuItem value={"2"}>2</MenuItem>
-                                  <MenuItem value={"3"}>3</MenuItem>
-                                  <MenuItem value={"4"}>4</MenuItem>
-                                  <MenuItem value={"5+"}>5+</MenuItem>
-                                </Select>
-                                {propertyData.pro_parking === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
+                                </span>
+                                <div className="d-flex ">
+                                  {propertyBedrooms.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_balcony.toString() ===
+                                        item.value.toString()
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_balcony: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_balcony === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
+                              {console.log(
+                                "propertyData.pro_balcony : ",
+                                propertyData.pro_balcony,
+                                propertyData.pro_bedroom,
+                                propertyData
+                              )}
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">Car Parking</span>
+                                <div className="d-flex ">
+                                  {propertyBedrooms.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_parking === item.value
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_parking: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_parking === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
                             </div>
                           )}
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
+                          <div className="pro_flex pro_flex_1">
+                            <div className="w-100 m-1 mb-3">
+                              <span className="pro_heading">
                                 Property Facing
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_facing}
-                                label="Property Facing"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_facing: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"North"}>North</MenuItem>
-                                <MenuItem value={"North-East"}>
-                                  North-East
-                                </MenuItem>
-                                <MenuItem value={"East"}>East</MenuItem>
-                                <MenuItem value={"South-East"}>
-                                  South-East
-                                </MenuItem>
-                                <MenuItem value={"South"}>South</MenuItem>
-                                <MenuItem value={"South-West"}>
-                                  South-West
-                                </MenuItem>
-                                <MenuItem value={"West"}>West</MenuItem>
-                                <MenuItem value={"North-West"}>
-                                  North-West
-                                </MenuItem>
-                              </Select>
-                              {propertyData.pro_facing === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
-
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
-                                Possession Available
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_possession}
-                                label="Possession Available"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_possession: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"Immediate"}>
-                                  Immediate
-                                </MenuItem>
-                                <MenuItem value={"0-3 Month"}>
-                                  0-3 Month
-                                </MenuItem>
-                                <MenuItem value={"3-6 Month"}>
-                                  3-6 Month
-                                </MenuItem>
-                                <MenuItem value={"After 6 Months"}>
-                                  After 6 Months
-                                </MenuItem>
-                              </Select>
-                              {propertyData.pro_possession === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
+                              </span>
+                              <div className="d-flex flex-wrap ">
+                                {propertyFacing.map((item) => (
+                                  <div
+                                    className={
+                                      propertyData.pro_facing === item.value
+                                        ? "pro_radio_btn_1 pro_selected"
+                                        : "pro_radio_btn_1"
+                                    }
+                                    onClick={() =>
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_facing: item.value,
+                                      })
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step3 === true &&
+                                propertyData.pro_facing === "" && (
+                                  <div className="error_msg">Required</div>
+                                )}
+                            </div>
                           </div>
 
+                          {propertyData.pro_type.split(",")[1] !== "Land" && (
+                            <div className="pro_flex pro_flex_1">
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">Furnishing</span>
+                                <div className="d-flex flex-wrap ">
+                                  {propertyFurnishing.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_furnishing ===
+                                        item.value
+                                          ? "pro_radio_btn_1 pro_selected"
+                                          : "pro_radio_btn_1"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_furnishing: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_furnishing === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
+                            </div>
+                          )}
+                          <div className="pro_flex pro_flex_1">
+                            <div className="w-100 m-1 mb-3">
+                              <span className="pro_heading">
+                                Possession Available
+                              </span>
+                              <div className="d-flex flex-wrap ">
+                                {propertyPossession.map((item) => (
+                                  <div
+                                    className={
+                                      propertyData.pro_possession === item.value
+                                        ? "pro_radio_btn_1 pro_selected"
+                                        : "pro_radio_btn_1"
+                                    }
+                                    onClick={() =>
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_possession: item.value,
+                                      })
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step3 === true &&
+                                propertyData.pro_possession === "" && (
+                                  <div className="error_msg">Required</div>
+                                )}
+                            </div>
+                          </div>
+
+                          {propertyData.pro_type.split(",")[1] !== "Land" && (
+                            <div className="pro_flex pro_flex_1">
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">
+                                  Number of Floors
+                                </span>
+                                <div className="d-flex ">
+                                  {propertyBedrooms.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_floor === item.value
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_floor: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_floor === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
+
+                              <div className="w-100 m-1 mb-3">
+                                <span className="pro_heading">
+                                  Number of Open Sides
+                                </span>
+                                <div className="d-flex ">
+                                  {propertySides.map((item) => (
+                                    <div
+                                      className={
+                                        propertyData.pro_open_sides ===
+                                        item.value
+                                          ? "pro_radio_btn pro_selected"
+                                          : "pro_radio_btn"
+                                      }
+                                      onClick={() =>
+                                        setPropertyData({
+                                          ...propertyData,
+                                          pro_open_sides: item.value,
+                                        })
+                                      }
+                                    >
+                                      {item.value}
+                                    </div>
+                                  ))}
+                                </div>
+                                {step3 === true &&
+                                  propertyData.pro_open_sides === "" && (
+                                    <div className="error_msg">Required</div>
+                                  )}
+                              </div>
+                            </div>
+                          )}
                           <div className="pro_flex">
                             <TextField
                               sx={{ m: 1, mr: 0, width: ["70%"] }}
@@ -1244,6 +1479,7 @@ const EditProperty = () => {
                               value={propertyData.pro_area_size}
                               FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
+                                step3 === true &&
                                 propertyData.pro_area_size === ""
                                   ? "Required"
                                   : ""
@@ -1369,79 +1605,6 @@ const EditProperty = () => {
                             />
                           </div>
 
-                          {propertyData.pro_type.split(",")[1] !== "Land" && (
-                            <div className="pro_flex">
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
-                                  Number of Floors
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_floor}
-                                  label="Number of Floors"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_floor: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"0"}>0</MenuItem>
-                                  <MenuItem value={"1"}>1</MenuItem>
-                                  <MenuItem value={"2"}>2</MenuItem>
-                                  <MenuItem value={"3"}>3</MenuItem>
-                                  <MenuItem value={"4"}>4</MenuItem>
-
-                                  <MenuItem value={"5+"}>5+</MenuItem>
-                                </Select>
-                                {propertyData.pro_floor === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
-                                  Furnishing
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_furnishing}
-                                  label="Furnishing"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_furnishing: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value={"Semi Furnished"}>
-                                    Semi Furnished
-                                  </MenuItem>
-                                  <MenuItem value={"Fully Furnished"}>
-                                    Fully Furnished
-                                  </MenuItem>
-                                  <MenuItem value={"Unfurnished"}>
-                                    Unfurnished
-                                  </MenuItem>
-                                </Select>
-                                {propertyData.pro_furnishing === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-                            </div>
-                          )}
                           <div className="">
                             <input
                               multiple
@@ -1511,9 +1674,10 @@ const EditProperty = () => {
                               ""
                             )}
                             <button
-                              className="btn btn-primary"
-                              disabled={step3Disabled}
-                              onClick={handleNextStep}
+                              className="btn continue-btn"
+                              //disabled={step3Disabled}
+                              //onClick={handleNextStep}
+                              onClick={handleStep3}
                             >
                               Next
                             </button>
@@ -1522,70 +1686,65 @@ const EditProperty = () => {
                       ) : activeStep === 3 ? (
                         <div className="flex-col mainDiv">
                           <h2>Pricing and Others</h2>
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
-                                Ownership
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_ownership_type}
-                                label="Ownership"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_ownership_type: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"Ownership"}>
-                                  Ownership
-                                </MenuItem>
-                                <MenuItem value={"Power of Attorney"}>
-                                  Power of Attorney
-                                </MenuItem>
-                              </Select>
-                              {propertyData.pro_ownership_type === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
+                          <div className="pro_flex pro_flex_1 mb-3">
+                            <div className="w-100 m-1">
+                              <span className="pro_heading">Ownership</span>
+                              <div className="d-flex flex-wrap ">
+                                {propertyOwnership.map((item) => (
+                                  <div
+                                    className={
+                                      propertyData.pro_ownership_type ===
+                                      item.value
+                                        ? "pro_radio_btn_1 pro_selected"
+                                        : "pro_radio_btn_1 "
+                                    }
+                                    onClick={(e) =>
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_ownership_type: item.value,
+                                      })
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step4 === true &&
+                                propertyData.pro_ownership_type === "" && (
+                                  <div className="error_msg pb-0">Required</div>
+                                )}
+                            </div>
+                          </div>
 
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
+                          <div className="pro_flex pro_flex_1 mb-3">
+                            <div className="w-100 m-1">
+                              <span className="pro_heading">
                                 Authority Approved
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_approval}
-                                label="Authority Approved"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_approval: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value={"HSVP"}>HSVP</MenuItem>
-                                <MenuItem value={"MC"}>MC</MenuItem>
-                                <MenuItem value={"DTP"}>DTP</MenuItem>
-                                <MenuItem value={"Other"}>Other</MenuItem>
-                              </Select>
-                              {propertyData.pro_approval === "" && (
-                                <FormHelperText sx={{ color: "red" }}>
-                                  Required
-                                </FormHelperText>
-                              )}
-                            </FormControl>
+                              </span>
+                              <div className="d-flex flex-wrap ">
+                                {propertyAuthority.map((item) => (
+                                  <div
+                                    className={
+                                      propertyData.pro_approval === item.value
+                                        ? "pro_radio_btn_1 pro_selected"
+                                        : "pro_radio_btn_1 "
+                                    }
+                                    onClick={(e) =>
+                                      setPropertyData({
+                                        ...propertyData,
+                                        pro_approval: item.value,
+                                      })
+                                    }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              {step4 === true &&
+                                propertyData.pro_approval === "" && (
+                                  <div className="error_msg pb-0">Required</div>
+                                )}
+                            </div>
                           </div>
 
                           <div className="pro_flex">
@@ -1640,7 +1799,7 @@ const EditProperty = () => {
                             </FormControl>
                           </div>
 
-                          <div className="pro_flex">
+                          {/* <div className="pro_flex">
                             <FormControl
                               sx={{ m: 1, width: ["100%"] }}
                               size="small"
@@ -1698,6 +1857,49 @@ const EditProperty = () => {
                                 </FormHelperText>
                               )}
                             </FormControl>
+                          </div> */}
+                          <div className="pro_flex pro_flex_1">
+                            <div className="w-100 ">
+                              <span className="pro_heading">
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 8 }}
+                                  checked={propertyData.pro_negotiable === "Yes" ? true : false}
+                                  onClick={() => {
+                                    setPropertyData({
+                                      ...propertyData,
+                                      pro_negotiable:
+                                        propertyData.pro_negotiable === "Yes"
+                                          ? "No"
+                                          : "Yes",
+                                    });
+                                  }}
+                                />{" "}
+                                Price Negotiable
+                              </span>
+                            </div>
+
+                            <div className="w-100 ">
+                              <span className="pro_heading">
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  checked={propertyData.pro_rental_status === "Yes" ? true : false}
+                                  style={{ marginRight: 8 }}
+                                  onClick={() => {
+                                    setPropertyData({
+                                      ...propertyData,
+                                      pro_rental_status:
+                                        propertyData.pro_rental_status === "Yes"
+                                          ? "No"
+                                          : "Yes",
+                                    });
+                                  }}
+                                />{" "}
+                                Already on Rented
+                              </span>
+                            </div>
                           </div>
 
                           <div>
@@ -1742,9 +1944,10 @@ const EditProperty = () => {
                               ""
                             )}
                             <button
-                              className="btn btn-primary"
-                              disabled={submitDisabled}
-                              onClick={handleClick}
+                              className="btn continue-btn"
+                              //disabled={submitDisabled}
+                              //onClick={handleClick}
+                              onClick={handleStep4}
                             >
                               Edit Property
                             </button>

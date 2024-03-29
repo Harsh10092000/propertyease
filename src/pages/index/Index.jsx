@@ -4,6 +4,7 @@ import {
   IconCircleArrowRightFilled,
   IconHome,
   IconHomePlus,
+  IconPlus,
   IconMapPinFilled,
   IconSend,
 } from "@tabler/icons-react";
@@ -449,6 +450,7 @@ const Index = () => {
             </div>
           </div>
         </section>
+       
         <section className="promation">
           <div className="container">
             <div className="row">
@@ -471,8 +473,10 @@ const Index = () => {
                     title="List Property"
                   >
                     <div className="btn btn-primary w-75 d-flex justify-content-center align-items-center gap-4">
-                      <IconHomePlus />
-                      &nbsp; Add Property
+                      {/* <IconHomePlus />
+                      &nbsp; Add Property */}
+                      <IconPlus />
+                      &nbsp; List Property
                     </div>
                   </Link>
                 </div>

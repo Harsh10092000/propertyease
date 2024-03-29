@@ -15542,12 +15542,13 @@ input[type="file"] {
 }
 
 .signup-form .pro_flex_1 {
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
 }
 
 @media screen and (max-width: 480px) {
   .signup-form .pro_flex {
     display: block;
+    /* margin-bottom: 32px; */
   }
 
   .signup-form .pro_flex_select {
@@ -16048,42 +16049,85 @@ section.find-services {
 .pro_radio_btn {
   border: 1px solid rgb(153, 153, 153);
   /* border-radius: 20px; */
-  padding: 9px 20px;
+  padding: 8px 15px;
   min-width: 50px;
   /* margin: 0px 15px 5px 0px; */
   transition: all 0.2s ease-out 0s;
   text-align: center;
   border-left: 0;
+  cursor: pointer;
 }
 
-.pro_radio_btn_first {
+/* .pro_radio_btn_first {
   border-left: 1px solid rgb(153, 153, 153);
-  
+} */
+
+.pro_radio_btn:first-child {
+  border-left: 1px solid rgb(153, 153, 153);
+  /* border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px; */
 }
 
 .pro_radio_btn_1 {
   border: 1px solid rgb(153, 153, 153);
   border-radius: 20px;
-  padding: 9px 20px;
-  min-width: 100px;
+  padding: 8px 15px;
   margin: 0px 15px 5px 0px;
   transition: all 0.2s ease-out 0s;
   text-align: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pro_radio_btn_1:hover {
+  border-color: 	#696969;
+  background-color: 	#E8E8E8;
+  color: black;
 }
 
 .pro_heading{
-
   font-size: 16px;
   line-height: 20px;
   font-weight: 600;
-  /* color: #091E42; */
   color: black;
   display: block;
   text-align: left;
   margin-bottom: 12px;
+  width: 100%;
 }
 
 .pro_selected {
- background-color: #f0f9ff;
- font-weight: 700;
+ background-color:#cfecf7;
+ font-weight: 600;
+ border-color: #62c1e5;
+ color: black;
 }
+
+.pro_selected:hover {
+  background-color: #a0d9ef;
+  border-color: #62c1e5;
+ }
+
+ .continue-btn {
+  background-color: #24A2D4;
+  color: white;
+  font-weight: 700;
+  padding: 10px 20px;
+  
+ }
+
+ .continue-btn:hover {
+  background-color: #186C8D;
+  color: white;
+  font-weight: 700;
+  
+ }
+
+ .error_msg {
+  color: red;
+  padding-bottom: 10px;
+  font-size: 12px;
+  padding-top: 4px;
+  padding-left: 14px;
+ }

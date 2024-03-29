@@ -262,7 +262,7 @@ const Footer = () => {
               </div>
               <div className="col-md-2">
                 <div className="categores-displays">
-                  <p className="fontBig">Corporate Links</p>
+                  <p className="fontBig">Quick Links</p>
                   <ul>
                     <li>
                       <Link to="/about">
