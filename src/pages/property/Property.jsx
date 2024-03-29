@@ -122,10 +122,10 @@ const Property = () => {
     //     data.pro_locality ? data.pro_locality + ", " : ""
     //   }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
     //     data.pro_city
-    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home. 
-    //   The property is ideal for multiple-purpose use because of the good connectivity with the city. 
-    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice. 
-    //   Flexible zoning for different property uses. Low taxes and HOA fees. 
+    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home.
+    //   The property is ideal for multiple-purpose use because of the good connectivity with the city.
+    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice.
+    //   Flexible zoning for different property uses. Low taxes and HOA fees.
     //   This is an excellent chance to invest in or build your peaceful natural hideaway.`,
     // },
     // {
@@ -136,10 +136,10 @@ const Property = () => {
     //     data.pro_locality ? data.pro_locality + ", " : ""
     //   }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
     //     data.pro_city
-    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home. 
-    //   The property is ideal for multiple-purpose use because of the good connectivity with the city. 
-    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice. 
-    //   Flexible zoning for different property uses. Low taxes and HOA fees. 
+    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home.
+    //   The property is ideal for multiple-purpose use because of the good connectivity with the city.
+    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice.
+    //   Flexible zoning for different property uses. Low taxes and HOA fees.
     //   This is an excellent chance to invest in or build your peaceful natural hideaway.`,
     // },
 
@@ -160,13 +160,13 @@ const Property = () => {
 
     {
       type: "Independent House",
-      description: `This stunning ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-        data.pro_city
-      } is a total 
+      description: `This stunning ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${data.pro_city} is a total 
       showstopper when you pull up. Its open layout is perfect for entertaining, with huge windows that flood the place with natural 
       light. 
       The kitchen will make you want to quit your job and become a chef. It has premium appliances and a gorgeous island just for 
@@ -194,11 +194,13 @@ const Property = () => {
     },
     {
       type: "Farm HouseRaw House",
-      description: `Checkout the ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
+      description: `Checkout the ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${
         data.pro_city
       }, it is an absolute blank canvas ready for your creativity! It 
     needs some TLC, but that's the fun part. Imagine stripping it down and making it exactly how you want - a concept kitchen with a 
@@ -213,13 +215,15 @@ const Property = () => {
     {
       type: "Retirement Community",
       description: `Discover a vibrant community designed exclusively for those seeking an active and 
-    enriching retirement lifestyle. This ${data.pro_area_size} ${data.pro_area_size_unit} ${
-      data.pro_type ? data.pro_type.split(",")[0] : ""
-    } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-      data.pro_locality ? data.pro_locality + ", " : ""
-    }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-      data.pro_city
-    } offers an array of amenities tailored to promote well-being and social connections. 
+    enriching retirement lifestyle. This ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${
+        data.pro_city
+      } offers an array of amenities tailored to promote well-being and social connections. 
 
     Enjoy a maintenance-free lifestyle in beautifully appointed homes while enjoying access to the best recreational facilities. 
     Experience a carefree and fulfilling retirement in this warm and welcoming community.
@@ -232,23 +236,23 @@ const Property = () => {
     or couples a convenient and often affordable housing option.
 
     This ${data.pro_area_size} ${data.pro_area_size_unit} ${
-      data.pro_type ? data.pro_type.split(",")[0] : ""
-    } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-      data.pro_locality ? data.pro_locality + ", " : ""
-    }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-      data.pro_city
-    } will meet all your expectations and requirements. If you are interested, Contact us now.
-    `,
-    },
-    {
-      type: "Residential Land",
-      description: `Check-out ${data.pro_area_size} ${data.pro_area_size_unit} ${
         data.pro_type ? data.pro_type.split(",")[0] : ""
       } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
         data.pro_locality ? data.pro_locality + ", " : ""
       }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
         data.pro_city
-      }.
+      } will meet all your expectations and requirements. If you are interested, Contact us now.
+    `,
+    },
+    {
+      type: "Residential Land",
+      description: `Check-out ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${data.pro_city}.
      Its neighborhood is great for a dream home. Located near the supermarket. A lovely backyard was recently renovated, with a 
      patio ideal for entertaining guests. Good schools, parks, and shops are nearby. Whether you are moving in tomorrow or today, 
      this house is ready to be occupied. If you want a residential property at a key location, contact us now!
@@ -271,13 +275,13 @@ const Property = () => {
     },
     {
       type: "Industrial Land",
-      description: `Check out the ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-        data.pro_city
-      } set 
+      description: `Check out the ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${data.pro_city} set 
     aside for factories, warehouses, and other large workplaces. It is located in areas with good roads, power, and water for big 
     buildings and machinery. The lots are big enough to fit the manufacturing plants and storage facilities. 
 
@@ -288,13 +292,13 @@ const Property = () => {
     {
       type: "Agricultural Land",
       description: `When we refer to agricultural land, we mean areas where people grow crops, raise livestock, and 
-      do other farming activities. Get the ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-        data.pro_city
-      } in 
+      do other farming activities. Get the ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${data.pro_city} in 
       rural or semi-rural settings. These lands have ample space for seedbeds and pasturing. 
       Zoning laws prevent non-agricultural uses on these lands to maintain the purpose and the continuation of food production 
       in an agricultural economy. If you are interested in this land, contact us now. 
@@ -321,18 +325,20 @@ const Property = () => {
     showcased to potential customers. It is a physical location for retailers to present their offerings, allowing customers to
      view, inspect, and experience the products in person. 
     Check this amazing place ${data.pro_area_size} ${data.pro_area_size_unit} ${
-      data.pro_type ? data.pro_type.split(",")[0] : ""
-    } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-      data.pro_locality ? data.pro_locality + ", " : ""
-    }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-      data.pro_city
-    }, for a perfect 
+        data.pro_type ? data.pro_type.split(",")[0] : ""
+      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
+        data.pro_locality ? data.pro_locality + ", " : ""
+      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
+        data.pro_city
+      }, for a perfect 
     start to your business. Contact us for more details.
     `,
     },
     {
       type: "Commercial Building",
-      description: `Rare opportunity to own a well-maintained ${data.pro_area_size} ${data.pro_area_size_unit} ${
+      description: `Rare opportunity to own a well-maintained ${
+        data.pro_area_size
+      } ${data.pro_area_size_unit} ${
         data.pro_type ? data.pro_type.split(",")[0] : ""
       } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
         data.pro_locality ? data.pro_locality + ", " : ""
@@ -347,11 +353,13 @@ const Property = () => {
     },
     {
       type: "Office Complex",
-      description: `Check this prime ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
+      description: `Check this prime ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${
         data.pro_city
       }, It is a real gem in the city's heart. Its sleek, modern design 
     and floor-to-ceiling windows make it a bright and inspiring workplace. The open layouts encourage collaboration, while 
@@ -362,13 +370,13 @@ const Property = () => {
     },
     {
       type: "Software Technology Park",
-      description: `This innovative ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-        data.pro_city
-      } is home to some of the brightest minds in tech. 
+      description: `This innovative ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${data.pro_city} is home to some of the brightest minds in tech. 
     The vibe is amazing, with startups and established companies collaborating under one roof. The spaces are designed for productivity. 
     Whether you're a coding guru or the next Zuckerberg, this park has everything you need to improve your software game. 
     For more details, please contact us. 
@@ -391,11 +399,13 @@ const Property = () => {
     },
     {
       type: "Industrial Estate",
-      description: `Checkout this ${data.pro_area_size} ${data.pro_area_size_unit} ${
-        data.pro_type ? data.pro_type.split(",")[0] : ""
-      } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-        data.pro_locality ? data.pro_locality + ", " : ""
-      }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
+      description: `Checkout this ${data.pro_area_size} ${
+        data.pro_area_size_unit
+      } ${data.pro_type ? data.pro_type.split(",")[0] : ""} for ${
+        data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+      } in ${data.pro_locality ? data.pro_locality + ", " : ""}${
+        data.pro_sub_district ? data.pro_sub_district + ", " : ""
+      }${
         data.pro_city
       }, made for hard-working contractors like you. Its location is 
     prime real estate with easy access to all the major roads and highways. The utilities include heavy-duty power, water, and 
@@ -669,9 +679,9 @@ const Property = () => {
                             {data.pro_type ? data.pro_type.split(",")[0] : ""}{" "}
                             For
                             {" " + data.pro_ad_type} in{" "}
-                            <span className="text-capitalize">
+                            {/* <span className="text-capitalize"> */}
                               {data.pro_locality + ","}
-                            </span>
+                            {/* </span> */}
                             {data.pro_sub_district
                               ? data.pro_sub_district + ", "
                               : ""}

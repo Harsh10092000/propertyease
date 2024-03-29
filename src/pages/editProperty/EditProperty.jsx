@@ -195,26 +195,39 @@ const EditProperty = () => {
           pro_plot_no: res.data[0].pro_plot_no,
           pro_street: res.data[0].pro_street,
           pro_age: res.data[0].pro_age,
-          pro_floor: res.data[0].pro_floor === 0 ? "" : res.data[0].pro_floor,
+          pro_floor: res.data[0].pro_floor === 5 ? res.data[0].pro_floor + "+" : res.data[0].pro_floor,
+          // pro_bedroom:
+          //   res.data[0].pro_bedroom === 0 ? "" : res.data[0].pro_bedroom,
+
+          // pro_washrooms:
+          //   res.data[0].pro_washrooms === 0 ? "" : res.data[0].pro_washrooms,
           pro_bedroom:
-            res.data[0].pro_bedroom === 0 ? "" : res.data[0].pro_bedroom,
+            res.data[0].pro_bedroom === 5 ? res.data[0].pro_bedroom + "+" : res.data[0].pro_bedroom,
 
           pro_washrooms:
-            res.data[0].pro_washrooms === 0 ? "" : res.data[0].pro_washrooms,
+            res.data[0].pro_washrooms === 5 ? res.data[0].pro_washrooms + "+" : res.data[0].pro_washrooms,
           //pro_bedroom: res.data[0].pro_bedroom,
           //pro_washrooms: res.data[0].pro_washrooms,
+          //pro_balcony: res.data[0].pro_balcony,
+          //pro_parking: res.data[0].pro_parking,
+          // pro_balcony:
+          //   res.data[0].pro_balcony === 0 ? "" : res.data[0].pro_balcony,
+          // pro_parking:
+          //   res.data[0].pro_parking === 0 ? "" : res.data[0].pro_parking,
           pro_balcony:
-            res.data[0].pro_balcony === 0 ? "" : res.data[0].pro_balcony,
+            res.data[0].pro_balcony === 5 ? res.data[0].pro_balcony + "+" : res.data[0].pro_balcony,
           pro_parking:
-            res.data[0].pro_parking === 0 ? "" : res.data[0].pro_parking,
+            res.data[0].pro_parking === 5 ? res.data[0].pro_parking + "+" : res.data[0].pro_parking,
           pro_facing: res.data[0].pro_facing,
           pro_area_size: res.data[0].pro_area_size,
 
           pro_width: res.data[0].pro_width,
           pro_length: res.data[0].pro_length,
           pro_facing_road_width: res.data[0].pro_facing_road_width,
+          // pro_open_sides:
+          //   res.data[0].pro_open_sides === 0 ? "" : res.data[0].pro_open_sides,
           pro_open_sides:
-            res.data[0].pro_open_sides === 0 ? "" : res.data[0].pro_open_sides,
+            res.data[0].pro_open_sides ,
           pro_furnishing: res.data[0].pro_furnishing,
 
           pro_ownership_type: res.data[0].pro_ownership_type,
@@ -255,6 +268,9 @@ const EditProperty = () => {
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const maxFileSize = 1000000;
   const minFileSize = 10000;
+
+
+  console.log("propertyData : " , propertyData);
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
@@ -1194,14 +1210,14 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_bedroom === item.value
+                                        propertyData.pro_bedroom.toString() === item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
                                       onClick={() =>
                                         setPropertyData({
                                           ...propertyData,
-                                          pro_bedroom: item.value,
+                                          pro_bedroom: item.value.toString(),
                                         })
                                       }
                                     >
@@ -1222,15 +1238,15 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_washrooms ===
-                                        item.value
+                                        propertyData.pro_washrooms.toString() ===
+                                        item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
                                       onClick={() =>
                                         setPropertyData({
                                           ...propertyData,
-                                          pro_washrooms: item.value,
+                                          pro_washrooms: item.value.toString(),
                                         })
                                       }
                                     >
@@ -1288,7 +1304,7 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_parking === item.value
+                                        propertyData.pro_parking.toString() === item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
@@ -1413,7 +1429,7 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_floor === item.value
+                                        propertyData.pro_floor.toString() === item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
@@ -1442,8 +1458,8 @@ const EditProperty = () => {
                                   {propertySides.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_open_sides ===
-                                        item.value
+                                        propertyData.pro_open_sides.toString() ===
+                                        item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
