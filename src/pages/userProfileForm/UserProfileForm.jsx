@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TextField,
   InputAdornment,
@@ -14,8 +14,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { IconSquareCheckFilled, IconSquare, IconX } from "@tabler/icons-react";
 import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
 const UserProfileForm = () => {
+  const [loader, setLoader] = useState(false);
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
   const propertyType = [
@@ -192,11 +195,55 @@ const UserProfileForm = () => {
     //.then((res) => addImages(res.data));
   };
 
+
+  const navigate = useNavigate();
+  const [a, setA] = useState();
+  const insertId = useRef();
+  // const handleClick = async (e) => {
+  //   e.preventDefault();
+  //   setLoader(true);
+  //   try {
+  //     userData.user_work_area = workArea?.map((item) => item.type).join(", ");
+  //     userData.user_image = selectedFiles !== null ? selectedFiles[0] : "";
+  //     const formData = new FormData();
+      
+  //     formData.append("image", selectedFiles[0]);
+  //     formData.append("user_type", userData.user_type);
+  //     formData.append("user_name", userData.user_name);
+  //     formData.append("user_email", userData.user_email);
+  //     formData.append("user_phone", userData.user_phone);
+  //     formData.append("user_exp", userData.user_exp);
+  //     formData.append("user_state", userData.user_state);
+  //     formData.append("user_city", userData.user_city);
+  //     formData.append("user_locality", userData.user_locality);
+  //     formData.append("user_sub_district", userData.user_sub_district);
+  //     formData.append("user_work_area", userData.user_work_area);
+  //     formData.append("user_work_state", JSON.stringify(userData.user_work_state));
+  //     formData.append("user_work_city", JSON.stringify(userData.user_work_city));
+  //     formData.append("user_work_sub_district", JSON.stringify(userData.user_work_sub_district));
+  //     formData.append("user_comapnay_name", userData.user_comapnay_name);
+  //     formData.append("user_company_website", userData.user_company_website);
+  //     formData.append("user_desc", userData.user_desc);
+  //     formData.append("user_image", userData.user_image);
+  //     console.log("userData.user_work_city : " , userData.user_work_city , ...formData)
+  //     await axios.post(
+  //       import.meta.env.VITE_BACKEND + "/api/agent/addAgent",
+  //       formData
+  //     )
+  //     .then((res) => (insertId.current = res.data));
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   setLoader(false);
+  //   navigate(`/agentProfile/${insertId.current}`);
+  // };
+
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       userData.user_work_area = workArea?.map((item) => item.type).join(", ");
-      userData.user_image = selectedFiles[0]?.name;
+      userData.user_image = selectedFiles !== null ? selectedFiles[0].name : "";
       const formData = new FormData();
       
       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
@@ -221,20 +268,21 @@ const UserProfileForm = () => {
       await axios.post(
         import.meta.env.VITE_BACKEND + "/api/agent/addAgent",
         formData
-      );
-      changeChange();
-      props.snack();
+      ).then((res) => (insertId.current = res.data));
+      setLoader(false);
+      navigate(`/agentProfile/${insertId.current}`);
     } catch (err) {
       console.log(err);
     }
   };
-  
- 
-    
 
-  console.log("userData : ", userData);
+  const removeImage = () => {
+    setSelectedFiles(null);
+  }
+
   return (
     <div>
+      {loader ? <Loader /> : ""}
       <div className="user-profile-form-wrapper ">
         <div className=" user-profile-form-heading ">Complete Your Profile</div>
         <div className="pl-2 pt-2 pb-2">
@@ -928,7 +976,7 @@ const UserProfileForm = () => {
               // ? files.map((item) => (
                   <div className="d-flex file-name-wrapper justify-content-between  ">
                     <div className="file-name">{selectedFiles[0].name}</div>
-                    <div className="pointer text-danger"><IconX /></div>
+                    <div className="pointer text-danger" onClick={removeImage}><IconX /></div>
                   </div>
                // ))
                : ""
