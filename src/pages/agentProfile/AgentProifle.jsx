@@ -377,7 +377,18 @@ const AgentProifle = () => {
                         <div className="card-block">
                           <div className="profilepict ">
                             {" "}
-                            <img src="/img/person.jpg" />
+                            {agentData.agent_image ? (
+                                <img
+                                  src={`${
+                                    import.meta.env.VITE_BACKEND
+                                  }/userImages/${
+                                    agentData.agent_image
+                                  }`}
+                                  alt="img"
+                                />
+                              ) : (
+                                <img src="/img/person.jpg"  />
+                              )}
                           </div>
                           <div className="agentdetail">
                             <h3>
