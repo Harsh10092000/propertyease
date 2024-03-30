@@ -124,12 +124,12 @@ const AgentProifle = () => {
                           <div className="profile-left">
                             <div className="profile-pict">
                               {/* <img src="/img/person.jpg"  /> */}
-                              {agentData.agent_inage ? (
+                              {agentData.agent_image ? (
                                 <img
                                   src={`${
                                     import.meta.env.VITE_BACKEND
                                   }/public/userImages/${
-                                    agentData.agent_inage
+                                    agentData.agent_image
                                   }`}
                                   alt="img"
                                 />
