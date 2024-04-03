@@ -16,13 +16,26 @@ import {
   IconBriefcase,
   IconWorld,
   IconBrandInstagram,
+  IconAsterisk,
 } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { regEx } from "../regEx";
+import { InputAdornment, Snackbar } from "@mui/material";
+import { AuthContext } from "../../context/AuthContext";
+import Loader from "../../components/loader/Loader";
 
 const AgentProifle = () => {
+  const { currentUser } = useContext(AuthContext);
   const { agentId } = useParams();
+  const propertyUserType = [
+    { value: "Buy" },
+    { value: "Sale" },
+    { value: "Rent" },
+  ];
+
+  const [snack, setSnack] = useState(false);
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -32,9 +45,21 @@ const AgentProifle = () => {
       setSticky(false);
     }
   };
+
   //const agentId = 20;
   const [agentData, setAgentData] = useState();
   const [agentWorkPlaceData, setAgentWorkPlaceData] = useState();
+  const [agentWorkPlaceState, setAgentWorkPlaceState] = useState("");
+  const [properties, setProperties] = useState([]);
+  const [latestProperties, setLatestProperties] = useState([]);
+  const userId = 13;
+
+  const propertyType = [
+    { type: "View Residentail Properties", link: "/property/residential" },
+    { type: "View Commerical Properties", link: "/property/commercial" },
+    { type: "View Land/Plots Properties", link: "/property/land" },
+  ];
+
   useEffect(() => {
     axios
       .get(
@@ -51,9 +76,35 @@ const AgentProifle = () => {
       .then((res) => {
         setAgentWorkPlaceData(res.data);
       });
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchAgentWorkState/${agentId}`
+      )
+      .then((res) => {
+        setAgentWorkPlaceState(res.data[0].work_state);
+      });
+    axios
+      // .get(
+      //   import.meta.env.VITE_BACKEND +
+      //     `/api/agent/fetchpPropertiesByUser/${currentUser[0].login_id}`
+      // )
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchpPropertiesByUser/${userId}`
+      )
+      .then((res) => {
+        setProperties(res.data);
+      });
+
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchLatestProperty`)
+      .then((res) => {
+        setLatestProperties(res.data);
+      });
   }, []);
 
-  console.log(agentData, agentWorkPlaceData);
+  // console.log(agentData, agentWorkPlaceData);
   //   {
   //     "agent_id": 5,
   //     "agent_name": "Haesh",
@@ -69,17 +120,93 @@ const AgentProifle = () => {
   //     "agent_desc": "testing"
   // }
 
-  const solitDistrict = (value) => {
+  const splitDistrict = (value) => {
     const a = value.split(",");
     return a.map((item) => {
-      return <span>{item}</span>; 
+      return <span>{item}</span>;
     });
   };
+
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    queryType: "",
+  });
+
+  const handleSubmit = async () => {
+    setLoader(true);
+    try {
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/contact/contactAgent",
+        data
+      );
+      setLoader(false);
+      setSnack(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log("data : " , data)
+
+  const handleSnack = () => {
+    setSnack(false);
+  };
+
+  const [step, setStep] = useState(false);
+  const handleStep = () => {
+    if (
+      data.name !== "" &&
+      data.phone.length > 9 &&
+      emailError === false &&
+      data.queryType !== ""
+    ) {
+      setStep(false);
+      handleSubmit();
+    } else {
+      setStep(true);
+    }
+  };
+
+
+  
+  const [loader, setLoader] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [emailError, setEmailError] = useState(true);
+  useEffect(() => {
+    if (!regEx[0].emailRegex.test(data.email)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }, [data.email]);
+
+  useEffect(() => {
+    if (emailError === false && data.name !== "" && data.phone.length > 9) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [data, emailError]);
 
   return (
     <div>
       <Navbar />
-
+      {loader ? <Loader /> : ""}
+        <Snackbar
+          ContentProps={{
+            sx: {
+              background: "green",
+              color: "white",
+            },
+          }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snack}
+          autoHideDuration={1000}
+          onClose={handleSnack}
+          message="We Will Contact you soon !.."
+        />
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -97,20 +224,25 @@ const AgentProifle = () => {
                         </a>
                       </Link>
                     </li>
+
                     <li>
                       <Link>
                         <a>
-                          Real Estate Agents in Kurukshetra
+                          Real Estate Agents in {agentData.agent_state}
                           <IconChevronRight className="sidebar-faicon" />
                         </a>
                       </Link>
                     </li>
-                    <li>
-                      Real Estate Agents in {agentData.agent_city}{" "}
-                      <span>
-                        <IconChevronRight className="sidebar-faicon" />
-                      </span>
-                    </li>
+
+                    {agentData.agent_city !== "" && (
+                      <li>
+                        Real Estate Agents in {agentData.agent_city}
+                        <span>
+                          <IconChevronRight className="sidebar-faicon" />
+                        </span>
+                      </li>
+                    )}
+
                     <li>{agentData.agent_name}</li>
                   </ul>
 
@@ -124,78 +256,78 @@ const AgentProifle = () => {
                           <div className="profile-left">
                             <div className="profile-pict">
                               {/* <img src="/img/person.jpg"  /> */}
-                             
+
                               {agentData.agent_image ? (
                                 <img
                                   src={`${
                                     import.meta.env.VITE_BACKEND
-                                  }/userImages/${
-                                    agentData.agent_image
-                                  }`}
+                                  }/userImages/${agentData.agent_image}`}
                                   alt="img"
                                 />
                               ) : (
-                                <img src="/img/person.jpg"  />
+                                <img src="/img/person.jpg" />
                               )}
                             </div>
-                            <div className="profile-info">
-                              <h1 className="capitalize  pl-md-0 d-flex gap-3 align-items-center">
-                                {agentData.agent_name}
-                              </h1>
-                              <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
-                                {agentData.agent_locality +
-                                  ", " +
-                                  agentData.agent_sub_district +
-                                  ", " +
-                                  agentData.agent_city +
-                                  ", " +
-                                  agentData.agent_state}
+                            <div className="profile-info d-flex justify-content-between w-100">
+                              <div>
+                                <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center agent-name">
+                                  {agentData.agent_name}
+                                </h1>
+                                <div className="property-top-address pl-md-0 pb-0 text-capitalize ">
+                                  <span>
+                                    {agentData.agent_locality &&
+                                      agentData.agent_locality + ", "}
+                                  </span>
+                                  <span>
+                                    {agentData.agent_sub_district &&
+                                      agentData.agent_sub_district + ", "}
+                                  </span>
+                                  <span>
+                                    {agentData.agent_city &&
+                                      agentData.agent_city + ", "}
+                                  </span>
+                                  <span>
+                                    {agentData.agent_state &&
+                                      agentData.agent_state}
+                                  </span>
+                                </div>
                               </div>
-                              {/* <span className="listed pl-3 pl-md-0 ">
-                               Listed by {" " + data.pro_user_type} On {new Date(data.pro_date).toDateString()}  
-                              Listed by agent 2024-30-03
-                            </span> */}
-                              {/* <button
-                              className="interest"
-                              title="Contact Us"
-                              //onClick={askQuestion}
-                            >
-                              <IconSend />
-                              <span className="">Contact Us</span>
-                            </button> */}
-                            </div>
-                          </div>
-                          <div className="socail-icon-share">
-                            <button className="fb" title="Share On Facebook">
-                              <a
-                                rel="noreferrer nofollow"
-                                //href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
-                                target="_blank"
-                                className="share-property"
-                              >
-                                <IconBrandFacebook />
-                                <span
-                                  className="mobile-hidden"
-                                  style={{ fontWeight: "bold" }}
+                              <div className="socail-icon-share ">
+                                <button
+                                  className="fb pl-0"
+                                  title="Share On Facebook"
                                 >
-                                  Share
-                                </span>
-                              </a>
-                            </button>
-                            <button
-                              className="wp pl-0"
-                              title="Share On Whatsapp"
-                            >
-                              <a
-                                rel="noreferrer nofollow"
-                                //href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
-                                target="_blank"
-                                className="share-propertywp"
-                              >
-                                <IconBrandWhatsapp />
-                                <span className="mobile-hidden">Share</span>
-                              </a>
-                            </button>
+                                  <a
+                                    rel="noreferrer nofollow"
+                                    //href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
+                                    target="_blank"
+                                    className="share-property"
+                                  >
+                                    <IconBrandFacebook />
+                                    <span
+                                      className=""
+                                      style={{ fontWeight: "bold" }}
+                                    >
+                                      Share
+                                    </span>
+                                  </a>
+                                </button>
+                                <button
+                                  className="wp pl-0"
+                                  title="Share On Whatsapp"
+                                >
+                                  <a
+                                    rel="noreferrer nofollow"
+                                    //href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
+                                    target="_blank"
+                                    className="share-propertywp"
+                                  >
+                                    <IconBrandWhatsapp />
+                                    <span className="">Share</span>
+                                  </a>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -216,8 +348,10 @@ const AgentProifle = () => {
                                 </div>
                               </div>
                               <div class="row moreDetail">
-                                <div class="col-md-12 ">
-                                  <p>
+                                
+                                {agentData.agent_desc === null || agentData.agent_desc === "" ? (
+                                  <div class="col-md-12 ">
+                                    {/* <p>
                                     Located in Kurukhetra (Haryana), Saini
                                     Properties has successfully established
                                     itself in the realty sector of Haryana. We
@@ -260,10 +394,57 @@ const AgentProifle = () => {
                                     developers and have appointed a talented
                                     team to market the projects which we have
                                     undertaken.
-                                  </p>
+                                  </p> */}
+                                    <p>
+                                      {agentData.agent_comapnay_name
+                                        ? agentData.agent_comapnay_name + " is "
+                                        : agentData.agent_name +
+                                          ", real estate agent, "}{" "}
+                                      located in{" "}
+                                      {agentData.agent_city
+                                        ? agentData.agent_city +
+                                          ", " +
+                                          agentData.agent_state
+                                        : agentData.agent_state}
+                                      , where it has successfully positioned
+                                      itself in {agentData.agent_state + "'"}{" "}
+                                      real estate sector. Thanks to the
+                                      enterprising spirit of its owner,{" "}
+                                      {agentData.agent_comapnay_name
+                                        ? agentData.agent_name + ", "
+                                        : ""}
+                                      who has been our motivation throughout, we
+                                      have made a name for ourselves.
+                                    </p>
+                                    <p>
+                                      We conduct business with some well-known
+                                      brand names associated with{" "}
+                                      {agentData.agent_state + "'"} real estate
+                                      industry. We have builder floors,
+                                      flats/apartments, and commercial spaces
+                                      available in prime localities of{" "}
+                                      {agentWorkPlaceData?.length > 0
+                                        ? agentWorkPlaceData[0].work_city +
+                                          " for "
+                                        : ""}{" "}
+                                      sale and rent.
+                                    </p>
 
-                                  
-                                </div>
+                                    <p>
+                                      We act as real estate market project
+                                      facilitators, sales agents, or brokers. We
+                                      carry out sole marketing and selling of
+                                      projects developed by the top-most
+                                      builders & developers and therefore
+                                      employed an efficient team for marketing
+                                      those undertakings we handled.
+                                    </p>
+                                  </div>
+                                ) : (
+                                  <div class="col-md-12 ">
+                                    <p>{agentData.agent_desc}</p>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -291,17 +472,25 @@ const AgentProifle = () => {
                                   <span>Sector 29</span>
                                 </div> */}
 
-                                  {agentWorkPlaceData?.map((item) => (
+                                  {agentWorkPlaceData?.length > 0 ? (
+                                    agentWorkPlaceData.map((item) => (
+                                      <div className="loc-list">
+                                        <a href="#">{item.work_city}</a>
+                                        {splitDistrict(item.work_sub_district)}
+                                      </div>
+                                    ))
+                                  ) : (
                                     <div className="loc-list">
-                                      <a href="#">{item.work_city}</a>
-                                      {solitDistrict(item.work_sub_district)}
-                                     
+                                      <a href="#">{agentWorkPlaceState}</a>
                                     </div>
-                                  ))}
-                                 
+                                  )}
                                 </div>
                               </div>
                             </div>
+                            {console.log(
+                              "agentWorkPlaceState : ",
+                              agentWorkPlaceState
+                            )}
                             <div class="details">
                               <div class="row">
                                 <div class="col-md-12">
@@ -313,9 +502,11 @@ const AgentProifle = () => {
                               <div class="row moreDetail">
                                 <div class="col-md-12 more-detail-right">
                                   <div className="loc-list">
-                                    {agentData.agent_work_area.split(",").map((item) => (
+                                    {agentData.agent_work_area
+                                      .split(",")
+                                      .map((item) => (
                                         <span>{item} </span>
-                                    ))}
+                                      ))}
                                     {/* <span>Flats / Apartments</span>
                                     <span>Independent House </span>
                                     <span>Builder Floor</span>
@@ -368,6 +559,27 @@ const AgentProifle = () => {
                                 </div>
                               </div>
                             </div>
+
+                            <div className="details">
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="more-detail-heading">
+                                    View Properties
+                                  </div>
+                                  <div className="d-flex flex-wrap tags-link ">
+                                    {propertyType.map((item) => (
+                                      <Link to={item.link}>
+                                        <div className="loc-list mb-0">
+                                          <span className="text-dark font-weight-bold">
+                                            {item.type}
+                                          </span>
+                                        </div>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -378,17 +590,15 @@ const AgentProifle = () => {
                           <div className="profilepict ">
                             {" "}
                             {agentData.agent_image ? (
-                                <img
-                                  src={`${
-                                    import.meta.env.VITE_BACKEND
-                                  }/userImages/${
-                                    agentData.agent_image
-                                  }`}
-                                  alt="img"
-                                />
-                              ) : (
-                                <img src="/img/person.jpg"  />
-                              )}
+                              <img
+                                src={`${
+                                  import.meta.env.VITE_BACKEND
+                                }/userImages/${agentData.agent_image}`}
+                                alt="img"
+                              />
+                            ) : (
+                              <img src="/img/person.jpg" />
+                            )}
                           </div>
                           <div className="agentdetail">
                             <h3>
@@ -402,37 +612,42 @@ const AgentProifle = () => {
                                   <span>
                                     <IconMapPin />
                                   </span>
-                                  <a href="#">
-                                    {
-                                      agentData.agent_city +
-                                      ", " +
-                                      agentData.agent_state}
-                                  </a>
+                                  {/* <a href="#"> */}
+                                    {agentData.agent_city
+                                      ? agentData.agent_city +
+                                        ", " +
+                                        agentData.agent_state
+                                      : agentData.agent_state}
+                                  {/* </a> */}
                                 </li>
                                 <li>
                                   <span>
                                     <IconBriefcase />
                                   </span>
-                                  <a href="#">
+                                  {/* <a href="#"> */}
                                     {agentData.agent_exp} Year of Experience
-                                  </a>
+                                  {/* </a> */}
                                 </li>
                                 <li>
                                   <span>
                                     {" "}
                                     <IconPhone />
                                   </span>
-                                  <a href="tel:9996716787">
-                                    +91 {agentData.agent_phone}
-                                  </a>
+                                  {/* <a href="tel:9996716787"> */}
+                                    +91{" "}
+                                    {agentData.agent_phone.slice(0, 5) +
+                                      "XXXXX"}
+                                  {/* </a> */}
                                 </li>
                                 <li>
                                   <span>
                                     <IconWorld />
                                   </span>{" "}
-                                  <a href="mailto:propertyease.in@gmail.com">
-                                    {agentData.agent_email}
-                                  </a>
+                                  {/* <a href="mailto:propertyease.in@gmail.com"> */}
+                                    {agentData.agent_email.slice(0, 2) +
+                                      "XXXXXXX@" +
+                                      agentData.agent_email.split("@")[1]}
+                                  {/* </a> */}
                                 </li>
                               </ul>
                             </div>
@@ -460,9 +675,9 @@ const AgentProifle = () => {
                         </div>
 
                         <div className="agent-form">
-                          <h5>Connect with Advertiser</h5>
-                          <form>
-                            <fieldset>
+                          <h5>Connect with Agent</h5>
+
+                          {/* <fieldset>
                               <legend>You Want to</legend>
                               <FormControlLabel
                                 value="female"
@@ -479,36 +694,372 @@ const AgentProifle = () => {
                                 control={<Radio />}
                                 label="Rent/PG"
                               />
-                            </fieldset>
+                            </fieldset> */}
+                          <div className="w-100 m-1 section-1">
+                            <span className="pro_heading">You want to ?</span>
+                            <div className="d-flex mb-1">
+                              {propertyUserType.map((item) => (
+                                <div
+                                  onClick={(e) => {
+                                    setData({
+                                      ...data,
+                                      queryType: item.value,
+                                    });
+                                  }}
+                                  className={
+                                    data.queryType === item.value
+                                      ? "pro_radio_btn_1 pro_selected mb-1"
+                                      : "pro_radio_btn_1 mb-1"
+                                  }
+                                >
+                                  {item.value}
+                                </div>
+                              ))}
+                            </div>
+                            {step && data.queryType === "" && (
+                                <div className="error_msg">Required</div>
+                              )}
+                          </div>
+
+                          <div className="mb-3">
+                            <TextField
+                              sx={{ m: 1, width: ["100%"] }}
+                              //required
+                              id="name"
+                              name="name"
+                              label="Name"
+                              type="text"
+                              value={data.name}
+                              size="small"
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                              helperText={step && data.name === "" ? "Required" : ""}
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  name: e.target.value.replace(
+                                    /[^a-zA-Z ]/g,
+                                    ""
+                                  ),
+                                })
+                              }
+                              inputProps={{
+                                maxLength: 40,
+                              }}
+                              fullWidth
+                              variant="standard"
+                            />
 
                             <TextField
-                              id="outlined-basic"
-                              sx={{ width: ["100%"], mb: 2, mt: 2 }}
-                              label="Name"
-                              variant="outlined"
+                              sx={{ m: 1, width: ["100%"] }}
+                              size="small"
+                              //required
+                              id="email"
+                              name="email"
+                              label="Email Address"
+                              type="email"
+                              inputProps={{
+                                maxLength: 40,
+                              }}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                              helperText={step && emailError ? "Please enter valid email address" : ""}
+                              value={data.email}
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  email: e.target.value.replace(
+                                    /[^a-zA-Z.@0-9/]/g,
+                                    ""
+                                  ),
+                                })
+                              }
+                              fullWidth
+                              variant="standard"
                             />
                             <TextField
+                              sx={{ m: 1, mt: 2, width: ["100%"] }}
                               id="outlined-basic"
-                              sx={{ width: ["100%"], mb: 2 }}
-                              label="Email"
-                              variant="outlined"
+                              fullWidth
+                              variant="standard"
+                              className="w-full"
+                              inputProps={{ maxLength: 10 }}
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                              helperText={
+                                step && data.phone.length < 10
+                                  ? "Please enter valid phone number"
+                                  : ""
+                              }
+                              value={data.phone}
+                              onChange={(e) =>
+                                setData({
+                                  ...data,
+                                  phone: e.target.value.replace(
+                                    regEx[2].phoneNumberValidation,
+                                    ""
+                                  ),
+                                })
+                              }
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    +91
+                                  </InputAdornment>
+                                ),
+                              }}
                             />
-                            <TextField
-                              id="outlined-basic"
-                              sx={{ width: ["100%"], mb: 2 }}
-                              label="Phone no."
-                              variant="outlined"
-                            />
-                            <button className="login justify-content-center get-schedule">
-                              GET SCHEDULE
-                            </button>
-                          </form>
+                          </div>
+
+                          <button onClick={handleStep} className="login justify-content-center get-schedule">
+                            Contact
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </section>
               )}
+              <section className="most-view-Property mt-5 mb-5">
+                <div className="container">
+                  <div className="section-title">
+                    <h3>
+                      Recent Listed <span>Properties</span> by{" "}
+                      {agentData?.agent_name}
+                    </h3>
+                    <p>
+                      Looking for a service? Discover the most recent service
+                      providers in your city, vetted and selected by our
+                      dedicated team of analysts
+                      <br /> based on feedback gathered from users like you!
+                    </p>
+                  </div>
+                  <div className="row">
+                    {(properties.length > 0
+                      ? properties
+                      : latestProperties
+                    ).map((item, index) => (
+                      <div className="col-md-4" key={index}>
+                        <div className="uniBlock">
+                          <div className="recent-box-serv">
+                            <div className="re-bus-img">
+                              <Link
+                                to={`/${
+                                  item.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  item.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  item.pro_type
+                                    ? item.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  item.pro_ad_type === "rent" ? "rent" : "sale"
+                                }-in-${item.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(
+                                    " ",
+                                    "-"
+                                  )}-${item.pro_city.toLowerCase()}-${
+                                  item.pro_id
+                                }`}
+                              >
+                                {item.img_link ? (
+                                  <img
+                                    src={`${
+                                      import.meta.env.VITE_BACKEND
+                                    }/propertyImages/watermark/${
+                                      item.img_link
+                                    }`}
+                                    alt="img"
+                                  />
+                                ) : (
+                                  <img
+                                    src="/images/default.png"
+                                    alt="no image"
+                                  />
+                                )}
+                              </Link>
+                            </div>
+                            <div className="recent-bus-content">
+                              <h5 className="property-listing-type">
+                                <Link
+                                  to={`/${
+                                    item.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    item.pro_area_size_unit.toLowerCase() +
+                                    "-"
+                                  }${
+                                    item.pro_type
+                                      ? item.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    item.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${item.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(
+                                      " ",
+                                      "-"
+                                    )}-${item.pro_city.toLowerCase()}-${
+                                    item.pro_id
+                                  }`}
+                                >
+                                  <a>{item.pro_type.split(",")[0]}</a>
+                                </Link>
+                              </h5>
+                              <ul className="front-all-property-slider">
+                                <li className="text-capitalize">
+                                  <img
+                                    src="/img/location.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Address&nbsp;{" "}
+                                  </strong>
+                                  {item.pro_locality},&nbsp;
+                                  {item.pro_sub_district
+                                    ? item.pro_sub_district + ", "
+                                    : ""}
+                                  {item.pro_city}
+                                </li>
+                                {item.plot_area_size ? (
+                                  <li>
+                                    <img
+                                      src="/img/face-detection.png"
+                                      className="property-slider-icon"
+                                    />
+                                    <strong className="frontPropIcon">
+                                      Plot Size &nbsp;
+                                    </strong>
+                                    {item.plot_area_size}
+                                  </li>
+                                ) : (
+                                  ""
+                                )}
+                                {item.pro_width ? (
+                                  <li>
+                                    <img
+                                      src="/img/meter.png"
+                                      className="property-slider-icon"
+                                    />
+                                    <strong className="frontPropIcon">
+                                      Dimension&nbsp;
+                                    </strong>
+                                    ({item.pro_width} Feet * {item.pro_length}{" "}
+                                    Feet)
+                                  </li>
+                                ) : (
+                                  ""
+                                )}
+
+                                <li>
+                                  <img
+                                    src="/img/rupee.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Price{" "}
+                                  </strong>
+                                  &nbsp;
+                                  {"₹ " +
+                                    item.pro_amt +
+                                    " " +
+                                    item.pro_amt_unit}
+                                </li>
+
+                                <li>
+                                  <img
+                                    src="/img/facing.png"
+                                    className="property-slider-icon"
+                                  />
+                                  <strong className="frontPropIcon">
+                                    Property Facing
+                                  </strong>
+                                  &nbsp;
+                                  {item.pro_facing}
+                                </li>
+                              </ul>
+                              <Link
+                                to={`/${
+                                  item.pro_area_size.toLowerCase() +
+                                  "-" +
+                                  item.pro_area_size_unit.toLowerCase() +
+                                  "-"
+                                }${
+                                  item.pro_type
+                                    ? item.pro_type
+                                        .split(",")[0]
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                    : ""
+                                }-for-${
+                                  item.pro_ad_type === "rent" ? "rent" : "sale"
+                                }-in-${item.pro_locality
+                                  .toLowerCase()
+                                  .replaceAll(
+                                    " ",
+                                    "-"
+                                  )}-${item.pro_city.toLowerCase()}-${
+                                  item.pro_id
+                                }`}
+                              >
+                                <a
+                                  title="View complete details of this property"
+                                  className="btn-viewmore"
+                                >
+                                  View More
+                                </a>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="d-flex flex-row-reverse mt-4 mr-3">
+                    <Link>
+                      <a
+                        title="Click to view all properties"
+                        className="btn-viewall px-4 "
+                      >
+                        View All
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </section>
+              <div className="property-more-detail">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="details">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="more-detail-heading">Disclaimer</div>
+
+                          <p>
+                            All the information displayed is as posted by the
+                            User and displayed on the website for informational
+                            purposes only. Propertyease.in makes no
+                            representations and warranties of any kind, whether
+                            expressed or implied, for the Services and in
+                            relation to the accuracy or quality of any
+                            information transmitted or obtained at
+                            Propertyease.in. You are hereby strongly advised to
+                            verify all information including visiting the
+                            relevant authorities before taking any decision
+                            based on the contents displayed on the website.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

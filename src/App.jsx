@@ -38,6 +38,8 @@ import PostRequirement from "./pages/postRequirement/PostRequirement";
 import AdminRequirement from "./pages/adminRequirement/AdminRequirement";
 import UserProfileForm from "./pages/userProfileForm/UserProfileForm";
 import AgentProifle from "./pages/agentProfile/AgentProifle";
+import AgentsListing from "./pages/agentsListing/AgentsListing";
+import AgentProperties from "./pages/agentProperties/AgentProperties";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -176,7 +178,12 @@ const App = () => {
     },
     {
       path: "addproperty",
-      element: <AddProperty />,
+      element: (
+        <>
+          <ScrollToTop />
+          <AddProperty />
+        </>
+      ),
     },
     {
       path: "/:id/:cat",
@@ -191,6 +198,7 @@ const App = () => {
 
       element: (
         <ProtectedRoute>
+          <ScrollToTop />
           <EditProperty />
         </ProtectedRoute>
       ),
@@ -258,6 +266,14 @@ const App = () => {
     {
       path: "/watermark2",
       element: <WatermarkOthers />,
+    },
+    {
+      path: "/agentList",
+      element: <AgentsListing />,
+    },
+    {
+      path: "/agentproperties/:id",
+      element: <AgentProperties />,
     },
     {
       path: "/postrequirement",

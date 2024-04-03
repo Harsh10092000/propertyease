@@ -2455,6 +2455,28 @@ span.property-description-right {
   position: relative;
 }
 
+.agent-profile-wrapper .profile-info {
+ width: 60%;
+}
+
+/* .agent-profile-wrapper .profile-pict {
+ max-width: 20%;
+} */
+
+@media screen and (max-width: 480px) {
+.agent-profile-wrapper .profile-info {
+  display: block !important;
+  width: 70% !important;
+  
+ }
+}
+
+.agent-profile-wrapper .agent-name {
+  display: inline-block;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
 span.property-description-left {
   color: #303030;
   font-weight: 600;
@@ -14697,6 +14719,7 @@ h4.modal-title {
   font-size: 18px;
   color: #000;
 }
+
 .btn-website:hover {
   background-color: rgb(27 117 187) !important;
   color: #fff;
@@ -15765,6 +15788,23 @@ section.find-services {
   margin-top: 30px;
   margin-bottom: 30px;
   margin-left: 30px;
+  
+}
+
+.user-profile-form-wrapper .img-div {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-profile-form-wrapper .user-profile-form {
+  /* border: 1px black solid; */
+}
+
+.user-profile-form-wrapper .user-profile-form .section-1 {
+  background-color: #F6F5F5;
+  margin: 0 !important;
+  padding: 10px 30px;
 }
 
 .user-profile-form-wrapper .file-name-wrapper {
@@ -15904,9 +15944,9 @@ section.find-services {
     max-width: 100%;
 }
 .profile-block {
-  display: flex;
+  /* display: flex; */
   /* align-items: end; */
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .loc-list {
   margin-bottom: 14px;
@@ -16187,4 +16227,271 @@ section.find-services {
   padding-left: 14px;
  }
 
+ .agent-card-wrapper {
+  /* margin-top: 100px; */
+  /* margin-bottom: 100px; */
+ }
 
+.agent-card-wrapper .agent-card {
+  width: 100%;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 3px;
+    background-color: white;
+    box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.agent-card-wrapper .agent-card .firstinfo {
+  flex-direction: row;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.firstinfo .profileinfo {
+  padding: 0px 20px;
+}
+
+.firstinfo .profileinfo h1 {
+  font-size: 1.8em;
+}
+
+.firstinfo .profileinfo h3 {
+  font-size: 1.2em;
+  color: #009688;
+  font-style: italic;
+}
+.firstinfo .profileinfo p.desc {
+  padding: 0px 0px 10px 0px;
+  color: #5A5A5A;
+  line-height: 1.2;
+  font-style: initial;
+  color: #858796 ;
+  font-size: 14px;
+}
+
+.firstinfo .profileinfo .deals-in-area {
+  padding: 0px 0px 10px 0px;
+  color: #5A5A5A;
+  line-height: 1.2;
+  font-style: initial;
+  color: #858796 ;
+  font-size: 14px;
+}
+
+.firstinfo img {
+  width: 135px;
+  height: 115px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 15px;
+  box-shadow:  1px 0px 1px;
+}
+
+@media screen and (max-width: 480px) {
+.firstinfo img { 
+  display: none;
+}
+.badgescard .website-link {
+  display: none;
+}
+.agent-card-wrapper .agent-property { 
+  display: none;
+}
+}
+.agent-card-wrapper .agent-property-1 {
+  line-height: 26px;
+  color: #262626;
+  list-style: none;
+  font-size: 12px;
+  color: #858796 ;
+  font-weight: bolder;
+  /* border: 1px solid black; */
+  padding: 0 10px;
+  /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); */
+  box-shadow: 1px 2px 3px 0px cadetblue;
+}
+
+@media screen and (min-width: 480px) {
+  .agent-card:after {
+    content: "";
+    display: block;
+    width: 190px;
+    height: 300px;
+    background: cadetblue;
+    position: absolute;
+    animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
+  }
+  .agent-card-wrapper .agent-property-1 {
+    display: none;
+  }
+ 
+  }
+
+  
+  
+
+@keyframes animatop {
+  0% {
+    opacity: 0;
+    bottom: -500px;
+  }
+  100% {
+    opacity: 1;
+    bottom: 0px;
+  }
+}
+@keyframes animainfos {
+  0% {
+    bottom: 10px;
+  }
+  100% {
+    bottom: -42px;
+  }
+}
+@keyframes rotatemagic {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg);
+    top: -24px;
+    left: -253px;
+  }
+  100% {
+    transform: rotate(-30deg);
+    top: -24px;
+    left: -78px;
+  }
+}
+
+.agent-card-wrapper .content {
+  position: relative;
+  animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
+  margin-bottom: 25px;
+}
+
+
+.agent-card-wrapper .main-conetnt-1 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  
+  /* overflow: hidden; */
+}
+
+.agent-card-wrapper .company-name {
+  line-height: 26px;
+  color: #262626;
+  list-style: none;
+  font-size: 15px;
+  color: #858796 ;
+  font-weight: bolder
+}
+
+.agent-card-wrapper .agent-property {
+  line-height: 26px;
+  color: #262626;
+  list-style: none;
+  font-size: 15px;
+  color: #858796 ;
+  font-weight: bolder;
+  /* border: 1px solid black; */
+  padding: 0 10px;
+  /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); */
+  box-shadow: 1px 2px 3px 0px cadetblue;
+}
+
+
+
+
+.agent-card-wrapper .agent-property a {
+  color: #858796 ;
+}
+
+
+.border-line {
+  border-left: 1px solid #858796 ;;
+  margin-right: 4px;
+}
+
+/* .badgescard {
+  padding: 45px 25px;
+  border-radius: 3px;
+  background-color: #ECECEC;
+  /* background-color: #f9f9f9; */
+  /* width: 480px; */
+  /* width: 100%; */
+  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: -1; */
+  /* left: 1%; */
+  /* top: 150px;
+  height: 150px; */
+  /* top: 82%;
+  animation: animainfos 0.5s cubic-bezier(0.425, 1.04, 0.47, 1.105) 0.75s forwards;
+  text-align: center; */
+/* }  */
+
+
+.badgescard {
+  padding: 9px 25px;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+  /* background-color: #f9f9f9; */
+  /* width: 480px; */
+  width: 100%;
+  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); */
+  /* position: absolute; */
+  z-index: -1;
+  /* left: 1%; */
+  /* top: 82%; */
+  animation: animainfos 0.5s cubic-bezier(0.425, 1.04, 0.47, 1.105) 0.75s forwards;
+  text-align: center;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.badgescard .view-profile {
+  
+  background-color: #4169E1;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
+.badgescard .website-link {
+  color: #4169E1;
+}
+
+/* .badgescard .website-link {
+  color: #BCBAB8;
+} */
+
+.agent-card-wrapper .title {
+  font-size: 18px;
+  color: #000;
+}
+
+/* .agent-card-wrapper h2:before {
+  content: "";
+  width: 93px;
+  height: 3px;
+  background-color: #da2927;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+} */
+
+
+.main-content h2:before {
+    content: "";
+    width: 93px;
+    height: 3px;
+    background-color: #da2927;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+}

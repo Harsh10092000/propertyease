@@ -31,14 +31,18 @@ import { regEx } from "../regEx";
 import Checkbox from "@mui/material/Checkbox";
 
 const EditProperty = () => {
+  
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
   const navigate = useNavigate();
 
   const { currentUser } = useContext(AuthContext);
 
-  const { id } = useParams();
-
+  //const { id } = useParams();
+  const { id1 } = useParams();
+  console.log("id1 : " , id1)
+  const arrproId = id1.split("-");
+  const id = arrproId[arrproId.length - 1];
   const [activeStep, setActiveStep] = useState(0);
   const handleNextStep = () => {
     activeStep <= 2 ? setActiveStep(activeStep + 1) : "";
@@ -581,8 +585,33 @@ const EditProperty = () => {
         formData
       );
     }
-    navigate(`/${id}`);
+    //navigate(`/${id}`);
+    navigate(`/${
+      propertyData.pro_area_size.toLowerCase() +
+      "-" +
+      propertyData.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+      "-"
+    }${
+      propertyData.pro_type
+        ? propertyData.pro_type
+            .split(",")[0]
+            .toLowerCase()
+            .replaceAll(" ", "-")
+        : ""
+    }-for-${
+      propertyData.pro_ad_type === "rent"
+        ? "rent"
+        : "sale"
+    }-in-${propertyData.pro_locality
+      .toLowerCase()
+      .replaceAll(" ", "-")}-${propertyData.pro_city
+      .toLowerCase()
+      .replaceAll(" ", "-")}-${id}`);
   };
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 100);
+  // }, [handleStep1, handleStep2, handleStep3, handleStep4, handleBackStep]);
 
   return (
     <div>

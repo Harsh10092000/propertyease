@@ -687,8 +687,36 @@ const AddProperty = () => {
       );
     }
     setLoader(false);
-    navigate(`/${id}`);
+    //navigate(`/${id}`);
+    navigate(`/${
+      propertyData.pro_area_size.toLowerCase() +
+      "-" +
+      propertyData.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+      "-"
+    }${
+      propertyData.pro_type
+        ? propertyData.pro_type
+            .split(",")[0]
+            .toLowerCase()
+            .replaceAll(" ", "-")
+        : ""
+    }-for-${
+      propertyData.pro_ad_type === "rent"
+        ? "rent"
+        : "sale"
+    }-in-${propertyData.pro_locality
+      .toLowerCase()
+      .replaceAll(" ", "-")}-${propertyData.pro_city
+      .toLowerCase()
+      .replaceAll(" ", "-")}-${id}`);
   };
+
+  
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 100);
+  // }, []);
+
 
   return (
     <div>
