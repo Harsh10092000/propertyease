@@ -78,8 +78,6 @@ const AgentsListing = () => {
   //     : results.length / recordsPerPage
   // );
 
-  
-
   //console.log("records : ", records);
 
   const handleSearchValue = (value) => {
@@ -126,8 +124,6 @@ const AgentsListing = () => {
 
   const [results, setResults] = useState();
   useEffect(() => {
-    
-
     const unique1 = Array.from(
       new Set(agents?.slice(0, 60).map((item) => item.agent_city.trim()))
     );
@@ -140,10 +136,11 @@ const AgentsListing = () => {
     // const uniqueWorkState= Array.from(
     //   new Set(agents?.slice(0, 60).map((item) => item.work_state.trim()))
     // );
-   
-    const workCities = [...new Set(uniqueWorkCity.flatMap(city => city.split(',')))];
-    //const workStates = [...new Set(uniqueWorkState.flatMap(city => city.split(',')))];
 
+    const workCities = [
+      ...new Set(uniqueWorkCity.flatMap((city) => city.split(","))),
+    ];
+    //const workStates = [...new Set(uniqueWorkState.flatMap(city => city.split(',')))];
 
     const u7 = Array.from(
       new Set(agents?.slice(0, 60).map((item) => item.agent_name.trim()))
@@ -157,7 +154,7 @@ const AgentsListing = () => {
     //         (item) =>
     //           item.agent_name.trim() + ", " + (item.agent_comapnay_name
     //             ? item.agent_comapnay_name.trim() + ", "
-    //             : "") 
+    //             : "")
     //       )
     //   )
     // );
@@ -176,7 +173,7 @@ const AgentsListing = () => {
     //   )
     // );
     console.log(u7);
-    const arr = [...unique1, ...uniqueState, ...workCities, ...u7  ];
+    const arr = [...unique1, ...uniqueState, ...workCities, ...u7];
     const unique4 = Array.from(
       new Set(arr.slice(0, 200).map((item) => item.trim()))
     );
@@ -184,7 +181,7 @@ const AgentsListing = () => {
     const unique = unique4.filter((i) =>
       i.toLowerCase().startsWith(searchValue.toLowerCase())
     );
-    console.log("unique : " , unique)
+    console.log("unique : ", unique);
     setSuggestions(unique);
     //console.log("unique : " , unique , unique1 , unique2 , unique3 , unique4)
     let searchWords = searchValue.toLowerCase().split(",");
@@ -213,24 +210,23 @@ const AgentsListing = () => {
           itemValues.toLowerCase().includes(word)
         );
       });
-      //console.log("filteredData : " , filteredData)
+    //console.log("filteredData : " , filteredData)
     setResults(filteredData);
     //console.log("searchWords : ", searchWords, filteredData);
-  }, [searchValue, userLocation,filter, agents]);
-  
+  }, [searchValue, userLocation, filter, agents]);
+
   // const records = agents?.slice(firstIndex, lastIndex);
   // const nPages = Math.ceil(agents?.length / recordsPerPage);
 
   const records =
     searchValue === "" && filter === "All"
-    ? agents.slice(firstIndex, lastIndex)
+      ? agents.slice(firstIndex, lastIndex)
       : results?.slice(firstIndex, lastIndex);
-      
+
   const nPages = Math.ceil(
     searchValue === "" && filter === "All"
       ? agents.length / recordsPerPage
       : results?.length / recordsPerPage
-      
   );
 
   return (
@@ -404,7 +400,19 @@ const AgentsListing = () => {
                         </div>
                         <div className="deals-in-area">
                           Deals in Area -{" "}
-                          {item.work_city ? item.work_city : item.work_state}
+                        
+                          {item.work_city ? (
+                            item.work_city
+                          ) : item.work_state.length > 80 ? (
+                            <>
+                              {item.work_state.slice(0, 80)}...
+                              <Link title="View Agent Profile" to={`/agentProfile/${item.agent_id}`}>
+                                more
+                              </Link>
+                            </>
+                          ) : (
+                            item.work_state
+                          )}
                         </div>
                         <p class="desc">
                           We are Real Estate Agent in Ludhiana providing Buying,
@@ -412,7 +420,7 @@ const AgentsListing = () => {
                           in {item.agent_state}.
                         </p>
                         <div>
-                        {item.Sale_Count !== 0 && item.Rent_Count !== 0 ? (
+                          {item.Sale_Count !== 0 && item.Rent_Count !== 0 ? (
                             <>
                               <div className="agent-property-1">
                                 <Link
@@ -452,7 +460,7 @@ const AgentsListing = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex ">
                         <div className="pl-2">
-                          <button type="button" class="btn btn-sm interest">
+                          <button title="Contact Agent" type="button" class="btn btn-sm interest">
                             <IconSend width="20px" height="20px" />
                             <span className="pl-1">Contact</span>
                           </button>
@@ -462,16 +470,22 @@ const AgentsListing = () => {
                             <button
                               type="button"
                               class="btn btn-sm view-profile"
+                              title="View Agent Profile"
                             >
                               View Profile
                             </button>
                           </Link>
                         </div>
                       </div>
-                      <div className="pr-2 website-link">
-                        {/* <a  href={`{item.agent_company_website}`}> */}
+                      {/* <div className="pr-2 website-link">
+                        <a  href="https://calinfo.in/" target="_blank">
                         {item.agent_company_website}
-                        {/* </a> */}
+                        </a>
+                      </div> */}
+                      <div className="pr-2 website-link">
+                        <a href={item.agent_company_website} target="_blank">
+                          {item.agent_company_website}
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -479,61 +493,60 @@ const AgentsListing = () => {
               ))}
             </div>
             <div className="col-md-3 d-flex flex-column gap-3">
-                <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      For Sale
-                    </div>
-                    {subData.map((sub, index) => (
-                      <Link
-                        to={`/${sub.pro_type
-                          .split(",")[1]
-                          .toLowerCase()}/${sub.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{sub.pro_type.split(",")[0]}</div>
-                          <div>({sub.pro_sub_cat_number})</div>
-                        </div>
-                      </Link>
-                    ))}
+              <div>
+                <div className="p-1 shadow">
+                  <div className="p-3 font-weight-bold text-black">
+                    For Sale
                   </div>
-                </div>
-
-                <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">Rent</div>
-                    {rentData.map((rent, index) => (
-                      <Link
-                        to={`/rental/${rent.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{rent.pro_type.split(",")[0]}</div>
-                          <div>({rent.pro_sub_cat_number})</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
+                  {subData.map((sub, index) => (
+                    <Link
+                      to={`/${sub.pro_type
+                        .split(",")[1]
+                        .toLowerCase()}/${sub.pro_type
+                        .split(",")[0]
+                        .replaceAll(" ", "-")
+                        .toLowerCase()}`}
+                      key={index}
+                    >
+                      <div className="d-flex justify-content-between px-3 py-2">
+                        <div>{sub.pro_type.split(",")[0]}</div>
+                        <div>({sub.pro_sub_cat_number})</div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
 
+              <div>
+                <div className="p-1 shadow">
+                  <div className="p-3 font-weight-bold text-black">Rent</div>
+                  {rentData.map((rent, index) => (
+                    <Link
+                      to={`/rental/${rent.pro_type
+                        .split(",")[0]
+                        .replaceAll(" ", "-")
+                        .toLowerCase()}`}
+                      key={index}
+                    >
+                      <div className="d-flex justify-content-between px-3 py-2">
+                        <div>{rent.pro_type.split(",")[0]}</div>
+                        <div>({rent.pro_sub_cat_number})</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
           {records?.length > 0 && (
-              <Pagination
-                count={nPages}
-                color="primary"
-                page={currentPage}
-                onChange={(e, value) => setCurrentPage(value)}
-                className="col-md-6 mx-auto py-2"
-              />
-            )}
+            <Pagination
+              count={nPages}
+              color="primary"
+              page={currentPage}
+              onChange={(e, value) => setCurrentPage(value)}
+              className="col-md-6 mx-auto py-2"
+            />
+          )}
         </div>
       </section>
       <Footer />

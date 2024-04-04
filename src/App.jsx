@@ -194,7 +194,7 @@ const App = () => {
       element: <Rent />,
     },
     {
-      path: "/editProperty/:id",
+      path: "/editProperty/:id1",
 
       element: (
         <ProtectedRoute>

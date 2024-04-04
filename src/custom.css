@@ -16257,6 +16257,7 @@ section.find-services {
 
 .firstinfo .profileinfo {
   padding: 0px 20px;
+  /* width: 90%; */
 }
 
 .firstinfo .profileinfo h1 {
@@ -16284,6 +16285,16 @@ section.find-services {
   font-style: initial;
   color: #858796 ;
   font-size: 14px;
+
+}
+
+.firstinfo .profileinfo .deals-in-area-1 {
+ 
+
+  /* white-space: nowrap;  */
+  width: 50%; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 .firstinfo img {
