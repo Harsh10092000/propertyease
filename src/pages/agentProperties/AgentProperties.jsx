@@ -233,6 +233,8 @@ const AgentProperties = () => {
       setUserCurrLocation(value);
     };
 
+   
+
   return (
     <div>
       <Helmet>

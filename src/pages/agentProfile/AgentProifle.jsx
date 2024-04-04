@@ -52,7 +52,9 @@ const AgentProifle = () => {
   const [agentWorkPlaceState, setAgentWorkPlaceState] = useState("");
   const [properties, setProperties] = useState([]);
   const [latestProperties, setLatestProperties] = useState([]);
-  const userId = 13;
+  const [propertyNo , setPropertyNo] = useState([]);
+  const [saleCount, setSaleCount] = useState();
+  const [rentCount, setRentCount] = useState();
 
   const propertyType = [
     { type: "View Residentail Properties", link: "/property/residential" },
@@ -84,6 +86,13 @@ const AgentProifle = () => {
       .then((res) => {
         setAgentWorkPlaceState(res.data[0].work_state);
       });
+
+      
+  }, []);
+
+  console.log(agentData);
+
+  useEffect(() => {
     axios
       // .get(
       //   import.meta.env.VITE_BACKEND +
@@ -91,7 +100,7 @@ const AgentProifle = () => {
       // )
       .get(
         import.meta.env.VITE_BACKEND +
-          `/api/agent/fetchpPropertiesByUser/${userId}`
+          `/api/agent/fetchpPropertiesByUser/${agentData?.user_cnct_id}`
       )
       .then((res) => {
         setProperties(res.data);
@@ -102,7 +111,17 @@ const AgentProifle = () => {
       .then((res) => {
         setLatestProperties(res.data);
       });
-  }, []);
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/agent/fetchPropertyNo/${agentData?.user_cnct_id}`)
+      .then((res) => {
+        setPropertyNo(res.data);
+        setSaleCount(res.data[0].Sale_Count)
+        setRentCount(res.data[0].Rent_Count)
+      });
+  }, [agentData]);
+
+
+  console.log("saleCount : ", saleCount);
 
   // console.log(agentData, agentWorkPlaceData);
   //   {
@@ -148,7 +167,7 @@ const AgentProifle = () => {
     }
   };
 
-  console.log("data : " , data)
+  console.log("data : ", data);
 
   const handleSnack = () => {
     setSnack(false);
@@ -169,8 +188,6 @@ const AgentProifle = () => {
     }
   };
 
-
-  
   const [loader, setLoader] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [emailError, setEmailError] = useState(true);
@@ -194,19 +211,19 @@ const AgentProifle = () => {
     <div>
       <Navbar />
       {loader ? <Loader /> : ""}
-        <Snackbar
-          ContentProps={{
-            sx: {
-              background: "green",
-              color: "white",
-            },
-          }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={snack}
-          autoHideDuration={1000}
-          onClose={handleSnack}
-          message="We Will Contact you soon !.."
-        />
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack}
+        autoHideDuration={1000}
+        onClose={handleSnack}
+        message="We Will Contact you soon !.."
+      />
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -299,7 +316,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    //href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
+                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentId}`}
                                     target="_blank"
                                     className="share-property"
                                   >
@@ -318,7 +335,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    //href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
+                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile//${agentId}`}
                                     target="_blank"
                                     className="share-propertywp"
                                   >
@@ -348,8 +365,8 @@ const AgentProifle = () => {
                                 </div>
                               </div>
                               <div class="row moreDetail">
-                                
-                                {agentData.agent_desc === null || agentData.agent_desc === "" ? (
+                                {agentData.agent_desc === null ||
+                                agentData.agent_desc === "" ? (
                                   <div class="col-md-12 ">
                                     {/* <p>
                                     Located in Kurukhetra (Haryana), Saini
@@ -549,17 +566,63 @@ const AgentProifle = () => {
                                   <div class="more-detail-heading">
                                     Properties and Projects Available
                                   </div>
-                                </div>
-                              </div>
-                              <div class="row moreDetail">
+                                  <div class="row moreDetail">
                                 <div class="col-md-12 more-detail-right">
-                                  <div className="loc-list">
-                                    <span>11 Residential Plot for Sale</span>
-                                  </div>
+                                  
+                                    {/* <div className="loc-list">
+                                      {propertyNo.length > 0 ? 
+                                      <><span>{propertyNo[0].Sale_Count ? propertyNo[0].Sale_Count : "0"}  Properties for Sale</span>
+                                      <span>{propertyNo[0].Rent_Count ? propertyNo[0].Rent_Count : "0"}  Properties for Rent</span></>
+                                     : "" }
+                                    
+                                  </div> */}
+                                  {saleCount !== null && rentCount !== null ? (
+                            <>
+                              <div  title="Click to view properties">
+                                <Link
+                                  to={`/agentproperties/Sale-${agentData?.user_cnct_id}`}
+                                  className="loc-list agent-profile-loc-list"
+                                >
+                                 <span>{saleCount} Property for sale</span> 
+                                </Link>
+                                
+                                <Link
+                                  to={`/agentproperties/Rent-${agentData?.user_cnct_id}`}
+                                  className="loc-list agent-profile-loc-list"
+                                >
+                                  <span>{rentCount} Property for rent</span>
+                                  
+                                </Link>
+                              </div>
+                            </>
+                          ) : saleCount !== null || rentCount !== null ? (
+                            <>
+                              <div >
+                                <Link title="Click to view properties"
+                                className="loc-list agent-profile-loc-list"
+                                  to={`/agentproperties/${
+                                    saleCount !== null ? "Sale" : "Rent"
+                                  }-${agentData?.user_cnct_id}`}
+                                >
+                                  <span>{saleCount + " Property for sale" ||
+                                    rentCount + " Property for rent"}</span>
+                                  
+                                </Link>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="loc-list "><span>0 Properties Listed</span></div>
+
+                          )}
+                                  
+                                  
                                 </div>
                               </div>
+                                </div>
+                              </div>
+                             
                             </div>
-
+                            
                             <div className="details">
                               <div className="row">
                                 <div className="col-md-12">
@@ -568,7 +631,10 @@ const AgentProifle = () => {
                                   </div>
                                   <div className="d-flex flex-wrap tags-link ">
                                     {propertyType.map((item) => (
-                                      <Link to={item.link}>
+                                      <Link
+                                        to={item.link}
+                                        title={`Click to ${item.type}`}
+                                      >
                                         <div className="loc-list mb-0">
                                           <span className="text-dark font-weight-bold">
                                             {item.type}
@@ -613,11 +679,11 @@ const AgentProifle = () => {
                                     <IconMapPin />
                                   </span>
                                   {/* <a href="#"> */}
-                                    {agentData.agent_city
-                                      ? agentData.agent_city +
-                                        ", " +
-                                        agentData.agent_state
-                                      : agentData.agent_state}
+                                  {agentData.agent_city
+                                    ? agentData.agent_city +
+                                      ", " +
+                                      agentData.agent_state
+                                    : agentData.agent_state}
                                   {/* </a> */}
                                 </li>
                                 <li>
@@ -625,7 +691,7 @@ const AgentProifle = () => {
                                     <IconBriefcase />
                                   </span>
                                   {/* <a href="#"> */}
-                                    {agentData.agent_exp} Year of Experience
+                                  {agentData.agent_exp} Year of Experience
                                   {/* </a> */}
                                 </li>
                                 <li>
@@ -634,9 +700,8 @@ const AgentProifle = () => {
                                     <IconPhone />
                                   </span>
                                   {/* <a href="tel:9996716787"> */}
-                                    +91{" "}
-                                    {agentData.agent_phone.slice(0, 5) +
-                                      "XXXXX"}
+                                  +91{" "}
+                                  {agentData.agent_phone.slice(0, 5) + "XXXXX"}
                                   {/* </a> */}
                                 </li>
                                 <li>
@@ -644,15 +709,15 @@ const AgentProifle = () => {
                                     <IconWorld />
                                   </span>{" "}
                                   {/* <a href="mailto:propertyease.in@gmail.com"> */}
-                                    {agentData.agent_email.slice(0, 2) +
-                                      "XXXXXXX@" +
-                                      agentData.agent_email.split("@")[1]}
+                                  {agentData.agent_email.slice(0, 2) +
+                                    "XXXXXXX@" +
+                                    agentData.agent_email.split("@")[1]}
                                   {/* </a> */}
                                 </li>
                               </ul>
                             </div>
 
-                            <div className="social-link">
+                            {/* <div className="social-link">
                               <ul>
                                 <li>
                                   <a href="#">
@@ -670,7 +735,7 @@ const AgentProifle = () => {
                                   </a>
                                 </li>
                               </ul>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
 
@@ -717,8 +782,8 @@ const AgentProifle = () => {
                               ))}
                             </div>
                             {step && data.queryType === "" && (
-                                <div className="error_msg">Required</div>
-                              )}
+                              <div className="error_msg">Required</div>
+                            )}
                           </div>
 
                           <div className="mb-3">
@@ -732,7 +797,9 @@ const AgentProifle = () => {
                               value={data.name}
                               size="small"
                               FormHelperTextProps={{ sx: { color: "red" } }}
-                              helperText={step && data.name === "" ? "Required" : ""}
+                              helperText={
+                                step && data.name === "" ? "Required" : ""
+                              }
                               onChange={(e) =>
                                 setData({
                                   ...data,
@@ -761,7 +828,11 @@ const AgentProifle = () => {
                                 maxLength: 40,
                               }}
                               FormHelperTextProps={{ sx: { color: "red" } }}
-                              helperText={step && emailError ? "Please enter valid email address" : ""}
+                              helperText={
+                                step && emailError
+                                  ? "Please enter valid email address"
+                                  : ""
+                              }
                               value={data.email}
                               onChange={(e) =>
                                 setData({
@@ -808,7 +879,10 @@ const AgentProifle = () => {
                             />
                           </div>
 
-                          <button onClick={handleStep} className="login justify-content-center get-schedule">
+                          <button
+                            onClick={handleStep}
+                            className="login justify-content-center get-schedule"
+                          >
                             Contact
                           </button>
                         </div>
@@ -821,8 +895,10 @@ const AgentProifle = () => {
                 <div className="container">
                   <div className="section-title">
                     <h3>
-                      Recent Listed <span>Properties</span> by{" "}
-                      {agentData?.agent_name}
+                      Recent Listed <span>Properties</span>
+                      {properties.length > 0
+                        ? "by" + " " + agentData.agent_name
+                        : ""}
                     </h3>
                     <p>
                       Looking for a service? Discover the most recent service
@@ -1022,13 +1098,12 @@ const AgentProifle = () => {
                     ))}
                   </div>
                   <div className="d-flex flex-row-reverse mt-4 mr-3">
-                    <Link>
-                      <a
-                        title="Click to view all properties"
-                        className="btn-viewall px-4 "
-                      >
-                        View All
-                      </a>
+                    <Link
+                      title="Click to view all properties"
+                      className="btn-viewall px-4 "
+                      to={properties.length > 0 ? `/agentproperties/All-${agentData?.user_cnct_id}` : `/allproperties`}
+                    >
+                      View All
                     </Link>
                   </div>
                 </div>

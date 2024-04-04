@@ -15970,6 +15970,11 @@ section.find-services {
   display: inline-block;
   margin-bottom: 10px;
 }
+
+.agent-profile-loc-list {
+  color: black;
+}
+
 /* .profilepict {
   height: 190px;
   overflow: hidden;
@@ -16254,6 +16259,114 @@ section.find-services {
 }
 
 
+.user-profile .card {
+    width: 100%;
+    min-height: 100px;
+    border-radius: 3px;
+    /* background-color: white; */
+    box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    background-color : rgb(247 249 251 );
+    padding: 24px;
+}
+
+
+.user-profile .card .card-info {
+  display: flex;
+  flex-direction: row;
+    z-index: 2;
+    position: relative;
+    
+    justify-content: start;
+    align-items: center;
+}
+
+.card-info .profileinfo {
+  padding: 0px 20px;
+  /* width: 90%; */
+}
+
+.card-info .user-edit {
+  justify-content: end;
+}
+
+.card-info img {
+  width: 165px;
+  height: 155px;
+  overflow: hidden;
+  box-shadow:  1px 0px 1px;
+}
+
+.card-info .user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+
+.user-profile .content {
+  position: relative;
+  animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
+  margin-bottom: 25px;
+}
+
+
+.user-profile .main-conetnt-1 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.user-profile .company-name {
+  line-height: 26px;
+  color: #262626;
+  list-style: none;
+  font-size: 15px;
+  color: #858796 ;
+  font-weight: bolder
+}
+
+.user-profile .agent-property {
+  line-height: 26px;
+  color: #262626;
+  list-style: none;
+  font-size: 15px;
+  color: #858796 ;
+  font-weight: bolder;
+  /* border: 1px solid black; */
+  padding: 0 10px;
+  /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); */
+  box-shadow: 1px 2px 3px 0px cadetblue;
+}
+
+/* .user-profile:after {
+  content: "";
+  display: block;
+  width: 190px;
+  height: 300px;
+  background: cadetblue;
+  position: absolute;
+  animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
+  overflow: hidden;
+} */
+
+/* .user-profile .card {
+   width: 100%; 
+   min-height: 100px; 
+   padding: 20px; 
+   border-radius: 3px; 
+   background-color: white; 
+   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2); 
+  position: relative;
+  overflow: hidden;
+} */
+
+.user-profile .agent-property a {
+  color: #858796 ;
+}
+
 
 .firstinfo .profileinfo {
   padding: 0px 20px;
@@ -16473,6 +16586,15 @@ section.find-services {
     padding: 5px 8px;
 }
 
+.badgescard .view-profile:hover {
+  background-color: #3454b4;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
+
+
 .badgescard .website-link {
   color: #4169E1;
 }
@@ -16505,4 +16627,87 @@ section.find-services {
     position: absolute;
     bottom: -1px;
     left: 0;
+}
+
+
+.contact-agent {
+  /* background-color: #fd0707;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+  font-weight:bold;
+  font-size: 12px; */
+
+  background-color: #209920;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
+.contact-agent:hover {
+  background-color: #1C791D;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
+.contacted-agent {
+  background-color: #1B601C;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  gap: 4px;
+}
+
+
+.profile-details {
+  /* background-color : rgb(247 249 251 ); */
+  padding: 24px;
+}
+
+.profile-details .sec-heading {
+  font-weight: 600;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.profile-details .sec-1 {
+  padding: 5px;
+}
+
+.profile-details .sec-2 {
+  padding: 5px;
+}
+
+.a {
+  padding: 5px;
+  background-color: #E8E8E8;
+  color: black;
+  /* border: 1px solid black; */
+  border-right: 0;
+  width: 350px;
+  padding-left: 20px;
+  box-shadow: 0 1px 2px;
+}
+
+.b {
+  padding: 5px;
+  /* border: 1px solid black; */
+  border-left: 0;
+  width: 350px;
+  padding-left: 20px;
+  box-shadow: 0 1px 2px;
+}
+
+.ab {
+  padding-top: 25px;
 }

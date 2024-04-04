@@ -93,6 +93,7 @@ const Property = () => {
     }
   };
 
+  
   const [proType, setProType] = useState("");
   useEffect(() => {
     axios
@@ -701,6 +702,7 @@ const Property = () => {
                                   title="Shortlisted"
                                   onClick={shortlistProperty}
                                 >
+                                  
                                   <IconStarFilled className="shortlistIcon" />
                                 </button>
                               )

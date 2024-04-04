@@ -137,6 +137,7 @@ const NoResult = (props) => {
                 {pageLocation.pathname === "/allproperties" ||
                 pageLocation.pathname.startsWith("/rental") ? (
                   <div className="col-md-12">
+                    
                     <div className="more-detail-heading">View Properties</div>
                     {subDistrict &&
                     data?.length > 0 &&
@@ -317,7 +318,31 @@ const NoResult = (props) => {
                     )}
                   </div>
                 ) : (
-                  ""
+                  <div className="col-md-12">
+                    <div className="more-detail-heading">View Properties</div>
+                  <div className="d-flex flex-wrap tags-link ">
+                        {propertyType.map((item) => (
+                          <Link to={item.link}>
+                            <div
+                              className="loc-list mb-0 pointer"
+                              onClick={() => props.handleSearchValue("")}
+                            >
+                              <span className="text-dark font-weight-bold">
+                                {item.type}
+                              </span>
+                            </div>
+                          </Link>
+                        ))}
+                        <div
+                          className="loc-list mb-0 pointer"
+                          onClick={() => props.handleSearchValue("")}
+                        >
+                          <span className="text-dark font-weight-bold">
+                            View All Properties
+                          </span>
+                        </div>
+                      </div>
+                      </div>
                 )}
               </div>
             </div>

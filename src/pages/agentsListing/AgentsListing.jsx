@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import SearchBar from "../../components/searchBar/SearchBar";
@@ -20,10 +20,17 @@ import {
   InputAdornment,
   Pagination,
 } from "@mui/material";
+import Loader from "../../components/loader/Loader";
+import { AuthContext } from "../../context/AuthContext";
+import {Snackbar} from "@mui/material";
+
 const AgentsListing = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [loader, setLoader] = useState(false);
   const [agents, setAgents] = useState([]);
   const [subData, setSubData] = useState([]);
   const [rentData, setRentData] = useState([]);
+  const [snackQ, setSnackQ] = useState(false);
 
   useEffect(() => {
     axios
@@ -44,17 +51,7 @@ const AgentsListing = () => {
       });
   }, []);
 
-  // const [records, setRecords] = useState([]);
-  // const [nPages, setNPages] = useState(0);
-
-  // const handleRecordsChange = (newRecords) => {
-  //   setRecords(newRecords);
-  // };
-
-  // const handleNPagesChange = (newNPages) => {
-  //   setNPages(newNPages);
-  // };
-
+  
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,10 +77,10 @@ const AgentsListing = () => {
 
   //console.log("records : ", records);
 
-  const handleSearchValue = (value) => {
-    //console.log(value);
-    setSearchValue(value);
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
 
   useEffect(() => {
     axios
@@ -111,14 +108,11 @@ const AgentsListing = () => {
         //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
       )
       .then((res) => {
-        //setSearchValue(res.data.features[0].properties.city.trim());
-        //setUserLocation(res.data);
+       
         setLocation(res.data.features[0].properties.city.trim());
-        //props.handleUserLocation(res.data.features[0].properties.city.trim());
+      
         setSearchValue("");
-        //props.handleSearchValue("");
-        //setSearchValue(res.data.address.city);
-        //setSearchValue("kurukshetra");
+
       });
   }
 
@@ -229,8 +223,45 @@ const AgentsListing = () => {
       : results?.length / recordsPerPage
   );
 
+
+  const contactAgent = async () => {
+    setLoader(true);
+    
+    try {
+     
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/contact/interestShowedInAgent",
+        {
+          pro_user_id: currentUser[0].login_id,
+        }
+      );
+      setLoader(false);
+      setSnackQ(true);
+      checkInterested();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
+      {loader ? <Loader /> : ""}
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackQ}
+        autoHideDuration={1000}
+        onClose={() => setSnackQ(false)}
+        message={
+          "Thank You for showing interest in this property, we will get back to you soon."
+        }
+        />
       <Navbar />
       <section className="main-content">
         <div className="container agent-card-wrapper">
@@ -361,7 +392,7 @@ const AgentsListing = () => {
 
                           {item.Sale_Count !== 0 && item.Rent_Count !== 0 ? (
                             <>
-                              <div className="agent-property">
+                              <div className="agent-property" title="Click to view properties">
                                 <Link
                                   to={`/agentproperties/Sale-${item.user_cnct_id}`}
                                 >
@@ -378,7 +409,7 @@ const AgentsListing = () => {
                           ) : item.Sale_Count !== 0 || item.Rent_Count !== 0 ? (
                             <>
                               <div className="agent-property">
-                                <Link
+                                <Link title="Click to view properties"
                                   to={`/agentproperties/${
                                     item.Sale_Count > 0 ? "Sale" : "Rent"
                                   }-${item.user_cnct_id}`}
@@ -422,14 +453,15 @@ const AgentsListing = () => {
                         <div>
                           {item.Sale_Count !== 0 && item.Rent_Count !== 0 ? (
                             <>
-                              <div className="agent-property-1">
-                                <Link
+                              <div className="agent-property-1" title="Click to view properties" >
+                                <Link 
                                   to={`/agentproperties/Sale-${item.user_cnct_id}`}
+                                  
                                 >
                                   {item.Sale_Count} Property for sale{" "}
                                 </Link>
                                 <span className="border-line"></span>
-                                <Link
+                                <Link 
                                   to={`/agentproperties/Rent-${item.user_cnct_id}`}
                                 >
                                   {item.Rent_Count} Property for rent
@@ -438,7 +470,7 @@ const AgentsListing = () => {
                             </>
                           ) : item.Sale_Count !== 0 || item.Rent_Count !== 0 ? (
                             <>
-                              <div className="agent-property-1">
+                              <div className="agent-property-1" title="Click to view properties">
                                 <Link
                                   to={`/agentproperties/${
                                     item.Sale_Count > 0 ? "Sale" : "Rent"
@@ -460,7 +492,7 @@ const AgentsListing = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex ">
                         <div className="pl-2">
-                          <button title="Contact Agent" type="button" class="btn btn-sm interest">
+                          <button onClick={contactAgent} title="Contact Agent" type="button" class="btn btn-sm contact-agent">
                             <IconSend width="20px" height="20px" />
                             <span className="pl-1">Contact</span>
                           </button>

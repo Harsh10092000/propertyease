@@ -1,0 +1,20 @@
+.fontClass{
+    font-size: 20px;
+}
+.fontClass2{
+    font-size: 18px;
+}
+
+.grp{
+    height: 181px !important;
+    overflow-y: hidden !important;
+}
+.titleClass{
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.subtitleClass{
+    font-size: 19px;
+    font-weight: 500;
+}

@@ -181,7 +181,28 @@ const UserDashboard = () => {
                             title="Edit Your Property"
                             className="btn btn-primary btn-sm vbtn"
                           >
-                            <Link to={"/editProperty/" + item.pro_id}>
+                            {/* <Link to={"/editProperty/" + item.pro_id}> */}
+                            <Link to={`/editProperty/${
+                                    item.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    item.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                                    "-"
+                                  }${
+                                    item.pro_type
+                                      ? item.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    item.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${item.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${item.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${item.pro_id}`}>
                               <a
                                 target="_blank"
                                 className="btn btn-primary btn-sm "
@@ -190,7 +211,27 @@ const UserDashboard = () => {
                               </a>
                             </Link>
                           </button>
-                          <Link to={`/${item.pro_id}`}>
+                          <Link to={`/${
+                                    item.pro_area_size.toLowerCase() +
+                                    "-" +
+                                    item.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                                    "-"
+                                  }${
+                                    item.pro_type
+                                      ? item.pro_type
+                                          .split(",")[0]
+                                          .toLowerCase()
+                                          .replaceAll(" ", "-")
+                                      : ""
+                                  }-for-${
+                                    item.pro_ad_type === "rent"
+                                      ? "rent"
+                                      : "sale"
+                                  }-in-${item.pro_locality
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${item.pro_city
+                                    .toLowerCase()
+                                    .replaceAll(" ", "-")}-${item.pro_id}`}>
                             <button
                               title="View Your Property"
                               className="btn btn-primary btn-sm vbtn"

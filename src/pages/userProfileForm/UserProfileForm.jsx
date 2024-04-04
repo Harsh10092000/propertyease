@@ -279,34 +279,7 @@ const UserProfileForm = () => {
         console.log("ok.......");
         handleClick();
       } else {
-        console.log(
-          "not ok.......",
-          userData,
-          filterDistricts.length > 0
-          ? userData.user_work_city !== ""
-          : userData.user_work_city === "" ,
-
-          filterSubDistricts.length > 0
-          ? userData.user_work_sub_district !== ""
-          : userData.user_work_sub_district === "",
-          
-          userData.user_work_city.length === 0 ,
-          userData.user_work_sub_district.length === 0,
-
-          userData.user_name !== "" ,
-        userData.user_email !== "" ,
-        userData.user_phone !== "" ,
-        userData.user_exp !== "" ,
-        userData.user_state !== "" ,
-        //userData.user_desc !== "" ,
-        formatError === false ,
-        fileSizeExceeded === false ,
-        selectedTypes !== "" ,
-        userData.user_work_state !== "" ,
-        userData.user_locality !== "" ,
-        userData.user_comapnay_name !== "" ,
-        userData.user_company_website !== "" 
-        );
+        
         setFormSubmit(true);
       }
     } else if (
@@ -623,14 +596,14 @@ const UserProfileForm = () => {
                       ))
                   : "No City Exists"}
               </Select>
-              {formSubmit === true &&
+              {cityState.filter((i) => i.state === userData.user_state).length > 0 && formSubmit === true &&
                 userData.user_city === "" &&
                 userData.user_state === "" && (
                   <FormHelperText sx={{ color: "red" }}>
                     Select State to add City
                   </FormHelperText>
                 )}
-              {formSubmit === true &&
+              {cityState.filter((i) => i.state === userData.user_state).length > 0 && formSubmit === true &&
                 userData.user_city === "" &&
                 userData.user_state !== "" && (
                   <FormHelperText sx={{ color: "red" }}>
@@ -667,13 +640,13 @@ const UserProfileForm = () => {
                       ))
                   : "No District Exists"}
               </Select>
-              {formSubmit === true &&
+              {subDistrict.filter((i) => i.district === userData.user_city).length > 0 && formSubmit === true &&
                 (userData.user_city === "" || userData.user_state === "") && (
                   <FormHelperText sx={{ color: "red" }}>
                     Select State and City to add Sub District
                   </FormHelperText>
                 )}
-              {formSubmit === true &&
+              {subDistrict.filter((i) => i.district === userData.user_city).length > 0 && formSubmit === true &&
                 userData.user_sub_district === "" &&
                 userData.user_city !== "" &&
                 userData.user_state !== "" && (

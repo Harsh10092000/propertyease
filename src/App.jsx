@@ -40,6 +40,8 @@ import UserProfileForm from "./pages/userProfileForm/UserProfileForm";
 import AgentProifle from "./pages/agentProfile/AgentProifle";
 import AgentsListing from "./pages/agentsListing/AgentsListing";
 import AgentProperties from "./pages/agentProperties/AgentProperties";
+import UserdashboardProfile from "./pages/userdashboardProfile/UserdashboardProfile";
+import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -165,6 +167,16 @@ const App = () => {
           path: "userProfileForm",
           element: <UserProfileForm />,
         },
+        {
+          path: "user-profile",
+          element: <UserdashboardProfile />,
+        },
+        {
+          path: "edit-user-profile",
+          element: <EditUserProfile />,
+        },
+        
+        
       ],
     },
     {
@@ -261,7 +273,10 @@ const App = () => {
     },
     {
       path: "/agentProfile/:agentId",
-      element: <AgentProifle />,
+      element: (
+        <><ScrollToTop />
+      <AgentProifle />
+      </>),
     },
     {
       path: "/watermark2",
