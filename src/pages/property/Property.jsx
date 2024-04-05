@@ -66,6 +66,8 @@ const Property = () => {
   const [interested, setInterested] = useState(false);
   const [skeleton, setSkeleton] = useState(true);
   const [currentImage, setCurrentImage] = useState("");
+  const [latestProperty, setLatestProperty] = useState([]);
+
   const checkShortlist = async () => {
     if (currentUser) {
       try {
@@ -93,16 +95,17 @@ const Property = () => {
     }
   };
 
-  
   const [proType, setProType] = useState("");
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById/${proId}`
+        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`
       )
       .then((res) => {
-        setData(res.data[0]);
-        setProType(res.data[0].pro_type.split(",")[1]);
+        console.log("res.data : " , res.data , res.data.data[0])
+        setData(res.data.data[0]);
+        setLatestProperty(res.data.data1);
+        setProType(res.data.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
       });
     axios
@@ -113,6 +116,8 @@ const Property = () => {
     checkShortlist();
     checkInterested();
   }, []);
+
+  console.log("data : " , data , latestProperty);
 
   const propertyType1 = [
     // {
@@ -417,17 +422,33 @@ const Property = () => {
     },
   ];
 
-  const [latestProperty, setLatestProperty] = useState([]);
-  useEffect(() => {
-    axios
-      .get(
-        import.meta.env.VITE_BACKEND +
-          `/api/pro/fetchLatestPropertyByCat/${proType}`
-      )
-      .then((res) => {
-        setLatestProperty(res.data);
-      });
-  }, [data]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       import.meta.env.VITE_BACKEND +
+  //         `/api/pro/fetchLatestPropertyByCat1/${proType}`
+  //     )
+  //     .then((res) => {
+  //       setLatestProperty(res.data);
+  //     });
+  // }, [data]);
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchLatestPropertyByCat/${proType}`);
+  //       setLatestProperty(response.data);
+        
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       // Handle error or set appropriate state
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, []); 
 
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
@@ -702,7 +723,6 @@ const Property = () => {
                                   title="Shortlisted"
                                   onClick={shortlistProperty}
                                 >
-                                  
                                   <IconStarFilled className="shortlistIcon" />
                                 </button>
                               )
