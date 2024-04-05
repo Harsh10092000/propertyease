@@ -27,6 +27,7 @@ import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 
+
 const Property = () => {
   const curr_date = Date.now();
   const date = new Date(1710738331821);
@@ -49,6 +50,7 @@ const Property = () => {
   const { id } = useParams();
   const arrproId = id.split("-");
   const proId = arrproId[arrproId.length - 1];
+  
 
   useEffect(() => {
     isNaN(proId) && navigate(`/notfound`);
@@ -117,37 +119,37 @@ const Property = () => {
     checkInterested();
   }, []);
 
+  // const [isLoading, setIsLoading] = useState(true);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`); 
+  //       setIsLoading(true)
+  //       setData(response.data[0]);
+  //       setLatestProperty(response.data1);
+  //       setProType(response.data[0].pro_type.split(",")[1]);
+  //       setSkeleton(false);
+  //       const response1 = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`); 
+  //       setImages([...response1.data, { img_link: "default.png" }]);
+  //       setIsLoading(false)
+  //       checkShortlist();
+  //   checkInterested();
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData(); 
+  // }, []); 
+
+
+  
+
+  
+
   console.log("data : " , data , latestProperty);
 
   const propertyType1 = [
-    // {
-    //   type: "Residential Land",
-    //   description: `${data.pro_area_size} ${data.pro_area_size_unit} ${
-    //     data.pro_type ? data.pro_type.split(",")[0] : ""
-    //   } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-    //     data.pro_locality ? data.pro_locality + ", " : ""
-    //   }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-    //     data.pro_city
-    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home.
-    //   The property is ideal for multiple-purpose use because of the good connectivity with the city.
-    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice.
-    //   Flexible zoning for different property uses. Low taxes and HOA fees.
-    //   This is an excellent chance to invest in or build your peaceful natural hideaway.`,
-    // },
-    // {
-    //   type: "Independent House",
-    //   description: `${data.pro_area_size} ${data.pro_area_size_unit} ${
-    //     data.pro_type ? data.pro_type.split(",")[0] : ""
-    //   } for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${
-    //     data.pro_locality ? data.pro_locality + ", " : ""
-    //   }${data.pro_sub_district ? data.pro_sub_district + ", " : ""}${
-    //     data.pro_city
-    //   }. Pretty, calm setting with lovely views. Gently sloping ground is perfect for building your dream home.
-    //   The property is ideal for multiple-purpose use because of the good connectivity with the city.
-    //   Utilities are ready, so you can start building right away. Neighborhood rules help keep things looking nice.
-    //   Flexible zoning for different property uses. Low taxes and HOA fees.
-    //   This is an excellent chance to invest in or build your peaceful natural hideaway.`,
-    // },
 
     {
       type: "Apartment",
@@ -163,7 +165,6 @@ const Property = () => {
       It is in the city's heart but feels like a relaxing urban oasis. Contact us now to make this apartment yours. 
       `,
     },
-
     {
       type: "Independent House",
       description: `This stunning ${data.pro_area_size} ${
@@ -423,33 +424,6 @@ const Property = () => {
   ];
 
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       import.meta.env.VITE_BACKEND +
-  //         `/api/pro/fetchLatestPropertyByCat1/${proType}`
-  //     )
-  //     .then((res) => {
-  //       setLatestProperty(res.data);
-  //     });
-  // }, [data]);
-
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchLatestPropertyByCat/${proType}`);
-  //       setLatestProperty(response.data);
-        
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //       // Handle error or set appropriate state
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, []); 
-
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
   const [err, setErr] = useState(null);
@@ -545,18 +519,23 @@ const Property = () => {
       });
   }, [data.pro_city]);
 
+ 
+
   return (
     <div>
       <Helmet>
         <title>
-          {`${data.pro_area_size + " " + data.pro_area_size_unit + " "}${
-            data.pro_type ? data.pro_type.split(",")[0] : ""
-          }
-        for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
-        ${data.pro_locality}
-        ${data.pro_city}
-`}
+           {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
+             data.pro_type ? data.pro_type.split(",")[0] : ""
+           }
+         for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
+         ${data.pro_locality}
+         ${data.pro_city}
+ `}  */}
+{`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "+arrproId[3] + " "+arrproId[4] + " "+arrproId[5] + " "+arrproId[6] + " "+arrproId[7] + " "+arrproId[8]+ " "+arrproId[9]}`}
         </title>
+        
+
         <link rel="canonical" href={location} />
         <meta
           name="og:title"
@@ -578,6 +557,7 @@ const Property = () => {
               : "/images/default.png"
           }
         />
+      
         <meta
           name="description"
           content={`Check out this ${
@@ -694,16 +674,14 @@ const Property = () => {
                       >
                         {!skeleton ? (
                           <h1 className="capitalize  pl-md-0 d-flex gap-3 align-items-center">
-                            {data.pro_area_size +
+                            {/* {data.pro_area_size +
                               " " +
                               data.pro_area_size_unit +
                               " "}
                             {data.pro_type ? data.pro_type.split(",")[0] : ""}{" "}
                             For
                             {" " + data.pro_ad_type} in{" "}
-                            {/* <span className="text-capitalize">
-                              {data.pro_locality + ","}
-                            </span> */}
+                            
                             {data.pro_locality[0].toUpperCase() +
                               data.pro_locality.slice(1) +
                               ","}
@@ -711,7 +689,11 @@ const Property = () => {
                               ? data.pro_sub_district + ", "
                               : ""}
                             {data.pro_city},&nbsp;
-                            {data.pro_state}
+                            {data.pro_state} */}
+                            {arrproId.slice(0,arrproId.length-1).map((item) => (
+                              <span>{item[0].toUpperCase() + item.slice(1)}</span>
+                            ))}
+                            {/* {arrproId[0] +" "+arrproId[1] +" "+arrproId[2] +" "+arrproId[3] +" "+arrproId[4]+" "+arrproId[5]+" "+arrproId[6]+" "+arrproId[7]+" "+arrproId[8]} */}
                             {currentUser ? (
                               data.pro_user_id == currentUser[0].login_id ? (
                                 ""
