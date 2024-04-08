@@ -122,7 +122,7 @@ const Property = () => {
   // } catch (err) {
   //   console.log(err);
   // }
-  }, []);
+  }, [proId]);
 
   const [viewsData, setViewsData] = useState({
     pro_views: "",
