@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 const NoResult = (props) => {
   let pageLocation = useLocation();
-  console.log(pageLocation);
+
 
   const [subDistrict, setSubDistrict] = useState();
 
@@ -42,7 +42,7 @@ const NoResult = (props) => {
     }
   }, [currentLocation]);
 
-  console.log("data : " , data);
+
 
   const [location, setLocation] = useState(null);
   useEffect(() => {

@@ -5,6 +5,7 @@ import {
   IconBrandWhatsapp,
   IconBrandFacebook,
   IconX,
+  IconEye,
 } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
@@ -27,11 +28,10 @@ import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 
-
 const Property = () => {
   const curr_date = Date.now();
   const date = new Date(1710738331821);
-  console.log(date);
+
   date.setUTCHours(date.getUTCHours() + 5);
   date.setUTCMinutes(date.getUTCMinutes() + 30);
 
@@ -50,7 +50,6 @@ const Property = () => {
   const { id } = useParams();
   const arrproId = id.split("-");
   const proId = arrproId[arrproId.length - 1];
-  
 
   useEffect(() => {
     isNaN(proId) && navigate(`/notfound`);
@@ -99,13 +98,16 @@ const Property = () => {
 
   const [proType, setProType] = useState("");
   useEffect(() => {
+    // try {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/fetchPropertyDataById1/${proId}`
       )
       .then((res) => {
-        console.log("res.data : " , res.data , res.data.data[0])
         setData(res.data.data[0]);
+        
+        
         setLatestProperty(res.data.data1);
         setProType(res.data.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
@@ -117,19 +119,53 @@ const Property = () => {
       });
     checkShortlist();
     checkInterested();
+  // } catch (err) {
+  //   console.log(err);
+  // }
   }, []);
+
+  const [viewsData, setViewsData] = useState({
+    pro_views: "",
+    pro_id: "",
+  });
+
+  const [contactedData, setContactedData] = useState({
+    pro_contacted: "",
+    pro_id: "",
+  });
+
+  useEffect(() => {
+    if (!currentUser) {
+      viewsData.pro_views =
+        (data.pro_views !== null ? parseInt(data.pro_views) : 0) + 1;
+      viewsData.pro_id = data.pro_id;
+      axios.put(
+        import.meta.env.VITE_BACKEND + "/api/pro/updateViews",
+        viewsData
+      );
+    } else if (currentUser[0].login_id !== data.pro_user_id) {
+      //setViewsData({...viewsData , pro_views: (data.pro_views !== null ? parseInt(data.pro_views) : 0 )  + 1 , pro_id: data.pro_id})
+      viewsData.pro_views =
+        (data.pro_views !== null ? parseInt(data.pro_views) : 0) + 1;
+      viewsData.pro_id = data.pro_id;
+      axios.put(
+        import.meta.env.VITE_BACKEND + "/api/pro/updateViews",
+        viewsData
+      );
+    }
+  }, [data?.pro_id]);
 
   // const [isLoading, setIsLoading] = useState(true);
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`); 
+  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`);
   //       setIsLoading(true)
   //       setData(response.data[0]);
   //       setLatestProperty(response.data1);
   //       setProType(response.data[0].pro_type.split(",")[1]);
   //       setSkeleton(false);
-  //       const response1 = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`); 
+  //       const response1 = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`);
   //       setImages([...response1.data, { img_link: "default.png" }]);
   //       setIsLoading(false)
   //       checkShortlist();
@@ -139,18 +175,10 @@ const Property = () => {
   //     }
   //   };
 
-  //   fetchData(); 
-  // }, []); 
+  //   fetchData();
+  // }, []);
 
-
-  
-
-  
-
-  console.log("data : " , data , latestProperty);
-
-  const propertyType1 = [
-
+  const propertyType1 = data !== undefined && [
     {
       type: "Apartment",
       description: `${data.pro_area_size} ${data.pro_area_size_unit} ${
@@ -423,7 +451,6 @@ const Property = () => {
     },
   ];
 
-
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
   const [err, setErr] = useState(null);
@@ -454,7 +481,7 @@ const Property = () => {
     }
   };
   const [snackQ, setSnackQ] = useState(false);
-  console.log("data , currentUser : ", data, currentUser);
+
   const sendQuestion = async () => {
     setLoader(true);
     try {
@@ -475,6 +502,15 @@ const Property = () => {
           pro_user_id: data.pro_user_id,
         }
       );
+
+      contactedData.pro_contacted =
+        (data.pro_contacted !== null ? parseInt(data.pro_contacted) : 0) + 1;
+      contactedData.pro_id = data.pro_id;
+      axios.put(
+        import.meta.env.VITE_BACKEND + "/api/pro/updateContacted",
+        contactedData
+      );
+      data.pro_contacted = parseInt(data.pro_contacted) + 1;
       setLoader(false);
       setSnackQ(true);
       checkInterested();
@@ -509,7 +545,8 @@ const Property = () => {
 
   const [subDistrict, setSubDistrict] = useState();
   useEffect(() => {
-    axios
+    if(data.length > 0) {
+      axios
       .get(
         import.meta.env.VITE_BACKEND +
           `/api/pro/SubDistrictDataByCity/${data.pro_city}`
@@ -517,34 +554,53 @@ const Property = () => {
       .then((res) => {
         setSubDistrict(res.data);
       });
-  }, [data.pro_city]);
-
- 
+    }
+    
+  }, [data?.pro_city]);
 
   return (
     <div>
       <Helmet>
         <title>
-           {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
+          {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
              data.pro_type ? data.pro_type.split(",")[0] : ""
            }
          for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
          ${data.pro_locality}
          ${data.pro_city}
  `}  */}
-{`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "+arrproId[3] + " "+arrproId[4] + " "+arrproId[5] + " "+arrproId[6] + " "+arrproId[7] + " "+arrproId[8]+ " "+arrproId[9]}`}
+          {`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
         </title>
-        
 
         <link rel="canonical" href={location} />
         <meta
           name="og:title"
           content={`${
-            data.pro_area_size + " " + data.pro_area_size_unit + " "
-          }${data.pro_type ? data.pro_type.split(",")[0] : ""}
-        for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
-        ${data.pro_locality}
-        ${data.pro_city}
+            data?.pro_area_size + " " + data?.pro_area_size_unit + " "
+          }${data?.pro_type ? data?.pro_type.split(",")[0] : ""}
+        for ${data?.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
+        ${data?.pro_locality}
+        ${data?.pro_city}
 `}
         />
         <meta
@@ -557,16 +613,16 @@ const Property = () => {
               : "/images/default.png"
           }
         />
-      
+
         <meta
           name="description"
           content={`Check out this ${
-            data.pro_area_size + " " + data.pro_area_size_unit + " "
-          }${data.pro_type ? data.pro_type.split(",")[0] : ""}
+            data?.pro_area_size + " " + data?.pro_area_size_unit + " "
+          }${data?.pro_type ? data?.pro_type.split(",")[0] : ""}
         for ${
-          data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+          data?.pro_ad_type === "Rent" ? "Rent" : "Sale"
         }. It is an ideal investment opportunity in a prime ${
-            data.pro_type ? data.pro_type.split(",")[0] : ""
+            data?.pro_type ? data?.pro_type.split(",")[0] : ""
           } area with verified property assurance.`}
         />
       </Helmet>
@@ -640,41 +696,58 @@ const Property = () => {
           <div className="col-md-12">
             <div>
               <section className="property-view-outer">
-                <ul className="coming-field-content">
-                  <li>
-                    <Link to="/">
-                      <a>
-                        Property Type
-                        <span>
+                {data !== undefined && data.pro_listed !== 0 ? (
+                  <ul className="coming-field-content">
+                    <li>
+                      <Link to="/">
+                        <a>
+                          Property Type
+                          <span>
+                            <IconChevronRight className="sidebar-faicon" />
+                          </span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link>
+                        <a>
+                          {data.pro_type ? data.pro_type.split(",")[1] : ""}
                           <IconChevronRight className="sidebar-faicon" />
-                        </span>
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <a>
-                        {data.pro_type ? data.pro_type.split(",")[1] : ""}
-                        <IconChevronRight className="sidebar-faicon" />
-                      </a>
-                    </Link>
-                  </li>
-                  <li>{data.pro_sub_cat}</li>
-                </ul>
-
-                <div className="property-view-inner">
-                  <div className="row">
-                    <div
-                      className={sticky ? "top newClass" : "top"}
-                      id="dynamic"
-                    >
+                        </a>
+                      </Link>
+                    </li>
+                    <li>{data.pro_sub_cat}</li>
+                   
+                    {data.pro_views !== null &&
+                          parseInt(data.pro_views) > 0 && (
+                            <li className="property-view-count ">
+                              <IconEye width={16} height={16} />
+                              {" "}Views {data.pro_views}
+                            </li>
+                          )}
+                    
+                  </ul>
+                ) : (
+                  <div class="no-longer-available">
+                    <h1>This property is no longer available.</h1>
+                    <p>We apologize for any inconvenience this may cause.</p>
+                  </div>
+                )}
+                {data !== undefined && data.pro_listed !== 0 && (
+                  <div className="property-view-inner">
+                    <div className="row">
                       <div
-                        className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0"
-                        style={{ gap: "0" }}
+                        className={sticky ? "top newClass" : "top"}
+                        id="dynamic"
                       >
-                        {!skeleton ? (
-                          <h1 className="capitalize  pl-md-0 d-flex gap-3 align-items-center">
-                            {/* {data.pro_area_size +
+                        
+                        <div
+                          className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0"
+                          style={{ gap: "0", width: "100%"}}
+                        >
+                          {!skeleton ? (
+                            <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center flex-wrap">
+                              {/* {data.pro_area_size +
                               " " +
                               data.pro_area_size_unit +
                               " "}
@@ -690,468 +763,531 @@ const Property = () => {
                               : ""}
                             {data.pro_city},&nbsp;
                             {data.pro_state} */}
-                            {arrproId.slice(0,arrproId.length-1).map((item) => (
-                              <span>{item[0].toUpperCase() + item.slice(1)}</span>
-                            ))}
-                            {/* {arrproId[0] +" "+arrproId[1] +" "+arrproId[2] +" "+arrproId[3] +" "+arrproId[4]+" "+arrproId[5]+" "+arrproId[6]+" "+arrproId[7]+" "+arrproId[8]} */}
-                            {currentUser ? (
-                              data.pro_user_id == currentUser[0].login_id ? (
-                                ""
+                              {arrproId
+                                .slice(0, arrproId.length - 1)
+                                .map((item) => (
+                                  <span>
+                                    {item[0].toUpperCase() + item.slice(1)}
+                                  </span>
+                                ))}
+                              {/* {arrproId[0] +" "+arrproId[1] +" "+arrproId[2] +" "+arrproId[3] +" "+arrproId[4]+" "+arrproId[5]+" "+arrproId[6]+" "+arrproId[7]+" "+arrproId[8]} */}
+                              {currentUser ? (
+                                data.pro_user_id == currentUser[0].login_id ? (
+                                  ""
+                                ) : (
+                                  <button
+                                    className={
+                                      shortlist ? "shortlisted" : "shortlist"
+                                    }
+                                    title="Shortlisted"
+                                    onClick={shortlistProperty}
+                                  >
+                                    <IconStarFilled className="shortlistIcon" />
+                                  </button>
+                                )
                               ) : (
                                 <button
-                                  className={
-                                    shortlist ? "shortlisted" : "shortlist"
-                                  }
-                                  title="Shortlisted"
+                                  className="shortlist"
+                                  title="Shortlist this property"
                                   onClick={shortlistProperty}
                                 >
                                   <IconStarFilled className="shortlistIcon" />
                                 </button>
-                              )
-                            ) : (
-                              <button
-                                className="shortlist"
-                                title="Shortlist this property"
-                                onClick={shortlistProperty}
-                              >
-                                <IconStarFilled className="shortlistIcon" />
-                              </button>
-                            )}
-                          </h1>
-                        ) : (
-                          <Skeleton
-                            variant="rectangular"
-                            width={450}
-                            height={28}
-                          />
-                        )}
-                      </div>
-                      {!skeleton ? (
-                        <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
-                          {data.pro_locality},&nbsp;
-                          {data.pro_sub_district
-                            ? data.pro_sub_district + ", "
-                            : ""}
-                          {data.pro_city},&nbsp;
-                          {data.pro_state}
+                              )}
+                            </h1>
+                          ) : (
+                            <Skeleton
+                              variant="rectangular"
+                              width={450}
+                              height={28}
+                            />
+                          )}
                         </div>
-                      ) : (
-                        <Skeleton
-                          variant="rectangular"
-                          width={250}
-                          height={19}
-                          className="mt-1"
-                        />
-                      )}
-                      {!skeleton ? (
-                        <span className="listed pl-3 pl-md-0 ">
-                          Listed by {" " + data.pro_user_type}{" "}
-                          {DateTime(data.pro_date)}
-                        </span>
-                      ) : (
-                        <Skeleton
-                          variant="rectangular"
-                          width={250}
-                          height={14}
-                          className="mt-1"
-                        />
-                      )}
-                      <div className="d-flex align-items-center justify-content-between p-1">
                         {!skeleton ? (
-                          <div className="d-flex align-items-center justify-content-between pl-md-0 ">
-                            <div className="property-price">
-                              {data.pro_amt
-                                ? "₹" + data.pro_amt + " " + data.pro_amt_unit
-                                : "Ask Price"}
-                            </div>
+                          <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
+                            {data.pro_locality},&nbsp;
+                            {data.pro_sub_district
+                              ? data.pro_sub_district + ", "
+                              : ""}
+                            {data.pro_city},&nbsp;
+                            {data.pro_state}
                           </div>
                         ) : (
                           <Skeleton
                             variant="rectangular"
-                            width={150}
-                            height={40}
+                            width={250}
+                            height={19}
                             className="mt-1"
                           />
                         )}
-
-                        <div className="d-flex gap-2 align-items-center">
-                          {currentUser ? (
-                            data.pro_user_id == currentUser[0].login_id ? (
-                              ""
-                            ) : (
-                              <>
-                                {interested ? (
-                                  <button
-                                    className="interest-showed"
-                                    title="Already Contacted"
-                                    onClick={askQuestion}
-                                  >
-                                    <IconSend />
-                                    <span className="mobile-hidden">
-                                      Already
-                                    </span>
-                                    <span className="">Contacted</span>
-                                  </button>
-                                ) : (
-                                  <button
-                                    className="interest"
-                                    title="Contact Us"
-                                    onClick={askQuestion}
-                                  >
-                                    <IconSend />
-                                    <span className="">Contact Us</span>
-                                  </button>
-                                )}
-                              </>
-                            )
-                          ) : (
-                            <>
-                              <button
-                                className="interest"
-                                title="Contact Us"
-                                onClick={askQuestion}
-                              >
-                                <IconSend />
-                                <span className="">Contact Us</span>
-                              </button>
-                            </>
-                          )}
-                          <button className="fb" title="Share On Facebook">
-                            <a
-                              rel="noreferrer nofollow"
-                              href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
-                              target="_blank"
-                              className="share-property"
-                            >
-                              <IconBrandFacebook />
-                              <span
-                                className="mobile-hidden"
-                                style={{ fontWeight: "bold" }}
-                              >
-                                Share
-                              </span>
-                            </a>
-                          </button>
-                          <button className="wp pl-0" title="Share On Whatsapp">
-                            <a
-                              rel="noreferrer nofollow"
-                              href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
-                              target="_blank"
-                              className="share-propertywp"
-                            >
-                              <IconBrandWhatsapp />
-                              <span className="mobile-hidden">Share</span>
-                            </a>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="leftblock">
-                          <div className="photosection">
-                            {images.length > 1 ? (
-                              <EmblaCarousel
-                                pro_area_size={data.pro_area_size}
-                                pro_area_size_unit={data.pro_area_size_unit}
-                                pro_type={data.pro_type}
-                                pro_ad_type={data.pro_ad_type}
-                                pro_city={data.pro_city}
-                                slides={images}
-                                open={() => setOpen(true)}
-                                handleCurrentImage={handleCurrentImage}
-                              />
-                            ) : (
-                              <img
-                                src="/images/default.png"
-                                //alt="No Image"
-                                // alt={
-                                //   data.pro_area_size +
-                                //   " " +
-                                //   data.pro_area_size_unit +
-                                //   " " +
-                                //   data.pro_type && data.pro_type.split(",")[0] +
-                                //   " For" +
-                                //   " " +
-                                //   data.pro_ad_type +
-                                //   " in " +
-                                //   data.pro_city
-                                // }
-                                width={550}
-                                height={550}
-                                className="img-fluid"
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className={"property-side-detail"}>
-                          <div style={{ fontSize: "10px" }}>
-                            Property ID
-                            <span className="propertypage-id">
-                              {5000 + +proId}
-                            </span>
-                          </div>
-                          <div className="property-no-detail">
-                            <div className={"property-small-detail"}>
-                              {data.pro_type ? (
-                                data.pro_type.split(",")[1] == "Commercial" ||
-                                data.pro_type.split(",")[1] == "Residential" ? (
-                                  <>
-                                    <div className="property-numbers">
-                                      <img src="/img/bedroom.png" />
-                                      <span className="propertyHeading">
-                                        Bedroom(s)
-                                      </span>
-                                      <span className="propertyData">
-                                        {data.pro_bedroom}
-                                      </span>
-                                    </div>
-                                    <div className="property-numbers">
-                                      <img src="/img/shower.png" />
-                                      <span className="propertyHeading">
-                                        Washroom(s)
-                                      </span>
-                                      <span className="propertyData">
-                                        {data.pro_washrooms}
-                                      </span>
-                                    </div>
-                                    <div className="property-numbers">
-                                      <img src="/img/balcony.png" />
-                                      <span className="propertyHeading">
-                                        Balconies
-                                      </span>
-                                      <span className="propertyData">
-                                        {data.pro_balcony}
-                                      </span>
-                                    </div>
-                                    <div className="property-numbers">
-                                      <img src="/img/tiles.png" />
-                                      <span className="propertyHeading">
-                                        Floor(s)
-                                      </span>
-                                      <span className="propertyData">
-                                        {data.pro_floor}
-                                      </span>
-                                    </div>
-                                  </>
-                                ) : (
-                                  ""
-                                )
-                              ) : (
-                                ""
-                              )}
-
-                              <div className="property-numbers">
-                                <img src="/img/transfer.png" />
-                                <span className="propertyHeading">
-                                  Side Open(s)
-                                </span>
-                                <span className="propertyData">
-                                  {data.pro_open_sides}
-                                </span>
-                              </div>
-                              <div className="property-numbers">
-                                <img src="/img/face-detection.png" />
-                                <span className="propertyHeading">Facing</span>
-                                <span className="propertyData">
-                                  {data.pro_facing}
-                                </span>
-                              </div>
-                              <div className="property-numbers">
-                                <img src="/img/ownership.png" />
-                                <span className="propertyHeading">
-                                  Possession Available
-                                </span>
-                                <span className="propertyData">
-                                  {data.pro_possession}
-                                </span>
-                              </div>
-                              {data.pro_type == "Commercial" ||
-                              data.pro_type == "Residential" ? (
-                                <div className="property-numbers">
-                                  <img src="/img/parking.png" />
-                                  <span className="propertyHeading">
-                                    Car Parking(s)
-                                  </span>
-                                  <span className="propertyData">
-                                    {data.pro_parking}
-                                  </span>
-                                </div>
-                              ) : (
-                                <div className="property-numbers">
-                                  <img src="/img/age.png" />
-                                  <span className="propertyHeading">
-                                    Property Age
-                                  </span>
-                                  <span className="propertyData">
-                                    {data.pro_age}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          <div className=" mmmm">
-                            <div className="large-detials">
-                              <img src="/img/meter.png" className="desc" />
-                              <span className="propertyHeading">
-                                Plot Size &amp; Dimension
-                              </span>
-                              <p>
-                                <span className="propertyData">
-                                  <span className="measure">
-                                    {data.pro_width
-                                      ? data.pro_width +
-                                        " Feet * " +
-                                        data.pro_length +
-                                        " Feet"
-                                      : "-"}
-                                  </span>
-                                </span>
-                              </p>
-                            </div>
-                            <div className="large-detials">
-                              <img src="/img/rent.png" className="desc" />
-                              <span className="propertyHeading">
-                                Already Rent
-                              </span>
-                              <p>
-                                <span className="propertyData">
-                                  {data.pro_rental_status}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                          <div className=" mmmm" id="interest">
-                            <div className="large-detials">
-                              <img
-                                src="/img/ownership-type.png"
-                                className="desc"
-                              />
-                              <span className="propertyHeading">
-                                Type Of Ownership
-                              </span>
-                              <p>
-                                <span className="propertyData">
-                                  {data.pro_ownership_type}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="large-detials">
-                              <img src="/img/rent.png" className="desc" />
-                              <span className="propertyHeading">
-                                Authority Approval
-                              </span>
-                              <p>
-                                <span className="propertyData">
-                                  {data.pro_approval}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                          {data.pro_type ? (
-                            data.pro_type.split(",")[1] == "Commercial" ||
-                            data.pro_type.split(",")[1] == "Residential" ? (
-                              <>
-                                <div className=" mmmm">
-                                  <div className="large-detials">
-                                    <img src="/img/age.png" className="desc" />
-                                    <span className="propertyHeading">
-                                      Property Age
-                                    </span>
-                                    <p>
-                                      <span className="propertyData">
-                                        {data.pro_age}
-                                      </span>
-                                    </p>
-                                  </div>
-                                  <div className="large-detials">
-                                    <img
-                                      src="/img/furnishing.png"
-                                      className="desc"
-                                    />
-                                    <span className="propertyHeading">
-                                      Furnishing
-                                    </span>
-                                    <p>
-                                      <span className="propertyData">
-                                        {data.pro_furnishing}
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </>
-                            ) : null
-                          ) : (
-                            ""
-                          )}
-                          <div></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="property-more-detail">
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="details">
-                            <div className="row">
-                              <div className="col-md-12">
-                                <div className="more-detail-heading">
-                                  More Details
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row moreDetail">
-                              <div className="col-md-3 more-detail-right">
-                                Price
-                              </div>
-                              <div className="col-md-9 more-detail-left">
+                        {!skeleton ? (
+                          <span className="listed pl-3 pl-md-0 ">
+                            Listed by {" " + data.pro_user_type}{" "}
+                            {DateTime(data.pro_date)}
+                          </span>
+                        ) : (
+                          <Skeleton
+                            variant="rectangular"
+                            width={250}
+                            height={14}
+                            className="mt-1"
+                          />
+                        )}
+                        <div className="d-flex align-items-center justify-content-between p-1">
+                          {!skeleton ? (
+                            <div className="d-flex align-items-center justify-content-between pl-md-0 ">
+                              <div className="property-price">
                                 {data.pro_amt
                                   ? "₹" + data.pro_amt + " " + data.pro_amt_unit
                                   : "Ask Price"}
                               </div>
                             </div>
-                            <div className="row moreDetail">
-                              <div className="col-md-3 more-detail-right">
-                                Address
+                          ) : (
+                            <Skeleton
+                              variant="rectangular"
+                              width={150}
+                              height={40}
+                              className="mt-1"
+                            />
+                          )}
+
+                          <div className="d-flex gap-2 align-items-center">
+                            {currentUser ? (
+                              data.pro_user_id == currentUser[0].login_id ? (
+                                ""
+                              ) : (
+                                <>
+                                  {interested ? (
+                                    <div
+                                      className={`d-flex flex-column  ${
+                                        data.pro_contacted !== null
+                                          ? "contacted-count contacted-count-pt"
+                                          : ""
+                                      }`}
+                                    >
+                                      <button
+                                        className="interest-showed "
+                                        title="Already Contacted"
+                                        onClick={askQuestion}
+                                      >
+                                        <IconSend />
+                                        <span className="mobile-hidden">
+                                          Already
+                                        </span>
+                                        <span className="">Contacted</span>
+                                      </button>
+
+                                      <span className="contacted-no text-center">
+                                        {data.pro_contacted !== null
+                                          ? "Contacted " +
+                                            data.pro_contacted +
+                                            " People"
+                                          : ""}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`d-flex flex-column  ${
+                                        data.pro_contacted !== null
+                                          ? "contacted-count contacted-count-pt"
+                                          : ""
+                                      }`}
+                                    >
+                                      <button
+                                        className="interest"
+                                        title="Contact Us"
+                                        onClick={askQuestion}
+                                      >
+                                        <IconSend />
+                                        <span className="">Contact Us</span>
+                                      </button>
+                                      <span className="contacted-no text-center">
+                                        {data.pro_contacted !== null
+                                          ? "Contacted " +
+                                            data.pro_contacted +
+                                            " People"
+                                          : ""}
+                                      </span>
+                                    </div>
+                                  )}
+                                </>
+                              )
+                            ) : (
+                              <div
+                                className={`d-flex flex-column  ${
+                                  data.pro_contacted !== null
+                                    ? "contacted-count contacted-count-pt"
+                                    : ""
+                                }`}
+                              >
+                                <button
+                                  className="interest"
+                                  title="Contact Us"
+                                  onClick={askQuestion}
+                                >
+                                  <IconSend />
+                                  <span className="">Contact Us</span>
+                                </button>
+                                <span className="contacted-no text-center">
+                                  {data.pro_contacted !== null
+                                    ? "Contacted " +
+                                      data.pro_contacted +
+                                      " People"
+                                    : ""}
+                                </span>
                               </div>
-                              <div className="col-md-9 more-detail-left">
-                                {data.pro_locality},&nbsp;
-                                {data.pro_sub_district
-                                  ? data.pro_sub_district + ", "
-                                  : ""}
-                                {data.pro_city},&nbsp;
-                                {data.pro_state}
-                              </div>
+                            )}
+                            <button className="fb" title="Share On Facebook">
+                              <a
+                                rel="noreferrer nofollow"
+                                href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
+                                target="_blank"
+                                className="share-property"
+                              >
+                                <IconBrandFacebook />
+                                <span
+                                  className="mobile-hidden"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  Share
+                                </span>
+                              </a>
+                            </button>
+                            <button
+                              className="wp pl-0"
+                              title="Share On Whatsapp"
+                            >
+                              <a
+                                rel="noreferrer nofollow"
+                                href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
+                                target="_blank"
+                                className="share-propertywp"
+                              >
+                                <IconBrandWhatsapp />
+                                <span className="mobile-hidden">Share</span>
+                              </a>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="leftblock">
+                            <div className="photosection">
+                              {images.length > 1 ? (
+                                <EmblaCarousel
+                                  pro_area_size={data.pro_area_size}
+                                  pro_area_size_unit={data.pro_area_size_unit}
+                                  pro_type={data.pro_type}
+                                  pro_ad_type={data.pro_ad_type}
+                                  pro_city={data.pro_city}
+                                  slides={images}
+                                  open={() => setOpen(true)}
+                                  handleCurrentImage={handleCurrentImage}
+                                />
+                              ) : (
+                                <img
+                                  src="/images/default.png"
+                                  //alt="No Image"
+                                  // alt={
+                                  //   data.pro_area_size +
+                                  //   " " +
+                                  //   data.pro_area_size_unit +
+                                  //   " " +
+                                  //   data.pro_type && data.pro_type.split(",")[0] +
+                                  //   " For" +
+                                  //   " " +
+                                  //   data.pro_ad_type +
+                                  //   " in " +
+                                  //   data.pro_city
+                                  // }
+                                  width={550}
+                                  height={550}
+                                  className="img-fluid"
+                                />
+                              )}
                             </div>
-                            <div className="row moreDetail">
-                              <div className="col-md-3 more-detail-right">
-                                Facing Road Width
-                              </div>
-                              <div className="col-md-9 more-detail-left">
-                                {data.pro_facing_road_width
-                                  ? data.pro_facing_road_width +
-                                    " " +
-                                    data.pro_facing_road_unit
-                                  : "-"}
-                              </div>
-                            </div>
-                            <div className="row moreDetail">
-                              <span className="col-md-3 more-detail-right">
-                                Description &nbsp;
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className={"property-side-detail"}>
+                            <div style={{ fontSize: "10px" }}>
+                              Property ID
+                              <span className="propertypage-id">
+                                {5000 + +proId}
                               </span>
-                              <span className="col-md-9 more-detail-left ">
-                                {data.pro_desc}
-                              </span>
                             </div>
+                            <div className="property-no-detail">
+                              <div className={"property-small-detail"}>
+                                {data.pro_type ? (
+                                  data.pro_type.split(",")[1] == "Commercial" ||
+                                  data.pro_type.split(",")[1] ==
+                                    "Residential" ? (
+                                    <>
+                                      <div className="property-numbers">
+                                        <img src="/img/bedroom.png" />
+                                        <span className="propertyHeading">
+                                          Bedroom(s)
+                                        </span>
+                                        <span className="propertyData">
+                                          {data.pro_bedroom}
+                                        </span>
+                                      </div>
+                                      <div className="property-numbers">
+                                        <img src="/img/shower.png" />
+                                        <span className="propertyHeading">
+                                          Washroom(s)
+                                        </span>
+                                        <span className="propertyData">
+                                          {data.pro_washrooms}
+                                        </span>
+                                      </div>
+                                      <div className="property-numbers">
+                                        <img src="/img/balcony.png" />
+                                        <span className="propertyHeading">
+                                          Balconies
+                                        </span>
+                                        <span className="propertyData">
+                                          {data.pro_balcony}
+                                        </span>
+                                      </div>
+                                      <div className="property-numbers">
+                                        <img src="/img/tiles.png" />
+                                        <span className="propertyHeading">
+                                          Floor(s)
+                                        </span>
+                                        <span className="propertyData">
+                                          {data.pro_floor}
+                                        </span>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )
+                                ) : (
+                                  ""
+                                )}
+
+                                <div className="property-numbers">
+                                  <img src="/img/transfer.png" />
+                                  <span className="propertyHeading">
+                                    Side Open(s)
+                                  </span>
+                                  <span className="propertyData">
+                                    {data.pro_open_sides}
+                                  </span>
+                                </div>
+                                <div className="property-numbers">
+                                  <img src="/img/face-detection.png" />
+                                  <span className="propertyHeading">
+                                    Facing
+                                  </span>
+                                  <span className="propertyData">
+                                    {data.pro_facing}
+                                  </span>
+                                </div>
+                                <div className="property-numbers">
+                                  <img src="/img/ownership.png" />
+                                  <span className="propertyHeading">
+                                    Possession Available
+                                  </span>
+                                  <span className="propertyData">
+                                    {data.pro_possession}
+                                  </span>
+                                </div>
+                                {data.pro_type == "Commercial" ||
+                                data.pro_type == "Residential" ? (
+                                  <div className="property-numbers">
+                                    <img src="/img/parking.png" />
+                                    <span className="propertyHeading">
+                                      Car Parking(s)
+                                    </span>
+                                    <span className="propertyData">
+                                      {data.pro_parking}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="property-numbers">
+                                    <img src="/img/age.png" />
+                                    <span className="propertyHeading">
+                                      Property Age
+                                    </span>
+                                    <span className="propertyData">
+                                      {data.pro_age}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <div className=" mmmm">
+                              <div className="large-detials">
+                                <img src="/img/meter.png" className="desc" />
+                                <span className="propertyHeading">
+                                  Plot Size &amp; Dimension
+                                </span>
+                                <p>
+                                  <span className="propertyData">
+                                    <span className="measure">
+                                      {data.pro_width
+                                        ? data.pro_width +
+                                          " Feet * " +
+                                          data.pro_length +
+                                          " Feet"
+                                        : "-"}
+                                    </span>
+                                  </span>
+                                </p>
+                              </div>
+                              <div className="large-detials">
+                                <img src="/img/rent.png" className="desc" />
+                                <span className="propertyHeading">
+                                  Already Rent
+                                </span>
+                                <p>
+                                  <span className="propertyData">
+                                    {data.pro_rental_status}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                            <div className=" mmmm" id="interest">
+                              <div className="large-detials">
+                                <img
+                                  src="/img/ownership-type.png"
+                                  className="desc"
+                                />
+                                <span className="propertyHeading">
+                                  Type Of Ownership
+                                </span>
+                                <p>
+                                  <span className="propertyData">
+                                    {data.pro_ownership_type}
+                                  </span>
+                                </p>
+                              </div>
+                              <div className="large-detials">
+                                <img src="/img/rent.png" className="desc" />
+                                <span className="propertyHeading">
+                                  Authority Approval
+                                </span>
+                                <p>
+                                  <span className="propertyData">
+                                    {data.pro_approval}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                            {data.pro_type ? (
+                              data.pro_type.split(",")[1] == "Commercial" ||
+                              data.pro_type.split(",")[1] == "Residential" ? (
+                                <>
+                                  <div className=" mmmm">
+                                    <div className="large-detials">
+                                      <img
+                                        src="/img/age.png"
+                                        className="desc"
+                                      />
+                                      <span className="propertyHeading">
+                                        Property Age
+                                      </span>
+                                      <p>
+                                        <span className="propertyData">
+                                          {data.pro_age}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="large-detials">
+                                      <img
+                                        src="/img/furnishing.png"
+                                        className="desc"
+                                      />
+                                      <span className="propertyHeading">
+                                        Furnishing
+                                      </span>
+                                      <p>
+                                        <span className="propertyData">
+                                          {data.pro_furnishing}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </>
+                              ) : null
+                            ) : (
+                              ""
+                            )}
+                            <div></div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                )}
+                <div className="row">
+                  <div className="col-md-12">
+                    {data !== undefined && data.pro_listed !== 0 && (
+                      <div className="property-more-detail">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="details">
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="more-detail-heading">
+                                    More Details
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row moreDetail">
+                                <div className="col-md-3 more-detail-right">
+                                  Price
+                                </div>
+                                <div className="col-md-9 more-detail-left">
+                                  {data.pro_amt
+                                    ? "₹" +
+                                      data.pro_amt +
+                                      " " +
+                                      data.pro_amt_unit
+                                    : "Ask Price"}
+                                </div>
+                              </div>
+                              <div className="row moreDetail">
+                                <div className="col-md-3 more-detail-right">
+                                  Address
+                                </div>
+                                <div className="col-md-9 more-detail-left">
+                                  {data.pro_locality},&nbsp;
+                                  {data.pro_sub_district
+                                    ? data.pro_sub_district + ", "
+                                    : ""}
+                                  {data.pro_city},&nbsp;
+                                  {data.pro_state}
+                                </div>
+                              </div>
+                              <div className="row moreDetail">
+                                <div className="col-md-3 more-detail-right">
+                                  Facing Road Width
+                                </div>
+                                <div className="col-md-9 more-detail-left">
+                                  {data.pro_facing_road_width
+                                    ? data.pro_facing_road_width +
+                                      " " +
+                                      data.pro_facing_road_unit
+                                    : "-"}
+                                </div>
+                              </div>
+                              <div className="row moreDetail">
+                                <span className="col-md-3 more-detail-right">
+                                  Description &nbsp;
+                                </span>
+                                <span className="col-md-9 more-detail-left ">
+                                  {data.pro_desc}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
@@ -1307,18 +1443,19 @@ const Property = () => {
                       </div>
                     </div> */}
 
-                    <div className="property-more-detail">
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="details">
-                            <div className="row">
-                              {data.pro_type && (
-                                <div className="col-md-12">
-                                  <div className="more-detail-heading">
-                                    More About this Property
-                                  </div>
+                    {data !== undefined && data.pro_listed !== 0 && (
+                      <div className="property-more-detail">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="details">
+                              <div className="row">
+                                {data.pro_type && (
+                                  <div className="col-md-12">
+                                    <div className="more-detail-heading">
+                                      More About this Property
+                                    </div>
 
-                                  {/* {data.pro_type.split(",")[1] ===
+                                    {/* {data.pro_type.split(",")[1] ===
                                   "Residential" ? (
                                     <p>
                                       Its neighborhood is great for a dream
@@ -1340,19 +1477,19 @@ const Property = () => {
                                   
                                   )} */}
 
-                                  {propertyType1.map(
-                                    (item) =>
-                                      data.pro_type.split(",")[0] ===
-                                        item.type && <p>{item.description}</p>
-                                  )}
-                                </div>
-                              )}
+                                    {propertyType1.map(
+                                      (item) =>
+                                        data.pro_type.split(",")[0] ===
+                                          item.type && <p>{item.description}</p>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
+                    )}
                     <section className="most-view-Property mt-5 mb-5">
                       <div className="container">
                         <div className="section-title">

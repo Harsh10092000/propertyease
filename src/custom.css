@@ -15638,6 +15638,35 @@ input[type="file"] {
   gap: 4px;
 }
 
+.contacted-no {
+  font-size: 12px;
+}
+
+.contacted-count-pt {
+  padding-top: 15px;
+}
+
+
+@media screen and (max-width: 480px) {
+  .contacted-count {
+    padding-top: 22px ;
+  }
+}
+.property-view-count {
+  padding-top: 4px;
+  font-size: 13px !important;
+  text-align: center;
+  float: right;
+  display: inline;
+    color: #fff;
+    align-items: center;
+    font-weight: 500;
+    padding-left: 3px;
+    padding-right: 3px;
+    box-shadow: 0px 1px 2px blue;
+}
+
+
 .shortlist {
   padding: 5px;
   border: 1px solid lightgrey;
@@ -16710,4 +16739,23 @@ section.find-services {
 
 .ab {
   padding-top: 25px;
+}
+
+.no-longer-available {
+  background-color: #F0F0F0;
+  color: #999999;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.no-longer-available h1 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.no-longer-available p {
+  font-size: 16px;
+  margin-bottom: 0;
 }

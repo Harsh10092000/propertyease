@@ -41,8 +41,11 @@ const AllProperties = (props) => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
+  
+  
+
   useEffect(() => {
-    axios
+     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setData(res.data);
@@ -150,7 +153,7 @@ const AllProperties = (props) => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {!skeleton && records.length > 0 ? (
+                {!skeleton && records.length > 0 &&
                   records.map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
@@ -394,7 +397,8 @@ const AllProperties = (props) => {
                       </div>
                     </div>
                   ))
-                ) : skeleton ? (
+                }
+                { skeleton &&
                   <div>
                     <Skeleton variant="rectangular" width={813} height={200} />
                     <Skeleton
@@ -416,9 +420,10 @@ const AllProperties = (props) => {
                       className="mt-3"
                     />
                   </div>
-                ) : (
+}
+               {records.length < 1 &&
                   <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />
-                )}
+                }
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
                 <div>

@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { TextField } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
 const AdminRequirement = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 15;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
@@ -14,6 +19,11 @@ const AdminRequirement = () => {
         
       });
   }, []);
+
+  data.forEach((item, i) => {
+    item.serial_no = i + 1;
+  });
+
   //useEffect(() => {
     data.forEach((item, i) => {
       item.query_id = 1000 + parseInt(item.data_id);
@@ -25,6 +35,9 @@ const AdminRequirement = () => {
       code.data_in_city.toLowerCase().startsWith(searchValue.toLowerCase())
   );
 
+  const records = filteredData.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(filteredData.length / recordsPerPage);
+
   return (
     <div className="card-body table-border-style">
       
@@ -32,11 +45,20 @@ const AdminRequirement = () => {
       
         <div className="row justify-content-between align-items-center">
          
-          <h1 className="pl-3">Interested In Properties</h1>
-          <div className="col-md-3 ">
-
+          <h1 className="pl-3">Post Requirements</h1>
+          </div>
+          <div className="row justify-content-between align-items-center my-2">
+          <Pagination
+            count={nPages}
+            color="primary"
+            onChange={(e, value) => setCurrentPage(value)}
+            className="col-md-6"
+          />
+          
+         
           <TextField
             variant="outlined"
+            className="col-md-3 mx-4 mx-md-0 mt-3"
             size="small"
             label="Search for queries..."
             value={searchValue}
@@ -44,7 +66,7 @@ const AdminRequirement = () => {
               setSearchValue(e.target.value);
             }}
           />
-          </div>
+          
         </div>
 
       <div className="table-responsive">
@@ -65,9 +87,10 @@ const AdminRequirement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item, index) => (
+            {records.map((item, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                {/* <td>{index + 1}</td> */}
+                <td>{item.serial_no}</td>
                 <td>{1000 + parseInt(item.data_id)}</td>
                 <td>{item.data_email}</td>
                 <td>+91{item.data_phone}</td>

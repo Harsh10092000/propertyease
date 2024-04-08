@@ -4,7 +4,7 @@ import { IconEye, IconTrashFilled } from "@tabler/icons-react";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
-import { TextField } from "@mui/material";
+import { TextField, FormControl, Select, InputLabel, MenuItem   } from "@mui/material";
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -32,8 +32,18 @@ const AdminDashboard = () => {
     });
   } , [data])
   const [searchValue, setSearchValue] = useState("");
-  
-  const filteredData = data.filter(
+  const [filter, setFilter] = useState("All");
+  const filteredData = data
+  .filter((code) => {
+    if (filter === "Listed Properties") {
+      return code.pro_listed === 1 || code.pro_listed === null;
+    } else if (filter === "Delisted Properties") {
+      return code.pro_listed == 0;
+    } else if (filter === "All") {
+      return true;
+    }
+  })
+  .filter(
     (code) =>
       code.pro_locality.toLowerCase().startsWith(searchValue.toLowerCase()) ||
       code.pro_sub_district.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -82,9 +92,30 @@ const AdminDashboard = () => {
             onChange={(e, value) => setCurrentPage(value)}
             className="col-md-6"
           />
-          <TextField
+          <div className="col-md-6 d-flex justify-content-end">
+          <FormControl
+          sx={{ m: 1, width: ["100%"] }}
+          size="small"
+          className="col-md-3 "
+        >
+          <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={filter}
+            label="Filter By"
+            onChange={(e) => {
+              setFilter(e.target.value), setCurrentPage(1);
+            }}
+          >
+            <MenuItem value={"All"}>All</MenuItem>
+            <MenuItem value={"Listed Properties"}>Listed Properties</MenuItem>
+            <MenuItem value={"Delisted Properties"}>Delisted Properties</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
             variant="outlined"
-            className="col-md-3 mx-4 mx-md-0 mt-3"
+            className="col-md-5 mt-2"
             size="small"
             label="Search for properties..."
             value={searchValue}
@@ -93,6 +124,9 @@ const AdminDashboard = () => {
               setSearchValue(e.target.value);
             }}
           />
+          </div>
+
+          
         </div>
         <div className="table-responsive">
           <table className="table table-hover">
@@ -103,6 +137,7 @@ const AdminDashboard = () => {
                 <th>Sale/Resale</th>
                 <th>Owner/Agent</th>
                 <th>Property Type</th>
+                <th>Status</th>
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Address</th>
@@ -117,6 +152,7 @@ const AdminDashboard = () => {
                   <td>{item.pro_ad_type}</td>
                   <td>{item.pro_user_type}</td>
                   <td>{item.pro_type}</td>
+                  <td>{item.pro_listed === 1 || item.pro_listed === null ? "Listed" : "Delisted"}</td>
                   <td>{item.login_email}</td>
                   <td>+91{item.login_number}</td>
                   <td>{item.pro_locality},&nbsp;
@@ -126,7 +162,7 @@ const AdminDashboard = () => {
                                 {item.pro_city},&nbsp;
                                   {item.pro_state}</td>
                   <td className="d-flex gap-3">
-                    <Link
+                    {/* <Link
                       // to={`/property/${item.pro_type
                       //   .split(",")[0]
                       //   .replace(" ", "-")}-${item.pro_ad_type.replace(
@@ -138,7 +174,35 @@ const AdminDashboard = () => {
                       <button className="view" title="View">
                         <IconEye />
                       </button>
-                    </Link>
+                    </Link> */}
+                    <Link
+                        to={`/${
+                          item.pro_area_size.toLowerCase() +
+                          "-" +
+                          item.pro_area_size_unit
+                            .toLowerCase()
+                            .replaceAll(" ", "-")
+                            .replaceAll(".", "") +
+                          "-"
+                        }${
+                          item.pro_type
+                            ? item.pro_type
+                                .split(",")[0]
+                                .toLowerCase()
+                                .replaceAll(" ", "-")
+                            : ""
+                        }-for-${
+                          item.pro_ad_type === "rent" ? "rent" : "sale"
+                        }-in-${item.pro_locality
+                          .toLowerCase()
+                          .replaceAll(" ", "-")}-${item.pro_city
+                          .toLowerCase()
+                          .replaceAll(" ", "-")}-${item.pro_id}`}
+                      >
+                        <button className="view" title="View">
+                          <IconEye />
+                        </button>
+                      </Link>
                     <button
                       className="del"
                       title="Delete"
