@@ -27,6 +27,7 @@ const UserDashboard = () => {
   const [change, setChange] = useState(0);
   const [filter, setFilter] = useState("All");
   useEffect(() => {
+    console.log("chnage 33333333");
     axios
       .get(
         import.meta.env.VITE_BACKEND +
@@ -131,6 +132,7 @@ const UserDashboard = () => {
       proListingStatus
     );
     setChange(change + 1);
+    console.log("change 1111111")
     setLoader(false);
     setSnackQ(true);
   };
@@ -145,6 +147,7 @@ const UserDashboard = () => {
       proListingStatus
     );
     setChange(change + 1);
+    console.log("change 22222222")
     setLoader(false);
     setSnack(true);
   };
