@@ -122,12 +122,12 @@ const UserDashboard = () => {
     pro_id: "",
   });
 
-  const delistProperty = (data) => {
+  const delistProperty = async (data) => {
     console.log(proListingStatus);
     setLoader(true);
     proListingStatus.pro_listed = 0;
     proListingStatus.pro_id = data.pro_id;
-    axios.put(
+    await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateProListingStatus",
       proListingStatus
     );
@@ -137,12 +137,12 @@ const UserDashboard = () => {
     setSnackQ(true);
   };
 
-  const listProperty = (data) => {
+  const listProperty = async (data) => {
     console.log(proListingStatus);
     setLoader(true);
     proListingStatus.pro_listed = 1;
     proListingStatus.pro_id = data.pro_id;
-    axios.put(
+    await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateProListingStatus",
       proListingStatus
     );
