@@ -16,7 +16,8 @@ import {Snackbar } from "@mui/material";
 const SearchBar = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
-  const lastIndex = currentPage * recordsPerPage;
+
+  const lastIndex = props.currentPage * recordsPerPage;
   let firstIndex = lastIndex - recordsPerPage;
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
@@ -34,6 +35,8 @@ const SearchBar = (props) => {
       });
   }, []);
 
+ 
+
   useEffect(() => {
     if (props.searchParams !== undefined) {
       //console.log("search : ", props.searchParams, typeof props.searchParams);
@@ -43,7 +46,7 @@ const SearchBar = (props) => {
 
   function handleLocationClick() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, showError);
+      navigator.geolocation.getCurrentPosition(success,showError);
     } else {
       console.log("Geolocation not supported");
     }
@@ -71,9 +74,14 @@ const SearchBar = (props) => {
     {district: "All India"}
   ]
 
+
+
   function success(position) {
-    const latitude = position.coords.latitude;
+   const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
+
+    //const latitude = 29.969513;
+    //const longitude = 76.878281;
 
     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     axios
@@ -252,12 +260,12 @@ const SearchBar = (props) => {
           " " +
           item.pro_state;
 
-        console.log(
-          "itemValues : ",
-          itemValues,
-          searchWords,
-          props.searchValue
-        );
+        // console.log(
+        //   "itemValues : ",
+        //   itemValues,
+        //   searchWords,
+        //   props.searchValue
+        // );
         return searchWords.every((word) =>
           itemValues.toLowerCase().includes(word)
         );
@@ -322,7 +330,8 @@ const SearchBar = (props) => {
           value={searchValue1}
           onChange={(e) => {
             setOpenSuggestions(true);
-            setCurrentPage(1);
+            //setCurrentPage(1);
+            props.handleCurrentPage(1);
             setSearchValue1(e.target.value);
             props.handleSearchValue(e.target.value);
           }}
@@ -416,7 +425,7 @@ const SearchBar = (props) => {
             value={filter}
             label="Filter By"
             onChange={(e) => {
-              setFilter(e.target.value), setCurrentPage(1);
+              setFilter(e.target.value), setCurrentPage(1), props.handleCurrentPage(1);
             }}
           >
             <MenuItem value={"All"}>All</MenuItem>

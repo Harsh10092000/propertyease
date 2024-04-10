@@ -86,6 +86,10 @@ const Listing = () => {
  const handleUserLocation = (value) => {
   setUserCurrLocation(value);
 };
+
+const handleCurrentPage = (value) => {
+  setCurrentPage(value);
+};
   
   return (
     <div>
@@ -112,6 +116,8 @@ const Listing = () => {
                 handleSearchValue={handleSearchValue}
                 handleUserLocation={handleUserLocation}
                 searchValue={searchValue}
+                handleCurrentPage={handleCurrentPage}
+                currentPage={currentPage}
               />
             </div>
             <div className="row">

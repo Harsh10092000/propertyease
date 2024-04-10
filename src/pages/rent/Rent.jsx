@@ -84,6 +84,10 @@ const Rent = () => {
     setUserCurrLocation(value);
   };
 
+  const handleCurrentPage = (value) => {
+    setCurrentPage(value);
+  };
+
   return (
     <div>
       <Helmet>
@@ -110,6 +114,8 @@ const Rent = () => {
                 handleSearchValue={handleSearchValue}
                 handleUserLocation={handleUserLocation}
                 searchValue={searchValue}
+                handleCurrentPage={handleCurrentPage}
+                currentPage={currentPage}
               />
             </div>
             <div className="row">
