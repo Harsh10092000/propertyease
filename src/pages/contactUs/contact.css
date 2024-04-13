@@ -1,0 +1,19 @@
+.icond {
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+  }
+  .info-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+  }
+  .dbox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+  }
+  

@@ -22,15 +22,14 @@ const Terms = () => {
                 </li>
                 <li>
                   Here propertyease.in is a website and registered service of
-                  CAL INFO TRAINING & CONSULTANCY PRIVATE LIMITED and hereafter
-                  Propertyease.in can be also be used as “website”,
-                  “Propertyease”, “Propertyease team”. Property means Build up
-                  Home, Residential Plot/Land, Farm Land/House, Commercial
-                  building or plot, Industrial Plot or Building, and which
-                  should have legal title and registered owner/hier with
-                  authorities. Here after can be used “Property” to title any of
-                  the above. Users on our website here after refer as register
-                  user(s), client, visitor, register user(s)
+                  Balaji Properties and hereafter Propertyease.in can be also be
+                  used as “website”, “Propertyease”, “Propertyease team”.
+                  Property means Build up Home, Residential Plot/Land, Farm
+                  Land/House, Commercial building or plot, Industrial Plot or
+                  Building, and which should have legal title and registered
+                  owner/hier with authorities. Here after can be used “Property”
+                  to title any of the above. Users on our website here after
+                  refer as register user(s), client, visitor, register user(s)
                   Sale/purchase/investment/tolet/rent/loan/subscription are our
                   services and hereafter can be used as Service or Services Real
                   Estae Brokers/Agents/Agency are third party service providers,
@@ -370,12 +369,11 @@ const Terms = () => {
               </p>
               <p>
                 All contents of the Propertyease.in website are Copyright ©
-                2023-2024 M/S CAL INFO TRAINING & CONSULTANCY PRIVATE LIMITED,
-                211-P 2nd Floor Sector 7 Kurukshetra, Opp. IDFC Bank, PIPLI
-                ROAD, SECTOR-7, KURUKSHETRA-Haryana, INDIA All rights reserved,
-                Propertyease.in is a registered service of CAL INFO TRAINING &
-                CONSULTANCY PRIVATE LIMITED and other product and company names
-                may be trade or service marks of their respective owners.
+                2023-2024 M/S Balaji Properties, #1667, Sector 5, Urban Estate,
+                Kurukshetra-136118 Haryana-India, INDIA All rights reserved,
+                Propertyease.in is a registered service of Balaji Properties and
+                other product and company names may be trade or service marks of
+                their respective owners.
               </p>
               <p>
                 <b>7. Disclaimer of Warranties </b>

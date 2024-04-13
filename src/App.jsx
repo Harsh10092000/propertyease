@@ -42,6 +42,7 @@ import AgentsListing from "./pages/agentsListing/AgentsListing";
 import AgentProperties from "./pages/agentProperties/AgentProperties";
 import UserdashboardProfile from "./pages/userdashboardProfile/UserdashboardProfile";
 import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
+import ContactUs from "./pages/contactUs/contactUs";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -114,6 +115,10 @@ const App = () => {
       element: <Listing />,
     },
     {
+      path: "/contactus",
+      element: <ContactUs />,
+    },
+    {
       path: "/allproperties",
       element: (<>
       {/* <Origin/> */}
@@ -164,15 +169,15 @@ const App = () => {
           element: <UserShortlisted />,
         },
         {
-          path: "userProfileForm",
+          path: "user-profile-form",
           element: <UserProfileForm />,
         },
         {
-          path: "user-profile",
+          path: "user-profile/:userId",
           element: <UserdashboardProfile />,
         },
         {
-          path: "edit-user-profile",
+          path: "edit-user-profile/:agentId",
           element: <EditUserProfile />,
         },
         
@@ -272,7 +277,7 @@ const App = () => {
       element: <Watermark />,
     },
     {
-      path: "/agentProfile/:agentId",
+      path: "/agentProfile/:userId",
       element: (
         <><ScrollToTop />
       <AgentProifle />

@@ -264,6 +264,11 @@ const Footer = () => {
                 <div className="categores-displays">
                   <p className="fontBig">Quick Links</p>
                   <ul>
+                  <li>
+                      <Link to="/agentlist">
+                        <a title="contactus">Our Agents</a>
+                      </Link>
+                    </li>
                     <li>
                       <Link to="/about">
                         <a title="contactus">About Us</a>
@@ -425,7 +430,7 @@ const Footer = () => {
               </div>
               <div className="col-md-6 d-md-flex justify-content-end">
                 <p className="listed">
-                  Powered By CAL info Training & Consultancy Private Limited
+                  Powered By Balaji Properties
                 </p>
               </div>
             </div>
