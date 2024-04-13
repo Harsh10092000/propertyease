@@ -43,7 +43,7 @@ import AgentProperties from "./pages/agentProperties/AgentProperties";
 import UserdashboardProfile from "./pages/userdashboardProfile/UserdashboardProfile";
 import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
 //import ContactUs from "./pages/contactUs/contactUs";
-import ContactUs from "./pages/contactUs/contactUs";
+import ContactUs from "./pages/contactUs/ContactUs";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
