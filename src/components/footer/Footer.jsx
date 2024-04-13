@@ -265,13 +265,18 @@ const Footer = () => {
                   <p className="fontBig">Quick Links</p>
                   <ul>
                   <li>
+                      <Link to="/contactus">
+                        <a title="Contact Us">Contact Us</a>
+                      </Link>
+                    </li>
+                  <li>
                       <Link to="/agentlist">
-                        <a title="contactus">Our Agents</a>
+                        <a title="Our Agents<">Our Agents</a>
                       </Link>
                     </li>
                     <li>
                       <Link to="/about">
-                        <a title="contactus">About Us</a>
+                        <a title="About Us">About Us</a>
                       </Link>
                     </li>
                     <li>
