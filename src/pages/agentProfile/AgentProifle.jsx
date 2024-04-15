@@ -1011,15 +1011,15 @@ const AgentProifle = () => {
                           <button
                             onClick={handleStep}
                             className={`login justify-content-center get-schedule ${
-                              currentUser[0].login_id == agentData.user_cnct_id
+                              currentUser && currentUser[0].login_id == agentData.user_cnct_id
                                 ? " btn-secondary hover:btn-secondary"
                                 : "login-hover"
                             }`}
                             disabled={
-                              currentUser[0].login_id == agentData.user_cnct_id
+                              currentUser && currentUser[0].login_id == agentData.user_cnct_id
                             }
                             title={
-                              currentUser[0].login_id ==
+                              currentUser && currentUser[0].login_id ==
                                 agentData.user_cnct_id &&
                               "Can't Contact to this Profile"
                             }
