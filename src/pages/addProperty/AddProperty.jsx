@@ -150,7 +150,7 @@ const AddProperty = () => {
       axios
         .get(
           import.meta.env.VITE_BACKEND +
-            `/api/act/fetchUserData/${currentUser[0].login_id}`
+            `/api/act/fetchUserData/${currentUser && currentUser[0].login_id}`
         )
         .then((res) => {
           setUserData({
@@ -162,7 +162,7 @@ const AddProperty = () => {
       axios
         .get(
           import.meta.env.VITE_BACKEND +
-            `/api/agent/checkUserType/${currentUser[0].login_id}`
+            `/api/agent/checkUserType/${currentUser && currentUser[0].login_id}`
         )
         .then((res) => {
           setUserType(res.data[0].agent_type);
@@ -683,7 +683,7 @@ const AddProperty = () => {
 
   const handleClick = async () => {
     setLoader(true);
-    propertyData.pro_user_id = currentUser[0].login_id;
+    currentUser && (propertyData.pro_user_id = currentUser[0].login_id);
     propertyData.pro_date = Date.now();
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
@@ -699,7 +699,7 @@ const AddProperty = () => {
         formData.append(`files`, selectedFiles[i]);
       }
       formData.append("proId", id);
-      formData.append("userId", currentUser[0].login_id);
+      formData.append("userId", currentUser && currentUser[0].login_id);
       await axios.post(
         import.meta.env.VITE_BACKEND + "/api/pro/addPropertyimages",
         formData
