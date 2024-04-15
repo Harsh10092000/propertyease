@@ -136,3 +136,16 @@
   right: 0;
   bottom: 0;
 }
+
+
+.bg-img {
+  width: 100%;
+    height: 100%;
+    cursor: pointer;
+    object-fit: cover;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    filter: blur(5px) opacity(0.65);
+    z-index: -1;
+}

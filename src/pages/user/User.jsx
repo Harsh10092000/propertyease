@@ -81,6 +81,17 @@ const User = () => {
 
             <nav>
               <ul className="nav">
+              <li>
+                  <Link to={`/user/user-profile/${currentUser[0].login_id}`}>
+                    <div
+                      title="My Profile"
+                      className="d-flex align-items-center"
+                    >
+                      <IconCategory className="sidebar-faicon" />
+                      My Profile
+                    </div>
+                  </Link>
+                </li>
                 <li>
                   <Link to="/user/dashboard">
                     <div

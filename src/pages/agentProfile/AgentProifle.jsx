@@ -28,7 +28,8 @@ import Loader from "../../components/loader/Loader";
 
 const AgentProifle = () => {
   const { currentUser } = useContext(AuthContext);
-  const { agentId } = useParams();
+  //const { agentId } = useParams();
+  const { userId } = useParams();
   const propertyUserType = [
     { value: "Buy" },
     { value: "Sale" },
@@ -52,7 +53,7 @@ const AgentProifle = () => {
   const [agentWorkPlaceState, setAgentWorkPlaceState] = useState("");
   const [properties, setProperties] = useState([]);
   const [latestProperties, setLatestProperties] = useState([]);
-  const [propertyNo , setPropertyNo] = useState([]);
+  const [propertyNo, setPropertyNo] = useState([]);
   const [saleCount, setSaleCount] = useState();
   const [rentCount, setRentCount] = useState();
 
@@ -60,34 +61,43 @@ const AgentProifle = () => {
     { type: "View Residentail Properties", link: "/property/residential" },
     { type: "View Commerical Properties", link: "/property/commercial" },
     { type: "View Land/Plots Properties", link: "/property/land" },
+    { type: "View All Properties", link: "/allproperties" },
   ];
 
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData/${agentId}`
+        import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData1/${userId}`
       )
       .then((res) => {
-        setAgentData(res.data[0]);
+        console.log("res : ", res.data, res.data.agentData[0]);
+        setAgentData(res.data.agentData[0]);
+        setAgentWorkPlaceData(res.data.agentWorkPlaceData);
+        setAgentWorkPlaceState(res.data.agentWorkStateData[0].work_state);
       });
-    axios
-      .get(
-        import.meta.env.VITE_BACKEND +
-          `/api/agent/fetchAgentWorkPlace/${agentId}`
-      )
-      .then((res) => {
-        setAgentWorkPlaceData(res.data);
-      });
-    axios
-      .get(
-        import.meta.env.VITE_BACKEND +
-          `/api/agent/fetchAgentWorkState/${agentId}`
-      )
-      .then((res) => {
-        setAgentWorkPlaceState(res.data[0].work_state);
-      });
-
-      
+    // axios
+    //   .get(
+    //     import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData/${agentId}`
+    //   )
+    //   .then((res) => {
+    //     setAgentData(res.data[0]);
+    //   });
+    // axios
+    //   .get(
+    //     import.meta.env.VITE_BACKEND +
+    //       `/api/agent/fetchAgentWorkPlace/${agentId}`
+    //   )
+    //   .then((res) => {
+    //     setAgentWorkPlaceData(res.data);
+    //   });
+    // axios
+    //   .get(
+    //     import.meta.env.VITE_BACKEND +
+    //       `/api/agent/fetchAgentWorkState/${agentId}`
+    //   )
+    //   .then((res) => {
+    //     setAgentWorkPlaceState(res.data[0].work_state);
+    //   });
   }, []);
 
   console.log(agentData);
@@ -112,14 +122,16 @@ const AgentProifle = () => {
         setLatestProperties(res.data);
       });
     axios
-      .get(import.meta.env.VITE_BACKEND + `/api/agent/fetchPropertyNo/${agentData?.user_cnct_id}`)
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchPropertyNo/${agentData?.user_cnct_id}`
+      )
       .then((res) => {
         setPropertyNo(res.data);
-        setSaleCount(res.data[0].Sale_Count)
-        setRentCount(res.data[0].Rent_Count)
+        setSaleCount(res.data[0].Sale_Count);
+        setRentCount(res.data[0].Rent_Count);
       });
   }, [agentData]);
-
 
   console.log("saleCount : ", saleCount);
 
@@ -151,9 +163,17 @@ const AgentProifle = () => {
     email: "",
     phone: "",
     queryType: "",
+    agentname: "",
+    agentemail: "",
+    agentphone: "",
+    agentid: "",
   });
 
   const handleSubmit = async () => {
+    data.agentname = agentData.agent_name;
+    data.agentemail = agentData.agent_email;
+    data.agentphone = agentData.agent_phone;
+    data.agentid = agentData.agent_id;
     setLoader(true);
     try {
       await axios.post(
@@ -161,6 +181,16 @@ const AgentProifle = () => {
         data
       );
       setLoader(false);
+      setData({
+        name: "",
+        email: "",
+        phone: "",
+        queryType: "",
+        agentname: "",
+        agentemail: "",
+        agentphone: "",
+        agentid: "",
+      });
       setSnack(true);
     } catch (err) {
       console.log(err);
@@ -232,9 +262,9 @@ const AgentProifle = () => {
                 <section className="property-view-outer">
                   <ul className="coming-field-content">
                     <li>
-                      <Link to="/">
+                      <Link to="/agentlist">
                         <a>
-                          Property Type
+                          All Agents
                           <span>
                             <IconChevronRight className="sidebar-faicon" />
                           </span>
@@ -243,12 +273,12 @@ const AgentProifle = () => {
                     </li>
 
                     <li>
-                      <Link>
-                        <a>
-                          Real Estate Agents in {agentData.agent_state}
-                          <IconChevronRight className="sidebar-faicon" />
-                        </a>
-                      </Link>
+                      {/* <Link>
+                        <a> */}
+                      Real Estate Agents in {agentData.agent_state}
+                      <IconChevronRight className="sidebar-faicon" />
+                      {/* </a>
+                      </Link> */}
                     </li>
 
                     {agentData.agent_city !== "" && (
@@ -290,15 +320,15 @@ const AgentProifle = () => {
                                 <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center agent-name">
                                   {agentData.agent_name}
                                 </h1>
-                                <div className="property-top-address pl-md-0 pb-0 text-capitalize ">
-                                  <span>
+                                <div className="property-top-address pl-md-0 pl-0 pb-0 text-capitalize ">
+                                  {/* <span>
                                     {agentData.agent_locality &&
                                       agentData.agent_locality + ", "}
-                                  </span>
-                                  <span>
+                                  </span> */}
+                                  {/* <span>
                                     {agentData.agent_sub_district &&
                                       agentData.agent_sub_district + ", "}
-                                  </span>
+                                  </span> */}
                                   <span>
                                     {agentData.agent_city &&
                                       agentData.agent_city + ", "}
@@ -308,6 +338,53 @@ const AgentProifle = () => {
                                       agentData.agent_state}
                                   </span>
                                 </div>
+                                <div className="pt-1 mobile-hidden-pro">
+                                  {saleCount !== null && rentCount !== null ? (
+                                    <>
+                                      <div title="Click to view properties ">
+                                        <Link
+                                          to={`/agentproperties/Sale-${agentData?.user_cnct_id}`}
+                                          className="loc-list agent-profile-loc-list"
+                                        >
+                                          <span>
+                                            {saleCount} Property for sale
+                                          </span>
+                                        </Link>
+
+                                        <Link
+                                          to={`/agentproperties/Rent-${agentData?.user_cnct_id}`}
+                                          className="loc-list agent-profile-loc-list"
+                                        >
+                                          <span>
+                                            {rentCount} Property for rent
+                                          </span>
+                                        </Link>
+                                      </div>
+                                    </>
+                                  ) : saleCount !== null ||
+                                    rentCount !== null ? (
+                                    <>
+                                      <div>
+                                        <Link
+                                          title="Click to view properties"
+                                          className="loc-list agent-profile-loc-list"
+                                          to={`/agentproperties/${
+                                            saleCount !== null ? "Sale" : "Rent"
+                                          }-${agentData?.user_cnct_id}`}
+                                        >
+                                          <span>
+                                            {saleCount + " Property for sale" ||
+                                              rentCount + " Property for rent"}
+                                          </span>
+                                        </Link>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="loc-list ">
+                                      <span>0 Properties Listed</span>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                               <div className="socail-icon-share ">
                                 <button
@@ -316,7 +393,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentId}`}
+                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentData.agent_id}`}
                                     target="_blank"
                                     className="share-property"
                                   >
@@ -335,7 +412,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile//${agentId}`}
+                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile//${agentData.agent_id}`}
                                     target="_blank"
                                     className="share-propertywp"
                                   >
@@ -346,6 +423,49 @@ const AgentProifle = () => {
                               </div>
                             </div>
                           </div>
+                        </div>
+
+                        <div className="pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0 web-hidden-pro">
+                          {saleCount !== null && rentCount !== null ? (
+                            <>
+                              <div title="Click to view properties ">
+                                <Link
+                                  to={`/agentproperties/Sale-${agentData?.user_cnct_id}`}
+                                  className="loc-list agent-profile-loc-list"
+                                >
+                                  <span>{saleCount} Property for sale</span>
+                                </Link>
+
+                                <Link
+                                  to={`/agentproperties/Rent-${agentData?.user_cnct_id}`}
+                                  className="loc-list agent-profile-loc-list"
+                                >
+                                  <span>{rentCount} Property for rent</span>
+                                </Link>
+                              </div>
+                            </>
+                          ) : saleCount !== null || rentCount !== null ? (
+                            <>
+                              <div>
+                                <Link
+                                  title="Click to view properties"
+                                  className="loc-list agent-profile-loc-list"
+                                  to={`/agentproperties/${
+                                    saleCount !== null ? "Sale" : "Rent"
+                                  }-${agentData?.user_cnct_id}`}
+                                >
+                                  <span>
+                                    {saleCount + " Property for sale" ||
+                                      rentCount + " Property for rent"}
+                                  </span>
+                                </Link>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="loc-list ">
+                              <span>0 Properties Listed</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -548,6 +668,77 @@ const AgentProifle = () => {
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="more-detail-heading">
+                                    Properties and Projects Available
+                                  </div>
+                                  <div class="row moreDetail">
+                                    <div class="col-md-12 more-detail-right">
+                                      {/* <div className="loc-list">
+                                      {propertyNo.length > 0 ? 
+                                      <><span>{propertyNo[0].Sale_Count ? propertyNo[0].Sale_Count : "0"}  Properties for Sale</span>
+                                      <span>{propertyNo[0].Rent_Count ? propertyNo[0].Rent_Count : "0"}  Properties for Rent</span></>
+                                     : "" }
+                                    
+                                  </div> */}
+                                      {saleCount !== null &&
+                                      rentCount !== null ? (
+                                        <>
+                                          <div title="Click to view properties">
+                                            <Link
+                                              to={`/agentproperties/Sale-${agentData?.user_cnct_id}`}
+                                              className="loc-list agent-profile-loc-list"
+                                            >
+                                              <span>
+                                                {saleCount} Property for sale
+                                              </span>
+                                            </Link>
+
+                                            <Link
+                                              to={`/agentproperties/Rent-${agentData?.user_cnct_id}`}
+                                              className="loc-list agent-profile-loc-list"
+                                            >
+                                              <span>
+                                                {rentCount} Property for rent
+                                              </span>
+                                            </Link>
+                                          </div>
+                                        </>
+                                      ) : saleCount !== null ||
+                                        rentCount !== null ? (
+                                        <>
+                                          <div>
+                                            <Link
+                                              title="Click to view properties"
+                                              className="loc-list agent-profile-loc-list"
+                                              to={`/agentproperties/${
+                                                saleCount !== null
+                                                  ? "Sale"
+                                                  : "Rent"
+                                              }-${agentData?.user_cnct_id}`}
+                                            >
+                                              <span>
+                                                {saleCount +
+                                                  " Property for sale" ||
+                                                  rentCount +
+                                                    " Property for rent"}
+                                              </span>
+                                            </Link>
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <div className="loc-list ">
+                                          <span>0 Properties Listed</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="details">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="more-detail-heading">
                                     Services Offered
                                   </div>
                                 </div>
@@ -560,69 +751,7 @@ const AgentProifle = () => {
                                 </div>
                               </div>
                             </div>
-                            <div class="details">
-                              <div class="row">
-                                <div class="col-md-12">
-                                  <div class="more-detail-heading">
-                                    Properties and Projects Available
-                                  </div>
-                                  <div class="row moreDetail">
-                                <div class="col-md-12 more-detail-right">
-                                  
-                                    {/* <div className="loc-list">
-                                      {propertyNo.length > 0 ? 
-                                      <><span>{propertyNo[0].Sale_Count ? propertyNo[0].Sale_Count : "0"}  Properties for Sale</span>
-                                      <span>{propertyNo[0].Rent_Count ? propertyNo[0].Rent_Count : "0"}  Properties for Rent</span></>
-                                     : "" }
-                                    
-                                  </div> */}
-                                  {saleCount !== null && rentCount !== null ? (
-                            <>
-                              <div  title="Click to view properties">
-                                <Link
-                                  to={`/agentproperties/Sale-${agentData?.user_cnct_id}`}
-                                  className="loc-list agent-profile-loc-list"
-                                >
-                                 <span>{saleCount} Property for sale</span> 
-                                </Link>
-                                
-                                <Link
-                                  to={`/agentproperties/Rent-${agentData?.user_cnct_id}`}
-                                  className="loc-list agent-profile-loc-list"
-                                >
-                                  <span>{rentCount} Property for rent</span>
-                                  
-                                </Link>
-                              </div>
-                            </>
-                          ) : saleCount !== null || rentCount !== null ? (
-                            <>
-                              <div >
-                                <Link title="Click to view properties"
-                                className="loc-list agent-profile-loc-list"
-                                  to={`/agentproperties/${
-                                    saleCount !== null ? "Sale" : "Rent"
-                                  }-${agentData?.user_cnct_id}`}
-                                >
-                                  <span>{saleCount + " Property for sale" ||
-                                    rentCount + " Property for rent"}</span>
-                                  
-                                </Link>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="loc-list "><span>0 Properties Listed</span></div>
 
-                          )}
-                                  
-                                  
-                                </div>
-                              </div>
-                                </div>
-                              </div>
-                             
-                            </div>
-                            
                             <div className="details">
                               <div className="row">
                                 <div className="col-md-12">
@@ -700,8 +829,8 @@ const AgentProifle = () => {
                                     <IconPhone />
                                   </span>
                                   {/* <a href="tel:9996716787"> */}
-                                  +91{" "}
-                                  {agentData.agent_phone.slice(0, 5) + "XXXXX"}
+                                  +91 {agentData.agent_phone.slice(0, 5)}
+                                  <span className="fs-1">xxxxx</span>
                                   {/* </a> */}
                                 </li>
                                 <li>
@@ -709,9 +838,9 @@ const AgentProifle = () => {
                                     <IconWorld />
                                   </span>{" "}
                                   {/* <a href="mailto:propertyease.in@gmail.com"> */}
-                                  {agentData.agent_email.slice(0, 2) +
-                                    "XXXXXXX@" +
-                                    agentData.agent_email.split("@")[1]}
+                                  {agentData.agent_email.slice(0, 2)}
+                                  <span className="fs-1 mr-0">xxxxx</span>@
+                                  {agentData.agent_email.split("@")[1]}
                                   {/* </a> */}
                                 </li>
                               </ul>
@@ -881,7 +1010,20 @@ const AgentProifle = () => {
 
                           <button
                             onClick={handleStep}
-                            className="login justify-content-center get-schedule"
+                            className={`login justify-content-center get-schedule ${
+                              currentUser[0].login_id == agentData.user_cnct_id
+                                ? " btn-secondary hover:btn-secondary"
+                                : "login-hover"
+                            }`}
+                            disabled={
+                              currentUser[0].login_id == agentData.user_cnct_id
+                            }
+                            title={
+                              currentUser[0].login_id ==
+                                agentData.user_cnct_id &&
+                              "Can't Contact to this Profile"
+                            }
+                            //className={currentUser[0].login_id == agentData.user_cnct_id & "button-secondary"}
                           >
                             Contact
                           </button>
@@ -1101,7 +1243,11 @@ const AgentProifle = () => {
                     <Link
                       title="Click to view all properties"
                       className="btn-viewall px-4 "
-                      to={properties.length > 0 ? `/agentproperties/All-${agentData?.user_cnct_id}` : `/allproperties`}
+                      to={
+                        properties.length > 0
+                          ? `/agentproperties/All-${agentData?.user_cnct_id}`
+                          : `/allproperties`
+                      }
                     >
                       View All
                     </Link>

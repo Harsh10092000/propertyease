@@ -59,6 +59,7 @@ const Property = () => {
     { type: "View Residentail Properties", link: "/property/residential" },
     { type: "View Commerical Properties", link: "/property/commercial" },
     { type: "View Land/Plots Properties", link: "/property/land" },
+    { type: "View All Properties", link: "/allproperties" },
   ];
 
   const [data, setData] = useState({});
@@ -96,6 +97,7 @@ const Property = () => {
     }
   };
 
+  const [userType, setUserType] = useState();
   const [proType, setProType] = useState("");
   useEffect(() => {
     // try {
@@ -106,8 +108,7 @@ const Property = () => {
       )
       .then((res) => {
         setData(res.data.data[0]);
-        
-        
+
         setLatestProperty(res.data.data1);
         setProType(res.data.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
@@ -119,10 +120,22 @@ const Property = () => {
       });
     checkShortlist();
     checkInterested();
-  // } catch (err) {
-  //   console.log(err);
-  // }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
   }, [proId]);
+
+  useEffect(() => {
+    axios
+        .get(
+          import.meta.env.VITE_BACKEND +
+            `/api/agent/checkUserType/${data.pro_user_id}`
+        )
+        .then((res) => {
+          setUserType(res.data[0].agent_type);
+        });
+  }, [data])
 
   const [viewsData, setViewsData] = useState({
     pro_views: "",
@@ -545,17 +558,16 @@ const Property = () => {
 
   const [subDistrict, setSubDistrict] = useState();
   useEffect(() => {
-    if(data.length > 0) {
+    if (data.length > 0) {
       axios
-      .get(
-        import.meta.env.VITE_BACKEND +
-          `/api/pro/SubDistrictDataByCity/${data.pro_city}`
-      )
-      .then((res) => {
-        setSubDistrict(res.data);
-      });
+        .get(
+          import.meta.env.VITE_BACKEND +
+            `/api/pro/SubDistrictDataByCity/${data.pro_city}`
+        )
+        .then((res) => {
+          setSubDistrict(res.data);
+        });
     }
-    
   }, [data?.pro_city]);
 
   return (
@@ -699,9 +711,12 @@ const Property = () => {
                 {data !== undefined && data.pro_listed !== 0 ? (
                   <ul className="coming-field-content">
                     <li>
-                      <Link to="/">
+                      <Link
+                        title="Click to View All Properties"
+                        to="/allproperties"
+                      >
                         <a>
-                          Property Type
+                          All Properties
                           <span>
                             <IconChevronRight className="sidebar-faicon" />
                           </span>
@@ -709,7 +724,14 @@ const Property = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link>
+                      <Link
+                        title={`Click to view ${
+                          data.pro_type ? data.pro_type.split(",")[1] : ""
+                        } Properties`}
+                        to={`/property/${
+                          data.pro_type ? data.pro_type.split(",")[1] : ""
+                        }`}
+                      >
                         <a>
                           {data.pro_type ? data.pro_type.split(",")[1] : ""}
                           <IconChevronRight className="sidebar-faicon" />
@@ -717,15 +739,6 @@ const Property = () => {
                       </Link>
                     </li>
                     <li>{data.pro_sub_cat}</li>
-                   
-                    {data.pro_views !== null &&
-                          parseInt(data.pro_views) > 0 && (
-                            <li className="property-view-count ">
-                              <IconEye width={16} height={16} />
-                              {" "}Views {data.pro_views}
-                            </li>
-                          )}
-                    
                   </ul>
                 ) : (
                   <div class="no-longer-available">
@@ -740,13 +753,12 @@ const Property = () => {
                         className={sticky ? "top newClass" : "top"}
                         id="dynamic"
                       >
-                        
                         <div
                           className="d-flex flex-column pt-2 pt-md-0 pl-3 pl-md-0 pr-3 pr-md-0"
-                          style={{ gap: "0", width: "100%"}}
+                          style={{ gap: "0", width: "100%" }}
                         >
                           {!skeleton ? (
-                            <h1 className="capitalize pl-md-0 d-flex gap-3 align-items-center flex-wrap">
+                            <h1 className="capitalize pl-md-0 d-flex pt-4 pt-md-0 align-items-center flex-wrap property-heading">
                               {/* {data.pro_area_size +
                               " " +
                               data.pro_area_size_unit +
@@ -766,10 +778,13 @@ const Property = () => {
                               {arrproId
                                 .slice(0, arrproId.length - 1)
                                 .map((item) => (
-                                  <span>
+                                  <span className="pro-slug-space">
                                     {item[0].toUpperCase() + item.slice(1)}
                                   </span>
                                 ))}
+                                {/* <span>
+                                Residential Plot
+                                </span> */}
                               {/* {arrproId[0] +" "+arrproId[1] +" "+arrproId[2] +" "+arrproId[3] +" "+arrproId[4]+" "+arrproId[5]+" "+arrproId[6]+" "+arrproId[7]+" "+arrproId[8]} */}
                               {currentUser ? (
                                 data.pro_user_id == currentUser[0].login_id ? (
@@ -782,7 +797,7 @@ const Property = () => {
                                     title="Shortlisted"
                                     onClick={shortlistProperty}
                                   >
-                                    <IconStarFilled className="shortlistIcon" />
+                                    <IconStarFilled width={16} height={16} className="shortlistIcon" />
                                   </button>
                                 )
                               ) : (
@@ -791,7 +806,7 @@ const Property = () => {
                                   title="Shortlist this property"
                                   onClick={shortlistProperty}
                                 >
-                                  <IconStarFilled className="shortlistIcon" />
+                                  <IconStarFilled width={16} height={16} className="shortlistIcon" />
                                 </button>
                               )}
                             </h1>
@@ -804,14 +819,30 @@ const Property = () => {
                           )}
                         </div>
                         {!skeleton ? (
-                          <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize">
+                          // <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize pro-add">
+                          <div className="d-md-flex">
+                            <div className=" pl-3 pl-md-0 pb-0 text-capitalize pro-add">
                             {data.pro_locality},&nbsp;
                             {data.pro_sub_district
                               ? data.pro_sub_district + ", "
                               : ""}
                             {data.pro_city},&nbsp;
-                            {data.pro_state}
+                            {data.pro_state} 
+                            
                           </div>
+                          <span className="right-border mx-2 mobile-hidden"></span> 
+                           <div className=" pl-3 pl-md-0 pro-add">
+                            
+                           {userType === "Agent" && data.pro_user_type === "Agent" ?
+                             <Link to={`/agentProfile/${data.pro_user_id}`} title="Click to View Agent Profile">
+                               Listed by {data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " "}
+                             </Link> :
+                                 "Listed by "  + (data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " ")
+                           }
+                           
+                           {DateTime(data.pro_date)}
+                         </div>
+                         </div>
                         ) : (
                           <Skeleton
                             variant="rectangular"
@@ -820,9 +851,15 @@ const Property = () => {
                             className="mt-1"
                           />
                         )}
-                        {!skeleton ? (
+                        {/* {!skeleton ? (
                           <span className="listed pl-3 pl-md-0 ">
-                            Listed by {" " + data.pro_user_type}{" "}
+                            {data.pro_user_type === "Agent" ?
+                              <Link to={`/agentProfile/${data.pro_user_id}`} title="Click to View Agent Profile">
+                                Listed by {data.pro_user_type + " "}
+                              </Link> :
+                                  "Listed by "  + data.pro_user_type + " "
+                            }
+                            
                             {DateTime(data.pro_date)}
                           </span>
                         ) : (
@@ -832,8 +869,8 @@ const Property = () => {
                             height={14}
                             className="mt-1"
                           />
-                        )}
-                        <div className="d-flex align-items-center justify-content-between p-1">
+                        )} */}
+                        <div className="d-md-flex align-items-center justify-content-between p-1">
                           {!skeleton ? (
                             <div className="d-flex align-items-center justify-content-between pl-md-0 ">
                               <div className="property-price">
@@ -851,7 +888,7 @@ const Property = () => {
                             />
                           )}
 
-                          <div className="d-flex gap-2 align-items-center">
+                          <div className="d-flex pl-2 pl-md-0 gap-2 align-items-center">
                             {currentUser ? (
                               data.pro_user_id == currentUser[0].login_id ? (
                                 ""
@@ -870,7 +907,7 @@ const Property = () => {
                                         title="Already Contacted"
                                         onClick={askQuestion}
                                       >
-                                        <IconSend />
+                                        <IconSend width={20} height={20}  />
                                         <span className="mobile-hidden">
                                           Already
                                         </span>
@@ -887,7 +924,7 @@ const Property = () => {
                                     </div>
                                   ) : (
                                     <div
-                                      className={`d-flex flex-column  ${
+                                      className={`d-flex flex-column ${
                                         data.pro_contacted !== null
                                           ? "contacted-count contacted-count-pt"
                                           : ""
@@ -898,7 +935,7 @@ const Property = () => {
                                         title="Contact Us"
                                         onClick={askQuestion}
                                       >
-                                        <IconSend />
+                                        <IconSend width={20} height={20} />
                                         <span className="">Contact Us</span>
                                       </button>
                                       <span className="contacted-no text-center">
@@ -925,7 +962,7 @@ const Property = () => {
                                   title="Contact Us"
                                   onClick={askQuestion}
                                 >
-                                  <IconSend />
+                                  <IconSend width={20} height={20} />
                                   <span className="">Contact Us</span>
                                 </button>
                                 <span className="contacted-no text-center">
@@ -944,7 +981,7 @@ const Property = () => {
                                 target="_blank"
                                 className="share-property"
                               >
-                                <IconBrandFacebook />
+                                <IconBrandFacebook width={20} height={20} />
                                 <span
                                   className="mobile-hidden"
                                   style={{ fontWeight: "bold" }}
@@ -963,10 +1000,20 @@ const Property = () => {
                                 target="_blank"
                                 className="share-propertywp"
                               >
-                                <IconBrandWhatsapp />
+                                <IconBrandWhatsapp width={20} height={20} />
                                 <span className="mobile-hidden">Share</span>
                               </a>
                             </button>
+                            {/* <div>
+                            {data.pro_views !== null &&
+                                      parseInt(data.pro_views) > 0 && (
+                                        <li className="property-view-count ">
+                                          <IconEye width={20} height={20} />
+                                          <span className="mobile-hidden pr-1" >Views</span> 
+                                          {data.pro_views}
+                                        </li>
+                                      )}
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -984,27 +1031,41 @@ const Property = () => {
                                   slides={images}
                                   open={() => setOpen(true)}
                                   handleCurrentImage={handleCurrentImage}
+                                  totalViews={data.pro_views}
                                 />
                               ) : (
-                                <img
-                                  src="/images/default.png"
-                                  //alt="No Image"
-                                  // alt={
-                                  //   data.pro_area_size +
-                                  //   " " +
-                                  //   data.pro_area_size_unit +
-                                  //   " " +
-                                  //   data.pro_type && data.pro_type.split(",")[0] +
-                                  //   " For" +
-                                  //   " " +
-                                  //   data.pro_ad_type +
-                                  //   " in " +
-                                  //   data.pro_city
-                                  // }
-                                  width={550}
-                                  height={550}
-                                  className="img-fluid"
-                                />
+                               <div>
+                                
+
+                                  <img
+                                    src="/images/default.png"
+                                    //alt="No Image"
+                                    // alt={
+                                    //   data.pro_area_size +
+                                    //   " " +
+                                    //   data.pro_area_size_unit +
+                                    //   " " +
+                                    //   data.pro_type && data.pro_type.split(",")[0] +
+                                    //   " For" +
+                                    //   " " +
+                                    //   data.pro_ad_type +
+                                    //   " in " +
+                                    //   data.pro_city
+                                    // }
+                                    width={550}
+                                    height={550}
+                                    className="img-fluid"
+                                  />
+                                  <div className="top-left-2">
+                {data.pro_views !== null && parseInt(data.pro_views) > 0 && (
+                  <li className="property-view-count ">
+                    <IconEye width={16} height={16} />
+                    Views {data.pro_views}
+                  </li>
+                )}
+              
+              </div>
+                               </div>
                               )}
                             </div>
                           </div>

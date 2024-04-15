@@ -18,3 +18,12 @@
     font-size: 19px;
     font-weight: 500;
 }
+
+.sec-haeding {
+    padding: 0px 0px 15px 0px;
+    margin: 0px;
+    font-family: 'opensans-bold';
+    font-size: 18px;
+    color: #333333;
+    font-weight: normal;
+}

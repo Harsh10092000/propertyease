@@ -426,7 +426,8 @@ const AgentsListing = () => {
                         <div className="company-name">
                           Cal Properties,{" "}
                           {item.agent_locality && item.agent_city
-                            ? item.agent_locality + ", " + item.agent_city
+                            ? item.agent_locality[0].toUpperCase() +
+                            item.agent_locality.slice(1) + ", " + item.agent_city
                             : item.agent_locality || item.agent_city}
                         </div>
                         <div className="deals-in-area">
@@ -446,7 +447,7 @@ const AgentsListing = () => {
                           )}
                         </div>
                         <p class="desc">
-                          We are Real Estate Agent in Ludhiana providing Buying,
+                          We are Real Estate Agent, providing Buying,
                           Selling and Renting Services for all types of Property
                           in {item.agent_state}.
                         </p>
@@ -498,7 +499,7 @@ const AgentsListing = () => {
                           </button>
                         </div>
                         <div className="pl-2">
-                          <Link to={`/agentProfile/${item.agent_id}`}>
+                          <Link to={`/agentProfile/${item.user_cnct_id}`}>
                             <button
                               type="button"
                               class="btn btn-sm view-profile"

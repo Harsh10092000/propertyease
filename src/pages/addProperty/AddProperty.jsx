@@ -129,6 +129,8 @@ const AddProperty = () => {
     otp: "",
   });
 
+  const [userType, setUserType] = useState();
+
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictData`)
@@ -141,6 +143,7 @@ const AddProperty = () => {
         setCityState(res.data);
       });
   }, []);
+
 
   useEffect(() => {
     currentUser !== null &&
@@ -156,7 +159,22 @@ const AddProperty = () => {
             number: res.data[0].login_number,
           });
         });
+      axios
+        .get(
+          import.meta.env.VITE_BACKEND +
+            `/api/agent/checkUserType/${currentUser[0].login_id}`
+        )
+        .then((res) => {
+          setUserType(res.data[0].agent_type);
+          setPropertyData({
+            ...propertyData,
+            pro_user_type: res.data[0].agent_type,
+          });
+
+        });
   }, [currentUser]);
+
+
 
   const verifyEmail = async () => {
     try {
@@ -389,6 +407,7 @@ const AddProperty = () => {
   //   propinCode: false,
   // });
 
+  console.log("userData : " ,  propertyData);
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const maxFileSize = 1000000;

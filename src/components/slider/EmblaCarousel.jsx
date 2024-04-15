@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Thumb } from "./EmblaCarouselThumbsButton";
+import {
+  IconEye,
+} from "@tabler/icons-react";
 import "./embla.css";
 const EmblaCarousel = (props) => {
   const { slides, options } = props;
@@ -39,7 +42,30 @@ const EmblaCarousel = (props) => {
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container" onClick={props.open}>
           {slides.map((item, index) => (
-            <div className="embla__slide" key={index}>
+            <div className="embla__slide " key={index}>
+              
+              <img
+                title="Click to Enlarge Image"
+                className=" coursor-pointer bg-img"
+                src={
+                  import.meta.env.VITE_BACKEND +
+                  "/propertyImages/watermark/" +
+                  item.img_link
+                }
+                // alt={props.pro_area_size +
+                //   " " +
+                //   props.pro_area_size_unit +
+                //   " " +
+                // props.pro_type.split(",")[0]
+                // + " For" +
+                // " " + props.pro_ad_type + " in " + props.pro_city}
+                alt={`/${
+                  props.pro_area_size + " " + props.pro_area_size_unit + " "
+                }
+                ${props.pro_type ? props.pro_type.split(",")[0] : ""} For ${
+                  " " + props.pro_ad_type + " in " + props.pro_city
+                }}`}
+              />
               <img
                 title="Click to Enlarge Image"
                 className="embla__slide__img coursor-pointer"
@@ -62,6 +88,15 @@ const EmblaCarousel = (props) => {
                   " " + props.pro_ad_type + " in " + props.pro_city
                 }}`}
               />
+              <div className="top-left">
+                {props.totalViews !== null && parseInt(props.totalViews) > 0 && (
+                  <li className="property-view-count ">
+                    <IconEye width={16} height={16} />
+                    Views {props.totalViews}
+                  </li>
+                )}
+              
+              </div>
             </div>
           ))}
         </div>
