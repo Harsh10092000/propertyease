@@ -133,7 +133,7 @@ const Property = () => {
             `/api/agent/checkUserType/${data.pro_user_id}`
         )
         .then((res) => {
-          setUserType(res.data[0].agent_type);
+          setUserType(res.data[0]?.agent_type);
         });
   }, [data])
 
@@ -835,9 +835,9 @@ const Property = () => {
                             
                            {userType === "Agent" && data.pro_user_type === "Agent" ?
                              <Link to={`/agentProfile/${data.pro_user_id}`} title="Click to View Agent Profile">
-                               Listed by {data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " "}
+                               Listed by {currentUser && data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " "}
                              </Link> :
-                                 "Listed by "  + (data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " ")
+                                 "Listed by "  + (currentUser && data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " ")
                            }
                            
                            {DateTime(data.pro_date)}
