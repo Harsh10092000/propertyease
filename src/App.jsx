@@ -117,7 +117,13 @@ const App = () => {
     },
     {
       path: "/contactus",
-      element: <ContactUs />,
+      
+      element: (
+        <>
+          <ScrollToTop />
+          <ContactUs />
+        </>
+      ),
     },
     {
       path: "/allproperties",
