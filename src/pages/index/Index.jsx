@@ -503,7 +503,9 @@ const Index = () => {
                   <div className="ph-content" style={{ fontSize: "18px" }}>
                     <strong>TALK TO EXPERTS</strong>
                     <br />
-                    Call: +91 8950040151
+                    
+                    <div>Call: +91 99967 16787</div>
+                    <div>Call: +91 89500 40151</div>
                   </div>
                 </a>
               </div>
