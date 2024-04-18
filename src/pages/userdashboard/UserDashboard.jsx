@@ -13,6 +13,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import Loader from "../../components/loader/Loader";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -27,7 +34,7 @@ const UserDashboard = () => {
   const [change, setChange] = useState(0);
   const [filter, setFilter] = useState("All");
   useEffect(() => {
-    console.log("chnage 33333333");
+    
     axios
       .get(
         import.meta.env.VITE_BACKEND +
@@ -122,23 +129,37 @@ const UserDashboard = () => {
     pro_id: "",
   });
 
-  const delistProperty = async (data) => {
-    console.log(proListingStatus);
+  const [open, setOpen] = React.useState(false);
+  const [data1 , setData1] = useState();
+  const handleClickOpen = (data) => {
+    
+    setData1(data);
+    
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+  const delistProperty = async () => {
+    setOpen(false);
     setLoader(true);
     proListingStatus.pro_listed = 0;
-    proListingStatus.pro_id = data.pro_id;
+    proListingStatus.pro_id = data1.pro_id;
     await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateProListingStatus",
       proListingStatus
     );
     setChange(change + 1);
-    console.log("change 1111111")
     setLoader(false);
     setSnackQ(true);
+    
   };
 
   const listProperty = async (data) => {
-    console.log(proListingStatus);
+    
     setLoader(true);
     proListingStatus.pro_listed = 1;
     proListingStatus.pro_id = data.pro_id;
@@ -147,17 +168,39 @@ const UserDashboard = () => {
       proListingStatus
     );
     setChange(change + 1);
-    console.log("change 22222222")
+    
     setLoader(false);
     setSnack(true);
+
   };
 
-  console.log("data : ", data);
+ 
   // Create a new string in the format "26 March 2024"
   //const formattedDate = `${day} ${month} ${year}`;
 
   return (
     <div className="container-fluid admin-dashboard admin-icon">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delist this property? "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          You can relist the property at any time.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={delistProperty} autoFocus>
+            Delist
+          </Button>
+        </DialogActions>
+      </Dialog>
       {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
@@ -378,7 +421,8 @@ const UserDashboard = () => {
                             <button
                               title="Click to Dislist your property"
                               className="btn btn-danger btn-sm vbtn"
-                              onClick={() => delistProperty(item)}
+                              // onClick={() => delistProperty(item)}
+                              onClick={() => handleClickOpen(item)}
                             >
                               Delist
                             </button>

@@ -41,7 +41,7 @@ const UserdashboardProfile = () => {
       )
       .then((res) => {
         //setAgentData(res.data[0]);
-        console.log("res.data.length : " , res.data.length)
+        
         res.data.length > 0 ?
         setAgentData({
           
@@ -69,7 +69,7 @@ const UserdashboardProfile = () => {
         }) : "";
 
         if (res.data.length === 0) {
-          console.log("res.data.length : " , res.data.length);
+          
           navigate("/user/user-profile-form");
         }
 
