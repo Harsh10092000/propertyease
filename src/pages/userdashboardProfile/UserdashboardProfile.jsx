@@ -120,7 +120,18 @@ const UserdashboardProfile = () => {
                       <div class="card-info">
                         {/* <img src="/img/home.jpg" /> */}
                         <div className="profilepict ">
-                          <img src="/img/person.jpg" />
+                          
+                          
+                          {agentData.agent_image ? (
+                              <img
+                                src={`${
+                                  import.meta.env.VITE_BACKEND
+                                }/userImages/${agentData.agent_image}`}
+                                alt="img"
+                              />
+                            ) : (
+                              <img src="/img/person.jpg" />
+                            )}
                         </div>
                         <div class="profileinfo">
                           <div className="d-flex justify-content-between">
@@ -266,7 +277,17 @@ const UserdashboardProfile = () => {
                       <div class="card-info">
                         {/* <img src="/img/home.jpg" /> */}
                         <div className="profilepict ">
-                          <img src="/img/person.jpg" />
+                          {/* <img src="/img/person.jpg" /> */}
+                          {agentData.agent_image ? (
+                              <img
+                                src={`${
+                                  import.meta.env.VITE_BACKEND
+                                }/userImages/${agentData.agent_image}`}
+                                alt="img"
+                              />
+                            ) : (
+                              <img src="/img/person.jpg" />
+                            )}
                         </div>
                         <div class="profileinfo">
                           <div className="d-flex justify-content-between">
