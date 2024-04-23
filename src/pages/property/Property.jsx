@@ -27,6 +27,7 @@ import { Helmet } from "react-helmet";
 import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
+import AdSlider from "../../components/adslider/AdSlider";
 
 const Property = () => {
   const curr_date = Date.now();
@@ -123,19 +124,30 @@ const Property = () => {
     // } catch (err) {
     //   console.log(err);
     // }
-
   }, [proId]);
 
   useEffect(() => {
     axios
-        .get(
-          import.meta.env.VITE_BACKEND +
-            `/api/agent/checkUserType/${data.pro_user_id}`
-        )
-        .then((res) => {
-          setUserType(res.data[0]?.agent_type);
-        });
-  }, [data])
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/checkUserType/${data.pro_user_id}`
+      )
+      .then((res) => {
+        setUserType(res.data[0]?.agent_type);
+      });
+  }, [data]);
+
+  const [agentName, setAgentName] = useState("");
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchAgentNameById/${data.pro_user_id}`
+      )
+      .then((res) => {
+        setAgentName(res.data[0].agent_name);
+      });
+  }, [data]);
 
   const [viewsData, setViewsData] = useState({
     pro_views: "",
@@ -570,6 +582,17 @@ const Property = () => {
     }
   }, [data?.pro_city]);
 
+  const [propertyPageData1, setPropertyPageData1] = useState();
+  const [propertyPageData2, setPropertyPageData2] = useState();
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/ad/fetchAdData`)
+      .then((res) => {
+        setPropertyPageData1(res.data.propertyPageData1);
+        setPropertyPageData2(res.data.propertyPageData2);
+      });
+  }, []);
+
   return (
     <div>
       <Helmet>
@@ -706,6 +729,19 @@ const Property = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
+            {propertyPageData1?.length > 0 && (
+              <div className="property-page-ad">
+                <div className="p-1 shadow">
+                  {/* <img
+                        src="/images/bizease.png"
+                        alt="no image"
+                        className="ad-section"
+                      /> */}
+                  <AdSlider className="ad-section" slides={propertyPageData1} />
+                </div>
+              </div>
+            )}
+
             <div>
               <section className="property-view-outer">
                 {data !== undefined && data.pro_listed !== 0 ? (
@@ -750,7 +786,7 @@ const Property = () => {
                   <div className="property-view-inner">
                     <div className="row">
                       <div
-                        className={sticky ? "top newClass" : "top"}
+                        className={sticky ? "top newClass pt-3" : "top"}
                         id="dynamic"
                       >
                         <div
@@ -782,7 +818,7 @@ const Property = () => {
                                     {item[0].toUpperCase() + item.slice(1)}
                                   </span>
                                 ))}
-                                {/* <span>
+                              {/* <span>
                                 Residential Plot
                                 </span> */}
                               {/* {arrproId[0] +" "+arrproId[1] +" "+arrproId[2] +" "+arrproId[3] +" "+arrproId[4]+" "+arrproId[5]+" "+arrproId[6]+" "+arrproId[7]+" "+arrproId[8]} */}
@@ -797,7 +833,11 @@ const Property = () => {
                                     title="Shortlisted"
                                     onClick={shortlistProperty}
                                   >
-                                    <IconStarFilled width={16} height={16} className="shortlistIcon" />
+                                    <IconStarFilled
+                                      width={16}
+                                      height={16}
+                                      className="shortlistIcon"
+                                    />
                                   </button>
                                 )
                               ) : (
@@ -806,7 +846,11 @@ const Property = () => {
                                   title="Shortlist this property"
                                   onClick={shortlistProperty}
                                 >
-                                  <IconStarFilled width={16} height={16} className="shortlistIcon" />
+                                  <IconStarFilled
+                                    width={16}
+                                    height={16}
+                                    className="shortlistIcon"
+                                  />
                                 </button>
                               )}
                             </h1>
@@ -822,27 +866,42 @@ const Property = () => {
                           // <div className="property-top-address pl-3 pl-md-0 pb-0 text-capitalize pro-add">
                           <div className="d-md-flex">
                             <div className=" pl-3 pl-md-0 pb-0 text-capitalize pro-add">
-                            {data.pro_locality},&nbsp;
-                            {data.pro_sub_district
-                              ? data.pro_sub_district + ", "
-                              : ""}
-                            {data.pro_city},&nbsp;
-                            {data.pro_state} 
-                            
+                              {data.pro_locality},&nbsp;
+                              {data.pro_sub_district
+                                ? data.pro_sub_district + ", "
+                                : ""}
+                              {data.pro_city},&nbsp;
+                              {data.pro_state}
+                            </div>
+                            <span className="right-border mx-2 mobile-hidden"></span>
+                            <div className=" pl-3 pl-md-0 pro-add">
+                              {userType === "Agent" &&
+                              data.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${data.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  data.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : agentName +
+                                      " (" +
+                                      data.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                data.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : data.pro_user_type + " ")
+                              )}
+
+                              {DateTime(data.pro_date)}
+                            </div>
                           </div>
-                          <span className="right-border mx-2 mobile-hidden"></span> 
-                           <div className=" pl-3 pl-md-0 pro-add">
-                            
-                           {userType === "Agent" && data.pro_user_type === "Agent" ?
-                             <Link to={`/agentProfile/${data.pro_user_id}`} title="Click to View Agent Profile">
-                               Listed by {currentUser && data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " "}
-                             </Link> :
-                                 "Listed by "  + (currentUser && data.pro_user_id == currentUser[0].login_id ? "Me " : data.pro_user_type + " ")
-                           }
-                           
-                           {DateTime(data.pro_date)}
-                         </div>
-                         </div>
                         ) : (
                           <Skeleton
                             variant="rectangular"
@@ -907,7 +966,7 @@ const Property = () => {
                                         title="Already Contacted"
                                         onClick={askQuestion}
                                       >
-                                        <IconSend width={20} height={20}  />
+                                        <IconSend width={20} height={20} />
                                         <span className="mobile-hidden">
                                           Already
                                         </span>
@@ -1034,9 +1093,7 @@ const Property = () => {
                                   totalViews={data.pro_views}
                                 />
                               ) : (
-                               <div>
-                                
-
+                                <div>
                                   <img
                                     src="/images/default.png"
                                     //alt="No Image"
@@ -1057,15 +1114,15 @@ const Property = () => {
                                     className="img-fluid"
                                   />
                                   <div className="top-left-2">
-                {data.pro_views !== null && parseInt(data.pro_views) > 0 && (
-                  <li className="property-view-count ">
-                    <IconEye width={16} height={16} />
-                    Views {data.pro_views}
-                  </li>
-                )}
-              
-              </div>
-                               </div>
+                                    {data.pro_views !== null &&
+                                      parseInt(data.pro_views) > 0 && (
+                                        <li className="property-view-count ">
+                                          <IconEye width={16} height={16} />
+                                          Views {data.pro_views}
+                                        </li>
+                                      )}
+                                  </div>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -1548,6 +1605,30 @@ const Property = () => {
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    )}
+                    {/* <div className="property-page-ad">
+                      <div className="p-1 shadow">
+                        <img
+                          src="/images/bizease.png"
+                          alt="no image"
+                          className="ad-section"
+                        />
+                      </div>
+                    </div> */}
+                    {propertyPageData2?.length > 0 && (
+                      <div className="property-page-ad">
+                        <div className="p-1 shadow">
+                          {/* <img
+                        src="/images/bizease.png"
+                        alt="no image"
+                        className="ad-section"
+                      /> */}
+                          <AdSlider
+                            className="ad-section"
+                            slides={propertyPageData2}
+                          />
                         </div>
                       </div>
                     )}

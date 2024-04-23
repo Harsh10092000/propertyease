@@ -2383,7 +2383,7 @@ section.property-more-detail {
 }
 section.property-view-outer {
   border-bottom: none !important;
-  margin: 140px 0 70px;
+  margin: 60px 0 70px;
 }
 .more-detail-heading {
   font-size: 22px;
@@ -2966,6 +2966,7 @@ section.search-block {
   margin-right: 12px;
 }
 div#dynamic {
+  /* padding-top: 10px; */
   padding-bottom: 12px;
   width: 100%;
   z-index: 999;
@@ -16321,6 +16322,8 @@ section.find-services {
   align-items: center;
 }
 
+
+
 .user-profile .card .card-info .profilepict {
  
   border-radius: 4px;
@@ -16332,6 +16335,16 @@ section.find-services {
 .card-info .profileinfo {
   padding: 0px 20px;
   /* width: 90%; */
+}
+
+@media only screen and (max-width: 480px) {
+  .user-profile .card .card-info {
+    display: block ;
+  }
+  .user-profile .card .card-info .profilepict {
+    margin-bottom: 10px;
+    width: max-content;
+  }
 }
 
 .card-info .user-edit {
@@ -16826,6 +16839,29 @@ section.find-services {
   font-size: 15px;
 }
 
+@media only screen and (max-width: 480px) {
+  .user-details {
+    display: block !important;
+  }
+
+  .user-details .sec-1{
+    padding: 0px 10px 0px 0px;
+    margin: 0px;
+    font-size: 15px;
+    width: 100% !important;
+  }
+  
+  .user-details .sec-2{
+    padding: 0px;
+    margin: 0px;
+    color: #333333;
+    font-family: 'opensans-bold', Arial;
+    font-weight: bold;
+    font-size: 15px;
+    width: 100% !important;
+  }
+}
+
 .img-wrapper {
   position: relative;
 }
@@ -16915,3 +16951,79 @@ section.find-services {
   padding-right: 7px;
   padding-bottom: 20px;
 } */
+
+.list-item {
+  
+  border-bottom: 1px solid #e5e7eb;
+  color: black;
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@media only screen and (max-width: 767px) {
+  .mobile-hidden-email {
+    display: none !important;
+  }
+}
+
+
+.ad-section {
+  width: -webkit-fill-available;
+}
+
+
+.property-page-ad {
+  margin-top: 50px;
+  
+}
+
+.property-page-ad img{
+  height: 130px;
+}
+
+
+.ad-form-wrapper {
+  padding-left: 50px;
+  width: 50%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.ad-form-wrapper .pro_flex {
+  display: flex;
+}
+
+@media screen and (max-width: 480px) {
+  .ad-form-wrapper {
+    margin: auto;
+    width: 100%;
+
+    padding: 30px 40px 30px 40px;
+  }
+  .ad-form-wrapper .pro_flex {
+    display: block;
+  }
+}
+
+.ad-form-heading {
+  font-size: 35px;
+  margin: 10px;
+  font-weight: 600;
+}
+
+
+.sidebar-icon-wrapper {
+  
+    padding: 10px 0px 10px 10px !important;
+}
+
+.sidebar-icon svg {
+  height: 32px;
+    width: 32px;
+    margin-top: 12px;
+}
+
+.logo-wrapper img{
+  height: 65px;
+}

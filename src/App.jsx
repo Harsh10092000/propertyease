@@ -44,6 +44,8 @@ import UserdashboardProfile from "./pages/userdashboardProfile/UserdashboardProf
 import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
 //import ContactUs from "./pages/contactUs/contactUs";
 import ContactUs from "./pages/contactUs/ContactUs";
+import AdsForm from "./pages/adsForm/AdsForm";
+import AdminAd from "./pages/adminAd/AdminAd";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -263,6 +265,14 @@ const App = () => {
         {
           path: "requirements",
           element: <AdminRequirement />,
+        },
+        {
+          path: "adsform",
+          element: <AdsForm />,
+        },
+        {
+          path: "adslist",
+          element: <AdminAd />,
         },
       ],
     },

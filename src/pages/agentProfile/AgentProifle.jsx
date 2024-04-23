@@ -393,7 +393,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentData.agent_id}`}
+                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentData.user_cnct_id}`}
                                     target="_blank"
                                     className="share-property"
                                   >
@@ -412,7 +412,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile//${agentData.agent_id}`}
+                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile/${agentData.user_cnct_id}`}
                                     target="_blank"
                                     className="share-propertywp"
                                   >
@@ -1039,7 +1039,7 @@ const AgentProifle = () => {
                     <h3>
                       Recent Listed <span>Properties</span>
                       {properties.length > 0
-                        ? "by" + " " + agentData.agent_name
+                        ? " by" + " " + agentData.agent_name
                         : ""}
                     </h3>
                     <p>

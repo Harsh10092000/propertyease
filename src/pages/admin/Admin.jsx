@@ -85,6 +85,22 @@ const Admin = () => {
                     </a>
                   </Link>
                 </li>
+                <li>
+                  <Link to="/admin/adslist">
+                    <a title="Ads">
+                      <IconSend />
+                      <span>Ads</span>
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/adsform">
+                    <a title="Create Ads">
+                      <IconSend />
+                      <span>Create Ads</span>
+                    </a>
+                  </Link>
+                </li>
                 <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout />

@@ -1,11 +1,21 @@
 import * as React from "react";
-import { IconLogout, IconStarFilled } from "@tabler/icons-react";
-import { IconBuilding, IconCategory, IconEye } from "@tabler/icons-react";
+import {
+  IconLogout,
+  IconStarFilled,
+  IconMenu2,
+  IconCategory2,
+  IconX,
+} from "@tabler/icons-react";
+import { IconBuilding, IconCategory, IconEye,IconUser  } from "@tabler/icons-react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItemText from "@mui/material/ListItemText";
 import { AuthContext } from "../../context/AuthContext";
 
 const User = () => {
@@ -23,114 +33,264 @@ const User = () => {
     localStorage.removeItem("user");
     clearUser();
   };
-  return (
-    <div>
-      <div className="studentLayout">
-        <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="brand">
+
+  const [state, setState] = useState({
+    add: false,
+  });
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+  };
+  const closeDrawer = () => {
+    setState(false);
+  };
+
+  
+
+                
+  const items = [
+    {
+      icon: <IconUser width={32} height={32}  className="sidebar-faicon" />,
+      name: "My Profile",
+      linkto: `/user/user-profile/${currentUser[0].login_id}`,
+    },
+    {
+      icon: <IconBuilding className="sidebar-faicon" />,
+      name: "My Listed Properties",
+      linkto: "/user/dashboard",
+    },
+    {
+      icon: <IconBuilding className="sidebar-faicon" />,
+      name: "Add Property",
+      linkto: "/addproperty",
+    },
+    {
+      icon: <IconBuilding className="sidebar-faicon" />,
+      name: "View All Properties",
+      linkto: "/allproperties",
+    },
+    {
+      icon: <IconEye className="sidebar-faicon" />,
+      name: "Shortlisted",
+      linkto: "/user/shortlisted",
+    },
+     
+  ];
+
+  const list = (anchor) => (
+    <Box sx={{ width: 300 }} role="presentation">
+      {anchor === "add" ? (
+        <Box
+          sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
+          role="presentation"
+          onClick={toggleDrawer(anchor, false)}
+          onKeyDown={closeDrawer}
+        >
+          <div className="flex justify-between p-3 pt-4 ">
+            <div>
+              
+            </div>
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+
             <Link to="/">
               <img
                 src="/images/logo.png"
                 alt="Propertyease Logo"
+                width={200}
+                height={180}
                 className="img-fluid logo-only-mobile"
               />
             </Link>
+            </div>
+            <div>
+            <IconX
+              className=" b-3 pointer text-slate-300"
+              onClick={toggleDrawer("add", true)}
+              title="Click to close Menu"
+            />
+            </div>
+            </div>
           </div>
-          <div id="navbar-menu">
-            <ul className="nav">
-              <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-              >
-                {currentUser[0].login_email}
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <MenuItem onClick={logout}>Logout</MenuItem>
-              </Menu>
-            </ul>
-          </div>
-        </nav>
-        <a href="#" className="mobile-menu">
-          <span>
-            {/* <FontAwesomeIcon
+
+          <List className="">
+            {items.map((item, index) => (
+              <Link to={item.linkto} key={index}>
+                <div className="p-3 m-2 d-flex pl-4 list-item">
+                  {/* <div className="list-item-icon">
+                  {item.icon}
+                  </div> */}
+
+                  <div className=" pl-3">
+                    <ListItemText className="list-item-text" primary={item.name} />
+                  </div>
+                  
+                </div>
+              </Link>
+              
+            ))}
+          </List>
+          <div className="p-3 m-2 d-flex pl-4 list-item">
+            <div className="list-item-text pl-3">Logout</div></div>
+        </Box>
+      ) : (
+        ""
+      )}
+    </Box>
+  );
+
+  return (
+    <React.Fragment>
+      <Drawer
+        anchor="left"
+        open={state["add"]}
+        onClose={toggleDrawer("add", false)}
+      >
+        {list("add")}
+      </Drawer>
+      <div>
+        <div className="studentLayout">
+          <nav className="navbar navbar-default navbar-fixed-top mobile-hidden-email">
+            {/* <div className="block web-hidden-pro">
+              <div className="dropdown">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost "
+                  aria-label="Menu"
+                >
+                  <IconMenu2
+                    className="w-8 h-8 ml-3 mr-5"
+                    onClick={toggleDrawer("add", true)}
+                  />
+                </div>
+              </div>
+            </div> */}
+            {/* <div className=" web-hidden-pro">
+              
+                  <IconMenu2
+                    className="w-8 h-8 ml-3 mr-5"
+                    onClick={toggleDrawer("add", true)}
+                  />
+                
+            </div> */}
+            <div className="brand ">
+              <Link to="/">
+                <img
+                  src="/images/logo.png"
+                  alt="Propertyease Logo"
+                  className="img-fluid logo-only-mobile"
+                />
+              </Link>
+            </div>
+            <div id="navbar-menu" className="">
+              <ul className="nav">
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  {currentUser[0].login_email}
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={logout}>Logout</MenuItem>
+                </Menu>
+              </ul>
+            </div>
+          </nav>
+          <a href="#" className="mobile-menu sidebar-icon-wrapper">
+            <span className="sidebar-icon">
+              <IconCategory2
+                className="w-8 h-8 ml-3 mr-2 "
+                onClick={toggleDrawer("add", true)}
+              />
+              {/* <FontAwesomeIcon
             className="sidebar-faiconNew"
             icon={faBars}
             onClick={() => handleNewtoogleClick()}
           /> */}
-          </span>
-          MENU
-        </a>
-        <div id="sidebar-nav" className={"sidebar mobile-show "}>
-          <div className="sidebar-scroll">
+            </span>
             <div className="brand">
-              <Link to="/">
-                <img src="/images/white-logo.png" alt="Propertyease logo" />
-              </Link>
-            </div>
+                <Link to="/">
+                  <img src="/images/white-logo.png" alt="Propertyease logo" />
+                </Link>
+              </div>
+          </a>
+          <div id="sidebar-nav" className={"sidebar mobile-show "}>
+            <div className="sidebar-scroll">
+              <div className="brand">
+                <Link to="/">
+                  <img src="/images/white-logo.png" alt="Propertyease logo" />
+                </Link>
+              </div>
 
-            <nav>
-              <ul className="nav">
-              <li>
-                  <Link to={`/user/user-profile/${currentUser[0].login_id}`}>
-                    <div
-                      title="My Profile"
-                      className="d-flex align-items-center"
-                    >
-                      <IconCategory className="sidebar-faicon" />
-                      My Profile
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/user/dashboard">
-                    <div
-                      title="My Listed Properties"
-                      className="d-flex align-items-center"
-                    >
-                      <IconCategory className="sidebar-faicon" />
-                      My Listed Properties
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/addproperty">
-                    <div
-                      title="Add Property"
-                      className="d-flex align-items-center"
-                    >
-                      <IconBuilding className="sidebar-faicon" />
-                      Add Property
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/allproperties">
-                    <a title="View All Properties">
-                      <IconEye />
-                      <span>View All Properties</span>
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/user/shortlisted">
-                    <a title="Shortlisted">
-                      <IconStarFilled className="sidebar-faicon" />
-                      <span>Shortlisted</span>
-                    </a>
-                  </Link>
-                </li>
-                {/* <li>
+              <nav>
+                <ul className="nav">
+                  <li>
+                    <Link to={`/user/user-profile/${currentUser[0].login_id}`}>
+                      <div
+                        title="My Profile"
+                        className="d-flex align-items-center"
+                      >
+                        <IconUser  className="sidebar-faicon" />
+                        My Profile
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/user/dashboard">
+                      <div
+                        title="My Listed Properties"
+                        className="d-flex align-items-center"
+                      >
+                        <IconCategory className="sidebar-faicon" />
+                        My Listed Properties
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/addproperty">
+                      <div
+                        title="Add Property"
+                        className="d-flex align-items-center"
+                      >
+                        <IconBuilding className="sidebar-faicon" />
+                        Add Property
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/allproperties">
+                      <a title="View All Properties">
+                        <IconEye />
+                        <span>View All Properties</span>
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/user/shortlisted">
+                      <a title="Shortlisted">
+                        <IconStarFilled className="sidebar-faicon" />
+                        <span>Shortlisted</span>
+                      </a>
+                    </Link>
+                  </li>
+                  {/* <li>
                   <Link to="/user/userProfileForm">
                     <a title="userProfileForm">
                       <IconStarFilled className="sidebar-faicon" />
@@ -138,21 +298,22 @@ const User = () => {
                     </a>
                   </Link>
                 </li> */}
-                <li onClick={logout} className="pointer">
-                  <a title="Logout">
-                    <IconLogout className="sidebar-faicon" />
-                    <span>Logout</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+                  <li onClick={logout} className="pointer">
+                    <a title="Logout">
+                      <IconLogout className="sidebar-faicon" />
+                      <span>Logout</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
+        <div className="mainmain">
+          <Outlet />
+        </div>
       </div>
-      <div className="mainmain">
-        <Outlet />
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 
