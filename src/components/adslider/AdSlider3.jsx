@@ -1,6 +1,7 @@
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "./adslider3.css";
+
 import Autoplay from "embla-carousel-autoplay";
 
 const AdSlider3 = (props) => {
