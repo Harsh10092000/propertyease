@@ -20,7 +20,6 @@
 // import { AuthContext } from "../../context/AuthContext";
 // import { useForm, Controller } from 'react-hook-form';
 
-
 // const UserProfileForm = () => {
 //   const { currentUser } = useContext(AuthContext);
 //   const [loader, setLoader] = useState(false);
@@ -378,7 +377,7 @@
 //     { value: 'Angular', label: 'Angular' },
 //     { value: 'Svelte', label: 'Svelte' },
 //   ];
-  
+
 //   const tagsOptions = [
 //     { value: 'React', label: 'React' },
 //     { value: 'Angular', label: 'Angular' },
@@ -394,9 +393,6 @@
 //     },
 //   });
 
- 
-
-  
 //   const handleAutocompleteChange = (event, value) => {
 //     setValue('tags', value); // Update the form value when Autocomplete value changes
 //   };
@@ -779,7 +775,6 @@
 //                 />
 //               </div>
 
-              
 //               <div className="pro_flex pro_flex_1 ml-2">
 //                 <div className="w-100 m-1 mb-3">
 //                   <span className="pro_heading">Deals in Property types</span>
@@ -843,11 +838,11 @@
 //                 </div>
 //               </div>
 //               <div>
-              
+
 //       <Controller
 //         name="tags"
 //         control={control}
-//         defaultValue={initialSelectedValues.map(option => option.label)} 
+//         defaultValue={initialSelectedValues.map(option => option.label)}
 //         render={({ field }) => (
 //           <Autocomplete
 //             {...field}
@@ -862,8 +857,7 @@
 //           />
 //         )}
 //       />
-      
-    
+
 //               </div>
 //               <div className="pro_flex">
 //                 <Autocomplete
@@ -1250,8 +1244,6 @@
 
 // export default UserProfileForm;
 
-
-
 import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   TextField,
@@ -1533,7 +1525,6 @@ const UserProfileForm = () => {
         console.log("ok.......");
         handleClick();
       } else {
-        
         setFormSubmit(true);
       }
     } else if (
@@ -1633,8 +1624,9 @@ const UserProfileForm = () => {
       <div className="user-profile-form-wrapper ">
         <div className=" user-profile-form-heading ">Complete Your Profile</div>
         <div className="pl-2 pt-2 pb-2">
-          {`\u2022 Are you searching to buy any property? Please fill out this form to
-          let us know about your preferred city, locality, and your budget.`}{" "}
+          {`\u2022 Thank you for joining us! We're here to assist you in finding your dream property. To ensure we cater 
+          to your preferences, please take a moment to complete your profile. Let us know your preferred city, locality 
+           and we'll tailor our recommendations to your needs.`}{" "}
         </div>
 
         <div className="user-profile-form mt-2">
@@ -1851,14 +1843,18 @@ const UserProfileForm = () => {
                       ))
                   : "No City Exists"}
               </Select>
-              {cityState?.filter((i) => i.state === userData.user_state).length > 0 && formSubmit === true &&
+              {cityState?.filter((i) => i.state === userData.user_state)
+                .length > 0 &&
+                formSubmit === true &&
                 userData.user_city === "" &&
                 userData.user_state === "" && (
                   <FormHelperText sx={{ color: "red" }}>
                     Select State to add City
                   </FormHelperText>
                 )}
-              {cityState?.filter((i) => i.state === userData.user_state).length > 0 && formSubmit === true &&
+              {cityState?.filter((i) => i.state === userData.user_state)
+                .length > 0 &&
+                formSubmit === true &&
                 userData.user_city === "" &&
                 userData.user_state !== "" && (
                   <FormHelperText sx={{ color: "red" }}>
@@ -1895,13 +1891,17 @@ const UserProfileForm = () => {
                       ))
                   : "No District Exists"}
               </Select>
-              {subDistrict?.filter((i) => i.district === userData.user_city).length > 0 && formSubmit === true &&
+              {subDistrict?.filter((i) => i.district === userData.user_city)
+                .length > 0 &&
+                formSubmit === true &&
                 (userData.user_city === "" || userData.user_state === "") && (
                   <FormHelperText sx={{ color: "red" }}>
                     Select State and City to add Sub District
                   </FormHelperText>
                 )}
-              {subDistrict?.filter((i) => i.district === userData.user_city).length > 0 && formSubmit === true &&
+              {subDistrict?.filter((i) => i.district === userData.user_city)
+                .length > 0 &&
+                formSubmit === true &&
                 userData.user_sub_district === "" &&
                 userData.user_city !== "" &&
                 userData.user_state !== "" && (
@@ -2155,7 +2155,7 @@ const UserProfileForm = () => {
                       user_work_city: [],
                       user_work_sub_district: [],
                     });
-                    
+
                     // } else {
                     //   return;
                     // }
@@ -2337,7 +2337,7 @@ const UserProfileForm = () => {
                   )}
                 />
               </div>
-             
+
               <div className="pro_flex">
                 <TextField
                   multiline

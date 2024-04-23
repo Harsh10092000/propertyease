@@ -11,19 +11,35 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { regEx } from "../regEx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { IconX } from "@tabler/icons-react";
 
 
 
 
-const AdsForm = () => {
-  const [adData, setAdData] = useState({
-    ad_type: "",
-    ad_link: "",
-    ad_image: "",
-  });
+const EditAdsForm = () => {
+    //const adId = 3;
+    const { adId } = useParams();
+    const [adData, setAdData] = useState({
+        ad_type: "",
+        ad_link: "",
+        ad_image: "",
+      });
+    useEffect(() => {
+        axios
+          .get(import.meta.env.VITE_BACKEND + `/api/ad/fetchAdDataById/${adId}`)
+          .then((res) => {
+            setAdData({
+                ...adData,
+                ad_type : res.data[0].ad_type,
+                ad_link : res.data[0].ad_link,
+                ad_image : res.data[0].ad_image,
+                ad_id  :res.data[0].ad_id,
+            });
+          });
+      }, [adId]);
+  
 
   const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -113,27 +129,50 @@ const AdsForm = () => {
   //   }
   // };
 
-
   const handleClick = async () => {
-    //e.preventDefault();
     try {
       setLoader(true);
+      console.log("adData : " , adData)
       const formData = new FormData();
       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
       formData.append("ad_type", adData.ad_type);
       formData.append("ad_link", adData.ad_link);
       formData.append("ad_image", adData.ad_image);
+      formData.append("ad_id", adData.ad_id);
+      
       await axios
-        .post(import.meta.env.VITE_BACKEND + "/api/ad/addAd", formData)
-        setLoader(false);
-       navigate(`/admin/adslist`);
-      //navigate(`/user/user-profile/${currentUser[0].login_id}`);
+        .put(import.meta.env.VITE_BACKEND + "/api/ad/updateAd", formData);
+      setLoader(false);
+      // navigate(`/agentProfile/${agentId}`);
+      //navigate(`/user/user-profile/${userData.user_cnct_id}`);
+      navigate(`/admin/adslist`);
     } catch (err) {
       console.log(err);
     }
   };
 
+//   const handleClick = async () => {
+//     //e.preventDefault();
+//     try {
+//       setLoader(true);
+//       const formData = new FormData();
+//       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
+//       formData.append("ad_type", adData.ad_type);
+//       formData.append("ad_link", adData.ad_link);
+//       formData.append("ad_image", adData.ad_image);
+//       await axios
+//         .post(import.meta.env.VITE_BACKEND + "/api/ad/addAd", formData)
+//         setLoader(false);
+//        navigate(`/admin/adslist`);
+//       //navigate(`/user/user-profile/${currentUser[0].login_id}`);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
   const removeImage = () => {
+    
+    setAdData({...adData , ad_image : "" });
     setSelectedFiles(null);
     setFileSizeExceeded(false);
     setFormatError(false);
@@ -239,11 +278,30 @@ const AdsForm = () => {
                 <div className="border py-2 px-4">Browse</div>
               </div>
             </label>
-            <div className="  w-100">
+            {/* <div className="  w-100">
               {selectedFiles != null && selectedFiles != undefined ? (
                 // ? files.map((item) => (
                 <div className="d-flex file-name-wrapper justify-content-between  ">
                   <div className="file-name">{selectedFiles[0].name}</div>
+                  <div
+                    className="pointer text-[#C4C5C8]"
+                    onClick={removeImage}
+                    title="Click to remove selected file"
+                  >
+                    <IconX />
+                  </div>
+                </div>
+              ) : (
+                // ))
+                ""
+              )}
+            </div> */}
+
+            <div className=" ad-image w-100">
+              {(selectedFiles != null && selectedFiles != undefined) || adData.ad_image !== "" ? (
+                // ? files.map((item) => (
+                <div className="d-flex file-name-wrapper justify-content-between  ">
+                  <div className="file-name">{selectedFiles != null && selectedFiles != undefined ? selectedFiles[0].name : adData.ad_image  }</div>
                   <div
                     className="pointer text-[#C4C5C8]"
                     onClick={removeImage}
@@ -284,4 +342,4 @@ const AdsForm = () => {
   );
 };
 
-export default AdsForm;
+export default EditAdsForm;

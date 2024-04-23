@@ -211,9 +211,9 @@ const AdminAd = () => {
                         <IconEye />
                       </button>
                     </Link>
-                    <Link to="#">
+                    <Link to={"/admin/edit/" + item.ad_id}>
                       <button title="Edit Your Property" className="view">
-                        {/* <Link to={"/editProperty/" + item.pro_id}> */}
+                        {/* <Link to={"/edit/" + item.pro_id}> */}
 
                         <IconEdit className="" />
                       </button>

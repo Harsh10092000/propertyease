@@ -64,7 +64,6 @@ const PopSlider = (props) => {
                   "/propertyImages/watermark/" +
                   item.img_link
                 }
-                
                 alt="Propertyease"
               />
             </div>

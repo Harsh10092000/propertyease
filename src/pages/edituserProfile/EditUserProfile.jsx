@@ -457,8 +457,8 @@ const EditUserProfile = () => {
       <div className="user-profile-form-wrapper ">
         <div className=" user-profile-form-heading ">Edit Your Profile</div>
         <div className="pl-2 pt-2 pb-2">
-          {`\u2022 Are you searching to buy any property? Please fill out this form to
-            let us know about your preferred city, locality, and your budget.`}{" "}
+          {`\u2022  Updating your profile? Feel free to customize your profile by sharing your preferred city,
+           locality, and budget.`}{" "}
         </div>
 
         <div className="user-profile-form mt-2">

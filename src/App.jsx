@@ -46,6 +46,7 @@ import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
 import ContactUs from "./pages/contactUs/ContactUs";
 import AdsForm from "./pages/adsForm/AdsForm";
 import AdminAd from "./pages/adminAd/AdminAd";
+import EditAdsForm from "./pages/editAds/EditAdsForm";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -274,6 +275,11 @@ const App = () => {
           path: "adslist",
           element: <AdminAd />,
         },
+        {
+          path: "edit/:adId",
+          element: <EditAdsForm />,
+        },
+        
       ],
     },
     {

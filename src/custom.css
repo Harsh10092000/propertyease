@@ -17027,3 +17027,19 @@ section.find-services {
 .logo-wrapper img{
   height: 65px;
 }
+
+
+.ad-image .file-name-wrapper {
+  background-color:  #F5F7FB;
+  padding: 10px 20px;
+  border-radius: 5px;
+
+
+}
+
+.ad-image .file-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  padding-right: 5px;
+}
