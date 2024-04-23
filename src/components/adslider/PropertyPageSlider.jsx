@@ -5,7 +5,7 @@ import "./embla.css";
 
 import Autoplay from "embla-carousel-autoplay";
 
-const PropertyPageSlider = () => {
+const PropertyPageSlider = (props) => {
     const OPTIONS = { loop: true };
   const { slides } = props;
   const [emblaMainRef] = useEmblaCarousel(OPTIONS, [

@@ -225,7 +225,7 @@ const User = () => {
             onClick={() => handleNewtoogleClick()}
           /> */}
             </span>
-            <div className="brand">
+            <div className="brand logo-wrapper">
                 <Link to="/">
                   <img src="/images/white-logo.png" alt="Propertyease logo" />
                 </Link>

@@ -3,7 +3,7 @@ import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "./adslider2.css";
 
-const AllPropertySlider = () => {
+const AllPropertySlider = (props) => {
     const OPTIONS = { loop: true };
     const { slides } = props;
     const [emblaMainRef] = useEmblaCarousel(OPTIONS, [
