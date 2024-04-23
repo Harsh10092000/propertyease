@@ -18,7 +18,7 @@ import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 
 import AdSlider2 from "../../components/adslider/AdSlider2";
-import AdSlider3 from "../../components/adslider/AdSlider3";
+// import AdSlider3 from "../../components/adslider/AdSlider3";
 
 const AllProperties = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
