@@ -1,8 +1,8 @@
+import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "./adslider2.css";
 
-import Autoplay from "embla-carousel-autoplay";
 
 const AdSlider2 = (props) => {
   const OPTIONS = { loop: true };
