@@ -17,8 +17,9 @@ import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 
-import AdSlider2 from "../../components/adslider/AdSlider2";
+//import AdSlider2 from "../../components/adslider/AdSlider2";
 // import AdSlider3 from "../../components/adslider/AdSlider3";
+import AllPropertySlider from "../../components/adslider/AllPropertySlider";
 
 const AllProperties = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -480,7 +481,7 @@ const AllProperties = (props) => {
                    <div className=" row">
                 <div className="col-md-auto flex-column text-center ad-1" >
                   
-                  <AdSlider2 className="ad-section" slides={ad1} />
+                  <AllPropertySlider className="ad-section" slides={ad1} />
                 </div>
               </div>
               </div>
@@ -830,7 +831,7 @@ const AllProperties = (props) => {
                         alt="no image"
                         className="ad-section"
                       /> */}
-                      <AdSlider2 className="ad-section" slides={ad2} />
+                      <AllPropertySlider className="ad-section" slides={ad2} />
                       </div>
                   </div>
                 </div>

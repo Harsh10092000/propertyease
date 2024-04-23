@@ -1,20 +1,18 @@
-
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import "./adslider3.css";
+import "./embla.css";
+
 
 import Autoplay from "embla-carousel-autoplay";
 
-
-const AdSlider3 = (props) => {
-  const OPTIONS = { loop: true };
+const PropertyPageSlider = () => {
+    const OPTIONS = { loop: true };
   const { slides } = props;
   const [emblaMainRef] = useEmblaCarousel(OPTIONS, [
     Autoplay({ playOnInit: true, delay: 2000 }),
   ]);
-
   return (
-    <div className="emblapop p-0">
+    <div className="emblapop">
       <div className="embla__viewportpop" ref={emblaMainRef}>
         <div className="embla__containerpop">
           {slides?.map((item, index) => (
@@ -34,7 +32,7 @@ const AdSlider3 = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdSlider3;
+export default PropertyPageSlider

@@ -28,6 +28,7 @@ import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
+import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 
 const Property = () => {
   const curr_date = Date.now();
@@ -737,7 +738,7 @@ const Property = () => {
                         alt="no image"
                         className="ad-section"
                       /> */}
-                  <AdSlider className="ad-section" slides={propertyPageData1} />
+                  <PropertyPageSlider className="ad-section" slides={propertyPageData1} />
                 </div>
               </div>
             )}
