@@ -830,7 +830,7 @@ const AllProperties = (props) => {
                         alt="no image"
                         className="ad-section"
                       /> */}
-                      <AdSlider3 className="ad-section" slides={ad2} />
+                      <AdSlider2 className="ad-section" slides={ad2} />
                       </div>
                   </div>
                 </div>
