@@ -732,13 +732,14 @@ const Property = () => {
           <div className="col-md-12">
             {propertyPageData1?.length > 0 && (
               <div className="property-page-ad">
-                <div className="p-1 shadow">
+                <div className="p-1 shadow ad-10" >
+
                   {/* <img
                         src="/images/bizease.png"
                         alt="no image"
                         className="ad-section"
                       /> */}
-                  <PropertyPageSlider className="ad-section" slides={propertyPageData1} />
+                   <PropertyPageSlider className="ad-section" slides={propertyPageData1} /> 
                 </div>
               </div>
             )}
@@ -1620,13 +1621,13 @@ const Property = () => {
                     </div> */}
                     {propertyPageData2?.length > 0 && (
                       <div className="property-page-ad">
-                        <div className="p-1 shadow">
+                        <div className="p-1 shadow ad-10">
                           {/* <img
                         src="/images/bizease.png"
                         alt="no image"
                         className="ad-section"
                       /> */}
-                          <AdSlider
+                          <PropertyPageSlider
                             className="ad-section"
                             slides={propertyPageData2}
                           />

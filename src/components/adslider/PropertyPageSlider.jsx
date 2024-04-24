@@ -1,18 +1,19 @@
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import "./embla.css";
 
+import "./propertypage.css";
 
 import Autoplay from "embla-carousel-autoplay";
 
 const PropertyPageSlider = (props) => {
+  //hell
     const OPTIONS = { loop: true };
   const { slides } = props;
   const [emblaMainRef] = useEmblaCarousel(OPTIONS, [
     Autoplay({ playOnInit: true, delay: 2000 }),
   ]);
   return (
-    <div className="emblapop">
+    <div className="emblapop ">
       <div className="embla__viewportpop" ref={emblaMainRef}>
         <div className="embla__containerpop">
           {slides?.map((item, index) => (
