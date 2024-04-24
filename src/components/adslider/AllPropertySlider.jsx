@@ -10,7 +10,7 @@ const AllPropertySlider = (props) => {
       Autoplay({ playOnInit: true, delay: 2000 }),
     ]);
   return (
-    <div className="emblapop p-0">
+    <div className="emblapop p-0 ad-11">
     <div className="embla__viewportpop" ref={emblaMainRef}>
       <div className="embla__containerpop">
         {slides?.map((item, index) => (
