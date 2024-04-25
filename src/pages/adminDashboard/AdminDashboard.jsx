@@ -31,6 +31,40 @@ const AdminDashboard = () => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
   } , [data])
+
+  const FormatDate = (dateString) => {
+    if (dateString.includes("-")) {
+      () => setProDate(dateString);
+      const date = new Date(dateString);
+
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+
+      const formattedDate = date.toLocaleDateString("en-US", options);
+
+      return formattedDate;
+    } else {
+      const date = new Date(parseInt(dateString));
+      date.setUTCHours(date.getUTCHours() + 5);
+      date.setUTCMinutes(date.getUTCMinutes() + 30);
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      // const hours = String(date.getUTCHours()).padStart(2, "0");
+      // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+      // const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      const formattedTimestamp = `${year}-${month}-${day} `;
+      const date2 = new Date(formattedTimestamp);
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = date2.toLocaleDateString("en-US", options);
+      return formattedDate;
+    }
+  };
+
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
   const filteredData = data
@@ -137,6 +171,7 @@ const AdminDashboard = () => {
                 <th>Sale/Resale</th>
                 <th>Owner/Agent</th>
                 <th>Property Type</th>
+                <th>Posted On</th>
                 <th>Status</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -152,6 +187,7 @@ const AdminDashboard = () => {
                   <td>{item.pro_ad_type}</td>
                   <td>{item.pro_user_type}</td>
                   <td>{item.pro_type}</td>
+                  {<td>{FormatDate(item.pro_date)}</td>}
                   <td>{item.pro_listed === 1 || item.pro_listed === null ? "Listed" : "Delisted"}</td>
                   <td>{item.login_email}</td>
                   <td>+91{item.login_number}</td>

@@ -47,6 +47,8 @@ import ContactUs from "./pages/contactUs/ContactUs";
 import AdsForm from "./pages/adsForm/AdsForm";
 import AdminAd from "./pages/adminAd/AdminAd";
 import EditAdsForm from "./pages/editAds/EditAdsForm";
+import ViewUserProperties from "./pages/viewuserProperties/ViewUserProperties";
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -306,6 +308,15 @@ const App = () => {
       <AgentProifle />
       </>),
     },
+    {
+      path: "/view-properties/:userId",
+      element: (
+        <><ScrollToTop />
+      <ViewUserProperties />
+      </>),
+    },
+
+    
     {
       path: "/watermark2",
       element: <WatermarkOthers />,

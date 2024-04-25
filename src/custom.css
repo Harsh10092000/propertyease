@@ -3311,14 +3311,14 @@ a.btn-resiter-earing span {
   }
 }
 
-@media only screen and (min-width: 680px) {
+/* @media only screen and (min-width: 680px) {
   .header-right {
     padding-right: 200px;
   }
   .header-left {
     padding-left: 200px;
   }
-}
+} */
 
 .web-hidden-pro {
   display: none !important;
@@ -3336,7 +3336,6 @@ a.btn-resiter-earing span {
 
 
 @media only screen and (max-width: 767px) {
-  
   .cate-img img,
   a.logo img {
     max-width: 100%;
@@ -17042,4 +17041,13 @@ section.find-services {
   font-weight: 500;
   color: black;
   padding-right: 5px;
+}
+
+.msg-haeding {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.no-data {
+  height: 500px;
 }

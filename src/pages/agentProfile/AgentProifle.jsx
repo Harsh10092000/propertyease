@@ -100,7 +100,7 @@ const AgentProifle = () => {
     //   });
   }, []);
 
-  console.log(agentData);
+
 
   useEffect(() => {
     axios

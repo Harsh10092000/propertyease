@@ -21,9 +21,8 @@ const AdminUsers = () => {
     item.serial_no = i + 1;
   });
 
-
   const [searchValue, setSearchValue] = useState("");
-  
+
   const filteredData = data.filter(
     (code) =>
       code.login_email.toLowerCase().startsWith(searchValue.toLowerCase()) ||
@@ -31,10 +30,8 @@ const AdminUsers = () => {
       code.login_id.toString().startsWith(searchValue)
   );
 
-
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
-
 
   return (
     <div>
@@ -77,21 +74,85 @@ const AdminUsers = () => {
                   {/* <td>{index + 1}</td> */}
                   <td>{item.serial_no}</td>
                   <td>{item.login_id}</td>
-                  <td>{item.agent_type !== null ? item.agent_type  : "-"}</td>
+                  <td>{item.agent_type !== null ? item.agent_type : "-"}</td>
 
                   <td>{item.login_email}</td>
                   <td>+91{item.login_number}</td>
-                  <td>{item.agent_type === "Agent" ? 
+                  {/* <td>{item.agent_type === "Agent" ? 
+                  <>
                   <Link to={`/agentProfile/${item.login_id}`}>
                    <button title="View Your Property"
                               className="btn btn-primary btn-sm vbtn"
                             >
                               <a className="btn btn-primary btn-sm ">
-                                View Profile
+                                View Properties
                               </a>
                             </button>
                   </Link>
-                  : <span className="pl-3">-</span>}</td>
+                  <Link to={`/agentProfile/${item.login_id}`}>
+                  <button title="View Your Property"
+                             className="btn btn-primary btn-sm vbtn"
+                           >
+                             <a className="btn btn-primary btn-sm ">
+                               View Profile
+                             </a>
+                           </button>
+                 </Link>
+                 </>
+
+                  : <span className="pl-3">-</span>}</td> */}
+
+                  <td>
+                    {item.agent_type === "Agent" &&
+                    item.count_of_properties !== null ? (
+                      <>
+                        <Link to={`/view-properties/${item.login_id}`}>
+                          <button
+                            title="View Your Property"
+                            className="btn btn-primary btn-sm vbtn"
+                          >
+                            <a className="btn btn-primary btn-sm ">
+                              View Properties
+                            </a>
+                          </button>
+                        </Link>
+                        <Link to={`/agentProfile/${item.login_id}`}>
+                          <button
+                            title="View Your Property"
+                            className="btn btn-primary btn-sm vbtn"
+                          >
+                            <a className="btn btn-primary btn-sm ">
+                              View Profile
+                            </a>
+                          </button>
+                        </Link>
+                      </>
+                    ) : item.agent_type === "Agent" ? (
+                      <Link to={`/agentProfile/${item.login_id}`}>
+                        <button
+                          title="View Your Property"
+                          className="btn btn-primary btn-sm vbtn"
+                        >
+                          <a className="btn btn-primary btn-sm ">
+                            View Profile
+                          </a>
+                        </button>
+                      </Link>
+                    ) : item.count_of_properties !== null ? (
+                      <Link to={`/view-properties/${item.login_id}`}>
+                        <button
+                          title="View Your Property"
+                          className="btn btn-primary btn-sm vbtn"
+                        >
+                          <a className="btn btn-primary btn-sm ">
+                            View Properties
+                          </a>
+                        </button>
+                      </Link>
+                    ) : (
+                      <span className="pl-3">-</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
