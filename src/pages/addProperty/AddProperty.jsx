@@ -919,7 +919,7 @@ const AddProperty = () => {
       </Dialog>
       <Navbar />
 
-      {parseInt(prevData?.pro_count) < 5 ? (
+      {parseInt(prevData?.pro_count) < 5 || prevData?.pro_count === null || prevData?.pro_count ? (
         <div className="container">
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
