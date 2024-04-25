@@ -6,12 +6,17 @@ import {
   IconStar,
   IconUser,
   IconUsers,
+  IconSquareRoundedPlus,
+  IconEye,
+  IconAd,
+  IconCaretDownFilled
 } from "@tabler/icons-react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
 
 const Admin = () => {
   const { clearAdmin } = useContext(AdminContext);
+  const [adsSubMenu, setAdsSubMenu] = useState(false);
   const logout = () => {
     localStorage.removeItem("admin");
     clearAdmin();
@@ -86,21 +91,40 @@ const Admin = () => {
                   </Link>
                 </li>
                 <li>
+                  {/* <Link to="/admin/adslist"> */}
+                    <a title="Ads" onClick={() => setAdsSubMenu(!adsSubMenu)}>
+                      <div className="d-flex justify-content-between">
+
+                        <div>
+                      <IconAd />
+                      <span>Ads</span>
+                     </div>
+                      <div><IconCaretDownFilled /></div>
+                      </div>
+                    </a>
+                    
+                  {/* </Link> */}
+                </li>
+                {adsSubMenu &&
+                <>
+                <li className="pl-3">
                   <Link to="/admin/adslist">
                     <a title="Ads">
-                      <IconSend />
-                      <span>Ads</span>
+                      <IconEye />
+                      <span>View Ads</span>
                     </a>
                   </Link>
                 </li>
-                <li>
+                <li className="pl-3">
                   <Link to="/admin/adsform">
                     <a title="Create Ads">
-                      <IconSend />
+                      <IconSquareRoundedPlus />
                       <span>Create Ads</span>
                     </a>
                   </Link>
                 </li>
+                </>
+                }
                 <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout />

@@ -132,14 +132,12 @@ const EditAdsForm = () => {
   const handleClick = async () => {
     try {
       setLoader(true);
-      console.log("adData : " , adData)
       const formData = new FormData();
       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
       formData.append("ad_type", adData.ad_type);
       formData.append("ad_link", adData.ad_link);
       formData.append("ad_image", adData.ad_image);
       formData.append("ad_id", adData.ad_id);
-      
       await axios
         .put(import.meta.env.VITE_BACKEND + "/api/ad/updateAd", formData);
       setLoader(false);
@@ -244,7 +242,7 @@ const EditAdsForm = () => {
             onChange={(e) => {
               setAdData({
                 ...adData,
-                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 -]/g, ""),
+                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
               });
             }}
           />

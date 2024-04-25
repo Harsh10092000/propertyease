@@ -205,7 +205,7 @@ const AdsForm = () => {
             onChange={(e) => {
               setAdData({
                 ...adData,
-                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 -]/g, ""),
+                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
               });
             }}
           />
