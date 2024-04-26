@@ -14,37 +14,60 @@ import { regEx } from "../regEx";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { IconX } from "@tabler/icons-react";
-
-
-
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import moment from "moment";
 
 const AdsForm = () => {
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+  const date = today.getDate();
+  const current_date = `${month}/${date}/${year}`;
+  const todaysDate = dayjs(current_date);
+  
+  const [error, setError] = useState(null);
+  const [transactionDate, setTransactionDate] = useState(
+    dayjs(todaysDate.add(1, "days"))
+  );
+  
+  
+
+  useEffect(() => {
+    var date1 = transactionDate.$d;
+    var filteredDate1 = date1.toString().slice(4, 16);
+    const today = moment().startOf('day');
+    const totalDays1 = moment(filteredDate1).startOf('day');
+    const totalDays10 = totalDays1.diff(today, 'days');
+    setAdData({...adData, ad_days: totalDays10})
+  }, [transactionDate])
+
   const [adData, setAdData] = useState({
     ad_type: "",
     ad_link: "",
     ad_image: "",
+    ad_days: "",
   });
 
+  
   const navigate = useNavigate();
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  
+
   const [loader, setLoader] = useState(false);
- 
 
   useEffect(() => {
     if (
       adData.ad_type !== "" &&
-      adData.ad_link !== "" 
+      adData.ad_link !== "" &&
+      adData.ad_days !== ""
     ) {
       setSubmitDisabled(false);
     } else {
       setSubmitDisabled(false);
     }
-  }, [
-    adData.ad_type,
-    adData.ad_link,
-    
-  ]);
+  }, [adData.ad_type, adData.ad_link, adData.ad_days]);
 
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
@@ -91,7 +114,7 @@ const AdsForm = () => {
 
   // const handleClick = async (e) => {
   //   setLoader(true);
-    
+
   //   e.preventDefault();
   //   try {
   //     await axios
@@ -101,7 +124,7 @@ const AdsForm = () => {
   //       )
   //       .then((res) => {
   //         setLoader(false);
-          
+
   //         setAdData({
   //           ad_type: "",
   //           ad_link: "",
@@ -113,7 +136,6 @@ const AdsForm = () => {
   //   }
   // };
 
-
   const handleClick = async () => {
     //e.preventDefault();
     try {
@@ -123,10 +145,13 @@ const AdsForm = () => {
       formData.append("ad_type", adData.ad_type);
       formData.append("ad_link", adData.ad_link);
       formData.append("ad_image", adData.ad_image);
-      await axios
-        .post(import.meta.env.VITE_BACKEND + "/api/ad/addAd", formData)
-        setLoader(false);
-       navigate(`/admin/adslist`);
+      formData.append("ad_days", adData.ad_days);
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/ad/addAd",
+        formData
+      );
+      setLoader(false);
+      navigate(`/admin/adslist`);
       //navigate(`/user/user-profile/${currentUser[0].login_id}`);
     } catch (err) {
       console.log(err);
@@ -172,18 +197,10 @@ const AdsForm = () => {
               value={adData.ad_type}
             >
               <option aria-label="Select Type" value="" />
-              <option value={"all_properties_ad_1"}>
-                All Properties Ad 1
-              </option>
-              <option value={"all_properties_ad_2"}>
-                All Properties Ad 2
-              </option>
-              <option value={"property_page_ad_1"}>
-                Property Page Ad 1
-              </option>
-              <option value={"property_page_ad_2"}>
-                Property Page Ad 2
-              </option>
+              <option value={"all_properties_ad_1"}>All Properties Ad 1</option>
+              <option value={"all_properties_ad_2"}>All Properties Ad 2</option>
+              <option value={"property_page_ad_1"}>Property Page Ad 1</option>
+              <option value={"property_page_ad_2"}>Property Page Ad 2</option>
             </Select>
             {adData.ad_type === "" && (
               <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
@@ -211,60 +228,140 @@ const AdsForm = () => {
           />
         </div>
 
-       
-        <div className="m-2">
-            <input
-              type="file"
-              id="file-1"
-              class="hidden sr-only w-full "
-              accept="image/x-png,image/gif,image/jpeg"
-              onChange={(event) => {
-                setFormatError(false),
-                  setFileSizeExceeded(false),
-                  setSelectedFiles(event.target.files),
-                  handleImage(event.target.files);
-              }}
-            />
-            <label
-              htmlFor="file-1"
-              className="mb-3"
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-            >
-              <div className="d-flex flex-column align-items-center border border-[#5a5c69] py-4 rounded-2 ">
-                <div>Drop files here</div>
-                <div className="py-1">Or</div>
-                <div className="border py-2 px-4">Browse</div>
-              </div>
-            </label>
-            <div className="  w-100">
-              {selectedFiles != null && selectedFiles != undefined ? (
-                // ? files.map((item) => (
-                <div className="d-flex file-name-wrapper justify-content-between  ">
-                  <div className="file-name">{selectedFiles[0].name}</div>
-                  <div
-                    className="pointer text-[#C4C5C8]"
-                    onClick={removeImage}
-                    title="Click to remove selected file"
-                  >
-                    <IconX />
-                  </div>
-                </div>
-              ) : (
-                // ))
-                ""
-              )}
-            </div>
+        {/* <div className="pro_flex">
+          <TextField
+            sx={{ m: 1, width: ["100%"] }}
+            label="Total No. of days"
+            variant="outlined"
+            size="small"
+            inputProps={{ maxlength: 50 }}
+            className="w-100"
+            value={adData.ad_days}
+            helperText={adData.ad_days.length < 1 ? "Required" : ""}
+            FormHelperTextProps={{ sx: { color: "red" } }}
+            onChange={(e) => {
+              setAdData({
+                ...adData,
+                ad_days: e.target.value.replace(/[^0-9]/g, ""),
+              });
+            }}
+          />
+        </div> */}
 
-            <div className="text-danger ml-2 error_msg ">
-              {formatError ? "Invalid Format" : ""}
-              {fileSizeExceeded
-                ? "File size must be greater than 10KB and less than 1MB"
-                : ""}
-            </div>
+        <div className="pro_flex m-1 ">
+          <div className="w-100 date-wrapper m-1">
+
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DemoContainer components={["DatePicker", "DatePicker"]} >
+              <DatePicker
+                label="Created At" 
+                value={todaysDate}
+                //onChange={(newValue) => setTransactionDate(newValue)}
+                format="LL"
+                className="w-full"
+                //minDate={todaysDate.add(1, "days")}
+                // onError={(newError) => {
+                //   setError(newError);
+                // }}
+                readOnly
+              />
+            </DemoContainer>
+          </LocalizationProvider>
           </div>
+          <div className="w-100 date-wrapper m-1">
+
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DemoContainer components={["DatePicker", "DatePicker"]} >
+              <DatePicker
+                label="Disabled At" 
+                value={transactionDate}
+                onChange={(newValue) => setTransactionDate(newValue)}
+                format="LL"
+                className="w-full"
+                minDate={todaysDate.add(1, "days")}
+                onError={(newError) => {
+                  setError(newError);
+                }}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+          </div>
+          
+        </div>
+
+        <div className="pro_flex ">
+          <TextField
+            sx={{ m: 1, width: ["100%"] }}
+            label="Total No. of days"
+            variant="outlined"
+           size="small"
+            inputProps={{ maxlength: 50 }}
+            className="w-100"
+            value={adData.ad_days}
+            disabled
+            helperText={adData.ad_days.length < 1 ? "Required" : ""}
+            FormHelperTextProps={{ sx: { color: "red" } }}
+            onChange={(e) => {
+              setAdData({
+                ...adData,
+                ad_days: e.target.value.replace(/[^0-9]/g, ""),
+              });
+            }}
+          />
+          </div>
+        <div className="m-2">
+          <input
+            type="file"
+            id="file-1"
+            class="hidden sr-only w-full "
+            accept="image/x-png,image/gif,image/jpeg"
+            onChange={(event) => {
+              setFormatError(false),
+                setFileSizeExceeded(false),
+                setSelectedFiles(event.target.files),
+                handleImage(event.target.files);
+            }}
+          />
+          <label
+            htmlFor="file-1"
+            className="mb-3"
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+          >
+            <div className="d-flex flex-column align-items-center border border-[#5a5c69] py-4 rounded-2 ">
+              <div>Drop files here</div>
+              <div className="py-1">Or</div>
+              <div className="border py-2 px-4">Browse</div>
+            </div>
+          </label>
+          <div className="  w-100">
+            {selectedFiles != null && selectedFiles != undefined ? (
+              // ? files.map((item) => (
+              <div className="d-flex file-name-wrapper justify-content-between  ">
+                <div className="file-name">{selectedFiles[0].name}</div>
+                <div
+                  className="pointer text-[#C4C5C8]"
+                  onClick={removeImage}
+                  title="Click to remove selected file"
+                >
+                  <IconX />
+                </div>
+              </div>
+            ) : (
+              // ))
+              ""
+            )}
+          </div>
+
+          <div className="text-danger ml-2 error_msg ">
+            {formatError ? "Invalid Format" : ""}
+            {fileSizeExceeded
+              ? "File size must be greater than 10KB and less than 1MB"
+              : ""}
+          </div>
+        </div>
         <div className="pro_flex justify-content-end">
           <button
             onClick={handleClick}

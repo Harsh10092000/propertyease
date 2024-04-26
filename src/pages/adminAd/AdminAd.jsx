@@ -12,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
+import moment from "moment";
 const AdminAd = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -189,6 +190,9 @@ const AdminAd = () => {
                 <th>Ad Type</th>
                 <th>Ad Link</th>
                 <th>Ad Image</th>
+                {/* <th>Ad Status</th> */}
+                <th>Created At</th>
+                <th>Delisted At</th>
                 <th>Ad Status</th>
                 <th>Actions</th>
               </tr>
@@ -201,8 +205,12 @@ const AdminAd = () => {
                   <td>{item.ad_type}</td>
                   <td>{item.ad_link}</td>
                   <td>{item.ad_image}</td>
-                  <td>{item.ad_listed === 1 ? "Listed" : "Delisted"}</td>
-
+                  {/* <td>{item.ad_listed === 1 ? "Listed" : "Delisted"}</td> */}
+                  <td>{moment(item.ad_created_at).format("MMMM DD YYYY")}</td>
+                  <td>{moment(item.ad_created_at).add(parseInt(item.ad_days), "days").format("MMMM DD YYYY")}</td>
+                  <td>Ad Disabled {moment(moment(item.ad_created_at).add(parseInt(item.ad_days) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td>             
+                  {/* <td>{moment(item.ad_created_at).subtract(item.ad_days, 'days').fromNow()}</td>  */}
+                  {/* <td>{moment(item.ad_created_at).fromNow()}</td> */}
                   <td className="d-flex gap-3">
                     <Link
                       to={`/3-marla-residential-land-for-sale-in-sector-4-kurukshetra-250`}
@@ -254,12 +262,15 @@ const AdminAd = () => {
                       <IconTrashFilled />
                     </button>
 
+
+
                     {item.ad_listed === 1 ? (
                       <button
                         title="Click to Promote Ad"
                         className="btn btn-danger btn-sm vbtn mb-0"
                         // onClick={() => delistProperty(item)}
                         onClick={() => hideAd(item.ad_id)}
+                        disabled={item.status === "0" ? true : false}
                       >
                         Hide
                       </button>
@@ -268,6 +279,7 @@ const AdminAd = () => {
                         title="Click to Hide Ad"
                         className="btn btn-success btn-sm vbtn mb-0 ml-0"
                         onClick={() => showAd(item.ad_id)}
+                        disabled={item.status === "0" ? true : false}
                       >
                         Promote
                       </button>

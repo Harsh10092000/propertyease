@@ -17051,3 +17051,8 @@ section.find-services {
 .no-data {
   height: 500px;
 }
+
+
+.css-10o2lyd-MuiStack-root>.MuiTextField-root, .css-10o2lyd-MuiStack-root>.MuiPickersTextField-root {
+  width: -webkit-fill-available;
+}
