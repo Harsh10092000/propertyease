@@ -6,7 +6,7 @@ import "./propertypage.css";
 import Autoplay from "embla-carousel-autoplay";
 
 const PropertyPageSlider = (props) => {
-  //hell
+  
     const OPTIONS = { loop: true };
   const { slides } = props;
   const [emblaMainRef] = useEmblaCarousel(OPTIONS, [

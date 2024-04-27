@@ -10,230 +10,224 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin, IconCurrentLocation  } from "@tabler/icons-react";
+import {
+  IconBrandWhatsapp,
+  IconMapPin,
+  IconCurrentLocation,
+} from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
-import { InputAdornment, Autocomplete  } from "@mui/material";
+import { InputAdornment, Autocomplete } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 
 const AgentProperties = () => {
-    const { id } = useParams();
+  const { id } = useParams();
   const arrproId = id.split("-");
   const agentId = arrproId[1];
 
-  console.log( agentId );
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const [location, setLocation] = useState("All India");
+  const lastIndex = currentPage * recordsPerPage;
+  let firstIndex = lastIndex - recordsPerPage;
+  const [data, setData] = useState([]);
+  const [subData, setSubData] = useState([]);
+  const [rentData, setRentData] = useState([]);
+  const [skeleton, setSkeleton] = useState(true);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [filter, setFilter] = useState("All");
+  const [userCurrLocation, setUserCurrLocation] = useState("");
+  const [cityData, setCityData] = useState();
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationSnack, setLocationSnack] = useState(false);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const recordsPerPage = 10;
-    const [location, setLocation] = useState("All India");
-    const lastIndex = currentPage * recordsPerPage;
-    let firstIndex = lastIndex - recordsPerPage;
-    const [data, setData] = useState([]);
-    const [subData, setSubData] = useState([]);
-    const [rentData, setRentData] = useState([]);
-    const [skeleton, setSkeleton] = useState(true);
-    const [suggestions, setSuggestions] = useState();
-    const [openSuggestions, setOpenSuggestions] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
-    const [filter, setFilter] = useState("All");
-    const [userCurrLocation , setUserCurrLocation] = useState("");
-    const [cityData, setCityData] = useState();
-    const [userLocation, setUserLocation] = useState(null);
-    const [locationSnack, setLocationSnack] = useState(false);
-  
-    useEffect(() => {
-      setFilter(arrproId[0])
-    }, [id])
-    
-    console.log("arrproId[0] : " , arrproId[0])
+  useEffect(() => {
+    setFilter(arrproId[0]);
+  }, [id]);
 
-    useEffect(() => {
-      cityData &&
-      cityData.filter((item) => item.district === "All India").length === 0
-        ? setCityData([...cityData, { district: "All India" }])
-        : "";
-    }, [cityData]);
+  console.log("arrproId[0] : ", arrproId[0]);
 
-    const handleLocationSnack = (value) => {
-      setLocationSnack(value);
-    }
-  
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [currentPage]);
-  
-    useEffect(() => {
-      axios
-        .get(import.meta.env.VITE_BACKEND + `/api/agent/fetchPropertyDataByAgent/${agentId}`)
-        .then((res) => {
-          setData(res.data);
-          setSkeleton(false);
-        });
-      axios
-        .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
-        .then((res) => {
-          setSubData(res.data);
-        });
-  
-      axios
-        .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
-        .then((res) => {
-          setRentData(res.data);
-        });
-    }, []);
+  useEffect(() => {
+    cityData &&
+    cityData.filter((item) => item.district === "All India").length === 0
+      ? setCityData([...cityData, { district: "All India" }])
+      : "";
+  }, [cityData]);
 
-    useEffect(() => {
-      axios
-        .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
-        .then((res) => {
-          setCityData(res.data);
-        });
-    }, []);
-  
-    
-    useEffect(() => {
-      data.forEach((item, i) => {
-        item.pro_modified_id = 5000 + parseInt(item.pro_id);
+  const handleLocationSnack = (value) => {
+    setLocationSnack(value);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchPropertyDataByAgent/${agentId}`
+      )
+      .then((res) => {
+        setData(res.data);
+        setSkeleton(false);
       });
-    }, [data]);
-  
-   
-  
-   
-    function handleLocationClick() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(success);
-      } else {
-        console.log("Geolocation not supported");
-      }
-    }
-  
-  
-  
-    function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      axios
-        .get(
-          `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=825008d9e23247daa5600c3878106833`
-          //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
-        )
-        .then((res) => {
-          //setSearchValue(res.data.features[0].properties.city.trim());
-          //setUserLocation(res.data);
-          setLocation(res.data.features[0].properties.city.trim());
-          //props.handleUserLocation(res.data.features[0].properties.city.trim());
-          setSearchValue("");
-          //props.handleSearchValue("");
-          //setSearchValue(res.data.address.city);
-          //setSearchValue("kurukshetra");
-        });
-    }
-  
-    const [results, setResults] = useState();
-    useEffect(() => {
-      
-  
-      const unique1 = Array.from(
-        new Set(data.slice(0, 60).map((item) => item.pro_city.trim()))
-      );
-      const uniqueState = Array.from(
-        new Set(data.slice(0, 60).map((item) => item.pro_state.trim()))
-      );
-  
-      const unique2 = Array.from(
-        new Set(
-          data
-            .slice(0, 60)
-            .map(
-              (item) =>
-                (item.pro_sub_district
-                  ? item.pro_sub_district.trim() + ", "
-                  : "") + item.pro_city.trim()
-            )
-        )
-      );
-      const unique3 = Array.from(
-        new Set(
-          data
-            .slice(0, 60)
-            .map(
-              (item) =>
-                (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
-                (item.pro_sub_district
-                  ? item.pro_sub_district.trim() + ", "
-                  : "") +
-                item.pro_city.trim()
-            )
-        )
-      );
-      const arr = [...unique1, ...uniqueState, ...unique2, ...unique3];
-      const unique4 = Array.from(
-        new Set(arr.slice(0, 200).map((item) => item.trim()))
-      );
-  
-      const unique = unique4.filter((i) =>
-        i.toLowerCase().startsWith(searchValue.toLowerCase())
-      );
-      setSuggestions(unique);
-      //console.log("unique : " , unique , unique1 , unique2 , unique3 , unique4)
-      let searchWords = searchValue.toLowerCase().split(",");
-      //console.log(searchWords)
-      const filteredData = data
-        .filter((code) => {
-          if (filter === "Sale") {
-            return code.pro_ad_type === "Sale";
-          } else if (filter === "Rent") {
-            return code.pro_ad_type === "Rent";
-          } else if (filter === "All") {
-            return true;
-          }
-        })
-        .filter((item) => {
-          const itemValues =
-            item.pro_locality +
-            " " +
-            item.pro_city +
-            " " +
-            item.pro_sub_district +
-            " " +
-            item.pro_street +
-            " " +
-            item.pro_state;
-  
-          return searchWords.every((word) =>
-            itemValues.toLowerCase().includes(word)
-          );
-        });
-        //console.log("filteredData : " , filteredData)
-      setResults(filteredData);
-      //console.log("searchWords : ", searchWords, filteredData);
-    }, [searchValue, userLocation,filter, data]);
-    
-    const records =
-      searchValue === "" && filter === "All"
-      ? data.slice(firstIndex, lastIndex)
-        : results.slice(firstIndex, lastIndex);
-        
-    const nPages = Math.ceil(
-      searchValue === "" && filter === "All"
-        ? data.length / recordsPerPage
-        : results.length / recordsPerPage
-        
-    );
-  
-    const handleSearchValue = (value) => {
-      console.log(value);
-      setSearchValue(value);
-    };
-  
-    const handleUserLocation = (value) => {
-      setUserCurrLocation(value);
-    };
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
+      .then((res) => {
+        setSubData(res.data);
+      });
 
-   
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/rentalPropertyTotal`)
+      .then((res) => {
+        setRentData(res.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
+      .then((res) => {
+        setCityData(res.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    data.forEach((item, i) => {
+      item.pro_modified_id = 5000 + parseInt(item.pro_id);
+    });
+  }, [data]);
+
+  function handleLocationClick() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success);
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
+
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    axios
+      .get(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=825008d9e23247daa5600c3878106833`
+        //`https://geocode.maps.co/reverse?lat=30.3752&lon=76.7821&api_key=65fa9be01b679584333361bhid151b9`
+      )
+      .then((res) => {
+        //setSearchValue(res.data.features[0].properties.city.trim());
+        //setUserLocation(res.data);
+        setLocation(res.data.features[0].properties.city.trim());
+        //props.handleUserLocation(res.data.features[0].properties.city.trim());
+        setSearchValue("");
+        //props.handleSearchValue("");
+        //setSearchValue(res.data.address.city);
+        //setSearchValue("kurukshetra");
+      });
+  }
+
+  const [results, setResults] = useState();
+  useEffect(() => {
+    const unique1 = Array.from(
+      new Set(data.slice(0, 60).map((item) => item.pro_city.trim()))
+    );
+    const uniqueState = Array.from(
+      new Set(data.slice(0, 60).map((item) => item.pro_state.trim()))
+    );
+
+    const unique2 = Array.from(
+      new Set(
+        data
+          .slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") + item.pro_city.trim()
+          )
+      )
+    );
+    const unique3 = Array.from(
+      new Set(
+        data
+          .slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") +
+              item.pro_city.trim()
+          )
+      )
+    );
+    const arr = [...unique1, ...uniqueState, ...unique2, ...unique3];
+    const unique4 = Array.from(
+      new Set(arr.slice(0, 200).map((item) => item.trim()))
+    );
+
+    const unique = unique4.filter((i) =>
+      i.toLowerCase().startsWith(searchValue.toLowerCase())
+    );
+    setSuggestions(unique);
+    //console.log("unique : " , unique , unique1 , unique2 , unique3 , unique4)
+    let searchWords = searchValue.toLowerCase().split(",");
+    //console.log(searchWords)
+    const filteredData = data
+      .filter((code) => {
+        if (filter === "Sale") {
+          return code.pro_ad_type === "Sale";
+        } else if (filter === "Rent") {
+          return code.pro_ad_type === "Rent";
+        } else if (filter === "All") {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const itemValues =
+          item.pro_locality +
+          " " +
+          item.pro_city +
+          " " +
+          item.pro_sub_district +
+          " " +
+          item.pro_street +
+          " " +
+          item.pro_state;
+
+        return searchWords.every((word) =>
+          itemValues.toLowerCase().includes(word)
+        );
+      });
+    //console.log("filteredData : " , filteredData)
+    setResults(filteredData);
+    //console.log("searchWords : ", searchWords, filteredData);
+  }, [searchValue, userLocation, filter, data]);
+
+  const records =
+    searchValue === "" && filter === "All"
+      ? data.slice(firstIndex, lastIndex)
+      : results.slice(firstIndex, lastIndex);
+
+  const nPages = Math.ceil(
+    searchValue === "" && filter === "All"
+      ? data.length / recordsPerPage
+      : results.length / recordsPerPage
+  );
+
+  const handleSearchValue = (value) => {
+    console.log(value);
+    setSearchValue(value);
+  };
+
+  const handleUserLocation = (value) => {
+    setUserCurrLocation(value);
+  };
 
   return (
     <div>
@@ -267,81 +261,83 @@ const AgentProperties = () => {
               </h2>
 
               <div className="row align-items-center my-2 mx-1 gap-3">
-        <TextField
-          variant="outlined"
-          className="col-md-5 mx-4 mx-md-0"
-          size="small"
-          label="Search for properties..."
-          placeholder="e.g. Sector 7 "
-          value={searchValue}
-          onChange={(e) => {
-            setOpenSuggestions(true);
-            setCurrentPage(1);
-            setSearchValue(e.target.value);
-            //handleSearchValue(e.target.value);
-          }}
-        />
-
-        <div className="col-md-3 mx-4 mx-md-0 pl-0">
-          {cityData && (
-            <Autocomplete
-              size="small"
-              //disableClearable
-              id="combo-box-demo"
-              options={cityData.map((option) => option.district)}
-              onInputChange={(event, newInputValue) => {
-                setLocation(newInputValue);
-                handleUserLocation(newInputValue);
-                setSearchValue("");
-                //handleSearchValue("");
-              }}
-              sx={{ m: 1, width: ["100%"] }}
-              value={location}
-              renderInput={(params) => (
                 <TextField
-                  {...params}
-                  //value={"All India"}
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        title="Detect your current location"
-                      >
-                        <IconCurrentLocation
-                          className="pointer location-icon"
-                          onClick={handleLocationClick}
-                        />
-                      </InputAdornment>
-                    ),
+                  variant="outlined"
+                  className="col-md-5 mx-4 mx-md-0"
+                  size="small"
+                  label="Search for properties..."
+                  placeholder="e.g. Sector 7 "
+                  value={searchValue}
+                  onChange={(e) => {
+                    setOpenSuggestions(true);
+                    setCurrentPage(1);
+                    setSearchValue(e.target.value);
+                    //handleSearchValue(e.target.value);
                   }}
                 />
-              )}
-            />
-          )}
-        </div>
 
-        <FormControl
-          sx={{ m: 1, width: ["100%"] }}
-          size="small"
-          className="col-md-3 mx-4 mx-md-0"
-        >
-          <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={filter}
-            label="Filter By"
-            onChange={(e) => {
-              setFilter(e.target.value), setCurrentPage(1);
-            }}
-          >
-            <MenuItem value={"All"}>All</MenuItem>
-            <MenuItem value={"Sale"}>Sale</MenuItem>
-            <MenuItem value={"Rent"}>Rent</MenuItem>
-          </Select>
-        </FormControl>
-        {/* <FormControl
+                <div className="col-md-3 mx-4 mx-md-0 pl-0">
+                  {cityData && (
+                    <Autocomplete
+                      size="small"
+                      //disableClearable
+                      id="combo-box-demo"
+                      options={cityData.map((option) => option.district)}
+                      onInputChange={(event, newInputValue) => {
+                        setLocation(newInputValue);
+                        handleUserLocation(newInputValue);
+                        setSearchValue("");
+                        //handleSearchValue("");
+                      }}
+                      sx={{ m: 1, width: ["100%"] }}
+                      value={location}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          //value={"All India"}
+                          InputProps={{
+                            ...params.InputProps,
+                            startAdornment: (
+                              <InputAdornment
+                                position="start"
+                                title="Detect your current location"
+                              >
+                                <IconCurrentLocation
+                                  className="pointer location-icon"
+                                  onClick={handleLocationClick}
+                                />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      )}
+                    />
+                  )}
+                </div>
+
+                <FormControl
+                  sx={{ m: 1, width: ["100%"] }}
+                  size="small"
+                  className="col-md-3 mx-4 mx-md-0"
+                >
+                  <InputLabel id="demo-simple-select-label">
+                    Filter By
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={filter}
+                    label="Filter By"
+                    onChange={(e) => {
+                      setFilter(e.target.value), setCurrentPage(1);
+                    }}
+                  >
+                    <MenuItem value={"All"}>All</MenuItem>
+                    <MenuItem value={"Sale"}>Sale</MenuItem>
+                    <MenuItem value={"Rent"}>Rent</MenuItem>
+                  </Select>
+                </FormControl>
+                {/* <FormControl
           sx={{ m: 1, width: ["100%"] }}
           size="small"
           className="col-md-2 mx-4 mx-md-0"
@@ -362,26 +358,26 @@ const AgentProperties = () => {
             <MenuItem value={"Land"}>Land/Plots</MenuItem>
           </Select>
         </FormControl> */}
-      </div>
-      {openSuggestions &&
-        searchValue !== "" &&
-        searchValue !== null &&
-        suggestions !== null &&
-        suggestions !== "" &&
-        suggestions.length > 0 && (
-          <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
-            {suggestions.map((item) => (
-              <div
-                className="py-2 pl-2 suggesion-item pointer"
-                onClick={() => {
-                  setSearchValue(item), setOpenSuggestions(false);
-                }}
-              >
-                {item}
               </div>
-            ))}
-          </div>
-        )}
+              {openSuggestions &&
+                searchValue !== "" &&
+                searchValue !== null &&
+                suggestions !== null &&
+                suggestions !== "" &&
+                suggestions.length > 0 && (
+                  <div className="col-md-9 mx-4 mx-md-0 search-suggestions pt-2 shadow pb-2">
+                    {suggestions.map((item) => (
+                      <div
+                        className="py-2 pl-2 suggesion-item pointer"
+                        onClick={() => {
+                          setSearchValue(item), setOpenSuggestions(false);
+                        }}
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                )}
             </div>
             <div className="row">
               <div className="col-md-9">
@@ -395,7 +391,10 @@ const AgentProperties = () => {
                               to={`/${
                                 object.pro_area_size.toLowerCase() +
                                 "-" +
-                                object.pro_area_size_unit.toLowerCase().replaceAll(" ", "-").replaceAll(".", "") +
+                                object.pro_area_size_unit
+                                  .toLowerCase()
+                                  .replaceAll(" ", "-")
+                                  .replaceAll(".", "") +
                                 "-"
                               }${
                                 object.pro_type
@@ -436,7 +435,10 @@ const AgentProperties = () => {
                                   to={`/${
                                     object.pro_area_size.toLowerCase() +
                                     "-" +
-                                    object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                                    object.pro_area_size_unit
+                                      .toLowerCase()
+                                      .replaceAll(" ", "-")
+                                      .replaceAll(".", "") +
                                     "-"
                                   }${
                                     object.pro_type
@@ -563,7 +565,10 @@ const AgentProperties = () => {
                                     to={`/${
                                       object.pro_area_size.toLowerCase() +
                                       "-" +
-                                      object.pro_area_size_unit.toLowerCase().replaceAll(" ", "-").replaceAll(".", "") +
+                                      object.pro_area_size_unit
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                        .replaceAll(".", "") +
                                       "-"
                                     }${
                                       object.pro_type
@@ -596,7 +601,10 @@ const AgentProperties = () => {
                                     href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
                                       object.pro_area_size.toLowerCase() +
                                       "-" +
-                                      object.pro_area_size_unit.toLowerCase().replaceAll(" ", "-").replaceAll(".", "") +
+                                      object.pro_area_size_unit
+                                        .toLowerCase()
+                                        .replaceAll(" ", "-")
+                                        .replaceAll(".", "") +
                                       "-"
                                     }${
                                       object.pro_type
@@ -652,7 +660,11 @@ const AgentProperties = () => {
                     />
                   </div>
                 ) : (
-                  <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />
+                  <NoResult
+                    searchValue={searchValue}
+                    userCurrLocation={userCurrLocation}
+                    handleSearchValue={handleSearchValue}
+                  />
                 )}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
@@ -715,7 +727,7 @@ const AgentProperties = () => {
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default AgentProperties
+export default AgentProperties;

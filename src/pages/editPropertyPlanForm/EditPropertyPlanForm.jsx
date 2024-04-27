@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { IconX } from "@tabler/icons-react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -20,7 +20,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment";
 
-const AdsForm = () => {
+const EditPropertyPlanForm = () => {
+  //const planId = 1;
+  const { planId } = useParams();
+
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -33,23 +36,42 @@ const AdsForm = () => {
     dayjs(todaysDate.add(1, "days"))
   );
   
-  
-
   useEffect(() => {
     var date1 = transactionDate.$d;
     var filteredDate1 = date1.toString().slice(4, 16);
     const today = moment().startOf('day');
     const totalDays1 = moment(filteredDate1).startOf('day');
     const totalDays10 = totalDays1.diff(today, 'days');
-    setAdData({...adData, ad_days: totalDays10})
+    setPlanData({...planData, pro_plan_validity: totalDays10})
   }, [transactionDate])
 
-  const [adData, setAdData] = useState({
-    ad_type: "",
-    ad_link: "",
-    ad_image: "",
-    ad_days: "",
+  const [planData, setPlanData] = useState({
+    pro_plan_name: "",
+    pro_plan_amt: "",
+    pro_plan_validity: "",
+    pro_plan_date: "",
   });
+
+
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/proplan/fetchProPlanDataById/${planId}`)
+      .then((res) => {
+        setPlanData({
+          ...planData,
+          pro_plan_name: res.data[0].pro_plan_name,
+          pro_plan_amt: res.data[0].pro_plan_amt,
+          pro_plan_validity: res.data[0].pro_plan_validity,
+          pro_plan_date: res.data[0].pro_plan_date,
+        });
+        //setTransactionDate(moment(res.data[0].ad_created_at).add(1, "days"))
+        setTransactionDate(
+          dayjs(
+            moment(res.data[0].pro_plan_date).add(parseInt(res.data[0].pro_plan_validity), "days")
+          )
+        );
+      });
+  }, [planId]);
 
   
   const navigate = useNavigate();
@@ -59,15 +81,15 @@ const AdsForm = () => {
 
   useEffect(() => {
     if (
-      adData.ad_type !== "" &&
-      adData.ad_link !== "" &&
-      adData.ad_days !== ""
+      planData.pro_plan_name !== "" &&
+      planData.pro_plan_amt !== "" &&
+      planData.pro_plan_validity !== ""
     ) {
       setSubmitDisabled(false);
     } else {
       setSubmitDisabled(false);
     }
-  }, [adData.ad_type, adData.ad_link, adData.ad_days]);
+  }, [planData.pro_plan_name, planData.pro_plan_amt, planData.pro_plan_validity]);
 
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
@@ -77,86 +99,78 @@ const AdsForm = () => {
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
 
-  const handleImage = (data) => {
-    setFormatError(false);
-    const pattern = /image-*/;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].type.match(pattern)) {
-        setFormatError(false);
-        if (data[i].size < maxFileSize && data[i].size > minFileSize) {
-          formData.append(`files`, data[i]);
-          setFileSizeExceeded(false);
-        } else {
-          setFileSizeExceeded(true);
+//   const handleImage = (data) => {
+//     setFormatError(false);
+//     const pattern = /image-*/;
+//     for (let i = 0; i < data.length; i++) {
+//       if (data[i].type.match(pattern)) {
+//         setFormatError(false);
+//         if (data[i].size < maxFileSize && data[i].size > minFileSize) {
+//           formData.append(`files`, data[i]);
+//           setFileSizeExceeded(false);
+//         } else {
+//           setFileSizeExceeded(true);
 
-          return;
-        }
-      } else {
-        setFormatError(true);
-      }
-    }
-  };
+//           return;
+//         }
+//       } else {
+//         setFormatError(true);
+//       }
+//     }
+//   };
 
-  const handleDrag = function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  };
+//   const handleDrag = function (e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//   };
 
-  const handleDrop = function (e) {
-    e.preventDefault();
-    e.stopPropagation();
+//   const handleDrop = function (e) {
+//     e.preventDefault();
+//     e.stopPropagation();
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setSelectedFiles(e.dataTransfer.files);
-      handleImage(e.dataTransfer.files);
-    }
-  };
-
-  // const handleClick = async (e) => {
-  //   setLoader(true);
-
-  //   e.preventDefault();
-  //   try {
-  //     await axios
-  //       .post(
-  //         import.meta.env.VITE_BACKEND + `/api/ad/addAd`,
-  //         adData
-  //       )
-  //       .then((res) => {
-  //         setLoader(false);
-
-  //         setAdData({
-  //           ad_type: "",
-  //           ad_link: "",
-  //           ad_image: "",
-  //         });
-  //       });
-  //   } catch (err) {
-  //     console.log(err.response.data);
-  //   }
-  // };
+//     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+//       setSelectedFiles(e.dataTransfer.files);
+//       handleImage(e.dataTransfer.files);
+//     }
+//   };
 
   const handleClick = async () => {
     //e.preventDefault();
     try {
       setLoader(true);
-      const formData = new FormData();
-      formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
-      formData.append("ad_type", adData.ad_type);
-      formData.append("ad_link", adData.ad_link);
-      formData.append("ad_image", adData.ad_image);
-      formData.append("ad_days", adData.ad_days);
       await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/ad/addAd",
-        formData
+        import.meta.env.VITE_BACKEND + "/api/proPlan/addProPlan",
+        planData
       );
       setLoader(false);
-      navigate(`/admin/adslist`);
+      navigate(`/admin/propertyplans`);
       //navigate(`/user/user-profile/${currentUser[0].login_id}`);
     } catch (err) {
       console.log(err);
     }
   };
+
+//   const handleClick = async () => {
+//     //e.preventDefault();
+//     try {
+//       setLoader(true);
+//       const formData = new FormData();
+//       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
+//       formData.append("pro_plan_name", planData.pro_plan_name);
+//       formData.append("pro_plan_amt", planData.pro_plan_amt);
+//       formData.append("ad_image", planData.ad_image);
+//       formData.append("pro_plan_validity", planData.pro_plan_validity);
+//       await axios.post(
+//         import.meta.env.VITE_BACKEND + "/api/ad/addAd",
+//         formData
+//       );
+//       setLoader(false);
+//       navigate(`/admin/adslist`);
+//       //navigate(`/user/user-profile/${currentUser[0].login_id}`);
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
 
   const removeImage = () => {
     setSelectedFiles(null);
@@ -169,84 +183,55 @@ const AdsForm = () => {
       {loader && <Loader />}
 
       <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Ads Form</div>
+        <div className=" ad-form-heading ">Edit Property Plans</div>
         <div className="pl-2 pt-2 pb-2">
           {/* Are you searching to buy any property? Please fill out this form to
           let us know about your preferred city, property type, and your budget.{" "} */}
         </div>
 
-        <div className="pro_flex m-2">
-          <FormControl
-            sx={{ width: ["100%"] }}
+        
+
+        <div className="pro_flex">
+          <TextField
+            sx={{ m: 1, width: ["100%"] }}
+            label="Plan name"
+            variant="outlined"
             size="small"
-            // error={propertyData.pro_type === "" ? true : false}
-          >
-            <InputLabel htmlFor="grouped-native-select">Ad Type</InputLabel>
-            <Select
-              helpperText
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Ad Type"
-              onChange={(e) =>
-                setAdData({
-                  ...adData,
-                  ad_type: e.target.value,
-                })
-              }
-              value={adData.ad_type}
-            >
-              <option aria-label="Select Type" value="" />
-              <option value={"all_properties_ad_1"}>All Properties Ad 1</option>
-              <option value={"all_properties_ad_2"}>All Properties Ad 2</option>
-              <option value={"property_page_ad_1"}>Property Page Ad 1</option>
-              <option value={"property_page_ad_2"}>Property Page Ad 2</option>
-            </Select>
-            {adData.ad_type === "" && (
-              <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
-            )}
-          </FormControl>
+            inputProps={{ maxlength: 50 }}
+            className="w-100"
+            value={planData.pro_plan_name}
+            helperText={planData.pro_plan_name.length < 1 ? "Required" : ""}
+            FormHelperTextProps={{ sx: { color: "red" } }}
+            onChange={(e) => {
+              setPlanData({
+                ...planData,
+                pro_plan_name: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
+              });
+            }}
+          />
         </div>
 
         <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
-            label="Ad Link"
+            label="Plan amount"
             variant="outlined"
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            value={adData.ad_link}
-            helperText={adData.ad_link.length < 1 ? "Required" : ""}
+            value={planData.pro_plan_amt}
+            helperText={planData.pro_plan_amt.length < 1 ? "Required" : ""}
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
-              setAdData({
-                ...adData,
-                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
+              setPlanData({
+                ...planData,
+                pro_plan_amt: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
               });
             }}
           />
         </div>
 
-        {/* <div className="pro_flex">
-          <TextField
-            sx={{ m: 1, width: ["100%"] }}
-            label="Total No. of days"
-            variant="outlined"
-            size="small"
-            inputProps={{ maxlength: 50 }}
-            className="w-100"
-            value={adData.ad_days}
-            helperText={adData.ad_days.length < 1 ? "Required" : ""}
-            FormHelperTextProps={{ sx: { color: "red" } }}
-            onChange={(e) => {
-              setAdData({
-                ...adData,
-                ad_days: e.target.value.replace(/[^0-9]/g, ""),
-              });
-            }}
-          />
-        </div> */}
+        
 
         <div className="pro_flex m-1 ">
           <div className="w-100 date-wrapper m-1">
@@ -256,13 +241,8 @@ const AdsForm = () => {
               <DatePicker
                 label="Created At" 
                 value={todaysDate}
-                //onChange={(newValue) => setTransactionDate(newValue)}
                 format="LL"
                 className="w-full"
-                //minDate={todaysDate.add(1, "days")}
-                // onError={(newError) => {
-                //   setError(newError);
-                // }}
                 readOnly
               />
             </DemoContainer>
@@ -273,7 +253,7 @@ const AdsForm = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={["DatePicker", "DatePicker"]} >
               <DatePicker
-                label="Disabled At" 
+                label="End At" 
                 value={transactionDate}
                 onChange={(newValue) => setTransactionDate(newValue)}
                 format="LL"
@@ -292,24 +272,24 @@ const AdsForm = () => {
         <div className="pro_flex ">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
-            label="Total No. of days"
+            label="Plan Validity (In Days)"
             variant="outlined"
            size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            value={adData.ad_days}
+            value={planData.pro_plan_validity}
             disabled
-            helperText={adData.ad_days.length < 1 ? "Required" : ""}
+            helperText={planData.pro_plan_validity.length < 1 ? "Required" : ""}
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
-              setAdData({
-                ...adData,
-                ad_days: e.target.value.replace(/[^0-9]/g, ""),
+              setPlanData({
+                ...planData,
+                pro_plan_validity: e.target.value.replace(/[^0-9]/g, ""),
               });
             }}
           />
           </div>
-        <div className="m-2">
+        {/* <div className="m-2">
           <input
             type="file"
             id="file-1"
@@ -361,7 +341,7 @@ const AdsForm = () => {
               ? "File size must be greater than 10KB and less than 1MB"
               : ""}
           </div>
-        </div>
+        </div> */}
         <div className="pro_flex justify-content-end">
           <button
             onClick={handleClick}
@@ -381,4 +361,6 @@ const AdsForm = () => {
   );
 };
 
-export default AdsForm;
+export default EditPropertyPlanForm;
+
+

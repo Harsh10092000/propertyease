@@ -269,6 +269,11 @@ const Footer = () => {
                         <a title="Contact Us">Contact Us</a>
                       </Link>
                     </li>
+                    <li>
+                      <Link to="/citymap/Kurukshetra">
+                        <a title="Contact Us">Kurukshetra Maps</a>
+                      </Link>
+                    </li>
                   <li>
                       <Link to="/agentlist">
                         <a title="Our Agents<">Our Agents</a>

@@ -44,11 +44,21 @@ import UserdashboardProfile from "./pages/userdashboardProfile/UserdashboardProf
 import EditUserProfile from "./pages/edituserProfile/EditUserProfile";
 //import ContactUs from "./pages/contactUs/contactUs";
 import ContactUs from "./pages/contactUs/ContactUs";
+import CityMaps from "./pages/cityMaps/CityMaps";
+
 import AdsForm from "./pages/adsForm/AdsForm";
 import AdminAd from "./pages/adminAd/AdminAd";
 import EditAdsForm from "./pages/editAds/EditAdsForm";
+
 import ViewUserProperties from "./pages/viewuserProperties/ViewUserProperties";
 
+import PropertyPlanForm from "./pages/propertyPlanForm/PropertyPlanForm";
+import EditPropertyPlanForm from "./pages/editPropertyPlanForm/EditPropertyPlanForm";
+import AdminPropertyPlans from "./pages/adminPropertyPlans/AdminPropertyPlans";
+
+import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
+import AdminCityMaps from "./pages/adminCityMaps/AdminCityMaps";
+import EditCityMaps from "./pages/editCityMaps/editCityMaps";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -281,7 +291,31 @@ const App = () => {
           path: "edit/:adId",
           element: <EditAdsForm />,
         },
-        
+
+        {
+          path: "propertyplanform",
+          element: <PropertyPlanForm />,
+        },
+        {
+          path: "editpropertyplan/:planId",
+          element: <EditPropertyPlanForm />,
+        },
+        {
+          path: "propertyplans",
+          element: <AdminPropertyPlans />,
+        },
+        {
+          path: "citymapsform",
+          element: <CityMapsForm />,
+        },
+        {
+          path: "citymaps",
+          element: <AdminCityMaps />,
+        },
+        {
+          path: "editcitymap/:mapId",
+          element: <EditCityMaps />,
+        },
       ],
     },
     {
@@ -328,6 +362,13 @@ const App = () => {
     {
       path: "/agentproperties/:id",
       element: <AgentProperties />,
+    },
+    {
+      path: "/citymap/:city",
+      element: (
+        <><ScrollToTop />
+      <CityMaps />
+      </>),
     },
     {
       path: "/postrequirement",

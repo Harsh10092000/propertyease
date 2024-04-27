@@ -9,7 +9,8 @@ import {
   IconSquareRoundedPlus,
   IconEye,
   IconAd,
-  IconCaretDownFilled
+  IconCaretDownFilled,
+  IconHome,
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
@@ -17,6 +18,8 @@ import { AdminContext } from "../../context/AdminContext";
 const Admin = () => {
   const { clearAdmin } = useContext(AdminContext);
   const [adsSubMenu, setAdsSubMenu] = useState(false);
+  const [proPlanSubMenu, setProPlanSubMenu] = useState(false);
+  const [cityMapSubMenu, setCityMapSubMenu] = useState(false);
   const logout = () => {
     localStorage.removeItem("admin");
     clearAdmin();
@@ -91,40 +94,119 @@ const Admin = () => {
                   </Link>
                 </li>
                 <li>
-                  {/* <Link to="/admin/adslist"> */}
-                    <a title="Ads" onClick={() => setAdsSubMenu(!adsSubMenu)}>
-                      <div className="d-flex justify-content-between">
-
-                        <div>
-                      <IconAd />
-                      <span>Ads</span>
-                     </div>
-                      <div><IconCaretDownFilled /></div>
+                  <a
+                    title="Ads"
+                    onClick={() => setAdsSubMenu(!adsSubMenu)}
+                    className="pointer"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <IconAd />
+                        <span>Ads</span>
                       </div>
-                    </a>
-                    
-                  {/* </Link> */}
+                      <div>
+                        <IconCaretDownFilled />
+                      </div>
+                    </div>
+                  </a>
                 </li>
-                {adsSubMenu &&
-                <>
-                <li className="pl-3">
-                  <Link to="/admin/adslist">
-                    <a title="Ads">
-                      <IconEye />
-                      <span>View Ads</span>
-                    </a>
-                  </Link>
+                {adsSubMenu && (
+                  <>
+                    <li className="pl-3">
+                      <Link to="/admin/adslist">
+                        <a title="Ads">
+                          <IconEye />
+                          <span>View Ads</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="pl-3">
+                      <Link to="/admin/adsform">
+                        <a title="Create Ads">
+                          <IconSquareRoundedPlus />
+                          <span>Create Ads</span>
+                        </a>
+                      </Link>
+                    </li>
+                  </>
+                )}
+
+                {/* <li>
+                  <a
+                    title="Property Listing Plans"
+                    onClick={() => setProPlanSubMenu(!proPlanSubMenu)}
+                    className="pointer"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <IconHome />
+                        <span>Property Listing Plans</span>
+                      </div>
+                      <div>
+                        <IconCaretDownFilled />
+                      </div>
+                    </div>
+                  </a>
                 </li>
-                <li className="pl-3">
-                  <Link to="/admin/adsform">
-                    <a title="Create Ads">
-                      <IconSquareRoundedPlus />
-                      <span>Create Ads</span>
-                    </a>
-                  </Link>
+                {proPlanSubMenu && (
+                  <>
+                    <li className="pl-3">
+                      <Link to="/admin/propertyplans">
+                        <a title="View Plans">
+                          <IconEye />
+                          <span>View Plans</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="pl-3">
+                      <Link to="/admin/propertyplanform">
+                        <a title="Create Plans">
+                          <IconSquareRoundedPlus />
+                          <span>Create Plans</span>
+                        </a>
+                      </Link>
+                    </li>
+                  </>
+                )} */}
+
+                <li>
+                  <a
+                    title="Property Listing Plans"
+                    onClick={() => setCityMapSubMenu(!cityMapSubMenu)}
+                    className="pointer"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <IconHome />
+                        <span>City Maps</span>
+                      </div>
+                      <div>
+                        <IconCaretDownFilled />
+                      </div>
+                    </div>
+                  </a>
                 </li>
-                </>
-                }
+                {cityMapSubMenu && (
+                  <>
+                    <li className="pl-3">
+                      <Link to="/admin/citymaps">
+                        <a title="View Maps">
+                          <IconEye />
+                          <span>View Maps</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="pl-3">
+                      <Link to="/admin/citymapsform">
+                        <a title="Add Maps">
+                          <IconSquareRoundedPlus />
+                          <span>Add Maps</span>
+                        </a>
+                      </Link>
+                    </li>
+                  </>
+                )}
+
                 <li onClick={logout} className="pointer">
                   <a title="Logout">
                     <IconLogout />
