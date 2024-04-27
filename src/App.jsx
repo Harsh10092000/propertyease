@@ -58,7 +58,7 @@ import AdminPropertyPlans from "./pages/adminPropertyPlans/AdminPropertyPlans";
 
 import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
 import AdminCityMaps from "./pages/adminCityMaps/AdminCityMaps";
-import EditCityMaps from "./pages/editCityMaps/editCityMaps";
+import EditCityMaps from "./pages/editCityMaps/EditCityMaps";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
