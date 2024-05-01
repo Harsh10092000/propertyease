@@ -246,10 +246,10 @@ const EditAdsForm = () => {
               value={adData.ad_type}
             >
               <option aria-label="Select Type" value="" />
-              <option value={"all_properties_ad_1"}>All Properties Ad 1</option>
-              <option value={"all_properties_ad_2"}>All Properties Ad 2</option>
-              <option value={"property_page_ad_1"}>Property Page Ad 1</option>
-              <option value={"property_page_ad_2"}>Property Page Ad 2</option>
+              <option value={"all_properties_ad_1"}>All Properties Ad 1 (Top of the page)</option>
+              <option value={"all_properties_ad_2"}>All Properties Ad 2 (Middle of the page)</option>
+              <option value={"property_page_ad_1"}>Property Page Ad 1 (Top of the page)</option>
+              <option value={"property_page_ad_2"}>Property Page Ad 2 (Middle of page at right side)</option>
             </Select>
             {adData.ad_type === "" && (
               <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>

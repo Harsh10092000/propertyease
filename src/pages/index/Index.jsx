@@ -260,7 +260,7 @@ const Index = () => {
                   <br /> of every Property challenge today
                 </h4>
                 <Link to="/postrequirement">
-                  <a className="explore-more" title="Post Requirement">
+                  <a className="explore-more post-requiremnet" title="Post Requirement">
                     <span>
                       <IconSend />
                     </span>
@@ -306,7 +306,7 @@ const Index = () => {
                               : ""
                           }-for-${
                             item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality
+                          }-in-${item.pro_locality.replace(/\s+$/, "")
                             .toLowerCase()
                             .replaceAll(
                               " ",
@@ -342,7 +342,7 @@ const Index = () => {
                                 : ""
                             }-for-${
                               item.pro_ad_type === "rent" ? "rent" : "sale"
-                            }-in-${item.pro_locality
+                            }-in-${item.pro_locality.replace(/\s+$/, "")
                               .toLowerCase()
                               .replaceAll(
                                 " ",
@@ -433,7 +433,7 @@ const Index = () => {
                               : ""
                           }-for-${
                             item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality
+                          }-in-${item.pro_locality.replace(/\s+$/, "")
                             .toLowerCase()
                             .replaceAll(
                               " ",

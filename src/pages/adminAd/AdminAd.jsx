@@ -155,16 +155,16 @@ const AdminAd = () => {
               >
                 <MenuItem value={"All"}>All</MenuItem>
                 <MenuItem value={"all_properties_ad_1"}>
-                  Property Page Ad 1
+                All Properties Ad 1 (Top of the page) 
                 </MenuItem>
                 <MenuItem value={"all_properties_ad_2"}>
-                  All Properties Ad 2
+                All Properties Ad 2 (Middle of the page)
                 </MenuItem>
                 <MenuItem value={"property_page_ad_1"}>
-                  Property Page Ad 1
+                Property Page Ad 1 (Top of the page)
                 </MenuItem>
                 <MenuItem value={"property_page_ad_2"}>
-                  Property Page Ad 2
+                Property Page Ad 2 (Middle of the page at right side)
                 </MenuItem>
               </Select>
             </FormControl>
