@@ -751,13 +751,13 @@ const AllProperties = (props) => {
                     />
                   </div>
                 )}
-                {records.length < 1 && (
+                {/* {records.length < 1 && (
                   <NoResult
                     searchValue={searchValue}
                     userCurrLocation={userCurrLocation}
                     handleSearchValue={handleSearchValue}
                   />
-                )}
+                )} */}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
                 <div>
