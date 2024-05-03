@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin, IconBolt } from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
@@ -181,30 +181,32 @@ const AllProperties = (props) => {
                         <div className="col-md-auto flex-column text-center">
                           <div className="buiness-logo">
                             <Link
-                              to={`/${
-                                object.pro_area_size.toLowerCase() +
-                                "-" +
-                                object.pro_area_size_unit
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")
-                                  .replaceAll(".", "") +
-                                "-"
-                              }${
-                                object.pro_type
-                                  ? object.pro_type
-                                      .split(",")[0]
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                  : ""
-                              }-for-${
-                                object.pro_ad_type === "rent" ? "rent" : "sale"
-                              }-in-${object.pro_locality
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_city
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_id}`}
+                              // to={`/${
+                              //   object.pro_area_size.toLowerCase() +
+                              //   "-" +
+                              //   object.pro_area_size_unit
+                              //     .toLowerCase()
+                              //     .replaceAll(" ", "-")
+                              //     .replaceAll(".", "") +
+                              //   "-"
+                              // }${
+                              //   object.pro_type
+                              //     ? object.pro_type
+                              //         .split(",")[0]
+                              //         .toLowerCase()
+                              //         .replaceAll(" ", "-")
+                              //     : ""
+                              // }-for-${
+                              //   object.pro_ad_type === "rent" ? "rent" : "sale"
+                              // }-in-${object.pro_locality
+                              //   .toLowerCase()
+                              //   .replaceAll(" ", "-")}-${object.pro_city
+                              //   .toLowerCase()
+                              //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                              to={`/${object.pro_url}`}
                             >
                               {object.img_link ? (
+                                <div>
                                 <img
                                   src={`${
                                     import.meta.env.VITE_BACKEND
@@ -213,8 +215,26 @@ const AllProperties = (props) => {
                                   }`}
                                   alt="img"
                                 />
+                                {/* <div className="top-left-2">
+                                        <li className="property-view-count ">
+                                          <IconBolt width={16} height={16} />
+                                          Featured
+                                        </li>
+                                  </div> */}
+                                </div>
                               ) : (
-                                <img src="/images/default.png" alt="no image" />
+                                <div>
+                                  
+                                  <img src="/images/default.png" alt="no image" />
+                                  {/* <div> <IconBolt /><span> Featured</span>  </div>   */}
+                                  {/* <div className="top-left-2">
+                                        <li className="property-view-count ">
+                                          <IconBolt width={16} height={16} />
+                                          Featured
+                                        </li>
+                                  </div> */}
+                                </div>
+
                               )}
                             </Link>
                           </div>
@@ -223,32 +243,34 @@ const AllProperties = (props) => {
                         <div className="col" style={{ minWidth: 0 }}>
                           <div className="recent-box-serv">
                             <div className="recent-bus-content">
+                              
                               <div className="property-listing-type">
                                 <Link
-                                  to={`/${
-                                    object.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    object.pro_area_size_unit
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                      .replaceAll(".", "") +
-                                    "-"
-                                  }${
-                                    object.pro_type
-                                      ? object.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    object.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${object.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")}-${object.pro_city
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")}-${object.pro_id}`}
+                                to={`/${object.pro_url}`}
+                                  // to={`/${
+                                  //   object.pro_area_size.toLowerCase() +
+                                  //   "-" +
+                                  //   object.pro_area_size_unit
+                                  //     .toLowerCase()
+                                  //     .replaceAll(" ", "-")
+                                  //     .replaceAll(".", "") +
+                                  //   "-"
+                                  // }${
+                                  //   object.pro_type
+                                  //     ? object.pro_type
+                                  //         .split(",")[0]
+                                  //         .toLowerCase()
+                                  //         .replaceAll(" ", "-")
+                                  //     : ""
+                                  // }-for-${
+                                  //   object.pro_ad_type === "rent"
+                                  //     ? "rent"
+                                  //     : "sale"
+                                  // }-in-${object.pro_locality
+                                  //   .toLowerCase()
+                                  //   .replaceAll(" ", "-")}-${object.pro_city
+                                  //   .toLowerCase()
+                                  //   .replaceAll(" ", "-")}-${object.pro_id}`}
                                 >
                                   <span className="text-wrap text-bold">
                                     {object.pro_area_size +
@@ -318,6 +340,7 @@ const AllProperties = (props) => {
                                 </li>
 
                                 <li>
+                                  
                                   <img
                                     src="/img/facing.png"
                                     className="property-slider-icon"
@@ -355,31 +378,32 @@ const AllProperties = (props) => {
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link
-                                    to={`/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                        .replaceAll(".", "") +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .replace(/\s$/, "")
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
+                                    // to={`/${
+                                    //   object.pro_area_size.toLowerCase() +
+                                    //   "-" +
+                                    //   object.pro_area_size_unit
+                                    //     .toLowerCase()
+                                    //     .replaceAll(" ", "-")
+                                    //     .replaceAll(".", "") +
+                                    //   "-"
+                                    // }${
+                                    //   object.pro_type
+                                    //     ? object.pro_type
+                                    //         .split(",")[0]
+                                    //         .toLowerCase()
+                                    //         .replaceAll(" ", "-")
+                                    //     : ""
+                                    // }-for-${
+                                    //   object.pro_ad_type === "rent"
+                                    //     ? "rent"
+                                    //     : "sale"
+                                    // }-in-${object.pro_locality
+                                    //   .replace(/\s$/, "")
+                                    //   .toLowerCase()
+                                    //   .replaceAll(" ", "-")}-${object.pro_city
+                                    //   .toLowerCase()
+                                    //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                                    to={`/${object.pro_url}`}
                                   >
                                     <a
                                       title="View complete details of this property"
@@ -393,29 +417,7 @@ const AllProperties = (props) => {
                                   <a
                                     rel="noreferrer nofollow"
                                     href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                        .replaceAll(".", "") +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
+                                      object.pro_url}`}
                                     target="_blank"
                                     className="conatct-propertywp"
                                     title=" Whatsapp/Contact for this property"
@@ -490,34 +492,35 @@ const AllProperties = (props) => {
                 {/* ad section end */}
                 {!skeleton &&
                   records.length > 0 &&
-                  records.slice(2).map((object, index) => (
+                  records.map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
                         <div className="col-md-auto flex-column text-center">
                           <div className="buiness-logo">
                             <Link
-                              to={`/${
-                                object.pro_area_size.toLowerCase() +
-                                "-" +
-                                object.pro_area_size_unit
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")
-                                  .replaceAll(".", "") +
-                                "-"
-                              }${
-                                object.pro_type
-                                  ? object.pro_type
-                                      .split(",")[0]
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                  : ""
-                              }-for-${
-                                object.pro_ad_type === "rent" ? "rent" : "sale"
-                              }-in-${object.pro_locality
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_city
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${object.pro_id}`}
+                            to={`/${object.pro_url}`}
+                              // to={`/${
+                              //   object.pro_area_size.toLowerCase() +
+                              //   "-" +
+                              //   object.pro_area_size_unit
+                              //     .toLowerCase()
+                              //     .replaceAll(" ", "-")
+                              //     .replaceAll(".", "") +
+                              //   "-"
+                              // }${
+                              //   object.pro_type
+                              //     ? object.pro_type
+                              //         .split(",")[0]
+                              //         .toLowerCase()
+                              //         .replaceAll(" ", "-")
+                              //     : ""
+                              // }-for-${
+                              //   object.pro_ad_type === "rent" ? "rent" : "sale"
+                              // }-in-${object.pro_locality
+                              //   .toLowerCase()
+                              //   .replaceAll(" ", "-")}-${object.pro_city
+                              //   .toLowerCase()
+                              //   .replaceAll(" ", "-")}-${object.pro_id}`}
                             >
                               {object.img_link ? (
                                 <img
@@ -540,30 +543,31 @@ const AllProperties = (props) => {
                             <div className="recent-bus-content">
                               <div className="property-listing-type">
                                 <Link
-                                  to={`/${
-                                    object.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    object.pro_area_size_unit
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                      .replaceAll(".", "") +
-                                    "-"
-                                  }${
-                                    object.pro_type
-                                      ? object.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    object.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${object.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")}-${object.pro_city
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")}-${object.pro_id}`}
+                                  // to={`/${
+                                  //   object.pro_area_size.toLowerCase() +
+                                  //   "-" +
+                                  //   object.pro_area_size_unit
+                                  //     .toLowerCase()
+                                  //     .replaceAll(" ", "-")
+                                  //     .replaceAll(".", "") +
+                                  //   "-"
+                                  // }${
+                                  //   object.pro_type
+                                  //     ? object.pro_type
+                                  //         .split(",")[0]
+                                  //         .toLowerCase()
+                                  //         .replaceAll(" ", "-")
+                                  //     : ""
+                                  // }-for-${
+                                  //   object.pro_ad_type === "rent"
+                                  //     ? "rent"
+                                  //     : "sale"
+                                  // }-in-${object.pro_locality
+                                  //   .toLowerCase()
+                                  //   .replaceAll(" ", "-")}-${object.pro_city
+                                  //   .toLowerCase()
+                                  //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                                  to={`/${object.pro_url}`}
                                 >
                                   <span className="text-wrap text-bold">
                                     {object.pro_area_size +
@@ -670,30 +674,31 @@ const AllProperties = (props) => {
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link
-                                    to={`/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                        .replaceAll(".", "") +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
+                                  to={`/${object.pro_url}`}
+                                    // to={`/${
+                                    //   object.pro_area_size.toLowerCase() +
+                                    //   "-" +
+                                    //   object.pro_area_size_unit
+                                    //     .toLowerCase()
+                                    //     .replaceAll(" ", "-")
+                                    //     .replaceAll(".", "") +
+                                    //   "-"
+                                    // }${
+                                    //   object.pro_type
+                                    //     ? object.pro_type
+                                    //         .split(",")[0]
+                                    //         .toLowerCase()
+                                    //         .replaceAll(" ", "-")
+                                    //     : ""
+                                    // }-for-${
+                                    //   object.pro_ad_type === "rent"
+                                    //     ? "rent"
+                                    //     : "sale"
+                                    // }-in-${object.pro_locality
+                                    //   .toLowerCase()
+                                    //   .replaceAll(" ", "-")}-${object.pro_city
+                                    //   .toLowerCase()
+                                    //   .replaceAll(" ", "-")}-${object.pro_id}`}
                                   >
                                     <a
                                       title="View complete details of this property"
@@ -707,29 +712,7 @@ const AllProperties = (props) => {
                                   <a
                                     rel="noreferrer nofollow"
                                     href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                      object.pro_area_size.toLowerCase() +
-                                      "-" +
-                                      object.pro_area_size_unit
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                        .replaceAll(".", "") +
-                                      "-"
-                                    }${
-                                      object.pro_type
-                                        ? object.pro_type
-                                            .split(",")[0]
-                                            .toLowerCase()
-                                            .replaceAll(" ", "-")
-                                        : ""
-                                    }-for-${
-                                      object.pro_ad_type === "rent"
-                                        ? "rent"
-                                        : "sale"
-                                    }-in-${object.pro_locality
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_city
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")}-${object.pro_id}`}
+                                      object.pro_url}`}
                                     target="_blank"
                                     className="conatct-propertywp"
                                     title=" Whatsapp/Contact for this property"
@@ -869,3 +852,18 @@ const AllProperties = (props) => {
 };
 
 export default AllProperties;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

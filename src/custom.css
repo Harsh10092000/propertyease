@@ -826,7 +826,8 @@ a.explore-more {
   padding: 10px 20px;
   margin-top: 40px;
   font-size: 18px;
-  color: #dda20a;
+  /* color: #dda20a; */
+  color: white;
   display: inline-block;
   font-weight: 600;
   border-radius: 3px;
@@ -839,7 +840,8 @@ a.explore-more span {
 }
 a.explore-more:hover {
   background-color: #fff;
-  color: #dda20a;
+  /* color: #dda20a; */
+  color: white;
   text-decoration: none;
 }
 .recent-bus-content ul li {
@@ -15473,13 +15475,13 @@ img.book-img {
   /* gap: 5px; */
   align-items: center;
   border-radius: 5px;
-  color: #fff;
+  color: #fff !important;
   background-color: #fb5607;
   transition: all 400ms ease-in-out;
 }
 .post-requiremnet:hover {
   color: white;
-  background-color: #b33c03 !important;
+  background-color: #e54d04 !important;
 }
 
 .search {
@@ -16797,6 +16799,7 @@ section.find-services {
 
 .no-longer-available {
   background-color: #F0F0F0;
+  /* background-color: rgba(21, 131, 233, 0.15); */
   color: #999999;
   text-align: center;
   padding: 20px;
@@ -17084,4 +17087,58 @@ section.find-services {
 .sub-heading {
   font-size: 16px;
   font-weight: 600;
+}
+
+
+.plan-wrapper .plan-name {
+  font-size: 16px;
+    line-height: 21.79px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0078db;
+    margin: 0px;
+}
+
+
+.plan-wrapper .plan-price {
+  font-family: "Open Sans";
+    margin-right: 4px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #253858;
+}
+
+
+.plan-wrapper .plan-validity {
+  height: 34px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 17px;
+  color: #42526e;
+}
+
+
+.sucess-msg-wrapper {
+  max-width: 380px;
+  margin: 50px auto;
+  overflow: hidden;
+}
+
+.sucess-msg-wrapper .message-box {
+  box-shadow: 0 15px 25px #00000019;
+  padding: 45px;
+  width: 100%;
+  text-align: center;
+}
+
+.sucess-msg-wrapper ._success {
+  border-bottom: solid 4px green !important;
+}
+
+.sucess-msg-wrapper ._success i {
+  color: green !important;
 }

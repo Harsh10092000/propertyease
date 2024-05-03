@@ -126,28 +126,29 @@ const Rent = () => {
                       <div className="col-md-auto flex-column text-center">
                         <div className="buiness-logo">
                           <Link
-                            to={`/${
-                              object.pro_area_size.toLowerCase() +
-                              "-" +
-                              object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
-                              "-"
-                            }${
-                              object.pro_type
-                                ? object.pro_type
-                                    .split(",")[0]
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")
-                                : ""
-                            }-for-${
-                              object.pro_ad_type === "rent" ? "rent" : "sale"
-                            }-in-${object.pro_locality
-                              .toLowerCase()
-                              .replaceAll(
-                                " ",
-                                "-"
-                              )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                              object.pro_id
-                            }`}
+                            // to={`/${
+                            //   object.pro_area_size.toLowerCase() +
+                            //   "-" +
+                            //   object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                            //   "-"
+                            // }${
+                            //   object.pro_type
+                            //     ? object.pro_type
+                            //         .split(",")[0]
+                            //         .toLowerCase()
+                            //         .replaceAll(" ", "-")
+                            //     : ""
+                            // }-for-${
+                            //   object.pro_ad_type === "rent" ? "rent" : "sale"
+                            // }-in-${object.pro_locality.replace(/\s$/, "")
+                            //   .toLowerCase()
+                            //   .replaceAll(
+                            //     " ",
+                            //     "-"
+                            //   )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
+                            //   object.pro_id
+                            // }`}
+                            to={`/${object.pro_url}`}
                           >
                             {object.img_link ? (
                               <img
@@ -168,30 +169,31 @@ const Rent = () => {
                           <div className="recent-bus-content">
                             <div className="property-listing-type">
                               <Link
-                                to={`/${
-                                  object.pro_area_size.toLowerCase() +
-                                  "-" +
-                                  object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
-                                  "-"
-                                }${
-                                  object.pro_type
-                                    ? object.pro_type
-                                        .split(",")[0]
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                    : ""
-                                }-for-${
-                                  object.pro_ad_type === "rent"
-                                    ? "rent"
-                                    : "sale"
-                                }-in-${object.pro_locality
-                                  .toLowerCase()
-                                  .replaceAll(
-                                    " ",
-                                    "-"
-                                  )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                  object.pro_id
-                                }`}
+                                // to={`/${
+                                //   object.pro_area_size.toLowerCase() +
+                                //   "-" +
+                                //   object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                                //   "-"
+                                // }${
+                                //   object.pro_type
+                                //     ? object.pro_type
+                                //         .split(",")[0]
+                                //         .toLowerCase()
+                                //         .replaceAll(" ", "-")
+                                //     : ""
+                                // }-for-${
+                                //   object.pro_ad_type === "rent"
+                                //     ? "rent"
+                                //     : "sale"
+                                // }-in-${object.pro_locality.replace(/\s$/, "")
+                                //   .toLowerCase()
+                                //   .replaceAll(
+                                //     " ",
+                                //     "-"
+                                //   )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
+                                //   object.pro_id
+                                // }`}
+                                to={`/${object.pro_url}`}
                               >
                                 <span className="text-wrap text-bold">
                                   {object.pro_area_size +
@@ -279,30 +281,31 @@ const Rent = () => {
                             <div className="d-flex">
                               <div className="mr-2 mt-1 ">
                                 <Link
-                                  to={`/${
-                                    object.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
-                                    "-"
-                                  }${
-                                    object.pro_type
-                                      ? object.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    object.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${object.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                    object.pro_id
-                                  }`}
+                                  // to={`/${
+                                  //   object.pro_area_size.toLowerCase() +
+                                  //   "-" +
+                                  //   object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
+                                  //   "-"
+                                  // }${
+                                  //   object.pro_type
+                                  //     ? object.pro_type
+                                  //         .split(",")[0]
+                                  //         .toLowerCase()
+                                  //         .replaceAll(" ", "-")
+                                  //     : ""
+                                  // }-for-${
+                                  //   object.pro_ad_type === "rent"
+                                  //     ? "rent"
+                                  //     : "sale"
+                                  // }-in-${object.pro_locality.replace(/\s$/, "")
+                                  //   .toLowerCase()
+                                  //   .replaceAll(
+                                  //     " ",
+                                  //     "-"
+                                  //   )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
+                                  //   object.pro_id
+                                  // }`}
+                                  to={`/${object.pro_url}`}
                                 >
                                   <a
                                     title="View complete details of this property"
@@ -316,29 +319,7 @@ const Rent = () => {
                                 <a
                                   rel="noreferrer nofollow"
                                   href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                    object.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    object.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
-                                    "-"
-                                  }${
-                                    object.pro_type
-                                      ? object.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    object.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${object.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase().replaceAll(" ", "-")}-${
-                                    object.pro_id
-                                  }`}
+                                    object.pro_url}`}
                                   target="_blank"
                                   className="conatct-propertywp "
                                   title=" Whatsapp/Contact for this property"
