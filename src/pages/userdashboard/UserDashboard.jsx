@@ -352,7 +352,7 @@ const UserDashboard = () => {
                           >
                             {/* <Link to={"/editProperty/" + item.pro_id}> */}
                             <Link
-                            to={`/${item.pro_url}`}
+                            to={`/editProperty/${item.pro_url}`}
                             //   to={`/editProperty/${
                             //     item.pro_area_size.toLowerCase() +
                             //     "-" +
