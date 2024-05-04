@@ -549,6 +549,9 @@ const EditProperty = () => {
     // propertyData.pro_state = stateList
     //   .filter((item) => parseInt(item.id) === parseInt(propertyData.pro_state))
     //   .map((filteredItem) => filteredItem.name);
+    var val = propertyData.pro_locality.trim();
+    var a = val.replace(/\s{2,}/g, " ");
+    propertyData.pro_locality = a;
     axios
       .put(
         import.meta.env.VITE_BACKEND + "/api/pro/updateProperty",
@@ -599,7 +602,7 @@ const EditProperty = () => {
             .replaceAll(" ", "-")
         : ""
     }-for-${
-      propertyData.pro_ad_type === "rent"
+      propertyData.pro_ad_type === "Rent"
         ? "rent"
         : "sale"
     }-in-${propertyData.pro_locality
@@ -860,7 +863,7 @@ const EditProperty = () => {
                                   <option value={"Builder Floor,Residential"}>
                                     Builder Floor
                                   </option>
-                                  <option value={"Farm  House,Residential"}>
+                                  <option value={"Farm House,Residential"}>
                                     Farm House
                                   </option>
                                   <option value={"Raw House,Residential"}>

@@ -58,22 +58,22 @@
 //       });
 //   }, []);
 
-//   // useEffect(() => {
-//   //   axios
-//   //     .get(
-//   //       import.meta.env.VITE_BACKEND +
-//   //         `/api/pro/fetchPropertiesAddInLast30Days/${currentUser[0].login_id}`
-//   //     )
-//   //     .then((res) => {
-//   //       setPrevData(res.data[0]);
-//   //       setUpcomingDate(
-//   //         res.data[0].pro_creation_date !== null &&
-//   //           moment(res.data[0].pro_creation_date)
-//   //             .add(30, "days")
-//   //             .format("MMMM DD YYYY")
-//   //       );
-//   //     });
-//   // }, [change]);
+//   useEffect(() => {
+//     axios
+//       .get(
+//         import.meta.env.VITE_BACKEND +
+//           `/api/pro/fetchPropertiesAddInLast30Days/${currentUser && currentUser[0].login_id}`
+//       )
+//       .then((res) => {
+//         setPrevData(res.data[0]);
+//         setUpcomingDate(
+//           res.data[0].pro_creation_date !== null &&
+//             moment(res.data[0].pro_creation_date)
+//               .add(30, "days")
+//               .format("MMMM DD YYYY")
+//         );
+//       });
+//   }, [change]);
 
 //   const icon = <IconSquare fontSize="small" />;
 //   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -321,6 +321,7 @@
 //     if (userData.otp.length === 6) {
 //       const result = await login(userData);
 //       if (result !== false) {
+//         setChange(change + 1);
 //         handleNextStep();
 //         handleClose();
 //       } else {
@@ -387,6 +388,8 @@
 //     pro_state: "",
 //     pro_sub_district: "",
 //     pro_negotiable: "No",
+//     pro_user_email: "",
+//     pro_login_number: "",
 //   });
 
 //   const [formatError, setFormatError] = useState(false);
@@ -550,6 +553,9 @@
 //   const handleClick = async () => {
 //     setLoader(true);
 //     currentUser && (propertyData.pro_user_id = currentUser[0].login_id);
+//     currentUser && (propertyData.pro_user_email = currentUser[0].login_email);
+//     currentUser && (propertyData.pro_login_number = currentUser[0].login_number);
+    
 //     propertyData.pro_date = Date.now();
 //     // propertyData.pro_state = stateList.filter(
 //     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
@@ -573,15 +579,6 @@
 //   });
 //   const handleBuy = (item) => {
 //     checkoutHandler(item);
-//     // planData.list_plan_id = item.pro_plan_id;
-//     // planData.plan_name = item.pro_plan_name;
-//     // planData.tran_amt = item.pro_plan_amt;
-//     // planData.list_plan_valid_for_days = item.pro_plan_validity;
-//     // planData.user_id = currentUser[0].login_id;
-//     // planData.pro_plan_added_slots = item.pro_plan_property_slots;
-//     // axios
-//     //   .post(import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan", planData);
-//     //setChange(change + 1);
 //   };
 
 //   const addImages = async (id) => {
@@ -635,7 +632,6 @@
 //   //   window.scrollTo(0, 100);
 //   // }, []);
 
-//   const [orderId, setOrderId] = useState("");
 
 //   const checkoutHandler = async (item) => {
 //     const amount = item.pro_plan_amt;
@@ -646,13 +642,40 @@
 //       );
 //       const orderId = response.data.id;
 //       const options = {
-//         key: "rzp_live_ALzPxuAS54iJhF",
-//         KEY: import.meta.env.RAZORPAY_API_KEY,
-//         //key: 'rzp_test_F3JpqGdWsELwgr',
+        
+//         key: import.meta.env.RAZORPAY_API_KEY,
+        
 //         amount: item.pro_plan_amt * 100,
 //         currency: "INR",
 //         name: item.pro_plan_name,
-//         callback_url: import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
+//         //callback_url: import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
+//         handler: async function (response) {
+//           const data = {
+//             orderCreationId: orderId,
+//             razorpayPaymentId: response.razorpay_payment_id,
+//             razorpayOrderId: response.razorpay_order_id,
+//             razorpaySignature: response.razorpay_signature,
+//             list_plan_id: item.pro_plan_id,
+//             plan_name: item.pro_plan_name,
+//             tran_amt: item.pro_plan_amt,
+//             list_plan_valid_for_days: item.pro_plan_validity,
+//             user_id: currentUser[0].login_id,
+//             pro_plan_added_slots: item.pro_plan_property_slots,
+//             plan_status: "1",
+
+//             payment_status: "Success",
+//             login_email: currentUser[0].login_email,
+//             login_number: currentUser[0].login_number,
+//           };
+
+//           const result = await axios.post(
+//             import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
+//             data
+//           );
+          
+//           result.data == 1 ? navigate("/payment-succesful") : "";
+          
+//         },
 //         description: "Testing",
 //         order_id: orderId,
 //         prefill: {
@@ -682,8 +705,10 @@
 //         planData.order_id = response.error.metadata.order_id;
 //         planData.payment_id = response.error.metadata.payment_id;
 //         planData.payment_status = "Failed";
-//         axios
-//          .post(import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan", planData);
+//         axios.post(
+//           import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan",
+//           planData
+//         );
 
 //         alert(response.error.description);
 //       });
@@ -1056,7 +1081,7 @@
 //                                 <option value={"Builder Floor,Residential"}>
 //                                   Builder Floor
 //                                 </option>
-//                                 <option value={"Farm  House,Residential"}>
+//                                 <option value={"Farm House,Residential"}>
 //                                   Farm House
 //                                 </option>
 //                                 <option value={"Raw House,Residential"}>
@@ -2494,12 +2519,17 @@
 //         </div>
 //       )}
 
+
+
 //       <Footer />
 //     </div>
 //   );
 // };
 
 // export default AddProperty;
+
+
+
 
 
 import {
@@ -3234,7 +3264,13 @@ const AddProperty = () => {
 
   const handleClick = async () => {
     setLoader(true);
+    var val = propertyData.pro_locality.trim();
+    var a = val.replace(/\s{2,}/g, " ");
+    propertyData.pro_locality = a;
     currentUser && (propertyData.pro_user_id = currentUser[0].login_id);
+    
+    currentUser && (propertyData.pro_user_email = currentUser[0].login_email);
+    currentUser && (propertyData.pro_login_number = currentUser[0].login_number);
     propertyData.pro_date = Date.now();
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
@@ -3275,7 +3311,7 @@ const AddProperty = () => {
               .replaceAll(" ", "-")
           : ""
       }-for-${
-        propertyData.pro_ad_type === "rent" ? "rent" : "sale"
+        propertyData.pro_ad_type === "Rent" ? "rent" : "sale"
       }-in-${propertyData.pro_locality
         .toLowerCase()
         .replaceAll(" ", "-")}-${propertyData.pro_city
@@ -3640,7 +3676,7 @@ const AddProperty = () => {
                                 <option value={"Builder Floor,Residential"}>
                                   Builder Floor
                                 </option>
-                                <option value={"Farm  House,Residential"}>
+                                <option value={"Farm House,Residential"}>
                                   Farm House
                                 </option>
                                 <option value={"Raw House,Residential"}>
