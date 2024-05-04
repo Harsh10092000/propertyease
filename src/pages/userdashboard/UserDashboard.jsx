@@ -352,29 +352,30 @@ const UserDashboard = () => {
                           >
                             {/* <Link to={"/editProperty/" + item.pro_id}> */}
                             <Link
-                              to={`/editProperty/${
-                                item.pro_area_size.toLowerCase() +
-                                "-" +
-                                item.pro_area_size_unit
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")
-                                  .replaceAll(".", "") +
-                                "-"
-                              }${
-                                item.pro_type
-                                  ? item.pro_type
-                                      .split(",")[0]
-                                      .toLowerCase()
-                                      .replaceAll(" ", "-")
-                                  : ""
-                              }-for-${
-                                item.pro_ad_type === "rent" ? "rent" : "sale"
-                              }-in-${item.pro_locality
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${item.pro_city
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}-${item.pro_id}`}
-                            >
+                            to={`/${item.pro_url}`}
+                            //   to={`/editProperty/${
+                            //     item.pro_area_size.toLowerCase() +
+                            //     "-" +
+                            //     item.pro_area_size_unit
+                            //       .toLowerCase()
+                            //       .replaceAll(" ", "-")
+                            //       .replaceAll(".", "") +
+                            //     "-"
+                            //   }${
+                            //     item.pro_type
+                            //       ? item.pro_type
+                            //           .split(",")[0]
+                            //           .toLowerCase()
+                            //           .replaceAll(" ", "-")
+                            //       : ""
+                            //   }-for-${
+                            //     item.pro_ad_type === "rent" ? "rent" : "sale"
+                            //   }-in-${item.pro_locality.replace(/\s+$/, "")
+                            //     .toLowerCase()
+                            //     .replaceAll(" ", "-")}-${item.pro_city
+                            //     .toLowerCase()
+                            //     .replaceAll(" ", "-")}-${item.pro_id}`}
+                             >
                               <a
                                 target="_blank"
                                 className="btn btn-primary btn-sm "
@@ -384,28 +385,29 @@ const UserDashboard = () => {
                             </Link>
                           </button>
                           <Link
-                            to={`/${
-                              item.pro_area_size.toLowerCase() +
-                              "-" +
-                              item.pro_area_size_unit
-                                .toLowerCase()
-                                .replaceAll(" ", "-")
-                                .replaceAll(".", "") +
-                              "-"
-                            }${
-                              item.pro_type
-                                ? item.pro_type
-                                    .split(",")[0]
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")
-                                : ""
-                            }-for-${
-                              item.pro_ad_type === "rent" ? "rent" : "sale"
-                            }-in-${item.pro_locality
-                              .toLowerCase()
-                              .replaceAll(" ", "-")}-${item.pro_city
-                              .toLowerCase()
-                              .replaceAll(" ", "-")}-${item.pro_id}`}
+                          to={`/${item.pro_url}`}
+                            // to={`/${
+                            //   item.pro_area_size.toLowerCase() +
+                            //   "-" +
+                            //   item.pro_area_size_unit
+                            //     .toLowerCase()
+                            //     .replaceAll(" ", "-")
+                            //     .replaceAll(".", "") +
+                            //   "-"
+                            // }${
+                            //   item.pro_type
+                            //     ? item.pro_type
+                            //         .split(",")[0]
+                            //         .toLowerCase()
+                            //         .replaceAll(" ", "-")
+                            //     : ""
+                            // }-for-${
+                            //   item.pro_ad_type === "rent" ? "rent" : "sale"
+                            // }-in-${item.pro_locality.replace(/\s+$/, "")
+                            //   .toLowerCase()
+                            //   .replaceAll(" ", "-")}-${item.pro_city
+                            //   .toLowerCase()
+                            //   .replaceAll(" ", "-")}-${item.pro_id}`}
                           >
                             <button
                               title="View Your Property"

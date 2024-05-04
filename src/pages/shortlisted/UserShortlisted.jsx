@@ -93,30 +93,31 @@ const UserShortlisted = () => {
                                 className="btn btn-primary btn-sm vbtn"
                               >
                                 <Link
-                                  to={`/${
-                                    object.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    object.pro_area_size_unit.toLowerCase() +
-                                    "-"
-                                  }${
-                                    object.pro_type
-                                      ? object.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    object.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${object.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${object.pro_city.toLowerCase()}-${
-                                    object.pro_id
-                                  }`}
+                                to={`/${item.pro_url}`}
+                                  // to={`/${
+                                  //   object.pro_area_size.toLowerCase() +
+                                  //   "-" +
+                                  //   object.pro_area_size_unit.toLowerCase() +
+                                  //   "-"
+                                  // }${
+                                  //   object.pro_type
+                                  //     ? object.pro_type
+                                  //         .split(",")[0]
+                                  //         .toLowerCase()
+                                  //         .replaceAll(" ", "-")
+                                  //     : ""
+                                  // }-for-${
+                                  //   object.pro_ad_type === "rent"
+                                  //     ? "rent"
+                                  //     : "sale"
+                                  // }-in-${object.pro_locality
+                                  //   .toLowerCase()
+                                  //   .replaceAll(
+                                  //     " ",
+                                  //     "-"
+                                  //   )}-${object.pro_city.toLowerCase()}-${
+                                  //   object.pro_id
+                                  // }`}
                                 >
                                   <a>
                                     <IconEye />

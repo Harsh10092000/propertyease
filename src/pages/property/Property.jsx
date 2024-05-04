@@ -54,7 +54,13 @@ const Property = () => {
   const proId = arrproId[arrproId.length - 1];
 
   useEffect(() => {
-    isNaN(proId) && navigate(`/notfound`);
+    isNaN(proId) && navigate(`/notfound`),
+    axios.get(
+      import.meta.env.VITE_BACKEND + `/api/pro/checkPropertyExists/${proId}`,
+    ).then((res) => {
+      res.data[0].pro_count === 0 && navigate(`/notfound`);
+    });
+    
   }, [proId]);
 
   const propertyType = [
@@ -110,7 +116,7 @@ const Property = () => {
       )
       .then((res) => {
         setData(res.data.data[0]);
-
+        
         setLatestProperty(res.data.data1);
         setProType(res.data.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
@@ -1655,30 +1661,31 @@ const Property = () => {
                                 <div className="recent-box-serv">
                                   <div className="re-bus-img">
                                     <Link
-                                      to={`/${
-                                        item.pro_area_size.toLowerCase() +
-                                        "-" +
-                                        item.pro_area_size_unit.toLowerCase() +
-                                        "-"
-                                      }${
-                                        item.pro_type
-                                          ? item.pro_type
-                                              .split(",")[0]
-                                              .toLowerCase()
-                                              .replaceAll(" ", "-")
-                                          : ""
-                                      }-for-${
-                                        item.pro_ad_type === "rent"
-                                          ? "rent"
-                                          : "sale"
-                                      }-in-${item.pro_locality
-                                        .toLowerCase()
-                                        .replaceAll(
-                                          " ",
-                                          "-"
-                                        )}-${item.pro_city.toLowerCase()}-${
-                                        item.pro_id
-                                      }`}
+                                      // to={`/${
+                                      //   item.pro_area_size.toLowerCase() +
+                                      //   "-" +
+                                      //   item.pro_area_size_unit.toLowerCase() +
+                                      //   "-"
+                                      // }${
+                                      //   item.pro_type
+                                      //     ? item.pro_type
+                                      //         .split(",")[0]
+                                      //         .toLowerCase()
+                                      //         .replaceAll(" ", "-")
+                                      //     : ""
+                                      // }-for-${
+                                      //   item.pro_ad_type === "rent"
+                                      //     ? "rent"
+                                      //     : "sale"
+                                      // }-in-${item.pro_locality
+                                      //   .toLowerCase()
+                                      //   .replaceAll(
+                                      //     " ",
+                                      //     "-"
+                                      //   )}-${item.pro_city.toLowerCase()}-${
+                                      //   item.pro_id
+                                      // }`}
+                                      to={`/${item.pro_url}`}
                                     >
                                       {item.img_link ? (
                                         <img
@@ -1700,30 +1707,31 @@ const Property = () => {
                                   <div className="recent-bus-content">
                                     <h5 className="property-listing-type">
                                       <Link
-                                        to={`/${
-                                          item.pro_area_size.toLowerCase() +
-                                          "-" +
-                                          item.pro_area_size_unit.toLowerCase() +
-                                          "-"
-                                        }${
-                                          item.pro_type
-                                            ? item.pro_type
-                                                .split(",")[0]
-                                                .toLowerCase()
-                                                .replaceAll(" ", "-")
-                                            : ""
-                                        }-for-${
-                                          item.pro_ad_type === "rent"
-                                            ? "rent"
-                                            : "sale"
-                                        }-in-${item.pro_locality
-                                          .toLowerCase()
-                                          .replaceAll(
-                                            " ",
-                                            "-"
-                                          )}-${item.pro_city.toLowerCase()}-${
-                                          item.pro_id
-                                        }`}
+                                      to={`/${item.pro_url}`}
+                                        // to={`/${
+                                        //   item.pro_area_size.toLowerCase() +
+                                        //   "-" +
+                                        //   item.pro_area_size_unit.toLowerCase() +
+                                        //   "-"
+                                        // }${
+                                        //   item.pro_type
+                                        //     ? item.pro_type
+                                        //         .split(",")[0]
+                                        //         .toLowerCase()
+                                        //         .replaceAll(" ", "-")
+                                        //     : ""
+                                        // }-for-${
+                                        //   item.pro_ad_type === "rent"
+                                        //     ? "rent"
+                                        //     : "sale"
+                                        // }-in-${item.pro_locality
+                                        //   .toLowerCase()
+                                        //   .replaceAll(
+                                        //     " ",
+                                        //     "-"
+                                        //   )}-${item.pro_city.toLowerCase()}-${
+                                        //   item.pro_id
+                                        // }`}
                                       >
                                         <a>{item.pro_type.split(",")[0]}</a>
                                       </Link>
@@ -1801,30 +1809,31 @@ const Property = () => {
                                       </li>
                                     </ul>
                                     <Link
-                                      to={`/${
-                                        item.pro_area_size.toLowerCase() +
-                                        "-" +
-                                        item.pro_area_size_unit.toLowerCase() +
-                                        "-"
-                                      }${
-                                        item.pro_type
-                                          ? item.pro_type
-                                              .split(",")[0]
-                                              .toLowerCase()
-                                              .replaceAll(" ", "-")
-                                          : ""
-                                      }-for-${
-                                        item.pro_ad_type === "rent"
-                                          ? "rent"
-                                          : "sale"
-                                      }-in-${item.pro_locality
-                                        .toLowerCase()
-                                        .replaceAll(
-                                          " ",
-                                          "-"
-                                        )}-${item.pro_city.toLowerCase()}-${
-                                        item.pro_id
-                                      }`}
+                                    to={`/${item.pro_url}`}
+                                      // to={`/${
+                                      //   item.pro_area_size.toLowerCase() +
+                                      //   "-" +
+                                      //   item.pro_area_size_unit.toLowerCase() +
+                                      //   "-"
+                                      // }${
+                                      //   item.pro_type
+                                      //     ? item.pro_type
+                                      //         .split(",")[0]
+                                      //         .toLowerCase()
+                                      //         .replaceAll(" ", "-")
+                                      //     : ""
+                                      // }-for-${
+                                      //   item.pro_ad_type === "rent"
+                                      //     ? "rent"
+                                      //     : "sale"
+                                      // }-in-${item.pro_locality
+                                      //   .toLowerCase()
+                                      //   .replaceAll(
+                                      //     " ",
+                                      //     "-"
+                                      //   )}-${item.pro_city.toLowerCase()}-${
+                                      //   item.pro_id
+                                      // }`}
                                     >
                                       <a
                                         title="View complete details of this property"
