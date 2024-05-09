@@ -492,7 +492,7 @@ const AllProperties = (props) => {
                 {/* ad section end */}
                 {!skeleton &&
                   records.length > 0 &&
-                  records.map((object, index) => (
+                  records.slice(2).map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
                         <div className="col-md-auto flex-column text-center">
