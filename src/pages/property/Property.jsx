@@ -77,7 +77,8 @@ const Property = () => {
   const [skeleton, setSkeleton] = useState(true);
   const [currentImage, setCurrentImage] = useState("");
   const [latestProperty, setLatestProperty] = useState([]);
-
+  const [change, setChange] = useState(1);
+  
   const checkShortlist = async () => {
     if (currentUser) {
       try {
@@ -131,7 +132,7 @@ const Property = () => {
     // } catch (err) {
     //   console.log(err);
     // }
-  }, [proId]);
+  }, [proId, change]);
 
   useEffect(() => {
     axios
@@ -545,6 +546,7 @@ const Property = () => {
       data.pro_contacted = parseInt(data.pro_contacted) + 1;
       setLoader(false);
       setSnackQ(true);
+      setChange(change  + 1);
       checkInterested();
     } catch (err) {
       console.log(err);
@@ -1033,7 +1035,7 @@ const Property = () => {
                                   <span className="">Contact Us</span>
                                 </button>
                                 <span className="contacted-no text-center">
-                                  {data.pro_contacted !== null
+                                  {data.pro_contacted !== null && data.pro_contacted !== undefined
                                     ? "Contacted " +
                                       data.pro_contacted +
                                       " People"
