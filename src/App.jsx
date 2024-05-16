@@ -60,6 +60,14 @@ import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
 import AdminCityMaps from "./pages/adminCityMaps/AdminCityMaps";
 import EditCityMaps from "./pages/editCityMaps/EditCityMaps";
 
+import UserSubscriptionPlans from "./pages/userSubscriptionPlans/UserSubscriptionPlans";
+
+import AdminProPlanTran from "./pages/about/adminProPlanTran/AdminProPlanTran";
+import PaymentSucess from "./pages/paymentSuccess/PaymentSucess";
+
+import SendJwt from "./components/SendJwt";
+import PropertyByCity from "./pages/propertyByCity/PropertyByCity";
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -132,7 +140,7 @@ const App = () => {
     },
     {
       path: "/contactus",
-      
+
       element: (
         <>
           <ScrollToTop />
@@ -142,10 +150,12 @@ const App = () => {
     },
     {
       path: "/allproperties",
-      element: (<>
-      {/* <Origin/> */}
-      <AllProperties  />
-      </>),
+      element: (
+        <>
+          {/* <Origin/> */}
+          <AllProperties />
+        </>
+      ),
     },
     {
       path: "/about",
@@ -184,26 +194,53 @@ const App = () => {
       children: [
         {
           path: "dashboard",
-          element: <UserDashboard />,
+          element: (
+            <>
+              <SendJwt />
+              <UserDashboard />
+            </>
+          ),
         },
         {
           path: "shortlisted",
-          element: <UserShortlisted />,
+          element: (
+            <>
+              <SendJwt /> <UserShortlisted />
+            </>
+          ),
         },
         {
           path: "user-profile-form",
-          element: <UserProfileForm />,
+          element:  <UserProfileForm />,
+            
         },
         {
           path: "user-profile/:userId",
-          element: <UserdashboardProfile />,
+          element: (
+            <>
+              <SendJwt />
+              <UserdashboardProfile />
+            </>
+          ),
         },
         {
           path: "edit-user-profile/:agentId",
-          element: <EditUserProfile />,
+          element: (
+            <>
+              <SendJwt />
+              <EditUserProfile />
+            </>
+          ),
         },
-        
-        
+        {
+          path: "mysubscription",
+          element: (
+            <>
+              <SendJwt />
+              <UserSubscriptionPlans />
+            </>
+          ),
+        },
       ],
     },
     {
@@ -233,10 +270,15 @@ const App = () => {
       element: <Rent />,
     },
     {
+      path: "/payment-succesful",
+      element: <PaymentSucess />,
+    },
+    {
       path: "/editProperty/:id1",
 
       element: (
         <ProtectedRoute>
+          <SendJwt />
           <ScrollToTop />
           <EditProperty />
         </ProtectedRoute>
@@ -316,6 +358,10 @@ const App = () => {
           path: "editcitymap/:mapId",
           element: <EditCityMaps />,
         },
+        {
+          path: "propertyplantranactions",
+          element: <AdminProPlanTran />,
+        },
       ],
     },
     {
@@ -338,19 +384,22 @@ const App = () => {
     {
       path: "/agentProfile/:userId",
       element: (
-        <><ScrollToTop />
-      <AgentProifle />
-      </>),
+        <>
+          <ScrollToTop />
+          <AgentProifle />
+        </>
+      ),
     },
     {
       path: "/view-properties/:userId",
       element: (
-        <><ScrollToTop />
-      <ViewUserProperties />
-      </>),
+        <>
+          <ScrollToTop />
+          <ViewUserProperties />
+        </>
+      ),
     },
 
-    
     {
       path: "/watermark2",
       element: <WatermarkOthers />,
@@ -364,11 +413,23 @@ const App = () => {
       element: <AgentProperties />,
     },
     {
+      // path: "/properties/:adType/:proType/:proCity",
+      path: "/properties/:adType/:proType",
+      element: 
+      (<>
+      <ScrollToTop />
+      <PropertyByCity />
+      </>
+    ),
+    },
+    {
       path: "/citymap/:city",
       element: (
-        <><ScrollToTop />
-      <CityMaps />
-      </>),
+        <>
+          <ScrollToTop />
+          <CityMaps />
+        </>
+      ),
     },
     {
       path: "/postrequirement",
