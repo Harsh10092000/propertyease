@@ -3143,6 +3143,11 @@ a.btn-resiter-earing span {
   }
 }
 
+.header-left .drawer-btn {
+  display: none;
+}
+
+
 @media only screen and (min-width: 768px) {
   .header-right .header-1 {
     display: flex;
@@ -3151,7 +3156,9 @@ a.btn-resiter-earing span {
     display: flex;
     padding-left: 10px;
   }
+ 
 }
+
 
 @media only screen and (max-width: 768px) {
   .header-right .header-1 {
@@ -3188,6 +3195,24 @@ a.btn-resiter-earing span {
   .header-right .header-2 .get-started .login {
     justify-content: center;
   }
+
+  .header-right .rent-menu {
+    display: none !important;
+  }
+  .header-right .buy-menu {
+    display: none !important;
+  }
+
+  .header-left .drawer-btn {
+    display: inline !important;
+  }
+}
+
+.header-right .rent-menu {
+  display: block ;
+}
+.header-right .buy-menu {
+  display: block;
 }
 
 @media only screen and (max-width: 768px) {
@@ -15499,6 +15524,22 @@ img.book-img {
   background-color: #0d45a5 !important;
 }
 
+.rent {
+  padding: 6px 12px;
+  display: flex;
+  /* gap: 5px; */
+  align-items: center;
+  border-radius: 5px;
+  color: black;
+  background-color: #fff;
+  transition: all 400ms ease-in-out;
+  box-shadow: 1px 1px 1px white;
+}
+/* .rent:hover {
+background-color: #0d45a5 !important;  color: black;
+  
+} */
+
 .blink {
   font-weight: 700;
   font-size: 10px;
@@ -17122,23 +17163,54 @@ section.find-services {
 }
 
 
-.sucess-msg-wrapper {
+.success-msg-wrapper {
   max-width: 380px;
-  margin: 50px auto;
+  margin: 150px auto;
   overflow: hidden;
+  
 }
 
-.sucess-msg-wrapper .message-box {
+.success-msg-wrapper .message-box {
   box-shadow: 0 15px 25px #00000019;
   padding: 45px;
   width: 100%;
   text-align: center;
 }
 
-.sucess-msg-wrapper ._success {
+.success-msg-wrapper ._success {
   border-bottom: solid 4px green !important;
 }
 
-.sucess-msg-wrapper ._success i {
+.success-msg-wrapper ._success i {
   color: green !important;
+}
+
+.success-msg-wrapper .success-heading {
+  font-size: 36px;
+  color: green;
+  font-weight: 700;
+}
+
+.success-msg-wrapper .success-msg {
+  font-size: 24px;
+  color: black;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.success-msg-wrapper .left-border {
+  border-left: 4px solid black;
+  padding-right: 5px;
+}
+
+.on-hover:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  width: fit-content !important;
+};
+
+
+
+
+.no-pointer {
+  cursor: default !important;
 }
