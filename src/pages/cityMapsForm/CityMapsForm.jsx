@@ -116,9 +116,10 @@ const CityMapsForm = () => {
     return a;
   };
 
+  
+
   const handleClick = async () => {
     //e.preventDefault();
-
     mapData.map_category =
       mapData.map_category === "new_cat"
         ? changeFormatting(otherCategory)

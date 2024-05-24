@@ -2,7 +2,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { Link, useParams, useLocation } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
@@ -15,10 +15,12 @@ import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
 import { InputAdornment } from "@mui/material";
-
+import { AuthContext } from "../../context/AuthContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import { city } from "../addProperty/City";
+
 const PropertyByCity = () => {
+  const {currentUser} = useContext(AuthContext);
   const [skeleton, setSkeleton] = useState(true);
   const [cityData, setCityData] = useState();
   const [userLocation, setUserLocation] = useState(null);
@@ -490,14 +492,33 @@ const PropertyByCity = () => {
                               </ul>
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
-                                Listed
-                                <br />
-                                {/* {formatDate(
-                                new Date(object.pro_date).toDateString()
-                              )} */}
-                                {DateTime(object.pro_date)}
-                              </div>
+                            <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
+                              {DateTime(object.pro_date)}
+                            </div>
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link
@@ -533,8 +554,7 @@ const PropertyByCity = () => {
                     </div>
                   ))}
                   { records.length < 6 &&
-                  <h2 className="text-capitalize">Similar properties almost matching your search</h2>
-}
+                  <h2 className="text-capitalize">Similar properties almost matching your search</h2>}
                   { records.length < 6 &&
                   moreData.map((object, index) => (
                     <div className="list-group" key={index}>
@@ -648,14 +668,33 @@ const PropertyByCity = () => {
                               </ul>
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
-                                Listed
-                                <br />
-                                {/* {formatDate(
-                                new Date(object.pro_date).toDateString()
-                              )} */}
-                                {DateTime(object.pro_date)}
-                              </div>
+                            <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
+                              {DateTime(object.pro_date)}
+                            </div>
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link

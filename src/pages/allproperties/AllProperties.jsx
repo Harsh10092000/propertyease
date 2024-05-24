@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
@@ -16,12 +16,14 @@ import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
+import { AuthContext } from "../../context/AuthContext";
 
 //import AdSlider2 from "../../components/adslider/AdSlider2";
 // import AdSlider3 from "../../components/adslider/AdSlider3";
 import AllPropertySlider from "../../components/adslider/AllPropertySlider";
 
 const AllProperties = (props) => {
+  const { currentUser } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -367,14 +369,41 @@ const AllProperties = (props) => {
                             </Link> */}
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
+                            <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
+                              {DateTime(object.pro_date)}
+                            </div>
+                              {/* <div className="listed pl-md-0  ">
                                 Listed
                                 <br />
-                                {/* {formatDate(
+                                 {formatDate(
                                   new Date(object.pro_date).toDateString()
-                                )} */}
+                                )} 
                                 {DateTime(object.pro_date)}
-                              </div>
+                              </div> */}
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link
@@ -663,14 +692,41 @@ const AllProperties = (props) => {
                             </Link> */}
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
+                              {/* <div className="listed pl-md-0  ">
                                 Listed
                                 <br />
-                                {/* {formatDate(
+                                 {formatDate(
                                   new Date(object.pro_date).toDateString()
-                                )} */}
+                                )} 
                                 {DateTime(object.pro_date)}
-                              </div>
+                              </div> */}
+                              <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
+                              {DateTime(object.pro_date)}
+                            </div>
                               <div className="d-flex">
                                 <div className="mr-2 mt-1 ">
                                   <Link

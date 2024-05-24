@@ -6,6 +6,7 @@ import {
   IconWallet,
   IconSquare,
   IconSquareCheckFilled,
+  IconX,
 } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -306,6 +307,7 @@ const EditProperty = () => {
   //   }
   // };
 
+  const pattern = /image-*/;
   const handleImage = (data) => {
     setFormatError(false);
     const pattern = /image-*/;
@@ -346,6 +348,23 @@ const EditProperty = () => {
   if (selectedFiles !== null && selectedFiles !== undefined) {
     files = Array.from(selectedFiles);
   }
+
+
+  // const removeImage1 = (index) => {
+  //   const newSelectedFiles = [...images]; 
+  //   newSelectedFiles.splice(index, 1); 
+  //   setSelectedFiles(newSelectedFiles); 
+  //   files = Array.from(newSelectedFiles);
+  //   //files = Array.from(newSelectedFiles);
+  // };
+
+  const removeImage = (item, index) => {
+    const newSelectedFiles = [...selectedFiles]; 
+    newSelectedFiles.splice(index, 1); 
+    setSelectedFiles(newSelectedFiles); 
+    files = Array.from(newSelectedFiles);
+    handleImage(newSelectedFiles)
+  };
 
   const [step1, setStep1] = useState(false);
   const handleStep1 = () => {
@@ -695,67 +714,7 @@ const EditProperty = () => {
                             Start Posting your Property,It's Free
                           </h2>
                           <h2 style={{ textAlign: "center" }}>Basic Details</h2>
-                          {/* <div className="whole_radio">
-                            <div className="pro_flex">
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
-                                  Ad Type
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_ad_type}
-                                  label="Ad Type"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_ad_type: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value="Sale">Sale</MenuItem>
-                                  <MenuItem value="Rent">Rent</MenuItem>
-                                </Select>
-                                {propertyData.pro_ad_type === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-
-                              <FormControl
-                                sx={{ m: 1, width: ["100%"] }}
-                                size="small"
-                              >
-                                <InputLabel id="demo-simple-select-label">
-                                  Are you an ?
-                                </InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={propertyData.pro_user_type}
-                                  label="Are you an ?"
-                                  onChange={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_user_type: e.target.value,
-                                    })
-                                  }
-                                >
-                                  <MenuItem value="Agent">Agent</MenuItem>
-                                  <MenuItem value="Owner">Owner</MenuItem>
-                                </Select>
-                                {propertyData.pro_user_type === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              </FormControl>
-                            </div>
-                          </div> */}
+                          
 
                           <div className="pro_flex m-1 mt-3">
                             <div className="w-100 m-1">
@@ -1681,7 +1640,7 @@ const EditProperty = () => {
                                 <div className="border py-2 px-4">Browse</div>
                               </div>
                             </label>
-                            <div>
+                            {/* <div>
                               {selectedFiles != null &&
                               selectedFiles != undefined
                                 ? files.map((item) => (
@@ -1691,8 +1650,39 @@ const EditProperty = () => {
                                     </div>
                                   ))
                                 : ""}
-                            </div>
+                            </div> */}
                             <div>
+                            
+                            <div className="add-pro-img w-100 pb-3">
+                              {selectedFiles != null &&
+                              selectedFiles != undefined
+                                ? files.map((item, index) => (
+                                  
+                                    <div className="pt-3">
+                                      
+                                      <div className="d-flex file-name-wrapper justify-content-between">
+                                        <div className="file-name">{item.name}</div>
+                                        <div
+                                          className="pointer text-[#C4C5C8]"
+                                          onClick={()=>removeImage(item, index)}
+                                          title="Click to remove selected file"
+                                        >
+                                          <IconX />
+                                        </div>
+                                      </div>
+                                      <div className="text-danger">
+                                        {item.size >= 10000 &&
+                                        item.size <= 1000000 &&
+                                        item.type.match(pattern)
+                                          ? ""
+                                          : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
+                                      </div>
+                                    </div>
+                                  ))
+                                : ""}
+                            </div>
+                          </div>
+                            {/* <div>
                               {selectedFiles === null &&
                               formatError === false &&
                               fileSizeExceeded === false
@@ -1703,14 +1693,39 @@ const EditProperty = () => {
                                     </div>
                                   ))
                                 : ""}
-                            </div>
+                            </div> */}
 
-                            <div className="text-danger ml-2">
+<div>
+                            {console.log("images : " , selectedFiles , formatError , fileSizeExceeded)}
+                            <div className="add-pro-img w-100 pb-3">
+                              {selectedFiles === null 
+                                ? images.map((item, index) => (
+                                  
+                                    <div className="pt-3">
+                                      
+                                      <div className="d-flex file-name-wrapper justify-content-between">
+                                        <div className="file-name">{item.img_link}</div>
+                                        {/* <div
+                                          className="pointer text-[#C4C5C8]"
+                                          onClick={()=>removeImage1(index)}
+                                          title="Click to remove selected file"
+                                        >
+                                          <IconX />
+                                        </div> */}
+                                      </div>
+                                      
+                                    </div>
+                                  ))
+                                : ""}
+                            </div>
+                          </div>
+
+                            {/* <div className="text-danger ml-2">
                               {formatError ? "Invalid Format" : ""}
                               {fileSizeExceeded
                                 ? "File size must be greater than 10KB and less than 1MB"
                                 : ""}
-                            </div>
+                            </div> */}
                           </div>
 
                           <div className="d-flex justify-content-between">

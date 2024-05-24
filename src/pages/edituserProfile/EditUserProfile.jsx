@@ -23,7 +23,7 @@ const EditUserProfile = () => {
 
   const { agentId } = useParams();
   //const agentId = 74;
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, clearUser } = useContext(AuthContext);
   const [loader, setLoader] = useState(false);
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -135,7 +135,13 @@ const EditUserProfile = () => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictData`)
       .then((res) => {
-        setSubDistrict(res.data);
+        console.log("res.data : " , res.data)
+        // if (res.data === "failed") {
+        //   clearUser();
+        // } else {
+          setSubDistrict(res.data);
+        //}
+        
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/StateCityData`)

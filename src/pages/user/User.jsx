@@ -5,6 +5,9 @@ import {
   IconMenu2,
   IconCategory2,
   IconX,
+  IconCrown, 
+  IconCaretDownFilled,
+  IconTicket
 } from "@tabler/icons-react";
 import { IconBuilding, IconCategory, IconEye,IconUser  } from "@tabler/icons-react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -22,6 +25,7 @@ const User = () => {
   const navigate = useNavigate();
   const { currentUser, clearUser } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [myPlans, setMyPlans]= useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -263,7 +267,49 @@ const User = () => {
                       </div>
                     </Link>
                   </li>
+                  {/* <li>
+                    <Link to="/user/dashboard">
+                      <div
+                        title="My Listed Properties"
+                        className="d-flex align-items-center"
+                      >
+                        <IconCategory className="sidebar-faicon" />
+                        Subscription
+                      </div>
+                    </Link>
+                  </li> */}
                   <li>
+                  <a
+                    title="Property Listing Plans"
+                    onClick={() => setMyPlans(!myPlans)}
+                    className="pointer"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <IconCrown />
+                        <span>Subscription</span>
+                      </div>
+                      <div>
+                        <IconCaretDownFilled />
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                {myPlans && (
+                  <>
+                    <li className="pl-3">
+                      <Link to="/user/mysubscription/">
+                        <a title="View All My Transactions">
+                          <IconEye />
+                          <span>View All My Transactions</span>
+                        </a>
+                      </Link>
+                    </li>
+                    
+                  </>
+                )}
+                  <li>
+
                     <Link to="/addproperty">
                       <div
                         title="Add Property"

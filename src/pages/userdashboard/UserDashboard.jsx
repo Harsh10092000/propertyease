@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { IconEdit, IconEye } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import {
@@ -19,13 +19,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import Cleartoken from "../../components/Cleartoken";
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, clearUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [snackQ, setSnackQ] = useState(false);
   const [snack, setSnack] = useState(false);
@@ -35,16 +37,23 @@ const UserDashboard = () => {
   const [filter, setFilter] = useState("All");
   useEffect(() => {
     
-    axios
+     axios
       .get(
         import.meta.env.VITE_BACKEND +
           `/api/pro/fetchPropertyDataByUserId1/${currentUser[0].login_id}`
       )
       .then((res) => {
-        res.data.forEach((item, i) => {
-          item.serial_no = i + 1;
-        });
-        setData(res.data);
+        console.log("res.data : " , res.data)
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+
+          res.data.forEach((item, i) => {
+            item.serial_no = i + 1;
+          });
+          setData(res.data);
+          
+        }
       });
   }, [change]);
   useEffect(() => {

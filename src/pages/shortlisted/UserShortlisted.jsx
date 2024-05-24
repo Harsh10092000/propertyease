@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Snackbar } from "@mui/material";
 const UserShortlisted = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser,clearUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -14,8 +14,14 @@ const UserShortlisted = () => {
         import.meta.env.VITE_BACKEND +
           `/api/pro/fetchShortListProperty/${currentUser[0].login_id}`
       )
+      
       .then((res) => {
-        setData(res.data);
+        console.log("res.data : " , res.data)
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+          setData(res.data);
+        }
       })
       .catch((err) => {
         console.log("err", err);

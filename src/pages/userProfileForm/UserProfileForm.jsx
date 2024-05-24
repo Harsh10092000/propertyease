@@ -1263,6 +1263,7 @@ import { regEx } from "../regEx";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { AuthContext } from "../../context/AuthContext";
+import { useCallback } from "react";
 
 const UserProfileForm = () => {
   const { currentUser } = useContext(AuthContext);
@@ -1460,6 +1461,8 @@ const UserProfileForm = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
 
   const handleTypeToggle = (type) => {
+
+    
     if (selectedTypes.includes(type)) {
       setSelectedTypes(selectedTypes.filter((item) => item !== type));
     } else {
@@ -1490,7 +1493,9 @@ const UserProfileForm = () => {
 
   const [formSubmit, setFormSubmit] = useState(false);
   const handleSubmit = () => {
+    console.log("Dfghdh");
     if (userData.user_type === "Agent") {
+      console.log("Dfghdh 2222222222");
       if (
         //userData.user_type !== "" &&
         userData.user_name !== "" &&
@@ -1504,8 +1509,8 @@ const UserProfileForm = () => {
         selectedTypes !== "" &&
         userData.user_work_state.length > 0 &&
         userData.user_locality !== "" &&
-        userData.user_comapnay_name !== "" &&
-        userData.user_company_website !== "" &&
+        //userData.user_comapnay_name !== "" &&
+        //userData.user_company_website !== "" &&
         (cityState.length > 0 &&
         cityState.filter((i) => i.state === userData.user_state).length > 0
           ? userData.user_city !== ""
@@ -1557,7 +1562,25 @@ const UserProfileForm = () => {
     }
   };
 
-  console.log(selectedTypes);
+  const [limitReached, setLimitReached] = useState(false);
+  const onSelect = useCallback(
+    (newValues) => {
+      setUserData({
+        ...userData,
+        user_work_sub_district: newValues,
+      });
+      setLimitReached(newValues.length >= 10);
+    },
+    [limitReached, userData.user_work_sub_district]
+  );
+
+  const checkDisable = useCallback(
+    (option) =>
+      limitReached && !userData.user_work_sub_district.includes(option),
+    [limitReached, userData.user_work_sub_district]
+  );
+
+
   const handleClick = async () => {
     //e.preventDefault();
     try {
@@ -2292,12 +2315,16 @@ const UserProfileForm = () => {
                           )
                     );
                   }}
-                  onChange={(event, selectedValues) => {
-                    setUserData({
-                      ...userData,
-                      user_work_sub_district: selectedValues,
-                    });
-                  }}
+                  getOptionDisabled={checkDisable}
+                  onChange={(event, selectedValues) => onSelect(selectedValues)}
+                  // onChange={(event, selectedValues) => {
+                  //   if (selectedValues.length <= 10) {
+                  //   setUserData({
+                  //     ...userData,
+                  //     user_work_sub_district: selectedValues,
+                  //   });
+                  // }
+                  // }}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
@@ -2313,6 +2340,8 @@ const UserProfileForm = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      //helperText={limitReached ? "Maximum limit reached" : ""}
+
                       helperText={
                         filterDistricts.length > 0
                           ? formSubmit === true &&

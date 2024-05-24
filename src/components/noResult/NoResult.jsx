@@ -382,7 +382,7 @@ const NoResult = (props) => {
                             : ""
                         }-for-${
                           item.pro_ad_type === "rent" ? "rent" : "sale"
-                        }-in-${item.pro_locality
+                        }-in-${item.pro_locality.replace(/\s+$/, "")
                           .toLowerCase()
                           .replaceAll(
                             " ",
@@ -419,7 +419,7 @@ const NoResult = (props) => {
                               : ""
                           }-for-${
                             item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality
+                          }-in-${item.pro_locality.replace(/\s+$/, "")
                             .toLowerCase()
                             .replaceAll(
                               " ",
@@ -510,7 +510,7 @@ const NoResult = (props) => {
                             : ""
                         }-for-${
                           item.pro_ad_type === "rent" ? "rent" : "sale"
-                        }-in-${item.pro_locality
+                        }-in-${item.pro_locality.replace(/\s+$/, "")
                           .toLowerCase()
                           .replaceAll(
                             " ",

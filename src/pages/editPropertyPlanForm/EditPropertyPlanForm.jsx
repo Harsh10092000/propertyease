@@ -36,20 +36,22 @@ const EditPropertyPlanForm = () => {
     dayjs(todaysDate.add(1, "days"))
   );
   
-  useEffect(() => {
-    var date1 = transactionDate.$d;
-    var filteredDate1 = date1.toString().slice(4, 16);
-    const today = moment().startOf('day');
-    const totalDays1 = moment(filteredDate1).startOf('day');
-    const totalDays10 = totalDays1.diff(today, 'days');
-    setPlanData({...planData, pro_plan_validity: totalDays10})
-  }, [transactionDate])
+  // useEffect(() => {
+  //   var date1 = transactionDate.$d;
+  //   var filteredDate1 = date1.toString().slice(4, 16);
+  //   const today = moment().startOf('day');
+  //   const totalDays1 = moment(filteredDate1).startOf('day');
+  //   const totalDays10 = totalDays1.diff(today, 'days');
+  //   setPlanData({...planData, pro_plan_validity: totalDays10})
+  // }, [transactionDate])
 
   const [planData, setPlanData] = useState({
     pro_plan_name: "",
     pro_plan_amt: "",
     pro_plan_validity: "",
     pro_plan_date: "",
+    pro_plan_list_no: "",
+    pro_plan_id: "",
   });
 
 
@@ -63,6 +65,8 @@ const EditPropertyPlanForm = () => {
           pro_plan_amt: res.data[0].pro_plan_amt,
           pro_plan_validity: res.data[0].pro_plan_validity,
           pro_plan_date: res.data[0].pro_plan_date,
+          pro_plan_list_no: res.data[0].pro_plan_property_slots,
+          pro_plan_id: res.data[0].pro_plan_id
         });
         //setTransactionDate(moment(res.data[0].ad_created_at).add(1, "days"))
         setTransactionDate(
@@ -83,21 +87,22 @@ const EditPropertyPlanForm = () => {
     if (
       planData.pro_plan_name !== "" &&
       planData.pro_plan_amt !== "" &&
-      planData.pro_plan_validity !== ""
+      planData.pro_plan_validity !== "" &&
+      planData.pro_plan_list_no !== ""
     ) {
       setSubmitDisabled(false);
     } else {
       setSubmitDisabled(false);
     }
-  }, [planData.pro_plan_name, planData.pro_plan_amt, planData.pro_plan_validity]);
+  }, [planData.pro_plan_name, planData.pro_plan_amt, planData.pro_plan_validity, planData.pro_plan_list_no]);
 
-  const [formatError, setFormatError] = useState(false);
-  const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
-  const maxFileSize = 1000000;
-  const minFileSize = 10000;
+  // const [formatError, setFormatError] = useState(false);
+  // const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
+  // const maxFileSize = 1000000;
+  // const minFileSize = 10000;
 
-  const [selectedFiles, setSelectedFiles] = useState(null);
-  const formData = new FormData();
+  // const [selectedFiles, setSelectedFiles] = useState(null);
+  // const formData = new FormData();
 
 //   const handleImage = (data) => {
 //     setFormatError(false);
@@ -138,8 +143,8 @@ const EditPropertyPlanForm = () => {
     //e.preventDefault();
     try {
       setLoader(true);
-      await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/proPlan/addProPlan",
+      await axios.put(
+        import.meta.env.VITE_BACKEND + "/api/proPlan/updateProPlan",
         planData
       );
       setLoader(false);
@@ -233,7 +238,7 @@ const EditPropertyPlanForm = () => {
 
         
 
-        <div className="pro_flex m-1 ">
+        {/* <div className="pro_flex m-1 ">
           <div className="w-100 date-wrapper m-1">
 
           <LocalizationProvider dateAdapter={AdapterDayjs} >
@@ -267,7 +272,7 @@ const EditPropertyPlanForm = () => {
           </LocalizationProvider>
           </div>
           
-        </div>
+        </div> */}
 
         <div className="pro_flex ">
           <TextField
@@ -278,7 +283,7 @@ const EditPropertyPlanForm = () => {
             inputProps={{ maxlength: 50 }}
             className="w-100"
             value={planData.pro_plan_validity}
-            disabled
+            
             helperText={planData.pro_plan_validity.length < 1 ? "Required" : ""}
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
@@ -289,6 +294,27 @@ const EditPropertyPlanForm = () => {
             }}
           />
           </div>
+
+          <div className="pro_flex ">
+          <TextField
+            sx={{ m: 1, width: ["100%"] }}
+            label="List Property Slots"
+            variant="outlined"
+           size="small"
+            inputProps={{ maxlength: 50 }}
+            className="w-100"
+            value={planData.pro_plan_list_no}
+            helperText={planData.pro_plan_list_no.length < 1 ? "Required" : ""}
+            FormHelperTextProps={{ sx: { color: "red" } }}
+            onChange={(e) => {
+              setPlanData({
+                ...planData,
+                pro_plan_list_no: e.target.value.replace(/[^0-9]/g, ""),
+              });
+            }}
+          />
+          </div>
+
         {/* <div className="m-2">
           <input
             type="file"

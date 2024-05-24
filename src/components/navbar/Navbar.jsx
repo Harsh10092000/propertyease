@@ -2,7 +2,6 @@ import React from "react";
 import {
   IconArrowRight,
   IconSearch,
-  IconHome,
   IconLogin,
   IconPlus,
   IconSend,
@@ -10,7 +9,6 @@ import {
   IconChevronUp,
   IconMenu2,
   IconX,
-  IconCaretDownFilled,
 } from "@tabler/icons-react";
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -97,7 +95,6 @@ const Navbar = () => {
       name: "Post Requirement",
       linkto: "/postrequirement",
     },
-    // Regular 'Buy' item
   ];
 
   const closeDrawer2 = () => {
@@ -107,11 +104,6 @@ const Navbar = () => {
   };
 
 
-
-
-
-
-  
   const list = (anchor) => (
     <Box sx={{ width: 300 }} role="presentation">
       {anchor === "add" ? (

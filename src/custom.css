@@ -17214,3 +17214,49 @@ section.find-services {
 .no-pointer {
   cursor: default !important;
 }
+
+
+.blocked-pointer {
+  cursor: not-allowed;
+}
+
+.code-textfield input {
+  border-radius: 0 !important;
+}
+
+.coupon-code-btn button {
+  margin-bottom: 0;
+  border-radius: 0;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  padding: 0.450rem 0.75rem;
+} 
+
+
+.coupon-wrapper {
+  padding-top: 20px;
+}
+
+.ask-coupon-code {
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.add-pro-img .file-name-wrapper {
+  background-color:  #F5F7FB;
+  padding: 10px 20px;
+  border-radius: 5px;
+
+
+}
+
+.add-pro-img .file-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  padding-right: 5px;
+}

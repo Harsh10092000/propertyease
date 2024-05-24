@@ -15,7 +15,7 @@ import {
 import moment from "moment";
 
 const AdminPropertyPlans = () => {
-    const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
@@ -190,33 +190,30 @@ const AdminPropertyPlans = () => {
                 <th>Plan Name</th>
                 <th>Plan Amount</th>
                 <th>Created At</th>
-                <th>Delisted At</th>
-                <th>Plan Status</th>
+                <th>Plan Validity (In Days)</th>
+                
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {records.map((item, index) => (
                 <tr key={index}>
+                  
                   <td>{item.serial_no}</td>
                   <td>{7000 + parseInt(item.pro_plan_id)}</td>
                   <td>{item.pro_plan_name}</td>
                   <td>{item.pro_plan_amt}</td>
                   
                   {/* <td>{item.pro_plan_listed === 1 ? "Listed" : "Delisted"}</td> */}
+
                   <td>{moment(item.pro_plan_date).format("MMMM DD YYYY")}</td>
-                  <td>{moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity), "days").format("MMMM DD YYYY")}</td>
-                  <td>Plan End {moment(moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td>             
+                  <td>{item.pro_plan_validity + " Days"}</td>
+                  {/* <td>{moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity), "days").format("MMMM DD YYYY")}</td>
+                  <td>Plan End {moment(moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td> */}
                   {/* <td>{moment(item.pro_plan_date).subtract(item.pro_plan_validity, 'days').fromNow()}</td>  */}
                   {/* <td>{moment(item.pro_plan_date).fromNow()}</td> */}
                   <td className="d-flex gap-3">
-                    <Link
-                      to={`/3-marla-residential-land-for-sale-in-sector-4-kurukshetra-250`}
-                    >
-                      <button className="view" title="View">
-                        <IconEye />
-                      </button>
-                    </Link>
+                    
                     <Link to={"/admin/editpropertyplan/" + item.pro_plan_id}>
                       <button title="Edit Your Plan" className="view">
                         {/* <Link to={"/edit/" + item.pro_id}> */}
@@ -233,28 +230,6 @@ const AdminPropertyPlans = () => {
                       <IconTrashFilled />
                     </button>
 
-
-
-                    {item.pro_plan_listed === 1 ? (
-                      <button
-                        title="Click to Promote Ad"
-                        className="btn btn-danger btn-sm vbtn mb-0"
-                        // onClick={() => delistProperty(item)}
-                        onClick={() => hideplan(item.pro_plan_id)}
-                        disabled={item.status === "0" ? true : false}
-                      >
-                        Hide
-                      </button>
-                    ) : (
-                      <button
-                        title="Click to Hide Ad"
-                        className="btn btn-success btn-sm vbtn mb-0 ml-0"
-                        onClick={() => showPlan(item.pro_plan_id)}
-                        disabled={item.status === "0" ? true : false}
-                      >
-                        Promote
-                      </button>
-                    )}
                   </td>
                 </tr>
               ))}

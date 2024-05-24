@@ -2,7 +2,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
@@ -12,6 +12,8 @@ import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
 import {InputAdornment} from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
+import { AuthContext } from "../../context/AuthContext";
+
 const Rent = () => {
   const [skeleton, setSkeleton] = useState(true);
   const { cat } = useParams();
@@ -25,6 +27,7 @@ const Rent = () => {
   const [rentData, setRentData] = useState([]);
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
+  const {currentUser} = useContext(AuthContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -270,12 +273,31 @@ const Rent = () => {
                             </ul>
                           </div>
                           <div className="pt-3 d-flex justify-content-between  align-items-center">
-                            <div className="listed pl-md-0  ">
-                              Listed
-                              <br />
-                              {/* {formatDate(
-                                new Date(object.pro_date).toDateString()
-                              )} */}
+                          <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
                               {DateTime(object.pro_date)}
                             </div>
                             <div className="d-flex">

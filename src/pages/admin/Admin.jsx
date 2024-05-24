@@ -11,6 +11,7 @@ import {
   IconAd,
   IconCaretDownFilled,
   IconHome,
+  IconTicket
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
@@ -131,7 +132,7 @@ const Admin = () => {
                   </>
                 )}
 
-                {/* <li>
+                <li>
                   <a
                     title="Property Listing Plans"
                     onClick={() => setProPlanSubMenu(!proPlanSubMenu)}
@@ -150,6 +151,14 @@ const Admin = () => {
                 </li>
                 {proPlanSubMenu && (
                   <>
+                  <li className="pl-3">
+                      <Link to="/admin/propertyplanform">
+                        <a title="Create Plans">
+                          <IconSquareRoundedPlus />
+                          <span>Create Plans</span>
+                        </a>
+                      </Link>
+                    </li>
                     <li className="pl-3">
                       <Link to="/admin/propertyplans">
                         <a title="View Plans">
@@ -158,16 +167,37 @@ const Admin = () => {
                         </a>
                       </Link>
                     </li>
+                    
                     <li className="pl-3">
-                      <Link to="/admin/propertyplanform">
-                        <a title="Create Plans">
-                          <IconSquareRoundedPlus />
-                          <span>Create Plans</span>
+                      <Link to="/admin/propertyplantranactions">
+                        <a title="View Transactions">
+                          <IconEye />
+                          <span>View Transactions</span>
                         </a>
                       </Link>
                     </li>
+
+                    <li className="pl-3">
+                      <Link to="/admin/addcoupon">
+                        <a title="Add Discount Coupon">
+                          <IconTicket />
+                          <span>Add Discount Coupon</span>
+                        </a>
+                      </Link>
+                    </li>
+
+                    <li className="pl-3">
+                      <Link to="/admin/viewcoupons">
+                        <a title="View Coupons">
+                          <IconEye />
+                          <span>View Coupons</span>
+                        </a>
+                      </Link>
+                    </li>
+
+                    
                   </>
-                )} */}
+                )}
 
                 <li>
                   <a
