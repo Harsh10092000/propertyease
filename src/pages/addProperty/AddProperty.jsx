@@ -61,7 +61,7 @@ const AddProperty = () => {
       });
   }, []);
 
-  console.log("setProListingPlan : ", proListingPlan);
+ 
 
   const applyCoupon = (planId) => {
     console.log("planId : ", planId);
@@ -618,6 +618,13 @@ const AddProperty = () => {
     propertyData.pro_rental_status,
   ]);
 
+  const changeFormatting = (value) => {
+    //var val = value.toLowerCase().trim();
+    var val = value.trim();
+    var a = val.replace(/\s{2,}/g, " ");
+    return a;
+  };
+
   const handleClick = async () => {
     setLoader(true);
     currentUser && (propertyData.pro_user_id = currentUser[0].login_id);
@@ -625,6 +632,7 @@ const AddProperty = () => {
     currentUser &&
       (propertyData.pro_login_number = currentUser[0].login_number);
 
+    propertyData.pro_locality = changeFormatting(propertyData.pro_locality);
     propertyData.pro_date = Date.now();
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
@@ -742,7 +750,9 @@ const AddProperty = () => {
             login_number: currentUser[0].login_number,
             discount: couponAmt1,
             original_price: item.pro_plan_amt,
-          };
+            pro_added_recently: prevData.pro_count,
+            total_no_pro_user_can_add: parseInt(prevData.pro_count) + parseInt(item.pro_plan_property_slots)
+          }
           setOrderId(response.razorpay_order_id);
           setPaymentAmt(
             item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100
@@ -954,11 +964,12 @@ const AddProperty = () => {
       ) : (
           parseInt(prevData?.plan_status) === 1 ||
           parseInt(prevData?.plan_status) === 2
-            ? parseInt(prevData?.pro_plan_added_slots) + 5 >=
+            ? parseInt(prevData?.total_no_pro_user_can_add) >
               parseInt(prevData?.pro_count)
             : parseInt(prevData?.pro_count) < 5
         ) ? (
         <div className="container">
+          {console.log(prevData?.pro_plan_added_slots , prevData?.pro_count , prevData)}
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
               <h4>
@@ -1140,7 +1151,7 @@ const AddProperty = () => {
                       (
                         parseInt(prevData?.plan_status) === 1 ||
                         parseInt(prevData?.plan_status) === 2
-                          ? parseInt(prevData?.pro_plan_added_slots) + 5 >=
+                          ? parseInt(prevData?.total_no_pro_user_can_add) >
                             parseInt(prevData?.pro_count)
                           : parseInt(prevData?.pro_count) < 5
                       ) ? (
@@ -2696,6 +2707,7 @@ const AddProperty = () => {
                       <br /> based on feedback gathered from users like you!
                     </p>
                   </div>
+                  
                   <div className="row">
                     {latestProperty?.map((item, index) => (
                       <div className="col-md-4" key={index}>

@@ -1658,35 +1658,11 @@ const Property = () => {
                         </div>
                         <div className="row">
                           {latestProperty.map((item, index) => (
-                            <div className="col-md-4" key={index}>
+                            <div className="col-md-4 pb-4" key={index}>
                               <div className="uniBlock">
                                 <div className="recent-box-serv">
                                   <div className="re-bus-img">
                                     <Link
-                                      // to={`/${
-                                      //   item.pro_area_size.toLowerCase() +
-                                      //   "-" +
-                                      //   item.pro_area_size_unit.toLowerCase() +
-                                      //   "-"
-                                      // }${
-                                      //   item.pro_type
-                                      //     ? item.pro_type
-                                      //         .split(",")[0]
-                                      //         .toLowerCase()
-                                      //         .replaceAll(" ", "-")
-                                      //     : ""
-                                      // }-for-${
-                                      //   item.pro_ad_type === "rent"
-                                      //     ? "rent"
-                                      //     : "sale"
-                                      // }-in-${item.pro_locality
-                                      //   .toLowerCase()
-                                      //   .replaceAll(
-                                      //     " ",
-                                      //     "-"
-                                      //   )}-${item.pro_city.toLowerCase()}-${
-                                      //   item.pro_id
-                                      // }`}
                                       to={`/${item.pro_url}`}
                                     >
                                       {item.img_link ? (
@@ -1709,31 +1685,7 @@ const Property = () => {
                                   <div className="recent-bus-content">
                                     <h5 className="property-listing-type">
                                       <Link
-                                      to={`/${item.pro_url}`}
-                                        // to={`/${
-                                        //   item.pro_area_size.toLowerCase() +
-                                        //   "-" +
-                                        //   item.pro_area_size_unit.toLowerCase() +
-                                        //   "-"
-                                        // }${
-                                        //   item.pro_type
-                                        //     ? item.pro_type
-                                        //         .split(",")[0]
-                                        //         .toLowerCase()
-                                        //         .replaceAll(" ", "-")
-                                        //     : ""
-                                        // }-for-${
-                                        //   item.pro_ad_type === "rent"
-                                        //     ? "rent"
-                                        //     : "sale"
-                                        // }-in-${item.pro_locality
-                                        //   .toLowerCase()
-                                        //   .replaceAll(
-                                        //     " ",
-                                        //     "-"
-                                        //   )}-${item.pro_city.toLowerCase()}-${
-                                        //   item.pro_id
-                                        // }`}
+                                      to={`/${item.pro_url}`}  
                                       >
                                         <a>{item.pro_type.split(",")[0]}</a>
                                       </Link>
@@ -1812,30 +1764,6 @@ const Property = () => {
                                     </ul>
                                     <Link
                                     to={`/${item.pro_url}`}
-                                      // to={`/${
-                                      //   item.pro_area_size.toLowerCase() +
-                                      //   "-" +
-                                      //   item.pro_area_size_unit.toLowerCase() +
-                                      //   "-"
-                                      // }${
-                                      //   item.pro_type
-                                      //     ? item.pro_type
-                                      //         .split(",")[0]
-                                      //         .toLowerCase()
-                                      //         .replaceAll(" ", "-")
-                                      //     : ""
-                                      // }-for-${
-                                      //   item.pro_ad_type === "rent"
-                                      //     ? "rent"
-                                      //     : "sale"
-                                      // }-in-${item.pro_locality
-                                      //   .toLowerCase()
-                                      //   .replaceAll(
-                                      //     " ",
-                                      //     "-"
-                                      //   )}-${item.pro_city.toLowerCase()}-${
-                                      //   item.pro_id
-                                      // }`}
                                     >
                                       <a
                                         title="View complete details of this property"
@@ -1850,7 +1778,8 @@ const Property = () => {
                             </div>
                           ))}
                         </div>
-                        <div className="d-flex flex-row-reverse mt-4 mr-3">
+
+                        <div className="d-flex flex-row-reverse  mr-3">
                           <Link to={`/property/${proType}`}>
                             <a
                               title="Click to view all properties"

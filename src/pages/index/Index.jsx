@@ -59,7 +59,7 @@ const Index = () => {
             </div>
             <div className="row">
               {data.map((item, index) => (
-                <div className="col-md-4" key={index}>
+                <div className="col-md-4 pb-4" key={index}>
                   <div className="uniBlock">
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
@@ -220,6 +220,16 @@ const Index = () => {
                 </div>
               ))}
             </div>
+            <div className="d-flex flex-row-reverse  mr-3">
+                          <Link to={`/allproperties`}>
+                            <a
+                              title="Click to view all properties"
+                              className="btn-viewall px-4 "
+                            >
+                              View All
+                            </a>
+                          </Link>
+                        </div>
           </div>
         </section>
         <section className="business-banner">

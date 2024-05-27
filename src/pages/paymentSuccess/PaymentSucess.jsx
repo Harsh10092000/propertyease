@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "../../components/footer/Footer";
-import Navbar from "../../components/navbar/Navbar";
+// import Footer from "../../components/footer/Footer";
+// import Navbar from "../../components/navbar/Navbar";
 import { IconChecks, IconHome, IconPlus } from '@tabler/icons-react';
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const PaymentSucess = (props) => {
     <div>
       {/* <Navbar /> */}
       <div class="container success-msg-wrapper">
-        {console.log(props)}
+   
         <div className="message-box _success">
           <div>
             {/* <div>
@@ -32,7 +32,7 @@ const PaymentSucess = (props) => {
                 </span>
               </Link>
             {/* <Link to="/addproperty" className="list-property"> */}
-                <span className="add" title="List Property" onClick={props.handleChange}>
+                <span className="add pointer" title="List Property" onClick={props.handleChange}>
                   <span>
                     <IconPlus className="sidebar-faicon" />
                   </span>
