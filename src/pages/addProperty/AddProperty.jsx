@@ -6,7 +6,7 @@ import {
   IconWallet,
   IconSquare,
   IconSquareCheckFilled,
-  IconX
+  IconX,
 } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -38,6 +38,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { Skeleton } from "@mui/material";
 import PropertyListingPlan from "../../components/propertyListingPlan/PropertyListingPlan";
+import PaymentSucess from "../paymentSuccess/PaymentSucess";
 
 const AddProperty = () => {
   const { currentUser, login } = useContext(AuthContext);
@@ -110,6 +111,12 @@ const AddProperty = () => {
         );
       });
   }, [change]);
+
+  const handleChange = () => {
+    console.log("XScdgf")
+    setChange(change + 1);
+    setPaymentSuccessful(false);
+  }
 
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -196,6 +203,10 @@ const AddProperty = () => {
   const [numberError, setNumberError] = useState(true);
   const [loginStatus, setLoginStatus] = useState("");
   const [getOtp, setGetOtp] = useState(false);
+  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [paymentId, setPaymentId] = useState("");
+  const [paymentAmt, setPaymentAmt] = useState("");
 
   const [userData, setUserData] = useState({
     email: "",
@@ -445,7 +456,6 @@ const AddProperty = () => {
   const formData = new FormData();
   const pattern = /image-*/;
   const handleImage = (data) => {
-    console.log("DSfg")
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
@@ -456,7 +466,6 @@ const AddProperty = () => {
           setFileSizeExceeded(false);
         } else {
           setFileSizeExceeded(true);
-
           return;
         }
       } else {
@@ -487,9 +496,9 @@ const AddProperty = () => {
   }
 
   const removeImage = (item, index) => {
-    const newSelectedFiles = [...selectedFiles]; 
-    newSelectedFiles.splice(index, 1); 
-    setSelectedFiles(newSelectedFiles); 
+    const newSelectedFiles = [...selectedFiles];
+    newSelectedFiles.splice(index, 1);
+    setSelectedFiles(newSelectedFiles);
     files = Array.from(newSelectedFiles);
     handleImage(newSelectedFiles);
   };
@@ -508,9 +517,9 @@ const AddProperty = () => {
       fetchOtp();
       //setStep1(false);
     } else {
-      //setStep1(true);
-      setStep1(false);
-      setActiveStep(activeStep + 1);
+      setStep1(true);
+      //setStep1(false);
+      //setActiveStep(activeStep + 1);
     }
   };
 
@@ -526,9 +535,9 @@ const AddProperty = () => {
       setStep2(false);
       setActiveStep(activeStep + 1);
     } else {
-      //setStep2(true);
-      setStep2(false);
-      setActiveStep(activeStep + 1);
+      setStep2(true);
+      //setStep2(false);
+      //setActiveStep(activeStep + 1);
     }
   };
 
@@ -734,13 +743,21 @@ const AddProperty = () => {
             discount: couponAmt1,
             original_price: item.pro_plan_amt,
           };
+          setOrderId(response.razorpay_order_id);
+          setPaymentAmt(
+            item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100
+          );
+          setPaymentId(response.razorpay_payment_id);
           setLoader(true);
           const result = await axios.post(
             import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
             data
           );
           setLoader(false);
-          result.data == 1 ? navigate("/payment-succesful") : "";
+          //result.data == 1 ? navigate("/payment-succesful") : "";
+          result.data == 1
+            ? setPaymentSuccessful(true)
+            : setPaymentSuccessful(false);
         },
         description: "Testing",
         order_id: orderId,
@@ -798,9 +815,6 @@ const AddProperty = () => {
       console.error("Error creating order:", error);
     }
   };
-
-
-  
 
   return (
     <div>
@@ -930,14 +944,20 @@ const AddProperty = () => {
       </Dialog>
       <Navbar />
 
-      {/* {parseInt(prevData?.pro_count) < 5 || prevData?.pro_count === null || prevData?.pro_count ? ( */}
-      {(
-        parseInt(prevData?.plan_status) === 1 ||
-        parseInt(prevData?.plan_status) === 2
-          ? parseInt(prevData?.pro_plan_added_slots) + 5 >=
-            parseInt(prevData?.pro_count)
-          : parseInt(prevData?.pro_count) < 5
-      ) ? (
+      {paymentSuccessful ? (
+        <PaymentSucess
+          orderId={orderId}
+          paymentAmt={paymentAmt}
+          paymentId={paymentId}
+          handleChange = {handleChange}
+        />
+      ) : (
+          parseInt(prevData?.plan_status) === 1 ||
+          parseInt(prevData?.plan_status) === 2
+            ? parseInt(prevData?.pro_plan_added_slots) + 5 >=
+              parseInt(prevData?.pro_count)
+            : parseInt(prevData?.pro_count) < 5
+        ) ? (
         <div className="container">
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
@@ -1117,7 +1137,13 @@ const AddProperty = () => {
                         </div>
                       </div>
                     ) : activeStep === 1 ? (
-                      parseInt(prevData?.pro_count) < 6 ? (
+                      (
+                        parseInt(prevData?.plan_status) === 1 ||
+                        parseInt(prevData?.plan_status) === 2
+                          ? parseInt(prevData?.pro_plan_added_slots) + 5 >=
+                            parseInt(prevData?.pro_count)
+                          : parseInt(prevData?.pro_count) < 5
+                      ) ? (
                         <div className="flex-col-sm mainDiv">
                           <h2>Locations Details </h2>
 
@@ -2281,19 +2307,20 @@ const AddProperty = () => {
                             </div>
                           </label>
                           <div>
-                            
                             <div className="add-pro-img w-100 pb-3">
                               {selectedFiles != null &&
                               selectedFiles != undefined
                                 ? files.map((item, index) => (
-                                  
                                     <div className="pt-3">
-                                      
                                       <div className="d-flex file-name-wrapper justify-content-between">
-                                        <div className="file-name">{item.name}</div>
+                                        <div className="file-name">
+                                          {item.name}
+                                        </div>
                                         <div
                                           className="pointer text-[#C4C5C8]"
-                                          onClick={()=>removeImage(item, index)}
+                                          onClick={() =>
+                                            removeImage(item, index)
+                                          }
                                           title="Click to remove selected file"
                                         >
                                           <IconX />
@@ -2601,7 +2628,7 @@ const AddProperty = () => {
             </div>
           </section>
         </div>
-      ) : parseInt(prevData?.pro_count) >= 5 ? (
+      ) : parseInt(prevData?.pro_count) > 5 ? (
         <div className="container">
           <div className="row">
             <div className="col-md-12">

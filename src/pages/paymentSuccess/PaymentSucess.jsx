@@ -4,11 +4,12 @@ import Navbar from "../../components/navbar/Navbar";
 import { IconChecks, IconHome, IconPlus } from '@tabler/icons-react';
 import { Link } from "react-router-dom";
 
-const PaymentSucess = () => {
+const PaymentSucess = (props) => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div class="container success-msg-wrapper">
+        {console.log(props)}
         <div className="message-box _success">
           <div>
             {/* <div>
@@ -17,9 +18,9 @@ const PaymentSucess = () => {
             </div>  */}
             <div className="pb-3 success-heading" ><IconChecks height={"40px"} width={"40px"} className="mr-2"  />Payment Successful!</div>
           </div>
-          <div className="pb-3 success-msg">Thank You! Your payment of Rs. 199 has been recieived</div>
+          <div className="pb-3 success-msg">Thank You! Your payment of Rs. {props.paymentAmt} has been recieived</div>
           <div className=" success-msg">
-            Order Id : O5bCCsO5eWyIZr <span className="left-border"></span> Payment Id : O5bCLUfaCXUnk9
+            Order Id : {props.orderId} <span className="left-border"></span> Payment Id : {props.paymentId}
           </div>
           <div className="d-flex justify-content-center mt-2">
           <Link to="/allproperties" className="mr-3">
@@ -30,15 +31,15 @@ const PaymentSucess = () => {
                   </span>
                 </span>
               </Link>
-            <Link to="/addproperty" className="list-property">
-                <span className="add" title="List Property">
+            {/* <Link to="/addproperty" className="list-property"> */}
+                <span className="add" title="List Property" onClick={props.handleChange}>
                   <span>
                     <IconPlus className="sidebar-faicon" />
                   </span>
                   List Property
-                  {/* <span className="blink d-none d-inline">Free</span> */}
+                   {/* <span className="blink d-none d-inline">Free</span>  */}
                 </span>
-              </Link>
+              {/* </Link> */}
           </div>
         </div>
 
@@ -52,7 +53,7 @@ const PaymentSucess = () => {
           </p>
         </div> */}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
