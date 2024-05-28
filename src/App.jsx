@@ -276,10 +276,10 @@ const App = () => {
       path: "/rental/:cat",
       element: <Rent />,
     },
-    {
-      path: "/payment-succesful",
-      element: <PaymentSucess />,
-    },
+    // {
+    //   path: "/payment-succesful",
+    //   element: <PaymentSucess />,
+    // },
     {
       path: "/editProperty/:id1",
 

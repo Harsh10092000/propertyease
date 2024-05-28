@@ -550,7 +550,7 @@ const SubCat = () => {
                                 </li>
                               </ul>
                             </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center">
+                            <div className="pt-3 d-flex justify-content-between align-items-center listing-details-wrapper">
                             <div className=" listed pl-md-0">
                               {object.user_type === "Agent" &&
                               object.pro_user_type === "Agent" ? (
@@ -578,7 +578,7 @@ const SubCat = () => {
  <br />
                               {DateTime(object.pro_date)}
                             </div>
-                              <div className="d-flex">
+                              <div className="d-flex listing-buttons">
                                 <div className="mr-2 mt-1 ">
                                   <Link
                                     // to={`/${

@@ -1,3 +1,94 @@
+// import React from "react";
+// import Navbar from "../../components/navbar/Navbar";
+// import Footer from "../../components/footer/Footer";
+
+// const About = () => {
+//   return (
+//     <div>
+//       <Navbar />
+//       <div className="container">
+//         <section className="main-content">
+//           <div className="aboutus-content">
+//             <div className="col-md-12">
+//               <h2>About Us</h2>
+//               <p>
+//                 Founded in 2023, Propertyease.in aims to make buying and selling
+//                 property easy and stress-free. We connect buyers and sellers
+//                 directly and provide helpful tools, detailed listings, and
+//                 valuable information to support smart decisions. That is why we
+//                 are the best property dealer in town.
+//               </p>
+//               <p>
+//                 Our platform is designed for transparency and efficiency,
+//                 ensuring a smooth and reliable experience. Whether you're buying
+//                 your dream home or selling a property, Propertyease.in
+//                 simplifies the process for you.
+//               </p>
+
+
+//               <p>
+//                 <b>For Sellers:</b>
+//               </p>
+//               <ol>
+//                 <li>
+//                   <strong>Find Buyers:</strong> Connect with interested buyers quickly.
+//                 </li>
+//                 <li>
+//                   <strong>Free Listings:</strong> List your property for free to reach more people.
+//                 </li>
+//                 <li>
+//                   <strong>3D Tours:</strong> Show off your property with virtual 3D tours.
+//                 </li>
+//               </ol>
+
+
+//               <p>
+//                 <b>For Buyers:</b>
+//               </p>
+//               <ol>
+//                 <li>
+//                   <strong>Lots of Listings:</strong> Browse a wide range of properties easily.
+//                 </li>
+//                 <li>
+//                   <strong>3D Tours:</strong>  Explore properties online with 3D tours to save time.
+//                 </li>
+//                 <li>
+//                   <strong>Meet Sellers:</strong> After you find a property you like, we'll set up a meeting with the seller.
+//                 </li>
+//               </ol>
+
+
+//               <p>
+//                 <b>Our Core Values:</b>
+//               </p>
+//               <ol>
+//                 <li>
+//                   <strong>Transparency:</strong> We keep you informed throughout
+//                   the process.
+//                 </li>
+//                 <li>
+//                   <strong>Support:</strong> We help you from the first step to
+//                   the last, offering a range of services for a smooth
+//                   experience.
+//                 </li>
+//                 <li>
+//                   <strong>Convenience:</strong> Our 3D tours and floor plans let
+//                   you explore properties from home.
+//                 </li>
+//               </ol>
+//             </div>
+//           </div>
+//         </section>
+//       </div>
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// export default About;
+
+
+
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";

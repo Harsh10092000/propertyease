@@ -182,42 +182,18 @@ const AllProperties = (props) => {
                       <div className="row">
                         <div className="col-md-auto flex-column text-center">
                           <div className="buiness-logo">
-                            <Link
-                              // to={`/${
-                              //   object.pro_area_size.toLowerCase() +
-                              //   "-" +
-                              //   object.pro_area_size_unit
-                              //     .toLowerCase()
-                              //     .replaceAll(" ", "-")
-                              //     .replaceAll(".", "") +
-                              //   "-"
-                              // }${
-                              //   object.pro_type
-                              //     ? object.pro_type
-                              //         .split(",")[0]
-                              //         .toLowerCase()
-                              //         .replaceAll(" ", "-")
-                              //     : ""
-                              // }-for-${
-                              //   object.pro_ad_type === "rent" ? "rent" : "sale"
-                              // }-in-${object.pro_locality
-                              //   .toLowerCase()
-                              //   .replaceAll(" ", "-")}-${object.pro_city
-                              //   .toLowerCase()
-                              //   .replaceAll(" ", "-")}-${object.pro_id}`}
-                              to={`/${object.pro_url}`}
-                            >
+                            <Link to={`/${object.pro_url}`}>
                               {object.img_link ? (
                                 <div>
-                                <img
-                                  src={`${
-                                    import.meta.env.VITE_BACKEND
-                                  }/propertyImages/watermark/${
-                                    object.img_link
-                                  }`}
-                                  alt="img"
-                                />
-                                {/* <div className="top-left-2">
+                                  <img
+                                    src={`${
+                                      import.meta.env.VITE_BACKEND
+                                    }/propertyImages/watermark/${
+                                      object.img_link
+                                    }`}
+                                    alt="img"
+                                  />
+                                  {/* <div className="top-left-2">
                                         <li className="property-view-count ">
                                           <IconBolt width={16} height={16} />
                                           Featured
@@ -226,8 +202,10 @@ const AllProperties = (props) => {
                                 </div>
                               ) : (
                                 <div>
-                                  
-                                  <img src="/images/default.png" alt="no image" />
+                                  <img
+                                    src="/images/default.png"
+                                    alt="no image"
+                                  />
                                   {/* <div> <IconBolt /><span> Featured</span>  </div>   */}
                                   {/* <div className="top-left-2">
                                         <li className="property-view-count ">
@@ -236,7 +214,6 @@ const AllProperties = (props) => {
                                         </li>
                                   </div> */}
                                 </div>
-
                               )}
                             </Link>
                           </div>
@@ -245,35 +222,8 @@ const AllProperties = (props) => {
                         <div className="col" style={{ minWidth: 0 }}>
                           <div className="recent-box-serv">
                             <div className="recent-bus-content">
-                              
                               <div className="property-listing-type">
-                                <Link
-                                to={`/${object.pro_url}`}
-                                  // to={`/${
-                                  //   object.pro_area_size.toLowerCase() +
-                                  //   "-" +
-                                  //   object.pro_area_size_unit
-                                  //     .toLowerCase()
-                                  //     .replaceAll(" ", "-")
-                                  //     .replaceAll(".", "") +
-                                  //   "-"
-                                  // }${
-                                  //   object.pro_type
-                                  //     ? object.pro_type
-                                  //         .split(",")[0]
-                                  //         .toLowerCase()
-                                  //         .replaceAll(" ", "-")
-                                  //     : ""
-                                  // }-for-${
-                                  //   object.pro_ad_type === "rent"
-                                  //     ? "rent"
-                                  //     : "sale"
-                                  // }-in-${object.pro_locality
-                                  //   .toLowerCase()
-                                  //   .replaceAll(" ", "-")}-${object.pro_city
-                                  //   .toLowerCase()
-                                  //   .replaceAll(" ", "-")}-${object.pro_id}`}
-                                >
+                                <Link to={`/${object.pro_url}`}>
                                   <span className="text-wrap text-bold">
                                     {object.pro_area_size +
                                       " " +
@@ -342,7 +292,6 @@ const AllProperties = (props) => {
                                 </li>
 
                                 <li>
-                                  
                                   <img
                                     src="/img/facing.png"
                                     className="property-slider-icon"
@@ -368,72 +317,39 @@ const AllProperties = (props) => {
                               </a>
                             </Link> */}
                             </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center">
-                            <div className=" listed pl-md-0">
-                              {object.user_type === "Agent" &&
-                              object.pro_user_type === "Agent" ? (
-                                <Link
-                                  to={`/agentProfile/${object.pro_user_id}`}
-                                  title="Click to View Agent Profile"
-                                >
-                                  Listed by{" "}
-                                  {currentUser &&
+                            <div className="pt-3 d-flex justify-content-between align-items-center listing-details-wrapper">
+                              <div className=" listed pl-md-0 listing-details">
+                                {object.user_type === "Agent" &&
+                                object.pro_user_type === "Agent" ? (
+                                  <Link
+                                    to={`/agentProfile/${object.pro_user_id}`}
+                                    title="Click to View Agent Profile"
+                                  >
+                                    Listed by{" "}
+                                    {currentUser &&
+                                    object.pro_user_id ==
+                                      currentUser[0].login_id
+                                      ? "Me "
+                                      : object.agent_name +
+                                        " (" +
+                                        object.pro_user_type +
+                                        ")" +
+                                        " "}
+                                  </Link>
+                                ) : (
+                                  "Listed by " +
+                                  (currentUser &&
                                   object.pro_user_id == currentUser[0].login_id
                                     ? "Me "
-                                    : object.agent_name +
-                                      " (" +
-                                      object.pro_user_type +
-                                      ")" +
-                                      " "}
-                                </Link>
-                              ) : (
-                                "Listed by " +
-                                (currentUser &&
-                                object.pro_user_id == currentUser[0].login_id
-                                  ? "Me "
-                                  : object.pro_user_type + " ")
-                              )}
- <br />
-                              {DateTime(object.pro_date)}
-                            </div>
-                              {/* <div className="listed pl-md-0  ">
-                                Listed
+                                    : object.pro_user_type + " ")
+                                )}
                                 <br />
-                                 {formatDate(
-                                  new Date(object.pro_date).toDateString()
-                                )} 
                                 {DateTime(object.pro_date)}
-                              </div> */}
-                              <div className="d-flex">
+                              </div>
+
+                              <div className="d-flex listing-buttons">
                                 <div className="mr-2 mt-1 ">
-                                  <Link
-                                    // to={`/${
-                                    //   object.pro_area_size.toLowerCase() +
-                                    //   "-" +
-                                    //   object.pro_area_size_unit
-                                    //     .toLowerCase()
-                                    //     .replaceAll(" ", "-")
-                                    //     .replaceAll(".", "") +
-                                    //   "-"
-                                    // }${
-                                    //   object.pro_type
-                                    //     ? object.pro_type
-                                    //         .split(",")[0]
-                                    //         .toLowerCase()
-                                    //         .replaceAll(" ", "-")
-                                    //     : ""
-                                    // }-for-${
-                                    //   object.pro_ad_type === "rent"
-                                    //     ? "rent"
-                                    //     : "sale"
-                                    // }-in-${object.pro_locality
-                                    //   .replace(/\s$/, "")
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_city
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_id}`}
-                                    to={`/${object.pro_url}`}
-                                  >
+                                  <Link to={`/${object.pro_url}`}>
                                     <a
                                       title="View complete details of this property"
                                       className=" btn-viewmore"
@@ -442,11 +358,11 @@ const AllProperties = (props) => {
                                     </a>
                                   </Link>
                                 </div>
+
                                 <div>
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                      object.pro_url}`}
+                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${object.pro_url}`}
                                     target="_blank"
                                     className="conatct-propertywp"
                                     title=" Whatsapp/Contact for this property"
@@ -455,7 +371,9 @@ const AllProperties = (props) => {
                                     <span className="pl-1">Whatsapp</span>
                                   </a>
                                 </div>
+
                               </div>
+
                             </div>
                           </div>
                         </div>
@@ -508,15 +426,16 @@ const AllProperties = (props) => {
 
                 {ad1?.length > 0 && (
                   <div className="list-group ">
-
-                   <div className=" row">
-                <div className="col-md-auto flex-column text-center ad-1" >
-                  
-                  <AllPropertySlider className="ad-section" slides={ad1} />
-                </div>
-              </div>
-              </div>
-                )} 
+                    <div className=" row">
+                      <div className="col-md-auto flex-column text-center ad-1">
+                        <AllPropertySlider
+                          className="ad-section"
+                          slides={ad1}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* ad section end */}
                 {!skeleton &&
@@ -527,7 +446,7 @@ const AllProperties = (props) => {
                         <div className="col-md-auto flex-column text-center">
                           <div className="buiness-logo">
                             <Link
-                            to={`/${object.pro_url}`}
+                              to={`/${object.pro_url}`}
                               // to={`/${
                               //   object.pro_area_size.toLowerCase() +
                               //   "-" +
@@ -691,70 +610,41 @@ const AllProperties = (props) => {
                               </a>
                             </Link> */}
                             </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              {/* <div className="listed pl-md-0  ">
-                                Listed
-                                <br />
-                                 {formatDate(
-                                  new Date(object.pro_date).toDateString()
-                                )} 
-                                {DateTime(object.pro_date)}
-                              </div> */}
+                            <div className="pt-3 d-flex justify-content-between  align-items-center listing-details-wrapper">
+                             
                               <div className=" listed pl-md-0">
-                              {object.user_type === "Agent" &&
-                              object.pro_user_type === "Agent" ? (
-                                <Link
-                                  to={`/agentProfile/${object.pro_user_id}`}
-                                  title="Click to View Agent Profile"
-                                >
-                                  Listed by{" "}
-                                  {currentUser &&
+                                {object.user_type === "Agent" &&
+                                object.pro_user_type === "Agent" ? (
+                                  <Link
+                                    to={`/agentProfile/${object.pro_user_id}`}
+                                    title="Click to View Agent Profile"
+                                  >
+                                    Listed by{" "}
+                                    {currentUser &&
+                                    object.pro_user_id ==
+                                      currentUser[0].login_id
+                                      ? "Me "
+                                      : object.agent_name +
+                                        " (" +
+                                        object.pro_user_type +
+                                        ")" +
+                                        " "}
+                                  </Link>
+                                ) : (
+                                  "Listed by " +
+                                  (currentUser &&
                                   object.pro_user_id == currentUser[0].login_id
                                     ? "Me "
-                                    : object.agent_name +
-                                      " (" +
-                                      object.pro_user_type +
-                                      ")" +
-                                      " "}
-                                </Link>
-                              ) : (
-                                "Listed by " +
-                                (currentUser &&
-                                object.pro_user_id == currentUser[0].login_id
-                                  ? "Me "
-                                  : object.pro_user_type + " ")
-                              )}
- <br />
-                              {DateTime(object.pro_date)}
-                            </div>
-                              <div className="d-flex">
+                                    : object.pro_user_type + " ")
+                                )}
+                                <br />
+                                {DateTime(object.pro_date)}
+                              </div>
+                              <div className="d-flex listing-buttons">
                                 <div className="mr-2 mt-1 ">
                                   <Link
-                                  to={`/${object.pro_url}`}
-                                    // to={`/${
-                                    //   object.pro_area_size.toLowerCase() +
-                                    //   "-" +
-                                    //   object.pro_area_size_unit
-                                    //     .toLowerCase()
-                                    //     .replaceAll(" ", "-")
-                                    //     .replaceAll(".", "") +
-                                    //   "-"
-                                    // }${
-                                    //   object.pro_type
-                                    //     ? object.pro_type
-                                    //         .split(",")[0]
-                                    //         .toLowerCase()
-                                    //         .replaceAll(" ", "-")
-                                    //     : ""
-                                    // }-for-${
-                                    //   object.pro_ad_type === "rent"
-                                    //     ? "rent"
-                                    //     : "sale"
-                                    // }-in-${object.pro_locality
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_city
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                                    to={`/${object.pro_url}`}
+                                   
                                   >
                                     <a
                                       title="View complete details of this property"
@@ -767,8 +657,7 @@ const AllProperties = (props) => {
                                 <div>
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
-                                      object.pro_url}`}
+                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${object.pro_url}`}
                                     target="_blank"
                                     className="conatct-propertywp"
                                     title=" Whatsapp/Contact for this property"
@@ -862,18 +751,21 @@ const AllProperties = (props) => {
 
                 {/* ad section start */}
                 {ad2?.length > 0 && (
-                <div>
-                  <div className="p-1 shadow ad-2-wrapper">
-                    <div className=" ad-2">
-                    {/* <img
+                  <div>
+                    <div className="p-1 shadow ad-2-wrapper">
+                      <div className=" ad-2">
+                        {/* <img
                         src="/images/ownly-digital.png"
                         alt="no image"
                         className="ad-section"
                       /> */}
-                      <AllPropertySlider className="ad-section" slides={ad2} />
+                        <AllPropertySlider
+                          className="ad-section"
+                          slides={ad2}
+                        />
                       </div>
+                    </div>
                   </div>
-                </div>
                 )}
                 {/* {ad1?.length > 0 && (
                   <div className="p-1 shadow ">
@@ -908,18 +800,3 @@ const AllProperties = (props) => {
 };
 
 export default AllProperties;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

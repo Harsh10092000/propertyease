@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
@@ -20,8 +20,10 @@ import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment, Autocomplete } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
+import { AuthContext } from "../../context/AuthContext";
 
 const ViewUserProperties = () => {
+  const {currentUser} = useContext(AuthContext); 
   const { userId } = useParams();
   //const arrproId = id.split("-");
   //const userId = arrproId[1];
@@ -552,42 +554,39 @@ const ViewUserProperties = () => {
                               </a>
                             </Link> */}
                             </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center">
-                              <div className="listed pl-md-0  ">
-                                Listed
-                                <br />
-                                {/* {formatDate(
-                                  new Date(object.pro_date).toDateString()
-                                )} */}
-                                {DateTime(object.pro_date)}
-                              </div>
-                              <div className="d-flex">
+                            <div className="pt-3 d-flex justify-content-between  align-items-center listing-details-wrapper">
+                            <div className=" listed pl-md-0">
+                              {object.user_type === "Agent" &&
+                              object.pro_user_type === "Agent" ? (
+                                <Link
+                                  to={`/agentProfile/${object.pro_user_id}`}
+                                  title="Click to View Agent Profile"
+                                >
+                                  Listed by{" "}
+                                  {currentUser &&
+                                  object.pro_user_id == currentUser[0].login_id
+                                    ? "Me "
+                                    : object.agent_name +
+                                      " (" +
+                                      object.pro_user_type +
+                                      ")" +
+                                      " "}
+                                </Link>
+                              ) : (
+                                "Listed by " +
+                                (currentUser &&
+                                object.pro_user_id == currentUser[0].login_id
+                                  ? "Me "
+                                  : object.pro_user_type + " ")
+                              )}
+ <br />
+                              {DateTime(object.pro_date)}
+                            </div>
+                              <div className="d-flex listing-buttons">
                                 <div className="mr-2 mt-1 ">
                                   <Link
-                                    // to={`/${
-                                    //   object.pro_area_size.toLowerCase() +
-                                    //   "-" +
-                                    //   object.pro_area_size_unit
-                                    //     .toLowerCase()
-                                    //     .replaceAll(" ", "-")
-                                    //     .replaceAll(".", "") +
-                                    //   "-"
-                                    // }${
-                                    //   object.pro_type
-                                    //     ? object.pro_type
-                                    //         .split(",")[0]
-                                    //         .toLowerCase()
-                                    //         .replaceAll(" ", "-")
-                                    //     : ""
-                                    // }-for-${
-                                    //   object.pro_ad_type === "rent"
-                                    //     ? "rent"
-                                    //     : "sale"
-                                    // }-in-${object.pro_locality
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_city
-                                    //   .toLowerCase()
-                                    //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                                    
+                                    
                                     to={`/${object.pro_url}`}
                                   >
                                     <a

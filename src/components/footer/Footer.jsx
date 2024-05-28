@@ -489,14 +489,14 @@ const Footer = () => {
                   <span className="mobile-hidden">+91 99967 16787</span>
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="tel:9996716787" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
                   </span>
                   <span className="mobile-hidden">+91 89500 40151</span>
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </footer>
