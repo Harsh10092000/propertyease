@@ -26,6 +26,36 @@ const PopSlider = (props) => {
     };
   }, [emblaMainApi]);
 
+
+  useEffect(() => {
+    if (!emblaMainApi) return;
+    const handleLeft = (event) => {
+      if (event.keyCode === 37) {
+        // Check if Esc key is pressed
+        scrollPrev();
+      }
+    };
+    document.addEventListener("keydown", handleLeft);
+    return () => {
+      document.removeEventListener("keydown", handleLeft);
+    };
+  }, [emblaMainApi]);
+
+  useEffect(() => {
+    if (!emblaMainApi) return;
+    const handleRight = (event) => {
+      if (event.keyCode === 39) {
+        // Check if Esc key is pressed
+        scrollNext();
+      }
+    };
+    document.addEventListener("keydown", handleRight);
+    return () => {
+      document.removeEventListener("keydown", handleRight);
+    };
+  }, [emblaMainApi]);
+
+
   const scrollPrev = useCallback(() => {
     if (emblaMainApi) emblaMainApi.scrollPrev();
   }, [emblaMainApi]);
