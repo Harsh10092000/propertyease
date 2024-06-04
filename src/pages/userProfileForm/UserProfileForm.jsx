@@ -1266,7 +1266,26 @@ import { AuthContext } from "../../context/AuthContext";
 import { useCallback } from "react";
 
 const UserProfileForm = () => {
+
+  
+
   const { currentUser } = useContext(AuthContext);
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/agent/fetchProPlanDataBId/${currentUser[0].login_id}`
+      )
+      .then((res) => {
+        
+        console.log("res.data : " , res.data)
+         if (res.data === "failed") {
+           clearUser();
+         } else {
+        setData(res.data); 
+        }
+      });
+  }, []);
   const [loader, setLoader] = useState(false);
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -1289,10 +1308,12 @@ const UserProfileForm = () => {
     { type: "Warehouse" },
     { type: "Industrial Estate" },
   ];
+
   const propertyUserType = [
     { key: "Agent", value: "I'm an agent or broker" },
     { key: "Owner", value: "I'm an induivdual property owner" },
   ];
+
   const agentExp = [
     { value: "0-1" },
     { value: "1-3" },
@@ -1300,6 +1321,7 @@ const UserProfileForm = () => {
     { value: "5-10" },
     { value: "10+" },
   ];
+
   // const [userData, setUserData] = useState({
   //   user_type: "",
   //   user_name: "Mohit Arya",

@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin, IconBolt } from "@tabler/icons-react";
+import { IconBrandWhatsapp, IconMapPin, IconEye } from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
@@ -21,8 +21,23 @@ import { AuthContext } from "../../context/AuthContext";
 //import AdSlider2 from "../../components/adslider/AdSlider2";
 // import AdSlider3 from "../../components/adslider/AdSlider3";
 import AllPropertySlider from "../../components/adslider/AllPropertySlider";
+import { useSearchParams } from "react-router-dom";
+import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 
 const AllProperties = (props) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue1, setSearchValue1] = useState("");
+  const [proTypeFilter, setProTypeFilter] = useState("All");
+  const [proSubTypeFilter, setProSubTypeFilter] = useState();
+  useEffect(() => {
+    const myParam = searchParams.get("search");
+    const filter = searchParams.get("cat");
+    const temp = searchParams.get("proSubTypeFilter");
+    setSearchValue1(myParam);
+    setProTypeFilter(filter);
+    setProSubTypeFilter(temp);
+  }, []);
+
   const { currentUser } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -103,7 +118,6 @@ const AllProperties = (props) => {
   };
 
   const handleSearchValue = (value) => {
-    console.log(value);
     setSearchValue(value);
   };
 
@@ -129,6 +143,15 @@ const AllProperties = (props) => {
         setAd2(res.data);
       });
   }, []);
+
+  const propertyBedrooms = [
+    { value: "0" },
+    { value: "1" },
+    { value: "2" },
+    { value: "3" },
+    { value: "4" },
+    { value: "5+" },
+  ];
 
   return (
     <div>
@@ -162,6 +185,9 @@ const AllProperties = (props) => {
               </h2>
 
               <SearchBar
+                proSubTypeFilter={proSubTypeFilter}
+                proTypeFilter={proTypeFilter}
+                searchValue1={searchValue1}
                 handleNPagesChange={handleNPagesChange}
                 handleRecordsChange={handleRecordsChange}
                 data={data}
@@ -193,12 +219,18 @@ const AllProperties = (props) => {
                                     }`}
                                     alt="img"
                                   />
-                                  {/* <div className="top-left-2">
+                                  <div className="top-left-2">
+                                    {object.pro_views !== null &&
+                                      parseInt(object.pro_views) > 0 && (
                                         <li className="property-view-count ">
-                                          <IconBolt width={16} height={16} />
-                                          Featured
+                                          <IconEye width={20} height={20} className="icon"  />
+                                          {/* <span className="mobile-hidden pr-1">
+                                            Views
+                                          </span> */}
+                                          {object.pro_views}
                                         </li>
-                                  </div> */}
+                                      )}
+                                  </div>
                                 </div>
                               ) : (
                                 <div>
@@ -206,13 +238,18 @@ const AllProperties = (props) => {
                                     src="/images/default.png"
                                     alt="no image"
                                   />
-                                  {/* <div> <IconBolt /><span> Featured</span>  </div>   */}
-                                  {/* <div className="top-left-2">
+                                  <div className="top-left-2">
+                                    {object.pro_views !== null &&
+                                      parseInt(object.pro_views) > 0 && (
                                         <li className="property-view-count ">
-                                          <IconBolt width={16} height={16} />
-                                          Featured
+                                          <IconEye width={20} height={20} className="icon" />
+                                          {/* <span className="mobile-hidden pr-1">
+                                            Views
+                                          </span> */}
+                                          {object.pro_views}
                                         </li>
-                                  </div> */}
+                                      )}
+                                  </div>
                                 </div>
                               )}
                             </Link>
@@ -371,9 +408,7 @@ const AllProperties = (props) => {
                                     <span className="pl-1">Whatsapp</span>
                                   </a>
                                 </div>
-
                               </div>
-
                             </div>
                           </div>
                         </div>
@@ -447,30 +482,10 @@ const AllProperties = (props) => {
                           <div className="buiness-logo">
                             <Link
                               to={`/${object.pro_url}`}
-                              // to={`/${
-                              //   object.pro_area_size.toLowerCase() +
-                              //   "-" +
-                              //   object.pro_area_size_unit
-                              //     .toLowerCase()
-                              //     .replaceAll(" ", "-")
-                              //     .replaceAll(".", "") +
-                              //   "-"
-                              // }${
-                              //   object.pro_type
-                              //     ? object.pro_type
-                              //         .split(",")[0]
-                              //         .toLowerCase()
-                              //         .replaceAll(" ", "-")
-                              //     : ""
-                              // }-for-${
-                              //   object.pro_ad_type === "rent" ? "rent" : "sale"
-                              // }-in-${object.pro_locality
-                              //   .toLowerCase()
-                              //   .replaceAll(" ", "-")}-${object.pro_city
-                              //   .toLowerCase()
-                              //   .replaceAll(" ", "-")}-${object.pro_id}`}
+                              
                             >
                               {object.img_link ? (
+                                <div>
                                 <img
                                   src={`${
                                     import.meta.env.VITE_BACKEND
@@ -479,8 +494,38 @@ const AllProperties = (props) => {
                                   }`}
                                   alt="img"
                                 />
+                                <div className="top-left-2">
+                                  {object.pro_views !== null &&
+                                    parseInt(object.pro_views) > 0 && (
+                                      <li className="property-view-count ">
+                                        <IconEye width={20} height={20} className="icon" />
+                                        {/* <span className="mobile-hidden pr-1">
+                                          Views
+                                        </span> */}
+                                        {object.pro_views}
+                                      </li>
+                                    )}
+                                </div>
+                              </div>
                               ) : (
-                                <img src="/images/default.png" alt="no image" />
+                                <div>
+                                  <img
+                                    src="/images/default.png"
+                                    alt="no image"
+                                  />
+                                  <div className="top-left-2">
+                                    {object.pro_views !== null &&
+                                      parseInt(object.pro_views) > 0 && (
+                                        <li className="property-view-count ">
+                                          <IconEye width={20} height={20} className="icon" />
+                                          {/* <span className="mobile-hidden pr-1">
+                                            Views
+                                          </span> */}
+                                          {object.pro_views}
+                                        </li>
+                                      )}
+                                  </div>
+                                </div>
                               )}
                             </Link>
                           </div>
@@ -611,7 +656,6 @@ const AllProperties = (props) => {
                             </Link> */}
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center listing-details-wrapper">
-                             
                               <div className=" listed pl-md-0">
                                 {object.user_type === "Agent" &&
                                 object.pro_user_type === "Agent" ? (
@@ -642,10 +686,7 @@ const AllProperties = (props) => {
                               </div>
                               <div className="d-flex listing-buttons">
                                 <div className="mr-2 mt-1 ">
-                                  <Link
-                                    to={`/${object.pro_url}`}
-                                   
-                                  >
+                                  <Link to={`/${object.pro_url}`}>
                                     <a
                                       title="View complete details of this property"
                                       className=" btn-viewmore"
@@ -729,6 +770,63 @@ const AllProperties = (props) => {
                   </div>
                 </div>
 
+                {/* <div>
+                <div className="pro_flex pro_flex_1">
+                            <div className="w-100 m-1 mb-3">
+                              <span className="pro_heading">
+                                Number of bedrooms
+                              </span>
+                              <div className="d-flex ">
+                                {propertyBedrooms.map((item) => (
+                                  <div
+                                    className={
+                                      //propertyData.pro_bedroom === item.value
+                                      1 === 1
+                                        ? "pro_radio_btn pro_selected"
+                                        : "pro_radio_btn"
+                                    }
+                                    // onClick={() =>
+                                    //   setPropertyData({
+                                    //     ...propertyData,
+                                    //     pro_bedroom: item.value,
+                                    //   })
+                                    // }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                             
+                            </div>
+                            <div className="w-100 m-1 mb-3">
+                              <span className="pro_heading">
+                                Number of Washrooms
+                              </span>
+                              <div className="d-flex ">
+                                {propertyBedrooms.map((item) => (
+                                  <div
+                                    className={
+                                      //propertyData.pro_washrooms === item.value
+                                      1 === 1
+                                        ? "pro_radio_btn pro_selected"
+                                        : "pro_radio_btn"
+                                    }
+                                    // onClick={() =>
+                                    //   setPropertyData({
+                                    //     ...propertyData,
+                                    //     pro_washrooms: item.value,
+                                    //   })
+                                    // }
+                                  >
+                                    {item.value}
+                                  </div>
+                                ))}
+                              </div>
+                              
+                            </div>
+                          </div>
+                </div> */}
+
                 <div>
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">Rent</div>
@@ -779,6 +877,10 @@ const AllProperties = (props) => {
               </div>
                 )}  */}
                 {/* ad section end */}
+
+                <div>
+                  <CreateAgentAd />
+                </div>
               </div>
             </div>
 
@@ -786,6 +888,7 @@ const AllProperties = (props) => {
               <Pagination
                 count={nPages}
                 color="primary"
+                siblingCount={1}
                 page={currentPage}
                 onChange={(e, value) => setCurrentPage(value)}
                 className="col-md-6 mx-auto py-2"

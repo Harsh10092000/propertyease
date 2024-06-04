@@ -5,22 +5,24 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Snackbar } from "@mui/material";
 const UserShortlisted = () => {
-  const { currentUser,clearUser } = useContext(AuthContext);
+  const { currentUser, clearUser } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [dataLoaded , setDataLoaded] = useState(false);
   useEffect(() => {
     axios
       .get(
         import.meta.env.VITE_BACKEND +
           `/api/pro/fetchShortListProperty/${currentUser[0].login_id}`
       )
-      
+
       .then((res) => {
-        console.log("res.data : " , res.data)
+        console.log("res.data : ", res.data);
         if (res.data === "failed") {
           clearUser();
         } else {
           setData(res.data);
+          setDataLoaded(true);
         }
       })
       .catch((err) => {
@@ -80,51 +82,25 @@ const UserShortlisted = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((object, i) => {
-                      return (
+                    {data.map(
+                      (object, i) =>
                         object.pro_id !== null && (
                           <tr key={i}>
                             <td>{i + 1}</td>
                             <td>
-                            {object.pro_locality},&nbsp;
-                                {object.pro_sub_district
-                                  ? object.pro_sub_district + ", "
-                                  : ""}
-                                {object.pro_city},&nbsp;
-                                  {object.pro_state}
+                              {object.pro_locality},&nbsp;
+                              {object.pro_sub_district
+                                ? object.pro_sub_district + ", "
+                                : ""}
+                              {object.pro_city},&nbsp;
+                              {object.pro_state}
                             </td>
                             <td className="text-center">
                               <button
                                 title="View"
                                 className="btn btn-primary btn-sm vbtn"
                               >
-                                <Link
-                                to={`/${item.pro_url}`}
-                                  // to={`/${
-                                  //   object.pro_area_size.toLowerCase() +
-                                  //   "-" +
-                                  //   object.pro_area_size_unit.toLowerCase() +
-                                  //   "-"
-                                  // }${
-                                  //   object.pro_type
-                                  //     ? object.pro_type
-                                  //         .split(",")[0]
-                                  //         .toLowerCase()
-                                  //         .replaceAll(" ", "-")
-                                  //     : ""
-                                  // }-for-${
-                                  //   object.pro_ad_type === "rent"
-                                  //     ? "rent"
-                                  //     : "sale"
-                                  // }-in-${object.pro_locality
-                                  //   .toLowerCase()
-                                  //   .replaceAll(
-                                  //     " ",
-                                  //     "-"
-                                  //   )}-${object.pro_city.toLowerCase()}-${
-                                  //   object.pro_id
-                                  // }`}
-                                >
+                                <Link to={`/${object.pro_url}`}>
                                   <a>
                                     <IconEye />
                                   </a>
@@ -142,10 +118,14 @@ const UserShortlisted = () => {
                             </td>
                           </tr>
                         )
-                      );
-                    })}
+                    )}
                   </tbody>
                 </table>
+                {dataLoaded === true && data.length === 0 && (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div className="no-record-msg pt-2 pb-2">No Records Found</div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

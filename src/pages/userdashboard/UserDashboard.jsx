@@ -35,6 +35,7 @@ const UserDashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const [change, setChange] = useState(0);
   const [filter, setFilter] = useState("All");
+  const [dataLoaded , setDataLoaded] = useState(false);
   useEffect(() => {
     
      axios
@@ -52,7 +53,7 @@ const UserDashboard = () => {
             item.serial_no = i + 1;
           });
           setData(res.data);
-          
+          setDataLoaded(true);
         }
       });
   }, [change]);
@@ -451,6 +452,11 @@ const UserDashboard = () => {
                     ))}
                   </tbody>
                 </table>
+                {dataLoaded === true && records.length === 0 && (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div className="no-record-msg pt-2 pb-2">No Records Found</div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

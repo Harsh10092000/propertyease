@@ -1,28 +1,234 @@
 import { Link } from "react-router-dom";
-import {
-  IconBuilding,
-  IconCircleArrowRightFilled,
-  IconHome,
-  IconHomePlus,
-  IconPlus,
-  IconMapPinFilled,
-  IconSend,
-} from "@tabler/icons-react";
-import { IconCircleCheckFilled } from "@tabler/icons-react";
-import { IconPhone } from "@tabler/icons-react";
+import { IconSend, IconArrowNarrowRight } from "@tabler/icons-react";
+
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+//import EmblaCarousel from './EmblaCarousel'
+
+import OwlCarousel from "react-owl-carousel2";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const testData = [
+    {
+      name: "Anita Sharma",
+      content: `This real estate agent made the home-buying process so easy for us. They understood our needs and showed us several options within our budget. We are very happy with our new home!`,
+      city: "Mohali",
+    },
+    {
+      name: "Vikram Patel",
+      content: `Propertyease helped us buy the perfect 3BHK flat in a great neighborhood at a very reasonable price. We had spoken to many home-selling agents before, but this one stood out.`,
+      city: "Mohali",
+    },
+    {
+      name: "Ritesh",
+      content: `I found the perfect office space for my business thanks to this real estate agent. They listened to what I needed and found several great options for me to choose from.`,
+      city: "Gurugram",
+    },
+    {
+      name: "Rabia Mullick",
+      content: `I had been struggling to find a rental property in a good area, but propertyease came through for me. They were very knowledgeable about the market and helped me find exactly what I wanted. Now i can say that they are best property dealers for rental properties.`,
+      city: "Kurukshetra",
+    },
+    {
+      name: "Sanjay Kumar",
+      content: `Working with this real estate agent was a fantastic experience. They were always available to answer my questions and guided me through buying my first home.`,
+      city: "Ambala",
+    },
+    {
+      name: "Namit Garg",
+      content: `I am incredibly impressed by how this real estate agent works. They helped me meet many sellers and landowners who were interested in selling.`,
+      city: "Ambala",
+    },
+    {
+      name: "Priya Singh",
+      content: `I was looking to sell my house quickly, and the agent did it in no time. They were professional and efficient and got me a great price.
+      .
+            `,
+      city: "Chandigarh",
+    },
+  ];
+
+  const [serachValue, setSerachValue] = useState("");
+  const [currentFilter, setCurrentFilter] = useState("All");
+  const [proTypeFilter, setProTypeFilter] = useState("All");
+  const [proSubTypeFilter, setProSubTypeFilter] = useState(["t1", "t2"]);
+  const latest_pro_btns = [
+    {
+      name: "All",
+    },
+    {
+      name: "For Sale",
+    },
+    {
+      name: "For Rent",
+    },
+    {
+      name: "Independent House",
+    },
+    {
+      name: "Residential Land",
+    },
+    {
+      name: "Agricultural Land",
+    },
+  ];
+
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchLatestProperty")
+      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchLatestProperty1")
       .then((res) => {
         setData(res.data);
+      });
+  }, []);
+
+  const handleClick = (index) => {
+    var newArr = proSubTypeFilter.join(",").replace(",", "-");
+    navigate(
+      `/allproperties?search=${serachValue}&cat=${proTypeFilter}&proSubTypeFilter=${newArr}`
+    );
+  };
+
+  const filteredData = data.filter((code) => {
+    if (currentFilter === "For Sale") {
+      return code.pro_ad_type === "Sale";
+    } else if (currentFilter === "For Rent") {
+      return code.pro_ad_type === "Rent";
+    } else if (currentFilter === "Independent House") {
+      return code.pro_type.split(",")[0] === "Independent House";
+    } else if (currentFilter === "Residential Land") {
+      return code.pro_type.split(",")[0] === "Residential Land";
+    } else if (currentFilter === "Agricultural Land") {
+      return code.pro_type.split(",")[0] === "Agricultural Land";
+    } else if (currentFilter === "All") {
+      return true;
+    }
+  });
+
+  const options = {
+    items: 2,
+    margin: 10,
+    transitionStyle: "backSlide",
+    loop: true,
+    autoplay: true,
+    autoplaySpeed: 500,
+    autoplayTimeout: 1000,
+  };
+
+  function updateOptions() {
+    if (window.innerWidth <= 768) {
+      options.items = 1;
+    } else {
+      options.items = 2;
+    }
+  }
+
+  updateOptions();
+  window.addEventListener("resize", updateOptions);
+
+  const forSellers = [
+    {
+      sub_heading: "Find Buyers",
+      content: `Connect with interested buyers quickly.`,
+    },
+    {
+      sub_heading: "Free Listings",
+      content: `List your property for free to reach more people.
+        `,
+    },
+    {
+      sub_heading: "3D Tours",
+      content: `Show off your property with virtual 3D tours.
+        `,
+    },
+  ];
+
+  const forBuyers = [
+    {
+      sub_heading: "Lots of Listings",
+      content: `Browse a wide range of properties easily.`,
+    },
+    {
+      sub_heading: "3D Tours",
+      content: `Explore properties online with 3D tours to save time.
+        `,
+    },
+    {
+      sub_heading: "Meet Sellers",
+      content: `After you find a property you like, we'll set up a meeting with the seller.
+        `,
+    },
+  ];
+
+  const services = [
+    {
+      sub_heading: "Buy Property",
+      content: `Your dream home awaits here.`,
+      image: "images/services-icon-1.png",
+      link: "/allproperties",
+      title: "Click to View All Properties",
+    },
+    {
+      sub_heading: "Sell Property",
+      content: `Sell fast with our help at a good cost.`,
+      image: "images/services-icon-2.png",
+      link: "/addproperty",
+      title: "List Property",
+    },
+    {
+      sub_heading: "Rent Property",
+      content: `Find your perfect rental today.`,
+      image: "images/services-icon-2.png",
+      link: "/addproperty",
+      title: "List Property",
+    },
+    // {
+    //   sub_heading: "Rent Property",
+    //   content: `After you find a property you like, we'll set up a meeting with the seller.`,
+    //   image: "",
+    // },
+  ];
+
+  const proType = [
+    {
+      heading: "Residential",
+      image: "images/pro-type-1.png",
+      link: "/property/residential",
+      title: "Click to View All Residential Properties",
+    },
+    {
+      heading: "Commerical",
+      image: "images/pro-type-2.png",
+      link: "/property/commercial",
+      title: "Click to View All Commerical Properties",
+    },
+    {
+      heading: "Land",
+      image: "images/pro-type-3.png",
+      link: "/property/land",
+      title: "Click to View All Land/Plots Properties",
+    },
+  ];
+
+  const [subData, setSubData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
+      .then((res) => {
+        setSubData(res.data);
       });
   }, []);
 
@@ -30,7 +236,6 @@ const Index = () => {
     <div>
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
-        
       </Helmet>
       <Navbar />
 
@@ -41,6 +246,36 @@ const Index = () => {
             <h1 className="display-4">
               Ab property bechna kharidna hoga aasan
             </h1>
+            {/* <div>
+              <input
+                type="text"
+                value={serachValue}
+                onChange={(e) => setSerachValue(e.target.value)}
+              />
+
+              <button onClick={handleClick}>Serach</button>
+
+              <FormControl
+                sx={{ m: 1, width: ["100%"] }}
+                size="small"
+                className="col-md-3 mx-4 mx-md-0"
+              >
+                <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={proTypeFilter}
+                  label="Filter By"
+                  onChange={(e) => {
+                    setProTypeFilter(e.target.value);
+                  }}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  <MenuItem value={"Sale"}>Sale</MenuItem>
+                  <MenuItem value={"Rent"}>Rent</MenuItem>
+                </Select>
+              </FormControl>
+            </div> */}
           </div>
         </section>
 
@@ -57,8 +292,20 @@ const Index = () => {
                 <br /> based on feedback gathered from users like you!
               </p>
             </div>
+            <div className="latest-pro-filter-wrapper">
+              {latest_pro_btns.map((item) => (
+                <button
+                  className={`btn ${
+                    currentFilter === item.name ? "active" : "latest-pro-filter"
+                  }`}
+                  onClick={() => setCurrentFilter(item.name)}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
             <div className="row">
-              {data.map((item, index) => (
+              {filteredData.slice(0, 6).map((item, index) => (
                 <div className="col-md-4 pb-4" key={index}>
                   <div className="uniBlock">
                     <div className="recent-box-serv">
@@ -78,7 +325,8 @@ const Index = () => {
                               : ""
                           }-for-${
                             item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality.replace(/\s+$/, "")
+                          }-in-${item.pro_locality
+                            .replace(/\s+$/, "")
                             .toLowerCase()
                             .replaceAll(
                               " ",
@@ -114,7 +362,8 @@ const Index = () => {
                                 : ""
                             }-for-${
                               item.pro_ad_type === "rent" ? "rent" : "sale"
-                            }-in-${item.pro_locality.replace(/\s+$/, "")
+                            }-in-${item.pro_locality
+                              .replace(/\s+$/, "")
                               .toLowerCase()
                               .replaceAll(
                                 " ",
@@ -134,10 +383,10 @@ const Index = () => {
                               Address&nbsp;{" "}
                             </strong>
                             {item.pro_locality},&nbsp;
-                                {item.pro_sub_district
-                                  ? item.pro_sub_district + ", "
-                                  : ""}
-                                {item.pro_city}
+                            {item.pro_sub_district
+                              ? item.pro_sub_district + ", "
+                              : ""}
+                            {item.pro_city}
                           </li>
                           {item.plot_area_size ? (
                             <li>
@@ -205,14 +454,20 @@ const Index = () => {
                               : ""
                           }-for-${
                             item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality.replace(/\s+$/, "")
+                          }-in-${item.pro_locality
+                            .replace(/\s+$/, "")
                             .toLowerCase()
                             .replaceAll(
                               " ",
                               "-"
                             )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
                         >
-                          <a title="View complete details of this property" className="btn-viewmore">View More</a>
+                          <a
+                            title="View complete details of this property"
+                            className="btn-viewmore"
+                          >
+                            View More
+                          </a>
                         </Link>
                       </div>
                     </div>
@@ -221,17 +476,408 @@ const Index = () => {
               ))}
             </div>
             <div className="d-flex flex-row-reverse  mr-3">
-                          <Link to={`/allproperties`}>
-                            <a
-                              title="Click to view all properties"
-                              className="btn-viewall px-4 "
-                            >
-                              View All
-                            </a>
-                          </Link>
-                        </div>
+              <Link to={`/allproperties`}>
+                <a
+                  title="Click to view all properties"
+                  className="btn-viewall px-4 "
+                >
+                  View All
+                </a>
+              </Link>
+            </div>
           </div>
         </section>
+
+        {/* <div className="container">
+          <div
+            className="row justify-content-center"
+            data-cues="slideInUp"
+            data-disabled="true"
+          >
+            <div
+              className=" col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category1.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Residential</a>
+                  </h3>
+                  <span>(26 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category2.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Commercial</a>
+                  </h3>
+                  <span>(33 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category3.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Vacation &amp; Resort</a>
+                  </h3>
+                  <span>(37 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category4.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">The Land</a>
+                  </h3>
+                  <span>(54 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category5.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">New Construction</a>
+                  </h3>
+                  <span>(123 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category6.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Luxury Estate</a>
+                  </h3>
+                  <span>(355 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category7.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Eco-Friendly</a>
+                  </h3>
+                  <span>(89 Properties)</span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-md-4 animation-wrapper"
+              data-cue="slideInUp"
+              data-show="true"
+            >
+              <div className="category-card">
+                <div className="image">
+                  <img src="assets/images/category/category8.png" alt="image" />
+                </div>
+                <div className="content">
+                  <h3>
+                    <a href="property-grid.html">Historic Properties</a>
+                  </h3>
+                  <span>(17 Properties)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+        {/* <section className="about-us-wrapper mt-5 mb-5">
+          <div className="container">
+            <div className="row ">
+              <div className="col-md-6">
+                <img
+                  src="/images/about-us.png"
+                  alt="banner"
+                  className="about-us-img"
+                />
+              </div>
+              <div className="col-md-6 about-us-text">
+                <h3>About Us</h3>
+                <p>
+                  Founded in 2023, Propertyease.in aims to make buying and
+                  selling property easy and stress-free. We connect buyers and
+                  sellers directly and provide helpful tools, detailed listings,
+                  and valuable information to support smart decisions. That is
+                  why we are the best property dealer in town.
+                </p>
+                <p>
+                  Our platform is designed for transparency and efficiency,
+                  ensuring a smooth and reliable experience. Whether you're
+                  buying your dream home or selling a property, Propertyease.in
+                  simplifies the process for you.
+                </p>
+              </div>
+            </div>
+
+            <div className="row about-us-wrapper-2">
+              <div className="col-md-6 ">
+                <div className="sec-card">
+                  <div>
+                    <div className="main-heading">For Sellers</div>
+                  </div>
+
+                  {forSellers.map((item) => (
+                    <div>
+                      <div className="sub-heading">
+                        <span>
+                          <IconCheckbox />
+                        </span>{" "}
+                        {item.sub_heading}
+                      </div>
+                      <p>{item.content}</p>
+                    </div>
+                  ))}
+
+                  <div>
+                    <button className="btn btn-primary">
+                      Sell Your Property
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-6 ">
+                <div className="sec-card">
+                  <div>
+                    <div className="main-heading">For Buyers</div>
+                  </div>
+                  {forBuyers.map((item) => (
+                    <div>
+                      <div className="sub-heading">
+                        <span>
+                          <IconCheckbox />
+                        </span>{" "}
+                        {item.sub_heading}
+                      </div>
+                      <p>{item.content}</p>
+                    </div>
+                  ))}
+                  <div>
+                    <button className="btn btn-primary">Buy Property</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> */}
+
+        <div className="container about-us-wrapper-1">
+          <div className="section-title">
+            <h3>
+              About <span>Us</span>
+            </h3>
+            <p>
+              Founded in 2023, Propertyease.in aims to make buying and selling
+              property easy and stress-free. We connect buyers and sellers
+              directly and provide helpful tools, detailed listings, and
+              valuable information to support smart decisions. That is why we
+              are the best property dealer in town. Our platform is designed for
+              transparency and efficiency, ensuring a smooth and reliable
+              experience. Whether you're buying your dream home or selling a
+              property, Propertyease.in simplifies the process for you.
+            </p>
+          </div>
+
+          <div className="row about-us-sec">
+            <div className="col-md-6 about-us-left about-us-left-1">
+              <div class="about-us-img-wrap about-img-left">
+                <img
+                  src="images/pro-about-6.jpeg"
+                  className=""
+                  alt="Buy a new home"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-6 align-self-center about-us-right">
+              <div class="about-us-info-wrap">
+                <div class="section-title-area ltn__section-title-2--- mb-30">
+                  <h4 class="section-subtitle section-subtitle-2--- ltn__secondary-color">
+                    For Sellers
+                  </h4>
+                  <p>
+                    We serve over 10,000 buyers across numerous countries, with
+                    500 experts to guide you every step of the way.
+                  </p>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-3.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>Find Buyers</h4>
+                    <p>Find buyers effortlessly with our expert assistance.
+</p>
+                  </div>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-1.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>Free Listings</h4>
+                    <p>List your property for free and attract potential buyers.</p>
+                  </div>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-2.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>3D Tours</h4>
+                    <p>Show off your property with virtual 3D tours.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row about-us-sec about-us-sec-2">
+            <div class="col-lg-6 align-self-center about-us-right">
+              <div class="about-us-info-wrap">
+                <div class="section-title-area ltn__section-title-2--- mb-30">
+                  <h4 class="section-subtitle section-subtitle-2--- ltn__secondary-color">
+                    For Buyers
+                  </h4>
+                  <p>
+                    We help sellers list their properties for free and connect
+                    with potential buyers and best selling experience.
+                  </p>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-5.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>Lots of Listings</h4>
+                    <p>Browse a wide range of properties easily.</p>
+                  </div>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-2.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>3D Tours</h4>
+                    <p>We offer immersive 3D tours to showcase your property.
+</p>
+                  </div>
+                </div>
+                <div class="ltn__feature-item ltn__feature-item-3">
+                  <div class="ltn__feature-icon">
+                    <span>
+                      <img
+                        src="images/about-us-1-4.png"
+                        className="about-us-icon"
+                        alt="Buy a new home"
+                      />
+                    </span>
+                  </div>
+                  <div class="ltn__feature-info">
+                    <h4>Meet Sellers</h4>
+                    <p>
+                      After you find a property you like, we'll set up a meeting
+                      with the seller.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-6 about-us-left about-us-left-2">
+              <div class="about-us-img-wrap about-img-left ">
+                <img
+                  src="images/pro-about-7.jpeg"
+                  className=""
+                  alt="Buy a new home"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         <section className="business-banner">
           <div className="container">
             <div className="row">
@@ -244,7 +890,10 @@ const Index = () => {
                   <br /> of every Property challenge today
                 </h4>
                 <Link to="/postrequirement">
-                  <a className="explore-more post-requiremnet" title="Post Requirement">
+                  <a
+                    className="explore-more post-requiremnet"
+                    title="Post Requirement"
+                  >
                     <span>
                       <IconSend />
                     </span>
@@ -256,20 +905,192 @@ const Index = () => {
           </div>
         </section>
 
+        <div className="container services-wrapper">
+          <div className="section-title">
+            <h3>
+              Services <span>Offered</span>
+            </h3>
+            <p>
+              We offer a variety of real estate services, including buying,
+              selling, renting, and property management. As the best property
+              dealer in town, our experts guide you through the market and help
+              you reach your goals. Whether you're looking for a new home, an
+              office space, or a rental property, we provide the best services.
+            </p>
+          </div>
+          <div className="row services-wrapper-inside">
+            {services.map((item) => (
+              <div
+                className="col-lg-4 mb-6 mb-lg-0 zoomIn animated"
+                data-animate="zoomIn"
+              >
+                <div className="ser-card border-hover shadow-2 shadow-hover-lg-1   h-100 hover-change-image">
+                  <div className="row ">
+                    <div className="col-sm-3 ">
+                      <img src={item.image} className="" alt="Buy a new home" />
+                    </div>
+                    <div className="col-sm-9 ser-text-wrapper">
+                      <div>
+                        <Link to={item.link} title={item.title}>
+                          <div className="services-heading mb-2 d-flex align-items-center pointer ">
+                            <div className="ser-heading ">
+                              {item.sub_heading}
+                            </div>
+
+                            <span className="ser-icon">
+                              <IconArrowNarrowRight
+                                stroke={1}
+                                height={32}
+                                width={32}
+                              />
+                            </span>
+                          </div>
+                        </Link>
+
+                        <div>
+                          <p>{item.content}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="propery-type">
+          <div className="container ">
+            <div className="row">
+              <div
+                className="col-md-4 pr-xl-13 fadeInLeft animated"
+                data-animate="fadeInLeft"
+              >
+                <h2 className="text-heading lh-1625">
+                  Explore <br />
+                  by Property Type
+                </h2>
+                <span className="heading-divider"></span>
+                {/* <p className="mb-6">
+                  Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe
+                  ndisse suscipit
+                </p> */}
+                <Link to="/allproperties" title="Click to View All Properties">
+                  <div className="pro-type-btn">
+                    +100 Available Properties
+                    <i className="far fa-long-arrow-right ml-1"></i>
+                  </div>
+                </Link>
+              </div>
+              {proType.map((item) => (
+                <div className="col-md">
+                  <Link to={item.link} title={item.title}>
+                    <div className="pro-type-card">
+                      <img
+                        src={item.image}
+                        className="card-img-top"
+                        alt={item.heading}
+                      />
+                      <div className="card-body px-0  pb-0">
+                        <h4 className="card-title mb-0 ">{item.heading}</h4>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="row mt-7 mb-6 mb-lg-11">
+          <div className="col-lg-6 mb-6 mb-lg-0">
+            <div
+              className="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100 fadeInUp animated"
+              data-animate="fadeInUp"
+            >
+              <img
+                src="images/group-16.png"
+                alt="Buy a new home"
+                className="mb-6 mb-sm-0 mr-sm-6"
+              />
+              <div className="media-body">
+                <a
+                  href="#"
+                  className="text-decoration-none d-flex align-items-center"
+                >
+                  <h4 className="fs-20 lh-1625 text-secondary mb-1">
+                    Buy a new home
+                  </h4>
+                  <div className="position-relative d-flex align-items-center ml-2">
+                    <span className="image text-primary position-absolute pos-fixed-left-center fs-16">
+                      <i className="fal fa-long-arrow-right"></i>
+                    </span>
+                    <span className="text-primary fs-42 lh-1 hover-image d-flex align-items-center">
+                      <svg className="icon icon-long-arrow">
+                        <use xlink:href="#icon-long-arrow"></use>
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+                <p className="mb-0">
+                  Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe
+                  ndisse suscipit
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 mb-6 mb-lg-0">
+            <div
+              className="media rounded-lg bg-white border border-hover shadow-xs-2 shadow-hover-lg-1 px-7 py-8 hover-change-image flex-column flex-sm-row h-100 fadeInUp animated"
+              data-animate="fadeInUp"
+            >
+              <img
+                src="images/group-17.png"
+                alt="Sell a home"
+                className="mb-6 mb-sm-0 mr-sm-6"
+              />
+              <div className="media-body">
+                <a
+                  href="#"
+                  className="text-decoration-none d-flex align-items-center"
+                >
+                  <h4 className="fs-20 lh-1625 text-secondary mb-1">Sell a home</h4>
+                  <div className="position-relative d-flex align-items-center ml-2">
+                    <span className="image text-primary position-absolute pos-fixed-left-center fs-16">
+                      <i className="fal fa-long-arrow-right"></i>
+                    </span>
+                    <span className="text-primary fs-42 lh-1 hover-image d-flex align-items-center">
+                      <svg className="icon icon-long-arrow">
+                        <use xlink:href="#icon-long-arrow"></use>
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+                <p className="mb-0">
+                  Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe
+                  ndisse suscipit
+                </p>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
         <section className="top-categories mb-0 pb-0">
           <div className="container">
             <div className="section-title">
               <h3>
-                Top Property <span>Categories</span>
+                Top Property <span>Picks</span>
               </h3>
               <p>
-                Above all else, we value trust. In the real estate industry, we
-                deal with every aspect of the buyers' or sellers' needs. It is
-                our ongoing goal to present consumers with the most thoroughly
-                researched lists and to highlight the most popular properties.
+                At Property Ease, we aim to make buying and selling homes easy
+                and stress-free. As the best property dealer in the town, our
+                team does thorough research to bring you the best property
+                listings. Whether buying your dream home or selling your
+                property, we're here to guide you with expert advice and
+                personalized service every step of the way.
               </p>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <div className="col-md-4">
                 <div className="cate-box">
                   <Link to={"/property/residential"}>
@@ -330,7 +1151,12 @@ const Index = () => {
                       </li>
                     </ul>
                     <Link to={"/property/residential"}>
-                      <a title="Click to view all properties" className="btn-viewmore">View More</a>
+                      <a
+                        title="Click to view all properties"
+                        className="btn-viewmore"
+                      >
+                        View More
+                      </a>
                     </Link>
                   </div>
                 </div>
@@ -391,7 +1217,12 @@ const Index = () => {
                       </li>
                     </ul>
                     <Link to={"/property/land"}>
-                      <a title="Click to view all properties" className="btn-viewmore">View More</a>
+                      <a
+                        title="Click to view all properties"
+                        className="btn-viewmore"
+                      >
+                        View More
+                      </a>
                     </Link>
                   </div>
                 </div>
@@ -453,18 +1284,55 @@ const Index = () => {
                     </ul>
 
                     <Link to={"/property/commercial"}>
-                      <a title="Click to view all properties " className="btn-viewmore">View More</a>
+                      <a
+                        title="Click to view all properties "
+                        className="btn-viewmore"
+                      >
+                        View More
+                      </a>
                     </Link>
                   </div>
                 </div>
               </div>
+            </div> */}
+            <div className="row">
+              {subData !== null &&
+                subData
+                  .sort((a, b) => b.pro_sub_cat_number - a.pro_sub_cat_number)
+                  .slice(0, 6)
+                  .map((item, index) => (
+                    <div className="col-md-4">
+                      <div className="pro-picks-card">
+                        <div className="image">
+                          <img
+                            src={`images/pro-picks-${index + 1}.png`}
+                            alt="image"
+                          />
+                        </div>
+                        <div className="content">
+                          <h3>
+                            <Link
+                            title={item.pro_type.split(",")[0]}
+                              to={`/${item.pro_type
+                                .split(",")[1]
+                                .toLowerCase()}/${item.pro_type
+                                .split(",")[0]
+                                .replaceAll(" ", "-")
+                                .toLowerCase()}`}
+                            >
+                              {item.pro_type.split(",")[0]}
+                            </Link>
+                          </h3>
+                          <span>({item.pro_sub_cat_number} Properties)</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
             </div>
           </div>
         </section>
 
-        
-       
-        <section className="promation">
+        {/* <section className="promation">
           <div className="container">
             <div className="row">
               <div className="col-md-6">
@@ -486,8 +1354,7 @@ const Index = () => {
                     title="List Property"
                   >
                     <div className="btn btn-primary w-75 d-flex justify-content-center align-items-center gap-4">
-                      {/* <IconHomePlus />
-                      &nbsp; Add Property */}
+                      
                       <IconPlus />
                       &nbsp; List Property
                     </div>
@@ -496,9 +1363,9 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <section className="call-to-action">
+        {/* <section className="call-to-action">
           <div className="container">
             <div className="course-help-question">
               <div className="course-help-question__content">
@@ -516,7 +1383,7 @@ const Index = () => {
                   <div className="ph-content" style={{ fontSize: "18px" }}>
                     <strong>TALK TO EXPERTS</strong>
                     <br />
-                    
+
                     <div>Call: +91 99967 16787</div>
                     <div>Call: +91 89500 40151</div>
                   </div>
@@ -524,7 +1391,93 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </section> */}
+
+        {/* <div className="container">
+          <div className="section-title">
+            <h3>
+              Our <span>Testimonials</span>
+            </h3>
+          </div>
+          <OwlCarousel options={options2}>
+            {testData.map((testimonial, index) => (
+              <div key={index} className="testimonial">
+                <h3 className="title">{testimonial.name}</h3>
+                <p className="description">{testimonial.content}</p>
+              </div>
+            ))}
+          </OwlCarousel>
+        </div> */}
+
+        <section
+          className="contact-us-setion py-lg-13 py-11"
+          data-animated-id="8"
+        >
+          <div className="container">
+            <div className="row">
+              <div
+                className="col-ld-6 col-sm-7 fadeInLeft animated d-flex align-items-center"
+                data-animate="fadeInLeft"
+              >
+                <div className="left-sec">
+                  <h2 className="contact-heading">
+                    For more information about our services,
+                    <span className="text-color"> get in touch</span> with our
+                    expert consultants
+                  </h2>
+                  <p className="contact-text">
+                    Take the first step towards your dream home by clicking
+                    here...
+                  </p>
+                </div>
+              </div>
+              <div
+                className="col-ld-6 col-sm-5 text-center mt-sm-0 mt-8 fadeInRight animated right-sec"
+                data-animate="fadeInRight"
+              >
+                {/* <IconPhone className="contact-us-icon" /> */}
+                <p className=" phone-number-text">Call for help now!</p>
+                <p className=" phone-number">99967 16787</p>
+                <p className=" phone-number">89500 40151</p>
+                <Link to="/contactus" className="btn btn-primary contact-btn ">
+                  Contact us
+                </Link>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <div className="container pt-5">
+          <div className="section-title">
+            <h3>
+              What People <span>Says</span>
+            </h3>
+            <p>
+              We place huge value on strong relationships and have seen and the
+              benefit they bring to our business. Customer feedback is vital in
+              helping us to get it right.
+            </p>
+          </div>
+          <div className="row pb-5">
+            <OwlCarousel options={options}>
+              {testData.map((testimonial, index) => (
+                <div className="review-wrapper" key={index} data-set={index}>
+                  <div className="testimonial__block-card bg-reviews">
+                    <p>{testimonial.content}</p>
+                  </div>
+                  <div className="testimonial__block-users">
+                    <div className="testimonial__block-users-name">
+                      {testimonial.name} <br />
+                      <span className="testimonial_city">
+                        {testimonial.city}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </OwlCarousel>
+          </div>
+        </div>
       </div>
       <Footer />
     </div>
