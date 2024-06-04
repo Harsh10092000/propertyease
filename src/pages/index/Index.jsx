@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IconSend, IconArrowNarrowRight } from "@tabler/icons-react";
+import { IconSend, IconArrowNarrowRight,IconArrowRight } from "@tabler/icons-react";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -475,7 +475,18 @@ const Index = () => {
                 </div>
               ))}
             </div>
-            <div className="d-flex flex-row-reverse  mr-3">
+            <div class="text-center">
+              <Link
+                to={`/allproperties`}
+                title="Click to view all properties"
+                class="btn btn-lg see-all-pro"
+              >
+                See all properties
+                <IconArrowRight className="ml-1" />
+              </Link>
+            </div>
+
+            {/* <div className="d-flex flex-row-reverse  mr-3">
               <Link to={`/allproperties`}>
                 <a
                   title="Click to view all properties"
@@ -484,7 +495,7 @@ const Index = () => {
                   View All
                 </a>
               </Link>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -764,8 +775,7 @@ const Index = () => {
                   </div>
                   <div class="ltn__feature-info">
                     <h4>Find Buyers</h4>
-                    <p>Find buyers effortlessly with our expert assistance.
-</p>
+                    <p>Find buyers effortlessly with our expert assistance.</p>
                   </div>
                 </div>
                 <div class="ltn__feature-item ltn__feature-item-3">
@@ -780,7 +790,9 @@ const Index = () => {
                   </div>
                   <div class="ltn__feature-info">
                     <h4>Free Listings</h4>
-                    <p>List your property for free and attract potential buyers.</p>
+                    <p>
+                      List your property for free and attract potential buyers.
+                    </p>
                   </div>
                 </div>
                 <div class="ltn__feature-item ltn__feature-item-3">
@@ -841,8 +853,9 @@ const Index = () => {
                   </div>
                   <div class="ltn__feature-info">
                     <h4>3D Tours</h4>
-                    <p>We offer immersive 3D tours to showcase your property.
-</p>
+                    <p>
+                      We offer immersive 3D tours to showcase your property.
+                    </p>
                   </div>
                 </div>
                 <div class="ltn__feature-item ltn__feature-item-3">
@@ -1312,7 +1325,7 @@ const Index = () => {
                         <div className="content">
                           <h3>
                             <Link
-                            title={item.pro_type.split(",")[0]}
+                              title={item.pro_type.split(",")[0]}
                               to={`/${item.pro_type
                                 .split(",")[1]
                                 .toLowerCase()}/${item.pro_type

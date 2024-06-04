@@ -18002,7 +18002,7 @@ margin-right: 15px;
 }
 
 .most-view-Property .latest-pro-filter {
-  margin-right: 20px;
+  margin-right: 15px;
   display: inline-flex;
   justify-content: center;
   padding: 10px 22px;
@@ -18010,10 +18010,10 @@ margin-right: 15px;
   background-color: #f8f8f8;
   color: #1e1d85 ;
   border: none;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   transition: 0.6s;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   line-height: 24.18px;
   font-family: monospace;
@@ -18024,7 +18024,7 @@ margin-right: 15px;
 
 
 .most-view-Property .active {
-  margin-right: 20px;
+  margin-right: 15px;
   display: inline-flex;
   justify-content: center;
   padding: 10px 22px;
@@ -18039,7 +18039,7 @@ margin-right: 15px;
   font-weight: 600;
   transition: 0.3s;
 
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
 
   font-family: monospace;
@@ -18208,4 +18208,31 @@ margin-right: 15px;
   font-size: 22px;
   color: #155298;
   color: red;
+}
+
+
+.see-all-pro {
+
+  color: #1e1d85 !important;
+
+  margin-top: 1.875rem !important;
+  background-color: #eff6f7;
+  border-color: #eff6f7;
+  box-shadow: none;
+
+  border-radius: 5px !important;
+
+
+  padding: 11px 35px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 2;
+  border-radius: 5px;
+}
+
+
+.see-all-pro :hover {
+  background-color: #d6e8ea;
+  border-color: #cde3e6;
+  color: #100f46 ;
 }
