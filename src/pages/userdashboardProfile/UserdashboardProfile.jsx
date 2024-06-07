@@ -42,7 +42,6 @@ const UserdashboardProfile = () => {
       .then((res) => {
         //setAgentData(res.data[0]);
         if (res.data === "failed") {
-          
           clearUser();
         }
         res.data.length > 0
@@ -72,7 +71,6 @@ const UserdashboardProfile = () => {
           : "";
 
         if (res.data.length === 0) {
-          
           navigate("/user/user-profile-form");
         }
       });
@@ -170,6 +168,27 @@ const UserdashboardProfile = () => {
                             </div>
                           </div>
                         </div>
+
+                        <div className="d-flex">
+                        <div className="view-profile-button">
+                            <Link to={`/agentProfile/${userId}`}>
+                              <button className="btn btn-primary">
+                                View Profile
+                              </button>
+                            </Link>
+                          </div>
+                          {/* <div className="edit-profile-btn-wrapper"> */}
+                          <div className="pl-2">
+                            <Link
+                              to={`/user/edit-user-profile/${agentData.agent_id}`}
+                            >
+                              <button type="button" class="btn btn-outline-primary">
+                                Edit Profile
+                              </button>
+                            </Link>
+                          </div>
+                          
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -196,7 +215,7 @@ const UserdashboardProfile = () => {
                   <div className="btm-border d-flex user-details">
                     <div className="w-25 sec-1">Properity Types Deals in</div>
                     <div className="w-75 sec-2">
-                      {agentData.agent_work_area}
+                      {agentData.agent_work_area }
                     </div>
                   </div>
 
@@ -263,13 +282,13 @@ const UserdashboardProfile = () => {
                       {agentData.agent_state ? agentData.agent_state : ""}
                     </div>
                   </div>
-                  <div className="edit-profile-btn-wrapper">
+                  {/* <div className="edit-profile-btn-wrapper">
                     <Link to={`/user/edit-user-profile/${agentData.agent_id}`}>
                       <button type="button" class="btn edit-btn">
                         Edit Profile
                       </button>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

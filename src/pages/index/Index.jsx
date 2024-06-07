@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
-import { IconSend, IconArrowNarrowRight,IconArrowRight } from "@tabler/icons-react";
+import {
+  IconSend,
+  IconArrowNarrowRight,
+  IconArrowRight,
+  IconAdjustmentsHorizontal,
+  IconCaretUpFilled,
+  IconCaretDownFilled,
+} from "@tabler/icons-react";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-
+import TextField from "@mui/material/TextField";
+import { InputAdornment } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useEffect, useState } from "react";
@@ -17,6 +25,8 @@ import OwlCarousel from "react-owl-carousel2";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useNavigate } from "react-router-dom";
+
+import Autocomplete from "@mui/material/Autocomplete";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -60,10 +70,23 @@ const Index = () => {
     },
   ];
 
+  const cities = [{ district: "All India" }];
+  const [location, setLocation] = useState("All India");
+  const [cityData, setCityData] = useState();
   const [serachValue, setSerachValue] = useState("");
   const [currentFilter, setCurrentFilter] = useState("All");
   const [proTypeFilter, setProTypeFilter] = useState("All");
   const [proSubTypeFilter, setProSubTypeFilter] = useState(["t1", "t2"]);
+
+  const [propertyTypeFilter, setPropertyTypeFilter] =
+    useState("All Properties");
+  const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
+
+  const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
+    useState("All Properties");
+  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] =
+    useState(false);
+
   const latest_pro_btns = [
     {
       name: "All",
@@ -85,6 +108,14 @@ const Index = () => {
     },
   ];
 
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
+      .then((res) => {
+        setCityData(res.data);
+      });
+  }, []);
+
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
@@ -94,10 +125,18 @@ const Index = () => {
       });
   }, []);
 
+  // const handleClick = (index) => {
+  //   var newArr = selectedTypes.join(",").replaceAll(",", "-");
+
+  //   navigate(
+  //     `/allproperties?search=${serachValue}&cat=${proTypeFilter}&proSubTypeFilter=${newArr}`
+  //   );
+  // };
+
   const handleClick = (index) => {
-    var newArr = proSubTypeFilter.join(",").replace(",", "-");
+    //var newArr = selectedTypes.join(",").replaceAll(",", "-");
     navigate(
-      `/allproperties?search=${serachValue}&cat=${proTypeFilter}&proSubTypeFilter=${newArr}`
+      `/allproperties?search=${serachValue}&proadtype=${propertyAdTypeFilter}`
     );
   };
 
@@ -222,6 +261,61 @@ const Index = () => {
     },
   ];
 
+  const propertyTypeOptions = [
+    { type: "All Properties" },
+    { type: "Residential" },
+    { type: "Commerical" },
+    { type: "Land" },
+  ];
+
+  const propertyAdTypeOptions = [
+    { type: "All Properties" },
+    { type: "Sale" },
+    { type: "Rent" },
+  ];
+
+  const propertyType = [
+    { id: "t1", type: "Apartment" },
+    { id: "t2", type: "Independent House" },
+    { id: "t3", type: "Builder Floor" },
+    { id: "t4", type: "Farm HouseRaw House" },
+    { id: "t5", type: "Retirement Community" },
+    { id: "t6", type: "Studio Apartment" },
+    { id: "t7", type: "Residential Land" },
+    { id: "t8", type: "Commercial Land" },
+    { id: "t9", type: "Industrial Land" },
+    { id: "t10", type: "Agricultural Land" },
+    { id: "t11", type: "Farm House Land" },
+    { id: "t12", type: "Retail Showroom" },
+    { id: "t13", type: "Commercial Building" },
+    { id: "t14", type: "Office Complex" },
+    { id: "t15", type: "Software Technology Park" },
+    { id: "t16", type: "Warehouse" },
+    { id: "t18", type: "Industrial Estate" },
+  ];
+
+  const [selectedTypes, setSelectedTypes] = useState([]);
+
+  const handleTypeToggle = (id) => {
+    console.log(id);
+    if (selectedTypes.includes(id)) {
+      setSelectedTypes(selectedTypes.filter((item) => item !== id));
+    } else {
+      setSelectedTypes([...selectedTypes, id]);
+    }
+  };
+
+  console.log("selectedTypes : ", selectedTypes);
+
+  const handleAllTypes = () => {
+    setSelectedTypes((prevSelectedTypes) => {
+      const updatedTypes = propertyType
+        .map((item) => item.id)
+        .filter((type) => !prevSelectedTypes.includes(type));
+      return [...prevSelectedTypes, ...updatedTypes];
+    });
+  };
+
   const [subData, setSubData] = useState(null);
 
   useEffect(() => {
@@ -232,6 +326,50 @@ const Index = () => {
       });
   }, []);
 
+  // const [currentPhrase, setCurrentPhrase] = useState('');
+  // const [currentLetter, setCurrentLetter] = useState(0);
+
+  // useEffect(() => {
+  //   const printPhrase = async (phrase) => {
+  //     await clearPlaceholder();
+
+  //     const letters = phrase.split('');
+  //     for (let i = 0; i < letters.length; i++) {
+  //       await addToPlaceholder(letters[i]);
+  //       setCurrentLetter(i + 1); // Update current letter for progress tracking
+  //     }
+  //     console.log('Completed phrase:', phrase); // Log after loop finishes
+  //     await delay(1000); // Delay before next phrase
+  //   };
+
+  //   const addToPlaceholder = async (letter) => {
+  //     const el = document.getElementById('search');
+  //     el.placeholder += letter;
+  //     return new Promise((resolve) => setTimeout(resolve, 100));
+  //   };
+
+  //   const clearPlaceholder = async () => {
+  //     const el = document.getElementById('search');
+  //     el.placeholder = '';
+  //   };
+
+  //   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  //   const run = async () => {
+  //     const phrases = [
+  //       "Search Website e.g. \"Dancing Cats\"",
+  //       "Lorem ipsum dolor sit amet",
+  //       "Consectetur adipiscing elit",
+  //       "JS is so strange :)"
+  //     ];
+  //     for (const phrase of phrases) {
+  //       await printPhrase(phrase);
+  //     }
+  //   };
+
+  //   run();
+  // }, [ currentLetter]);
+
   return (
     <div>
       <Helmet>
@@ -240,44 +378,274 @@ const Index = () => {
       <Navbar />
 
       <div>
-        <section className="slider-home">
+        {/* <section className="slider-home">
           <img src="/images/banner1.jpg" alt="banner" />
           <div className="slide-heading">
             <h1 className="display-4">
               Ab property bechna kharidna hoga aasan
             </h1>
-            {/* <div>
-              <input
-                type="text"
-                value={serachValue}
-                onChange={(e) => setSerachValue(e.target.value)}
-              />
-
-              <button onClick={handleClick}>Serach</button>
-
-              <FormControl
-                sx={{ m: 1, width: ["100%"] }}
-                size="small"
-                className="col-md-3 mx-4 mx-md-0"
-              >
-                <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={proTypeFilter}
-                  label="Filter By"
-                  onChange={(e) => {
-                    setProTypeFilter(e.target.value);
-                  }}
-                >
-                  <MenuItem value={"All"}>All</MenuItem>
-                  <MenuItem value={"Sale"}>Sale</MenuItem>
-                  <MenuItem value={"Rent"}>Rent</MenuItem>
-                </Select>
-              </FormControl>
-            </div> */}
           </div>
-        </section>
+        </section> */}
+
+        {/* <div className="col-md-2 mx-4 mx-md-0 pl-0 ">
+                  {cityData ? (
+                    <div>
+                      <div class="location-icon-2">
+                        <span class="svg-icon text-primary svg-icon-2hx">
+                          <svg
+                            width="25"
+                            height="25"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              opacity="0.3"
+                              d="M18.0624 15.3453L13.1624 20.7453C12.5624 21.4453 11.5624 21.4453 10.9624 20.7453L6.06242 15.3453C4.56242 13.6453 3.76242 11.4453 4.06242 8.94534C4.56242 5.34534 7.46242 2.44534 11.0624 2.04534C15.8624 1.54534 19.9624 5.24534 19.9624 9.94534C20.0624 12.0453 19.2624 13.9453 18.0624 15.3453Z"
+                              fill="currentColor"
+                            ></path>
+                            <path
+                              d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z"
+                              fill="currentColor"
+                            ></path>
+                          </svg>
+                        </span>
+                      </div>
+                      <Autocomplete
+                        size="small"
+                        //disableClearable
+                        id="combo-box-demo"
+                        options={cityData
+                          .sort()
+                          .map((option) => option.district)}
+                        // onInputChange={(event, newInputValue) => {
+                        //   setLocation(newInputValue);
+                        //   props.handleUserLocation(newInputValue);
+                        //   setSearchValue1("");
+                        //   props.handleSearchValue("");
+                        // }}
+                        sx={{ m: 1, width: ["100%"] }}
+                        value={location}
+                        slotProps={{
+                          popper: {
+                            sx: {
+                              zIndex: 1,
+                            },
+                          },
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            variant="standard"
+                            {...params}
+                            value={"All India"}
+                            // InputProps={{
+                            //   ...params.InputProps,
+                            //   startAdornment: (
+                            //     <InputAdornment
+                            //       position="start"
+                            //       title="Detect your current location"
+                            //     >
+                            //       <IconCurrentLocation
+                            //         className="pointer location-icon"
+                            //         onClick={handleLocationClick}
+                            //       />
+                            //     </InputAdornment>
+                            //   ),
+                            // }}
+                          />
+                        )}
+                      />
+                    </div>
+                  ) : (
+                    <Autocomplete
+                      size="small"
+                      id="combo-box-demo"
+                      options={cities.map((option) => option.district)}
+                      sx={{ m: 1, width: ["100%"] }}
+                      value={location}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          // InputProps={{
+                          //   ...params.InputProps,
+                          //   startAdornment: (
+                          //     <InputAdornment
+                          //       position="start"
+                          //       title="Detect your current location"
+                          //     >
+                          //       <IconCurrentLocation className="pointer location-icon" />
+                          //     </InputAdornment>
+                          //   ),
+                          // }}
+                        />
+                      )}
+                    />
+                  )}
+                </div> */}
+
+        <div className="image-cover hero-banner" data-select2-id="13">
+          <div className="container" data-select2-id="12">
+            <div className="row justify-content-center" data-select2-id="11">
+              <div
+                className="col-lg-9 col-md-11 col-sm-12 banner-text-wrapper"
+                data-select2-id="10"
+              >
+                <div className="inner-banner-text ">
+                  <h1>Ab property bechna kharidna hoga aasan</h1>
+                </div>
+                <div className="banner-text-2 ">
+                  <p className="shadow">
+                    Find Real Properties at Cheapest Price
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="hero-search">
+            <div className="container hero-search-wrapper">
+              <div className="row">
+                <div
+                  className={`col-md-3 all-types pointer position-relative ${
+                    openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
+                  }`}
+                  onClick={() =>
+                    setOpenPropertyAdTypeOptions(!openPropertyAdTypeOptions)
+                  }
+                >
+                  <div className="">{propertyAdTypeFilter}</div>
+                  {openPropertyAdTypeOptions && (
+            <div className=" pro-ad-type-list-wrapper">
+              <div id="pro-ad-type-list">
+                {propertyAdTypeOptions.map((item) => (
+                  <div
+                    className={`${
+                      propertyAdTypeFilter === item.type ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      setPropertyAdTypeFilter(item.type),
+                        setOpenPropertyAdTypeOptions(false);
+                    }}
+                  >
+                    {item.type}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+                  {/* <div class="location-icon-3">
+                    <IconCaretUpFilled />
+                  </div> */}
+                </div>
+
+                <div className="col-md">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a property"
+                
+                    value={serachValue}
+                    onChange={(e) => setSerachValue(e.target.value)}
+                  />
+                  
+
+                  {/* <div class="location-icon">
+                    <IconAdjustmentsHorizontal />
+                  </div> */}
+                </div>
+                <div className="col-md-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary w-100 "
+                    onClick={handleClick}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+          {/* {openPropertyAdTypeOptions && (
+            <div className="container pro-ad-type-list-wrapper">
+              <div id="pro-ad-type-list">
+                {propertyAdTypeOptions.map((item) => (
+                  <div
+                    className={`${
+                      propertyAdTypeFilter === item.type ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      setPropertyAdTypeFilter(item.type),
+                        setOpenPropertyAdTypeOptions(false);
+                    }}
+                  >
+                    {item.type}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )} */}
+        </div>
+        {/* <div>
+          <input
+            type="text"
+            value={serachValue}
+            onChange={(e) => setSerachValue(e.target.value)}
+          />
+
+          <button onClick={handleClick}>Serach</button>
+
+          <FormControl
+            sx={{ m: 1, width: ["100%"] }}
+            size="small"
+            className="col-md-3 mx-4 mx-md-0"
+          >
+            <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={proTypeFilter}
+              label="Filter By"
+              onChange={(e) => {
+                setProTypeFilter(e.target.value);
+              }}
+            >
+              <MenuItem value={"All"}>All</MenuItem>
+              <MenuItem value={"Sale"}>Sale</MenuItem>
+              <MenuItem value={"Rent"}>Rent</MenuItem>
+            </Select>
+          </FormControl>
+
+          <div className="d-flex flex-wrap text-center d-flex align-items-center">
+            {selectedTypes.length === 17 ? (
+              <div
+                onClick={() => setSelectedTypes([])}
+                className={`pro_radio_btn_1 pro_selected `}
+              >
+                 <IconMinus width={16} height={16} className="mr-1" stroke={1} /> 
+                Deselect All
+              </div>
+            ) : (
+              <div
+                onClick={handleAllTypes}
+                className={`pro_radio_btn_1 text-center d-flex align-items-center`}
+              >
+                 <IconPlus width={16} height={16} className="mr-1" /> 
+                Select All
+              </div>
+            )}
+            {propertyType.map((item) => (
+              <div
+                className={`pro_radio_btn_1 ${
+                  selectedTypes.includes(item.id) ? " pro_selected" : ""
+                }`}
+                onClick={() => handleTypeToggle(item.id)}
+              >
+                {item.type}
+              </div>
+            ))}
+          </div>
+        </div> */}
 
         <section className="most-view-Property mt-5 mb-5">
           <div className="container">
@@ -475,11 +843,11 @@ const Index = () => {
                 </div>
               ))}
             </div>
-            <div class="text-center">
+            <div className="text-center">
               <Link
                 to={`/allproperties`}
                 title="Click to view all properties"
-                class="btn btn-lg see-all-pro"
+                className="btn btn-lg see-all-pro"
               >
                 See all properties
                 <IconArrowRight className="ml-1" />
@@ -743,7 +1111,7 @@ const Index = () => {
 
           <div className="row about-us-sec">
             <div className="col-md-6 about-us-left about-us-left-1">
-              <div class="about-us-img-wrap about-img-left">
+              <div className="about-us-img-wrap about-img-left">
                 <img
                   src="images/pro-about-6.jpeg"
                   className=""
@@ -752,10 +1120,10 @@ const Index = () => {
               </div>
             </div>
 
-            <div class="col-lg-6 align-self-center about-us-right">
-              <div class="about-us-info-wrap">
-                <div class="section-title-area ltn__section-title-2--- mb-30">
-                  <h4 class="section-subtitle section-subtitle-2--- ltn__secondary-color">
+            <div className="col-lg-6 align-self-center about-us-right">
+              <div className="about-us-info-wrap">
+                <div className="section-title-area ltn__section-title-2--- mb-30">
+                  <h4 className="section-subtitle section-subtitle-2--- ltn__secondary-color">
                     For Sellers
                   </h4>
                   <p>
@@ -763,8 +1131,8 @@ const Index = () => {
                     500 experts to guide you every step of the way.
                   </p>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-3.png"
@@ -773,13 +1141,13 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>Find Buyers</h4>
                     <p>Find buyers effortlessly with our expert assistance.</p>
                   </div>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-1.png"
@@ -788,15 +1156,15 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>Free Listings</h4>
                     <p>
                       List your property for free and attract potential buyers.
                     </p>
                   </div>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-2.png"
@@ -805,7 +1173,7 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>3D Tours</h4>
                     <p>Show off your property with virtual 3D tours.</p>
                   </div>
@@ -815,10 +1183,10 @@ const Index = () => {
           </div>
 
           <div className="row about-us-sec about-us-sec-2">
-            <div class="col-lg-6 align-self-center about-us-right">
-              <div class="about-us-info-wrap">
-                <div class="section-title-area ltn__section-title-2--- mb-30">
-                  <h4 class="section-subtitle section-subtitle-2--- ltn__secondary-color">
+            <div className="col-lg-6 align-self-center about-us-right">
+              <div className="about-us-info-wrap">
+                <div className="section-title-area ltn__section-title-2--- mb-30">
+                  <h4 className="section-subtitle section-subtitle-2--- ltn__secondary-color">
                     For Buyers
                   </h4>
                   <p>
@@ -826,8 +1194,8 @@ const Index = () => {
                     with potential buyers and best selling experience.
                   </p>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-5.png"
@@ -836,13 +1204,13 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>Lots of Listings</h4>
                     <p>Browse a wide range of properties easily.</p>
                   </div>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-2.png"
@@ -851,15 +1219,15 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>3D Tours</h4>
                     <p>
                       We offer immersive 3D tours to showcase your property.
                     </p>
                   </div>
                 </div>
-                <div class="ltn__feature-item ltn__feature-item-3">
-                  <div class="ltn__feature-icon">
+                <div className="ltn__feature-item ltn__feature-item-3">
+                  <div className="ltn__feature-icon">
                     <span>
                       <img
                         src="images/about-us-1-4.png"
@@ -868,7 +1236,7 @@ const Index = () => {
                       />
                     </span>
                   </div>
-                  <div class="ltn__feature-info">
+                  <div className="ltn__feature-info">
                     <h4>Meet Sellers</h4>
                     <p>
                       After you find a property you like, we'll set up a meeting
@@ -880,7 +1248,7 @@ const Index = () => {
             </div>
 
             <div className="col-md-6 about-us-left about-us-left-2">
-              <div class="about-us-img-wrap about-img-left ">
+              <div className="about-us-img-wrap about-img-left ">
                 <img
                   src="images/pro-about-7.jpeg"
                   className=""
@@ -990,7 +1358,7 @@ const Index = () => {
                 </p> */}
                 <Link to="/allproperties" title="Click to View All Properties">
                   <div className="pro-type-btn">
-                    +100 Available Properties
+                    {Math.floor(data.length / 50) * 50}+ Available Properties
                     <i className="far fa-long-arrow-right ml-1"></i>
                   </div>
                 </Link>
@@ -1015,6 +1383,24 @@ const Index = () => {
           </div>
         </div>
 
+        {/* <div className="choose-us-wrapper choose-us-bg">
+          
+          <div className="container">
+            <div className="section-title pt-5 pb-5">
+            <h3 className="">
+              Why Choose <span>Us?</span>
+          </h3>
+              <p>
+                At Property Ease, we aim to make buying and selling homes easy
+                and stress-free. As the best property dealer in the town, our
+                team does thorough research to bring you the best property
+                listings. Whether buying your dream home or selling your
+                property, we're here to guide you with expert advice and
+                personalized service every step of the way.
+              </p>
+            </div>
+        </div>
+        </div> */}
         {/* <div className="row mt-7 mb-6 mb-lg-11">
           <div className="col-lg-6 mb-6 mb-lg-0">
             <div

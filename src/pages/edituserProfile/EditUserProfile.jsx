@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext, useCallback } from "react";
 import {
   TextField,
   InputAdornment,
@@ -295,6 +295,7 @@ const EditUserProfile = () => {
   const navigate = useNavigate();
   const insertId = useRef();
   const [selectedTypes, setSelectedTypes] = useState([]);
+
   const handleTypeToggle = (type) => {
     //console.log("type : " , type);
     if (selectedTypes.includes(type)) {
@@ -302,6 +303,15 @@ const EditUserProfile = () => {
     } else {
       setSelectedTypes([...selectedTypes, type]);
     }
+  };
+
+  const handleAllTypes = () => {
+    setSelectedTypes((prevSelectedTypes) => {
+      const updatedTypes = propertyType
+        .map((item) => item.type)
+        .filter((type) => !prevSelectedTypes.includes(type));
+      return [...prevSelectedTypes, ...updatedTypes];
+    });
   };
 
   const [formSubmit, setFormSubmit] = useState(false);
@@ -456,6 +466,60 @@ const EditUserProfile = () => {
     setValue("tags1", userData.user_work_city);
     setValue("tags2", userData.user_work_sub_district);
   }, [userData, setValue]);
+
+
+  
+  const [limitReached, setLimitReached] = useState(false);
+  // const onSelect = useCallback(
+  //   (newValues) => {
+  //     setUserData({
+  //       ...userData,
+  //       user_work_sub_district: newValues,
+  //     });
+  //     setLimitReached(newValues.length >= 10);
+  //   },
+  //   [limitReached, userData.user_work_sub_district]
+  // );
+
+  const onSelect = useCallback(
+    (newValues) => {
+      const uniqueSelectedValues = newValues.filter(
+        (selectedValue) =>
+          !userData.user_work_sub_district.some(
+            (existingValue) =>
+              existingValue.sub_district === selectedValue.sub_district
+          )
+      );
+  
+      const updatedUserWorkState = userData.user_work_sub_district.filter(
+        (existingValue) =>
+          newValues.some(
+            (selectedValue) =>
+              selectedValue.sub_district === existingValue.sub_district
+          )
+      );
+  
+      const mergedValues = [
+        ...updatedUserWorkState,
+        ...uniqueSelectedValues
+      ];
+  
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        user_work_sub_district: mergedValues,
+      }));
+  
+      setLimitReached(newValues.length >= 10);
+    },
+    [userData.user_work_sub_district]
+  );
+  
+
+  const checkDisable = useCallback(
+    (option) =>
+      limitReached && !userData.user_work_sub_district.includes(option),
+    [limitReached, userData.user_work_sub_district]
+  );
 
   return (
     <div>
@@ -798,6 +862,23 @@ const EditUserProfile = () => {
                 <div className="w-100 m-1 mb-3">
                   <span className="pro_heading">Deals in Property types</span>
                   <div className="d-flex flex-wrap ">
+                  {selectedTypes.length === 17 ? (
+                      <div
+                        onClick={()=>setSelectedTypes([])}
+                        className={`pro_radio_btn_1 pro_selected `}
+                      >
+                        {/* <IconMinus width={16} height={16} className="mr-1" stroke={1}/> */}
+                        Deselect All
+                      </div>
+                    ) : (
+                      <div
+                        onClick={handleAllTypes}
+                        className={`pro_radio_btn_1 text-center d-flex align-items-center`}
+                      >
+                        {/* <IconPlus width={16} height={16} className="mr-1"/> */}
+                        Select All
+                      </div>
+                    )}
                     {propertyType.map((item) => (
                       <div
                         className={`pro_radio_btn_1 ${
@@ -1076,35 +1157,37 @@ const EditUserProfile = () => {
                       //     user_work_sub_district: selectedValues,
                       //   });
                       // }}
-                      onChange={(event, selectedValues) => {
+                      getOptionDisabled={checkDisable}
+                      // onChange={(event, selectedValues) => {
                          
-                        const uniqueSelectedValues = selectedValues.filter(
-                          (selectedValue) =>
-                            !userData.user_work_sub_district.some(
-                              (existingValue) =>
-                                existingValue.sub_district ===
-                                selectedValue.sub_district
-                            )
-                        );
-                        const updatedUserWorkState =
-                          userData.user_work_sub_district.filter((existingValue) =>
-                            selectedValues.some(
-                              (selectedValue) =>
-                                selectedValue.sub_district ===
-                                existingValue.sub_district
-                            )
-                          );
+                      //   const uniqueSelectedValues = selectedValues.filter(
+                      //     (selectedValue) =>
+                      //       !userData.user_work_sub_district.some(
+                      //         (existingValue) =>
+                      //           existingValue.sub_district ===
+                      //           selectedValue.sub_district
+                      //       )
+                      //   );
+                      //   const updatedUserWorkState =
+                      //     userData.user_work_sub_district.filter((existingValue) =>
+                      //       selectedValues.some(
+                      //         (selectedValue) =>
+                      //           selectedValue.sub_district ===
+                      //           existingValue.sub_district
+                      //       )
+                      //     );
 
-                        setUserData((prevUserData) => ({
-                          ...prevUserData,
-                          user_work_sub_district: [
-                            ...updatedUserWorkState,
-                            ...uniqueSelectedValues,
-                          ],
+                      //   setUserData((prevUserData) => ({
+                      //     ...prevUserData,
+                      //     user_work_sub_district: [
+                      //       ...updatedUserWorkState,
+                      //       ...uniqueSelectedValues,
+                      //     ],
 
                           
-                        }));
-                      }}
+                      //   }));
+                      // }}
+                      onChange={(event, selectedValues) => onSelect(selectedValues)}
                       renderOption={(props, option, { selected }) => (
                         <li {...props}>
                           <Checkbox

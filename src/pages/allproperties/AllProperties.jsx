@@ -16,6 +16,8 @@ import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
+import SearchBarHome from "../../components/searchBarHome/SearchBarHome";
+
 import { AuthContext } from "../../context/AuthContext";
 
 //import AdSlider2 from "../../components/adslider/AdSlider2";
@@ -27,15 +29,15 @@ import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 const AllProperties = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
-  const [proTypeFilter, setProTypeFilter] = useState("All");
+  const [proAdTypeFilter, setProAdTypeFilter] = useState("All");
   const [proSubTypeFilter, setProSubTypeFilter] = useState();
   useEffect(() => {
     const myParam = searchParams.get("search");
-    const filter = searchParams.get("cat");
-    const temp = searchParams.get("proSubTypeFilter");
+    const proadtype = searchParams.get("proadtype");
+    //const temp = searchParams.get("proSubTypeFilter");
     setSearchValue1(myParam);
-    setProTypeFilter(filter);
-    setProSubTypeFilter(temp);
+    setProAdTypeFilter(proadtype);
+    //setProSubTypeFilter(temp);
   }, []);
 
   const { currentUser } = useContext(AuthContext);
@@ -184,9 +186,9 @@ const AllProperties = (props) => {
                 <span className="ml-2 numberProperties">{data.length}</span>
               </h2>
 
-              <SearchBar
-                proSubTypeFilter={proSubTypeFilter}
-                proTypeFilter={proTypeFilter}
+              <SearchBarHome
+                //proSubTypeFilter={proSubTypeFilter}
+                proAdTypeFilter={proAdTypeFilter}
                 searchValue1={searchValue1}
                 handleNPagesChange={handleNPagesChange}
                 handleRecordsChange={handleRecordsChange}
@@ -202,7 +204,7 @@ const AllProperties = (props) => {
             <div className="row">
               <div className="col-md-9">
                 {!skeleton &&
-                  records.length > 0 &&
+                  records?.length > 0 &&
                   records.slice(0, 2).map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
@@ -438,7 +440,7 @@ const AllProperties = (props) => {
                     />
                   </div>
                 )}
-                {records.length < 1 && (
+                {records?.length < 1 && (
                   <NoResult
                     searchValue={searchValue}
                     userCurrLocation={userCurrLocation}
@@ -474,7 +476,7 @@ const AllProperties = (props) => {
 
                 {/* ad section end */}
                 {!skeleton &&
-                  records.length > 0 &&
+                  records?.length > 0 &&
                   records.slice(2).map((object, index) => (
                     <div className="list-group" key={index}>
                       <div className="row">
@@ -884,7 +886,7 @@ const AllProperties = (props) => {
               </div>
             </div>
 
-            {records.length > 0 && (
+            {records?.length > 0 && (
               <Pagination
                 count={nPages}
                 color="primary"

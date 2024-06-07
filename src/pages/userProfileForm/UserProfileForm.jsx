@@ -1257,7 +1257,7 @@ import {
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
 import Autocomplete from "@mui/material/Autocomplete";
-import { IconSquareCheckFilled, IconSquare, IconX } from "@tabler/icons-react";
+import { IconSquareCheckFilled, IconSquare, IconX, IconPlus, IconMinus } from "@tabler/icons-react";
 import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
 import { useNavigate } from "react-router-dom";
@@ -1266,9 +1266,6 @@ import { AuthContext } from "../../context/AuthContext";
 import { useCallback } from "react";
 
 const UserProfileForm = () => {
-
-  
-
   const { currentUser } = useContext(AuthContext);
   useEffect(() => {
     axios
@@ -1277,12 +1274,11 @@ const UserProfileForm = () => {
           `/api/agent/fetchProPlanDataBId/${currentUser[0].login_id}`
       )
       .then((res) => {
-        
-        console.log("res.data : " , res.data)
-         if (res.data === "failed") {
-           clearUser();
-         } else {
-        setData(res.data); 
+        console.log("res.data : ", res.data);
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+          setData(res.data);
         }
       });
   }, []);
@@ -1483,13 +1479,20 @@ const UserProfileForm = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
 
   const handleTypeToggle = (type) => {
-
-    
     if (selectedTypes.includes(type)) {
       setSelectedTypes(selectedTypes.filter((item) => item !== type));
     } else {
       setSelectedTypes([...selectedTypes, type]);
     }
+  };
+
+  const handleAllTypes = () => {
+    setSelectedTypes((prevSelectedTypes) => {
+      const updatedTypes = propertyType
+        .map((item) => item.type)
+        .filter((type) => !prevSelectedTypes.includes(type));
+      return [...prevSelectedTypes, ...updatedTypes];
+    });
   };
 
   // console.log(
@@ -1601,7 +1604,6 @@ const UserProfileForm = () => {
       limitReached && !userData.user_work_sub_district.includes(option),
     [limitReached, userData.user_work_sub_district]
   );
-
 
   const handleClick = async () => {
     //e.preventDefault();
@@ -2042,91 +2044,31 @@ const UserProfileForm = () => {
                 />
               </div>
 
-              {/* <div className="pro_flex">
-              <FormControl sx={{ m: 1, width: ["100%"] }} size="small">
-                <InputLabel id="demo-simple-select-label">
-                  Experience (in year)
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={userData.user_exp}
-                  label="Experience  (in year)"
-                  onChange={(e) =>
-                    setUserData({
-                      ...userData,
-                      user_exp: e.target.value,
-                    })
-                  }
-                >
-                  <MenuItem value={"0-1"}>0-1</MenuItem>
-                  <MenuItem value={"1-3"}>1-3</MenuItem>
-                  <MenuItem value={"3-5"}>3-5</MenuItem>
-                  <MenuItem value={"5-10"}>5-10</MenuItem>
-                  <MenuItem value={"10+"}>10+</MenuItem>
-                </Select>
-                {userData.user_exp === "" && (
-                  <FormHelperText sx={{ color: "red" }}>
-                    Required
-                  </FormHelperText>
-                )}
-              </FormControl>
-              <Autocomplete
-                sx={{ m: 1, width: ["100%"] }}
-                size="small"
-                multiple
-                limitTags={8}
-                id="checkboxes-tags-demo"
-                options={propertyType}
-                disableCloseOnSelect
-                getOptionLabel={(option) => option.type}
-                // onChange={(event, selectedOptions) => {
-                //   //console.log("Selected Options:", selectedOptions);
-                //   //   setUserData({
-                //   //   ...userData,
-                //   //   user_work_area: selectedOptions,
-                //   // });
-                //   () => setWorkArea(selectedOptions);
-                //   console.log("woek area 1 : " , workArea);
-                // }}
-                onChange={handleWorkAreaChange}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected.type}
-                    />
-                    {option.type}
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Deals in Property types"
-                    placeholder="Deals in Property types"
-                  />
-                )}
-              />
-            </div> */}
+             
               <div className="pro_flex pro_flex_1 ml-2">
                 <div className="w-100 m-1 mb-3">
                   <span className="pro_heading">Deals in Property types</span>
-                  <div className="d-flex flex-wrap ">
+                  <div className="d-flex flex-wrap text-center d-flex align-items-center">
+                
+                    {selectedTypes.length === 17 ? (
+                      <div
+                        onClick={()=>setSelectedTypes([])}
+                        className={`pro_radio_btn_1 pro_selected `}
+                      >
+                        {/* <IconMinus width={16} height={16} className="mr-1" stroke={1}/> */}
+                        Deselect All
+                      </div>
+                    ) : (
+                      <div
+                        onClick={handleAllTypes}
+                        className={`pro_radio_btn_1 text-center d-flex align-items-center`}
+                      >
+                        {/* <IconPlus width={16} height={16} className="mr-1"/> */}
+                        Select All
+                      </div>
+                    )}
                     {propertyType.map((item) => (
                       <div
-                        // className={
-                        //   userData.user_work_area === item.type
-                        //     ? "pro_radio_btn_1 pro_selected"
-                        //     : "pro_radio_btn_1"
-                        // }
-                        // onClick={() =>
-                        //   setUserData({
-                        //     ...userData,
-                        //     user_work_area: item.type,
-                        //   })
-                        // }
                         className={`pro_radio_btn_1 ${
                           selectedTypes.includes(item.type)
                             ? " pro_selected"
