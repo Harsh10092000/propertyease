@@ -22,7 +22,7 @@ const Terms = () => {
                 </li>
                 <li>
                   Here propertyease.in is a website and registered service of
-                  Balaji Properties and hereafter Propertyease.in can be also be
+                  CAL info Training & Consultancy Private Limited and hereafter Propertyease.in can be also be
                   used as “website”, “Propertyease”, “Propertyease team”.
                   Property means Build up Home, Residential Plot/Land, Farm
                   Land/House, Commercial building or plot, Industrial Plot or
@@ -369,9 +369,9 @@ const Terms = () => {
               </p>
               <p>
                 All contents of the Propertyease.in website are Copyright ©
-                2023-2024 M/S Balaji Properties, #1667, Sector 5, Urban Estate,
+                2023-2024 M/S CAL info Training & Consultancy Private Limited, #211 P, Sector 7,
                 Kurukshetra-136118 Haryana-India, INDIA All rights reserved,
-                Propertyease.in is a registered service of Balaji Properties and
+                Propertyease.in is a registered service of CAL info Training & Consultancy Private Limited and
                 other product and company names may be trade or service marks of
                 their respective owners.
               </p>

@@ -109,7 +109,7 @@ const ContactUs = () => {
                         </div>
                         <div class="text pl-4">
                           <p>
-                            <span>Address:</span> #1667, Sector 5, Urban Estate,
+                            <span>Address:</span> #211 P, Sector 7,
                             Kurukshetra-136118, Haryana-India
                           </p>
                         </div>
