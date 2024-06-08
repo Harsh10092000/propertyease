@@ -53,6 +53,8 @@ const Property = () => {
   const arrproId = id.split("-");
   const proId = arrproId[arrproId.length - 1];
 
+ 
+
   useEffect(() => {
     isNaN(proId) && navigate(`/notfound`),
     axios.get(
@@ -647,6 +649,9 @@ const Property = () => {
         ${data?.pro_city}
 `}
         />
+
+
+
         <meta
           name="og:image"
           content={
@@ -658,7 +663,7 @@ const Property = () => {
           }
         />
 
-        <meta
+        {/* <meta
           name="description"
           content={`Check out this ${
             data?.pro_area_size + " " + data?.pro_area_size_unit + " "
@@ -668,7 +673,19 @@ const Property = () => {
         }. It is an ideal investment opportunity in a prime ${
             data?.pro_type ? data?.pro_type.split(",")[0] : ""
           } area with verified property assurance.`}
+        /> */}
+
+<meta
+          name="description"
+          content={`Check out this ${
+            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " " }${arrproId[3] !== "for" ? arrproId[3] : ""}
+        for ${
+          arrproId[3] === "for" ? arrproId[4] : arrproId[5]
+        }. It is an ideal investment opportunity in a prime${
+            arrproId[3] !== "for" ?  " " + arrproId[2] + " " + arrproId[3] : " " + arrproId[2] + ""
+          } area with verified property assurance.`}
         />
+        
       </Helmet>
 
       {loader ? <Loader /> : ""}
@@ -734,6 +751,14 @@ const Property = () => {
         />
       </Modal>
       <Navbar />
+
+{/* {console.log(`Check out this ${
+            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " " }${arrproId[3] !== "for" ? arrproId[3] : ""}
+        for ${
+          arrproId[3] === "for" ? arrproId[4] : arrproId[5]
+        }. It is an ideal investment opportunity in a prime${
+            arrproId[3] !== "for" ?  " " + arrproId[2] + " " + arrproId[3] : " " + arrproId[2] + ""
+          } area with verified property assurance.`)} */}
 
       <div className="container">
         <div className="row">
