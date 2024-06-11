@@ -185,7 +185,7 @@ const AdminCityMaps = () => {
                   <td>{item.map_image}</td>
                   
                   <td className="d-flex gap-3">
-                    <Link
+                    <Link target="_blank"
                       to={`/citymap/${item.map_city}`}
                     >
                       <button className="view" title="View">

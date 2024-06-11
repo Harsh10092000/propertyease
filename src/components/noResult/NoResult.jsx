@@ -106,7 +106,7 @@ const NoResult = (props) => {
 
   return (
     <div className="m-1">
-      {props.searchValue.length > 0 ? (
+      {props.searchValue?.length > 0 ? (
         <div className="pt-2 pb-3 alert alert-info">
           <div>
             <strong>

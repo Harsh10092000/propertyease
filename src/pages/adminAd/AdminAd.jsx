@@ -212,13 +212,22 @@ const AdminAd = () => {
                   {/* <td>{moment(item.ad_created_at).subtract(item.ad_days, 'days').fromNow()}</td>  */}
                   {/* <td>{moment(item.ad_created_at).fromNow()}</td> */}
                   <td className="d-flex gap-3">
-                    <Link
-                      to={`/3-marla-residential-land-for-sale-in-sector-4-kurukshetra-250`}
+                  {item.ad_type === "all_properties_ad_2" ? 
+                    <Link target="_blank"
+                      to={`/allproperties`}
                     >
                       <button className="view" title="View">
                         <IconEye />
                       </button>
                     </Link>
+:
+<Link target="_blank"
+                      to={`/3-marla-residential-land-for-sale-in-sector-4-kurukshetra-250`}
+                    >
+                      <button className="view" title="View">
+                        <IconEye />
+                      </button>
+                    </Link> }
                     <Link to={"/admin/edit/" + item.ad_id}>
                       <button title="Edit Your Property" className="view">
                         {/* <Link to={"/edit/" + item.pro_id}> */}

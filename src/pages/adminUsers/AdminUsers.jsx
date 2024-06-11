@@ -168,7 +168,7 @@ const AdminUsers = () => {
                     {item.agent_type === "Agent" &&
                     item.count_of_properties !== null ? (
                       <>
-                        <Link to={`/view-properties/${item.login_id}`}>
+                        <Link target="_blank" to={`/view-properties/${item.login_id}`}>
                           <button
                             title="View Your Property"
                             className="btn btn-primary btn-sm vbtn"
@@ -178,7 +178,7 @@ const AdminUsers = () => {
                             </a>
                           </button>
                         </Link>
-                        <Link to={`/agentProfile/${item.login_id}`}>
+                        <Link target="_blank"  to={`/agentProfile/${item.login_id}`}>
                           <button
                             title="View Your Property"
                             className="btn btn-primary btn-sm vbtn"
@@ -190,7 +190,7 @@ const AdminUsers = () => {
                         </Link>
                       </>
                     ) : item.agent_type === "Agent" ? (
-                      <Link to={`/agentProfile/${item.login_id}`}>
+                      <Link target="_blank" to={`/agentProfile/${item.login_id}`}>
                         <button
                           title="View Your Property"
                           className="btn btn-primary btn-sm vbtn"
@@ -201,7 +201,7 @@ const AdminUsers = () => {
                         </button>
                       </Link>
                     ) : item.count_of_properties !== null ? (
-                      <Link to={`/view-properties/${item.login_id}`}>
+                      <Link target="_blank" to={`/view-properties/${item.login_id}`}>
                         <button
                           title="View Your Property"
                           className="btn btn-primary btn-sm vbtn"

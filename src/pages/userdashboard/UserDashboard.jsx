@@ -141,10 +141,8 @@ const UserDashboard = () => {
 
   const [open, setOpen] = React.useState(false);
   const [data1 , setData1] = useState();
-  const handleClickOpen = (data) => {
-    
+  const handleClickOpen = (data) => {    
     setData1(data);
-    
     setOpen(true);
   };
 
@@ -394,7 +392,7 @@ const UserDashboard = () => {
                               </a>
                             </Link>
                           </button>
-                          <Link
+                          <Link target="_blank"
                           to={`/${item.pro_url}`}
                             // to={`/${
                             //   item.pro_area_size.toLowerCase() +
@@ -444,7 +442,7 @@ const UserDashboard = () => {
                               className="btn btn-success btn-sm vbtn"
                               onClick={() => listProperty(item)}
                             >
-                              List
+                              List Again
                             </button>
                           )}
                         </td>

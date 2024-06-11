@@ -495,7 +495,7 @@ const Index = () => {
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">
-                    Find Real Properties at Cheapest Price
+                    Find Real Properties at Best Price
                   </p>
                 </div>
               </div>

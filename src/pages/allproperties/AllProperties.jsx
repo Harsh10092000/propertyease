@@ -5,19 +5,27 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
-import { TextField } from "@mui/material";
+import { TextField, fabClasses } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin, IconEye } from "@tabler/icons-react";
+import {
+  IconBrandWhatsapp,
+  IconMapPin,
+  IconEye,
+  IconSquareCheckFilled,
+  IconSquare,
+  IconAlignLeft,
+} from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 import SearchBarHome from "../../components/searchBarHome/SearchBarHome";
-
+import Checkbox from "@mui/material/Checkbox";
+import Switch from "@mui/material/Switch";
 import { AuthContext } from "../../context/AuthContext";
 
 //import AdSlider2 from "../../components/adslider/AdSlider2";
@@ -25,50 +33,22 @@ import { AuthContext } from "../../context/AuthContext";
 import AllPropertySlider from "../../components/adslider/AllPropertySlider";
 import { useSearchParams } from "react-router-dom";
 import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
+import PropertyCard from "../../components/propertyCard/PropertyCard";
 
 const AllProperties = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
   const [proAdTypeFilter, setProAdTypeFilter] = useState("All");
   const [proSubTypeFilter, setProSubTypeFilter] = useState();
-  useEffect(() => {
-    const myParam = searchParams.get("search");
-    const proadtype = searchParams.get("proadtype");
-    //const temp = searchParams.get("proSubTypeFilter");
-    setSearchValue1(myParam);
-    setProAdTypeFilter(proadtype);
-    //setProSubTypeFilter(temp);
-  }, []);
-
-  const { currentUser } = useContext(AuthContext);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 10;
-  const lastIndex = currentPage * recordsPerPage;
-  let firstIndex = lastIndex - recordsPerPage;
-  const [data, setData] = useState([]);
-  const [subData, setSubData] = useState([]);
-  const [rentData, setRentData] = useState([]);
-  const [skeleton, setSkeleton] = useState(true);
-  //const [suggestions, setSuggestions] = useState();
-  //const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [change, setChange] = useState(1);
   const [searchValue, setSearchValue] = useState("");
-  //const [filter, setFilter] = useState("All");
-  const [userCurrLocation, setUserCurrLocation] = useState("");
-  const [locationSnack, setLocationSnack] = useState(false);
-
-  const handleLocationSnack = (value) => {
-    setLocationSnack(value);
-  };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
+  const [results, setResults] = useState("");
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setData(res.data);
+        setResults(res.data);
         setSkeleton(false);
       });
     axios
@@ -82,6 +62,76 @@ const AllProperties = (props) => {
       .then((res) => {
         setRentData(res.data);
       });
+  }, []);
+
+  useEffect(() => {
+    const myParam = searchParams.get("search");
+    const proadtype = searchParams.get("proadtype");
+    //const temp = searchParams.get("proSubTypeFilter");
+    if (myParam !== null && proadtype !== null) {
+      setSearchValue(myParam);
+      setSearchValue1(myParam);
+      setPropertyAdTypeFilter(proadtype);
+      setChange(change + 1);
+      //handleSearch();
+    }
+    //setProSubTypeFilter(temp);
+  }, []);
+
+  const icon = <IconSquare fontSize="small" height={20} width={20} />;
+  const checkedIcon = (
+    <IconSquareCheckFilled fontSize="small" height={20} width={20} />
+  );
+
+  const { currentUser } = useContext(AuthContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const lastIndex = currentPage * recordsPerPage;
+  let firstIndex = lastIndex - recordsPerPage;
+  const [data, setData] = useState([]);
+  const [subData, setSubData] = useState([]);
+  const [rentData, setRentData] = useState([]);
+  const [skeleton, setSkeleton] = useState(true);
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
+  //const [searchValue, setSearchValue] = useState("");
+  //const [filter, setFilter] = useState("All");
+  const [userCurrLocation, setUserCurrLocation] = useState("");
+  const [locationSnack, setLocationSnack] = useState(false);
+  
+
+  const handleLocationSnack = (value) => {
+    setLocationSnack(value);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  
+
+  // useEffect(() => {
+  //   window.addEventListener('mousedown', handleMouseDown);
+  //   return () => {
+  //     window.removeEventListener('mousedown', handleMouseDown);
+  //   };
+  // }, []);
+
+  // const handleMouseDown = () => {
+  //   setOpenSortByOptions(false);
+  // };
+
+  const handleMouseDown = (event) => {
+    if (event.target.closest(".sort-by") === null) {
+      setOpenSortByOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleMouseDown);
+    return () => {
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
   }, []);
 
   useEffect(() => {
@@ -108,16 +158,16 @@ const AllProperties = (props) => {
     }
   }, []);
 
-  const [records, setRecords] = useState([]);
-  const [nPages, setNPages] = useState(0);
+  // const [records, setRecords] = useState([]);
+  // const [nPages, setNPages] = useState(0);
 
-  const handleRecordsChange = (newRecords) => {
-    setRecords(newRecords);
-  };
+  // const handleRecordsChange = (newRecords) => {
+  //   setRecords(newRecords);
+  // };
 
-  const handleNPagesChange = (newNPages) => {
-    setNPages(newNPages);
-  };
+  // const handleNPagesChange = (newNPages) => {
+  //   setNPages(newNPages);
+  // };
 
   const handleSearchValue = (value) => {
     setSearchValue(value);
@@ -155,6 +205,386 @@ const AllProperties = (props) => {
     { value: "5+" },
   ];
 
+  const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
+    useState("All Properties");
+  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] =
+    useState(false);
+  const propertyAdTypeOptions = [
+    { type: "All Properties" },
+    { type: "Sale" },
+    { type: "Rent" },
+  ];
+
+  const [furnishingStatusFilter, setFurnishingStatusFilter] = useState([]);
+  const [openFurnishingOptions, setOpenFurnishingOptions] = useState(false);
+  const furnishingStatusOptions = [
+    { type: "Fully Furnished" },
+    { type: "Semi Furnished" },
+    { type: "Unfurnished" },
+  ];
+
+  const [possessionAvailableFilter, setPossessionAvailableFilter] = useState(
+    []
+  );
+  const [openPossessionOptions, setOpenPossessionOptions] = useState(false);
+  const possessionAvailableOptions = [
+    { type: "Immediate" },
+    { type: "0-3 Month" },
+    { type: "3-6 Month" },
+    { type: "After 6 Months" },
+  ];
+
+  const [authorityApprovedFilter, setAuthorityApprovedFilter] = useState([]);
+
+  const [openAuthorityOptions, setOpenAuthorityOptions] = useState(false);
+  const authorityApprovedOptions = [
+    { type: "HSVP" },
+    { type: "MC" },
+    { type: "DTP" },
+    { type: "Other" },
+  ];
+
+  const [proCategoryFilter, setProCategoryFilter] = useState([]);
+
+  const [openProCategoryOptions, setOpenProCategoryOptions] = useState(false);
+  const proCategoryOptions = [
+    { type: "Residential" },
+    { type: "Commercial" },
+    { type: "Land" },
+  ];
+
+  const [proWithPhotos, setProWithPhotos] = useState(false);
+  const [proWithParking, setProWithParking] = useState(false);
+
+  const [sortBy, setSortBy] = useState("Recent Listed");
+  const [openSortByOptions, setOpenSortByOptions] = useState(false);
+
+  const [selectedSubTypeFilter, setSelectedSubTypeFilter] = useState([]);
+  // "Apartment",
+  // "Independent House",
+  // "Builder Floor",
+  // "Farm HouseRaw House",
+  // "Retirement Community",
+  // "Studio Apartment",
+  // "Residential Land",
+  // "Commercial Land",
+  // "Industrial Land",
+  // "Agricultural Land",
+  // "Farm House Land",
+  // "Retail Showroom",
+  // "Commercial Building",
+  // "Office Complex",
+  // "Software Technology Park",
+  // "Warehouse",
+  // "Industrial Estate",
+
+  const propertySubTypeOptions = [
+    { id: "t1", type: "Apartment", parent_type: "Residential" },
+    { id: "t2", type: "Independent House", parent_type: "Residential" },
+    { id: "t3", type: "Builder Floor", parent_type: "Residential" },
+    { id: "t4", type: "Farm HouseRaw House", parent_type: "Residential" },
+    { id: "t5", type: "Retirement Community", parent_type: "Residential" },
+    { id: "t6", type: "Studio Apartment", parent_type: "Residential" },
+    { id: "t7", type: "Residential Land", parent_type: "Land" },
+    { id: "t8", type: "Commercial Land", parent_type: "Land" },
+    { id: "t9", type: "Industrial Land", parent_type: "Land" },
+    { id: "t10", type: "Agricultural Land", parent_type: "Land" },
+    { id: "t11", type: "Farm House Land", parent_type: "Land" },
+
+    { id: "t12", type: "Retail Showroom", parent_type: "Commercial" },
+    { id: "t13", type: "Commercial Building", parent_type: "Commercial" },
+    { id: "t14", type: "Office Complex", parent_type: "Commercial" },
+    { id: "t15", type: "Software Technology Park", parent_type: "Commercial" },
+    { id: "t16", type: "Warehouse", parent_type: "Commercial" },
+    { id: "t18", type: "Industrial Estate", parent_type: "Commercial" },
+  ];
+  const [openProSubOptions, setOpenProSubOptions] = useState(false);
+
+  const handleProSubTypeToggle = (type) => {
+    console.log(type);
+    //props.handleCurrentPage(1);
+    if (selectedSubTypeFilter.includes(type)) {
+      setSelectedSubTypeFilter(
+        selectedSubTypeFilter.filter((item) => item !== type)
+      );
+    } else {
+      setSelectedSubTypeFilter([...selectedSubTypeFilter, type]);
+    }
+  };
+
+  const handleAllSubTypes = () => {
+    setSelectedSubTypeFilter((prevSelectedTypes) => {
+      const updatedTypes = propertySubTypeOptions
+        .map((item) => item.type)
+        .filter((type) => !prevSelectedTypes.includes(type));
+      return [...prevSelectedTypes, ...updatedTypes];
+    });
+  };
+
+  const handleToggleFurnishing = (type) => {
+    //props.handleCurrentPage(1);
+    if (furnishingStatusFilter.includes(type)) {
+      setFurnishingStatusFilter(
+        furnishingStatusFilter.filter((item) => item !== type)
+      );
+    } else {
+      setFurnishingStatusFilter([...furnishingStatusFilter, type]);
+    }
+  };
+
+  const handleToggleAuthority = (type) => {
+    //props.handleCurrentPage(1);
+    if (authorityApprovedFilter.includes(type)) {
+      setAuthorityApprovedFilter(
+        authorityApprovedFilter.filter((item) => item !== type)
+      );
+    } else {
+      setAuthorityApprovedFilter([...authorityApprovedFilter, type]);
+    }
+  };
+
+  const handleTogglePossession = (type) => {
+    //props.handleCurrentPage(1);
+    if (possessionAvailableFilter.includes(type)) {
+      setPossessionAvailableFilter(
+        possessionAvailableFilter.filter((item) => item !== type)
+      );
+    } else {
+      setPossessionAvailableFilter([...possessionAvailableFilter, type]);
+    }
+  };
+
+  const handleToggleProCategory = (type) => {
+    //props.handleCurrentPage(1);
+    if (proCategoryFilter.includes(type)) {
+      setProCategoryFilter(proCategoryFilter.filter((item) => item !== type));
+    } else {
+      setProCategoryFilter([...proCategoryFilter, type]);
+    }
+  };
+
+  useEffect(() => {
+    const unique1 = Array.from(
+      new Set(data?.slice(0, 60).map((item) => item.pro_city.trim()))
+    );
+    const uniqueState = Array.from(
+      new Set(data?.slice(0, 60).map((item) => item.pro_state.trim()))
+    );
+
+    const unique2 = Array.from(
+      new Set(
+        data
+          ?.slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") + item.pro_city.trim()
+          )
+      )
+    );
+    const unique3 = Array.from(
+      new Set(
+        data
+          ?.slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") +
+              item.pro_city.trim()
+          )
+      )
+    );
+
+    const arr = [
+      ...unique1,
+      ...uniqueState,
+      ...unique2,
+      ...unique3,
+      searchValue,
+    ];
+
+    const unique4 = Array.from(
+      new Set(arr.slice(0, 200).map((item) => item.trim()))
+    );
+    const unique = unique4.filter((i) =>
+      i.toLowerCase().startsWith(searchValue.toLowerCase())
+    );
+
+    if (searchValue === "") {
+      setOpenSuggestions(false);
+    }
+
+    setSuggestions(unique);
+  }, [searchValue]);
+
+  let sortedUsers = [...data];
+
+  if (sortBy === "Recent Listed") {
+    sortedUsers.sort((a, b) => b.pro_id - a.pro_id);
+  } else if (sortBy === "Most Popular") {
+    sortedUsers.sort((a, b) => b.pro_views - a.pro_views);
+  }
+
+  const handleSearch = () => {
+    setOpenSuggestions(false);
+    let searchWords = searchValue?.toLowerCase().split(",");
+    setSearchValue1(searchValue);
+
+    const filteredData = (results.length > 0 ? results : sortedUsers).filter(
+      (item) => {
+        const itemValues =
+          item.pro_locality +
+          " " +
+          item.pro_city +
+          " " +
+          item.pro_sub_district +
+          " " +
+          item.pro_street +
+          " " +
+          item.pro_state;
+
+        return searchWords.every((word) =>
+          itemValues.toLowerCase().includes(word)
+        );
+      }
+    );
+
+    setResults(filteredData);
+  };
+
+  useEffect(() => {
+    let searchWords = searchValue1?.toLowerCase().split(",");
+    const filteredData = sortedUsers
+      .filter((code) => {
+        if (proWithPhotos === true) {
+          return code.img_id !== null;
+        } else if (proWithPhotos === false) {
+          return true;
+        }
+      })
+      .filter((code) => {
+        if (proWithParking === true) {
+          return code.pro_parking > 0;
+        } else if (proWithParking === false) {
+          return true;
+        }
+      })
+      .filter((code) => {
+        if (propertyAdTypeFilter === "Sale") {
+          return code.pro_ad_type === "Sale";
+        } else if (propertyAdTypeFilter === "Rent") {
+          return code.pro_ad_type === "Rent";
+        } else if (propertyAdTypeFilter === "All Properties") {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const result = furnishingStatusFilter.includes(item.pro_furnishing);
+        if (result === true) {
+          return item;
+        } else if (furnishingStatusFilter.length === 0) {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const result = proCategoryFilter.includes(item.pro_type.split(",")[1]);
+        if (result === true) {
+          return item;
+        } else if (proCategoryFilter.length === 0) {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const result = selectedSubTypeFilter.includes(
+          item.pro_type.split(",")[0]
+        );
+
+        if (result === true) {
+          return item;
+        } else if (selectedSubTypeFilter.length === 0) {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const result = authorityApprovedFilter.includes(item.pro_approval);
+        if (result === true) {
+          return item;
+        } else if (authorityApprovedFilter.length === 0) {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const result = possessionAvailableFilter.includes(item.pro_possession);
+        if (result === true) {
+          return item;
+        } else if (possessionAvailableFilter.length === 0) {
+          return true;
+        }
+      })
+      .filter((item) => {
+        const itemValues =
+          item.pro_locality +
+          " " +
+          item.pro_city +
+          " " +
+          item.pro_sub_district +
+          " " +
+          item.pro_street +
+          " " +
+          item.pro_state;
+
+        if (searchWords.length !== 0) {
+          return searchWords.every((word) =>
+            itemValues.toLowerCase().includes(word)
+          );
+        } else {
+          return true;
+        }
+      });
+      console.log(filteredData)
+    setResults(filteredData);
+  }, [
+    sortBy,
+    searchValue1,
+    propertyAdTypeFilter,
+    furnishingStatusFilter,
+    proCategoryFilter,
+    selectedSubTypeFilter,
+    possessionAvailableFilter,
+    authorityApprovedFilter,
+    proWithPhotos,
+    change,
+  ]);
+
+  console.log(results);
+  const records = results?.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(results?.length / recordsPerPage);
+
+  //  const records =
+  //   searchValue === ""
+  //     ? data.slice(firstIndex, lastIndex)
+  //     : results.slice(firstIndex, lastIndex);
+
+  // const nPages = Math.ceil(
+  //   searchValue === ""
+  //     ? data.length / recordsPerPage
+  //     : results.length / recordsPerPage
+  //);
+
+  // useEffect(() => {
+  //   props.handleRecordsChange(records);
+  //   props.handleNPagesChange(nPages);
+  // }, [records, nPages]);
+
+  // const [todo , setTodo] = useState([]);
+  // const [todoVal , setTodoVal] = useState();
+  // const editTodo = (item, index) => {
+
+  //   setTodoVal(item)
+  // }
   return (
     <div>
       <Helmet>
@@ -183,10 +613,20 @@ const AllProperties = (props) => {
             <div className="title">
               <h2>
                 All Properties
-                <span className="ml-2 numberProperties">{data.length}</span>
+                <span className="ml-2 numberProperties">{records.length}</span>
               </h2>
 
-              <SearchBarHome
+              {/* <div>
+  <input type="text" value={todoVal} onChange={(e) => setTodoVal(e.target.value)}  />
+  <button onClick={() => setTodo([...todo, todoVal])}>add</button>
+
+</div>
+
+<div>{todo.map((item, index) => (
+  <div>{item} <button onClick={() => editTodo(item,index)}>edit</button><button>delete</button></div>
+))}</div> */}
+
+              {/* <SearchBarHome
                 //proSubTypeFilter={proSubTypeFilter}
                 proAdTypeFilter={proAdTypeFilter}
                 searchValue1={searchValue1}
@@ -199,224 +639,99 @@ const AllProperties = (props) => {
                 handleLocationSnack={handleLocationSnack}
                 handleCurrentPage={handleCurrentPage}
                 currentPage={currentPage}
-              />
+              /> */}
+
+              <div className="row hero-search-all-pro">
+                <div
+                  className={`col-md-3 sort-by pointer position-relative ${
+                    openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
+                  }`}
+                  onClick={() => setOpenSortByOptions(!openSortByOptions)}
+                >
+                  <div className="sort-by-value">{sortBy}</div>
+                  {openSortByOptions && (
+                    <div className="sort-by-menu">
+                      <div
+                        className={`${
+                          sortBy === "Recent Listed" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSortBy("Recent Listed"),
+                            setOpenSortByOptions(false);
+                        }}
+                      >
+                        Recent Listed
+                      </div>
+                      <div
+                        className={`${
+                          sortBy === "Most Popular" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSortBy("Most Popular"),
+                            setOpenSortByOptions(false);
+                        }}
+                      >
+                        Most Popular
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="col-md-7">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a property"
+                    value={searchValue}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value), setOpenSuggestions(true);
+                    }}
+                  />
+
+                  {/* <div class="location-icon">
+                    <IconAdjustmentsHorizontal />
+                  </div> */}
+                  {openSuggestions && (
+                    <div className=" search-suggestions-2 pt-2 shadow pb-2">
+                      {suggestions.map((item) => (
+                        <div
+                          className="py-2 pl-2 suggesion-item-2 pointer"
+                          onClick={() => {
+                            setSearchValue(item), setOpenSuggestions(false);
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="col-md-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary w-100 "
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
             </div>
+
             <div className="row">
               <div className="col-md-9">
                 {!skeleton &&
                   records?.length > 0 &&
-                  records.slice(0, 2).map((object, index) => (
-                    <div className="list-group" key={index}>
-                      <div className="row">
-                        <div className="col-md-auto flex-column text-center">
-                          <div className="buiness-logo">
-                            <Link to={`/${object.pro_url}`}>
-                              {object.img_link ? (
-                                <div>
-                                  <img
-                                    src={`${
-                                      import.meta.env.VITE_BACKEND
-                                    }/propertyImages/watermark/${
-                                      object.img_link
-                                    }`}
-                                    alt="img"
-                                  />
-                                  <div className="top-left-2">
-                                    {object.pro_views !== null &&
-                                      parseInt(object.pro_views) > 0 && (
-                                        <li className="property-view-count ">
-                                          <IconEye width={20} height={20} className="icon"  />
-                                          {/* <span className="mobile-hidden pr-1">
-                                            Views
-                                          </span> */}
-                                          {object.pro_views}
-                                        </li>
-                                      )}
-                                  </div>
-                                </div>
-                              ) : (
-                                <div>
-                                  <img
-                                    src="/images/default.png"
-                                    alt="no image"
-                                  />
-                                  <div className="top-left-2">
-                                    {object.pro_views !== null &&
-                                      parseInt(object.pro_views) > 0 && (
-                                        <li className="property-view-count ">
-                                          <IconEye width={20} height={20} className="icon" />
-                                          {/* <span className="mobile-hidden pr-1">
-                                            Views
-                                          </span> */}
-                                          {object.pro_views}
-                                        </li>
-                                      )}
-                                  </div>
-                                </div>
-                              )}
-                            </Link>
-                          </div>
-                        </div>
-
-                        <div className="col" style={{ minWidth: 0 }}>
-                          <div className="recent-box-serv">
-                            <div className="recent-bus-content">
-                              <div className="property-listing-type">
-                                <Link to={`/${object.pro_url}`}>
-                                  <span className="text-wrap text-bold">
-                                    {object.pro_area_size +
-                                      " " +
-                                      object.pro_area_size_unit +
-                                      " " +
-                                      object.pro_type.split(",")[0] +
-                                      " "}
-                                    for{" "}
-                                    {object.pro_ad_type === "Rent"
-                                      ? "Rent"
-                                      : "Sale"}{" "}
-                                    in{" "}
-                                    <span className="text-capitalize">
-                                      {object.pro_locality}
-                                    </span>
-                                    ,&nbsp;
-                                    {object.pro_sub_district
-                                      ? object.pro_sub_district + ", "
-                                      : ""}
-                                    {object.pro_city},&nbsp;
-                                    {object.pro_state}
-                                  </span>
-                                </Link>
-                              </div>
-                              <ul>
-                                <li className="text-capitalize">
-                                  <img
-                                    src="/img/location.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon"></strong>
-                                  {object.pro_locality},&nbsp;
-                                  {object.pro_city}
-                                </li>
-                                {object.pro_width ? (
-                                  <li>
-                                    <img
-                                      src="/img/meter.png"
-                                      className="property-slider-icon"
-                                    />
-                                    <strong className="frontPropIcon">
-                                      Dimension&nbsp;
-                                    </strong>
-                                    {object.pro_width} Feet *{" "}
-                                    {object.pro_length + " "}
-                                    Feet
-                                  </li>
-                                ) : (
-                                  ""
-                                )}
-                                <li>
-                                  <img
-                                    src="/img/rupee.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    {object.pro_amt && "Price"}
-                                  </strong>
-                                  &nbsp;
-                                  {object.pro_amt
-                                    ? "₹" +
-                                      object.pro_amt +
-                                      " " +
-                                      object.pro_amt_unit
-                                    : "Ask Price"}
-                                </li>
-
-                                <li>
-                                  <img
-                                    src="/img/facing.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Property Facing
-                                  </strong>
-                                  &nbsp;{object.pro_facing}
-                                </li>
-                              </ul>
-                              {/* <Link
-                              to={`/property/${object.pro_type
-                                .split(",")[0]
-                                .replace(
-                                  " ",
-                                  "-"
-                                )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                object.pro_id
-                              }`}
-                            >
-                              <a title="View More" className="btn-viewmore">
-                                View More
-                              </a>
-                            </Link> */}
-                            </div>
-                            <div className="pt-3 d-flex justify-content-between align-items-center listing-details-wrapper">
-                              <div className=" listed pl-md-0 listing-details">
-                                {object.user_type === "Agent" &&
-                                object.pro_user_type === "Agent" ? (
-                                  <Link
-                                    to={`/agentProfile/${object.pro_user_id}`}
-                                    title="Click to View Agent Profile"
-                                  >
-                                    Listed by{" "}
-                                    {currentUser &&
-                                    object.pro_user_id ==
-                                      currentUser[0].login_id
-                                      ? "Me "
-                                      : object.agent_name +
-                                        " (" +
-                                        object.pro_user_type +
-                                        ")" +
-                                        " "}
-                                  </Link>
-                                ) : (
-                                  "Listed by " +
-                                  (currentUser &&
-                                  object.pro_user_id == currentUser[0].login_id
-                                    ? "Me "
-                                    : object.pro_user_type + " ")
-                                )}
-                                <br />
-                                {DateTime(object.pro_date)}
-                              </div>
-
-                              <div className="d-flex listing-buttons">
-                                <div className="mr-2 mt-1 ">
-                                  <Link to={`/${object.pro_url}`}>
-                                    <a
-                                      title="View complete details of this property"
-                                      className=" btn-viewmore"
-                                    >
-                                      View More
-                                    </a>
-                                  </Link>
-                                </div>
-
-                                <div>
-                                  <a
-                                    rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${object.pro_url}`}
-                                    target="_blank"
-                                    className="conatct-propertywp"
-                                    title=" Whatsapp/Contact for this property"
-                                  >
-                                    <IconBrandWhatsapp />
-                                    <span className="pl-1">Whatsapp</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  records
+                    .slice(0, 2)
+                    .map((object, index) => (
+                      <PropertyCard
+                        object={object}
+                        index={index}
+                        currentUser={currentUser}
+                        DateTime={DateTime}
+                      />
+                    ))}
                 {skeleton && (
                   <div>
                     <Skeleton variant="rectangular" width={813} height={200} />
@@ -477,245 +792,16 @@ const AllProperties = (props) => {
                 {/* ad section end */}
                 {!skeleton &&
                   records?.length > 0 &&
-                  records.slice(2).map((object, index) => (
-                    <div className="list-group" key={index}>
-                      <div className="row">
-                        <div className="col-md-auto flex-column text-center">
-                          <div className="buiness-logo">
-                            <Link
-                              to={`/${object.pro_url}`}
-                              
-                            >
-                              {object.img_link ? (
-                                <div>
-                                <img
-                                  src={`${
-                                    import.meta.env.VITE_BACKEND
-                                  }/propertyImages/watermark/${
-                                    object.img_link
-                                  }`}
-                                  alt="img"
-                                />
-                                <div className="top-left-2">
-                                  {object.pro_views !== null &&
-                                    parseInt(object.pro_views) > 0 && (
-                                      <li className="property-view-count ">
-                                        <IconEye width={20} height={20} className="icon" />
-                                        {/* <span className="mobile-hidden pr-1">
-                                          Views
-                                        </span> */}
-                                        {object.pro_views}
-                                      </li>
-                                    )}
-                                </div>
-                              </div>
-                              ) : (
-                                <div>
-                                  <img
-                                    src="/images/default.png"
-                                    alt="no image"
-                                  />
-                                  <div className="top-left-2">
-                                    {object.pro_views !== null &&
-                                      parseInt(object.pro_views) > 0 && (
-                                        <li className="property-view-count ">
-                                          <IconEye width={20} height={20} className="icon" />
-                                          {/* <span className="mobile-hidden pr-1">
-                                            Views
-                                          </span> */}
-                                          {object.pro_views}
-                                        </li>
-                                      )}
-                                  </div>
-                                </div>
-                              )}
-                            </Link>
-                          </div>
-                        </div>
-
-                        <div className="col" style={{ minWidth: 0 }}>
-                          <div className="recent-box-serv">
-                            <div className="recent-bus-content">
-                              <div className="property-listing-type">
-                                <Link
-                                  // to={`/${
-                                  //   object.pro_area_size.toLowerCase() +
-                                  //   "-" +
-                                  //   object.pro_area_size_unit
-                                  //     .toLowerCase()
-                                  //     .replaceAll(" ", "-")
-                                  //     .replaceAll(".", "") +
-                                  //   "-"
-                                  // }${
-                                  //   object.pro_type
-                                  //     ? object.pro_type
-                                  //         .split(",")[0]
-                                  //         .toLowerCase()
-                                  //         .replaceAll(" ", "-")
-                                  //     : ""
-                                  // }-for-${
-                                  //   object.pro_ad_type === "rent"
-                                  //     ? "rent"
-                                  //     : "sale"
-                                  // }-in-${object.pro_locality
-                                  //   .toLowerCase()
-                                  //   .replaceAll(" ", "-")}-${object.pro_city
-                                  //   .toLowerCase()
-                                  //   .replaceAll(" ", "-")}-${object.pro_id}`}
-                                  to={`/${object.pro_url}`}
-                                >
-                                  <span className="text-wrap text-bold">
-                                    {object.pro_area_size +
-                                      " " +
-                                      object.pro_area_size_unit +
-                                      " " +
-                                      object.pro_type.split(",")[0] +
-                                      " "}
-                                    for{" "}
-                                    {object.pro_ad_type === "Rent"
-                                      ? "Rent"
-                                      : "Sale"}{" "}
-                                    in{" "}
-                                    <span className="text-capitalize">
-                                      {object.pro_locality}
-                                    </span>
-                                    ,&nbsp;
-                                    {object.pro_sub_district
-                                      ? object.pro_sub_district + ", "
-                                      : ""}
-                                    {object.pro_city},&nbsp;
-                                    {object.pro_state}
-                                  </span>
-                                </Link>
-                              </div>
-                              <ul>
-                                <li className="text-capitalize">
-                                  <img
-                                    src="/img/location.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon"></strong>
-                                  {object.pro_locality},&nbsp;
-                                  {object.pro_city}
-                                </li>
-                                {object.pro_width ? (
-                                  <li>
-                                    <img
-                                      src="/img/meter.png"
-                                      className="property-slider-icon"
-                                    />
-                                    <strong className="frontPropIcon">
-                                      Dimension&nbsp;
-                                    </strong>
-                                    {object.pro_width} Feet *{" "}
-                                    {object.pro_length + " "}
-                                    Feet
-                                  </li>
-                                ) : (
-                                  ""
-                                )}
-                                <li>
-                                  <img
-                                    src="/img/rupee.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    {object.pro_amt && "Price"}
-                                  </strong>
-                                  &nbsp;
-                                  {object.pro_amt
-                                    ? "₹" +
-                                      object.pro_amt +
-                                      " " +
-                                      object.pro_amt_unit
-                                    : "Ask Price"}
-                                </li>
-
-                                <li>
-                                  <img
-                                    src="/img/facing.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Property Facing
-                                  </strong>
-                                  &nbsp;{object.pro_facing}
-                                </li>
-                              </ul>
-                              {/* <Link
-                              to={`/property/${object.pro_type
-                                .split(",")[0]
-                                .replace(
-                                  " ",
-                                  "-"
-                                )}-${object.pro_ad_type.replace(" ", "-")}_${
-                                object.pro_id
-                              }`}
-                            >
-                              <a title="View More" className="btn-viewmore">
-                                View More
-                              </a>
-                            </Link> */}
-                            </div>
-                            <div className="pt-3 d-flex justify-content-between  align-items-center listing-details-wrapper">
-                              <div className=" listed pl-md-0">
-                                {object.user_type === "Agent" &&
-                                object.pro_user_type === "Agent" ? (
-                                  <Link
-                                    to={`/agentProfile/${object.pro_user_id}`}
-                                    title="Click to View Agent Profile"
-                                  >
-                                    Listed by{" "}
-                                    {currentUser &&
-                                    object.pro_user_id ==
-                                      currentUser[0].login_id
-                                      ? "Me "
-                                      : object.agent_name +
-                                        " (" +
-                                        object.pro_user_type +
-                                        ")" +
-                                        " "}
-                                  </Link>
-                                ) : (
-                                  "Listed by " +
-                                  (currentUser &&
-                                  object.pro_user_id == currentUser[0].login_id
-                                    ? "Me "
-                                    : object.pro_user_type + " ")
-                                )}
-                                <br />
-                                {DateTime(object.pro_date)}
-                              </div>
-                              <div className="d-flex listing-buttons">
-                                <div className="mr-2 mt-1 ">
-                                  <Link to={`/${object.pro_url}`}>
-                                    <a
-                                      title="View complete details of this property"
-                                      className=" btn-viewmore"
-                                    >
-                                      View More
-                                    </a>
-                                  </Link>
-                                </div>
-                                <div>
-                                  <a
-                                    rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${object.pro_url}`}
-                                    target="_blank"
-                                    className="conatct-propertywp"
-                                    title=" Whatsapp/Contact for this property"
-                                  >
-                                    <IconBrandWhatsapp />
-                                    <span className="pl-1">Whatsapp</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  records
+                    .slice(2)
+                    .map((object, index) => (
+                      <PropertyCard
+                        object={object}
+                        index={index}
+                        currentUser={currentUser}
+                        DateTime={DateTime}
+                      />
+                    ))}
                 {skeleton && (
                   <div>
                     <Skeleton variant="rectangular" width={813} height={200} />
@@ -748,27 +834,358 @@ const AllProperties = (props) => {
                 )} */}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
-                <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      For Sale
+                <div className="all-pro-filter shadow">
+                  <div className="p-1 ">
+                    {/* ########### filter 1 ########### */}
+
+                    <div
+                      className={`property-type-filter pointer position-relative ${
+                        openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() =>
+                        setOpenPropertyAdTypeOptions(!openPropertyAdTypeOptions)
+                      }
+                    >
+                      <div>Purchase Type</div>
+                      <span className="selected">{propertyAdTypeFilter}</span>
                     </div>
-                    {subData.map((sub, index) => (
-                      <Link
-                        to={`/${sub.pro_type
-                          .split(",")[1]
-                          .toLowerCase()}/${sub.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{sub.pro_type.split(",")[0]}</div>
-                          <div>({sub.pro_sub_cat_number})</div>
+
+                    {openPropertyAdTypeOptions &&
+                      propertyAdTypeOptions.map((item) => (
+                        <div
+                          className={`${
+                            propertyAdTypeFilter === item.type
+                              ? "selected-option pointer"
+                              : "options pointer"
+                          }`}
+                          onClick={() => {
+                            setPropertyAdTypeFilter(item.type);
+                            //,setOpenPropertyAdTypeOptions(false);
+                          }}
+                        >
+                          {item.type}
                         </div>
-                      </Link>
-                    ))}
+                      ))}
+
+                    {/* ########### filter 2 ########### */}
+                    <div
+                      className={`property-type-filter pointer position-relative border-top ${
+                        openProCategoryOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() =>
+                        setOpenProCategoryOptions(!openProCategoryOptions)
+                      }
+                    >
+                      <div>Property Types</div>
+
+                      <span className="selected">
+                        {proCategoryFilter.length > 0 ? (
+                          proCategoryFilter[0] +
+                          (proCategoryFilter.length > 1
+                            ? " + " + (proCategoryFilter.length - 1) + " more"
+                            : "")
+                        ) : (
+                          <span className="text-danger ml-0"></span>
+                        )}
+                      </span>
+                    </div>
+
+                    {openProCategoryOptions &&
+                      proCategoryOptions.map((item, index) => (
+                        <div
+                          className={`${
+                            proCategoryFilter.includes(item.type)
+                              ? "selected-check-box-option pointer"
+                              : "check-box-options pointer"
+                          }`}
+                          onClick={() => handleToggleProCategory(item.type)}
+                        >
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            //style={{ marginRight: 8 }}
+                            checked={proCategoryFilter.includes(item.type)}
+                          />
+
+                          {item.type}
+                        </div>
+                      ))}
+
+                    {/* ########### filter 3 ########### */}
+
+                    <div
+                      className={`property-type-filter pointer position-relative border-top ${
+                        openProSubOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() => setOpenProSubOptions(!openProSubOptions)}
+                    >
+                      <div>Property Sub Type</div>
+
+                      <span className="selected">
+                        {selectedSubTypeFilter.length > 0 ? (
+                          selectedSubTypeFilter[0] +
+                          (selectedSubTypeFilter.length > 1
+                            ? " + " +
+                              (selectedSubTypeFilter.length - 1) +
+                              " more"
+                            : "")
+                        ) : (
+                          <span className="text-danger ml-0"></span>
+                        )}
+                      </span>
+                    </div>
+
+                    {openProSubOptions && (
+                      <div
+                        className="sub-pro-type-wrapper"
+                        style={{ height: openProSubOptions ? "400px" : "auto" }}
+                      >
+                        {selectedSubTypeFilter.length === 17 ? (
+                          <div
+                            onClick={() => setSelectedSubTypeFilter([])}
+                            className="selected-check-box-option pointer"
+                          >
+                            <Checkbox
+                              icon={icon}
+                              checkedIcon={checkedIcon}
+                              //style={{ marginRight: 8 }}
+                              checked={true}
+                            />
+                            {/* <IconMinus width={16} height={16} className="mr-1" stroke={1} /> */}
+                            Deselect All
+                          </div>
+                        ) : (
+                          <div
+                            onClick={handleAllSubTypes}
+                            className="check-box-options pointer"
+                          >
+                            <Checkbox
+                              icon={icon}
+                              checkedIcon={checkedIcon}
+                              //style={{ marginRight: 8 }}
+                              checked={false}
+                            />
+                            {/* <IconPlus width={16} height={16} className="mr-1" /> */}
+                            Select All
+                          </div>
+                        )}
+
+                        {propertySubTypeOptions.map((item, index) =>
+                          proCategoryFilter.includes(item.parent_type) ||
+                          proCategoryFilter.length === 0 ? (
+                            <div
+                              className={`${
+                                selectedSubTypeFilter.includes(item.type)
+                                  ? "selected-check-box-option pointer"
+                                  : "check-box-options pointer"
+                              }`}
+                              onClick={() => handleProSubTypeToggle(item.type)}
+                            >
+                              <Checkbox
+                                icon={icon}
+                                checkedIcon={checkedIcon}
+                                //style={{ marginRight: 8 }}
+                                checked={selectedSubTypeFilter.includes(
+                                  item.type
+                                )}
+                              />
+
+                              {item.type}
+                            </div>
+                          ) : (
+                            <div
+                              className={`${
+                                selectedSubTypeFilter.includes(item.type)
+                                  ? "selected-check-box-option blocked-pointer dis-color "
+                                  : "check-box-options blocked-pointer dis-color"
+                              }`}
+                              //onClick={() => handleProSubTypeToggle(item.type)}
+                            >
+                              <Checkbox
+                                disabled
+                                icon={icon}
+                                checkedIcon={checkedIcon}
+                                //style={{ marginRight: 8 }}
+                                checked={selectedSubTypeFilter.includes(
+                                  item.type
+                                )}
+                              />
+
+                              {item.type}
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+                    {/* ########### filter 4 ########### */}
+                    <div
+                      className={`property-type-filter pointer position-relative border-top ${
+                        openFurnishingOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() =>
+                        setOpenFurnishingOptions(!openFurnishingOptions)
+                      }
+                    >
+                      <div>Furnishing Status</div>
+
+                      <span className="selected">
+                        {furnishingStatusFilter.length > 0 ? (
+                          furnishingStatusFilter[0] +
+                          (furnishingStatusFilter.length > 1
+                            ? " + " +
+                              (furnishingStatusFilter.length - 1) +
+                              " more"
+                            : "")
+                        ) : (
+                          <span className="text-danger ml-0"></span>
+                        )}
+                      </span>
+                    </div>
+
+                    {openFurnishingOptions &&
+                      furnishingStatusOptions.map((item, index) => (
+                        <div
+                          className={`${
+                            furnishingStatusFilter.includes(item.type)
+                              ? "selected-check-box-option pointer"
+                              : "check-box-options pointer"
+                          }`}
+                          onClick={() => handleToggleFurnishing(item.type)}
+                        >
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            //style={{ marginRight: 8 }}
+                            checked={furnishingStatusFilter.includes(item.type)}
+                          />
+
+                          {item.type}
+                        </div>
+                      ))}
+
+                    {/* ########### filter 5 ########### */}
+
+                    <div
+                      className={`property-type-filter pointer position-relative border-top ${
+                        openAuthorityOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() =>
+                        setOpenAuthorityOptions(!openAuthorityOptions)
+                      }
+                    >
+                      <div>Authority Approved</div>
+
+                      <span className="selected">
+                        {authorityApprovedFilter.length > 0 ? (
+                          authorityApprovedFilter[0] +
+                          (authorityApprovedFilter.length > 1
+                            ? " + " +
+                              (authorityApprovedFilter.length - 1) +
+                              " more"
+                            : "")
+                        ) : (
+                          <span className="text-danger ml-0"></span>
+                        )}
+                      </span>
+                    </div>
+
+                    {openAuthorityOptions &&
+                      authorityApprovedOptions.map((item, index) => (
+                        <div
+                          className={`${
+                            authorityApprovedFilter.includes(item.type)
+                              ? "selected-check-box-option pointer"
+                              : "check-box-options pointer"
+                          }`}
+                          onClick={() => handleToggleAuthority(item.type)}
+                        >
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            //style={{ marginRight: 8 }}
+                            checked={authorityApprovedFilter.includes(
+                              item.type
+                            )}
+                          />
+
+                          {item.type}
+                        </div>
+                      ))}
+
+                    {/* ########### filter 6 ########### */}
+
+                    <div
+                      className={`property-type-filter pointer position-relative border-top ${
+                        openPossessionOptions ? "arrow-up" : "arrow-down"
+                      }`}
+                      onClick={() =>
+                        setOpenPossessionOptions(!openPossessionOptions)
+                      }
+                    >
+                      <div>Possession availability</div>
+
+                      <span className="selected">
+                        {possessionAvailableFilter.length > 0 ? (
+                          possessionAvailableFilter[0] +
+                          (possessionAvailableFilter.length > 1
+                            ? " + " +
+                              (possessionAvailableFilter.length - 1) +
+                              " more"
+                            : "")
+                        ) : (
+                          <span className="text-danger ml-0"></span>
+                        )}
+                      </span>
+                    </div>
+
+                    {openPossessionOptions &&
+                      possessionAvailableOptions.map((item, index) => (
+                        <div
+                          className={`${
+                            possessionAvailableFilter.includes(item.type)
+                              ? "selected-check-box-option pointer"
+                              : "check-box-options pointer"
+                          }`}
+                          onClick={() => handleTogglePossession(item.type)}
+                        >
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            //style={{ marginRight: 8 }}
+                            checked={possessionAvailableFilter.includes(
+                              item.type
+                            )}
+                          />
+
+                          {item.type}
+                        </div>
+                      ))}
+
+                    {/* ########### filter 7 ########### */}
+                    <div
+                      className={`switch-filter pointer position-relative border-top `}
+                    >
+                      <div>Properties With Photos</div>
+                      <div>
+                        <Switch
+                          size="small"
+                          onClick={() => setProWithPhotos(!proWithPhotos)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* ########### filter 8 ########### */}
+                    <div
+                      className={`switch-filter pointer position-relative border-top `}
+                    >
+                      <div>Parking Available</div>
+                      <div>
+                        <Switch
+                          size="small"
+                          onClick={() => setProWithParking(!proWithParking)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 

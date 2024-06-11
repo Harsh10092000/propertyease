@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { IconEye, IconTrashFilled } from "@tabler/icons-react";
 import { Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import { TextField, FormControl, Select, InputLabel, MenuItem   } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -90,20 +97,53 @@ const AdminDashboard = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-  const deleteProperty = async (id) => {
+  const [open, setOpen] = useState(false);
+  const [delId, setDelId] = useState("");
+  const handleClickOpen = (data) => {    
+    setDelId(data);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteProperty = async () => {
     try {
       await axios.delete(
-        import.meta.env.VITE_BACKEND + `/api/admin/deletePro/${id}`
+        import.meta.env.VITE_BACKEND + `/api/admin/deletePro/${delId}`
       );
       setSearchValue("")
       setChange(change + 1);
       setSnack(true);
+      setOpen(false);
     } catch (err) {
       console.log(err);
     }
   };
   return (
     <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete this property? "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          You will not be able to recover it.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button className="btn-danger" onClick={deleteProperty} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         ContentProps={{
           sx: {
@@ -212,6 +252,7 @@ const AdminDashboard = () => {
                       </button>
                     </Link> */}
                     <Link
+                    target="_blank"
                     to={`/${item.pro_url}`}
                         // to={`/${
                         //   item.pro_area_size.toLowerCase() +
@@ -243,7 +284,7 @@ const AdminDashboard = () => {
                     <button
                       className="del"
                       title="Delete"
-                      onClick={() => deleteProperty(item.pro_id)}
+                      onClick={() => handleClickOpen(item.pro_id)}
                     >
                       <IconTrashFilled />
                     </button>
