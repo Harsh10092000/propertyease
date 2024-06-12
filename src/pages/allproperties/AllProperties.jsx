@@ -35,7 +35,26 @@ import { useSearchParams } from "react-router-dom";
 import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 
+import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
+import { Viewer } from '@photo-sphere-viewer/core';
+
+import PhotoSphereViewer from 'photo-sphere-viewer';
+
+import { useRef } from "react";
+// import ReactPannellum, { getConfig } from "react-pannellum";
+
+
+
 const AllProperties = (props) => {
+  // const [config, setConfig] = useState({
+  //   autoRotate: -2,
+  // });
+
+  // const handleClick = () => {
+  //   console.log(getConfig());
+  // };
+  
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
   const [proAdTypeFilter, setProAdTypeFilter] = useState("All");
@@ -588,6 +607,40 @@ const AllProperties = (props) => {
 
   //   setTodoVal(item)
   // }
+  
+
+
+
+ 
+
+  // const sphereElementRef = useRef(null);
+  // const { src } = props;
+
+  // useEffect(() => {
+  //   const shperePlayerInstance = PhotoSphereViewer({
+  //     container: sphereElementRef.current,
+  //     panorama: 'https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg',
+
+     
+  //   });    
+
+  //   // unmount component instructions
+  //   return () => {
+  //     shperePlayerInstance.destroy();
+  //   };
+  // }, [src]); 
+  const viewerRef = useRef(<ReactPhotoSphereViewer />);
+  useEffect(() => {
+    if (!viewerRef.current)
+      return;
+    viewerRef.current.animate({
+  yaw: Math.PI / 2,
+  pitch: '20deg',
+  zoom: 50,
+  speed: '2rpm',
+    });
+  }, []);
+
   return (
     <div>
       <Helmet>
@@ -610,6 +663,17 @@ const AllProperties = (props) => {
           "Thank You for showing interest in this property, we will get back to you soon."
         }
       /> */}
+
+
+
+      
+{/* <div ref={viewerRef} />; */}
+      
+
+
+
+      <ReactPhotoSphereViewer ref={viewerRef} src="https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg" height={'50vh'} width={"50%"}></ReactPhotoSphereViewer>
+
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
