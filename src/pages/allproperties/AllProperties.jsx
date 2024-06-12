@@ -36,14 +36,12 @@ import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 
 import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
-import { Viewer } from '@photo-sphere-viewer/core';
+import { Viewer } from "@photo-sphere-viewer/core";
 
-import PhotoSphereViewer from 'photo-sphere-viewer';
+import PhotoSphereViewer from "photo-sphere-viewer";
 
 import { useRef } from "react";
 // import ReactPannellum, { getConfig } from "react-pannellum";
-
-
 
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
@@ -53,7 +51,6 @@ const AllProperties = (props) => {
   // const handleClick = () => {
   //   console.log(getConfig());
   // };
-  
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
@@ -607,11 +604,6 @@ const AllProperties = (props) => {
 
   //   setTodoVal(item)
   // }
-  
-
-
-
- 
 
   // const sphereElementRef = useRef(null);
   // const { src } = props;
@@ -621,25 +613,63 @@ const AllProperties = (props) => {
   //     container: sphereElementRef.current,
   //     panorama: 'https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg',
 
-     
-  //   });    
+  //   });
 
   //   // unmount component instructions
   //   return () => {
   //     shperePlayerInstance.destroy();
   //   };
-  // }, [src]); 
+  // }, [src]);
   const viewerRef = useRef(<ReactPhotoSphereViewer />);
   useEffect(() => {
-    if (!viewerRef.current)
-      return;
+    if (!viewerRef.current) return;
     viewerRef.current.animate({
-  yaw: Math.PI / 2,
-  pitch: '20deg',
-  zoom: 50,
-  speed: '2rpm',
+      yaw: Math.PI / 2,
+      pitch: "20deg",
+      zoom: 50,
+      speed: "2rpm",
     });
   }, []);
+
+
+//   I can help you with questions about our products, and technical documentation or I can write code for you. Ask me anything!
+
+// unable to add autorotate in recat
+// To add autorotate to a React project using Photo Sphere Viewer, you can follow these steps:
+
+// Install the necessary packages:
+
+// Install the main package: npm install photo-sphere-viewer
+// Install the autorotate plugin: npm install @photo-sphere-viewer/autorotate-plugin
+// Import the necessary components in your React component:
+
+// jsx
+// import { Viewer } from 'photo-sphere-viewer';
+// import AutorotatePlugin from '@photo-sphere-viewer/autorotate-plugin';
+// Set up the viewer with the autorotate plugin:
+
+// jsx
+// const viewer = new Viewer({
+//     container: 'viewer',
+//     panorama: 'path/to/your/panorama.jpg',
+//     plugins: [
+//         [AutorotatePlugin, {
+//             autostartDelay: 1000,
+//             autorotateSpeed: '3rpm',
+//         }],
+//     ],
+// });
+// Ensure you have the necessary HTML element in your component to render the viewer:
+
+// jsx
+// <div id="viewer"></div>
+// By following these steps, you should be able to add autorotate functionality to your React project using Photo Sphere Viewer.
+
+// Sources:
+
+// https://photo-sphere-viewer.js.org/plugins/autorotate.html
+// https://photo-sphere-viewer.js.org/api/modules/autorotateplugin
+
 
   return (
     <div>
@@ -664,15 +694,14 @@ const AllProperties = (props) => {
         }
       /> */}
 
+      {/* <div ref={viewerRef} />; */}
 
-
-      
-{/* <div ref={viewerRef} />; */}
-      
-
-
-
-      <ReactPhotoSphereViewer ref={viewerRef} src="https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg" height={'50vh'} width={"50%"}></ReactPhotoSphereViewer>
+      <ReactPhotoSphereViewer
+        ref={viewerRef}
+        src="https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg"
+        height={"50vh"}
+        width={"50%"}
+      ></ReactPhotoSphereViewer>
 
       <div className={"main"}>
         <section className="main-content">
