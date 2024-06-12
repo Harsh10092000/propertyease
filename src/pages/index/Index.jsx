@@ -73,7 +73,7 @@ const Index = () => {
   const cities = [{ district: "All India" }];
   const [location, setLocation] = useState("All India");
   const [cityData, setCityData] = useState();
-  const [serachValue, setSerachValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [currentFilter, setCurrentFilter] = useState("All");
   const [proTypeFilter, setProTypeFilter] = useState("All");
   const [proSubTypeFilter, setProSubTypeFilter] = useState(["t1", "t2"]);
@@ -129,14 +129,14 @@ const Index = () => {
   //   var newArr = selectedTypes.join(",").replaceAll(",", "-");
 
   //   navigate(
-  //     `/allproperties?search=${serachValue}&cat=${proTypeFilter}&proSubTypeFilter=${newArr}`
+  //     `/allproperties?search=${searchValue}&cat=${proTypeFilter}&proSubTypeFilter=${newArr}`
   //   );
   // };
 
   const handleClick = (index) => {
     //var newArr = selectedTypes.join(",").replaceAll(",", "-");
     navigate(
-      `/allproperties?search=${serachValue}&proadtype=${propertyAdTypeFilter}`
+      `/allproperties?search=${searchValue}&proadtype=${propertyAdTypeFilter}`
     );
   };
 
@@ -370,6 +370,75 @@ const Index = () => {
   //   run();
   // }, [ currentLetter]);
 
+  const [suggestions, setSuggestions] = useState();
+  const [openSuggestions, setOpenSuggestions] = useState(false);
+  const [proData, setProData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+      .then((res) => {
+        setProData(res.data);
+        setSkeleton(false);
+      });
+}, []);
+
+  useEffect(() => {
+    const unique1 = Array.from(
+      new Set(proData?.slice(0, 60).map((item) => item.pro_city.trim()))
+    );
+    const uniqueState = Array.from(
+      new Set(proData?.slice(0, 60).map((item) => item.pro_state.trim()))
+    );
+
+    const unique2 = Array.from(
+      new Set(
+        proData
+          ?.slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") + item.pro_city.trim()
+          )
+      )
+    );
+    const unique3 = Array.from(
+      new Set(
+        proData
+          ?.slice(0, 60)
+          .map(
+            (item) =>
+              (item.pro_locality ? item.pro_locality.trim() + ", " : "") +
+              (item.pro_sub_district
+                ? item.pro_sub_district.trim() + ", "
+                : "") +
+              item.pro_city.trim()
+          )
+      )
+    );
+
+    const arr = [
+      ...unique1,
+      ...uniqueState,
+      ...unique2,
+      ...unique3,
+      searchValue,
+    ];
+
+    const unique4 = Array.from(
+      new Set(arr.slice(0, 200).map((item) => item.trim()))
+    );
+    const unique = unique4.filter((i) =>
+      i.toLowerCase().startsWith(searchValue.toLowerCase())
+    );
+
+    if (searchValue === "") {
+      setOpenSuggestions(false);
+    }
+
+    setSuggestions(unique);
+  }, [searchValue]);
+
   return (
     <div>
       <Helmet>
@@ -543,10 +612,23 @@ const Index = () => {
                     className="form-control"
                     placeholder="Search for a property"
                 
-                    value={serachValue}
-                    onChange={(e) => setSerachValue(e.target.value)}
+                    value={searchValue}
+                    onChange={(e) => {setSearchValue(e.target.value), setOpenSuggestions(true)}}
                   />
-                  
+                  {openSuggestions && (
+                    <div className=" search-suggestions-2 pt-2 shadow pb-2">
+                      {suggestions.map((item) => (
+                        <div
+                          className="py-2 pl-2 suggesion-item-2 pointer"
+                          onClick={() => {
+                            setSearchValue(item), setOpenSuggestions(false);
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* <div class="location-icon">
                     <IconAdjustmentsHorizontal />
@@ -560,6 +642,7 @@ const Index = () => {
                   >
                     Search
                   </button>
+                  
                 </div>
               </div>
 
@@ -589,8 +672,8 @@ const Index = () => {
         {/* <div>
           <input
             type="text"
-            value={serachValue}
-            onChange={(e) => setSerachValue(e.target.value)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
 
           <button onClick={handleClick}>Serach</button>
