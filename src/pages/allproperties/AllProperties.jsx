@@ -48,7 +48,7 @@ const AllProperties = (props) => {
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setData(res.data);
-        setResults(res.data);
+        //setResults(res.data);
         setSkeleton(false);
       });
     axios
@@ -98,7 +98,6 @@ const AllProperties = (props) => {
   //const [filter, setFilter] = useState("All");
   const [userCurrLocation, setUserCurrLocation] = useState("");
   const [locationSnack, setLocationSnack] = useState(false);
-  
 
   const handleLocationSnack = (value) => {
     setLocationSnack(value);
@@ -107,8 +106,6 @@ const AllProperties = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
-
-  
 
   // useEffect(() => {
   //   window.addEventListener('mousedown', handleMouseDown);
@@ -420,13 +417,17 @@ const AllProperties = (props) => {
     setSuggestions(unique);
   }, [searchValue]);
 
-  let sortedUsers = [...data];
+  const [sortedUsers, setSortedUsers] = useState([]);
 
-  if (sortBy === "Recent Listed") {
-    sortedUsers.sort((a, b) => b.pro_id - a.pro_id);
-  } else if (sortBy === "Most Popular") {
-    sortedUsers.sort((a, b) => b.pro_views - a.pro_views);
-  }
+  useEffect(() => {
+    setSortedUsers(data);
+    if (sortBy === "Recent Listed") {
+      sortedUsers.sort((a, b) => b.pro_id - a.pro_id);
+    } else if (sortBy === "Most Popular") {
+      sortedUsers.sort((a, b) => b.pro_views - a.pro_views);
+    }
+  }, [data, sortBy]);
+  //let sortedUsers = [...data];
 
   const handleSearch = () => {
     setOpenSuggestions(false);
@@ -457,6 +458,7 @@ const AllProperties = (props) => {
 
   useEffect(() => {
     let searchWords = searchValue1?.toLowerCase().split(",");
+    console.log(sortedUsers, searchWords);
     const filteredData = sortedUsers
       .filter((code) => {
         if (proWithPhotos === true) {
@@ -544,9 +546,10 @@ const AllProperties = (props) => {
           return true;
         }
       });
-      console.log(filteredData)
+    console.log(filteredData);
     setResults(filteredData);
   }, [
+    sortedUsers,
     sortBy,
     searchValue1,
     propertyAdTypeFilter,
