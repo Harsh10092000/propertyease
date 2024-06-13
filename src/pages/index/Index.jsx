@@ -762,27 +762,7 @@ const Index = () => {
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
                         <Link
-                          to={`/${
-                            item.pro_area_size.toLowerCase() +
-                            "-" +
-                            item.pro_area_size_unit.toLowerCase() +
-                            "-"
-                          }${
-                            item.pro_type
-                              ? item.pro_type
-                                  .split(",")[0]
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")
-                              : ""
-                          }-for-${
-                            item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality
-                            .replace(/\s+$/, "")
-                            .toLowerCase()
-                            .replaceAll(
-                              " ",
-                              "-"
-                            )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
+                          to={`/${item.pro_url}`}
                         >
                           {item.img_link ? (
                             <img
@@ -799,27 +779,7 @@ const Index = () => {
                       <div className="recent-bus-content">
                         <h5 className="property-listing-type">
                           <Link
-                            to={`/${
-                              item.pro_area_size.toLowerCase() +
-                              "-" +
-                              item.pro_area_size_unit.toLowerCase() +
-                              "-"
-                            }${
-                              item.pro_type
-                                ? item.pro_type
-                                    .split(",")[0]
-                                    .toLowerCase()
-                                    .replaceAll(" ", "-")
-                                : ""
-                            }-for-${
-                              item.pro_ad_type === "rent" ? "rent" : "sale"
-                            }-in-${item.pro_locality
-                              .replace(/\s+$/, "")
-                              .toLowerCase()
-                              .replaceAll(
-                                " ",
-                                "-"
-                              )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
+                            to={`/${item.pro_url}`}
                           >
                             <a>{item.pro_type.split(",")[0]}</a>
                           </Link>
@@ -891,27 +851,7 @@ const Index = () => {
                           </li>
                         </ul>
                         <Link
-                          to={`/${
-                            item.pro_area_size.toLowerCase() +
-                            "-" +
-                            item.pro_area_size_unit.toLowerCase() +
-                            "-"
-                          }${
-                            item.pro_type
-                              ? item.pro_type
-                                  .split(",")[0]
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")
-                              : ""
-                          }-for-${
-                            item.pro_ad_type === "rent" ? "rent" : "sale"
-                          }-in-${item.pro_locality
-                            .replace(/\s+$/, "")
-                            .toLowerCase()
-                            .replaceAll(
-                              " ",
-                              "-"
-                            )}-${item.pro_city.toLowerCase()}-${item.pro_id}`}
+                          to={`/${item.pro_url}`}
                         >
                           <a
                             title="View complete details of this property"
