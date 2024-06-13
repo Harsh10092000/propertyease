@@ -35,11 +35,11 @@ import { useSearchParams } from "react-router-dom";
 import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 
-import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
-import { Viewer } from "@photo-sphere-viewer/core";
+//import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
+//import { Viewer } from "@photo-sphere-viewer/core";
 
-import PhotoSphereViewer from "photo-sphere-viewer";
-
+//import PhotoSphereViewer from "photo-sphere-viewer";
+//import { Viewer, AutorotatePlugin } from 'photo-sphere-viewer';
 import { useRef } from "react";
 // import ReactPannellum, { getConfig } from "react-pannellum";
 
@@ -485,6 +485,7 @@ const AllProperties = (props) => {
       })
       .filter((code) => {
         if (proWithParking === true) {
+          
           return code.pro_parking > 0;
         } else if (proWithParking === false) {
           return true;
@@ -576,6 +577,7 @@ const AllProperties = (props) => {
     authorityApprovedFilter,
     proWithPhotos,
     change,
+    proWithParking
   ]);
 
   console.log(results);
@@ -620,16 +622,9 @@ const AllProperties = (props) => {
   //     shperePlayerInstance.destroy();
   //   };
   // }, [src]);
-  const viewerRef = useRef(<ReactPhotoSphereViewer />);
-  useEffect(() => {
-    if (!viewerRef.current) return;
-    viewerRef.current.animate({
-      yaw: Math.PI / 2,
-      pitch: "20deg",
-      zoom: 50,
-      speed: "2rpm",
-    });
-  }, []);
+
+
+
 
 
 //   I can help you with questions about our products, and technical documentation or I can write code for you. Ask me anything!
@@ -671,6 +666,29 @@ const AllProperties = (props) => {
 // https://photo-sphere-viewer.js.org/api/modules/autorotateplugin
 
 
+// const animatedValues = {
+//   pitch: { start: -Math.PI / 2, end: 0 },
+//   yaw: { start: Math.PI / 2, end: 0 },
+//   zoom: { start: 0, end: 50 },
+//   maxFov: { start: 130, end: 90 },
+//   fisheye: { start: 2, end: 0 },
+// }
+
+// const viewerRef = useRef(null); // Initialize with null
+// useEffect(() => {
+//   //if (!viewerRef.current) return;
+//   viewerRef.current.animate({
+//     yaw: Math.PI / 2,
+//     pitch: "20deg",
+//     zoom: 40,
+//     speed: "2rpm",
+//     time_anim: "0"
+//   });
+// }, [data]); 
+
+
+
+
   return (
     <div>
       <Helmet>
@@ -695,13 +713,13 @@ const AllProperties = (props) => {
       /> */}
 
       {/* <div ref={viewerRef} />; */}
-
-      <ReactPhotoSphereViewer
+      {/* <div id="viewer" ref={viewerRef}></div>;  */}
+      {/* <ReactPhotoSphereViewer
         ref={viewerRef}
-        src="https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg"
+        src="https://images.adsttc.com/media/images/55dd/0e7a/e58e/ce13/bd00/00b4/large_jpg/portada_4.jpg?1440550507"
         height={"50vh"}
         width={"50%"}
-      ></ReactPhotoSphereViewer>
+      /> */}
 
       <div className={"main"}>
         <section className="main-content">
