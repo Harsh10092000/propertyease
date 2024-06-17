@@ -677,6 +677,44 @@ const Property = () => {
           }
         />
 
+<meta
+          property="og:title"
+          content={`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
+        />
+
+
+
+        <meta
+          property="og:image"
+          content={
+            images.length > 0
+              ? import.meta.env.VITE_BACKEND +
+                "/propertyImages/watermark/" +
+                images[0].img_link
+              : "/images/default.png"
+          }
+        />
+
         {/* <meta
           name="description"
           content={`Check out this ${
