@@ -650,6 +650,10 @@ const Property = () => {
 `}
         />
 
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Propertyease11111111111" />
+<meta property="og:description" content="Best Property" />
+
 
 
         <meta
