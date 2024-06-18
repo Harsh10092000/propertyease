@@ -604,38 +604,14 @@ const Property = () => {
       });
   }, []);
 
-  useEffect(() => {
-    // Update document title
-    document.title = 'Our Properties';
-
-    // Update meta tags
-    const updateMetaTags = () => {
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute("content", "Browse our selection of properties available for sale or rent.");
-      }
-
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) {
-        ogTitle.setAttribute("content", "Our Properties");
-      }
-
-      const ogDescription = document.querySelector('meta[property="og:description"]');
-      if (ogDescription) {
-        ogDescription.setAttribute("content", "Browse our selection of properties available for sale or rent.");
-      }
-
-    
-
-      const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) {
-        ogUrl.setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
-      }
-    };
-
-    updateMetaTags(); // Call the function to update meta tags
-
-  }, []);
+  // useEffect(() => {
+  //   document.title = 'Our Properties';
+  //   document.querySelector('meta[name="description"]').setAttribute("content", "Browse our selection of properties available for sale or rent.");
+  //   document.querySelector('meta[property="og:title"]').setAttribute("content", "Our Properties");
+  //   document.querySelector('meta[property="og:description"]').setAttribute("content", "Browse our selection of properties available for sale or rent.");
+  //   // document.querySelector('meta[property="og:image"]').setAttribute("content", "/images/og-properties.jpg");
+  //   document.querySelector('meta[property="og:url"]').setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
+  // }, []);
 
   return (
     <div>
