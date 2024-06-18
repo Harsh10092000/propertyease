@@ -606,18 +606,18 @@ const Property = () => {
   }, []);
 
 
-  UsePageSeo(
-    {
-      title:"viewer page",
-      description:"viewer des",
-      keywords:["viewer keyword 1","viewer keyword 2"],
-      ogTitle:"viewerpage",
-      ogDescription:"viewer deskjfvnskdf",
-      ogImage:"https://api.propertyease.in/propertyImages/watermark/default.png",
-      ogUrl:"https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
+  // UsePageSeo(
+  //   {
+  //     title:"viewer page",
+  //     description:"viewer des",
+  //     keywords:["viewer keyword 1","viewer keyword 2"],
+  //     ogTitle:"viewerpage",
+  //     ogDescription:"viewer deskjfvnskdf",
+  //     ogImage:"https://api.propertyease.in/propertyImages/watermark/default.png",
+  //     ogUrl:"https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
 
-    }
-  )
+  //   }
+  // )
 
   // useEffect(() => {
   //   document.title = 'Our Properties';
