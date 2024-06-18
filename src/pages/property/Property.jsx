@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
+import UsePageSeo from "../../components/usePageSeo/UsePageSeo";
 
 const Property = () => {
   const curr_date = Date.now();
@@ -603,6 +604,20 @@ const Property = () => {
         setPropertyPageData2(res.data.propertyPageData2);
       });
   }, []);
+
+
+  UsePageSeo(
+    {
+      title:"viewer page",
+      description:"viewer des",
+      keywords:["viewer keyword 1","viewer keyword 2"],
+      ogTitle:"viewerpage",
+      ogDescription:"viewer deskjfvnskdf",
+      ogImage:"https://api.propertyease.in/propertyImages/watermark/default.png",
+      ogUrl:"https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
+
+    }
+  )
 
   // useEffect(() => {
   //   document.title = 'Our Properties';
