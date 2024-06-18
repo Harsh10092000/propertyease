@@ -716,7 +716,7 @@ const AllProperties = (props) => {
         
     <meta
     property="og:image"
-          content="https://propertyease.in/images/favicon.png"
+          content="https://api.propertyease.in/propertyImages/watermark/default.png"
           
 
         />
