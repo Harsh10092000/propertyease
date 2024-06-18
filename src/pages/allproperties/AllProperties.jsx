@@ -38,9 +38,10 @@ import PropertyCard from "../../components/propertyCard/PropertyCard";
 //import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 //import { Viewer } from "@photo-sphere-viewer/core";
 
-//import PhotoSphereViewer from "photo-sphere-viewer";
-//import { Viewer, AutorotatePlugin } from 'photo-sphere-viewer';
-import { useRef } from "react";
+// import PhotoSphereViewer from "photo-sphere-viewer";
+// import { Viewer, AutorotatePlugin } from 'photo-sphere-viewer';
+// import { useRef } from "react";
+// import { EquirectangularTilesAdapter } from '@photo-sphere-viewer/equirectangular-tiles-adapter';
 // import ReactPannellum, { getConfig } from "react-pannellum";
 
 const AllProperties = (props) => {
@@ -674,7 +675,27 @@ const AllProperties = (props) => {
 //   fisheye: { start: 2, end: 0 },
 // }
 
-// const viewerRef = useRef(null); // Initialize with null
+
+// const viewer = new Viewer({
+//   container: 'viewer',
+//   adapter: EquirectangularTilesAdapter,
+//   panorama: {
+//       width: 6656,
+//       cols: 16,
+//       rows: 8,
+//       baseUrl: 'your_base_url_here',
+//       tileUrl: (col, row) => {
+//           const num = row * 16 + col + 1;
+//           return `your_tile_url_here${num}.jpg`;
+//       },
+//   },
+//   caption: 'Your caption here',
+//   loadingImg: 'your_loading_image_url_here',
+//   touchmoveTwoFingers: true,
+//   mousewheelCtrlKey: true,
+// });
+
+// const viewerRef = useRef(null); 
 // useEffect(() => {
 //   //if (!viewerRef.current) return;
 //   viewerRef.current.animate({
@@ -692,6 +713,22 @@ const AllProperties = (props) => {
   return (
     <div>
       <Helmet>
+        
+    <meta
+    property="og:image"
+          content="https://propertyease.in/images/favicon.png"
+          
+
+        />
+
+    <meta
+    property="og:title"
+    content="Propertyease"
+  />
+  <meta
+    property="og:description"
+    content="Ab Property Bechna Kharidna Hoga Aasan"
+  />
         <title>Propertyease - All Properties</title>
       </Helmet>
       <Navbar />
@@ -716,7 +753,7 @@ const AllProperties = (props) => {
       {/* <div id="viewer" ref={viewerRef}></div>;  */}
       {/* <ReactPhotoSphereViewer
         ref={viewerRef}
-        src="https://images.adsttc.com/media/images/55dd/0e7a/e58e/ce13/bd00/00b4/large_jpg/portada_4.jpg?1440550507"
+        src="/images/360-7.jpg"
         height={"50vh"}
         width={"50%"}
       /> */}
@@ -840,6 +877,7 @@ const AllProperties = (props) => {
                     .slice(0, 2)
                     .map((object, index) => (
                       <PropertyCard
+                      // viewerRef= {viewerRef}
                         object={object}
                         index={index}
                         currentUser={currentUser}
