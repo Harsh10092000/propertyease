@@ -606,7 +606,7 @@ const Property = () => {
 
   return (
     <div>
-      <Helmet>
+      <Helmet prioritizeSeoTags>
         <title>
           {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
              data.pro_type ? data.pro_type.split(",")[0] : ""
@@ -664,8 +664,7 @@ const Property = () => {
           }`}
         />
 
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Propertyease11111111111" />
+
 <meta property="og:description" content="Best Property" />
 
 
