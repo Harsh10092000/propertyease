@@ -604,6 +604,14 @@ const Property = () => {
       });
   }, []);
 
+  useEffect(() => {
+    document.title = 'Our Properties';
+    document.querySelector('meta[property="og:title"]').setAttribute("content", "Our Properties");
+    document.querySelector('meta[property="og:description"]').setAttribute("content", "Browse our selection of properties available for sale or rent.");
+    // document.querySelector('meta[property="og:image"]').setAttribute("content", "/images/og-properties.jpg");
+    document.querySelector('meta[property="og:url"]').setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
+  }, []);
+
   return (
     <div>
       <Helmet prioritizeSeoTags>
@@ -806,6 +814,8 @@ const Property = () => {
         />
       </Modal>
       <Navbar />
+
+
 
 {/* {console.log(`Check out this ${
             arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " " }${arrproId[3] !== "for" ? arrproId[3] : ""}
