@@ -633,7 +633,7 @@ const Property = () => {
     <div>
 
 <HelmetProvider>
-        <Helmet prioritizeSeoTags>
+        <Helmet >
           <meta property="og:title" content="Title Here" />
           <meta property="og:site_name" content="Propertiess" />
           <meta property="og:url" content="https://propertyease.in/contactus" />
