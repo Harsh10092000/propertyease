@@ -654,11 +654,11 @@ const Property = () => {
             content="https://api.propertyease.in/propertyImages/watermark/default.png"
           />
       <meta
-    name="og:title"
-    content="Propertyease"
+    property="og:title"
+    content="Propertyease 11111"
   />
   <meta
-    name="og:description"
+    property="og:description"
     content="AasanAasanAasanAasanAasanAb Property Bechna Kharidna Hoga Aasan AasanAasanAasanAasanAasanAasanAasanAasanAasanAasanAasan"
   /> 
 
