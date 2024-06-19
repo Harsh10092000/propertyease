@@ -646,7 +646,7 @@ const Property = () => {
         </Helmet>
         </HelmetProvider> */}
 
-<title>dfsgdfg</title>
+
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313" />
 <meta
@@ -659,7 +659,7 @@ const Property = () => {
   />
   <meta
     name="og:description"
-    content="Ab Property Bechna Kharidna Hoga Aasan"
+    content="AasanAasanAasanAasanAasanAb Property Bechna Kharidna Hoga Aasan AasanAasanAasanAasanAasanAasanAasanAasanAasanAasanAasan"
   /> 
 
 
