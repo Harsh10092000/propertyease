@@ -636,12 +636,12 @@ const Property = () => {
         <Helmet prioritizeSeoTags>
           <meta property="og:title" content="Title Here" />
           <meta property="og:site_name" content="Propertiess" />
-          <meta property="og:url" content="https://propertyease.in/contactus" />
+          <meta property="og:url" content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313" />
           <meta property="og:description" content="Description Here" />
           <meta property="og:type" content="website" />
           <meta
             property="og:image"
-            content="https://www.example.com/your-image.jpg"
+            content="https://api.propertyease.in/propertyImages/watermark/default.png"
           />
         </Helmet>
         </HelmetProvider>
