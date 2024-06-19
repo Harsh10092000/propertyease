@@ -23,13 +23,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Loader from "../../components/loader/Loader";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 import UsePageSeo from "../../components/usePageSeo/UsePageSeo";
+import { HelmetProvider, Helmet } from 'react-helmet-async'
 
 const Property = () => {
   const curr_date = Date.now();
@@ -630,7 +631,22 @@ const Property = () => {
 
   return (
     <div>
-      <Helmet prioritizeSeoTags>
+
+<HelmetProvider>
+        <Helmet prioritizeSeoTags>
+          <meta property="og:title" content="Title Here" />
+          <meta property="og:site_name" content="Propertiess" />
+          <meta property="og:url" content="https://propertyease.in/contactus" />
+          <meta property="og:description" content="Description Here" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:image"
+            content="https://www.example.com/your-image.jpg"
+          />
+        </Helmet>
+        </HelmetProvider>
+
+      <Helmet >
         <title>
           {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
              data.pro_type ? data.pro_type.split(",")[0] : ""
@@ -663,7 +679,7 @@ const Property = () => {
         </title>
 
         <link rel="canonical" href={location} />
-        <meta
+        {/* <meta
           name="og:title"
           content={`${
             arrproId[0] +
@@ -727,7 +743,7 @@ const Property = () => {
             " " +
             arrproId[9]
           }`}
-        />
+        /> */}
 
 
 
