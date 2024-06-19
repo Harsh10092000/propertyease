@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
-import UsePageSeo from "../../components/usePageSeo/UsePageSeo";
+
 //import { HelmetProvider, Helmet } from 'react-helmet-async'
 
 const Property = () => {
@@ -646,15 +646,24 @@ const Property = () => {
         </Helmet>
         </HelmetProvider> */}
 
-<Helmet >
+<title>dfsgdfg</title>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313" />
+<meta
+            property="og:image"
+            content="https://api.propertyease.in/propertyImages/watermark/default.png"
+          />
+      <meta
+    name="og:title"
+    content="Propertyease"
+  />
+  <meta
+    name="og:description"
+    content="Ab Property Bechna Kharidna Hoga Aasan"
+  /> 
+
+
         <title>
-          {/* {`${arrproId[0] + " " + arrproId[1] +" "+ arrproId[2] + " "}${
-             data.pro_type ? data.pro_type.split(",")[0] : ""
-           }
-         for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
-         ${data.pro_locality}
-         ${data.pro_city}
- `}  */}
           {`${
             arrproId[0] +
             " " +
@@ -678,98 +687,7 @@ const Property = () => {
           }`}
         </title>
 
-        <link rel="canonical" href={location} />
-        {/* <meta
-          name="og:title"
-          content={`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`}
-        />
-
-
-<meta property="og:description" content="Best Property" />
-
-
-
-        <meta
-          name="og:image"
-          content={
-            images.length > 0
-              ? import.meta.env.VITE_BACKEND +
-                "/propertyImages/watermark/" +
-                images[0].img_link
-              : "/images/default.png"
-          }
-        />
-
-<meta
-          property="og:title"
-          content={`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`}
-        /> */}
-
-
-
-        <meta
-          property="og:image"
-          content={
-            images.length > 0
-              ? import.meta.env.VITE_BACKEND +
-                "/propertyImages/watermark/" +
-                images[0].img_link
-              : "/images/default.png"
-          }
-        />
-
-        {/* <meta
-          name="description"
-          content={`Check out this ${
-            data?.pro_area_size + " " + data?.pro_area_size_unit + " "
-          }${data?.pro_type ? data?.pro_type.split(",")[0] : ""}
-        for ${
-          data?.pro_ad_type === "Rent" ? "Rent" : "Sale"
-        }. It is an ideal investment opportunity in a prime ${
-            data?.pro_type ? data?.pro_type.split(",")[0] : ""
-          } area with verified property assurance.`}
-        /> */}
-
+    
 <meta
           name="description"
           content={`Check out this ${
@@ -781,8 +699,7 @@ const Property = () => {
           } area with verified property assurance.`}
         />
         
-      </Helmet>
-
+   
      
       {loader ? <Loader /> : ""}
       <Snackbar

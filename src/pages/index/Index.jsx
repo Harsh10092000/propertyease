@@ -6,8 +6,10 @@ import {
   IconAdjustmentsHorizontal,
   IconCaretUpFilled,
   IconCaretDownFilled,
+  IconBath,
+  IconCurrencyRupee,
 } from "@tabler/icons-react";
-
+import { BedAlt, RupeeSign } from "react-flaticons";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -16,17 +18,18 @@ import TextField from "@mui/material/TextField";
 import { InputAdornment } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 //import EmblaCarousel from './EmblaCarousel'
 
-import OwlCarousel from "react-owl-carousel2";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+// import OwlCarousel from "react-owl-carousel2";
+// import "owl.carousel/dist/assets/owl.carousel.css";
+// import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useNavigate } from "react-router-dom";
 
 import Autocomplete from "@mui/material/Autocomplete";
+//import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -378,9 +381,9 @@ const Index = () => {
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setProData(res.data);
-        setSkeleton(false);
+        //setSkeleton(false);
       });
-}, []);
+  }, []);
 
   useEffect(() => {
     const unique1 = Array.from(
@@ -439,6 +442,18 @@ const Index = () => {
     setSuggestions(unique);
   }, [searchValue]);
 
+  // const viewerRef = useRef(null); // Initialize with null
+  // useEffect(() => {
+  //   //if (!viewerRef.current) return;
+  //   viewerRef.current.animate({
+  //     yaw: Math.PI / 2,
+  //     pitch: "20deg",
+  //     zoom: 40,
+  //     speed: "2rpm",
+  //     time_anim: "0",
+  //   });
+  // }, [proData]);
+
   return (
     <div>
       <Helmet>
@@ -459,8 +474,8 @@ const Index = () => {
         {/* <div className="col-md-2 mx-4 mx-md-0 pl-0 ">
                   {cityData ? (
                     <div>
-                      <div class="location-icon-2">
-                        <span class="svg-icon text-primary svg-icon-2hx">
+                      <div className="location-icon-2">
+                        <span className="svg-icon text-primary svg-icon-2hx">
                           <svg
                             width="25"
                             height="25"
@@ -563,9 +578,7 @@ const Index = () => {
                   <h1>Ab property bechna kharidna hoga aasan</h1>
                 </div>
                 <div className="banner-text-2 ">
-                  <p className="shadow">
-                    Find Real Properties at Best Price
-                  </p>
+                  <p className="shadow">Find Real Properties at Best Price</p>
                 </div>
               </div>
             </div>
@@ -583,25 +596,27 @@ const Index = () => {
                 >
                   <div className="">{propertyAdTypeFilter}</div>
                   {openPropertyAdTypeOptions && (
-            <div className=" pro-ad-type-list-wrapper">
-              <div id="pro-ad-type-list">
-                {propertyAdTypeOptions.map((item) => (
-                  <div
-                    className={`${
-                      propertyAdTypeFilter === item.type ? "selected" : ""
-                    }`}
-                    onClick={() => {
-                      setPropertyAdTypeFilter(item.type),
-                        setOpenPropertyAdTypeOptions(false);
-                    }}
-                  >
-                    {item.type}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-                  {/* <div class="location-icon-3">
+                    <div className=" pro-ad-type-list-wrapper">
+                      <div id="pro-ad-type-list">
+                        {propertyAdTypeOptions.map((item) => (
+                          <div
+                            className={`${
+                              propertyAdTypeFilter === item.type
+                                ? "selected"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setPropertyAdTypeFilter(item.type),
+                                setOpenPropertyAdTypeOptions(false);
+                            }}
+                          >
+                            {item.type}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* <div className="location-icon-3">
                     <IconCaretUpFilled />
                   </div> */}
                 </div>
@@ -611,9 +626,10 @@ const Index = () => {
                     type="text"
                     className="form-control"
                     placeholder="Search for a property"
-                
                     value={searchValue}
-                    onChange={(e) => {setSearchValue(e.target.value), setOpenSuggestions(true)}}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value), setOpenSuggestions(true);
+                    }}
                   />
                   {openSuggestions && (
                     <div className=" search-suggestions-2 pt-2 shadow pb-2">
@@ -630,23 +646,20 @@ const Index = () => {
                     </div>
                   )}
 
-                  {/* <div class="location-icon">
+                  {/* <div className="location-icon">
                     <IconAdjustmentsHorizontal />
                   </div> */}
                 </div>
                 <div className="col-md-2">
                   <button
                     type="submit"
-                    class="btn btn-primary w-100 "
+                    className="btn btn-primary w-100 "
                     onClick={handleClick}
                   >
                     Search
                   </button>
-                  
                 </div>
               </div>
-
-              
             </div>
           </div>
           {/* {openPropertyAdTypeOptions && (
@@ -730,6 +743,111 @@ const Index = () => {
           </div>
         </div> */}
 
+        {/* ########## Featured properties ########## */}
+
+        {/* <section className="featured-properties mt-5 mb-5">
+          <div className="container">
+            <div className="section-title">
+              <h3>
+                Featured <span>Properties</span>
+              </h3>
+            </div>
+            <div className="row">
+              <div className="featured-properties-wrapper">
+                <div className="cusstom-bg-slider-gray d-flex">
+                  <div className="card border-0 col-md-6">
+                    
+                    <ReactPhotoSphereViewer
+                      ref={viewerRef}
+                      //src="/images/360-7.jpg"
+                      src="https://media.macphun.com/img/uploads/macphun/blog/2432/1_360DegreePhotographyGuidetoPerfectingPanoramas.jpg"
+                      height={"100%"}
+                      width={"530px"}
+                    />
+                    <div className="card-img-overlay p-2">
+                      <span className="badge mr-2 badge-orange">Featured</span>
+                      <span className="badge mr-2 badge-primary">For Sale</span>
+                    </div>
+                  </div>
+
+                  <div className=" col-md-6 featured-properties-right">
+                    <Link className="" tabindex="0">
+                      <h2 className="my-0">
+                        6 Marla Residential Land for Sale in Sector 30,
+                        Thanesar, Kurukshetra, Haryana
+                      </h2>
+                    </Link>
+                    <p className="sub-heading">
+                      Sector 30, Kurukshetra, Haryana
+                    </p>
+                    <p class="item-desc">
+                      Lorem ipsum dolor sit amet, consec tetur cing elit.
+                      Suspeor sit amet, cons ndisse suscorem ipsum dolor sit.
+                    </p>
+
+                    <div className="property-details">
+                      <div className="row property-details-sec">
+                        <div className="col-md-6 d-flex">
+                          <BedAlt
+                            color="#0ec6d5"
+                            size="20px"
+                            className=" mr-2"
+                          />
+                          3 Bedrooms
+                        </div>
+                        <div className="col-md-6 d-flex">
+                          <IconBath
+                            color="#0ec6d5"
+                            size="20px"
+                            className=" mr-2"
+                          />
+                          3 Bathrooms
+                        </div>
+                      </div>
+
+                      <div className="row property-details-sec">
+                        <div className="col-md-6 d-flex">
+                          <BedAlt
+                            color="#0ec6d5"
+                            size="20px"
+                            className=" mr-2"
+                          />
+                          3 Bedrooms
+                        </div>
+                        <div className="col-md-6 d-flex">
+                          <IconBath
+                            color="#0ec6d5"
+                            size="20px"
+                            className=" mr-2"
+                          />
+                          3 Bathrooms
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between border-top property-details-footer">
+                      <div class="fs-20 font-weight-bold text-heading mb-1 d-flex pricing-sec">
+                        <IconCurrencyRupee
+                          color="black"
+                          size="26px"
+                          className=" mr-1 rupee-icon"
+                        />
+                        55 Lac
+                      </div>
+                      <div className="pro-btns">
+                        <button className="btn btn-outline-primary mr-3">
+                          View More
+                        </button>
+                        <button className="btn btn-primary">Whatsapp</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> */}
+
         <section className="most-view-Property mt-5 mb-5">
           <div className="container">
             <div className="section-title">
@@ -761,9 +879,7 @@ const Index = () => {
                   <div className="uniBlock">
                     <div className="recent-box-serv">
                       <div className="re-bus-img">
-                        <Link
-                          to={`/${item.pro_url}`}
-                        >
+                        <Link to={`/${item.pro_url}`}>
                           {item.img_link ? (
                             <img
                               src={`${
@@ -778,9 +894,7 @@ const Index = () => {
                       </div>
                       <div className="recent-bus-content">
                         <h5 className="property-listing-type">
-                          <Link
-                            to={`/${item.pro_url}`}
-                          >
+                          <Link to={`/${item.pro_url}`}>
                             <a>{item.pro_type.split(",")[0]}</a>
                           </Link>
                         </h5>
@@ -850,9 +964,7 @@ const Index = () => {
                             {item.pro_facing}
                           </li>
                         </ul>
-                        <Link
-                          to={`/${item.pro_url}`}
-                        >
+                        <Link to={`/${item.pro_url}`}>
                           <a
                             title="View complete details of this property"
                             className="btn-viewmore"
@@ -1869,7 +1981,7 @@ const Index = () => {
           </div>
         </section>
 
-        <div className="container pt-5">
+        {/* <div className="container pt-5">
           <div className="section-title">
             <h3>
               What People <span>Says</span>
@@ -1899,7 +2011,7 @@ const Index = () => {
               ))}
             </OwlCarousel>
           </div>
-        </div>
+        </div> */}
       </div>
       <Footer />
     </div>
