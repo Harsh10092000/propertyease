@@ -247,19 +247,19 @@ const Index = () => {
     {
       heading: "Residential",
       image: "images/pro-type-1.png",
-      link: "/property/residential",
+      link: "/listing/residential",
       title: "Click to View All Residential Properties",
     },
     {
       heading: "Commerical",
       image: "images/pro-type-2.png",
-      link: "/property/commercial",
+      link: "/listing/commercial",
       title: "Click to View All Commerical Properties",
     },
     {
       heading: "Land",
       image: "images/pro-type-3.png",
-      link: "/property/land",
+      link: "/listing/land",
       title: "Click to View All Land/Plots Properties",
     },
   ];
@@ -462,14 +462,7 @@ const Index = () => {
       <Navbar />
 
       <div>
-        {/* <section className="slider-home">
-          <img src="/images/banner1.jpg" alt="banner" />
-          <div className="slide-heading">
-            <h1 className="display-4">
-              Ab property bechna kharidna hoga aasan
-            </h1>
-          </div>
-        </section> */}
+        
 
         {/* <div className="col-md-2 mx-4 mx-md-0 pl-0 ">
                   {cityData ? (
@@ -759,7 +752,7 @@ const Index = () => {
                     
                     <ReactPhotoSphereViewer
                       ref={viewerRef}
-                      //src="/images/360-7.jpg"
+                      //src="/images/360-9.png"
                       src="https://media.macphun.com/img/uploads/macphun/blog/2432/1_360DegreePhotographyGuidetoPerfectingPanoramas.jpg"
                       height={"100%"}
                       width={"530px"}
