@@ -782,7 +782,7 @@ const AllProperties = (props) => {
             <div className="title">
               <h2>
                 All Properties
-                <span className="ml-2 numberProperties">{records.length}</span>
+                <span className="ml-2 numberProperties">{results.length}</span>
               </h2>
 
               {/* <div>
