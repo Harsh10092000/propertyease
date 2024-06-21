@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import Pagination from "@mui/material/Pagination";
@@ -16,6 +16,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Footer from "../../components/footer/Footer";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar2 from "../../components/sidebar2/Sidebar2";
+
+
 const Rent = () => {
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");
@@ -161,6 +165,16 @@ const Rent = () => {
       : results.length / recordsPerPage
   );
 
+  const navigate = useNavigate();
+  const handleForSale = (val) => {
+    console.log(val)
+    navigate(`/${val}`)
+  }
+
+  const handleForRent = (val) => {
+    console.log(val)
+    navigate(`/rental/${val}`)
+  }
  
 
   return (
@@ -168,6 +182,7 @@ const Rent = () => {
       <Helmet>
         <title>Propertyease - {filCat}</title>
       </Helmet>
+      <Navbar />
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
@@ -229,7 +244,7 @@ const Rent = () => {
             )}
 </div>
 <div className="col-md-3">
-                <div>
+                {/* <div>
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">
                       For Sale
@@ -276,7 +291,8 @@ const Rent = () => {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </div> */}
+                <Sidebar2 handleForSale={handleForSale} handleForRent={handleForRent}/>
               </div>
               </div>
             {records.length > 0 && (

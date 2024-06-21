@@ -44,6 +44,9 @@ import PropertyCard from "../../components/propertyCard/PropertyCard";
 // import { EquirectangularTilesAdapter } from '@photo-sphere-viewer/equirectangular-tiles-adapter';
 // import ReactPannellum, { getConfig } from "react-pannellum";
 
+import Sidebar2 from "../../components/sidebar2/Sidebar2";
+import { useNavigate } from "react-router-dom";
+
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
   //   autoRotate: -2,
@@ -52,6 +55,18 @@ const AllProperties = (props) => {
   // const handleClick = () => {
   //   console.log(getConfig());
   // };
+  const navigate = useNavigate();
+
+  const handleForSale = (val) => {
+    console.log(val)
+    navigate(`/${val}`)
+  }
+
+  const handleForRent = (val) => {
+    console.log(val)
+    navigate(`/rental/${val}`)
+  }
+
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
@@ -84,6 +99,7 @@ const AllProperties = (props) => {
   useEffect(() => {
     const myParam = searchParams.get("search");
     const proadtype = searchParams.get("proadtype");
+    const proCat = searchParams.get("procat");
     //const temp = searchParams.get("proSubTypeFilter");
     if (myParam !== null && proadtype !== null) {
       setSearchValue(myParam);
@@ -91,6 +107,8 @@ const AllProperties = (props) => {
       setPropertyAdTypeFilter(proadtype);
       setChange(change + 1);
       //handleSearch();
+    } else if (proCat !== null) {
+      setProCategoryFilter([proCat]);
     }
     //setProSubTypeFilter(temp);
   }, []);
@@ -1030,6 +1048,7 @@ const AllProperties = (props) => {
                     >
                       <div>Property Types</div>
 
+
                       <span className="selected">
                         {proCategoryFilter.length > 0 ? (
                           proCategoryFilter[0] +
@@ -1341,6 +1360,8 @@ const AllProperties = (props) => {
                   </div>
                 </div>
 
+                <Sidebar2  handleForSale={handleForSale} handleForRent={handleForRent} />
+
                 {/* <div>
                 <div className="pro_flex pro_flex_1">
                             <div className="w-100 m-1 mb-3">
@@ -1398,7 +1419,7 @@ const AllProperties = (props) => {
                           </div>
                 </div> */}
 
-                <div>
+                {/* <div>
                   <div className="p-1 shadow">
                     <div className="p-3 font-weight-bold text-black">Rent</div>
                     {rentData.map((rent, index) => (
@@ -1416,7 +1437,7 @@ const AllProperties = (props) => {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 {/* ad section start */}
                 {ad2?.length > 0 && (
