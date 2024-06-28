@@ -17,9 +17,9 @@ const NoResult = (props) => {
   );
 
   const propertyType = [
-    { type: "View Residential Properties", link: "/property/residential" },
-    { type: "View Commerical Properties", link: "/property/commercial" },
-    { type: "View Land/Plots Properties", link: "/property/land" },
+    { type: "View Residential Properties", link: "/listing/residential" },
+    { type: "View Commerical Properties", link: "/listing/commercial" },
+    { type: "View Land/Plots Properties", link: "/listing/land" },
   ];
 
   useEffect(() => {

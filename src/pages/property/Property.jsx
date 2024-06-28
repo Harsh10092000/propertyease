@@ -68,9 +68,9 @@ const Property = () => {
   }, [proId]);
 
   const propertyType = [
-    { type: "View Residential Properties", link: "/property/residential" },
-    { type: "View Commerical Properties", link: "/property/commercial" },
-    { type: "View Land/Plots Properties", link: "/property/land" },
+    { type: "View Residential Properties", link: "/listing/residential" },
+    { type: "View Commerical Properties", link: "/listing/commercial" },
+    { type: "View Land/Plots Properties", link: "/listing/land" },
     { type: "View All Properties", link: "/allproperties" },
   ];
 
@@ -655,11 +655,14 @@ const Property = () => {
           />
       <meta
     property="og:title"
-    content="Propertyease 11111"
+    content="Propertyease"
   />
   <meta
     property="og:description"
-    content="AasanAasanAasanAasanAasanAb Property Bechna Kharidna Hoga Aasan AasanAasanAasanAasanAasanAasanAasanAasanAasanAasanAasan"
+    content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+
+
+"
   /> 
 
 
