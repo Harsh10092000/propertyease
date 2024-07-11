@@ -22,13 +22,14 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 //import EmblaCarousel from './EmblaCarousel'
-
 // import OwlCarousel from "react-owl-carousel2";
 // import "owl.carousel/dist/assets/owl.carousel.css";
 // import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useNavigate } from "react-router-dom";
-
 import Autocomplete from "@mui/material/Autocomplete";
+import Loader from "../../components/loader/Loader";
+import Dialog from "@mui/material/Dialog";
+import { regEx } from "../regEx";
 //import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 
 const Index = () => {
@@ -454,16 +455,181 @@ const Index = () => {
   //   });
   // }, [proData]);
 
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = (data) => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpen(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const [popupData, setPopupData] = useState({
+    name: "",
+    phone: "",
+    email: ""
+  })
+
+  
+
+  const [emailError, setEmailError] = useState(true);
+  useEffect(() => {
+    if (!regEx[0].emailRegex.test(popupData.email)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }, [popupData.email]);
+
+  const handleSubmit = async () => {
+    setLoader(true);
+    try {
+      await axios.post(
+        import.meta.env.VITE_BACKEND + "/api/maildigest/addSubscriberData",
+        popupData
+      );
+      setLoader(false);
+      setOpen(false)
+      setPopupData({
+        name: "",
+        email: "",
+        phone: ""
+      });
+      //setSnack(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const [loader, setLoader] = useState(false);
+  const [step, setStep] = useState(false);
+  const handleStep = () => {
+    console.log("popupData : ", popupData)
+    if (
+      popupData.name !== "" &&
+      popupData.phone.length > 9 && popupData.phone.length < 11 &&
+      emailError === false 
+    ) {
+      setStep(false);
+      
+      handleSubmit();
+    } else {
+      setStep(true);
+      
+    }
+  };
+
   return (
     <div>
+
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog-wrapper"
+      >
+        <div className="mail-popup">
+          <div className="popup-heading-wrapper">
+            <div className="popup-heading">Be the first to know!</div>
+            <div className="popup-subheading">
+              Subscribers are the first one to hear about new propertes and best
+              deals.
+            </div>
+          </div>
+          <div className="popup-content-wrapper">
+            <div className="popup-content-sec d-flex justify-content-between">
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  type="text"
+                  placeholder="Name"
+                  required
+                  onChange={(e) =>
+                    setPopupData({
+                      ...popupData,
+                      name: e.target.value.replace(
+                        /[^a-zA-Z ]/g,
+                        ""
+                      ),
+                    })
+                  }
+                />
+                <span className="popup-error-msg">{step && popupData.name === "" ? "Required" : ""}</span>
+              </div>
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  // type="text"
+                  placeholder="Phone"
+                  required
+                  onChange={(e) =>
+                    setPopupData({
+                      ...popupData,
+                      phone: e.target.value.replace(
+                        regEx[2].phoneNumberValidation,
+                        ""
+                      ),
+                    })
+                  }
+                />
+                <span className="popup-error-msg">{step && popupData.phone.length < 10
+                                  ? "Please enter valid phone number"
+                                  : ""}</span>
+              </div>
+            </div>
+            <div className="mb-3">
+              <input
+                className="pf-input"
+                type="email"
+                placeholder="Email"
+                required
+                onChange={(e) =>
+                  setPopupData({
+                    ...popupData,
+                    email: e.target.value.replace(
+                      /[^a-zA-Z.@0-9/]/g,
+                      ""
+                    ),
+                  })
+                }
+              />
+              <span className="popup-error-msg">{step && emailError
+                                  ? "Please enter valid email address"
+                                  : ""}</span>
+            </div>
+            <div className="popup-btn-text">
+              Subscribe to recieve the latest news by email about properties.
+              Unsubscribe any time.
+            </div>
+            <div>
+              <button class="pf-submit hover-opacity" onClick={handleStep}
+                              title="Click to Subscribe" >Subscribe</button>
+            </div>
+            <div className="popup-botton-text">
+              We don't share data with anyone.
+            </div>
+          </div>
+        </div>
+      </Dialog>
+
       <Navbar />
+{loader ? <Loader /> : ""}
+
+      {/* <div onClick={handleClickOpen}>Open Dialog</div> */}
 
       <div>
-        
-
         {/* <div className="col-md-2 mx-4 mx-md-0 pl-0 ">
                   {cityData ? (
                     <div>
@@ -1935,7 +2101,6 @@ const Index = () => {
             ))}
           </OwlCarousel>
         </div> */}
-
 
         <section
           className="contact-us-setion py-lg-13 py-11"

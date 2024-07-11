@@ -112,6 +112,9 @@ const AddProperty = () => {
       });
   }, [change]);
 
+
+  console.log("prevData, upcomingDate : " , prevData, upcomingDate);
+
   const handleChange = () => {
     console.log("XScdgf")
     setChange(change + 1);
@@ -962,14 +965,12 @@ const AddProperty = () => {
           handleChange = {handleChange}
         />
       ) : (
-          parseInt(prevData?.plan_status) === 1 ||
-          parseInt(prevData?.plan_status) === 2
-            ? parseInt(prevData?.total_no_pro_user_can_add) >
+          parseInt(prevData?.plan_status) === 1 || parseInt(prevData?.plan_status) === 2 ? parseInt(prevData?.total_no_pro_user_can_add) >
               parseInt(prevData?.pro_count)
             : parseInt(prevData?.pro_count) < 5
         ) ? (
         <div className="container">
-          {console.log(prevData?.pro_plan_added_slots , prevData?.pro_count , prevData)}
+          {console.log("prevData?.pro_plan_added_slots 22222 : " , prevData?.pro_plan_added_slots , prevData?.pro_count)}
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
               <h4>
@@ -2639,7 +2640,7 @@ const AddProperty = () => {
             </div>
           </section>
         </div>
-      ) : parseInt(prevData?.pro_count) > 5 ? (
+      ) : parseInt(prevData?.pro_count) >= 5 ? (
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -2912,7 +2913,10 @@ const AddProperty = () => {
         </div>
       ) : (
         //<div className="no-data"></div>
+
+        
         <div className="container">
+          {prevData?.pro_count}
           <div className="row">
             <div className="col-md-12">
               <section className="property-view-outer ">

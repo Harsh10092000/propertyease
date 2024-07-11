@@ -583,6 +583,7 @@ const AllProperties = (props) => {
         }
       });
     console.log(filteredData);
+    setCurrentPage(1);
     setResults(filteredData);
   }, [
     sortedUsers,
@@ -1440,6 +1441,9 @@ const AllProperties = (props) => {
                 </div> */}
 
                 {/* ad section start */}
+
+              
+
                 {ad2?.length > 0 && (
                   <div>
                     <div className="p-1 shadow ad-2-wrapper">

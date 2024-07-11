@@ -21,6 +21,7 @@
     "@tabler/icons-react": "^2.46.0",
     "axios": "^1.6.7",
     "cloudinary": "^2.0.1",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "embla-carousel": "^8.0.0-rc22",
     "embla-carousel-autoplay": "^8.0.2",

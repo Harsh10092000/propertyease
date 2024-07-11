@@ -72,6 +72,12 @@ import ProPlanCouponForm from "./pages/proPlanCouponForm/ProPlanCouponForm";
 import ViewCoupons from "./pages/adminCoupons/ViewCoupons";
 import EditProPlanCoupon from "./pages/editProPlanCoupon/EditProPlanCoupon";
 
+import EmailSet from "./pages/adminSettings/EmailSet";
+import ChangePhoneNumber from "./pages/adminSettings/ChangePhoneNumber";
+import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
+
+
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -380,6 +386,18 @@ const App = () => {
         {
           path: "editproplancoupon/:couponId",
           element: <EditProPlanCoupon />,
+        },
+        {
+          path: "emailsettings",
+          element: <EmailSet />,
+        },
+        {
+          path: "numbersettings",
+          element: <ChangePhoneNumber />,
+        },
+        {
+          path: "mailbroadcast",
+          element: <EmailBoardcast />,
         },
         
       ],

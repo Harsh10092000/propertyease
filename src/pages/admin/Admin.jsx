@@ -11,7 +11,10 @@ import {
   IconAd,
   IconCaretDownFilled,
   IconHome,
-  IconTicket
+  IconTicket,
+  IconSettings,
+  IconMessage,
+  IconPhone,
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
@@ -21,6 +24,7 @@ const Admin = () => {
   const [adsSubMenu, setAdsSubMenu] = useState(false);
   const [proPlanSubMenu, setProPlanSubMenu] = useState(false);
   const [cityMapSubMenu, setCityMapSubMenu] = useState(false);
+  const [settingsMenu, setSettingsMenu] = useState(false);
   const logout = () => {
     localStorage.removeItem("admin");
     clearAdmin();
@@ -151,7 +155,7 @@ const Admin = () => {
                 </li>
                 {proPlanSubMenu && (
                   <>
-                  <li className="pl-3">
+                    <li className="pl-3">
                       <Link to="/admin/propertyplanform">
                         <a title="Create Plans">
                           <IconSquareRoundedPlus />
@@ -167,7 +171,7 @@ const Admin = () => {
                         </a>
                       </Link>
                     </li>
-                    
+
                     <li className="pl-3">
                       <Link to="/admin/propertyplantranactions">
                         <a title="View Transactions">
@@ -194,8 +198,6 @@ const Admin = () => {
                         </a>
                       </Link>
                     </li>
-
-                    
                   </>
                 )}
 
@@ -234,6 +236,52 @@ const Admin = () => {
                         </a>
                       </Link>
                     </li>
+                  </>
+                )}
+
+                <li className="pointer">
+                  <a
+                    onClick={() => setSettingsMenu(!settingsMenu)}
+                    title="Settings"
+                  >
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <IconSettings />
+                        <span>Settings</span>
+                      </div>
+                      <div>
+                        <IconCaretDownFilled />
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                {settingsMenu && (
+                  <>
+                    <li className="pl-3">
+                      <Link to="/admin/emailsettings">
+                        <a title="Email Settings">
+                          <IconMessage />
+                          <span>Email Settings</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="pl-3">
+                      <Link to="/admin/numbersettings">
+                        <a title="Phone Number Settings">
+                          <IconPhone />
+                          <span>Phone Number Settings</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className="pl-3">
+                      <Link to="/admin/mailbroadcast">
+                        <a title="Email Broadcast Settings">
+                          <IconPhone />
+                          <span>Email Broadcast Settings</span>
+                        </a>
+                      </Link>
+                    </li>
+                    
                   </>
                 )}
 
