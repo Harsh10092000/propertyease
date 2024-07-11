@@ -22,13 +22,23 @@ import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 
 const BroadcastSettings = (selectedOption) => {
-  //const [value, setValue] = useState(dayjs("2018-01-01T00:00:00.000Z"));
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(dayjs("2018-01-01T14:30:00.000Z"));
+  //const [value, setValue] = useState();
   const [loader, setLoader] = useState(false);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const [emailBroadcastData, setEmailBroadcastData] = useState({
+    email_subject: "New Property Listed",
+    email_days: "1",
+    email_sender_id: "noreply@propertyease.in",
+    email_hr: "",
+    email_min: "",
+    email_permissions: "",
+    email_sender_name: "Propertyease",
+  });
+
+  const [enEmailBroadcastData, setEnEmailBroadcastData] = useState({
     email_subject: "",
     email_days: "",
     email_sender_id: "",
@@ -86,21 +96,21 @@ const BroadcastSettings = (selectedOption) => {
   const handleClick = async () => {
 
     if(listingMail === 0) {
-      emailBroadcastData.email_hr = value.$H;
-      emailBroadcastData.email_min = value.$m;
-      emailBroadcastData.email_permissions = listingMail;
+      enEmailBroadcastData.email_hr = value.$H;
+      enEmailBroadcastData.email_min = value.$m;
+      enEmailBroadcastData.email_permissions = listingMail;
       setOpen(false);
       try {
-        emailBroadcastData.email_subject = encryptAES(
+        enEmailBroadcastData.email_subject = encryptAES(
           emailBroadcastData.email_subject
         );
   
-        emailBroadcastData.email_sender_id = encryptAES(
+        enEmailBroadcastData.email_sender_id = encryptAES(
           emailBroadcastData.email_sender_id
         );
   
-        emailBroadcastData.email_days = encryptAES(emailBroadcastData.email_days);
-        emailBroadcastData.email_sender_name = encryptAES(emailBroadcastData.email_sender_name);
+        enEmailBroadcastData.email_days = encryptAES(emailBroadcastData.email_days);
+        enEmailBroadcastData.email_sender_name = encryptAES(emailBroadcastData.email_sender_name);
         
         //emailBroadcastData.email_time = encryptAES(value);
         setLoader(true);
@@ -212,7 +222,7 @@ const BroadcastSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            //value={emailBroadcastData.email_sender_id}
+            value={emailBroadcastData.email_sender_name}
             helperText={
               emailBroadcastData.email_sender_name.length < 1 ? "Required" : ""
             }
@@ -237,7 +247,7 @@ const BroadcastSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            //value={emailBroadcastData.email_sender_id}
+            value={emailBroadcastData.email_sender_id}
             helperText={
               emailBroadcastData.email_sender_id.length < 1 ? "Required" : ""
             }
@@ -262,7 +272,7 @@ const BroadcastSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            //value={emailBroadcastData.email_subject}
+            value={emailBroadcastData.email_subject}
             helperText={
               emailBroadcastData.email_subject.length < 1 ? "Required" : ""
             }
@@ -288,7 +298,7 @@ const BroadcastSettings = (selectedOption) => {
               // size="small"
               inputProps={{ maxlength: 10 }}
               className="w-100"
-              //value={emailBroadcastData.email_days}
+              value={emailBroadcastData.email_days}
               helperText={
                 emailBroadcastData.email_days.length < 1 ? "Required" : ""
               }
@@ -307,7 +317,7 @@ const BroadcastSettings = (selectedOption) => {
               <Stack spacing={3}>
                 <MobileTimePicker
                   label="Select Time"
-                  //value={value}
+                  value={value}
                   className="w-100"
                   helperText=""
                   onChange={(newValue) => {
