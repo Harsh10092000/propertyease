@@ -8,6 +8,7 @@ import {
   IconCaretDownFilled,
   IconBath,
   IconCurrencyRupee,
+  IconX,
 } from "@tabler/icons-react";
 import { BedAlt, RupeeSign } from "react-flaticons";
 import FormControl from "@mui/material/FormControl";
@@ -528,7 +529,7 @@ const Index = () => {
 
   return (
     <div>
-
+{/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
@@ -541,12 +542,17 @@ const Index = () => {
         className="dialog-wrapper"
       >
         <div className="mail-popup">
-          <div className="popup-heading-wrapper">
-            <div className="popup-heading">Be the first to know!</div>
+          
+          <div className="popup-heading-wrapper d-flex" >
+          <div>
+          <div className="popup-heading">Be the first to know!</div>
             <div className="popup-subheading">
               Subscribers are the first one to hear about new propertes and best
               deals.
             </div>
+          </div>
+            
+            <div onClick={handleClose} className="pointer" title="close"><IconX /></div>
           </div>
           <div className="popup-content-wrapper">
             <div className="popup-content-sec d-flex justify-content-between">
