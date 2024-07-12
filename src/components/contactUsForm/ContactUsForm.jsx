@@ -42,7 +42,7 @@ const ContactUsForm = (props) => {
   };
 
 
-  console.log(props.pro_contacted)
+
 
   const handleSubmit = async () => {
     setLoader(true);
@@ -97,7 +97,7 @@ const ContactUsForm = (props) => {
           }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={snack}
-          autoHideDuration={1000}
+          autoHideDuration={4000}
           onClose={handleSnack}
           message="We Will Contact you soon !.."
         />
@@ -188,7 +188,8 @@ const ContactUsForm = (props) => {
           
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => props.handleCloseDialog(false)}>Cancel</Button>
+            {/* <Button onClick={() => props.handleCloseDialog(false)}>Cancel</Button> */}
+            <Button onClick={() => setData({name: "", phone: "", email: ""})}>Reset</Button>
             <Button type="submit" onClick={handleSubmit} disabled={disabled}>
               Submit
             </Button>

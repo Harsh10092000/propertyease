@@ -2137,7 +2137,7 @@ const Index = () => {
                 {/* <IconPhone className="contact-us-icon" /> */}
                 <p className=" phone-number-text">Call for help now!</p>
                 <p className=" phone-number">99967 16787</p>
-                <p className=" phone-number">89500 40151</p>
+                {/* <p className=" phone-number">89500 40151</p> */}
                 <Link to="/contactus" className="btn btn-primary contact-btn ">
                   Contact us
                 </Link>

@@ -17694,14 +17694,14 @@ width: 100%;
 .contact-us-setion .right-sec .phone-number {
   font-weight: 600;
   line-height: 1;
-  font-size: 32px;
+  font-size: 34px;
   color: #1e1d85;
 }
 
 
 @media (min-width: 768px) {
   .contact-us-setion .right-sec .phone-number {
-      font-size: 42px !important;
+      font-size: 48px !important;
   }
 }
 
