@@ -1,10 +1,38 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { IconEye, IconBrandWhatsapp } from "@tabler/icons-react";
+import { IconEye, IconBrandWhatsapp, IconSend } from "@tabler/icons-react";
+import ContactUsForm from "../contactUsForm/ContactUsForm";
+
 
 const PropertyCard = ({ object, index, currentUser, DateTime }) => {
+
+  const [openContactDialog, setOpenContactDialog] = useState(false);
+  const [change, setChange] = useState();
+  const handleCloseDialog = (value) => {
+    setOpenContactDialog(value);
+  };
+
+  const handleContactCountChange = (value) => {
+    setChange(value);
+  };
+
   return (
     <div className="list-group" key={index}>
+      {openContactDialog ? (
+        <ContactUsForm
+          openContactDialog={openContactDialog}
+          handleCloseDialog={handleCloseDialog}
+          propertySlug={object.pro_url}
+          pro_user_id={object.pro_user_id}
+          pro_contacted={object.pro_contacted}
+          proId={object.pro_id}
+          handleContactCountChange={handleContactCountChange}
+          change={change}
+        />
+      ) : (
+        ""
+      )}
       <div className="row">
         <div className="col-md-auto flex-column text-center">
           <div className="buiness-logo">
@@ -171,6 +199,34 @@ const PropertyCard = ({ object, index, currentUser, DateTime }) => {
                   </Link>
                 </div>
 
+                {/* <div
+                  className={`d-flex flex-column mr-2 ${
+                    object.pro_contacted !== null &&
+                    object.pro_contacted !== undefined
+                      ? "contacted-count contacted-count-pt"
+                      : ""
+                  }`}
+                > */}
+                {currentUser && object.pro_user_id == currentUser[0].login_id ? (
+                  ""
+                ) : (
+                  <button
+                    className="property-card-interest interest mr-2 "
+                    title="Contact Us"
+                    onClick={() => setOpenContactDialog(true)}
+                  >
+                    <span className="">Contact {object.pro_user_type}</span>
+                  </button>
+                )}
+                {/* <span className="contacted-no text-center">
+                                        {object.pro_contacted !== null && object.pro_contacted !== undefined
+                                          ? "Contacted " +
+                                            object.pro_contacted +
+                                            " People"
+                                          : ""}
+                                      </span> */}
+                {/* </div> */}
+
                 <div>
                   <a
                     rel="noreferrer nofollow"
@@ -180,7 +236,7 @@ const PropertyCard = ({ object, index, currentUser, DateTime }) => {
                     title=" Whatsapp/Contact for this property"
                   >
                     <IconBrandWhatsapp />
-                    <span className="pl-1">Whatsapp</span>
+                    {/* <span className="pl-1">Whatsapp</span> */}
                   </a>
                 </div>
               </div>

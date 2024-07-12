@@ -19649,3 +19649,14 @@ border-radius: 0;
     padding: 30px;
   }
 }
+
+
+.property-card-interest {
+  padding: 10px 8px !important;
+  background-color: #1e1d85;
+}
+
+.property-card-interest:hover {
+  padding: 10px 8px !important;
+  background-color: #1e1d85;
+}

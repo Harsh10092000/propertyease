@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
+import ContactUsForm from "../../components/contactUsForm/ContactUsForm";
 
 //import { HelmetProvider, Helmet } from 'react-helmet-async'
 
@@ -55,16 +56,15 @@ const Property = () => {
   const arrproId = id.split("-");
   const proId = arrproId[arrproId.length - 1];
 
- 
-
   useEffect(() => {
     isNaN(proId) && navigate(`/notfound`),
-    axios.get(
-      import.meta.env.VITE_BACKEND + `/api/pro/checkPropertyExists/${proId}`,
-    ).then((res) => {
-      res.data[0].pro_count === 0 && navigate(`/notfound`);
-    });
-    
+      axios
+        .get(
+          import.meta.env.VITE_BACKEND + `/api/pro/checkPropertyExists/${proId}`
+        )
+        .then((res) => {
+          res.data[0].pro_count === 0 && navigate(`/notfound`);
+        });
   }, [proId]);
 
   const propertyType = [
@@ -82,7 +82,7 @@ const Property = () => {
   const [currentImage, setCurrentImage] = useState("");
   const [latestProperty, setLatestProperty] = useState([]);
   const [change, setChange] = useState(1);
-  
+
   const checkShortlist = async () => {
     if (currentUser) {
       try {
@@ -121,7 +121,7 @@ const Property = () => {
       )
       .then((res) => {
         setData(res.data.data[0]);
-        
+
         setLatestProperty(res.data.data1);
         setProType(res.data.data[0].pro_type.split(",")[1]);
         setSkeleton(false);
@@ -509,53 +509,53 @@ const Property = () => {
     }
   };
 
-  const [dialog, setDialog] = useState(false);
-  const askQuestion = () => {
-    if (!currentUser) {
-      setDialog(true);
-    } else {
-      sendQuestion();
-    }
-  };
+  // const [dialog, setDialog] = useState(false);
+  // const askQuestion = () => {
+  //   if (!currentUser) {
+  //     setDialog(true);
+  //   } else {
+  //     sendQuestion();
+  //   }
+  // };
   const [snackQ, setSnackQ] = useState(false);
 
-  const sendQuestion = async () => {
-    setLoader(true);
-    try {
-      await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/contact/askquestion",
-        {
-          userId: currentUser[0].login_email,
-          phone: currentUser[0].login_number,
-          propertySlug: id,
-          proId,
-          user_id: currentUser[0].login_id,
-          pro_user_id: data.pro_user_id,
-        }
-      );
-      await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/contact/interestShowed",
-        {
-          pro_user_id: data.pro_user_id,
-        }
-      );
+  // const sendQuestion = async () => {
+  //   setLoader(true);
+  //   try {
+  //     await axios.post(
+  //       import.meta.env.VITE_BACKEND + "/api/contact/askquestion",
+  //       {
+  //         userId: currentUser[0].login_email,
+  //         phone: currentUser[0].login_number,
+  //         propertySlug: id,
+  //         proId,
+  //         user_id: currentUser[0].login_id,
+  //         pro_user_id: data.pro_user_id,
+  //       }
+  //     );
+  //     await axios.post(
+  //       import.meta.env.VITE_BACKEND + "/api/contact/interestShowed",
+  //       {
+  //         pro_user_id: data.pro_user_id,
+  //       }
+  //     );
 
-      contactedData.pro_contacted =
-        (data.pro_contacted !== null ? parseInt(data.pro_contacted) : 0) + 1;
-      contactedData.pro_id = data.pro_id;
-      axios.put(
-        import.meta.env.VITE_BACKEND + "/api/pro/updateContacted",
-        contactedData
-      );
-      data.pro_contacted = parseInt(data.pro_contacted) + 1;
-      setLoader(false);
-      setSnackQ(true);
-      setChange(change  + 1);
-      checkInterested();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     contactedData.pro_contacted =
+  //       (data.pro_contacted !== null ? parseInt(data.pro_contacted) : 0) + 1;
+  //     contactedData.pro_id = data.pro_id;
+  //     axios.put(
+  //       import.meta.env.VITE_BACKEND + "/api/pro/updateContacted",
+  //       contactedData
+  //     );
+  //     data.pro_contacted = parseInt(data.pro_contacted) + 1;
+  //     setLoader(false);
+  //     setSnackQ(true);
+  //     setChange(change + 1);
+  //     checkInterested();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -606,7 +606,6 @@ const Property = () => {
       });
   }, []);
 
-
   // UsePageSeo(
   //   {
   //     title:"viewer page",
@@ -629,81 +628,94 @@ const Property = () => {
   //   document.querySelector('meta[property="og:url"]').setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
   // }, []);
 
+  const [openContactDialog, setOpenContactDialog] = useState(false);
+  // const handleContactUs = () => {
+  //   setOpenContactDialog
+  // }
+
+  const handleCloseDialog = (value) => {
+    setOpenContactDialog(value);
+  };
+
+  const handleContactCountChange = (value) => {
+    setChange(value);
+  };
+
+  console.log(openContactDialog);
+
   return (
     <div>
-
-{/* <HelmetProvider>
-        <Helmet prioritizeSeoTags>
-          <meta property="og:title" content="Title Here" />
-          <meta property="og:site_name" content="Propertiess" />
-          <meta property="og:url" content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313" />
-          <meta property="og:description" content="Description Here" />
-          <meta property="og:type" content="website" />
-          <meta
-            property="og:image"
-            content="https://api.propertyease.in/propertyImages/watermark/default.png"
-          />
-        </Helmet>
-        </HelmetProvider> */}
-
-
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313" />
-<meta
-            property="og:image"
-            content="https://api.propertyease.in/propertyImages/watermark/default.png"
-          />
+      <meta property="og:type" content="website" />
       <meta
-    property="og:title"
-    content="Propertyease"
-  />
-  <meta
-    property="og:description"
-    content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+        property="og:url"
+        content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
+      />
+      <meta
+        property="og:image"
+        content="https://api.propertyease.in/propertyImages/watermark/default.png"
+      />
+      <meta property="og:title" content="Propertyease" />
+      <meta
+        property="og:description"
+        content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 
 
 "
-  /> 
+      />
 
+      <title>
+        {`${
+          arrproId[0] +
+          " " +
+          arrproId[1] +
+          " " +
+          arrproId[2] +
+          " " +
+          arrproId[3] +
+          " " +
+          arrproId[4] +
+          " " +
+          arrproId[5] +
+          " " +
+          arrproId[6] +
+          " " +
+          arrproId[7] +
+          " " +
+          arrproId[8] +
+          " " +
+          arrproId[9]
+        }`}
+      </title>
 
-        <title>
-          {`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`}
-        </title>
-
-    
-<meta
-          name="description"
-          content={`Check out this ${
-            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " " }${arrproId[3] !== "for" ? arrproId[3] : ""}
+      <meta
+        name="description"
+        content={`Check out this ${
+          arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
+        }${arrproId[3] !== "for" ? arrproId[3] : ""}
         for ${
           arrproId[3] === "for" ? arrproId[4] : arrproId[5]
         }. It is an ideal investment opportunity in a prime${
-            arrproId[3] !== "for" ?  " " + arrproId[2] + " " + arrproId[3] : " " + arrproId[2] + ""
-          } area with verified property assurance.`}
+          arrproId[3] !== "for"
+            ? " " + arrproId[2] + " " + arrproId[3]
+            : " " + arrproId[2] + ""
+        } area with verified property assurance.`}
+      />
+
+
+      {openContactDialog ? (
+        <ContactUsForm
+          openContactDialog={openContactDialog}
+          handleCloseDialog={handleCloseDialog}
+          propertySlug={id}
+          pro_user_id={data.pro_user_id}
+          pro_contacted={data.pro_contacted}
+          proId={proId}
+          handleContactCountChange={handleContactCountChange}
+          change={change}
         />
-        
-   
-     
+      ) : (
+        ""
+      )}
       {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
@@ -721,25 +733,7 @@ const Property = () => {
           "Thank You for showing interest in this property, we will get back to you soon."
         }
       />
-      <Dialog
-        open={dialog}
-        onClose={() => setDialog(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Login</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            As to shorlist the property or to show interest in Property you have
-            to login first.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Link to="/login">
-            <div>LOGIN</div>
-          </Link>
-        </DialogActions>
-      </Dialog>
+      
       <Snackbar
         ContentProps={{
           sx: {
@@ -768,9 +762,7 @@ const Property = () => {
       </Modal>
       <Navbar />
 
-
-
-{/* {console.log(`Check out this ${
+      {/* {console.log(`Check out this ${
             arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " " }${arrproId[3] !== "for" ? arrproId[3] : ""}
         for ${
           arrproId[3] === "for" ? arrproId[4] : arrproId[5]
@@ -783,14 +775,16 @@ const Property = () => {
           <div className="col-md-12">
             {propertyPageData1?.length > 0 && (
               <div className="property-page-ad">
-                <div className="p-1 shadow ad-10" >
-
+                <div className="p-1 shadow ad-10">
                   {/* <img
                         src="/images/bizease.png"
                         alt="no image"
                         className="ad-section"
                       /> */}
-                   <PropertyPageSlider className="ad-section" slides={propertyPageData1} /> 
+                  <PropertyPageSlider
+                    className="ad-section"
+                    slides={propertyPageData1}
+                  />
                 </div>
               </div>
             )}
@@ -848,22 +842,7 @@ const Property = () => {
                         >
                           {!skeleton ? (
                             <h1 className="capitalize pl-md-0 d-flex pt-4 pt-md-0 align-items-center flex-wrap property-heading">
-                              {/* {data.pro_area_size +
-                              " " +
-                              data.pro_area_size_unit +
-                              " "}
-                            {data.pro_type ? data.pro_type.split(",")[0] : ""}{" "}
-                            For
-                            {" " + data.pro_ad_type} in{" "}
-                            
-                            {data.pro_locality[0].toUpperCase() +
-                              data.pro_locality.slice(1) +
-                              ","}
-                            {data.pro_sub_district
-                              ? data.pro_sub_district + ", "
-                              : ""}
-                            {data.pro_city},&nbsp;
-                            {data.pro_state} */}
+                              
                               {arrproId
                                 .slice(0, arrproId.length - 1)
                                 .map((item) => (
@@ -1001,43 +980,13 @@ const Property = () => {
                           )}
 
                           <div className="d-flex pl-2 pl-md-0 gap-2 align-items-center">
-                            {currentUser ? (
-                              data.pro_user_id == currentUser[0].login_id ? (
-                                ""
-                              ) : (
-                                <>
-                                  {interested ? (
-                                    <div
-                                      className={`d-flex flex-column  ${
-                                        data.pro_contacted !== null
-                                          ? "contacted-count contacted-count-pt"
-                                          : ""
-                                      }`}
-                                    >
-                                      <button
-                                        className="interest-showed "
-                                        title="Already Contacted"
-                                        onClick={askQuestion}
-                                      >
-                                        <IconSend width={20} height={20} />
-                                        <span className="mobile-hidden">
-                                          Already
-                                        </span>
-                                        <span className="">Contacted</span>
-                                      </button>
-
-                                      <span className="contacted-no text-center">
-                                        {data.pro_contacted !== null
-                                          ? "Contacted " +
-                                            data.pro_contacted +
-                                            " People"
-                                          : ""}
-                                      </span>
-                                    </div>
-                                  ) : (
+                            
+                          {currentUser && data.pro_user_id == currentUser[0].login_id ? (
+                  ""
+                ) : (
                                     <div
                                       className={`d-flex flex-column ${
-                                        data.pro_contacted !== null
+                                        data.pro_contacted !== null && data.pro_contacted !== undefined
                                           ? "contacted-count contacted-count-pt"
                                           : ""
                                       }`}
@@ -1045,22 +994,27 @@ const Property = () => {
                                       <button
                                         className="interest"
                                         title="Contact Us"
-                                        onClick={askQuestion}
+                                        //onClick={askQuestion}
+                                        onClick={() =>
+                                          setOpenContactDialog(true)
+                                        }
                                       >
                                         <IconSend width={20} height={20} />
-                                        <span className="">Contact Us</span>
+                                        <span className="">
+                                          Contact {data.pro_user_type}
+                                        </span>
                                       </button>
+                                     
                                       <span className="contacted-no text-center">
-                                        {data.pro_contacted !== null
+                                        {data.pro_contacted !== null && data.pro_contacted !== undefined
                                           ? "Contacted " +
                                             data.pro_contacted +
                                             " People"
                                           : ""}
                                       </span>
                                     </div>
-                                  )}
-                                </>
-                              )
+)}
+                              {/* )
                             ) : (
                               <div
                                 className={`d-flex flex-column  ${
@@ -1078,14 +1032,15 @@ const Property = () => {
                                   <span className="">Contact Us</span>
                                 </button>
                                 <span className="contacted-no text-center">
-                                  {data.pro_contacted !== null && data.pro_contacted !== undefined
+                                  {data.pro_contacted !== null &&
+                                  data.pro_contacted !== undefined
                                     ? "Contacted " +
                                       data.pro_contacted +
                                       " People"
                                     : ""}
                                 </span>
                               </div>
-                            )}
+                            )} */}
                             <button className="fb" title="Share On Facebook">
                               <a
                                 rel="noreferrer nofollow"
@@ -1705,9 +1660,7 @@ const Property = () => {
                               <div className="uniBlock">
                                 <div className="recent-box-serv">
                                   <div className="re-bus-img">
-                                    <Link
-                                      to={`/${item.pro_url}`}
-                                    >
+                                    <Link to={`/${item.pro_url}`}>
                                       {item.img_link ? (
                                         <img
                                           src={`${
@@ -1727,9 +1680,7 @@ const Property = () => {
                                   </div>
                                   <div className="recent-bus-content">
                                     <h5 className="property-listing-type">
-                                      <Link
-                                      to={`/${item.pro_url}`}  
-                                      >
+                                      <Link to={`/${item.pro_url}`}>
                                         <a>{item.pro_type.split(",")[0]}</a>
                                       </Link>
                                     </h5>
@@ -1805,9 +1756,7 @@ const Property = () => {
                                         {item.pro_facing}
                                       </li>
                                     </ul>
-                                    <Link
-                                    to={`/${item.pro_url}`}
-                                    >
+                                    <Link to={`/${item.pro_url}`}>
                                       <a
                                         title="View complete details of this property"
                                         className="btn-viewmore"
