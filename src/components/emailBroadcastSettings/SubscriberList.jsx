@@ -5,7 +5,14 @@ import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { Snackbar } from "@mui/material";
+import { IconTrashFilled } from "@tabler/icons-react";
 const SubscriberList = () => {
     const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 15;
@@ -14,6 +21,7 @@ const SubscriberList = () => {
   const [data, setData] = useState([]);
   const [change, setChange] = useState(1);
   const [loader, setLoader] = useState(false);
+  const [snack, setSnack] = useState(false);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/setting/fetchSubscriberList")
@@ -38,12 +46,69 @@ const SubscriberList = () => {
   const records = data.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(data.length / recordsPerPage);
 
- 
+  const [open, setOpen] = useState(false);
+  const [delId, setDelId] = useState("");
+  const handleClickOpen = (data) => {    
+    setDelId(data);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteSub = async () => {
+    try {
+      await axios.delete(
+        import.meta.env.VITE_BACKEND + `/api/maildigest/deleteSub/${delId}`
+      );
+      setSearchValue("")
+      setChange(change + 1);
+      setSnack(true);
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   
 
   return (
     <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete this Subscriber? "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          You will not be able to recover it.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button className="btn-danger" onClick={deleteSub} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snack}
+        autoHideDuration={1000}
+        onClose={() => setSnack(false)}
+        message={"Deleted Successfully"}
+      />
       {loader ? <Loader /> : ""}
       <div className="card-body table-border-style">
         
@@ -79,7 +144,7 @@ const SubscriberList = () => {
                 <th>
                 Subscriber City
                 </th>
-                
+                <th>Actions</th>
               </tr>
             </thead>
 
@@ -95,8 +160,15 @@ const SubscriberList = () => {
 
                   <td>+91{item.sub_phone}</td>
                   <td>{item.sub_city !== null ? item.sub_city : "-"}</td>
-
-                 
+                  <td>
+                  <button
+                      className="del"
+                      title="Delete"
+                      onClick={() => handleClickOpen(item.sub_id)}
+                    >
+                      <IconTrashFilled />
+                    </button>
+                    </td>
 
                   
                   

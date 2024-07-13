@@ -18,11 +18,15 @@ const EmailSettings = (selectedOption) => {
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const [emailConfigData, setEmailConfigData] = useState({
-    email_config_host: "",
-    email_config_port: "",
-    email_config_email: "",
-    email_config_new_pass: "",
-    email_config_old_pass: "",
+    email_sender_name: "",
+    email_sender_id: "",
+    email_reciever_id: "",
+  });
+
+  const [enEmailConfigData, setEnEmailConfigData] = useState({
+    email_sender_name: "",
+    email_sender_id: "",
+    email_reciever_id: [],
   });
 
   const emailConfigFormOpt = [
@@ -43,22 +47,20 @@ const EmailSettings = (selectedOption) => {
 
   useEffect(() => {
     if (
-      emailConfigData.email_config_host !== "" &&
-      emailConfigData.email_config_port !== "" &&
-      emailConfigData.email_config_email !== "" &&
-      emailConfigData.email_config_old_pass !== "" &&
-      emailConfigData.email_config_new_pass !== ""
+      emailConfigData.email_sender_name !== "" &&
+      emailConfigData.email_sender_id !== "" &&
+      emailConfigData.email_reciever_id !== "" 
+      
     ) {
       setSubmitDisabled(false);
     } else {
       setSubmitDisabled(true);
     }
   }, [
-    emailConfigData.email_config_host,
-    emailConfigData.email_config_port,
-    emailConfigData.email_config_email,
-    emailConfigData.email_config_old_pass,
-    emailConfigData.email_config_new_pass,
+    emailConfigData.email_sender_name,
+    emailConfigData.email_sender_id,
+    emailConfigData.email_reciever_id,
+    
   ]);
 
   const encryptAES = (plaintext) => {
@@ -78,35 +80,26 @@ const EmailSettings = (selectedOption) => {
   const handleClick = async () => {
     setOpen(false);
     try {
-      emailConfigData.email_config_host = encryptAES(
-        emailConfigData.email_config_host
+      enEmailConfigData.email_sender_name = encryptAES(
+        emailConfigData.email_sender_name
       );
-      emailConfigData.email_config_new_pass = encryptAES(
-        emailConfigData.email_config_new_pass
-      );
-
-      emailConfigData.email_config_email = encryptAES(
-        emailConfigData.email_config_email
-      );
-      emailConfigData.email_config_old_pass = encryptAES(
-        emailConfigData.email_config_old_pass
-      );
-      emailConfigData.email_config_port = encryptAES(
-        emailConfigData.email_config_port
+      enEmailConfigData.email_reciever_id = encryptAES(
+        emailConfigData.email_reciever_id
+      );    
+      enEmailConfigData.email_sender_id = encryptAES(
+        emailConfigData.email_sender_id
       );
 
       setLoader(true);
       await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/setting/emailConfigSetting",
-        emailConfigData
+        import.meta.env.VITE_BACKEND + "/api/setting/emailGloablSetting",
+        enEmailConfigData
       );
 
       setEmailConfigData({
-        email_config_host: "",
-        email_config_port: "",
-        email_config_email: "",
-        email_config_new_pass: "",
-        email_config_old_pass: "",
+        email_sender_name: "",
+        email_sender_id: "",
+        email_reciever_id: "",
       });
       setLoader(false);
 
@@ -164,15 +157,15 @@ const EmailSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            value={emailConfigData.email_config_email}
+            value={emailConfigData.email_sender_name}
             helperText={
-              emailConfigData.email_config_email.length < 1 ? "Required" : ""
+              emailConfigData.email_sender_name.length < 1 ? "Required" : ""
             }
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
               setEmailConfigData({
                 ...emailConfigData,
-                email_config_email: e.target.value.replace(
+                email_sender_name: e.target.value.replace(
                   /[^a-zA-Z]/g,
                   ""
                 ),
@@ -189,15 +182,15 @@ const EmailSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            value={emailConfigData.email_config_email}
+            value={emailConfigData.email_sender_id}
             helperText={
-              emailConfigData.email_config_email.length < 1 ? "Required" : ""
+              emailConfigData.email_sender_id.length < 1 ? "Required" : ""
             }
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
               setEmailConfigData({
                 ...emailConfigData,
-                email_config_email: e.target.value.replace(
+                email_sender_id: e.target.value.replace(
                   /[^a-zA-Z / . : 0-9 - #]/g,
                   ""
                 ),
@@ -214,15 +207,15 @@ const EmailSettings = (selectedOption) => {
             size="small"
             inputProps={{ maxlength: 50 }}
             className="w-100"
-            value={emailConfigData.email_config_email}
+            value={emailConfigData.email_reciever_id}
             helperText={
-              emailConfigData.email_config_email.length < 1 ? "Required" : ""
+              emailConfigData.email_reciever_id.length < 1 ? "Required" : ""
             }
             FormHelperTextProps={{ sx: { color: "red" } }}
             onChange={(e) => {
               setEmailConfigData({
                 ...emailConfigData,
-                email_config_email: e.target.value.replace(
+                email_reciever_id: e.target.value.replace(
                   /[^a-zA-Z / . : 0-9 - #]/g,
                   ""
                 ),

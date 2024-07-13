@@ -310,7 +310,7 @@ const Index = () => {
     }
   };
 
-  console.log("selectedTypes : ", selectedTypes);
+
 
   const handleAllTypes = () => {
     setSelectedTypes((prevSelectedTypes) => {
@@ -468,7 +468,7 @@ const Index = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -547,8 +547,7 @@ const Index = () => {
           <div>
           <div className="popup-heading">Be the first to know!</div>
             <div className="popup-subheading">
-              Subscribers are the first one to hear about new propertes and best
-              deals.
+            Subscribers are the first one to hear about new listed properties and best deals.
             </div>
           </div>
             
@@ -590,8 +589,8 @@ const Index = () => {
                     })
                   }
                 />
-                <span className="popup-error-msg">{step && popupData.phone.length < 10
-                                  ? "Please enter valid phone number"
+                <span className="popup-error-msg">{step && popupData.phone.length !== 10
+                                  ? "Phone number must be 10 digits."
                                   : ""}</span>
               </div>
             </div>
