@@ -189,7 +189,7 @@ const ContactUsForm = (props) => {
           </DialogContent>
           <DialogActions>
             {/* <Button onClick={() => props.handleCloseDialog(false)}>Cancel</Button> */}
-            <Button onClick={() => setData({name: "", phone: "", email: ""})}>Reset1</Button>
+            <Button onClick={() => setData({name: "", phone: "", email: ""})}>Reset</Button>
             <Button type="submit" onClick={handleSubmit} disabled={disabled}>
               Submit
             </Button>
