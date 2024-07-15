@@ -13,14 +13,13 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconBrandWhatsapp, IconMapPin } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
-import {InputAdornment} from "@mui/material";
+import { InputAdornment } from "@mui/material";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { AuthContext } from "../../context/AuthContext";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 
 const Listing = () => {
-
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const { cat } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -31,7 +30,7 @@ const Listing = () => {
   const [rentData, setRentData] = useState([]);
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
-  const [userCurrLocation , setUserCurrLocation] = useState("");
+  const [userCurrLocation, setUserCurrLocation] = useState("");
   const [searchValue, setSearchValue] = useState("");
   // const [filter, setFilter] = useState("All");
   const [records, setRecords] = useState([]);
@@ -70,29 +69,27 @@ const Listing = () => {
     });
   }, [data]);
 
- 
+  const handleRecordsChange = (newRecords) => {
+    setRecords(newRecords);
+  };
 
- const handleRecordsChange = (newRecords) => {
-   setRecords(newRecords);
- };
+  const handleNPagesChange = (newNPages) => {
+    setNPages(newNPages);
+  };
 
- const handleNPagesChange = (newNPages) => {
-   setNPages(newNPages);
- };
+  const handleSearchValue = (value) => {
+    console.log(value);
+    setSearchValue(value);
+  };
 
- const handleSearchValue = (value) => {
-   console.log(value);
-   setSearchValue(value);
- };
+  const handleUserLocation = (value) => {
+    setUserCurrLocation(value);
+  };
 
- const handleUserLocation = (value) => {
-  setUserCurrLocation(value);
-};
+  const handleCurrentPage = (value) => {
+    setCurrentPage(value);
+  };
 
-const handleCurrentPage = (value) => {
-  setCurrentPage(value);
-};
-  
   return (
     <div>
       <Helmet>
@@ -124,15 +121,23 @@ const handleCurrentPage = (value) => {
             </div>
             <div className="row">
               <div className="col-md-9">
-                {records.length > 0 ? records.map((object, index) => (
-                   <PropertyCard
+                {records.length > 0 ? (
+                  records.map((object, index) => (
+                    <PropertyCard
                       // viewerRef= {viewerRef}
-                        object={object}
-                        index={index}
-                        currentUser={currentUser}
-                        DateTime={DateTime}
-                      />
-                )) : <NoResult searchValue={searchValue} userCurrLocation={userCurrLocation} handleSearchValue={handleSearchValue} />}
+                      object={object}
+                      index={index}
+                      currentUser={currentUser}
+                      DateTime={DateTime}
+                    />
+                  ))
+                ) : (
+                  <NoResult
+                    searchValue={searchValue}
+                    userCurrLocation={userCurrLocation}
+                    handleSearchValue={handleSearchValue}
+                  />
+                )}
               </div>
               <div className="col-md-3">
                 <div>
@@ -184,14 +189,15 @@ const handleCurrentPage = (value) => {
                 </div>
               </div>
             </div>
-            {records.length > 0 &&
-            <Pagination
-              page={currentPage}
-              count={nPages}
-              color="primary"
-              onChange={(e, value) => setCurrentPage(value)}
-              className="col-md-6 mx-auto py-2"
-            />}
+            {records.length > 0 && (
+              <Pagination
+                page={currentPage}
+                count={nPages}
+                color="primary"
+                onChange={(e, value) => setCurrentPage(value)}
+                className="col-md-6 mx-auto py-2"
+              />
+            )}
           </div>
         </section>
       </div>

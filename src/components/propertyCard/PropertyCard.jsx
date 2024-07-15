@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IconEye, IconBrandWhatsapp, IconSend } from "@tabler/icons-react";
 import ContactUsForm from "../contactUsForm/ContactUsForm";
-
+import { Snackbar } from "@mui/material";
 
 const PropertyCard = ({ object, index, currentUser, DateTime }) => {
 
@@ -17,8 +17,35 @@ const PropertyCard = ({ object, index, currentUser, DateTime }) => {
     setChange(value);
   };
 
+  const handleChange = () => {
+    setChange(change + 1);
+   }
+
+  const [snackDailog, setSnackDailog] = useState(false);
+const handleSnackDialog = (value) => {
+  console.log(value)
+  setSnackDailog(value);
+}
+
+
+
+
+
   return (
     <div className="list-group" key={index}>
+      <Snackbar
+          ContentProps={{
+            sx: {
+              background: "green",
+              color: "white",
+            },
+          }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snackDailog}
+          autoHideDuration={2000}
+          onClose={() => handleSnackDialog(false)}
+          message="We Will Contact you soon!"
+        />
       {openContactDialog ? (
         <ContactUsForm
           openContactDialog={openContactDialog}
@@ -29,10 +56,25 @@ const PropertyCard = ({ object, index, currentUser, DateTime }) => {
           proId={object.pro_id}
           handleContactCountChange={handleContactCountChange}
           change={change}
+          handleSnackDialog={handleSnackDialog}
+          handleChange={handleChange}
         />
       ) : (
         ""
       )}
+      {/* <Snackbar
+          ContentProps={{
+            sx: {
+              background: "green",
+              color: "white",
+            },
+          }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snackDailog}
+          autoHideDuration={4000}
+          onClose={() => handleSnackDialog(false)}
+          message="We Will Contact you soon !.."
+        /> */}
       <div className="row">
         <div className="col-md-auto flex-column text-center">
           <div className="buiness-logo">

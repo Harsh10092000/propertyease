@@ -32,6 +32,8 @@ import Loader from "../../components/loader/Loader";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
 //import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
+import { Snackbar } from "@mui/material";
+
 
 const Index = () => {
   const navigate = useNavigate();
@@ -497,18 +499,20 @@ const Index = () => {
         popupData
       );
       setLoader(false);
-      setOpen(false)
+      setOpen(false);
+      
       setPopupData({
         name: "",
         email: "",
         phone: ""
       });
+      setOpenSubSnack(true);
       //setSnack(true);
     } catch (err) {
       console.log(err);
     }
   };
-
+  const [openSubSnack , setOpenSubSnack] = useState(false);
   const [loader, setLoader] = useState(false);
   const [step, setStep] = useState(false);
   const handleStep = () => {
@@ -579,6 +583,7 @@ const Index = () => {
                   // type="text"
                   placeholder="Phone"
                   required
+                  value={popupData.phone}
                   onChange={(e) =>
                     setPopupData({
                       ...popupData,
@@ -631,7 +636,22 @@ const Index = () => {
 
       <Navbar />
 {loader ? <Loader /> : ""}
-
+<Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSubSnack}
+        autoHideDuration={2000}
+        onClose={() => setOpenSubSnack(false)}
+        message={
+          "Thank You for subscribing us."
+        }
+      />
       {/* <div onClick={handleClickOpen}>Open Dialog</div> */}
 
       <div>

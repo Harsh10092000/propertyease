@@ -17,6 +17,7 @@ import {
   IconSquareCheckFilled,
   IconSquare,
   IconAlignLeft,
+  IconX
 } from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
@@ -46,6 +47,10 @@ import PropertyCard from "../../components/propertyCard/PropertyCard";
 
 import Sidebar2 from "../../components/sidebar2/Sidebar2";
 import { useNavigate } from "react-router-dom";
+
+import Dialog from "@mui/material/Dialog";
+import { regEx } from "../regEx";
+import Loader from "../../components/loader/Loader";
 
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
@@ -600,7 +605,7 @@ const AllProperties = (props) => {
     proWithParking
   ]);
 
-  console.log(results);
+ 
   const records = results?.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(results?.length / recordsPerPage);
 
@@ -727,10 +732,200 @@ const AllProperties = (props) => {
 // }, [data]); 
 
 
+const [open1, setOpen1] = useState(false);
+const handleClickOpen = () => {
+  console.log("open1 : ")
+  setOpen1(true);
+};
+
+const handleClose = () => {
+  setOpen1(false);
+};
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setOpen1(true);
+  }, 1000);
+  return () => clearTimeout(timer);
+}, []);
+
+
+
+
+const [popupData, setPopupData] = useState({
+  name: "",
+  phone: "",
+  email: ""
+})
+
+
+
+const [emailError, setEmailError] = useState(true);
+useEffect(() => {
+  if (!regEx[0].emailRegex.test(popupData.email)) {
+    setEmailError(true);
+  } else {
+    setEmailError(false);
+  }
+}, [popupData.email]);
+
+const handleSubmit = async () => {
+  setLoader(true);
+  try {
+    await axios.post(
+      import.meta.env.VITE_BACKEND + "/api/maildigest/addSubscriberData",
+      popupData
+    );
+    setLoader(false);
+    setOpen1(false)
+    setOpenSubSnack(true);
+    setPopupData({
+      name: "",
+      email: "",
+      phone: ""
+    });
+    //setSnack(true);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const [loader, setLoader] = useState(false);
+const [step, setStep] = useState(false);
+const [openSubSnack , setOpenSubSnack] = useState(false);
+const handleStep = () => {
+ 
+  if (
+    popupData.name !== "" &&
+    popupData.phone.length > 9 && popupData.phone.length < 11 &&
+    emailError === false 
+  ) {
+    setStep(false);
+    handleSubmit();
+  } else {
+    setStep(true);
+    
+  }
+};
+
 
 
   return (
     <div>
+      <Dialog
+        open={open1}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog-wrapper"
+      >
+        <div className="mail-popup">
+          
+          <div className="popup-heading-wrapper d-flex" >
+          <div>
+          <div className="popup-heading">Be the first to know!</div>
+            <div className="popup-subheading">
+            Subscribers are the first one to hear about new listed properties and best deals.
+            </div>
+          </div>
+            
+            <div onClick={handleClose} className="pointer" title="close"><IconX /></div>
+          </div>
+          <div className="popup-content-wrapper">
+            <div className="popup-content-sec d-flex justify-content-between">
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  type="text"
+                  placeholder="Name"
+                  required
+                  onChange={(e) =>
+                    setPopupData({
+                      ...popupData,
+                      name: e.target.value.replace(
+                        /[^a-zA-Z ]/g,
+                        ""
+                      ),
+                    })
+                  }
+                />
+                <span className="popup-error-msg">{step && popupData.name === "" ? "Required" : ""}</span>
+              </div>
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  // type="text"
+                  placeholder="Phone"
+                  required
+                  value={popupData.phone}
+                  onChange={(e) =>
+                    setPopupData({
+                      ...popupData,
+                      phone: e.target.value.replace(
+                        regEx[2].phoneNumberValidation,
+                        ""
+                      ),
+                    })
+                  }
+                />
+                <span className="popup-error-msg">{step && popupData.phone.length !== 10
+                                  ? "Phone number must be 10 digits."
+                                  : ""}</span>
+              </div>
+            </div>
+            <div className="mb-3">
+              <input
+                className="pf-input"
+                type="email"
+                placeholder="Email"
+                required
+                onChange={(e) =>
+                  setPopupData({
+                    ...popupData,
+                    email: e.target.value.replace(
+                      /[^a-zA-Z.@0-9/]/g,
+                      ""
+                    ),
+                  })
+                }
+              />
+              <span className="popup-error-msg">{step && emailError
+                                  ? "Please enter valid email address"
+                                  : ""}</span>
+            </div>
+            <div className="popup-btn-text">
+              Subscribe to recieve the latest news by email about properties.
+              Unsubscribe any time.
+            </div>
+            <div>
+              <button class="pf-submit hover-opacity" onClick={handleStep}
+                              title="Click to Subscribe" >Subscribe</button>
+            </div>
+            <div className="popup-botton-text">
+              We don't share data with anyone.
+            </div>
+          </div>
+        </div>
+      </Dialog>
+
+      {loader ? <Loader /> : ""}
+      
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSubSnack}
+        autoHideDuration={2000}
+        onClose={() => setOpenSubSnack(false)}
+        message={
+          "Thank You for subscribing us."
+        }
+      />
       <Helmet>
         
     <meta
@@ -749,24 +944,13 @@ const AllProperties = (props) => {
     content="Ab Property Bechna Kharidna Hoga Aasan"
   />
         <title>Propertyease - All Properties</title>
+
+
+
+        
       </Helmet>
       <Navbar />
-      {/* <Snackbar
-        ContentProps={{
-          sx: {
-            background: "green",
-            color: "white",
-            textAlign: "center",
-          },
-        }}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={locationSnack}
-        autoHideDuration={1000}
-        onClose={() => setLocationSnack(false)}
-        message={
-          "Thank You for showing interest in this property, we will get back to you soon."
-        }
-      /> */}
+      
 
       {/* <div ref={viewerRef} />; */}
       {/* <div id="viewer" ref={viewerRef}></div>;  */}
@@ -781,6 +965,7 @@ const AllProperties = (props) => {
         <section className="main-content">
           <div className="container">
             <div className="title">
+            
               <h2>
                 All Properties
                 <span className="ml-2 numberProperties">{results.length}</span>
@@ -971,6 +1156,7 @@ const AllProperties = (props) => {
                         index={index}
                         currentUser={currentUser}
                         DateTime={DateTime}
+                        
                       />
                     ))}
                 {skeleton && (

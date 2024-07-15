@@ -42,6 +42,7 @@ const ContactUsForm = (props) => {
   };
 
 
+ 
 
 
   const handleSubmit = async () => {
@@ -64,7 +65,10 @@ const ContactUsForm = (props) => {
       setLoader(false);
       props.handleCloseDialog(false);
       props.handleContactCountChange(props.onChange + 1)
+      
+      props.handleSnackDialog(true);
       setSnack(true);
+      props.handleChange();
     } catch (err) {
       console.log(err);
     }
@@ -97,9 +101,9 @@ const ContactUsForm = (props) => {
           }}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={snack}
-          autoHideDuration={4000}
+          autoHideDuration={2000}
           onClose={handleSnack}
-          message="We Will Contact you soon !.."
+          message="We Will Contact you soon!"
         />
        <Dialog open={open} onClose={() => props.handleCloseDialog(false)}>
           <DialogTitle>

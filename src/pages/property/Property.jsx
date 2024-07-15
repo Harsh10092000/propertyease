@@ -628,10 +628,15 @@ const Property = () => {
   //   document.querySelector('meta[property="og:url"]').setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
   // }, []);
 
+  const [snackDailog, setSnackDailog] = useState(false);
   const [openContactDialog, setOpenContactDialog] = useState(false);
   // const handleContactUs = () => {
   //   setOpenContactDialog
   // }
+
+  const handleSnackDialog = (value) => {
+    setSnackDailog(value);
+  }
 
   const handleCloseDialog = (value) => {
     setOpenContactDialog(value);
@@ -641,7 +646,9 @@ const Property = () => {
     setChange(value);
   };
 
-  console.log(openContactDialog);
+ const handleChange = () => {
+  setChange(change + 1);
+ }
 
   return (
     <div>
@@ -701,7 +708,6 @@ const Property = () => {
         } area with verified property assurance.`}
       />
 
-
       {openContactDialog ? (
         <ContactUsForm
           openContactDialog={openContactDialog}
@@ -712,11 +718,28 @@ const Property = () => {
           proId={proId}
           handleContactCountChange={handleContactCountChange}
           change={change}
+          handleSnackDialog={handleSnackDialog}
+          handleChange={handleChange}
         />
       ) : (
         ""
       )}
       {loader ? <Loader /> : ""}
+
+      <Snackbar
+          ContentProps={{
+            sx: {
+              background: "green",
+              color: "white",
+            },
+          }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snackDailog}
+          autoHideDuration={4000}
+          onClose={() => handleSnackDialog(false)}
+          message="We Will Contact you soon !.."
+        />
+
       <Snackbar
         ContentProps={{
           sx: {
@@ -733,7 +756,7 @@ const Property = () => {
           "Thank You for showing interest in this property, we will get back to you soon."
         }
       />
-      
+
       <Snackbar
         ContentProps={{
           sx: {
@@ -842,7 +865,6 @@ const Property = () => {
                         >
                           {!skeleton ? (
                             <h1 className="capitalize pl-md-0 d-flex pt-4 pt-md-0 align-items-center flex-wrap property-heading">
-                              
                               {arrproId
                                 .slice(0, arrproId.length - 1)
                                 .map((item) => (
@@ -980,41 +1002,41 @@ const Property = () => {
                           )}
 
                           <div className="d-flex pl-2 pl-md-0 gap-2 align-items-center">
-                            
-                          {currentUser && data.pro_user_id == currentUser[0].login_id ? (
-                  ""
-                ) : (
-                                    <div
-                                      className={`d-flex flex-column ${
-                                        data.pro_contacted !== null && data.pro_contacted !== undefined
-                                          ? "contacted-count contacted-count-pt"
-                                          : ""
-                                      }`}
-                                    >
-                                      <button
-                                        className="interest"
-                                        title="Contact Us"
-                                        //onClick={askQuestion}
-                                        onClick={() =>
-                                          setOpenContactDialog(true)
-                                        }
-                                      >
-                                        <IconSend width={20} height={20} />
-                                        <span className="">
-                                          Contact {data.pro_user_type}
-                                        </span>
-                                      </button>
-                                     
-                                      <span className="contacted-no text-center">
-                                        {data.pro_contacted !== null && data.pro_contacted !== undefined
-                                          ? "Contacted " +
-                                            data.pro_contacted +
-                                            " People"
-                                          : ""}
-                                      </span>
-                                    </div>
-)}
-                              {/* )
+                            {currentUser &&
+                            data.pro_user_id == currentUser[0].login_id ? (
+                              ""
+                            ) : (
+                              <div
+                                className={`d-flex flex-column ${
+                                  data.pro_contacted !== null &&
+                                  data.pro_contacted !== undefined
+                                    ? "contacted-count contacted-count-pt"
+                                    : ""
+                                }`}
+                              >
+                                <button
+                                  className="interest"
+                                  title="Contact Us"
+                                  //onClick={askQuestion}
+                                  onClick={() => setOpenContactDialog(true)}
+                                >
+                                  <IconSend width={20} height={20} />
+                                  <span className="">
+                                    Contact {data.pro_user_type}
+                                  </span>
+                                </button>
+
+                                <span className="contacted-no text-center">
+                                  {data.pro_contacted !== null &&
+                                  data.pro_contacted !== undefined
+                                    ? "Contacted " +
+                                      data.pro_contacted +
+                                      " People"
+                                    : ""}
+                                </span>
+                              </div>
+                            )}
+                            {/* )
                             ) : (
                               <div
                                 className={`d-flex flex-column  ${
