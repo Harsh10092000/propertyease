@@ -16,7 +16,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import { InputAdornment } from "@mui/material";
+import { Divider, InputAdornment } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useEffect, useState, useRef } from "react";
@@ -33,7 +33,6 @@ import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
 //import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 import { Snackbar } from "@mui/material";
-
 
 const Index = () => {
   const navigate = useNavigate();
@@ -312,8 +311,6 @@ const Index = () => {
     }
   };
 
-
-
   const handleAllTypes = () => {
     setSelectedTypes((prevSelectedTypes) => {
       const updatedTypes = propertyType
@@ -477,10 +474,8 @@ const Index = () => {
   const [popupData, setPopupData] = useState({
     name: "",
     phone: "",
-    email: ""
-  })
-
-  
+    email: "",
+  });
 
   const [emailError, setEmailError] = useState(true);
   useEffect(() => {
@@ -491,6 +486,8 @@ const Index = () => {
     }
   }, [popupData.email]);
 
+  const [dupEntry, setDupEntry] = useState("");
+  const [subError, setSubError] = useState(false);
   const handleSubmit = async () => {
     setLoader(true);
     try {
@@ -500,40 +497,42 @@ const Index = () => {
       );
       setLoader(false);
       setOpen(false);
-      
+
       setPopupData({
         name: "",
         email: "",
-        phone: ""
+        phone: "",
       });
       setOpenSubSnack(true);
       //setSnack(true);
     } catch (err) {
       console.log(err);
+      err.response.data.code === "ER_DUP_ENTRY" ? setDupEntry("Email Already Exists") : setSubError(true);
+      setLoader(false);
     }
   };
-  const [openSubSnack , setOpenSubSnack] = useState(false);
+  const [openSubSnack, setOpenSubSnack] = useState(false);
   const [loader, setLoader] = useState(false);
   const [step, setStep] = useState(false);
   const handleStep = () => {
-    console.log("popupData : ", popupData)
+   
     if (
       popupData.name !== "" &&
-      popupData.phone.length > 9 && popupData.phone.length < 11 &&
-      emailError === false 
+      popupData.phone.length > 9 &&
+      popupData.phone.length < 11 &&
+      emailError === false
     ) {
       setStep(false);
-      
+
       handleSubmit();
     } else {
       setStep(true);
-      
     }
   };
 
   return (
     <div>
-{/* <div onClick={() => setOpen(true)}>open dialog</div> */}
+      {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
@@ -546,16 +545,18 @@ const Index = () => {
         className="dialog-wrapper"
       >
         <div className="mail-popup">
-          
-          <div className="popup-heading-wrapper d-flex" >
-          <div>
-          <div className="popup-heading">Be the first to know!</div>
-            <div className="popup-subheading">
-            Subscribers are the first one to hear about new listed properties and best deals.
+          <div className="popup-heading-wrapper d-flex">
+            <div>
+              <div className="popup-heading">Be the first to know!</div>
+              <div className="popup-subheading">
+                Subscribers are the first one to hear about new listed
+                properties and best deals.
+              </div>
             </div>
-          </div>
-            
-            <div onClick={handleClose} className="pointer" title="close"><IconX /></div>
+
+            <div onClick={handleClose} className="pointer" title="close">
+              <IconX />
+            </div>
           </div>
           <div className="popup-content-wrapper">
             <div className="popup-content-sec d-flex justify-content-between">
@@ -566,16 +567,18 @@ const Index = () => {
                   placeholder="Name"
                   required
                   onChange={(e) =>
+                  {
+                    setSubError(false);
                     setPopupData({
                       ...popupData,
-                      name: e.target.value.replace(
-                        /[^a-zA-Z ]/g,
-                        ""
-                      ),
+                      name: e.target.value.replace(/[^a-zA-Z ]/g, ""),
                     })
                   }
+                  }
                 />
-                <span className="popup-error-msg">{step && popupData.name === "" ? "Required" : ""}</span>
+                <span className="popup-error-msg">
+                  {step && popupData.name === "" ? "Required" : ""}
+                </span>
               </div>
               <div className="mb-3">
                 <input
@@ -585,6 +588,8 @@ const Index = () => {
                   required
                   value={popupData.phone}
                   onChange={(e) =>
+                    {
+                      setSubError(false);
                     setPopupData({
                       ...popupData,
                       phone: e.target.value.replace(
@@ -593,10 +598,13 @@ const Index = () => {
                       ),
                     })
                   }
+                }
                 />
-                <span className="popup-error-msg">{step && popupData.phone.length !== 10
-                                  ? "Phone number must be 10 digits."
-                                  : ""}</span>
+                <span className="popup-error-msg">
+                  {step && popupData.phone.length !== 10
+                    ? "Phone number must be 10 digits."
+                    : ""}
+                </span>
               </div>
             </div>
             <div className="mb-3">
@@ -605,38 +613,45 @@ const Index = () => {
                 type="email"
                 placeholder="Email"
                 required
-                onChange={(e) =>
+                onChange={(e) => {
+                  setDupEntry("");
+                  
+                    setSubError(false);
                   setPopupData({
                     ...popupData,
-                    email: e.target.value.replace(
-                      /[^a-zA-Z.@0-9/]/g,
-                      ""
-                    ),
+                    email: e.target.value.replace(/[^a-zA-Z.@0-9/]/g, ""),
                   })
                 }
+                }
               />
-              <span className="popup-error-msg">{step && emailError
-                                  ? "Please enter valid email address"
-                                  : ""}</span>
+              <span className="popup-error-msg">
+                {step && emailError ? "Please enter valid email address" :dupEntry.length > 1 ? dupEntry : ""}
+              </span>
             </div>
-            <div className="popup-btn-text">
+            {/* <div className="popup-btn-text">
               Subscribe to recieve the latest news by email about properties.
               Unsubscribe any time.
-            </div>
+            </div> */}
             <div>
-              <button class="pf-submit hover-opacity" onClick={handleStep}
-                              title="Click to Subscribe" >Subscribe</button>
+              <button
+                class="pf-submit hover-opacity"
+                onClick={handleStep}
+                title="Click to Subscribe"
+              >
+                Submit
+              </button>
             </div>
             <div className="popup-botton-text">
               We don't share data with anyone.
             </div>
+            <div>{subError && "Please try again after some time."}</div>
           </div>
         </div>
       </Dialog>
 
       <Navbar />
-{loader ? <Loader /> : ""}
-<Snackbar
+      {loader ? <Loader /> : ""}
+      <Snackbar
         ContentProps={{
           sx: {
             background: "green",
@@ -648,108 +663,12 @@ const Index = () => {
         open={openSubSnack}
         autoHideDuration={2000}
         onClose={() => setOpenSubSnack(false)}
-        message={
-          "Thank You for subscribing us."
-        }
+        message={"Thank You for subscribing us."}
       />
       {/* <div onClick={handleClickOpen}>Open Dialog</div> */}
 
       <div>
-        {/* <div className="col-md-2 mx-4 mx-md-0 pl-0 ">
-                  {cityData ? (
-                    <div>
-                      <div className="location-icon-2">
-                        <span className="svg-icon text-primary svg-icon-2hx">
-                          <svg
-                            width="25"
-                            height="25"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              opacity="0.3"
-                              d="M18.0624 15.3453L13.1624 20.7453C12.5624 21.4453 11.5624 21.4453 10.9624 20.7453L6.06242 15.3453C4.56242 13.6453 3.76242 11.4453 4.06242 8.94534C4.56242 5.34534 7.46242 2.44534 11.0624 2.04534C15.8624 1.54534 19.9624 5.24534 19.9624 9.94534C20.0624 12.0453 19.2624 13.9453 18.0624 15.3453Z"
-                              fill="currentColor"
-                            ></path>
-                            <path
-                              d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z"
-                              fill="currentColor"
-                            ></path>
-                          </svg>
-                        </span>
-                      </div>
-                      <Autocomplete
-                        size="small"
-                        //disableClearable
-                        id="combo-box-demo"
-                        options={cityData
-                          .sort()
-                          .map((option) => option.district)}
-                        // onInputChange={(event, newInputValue) => {
-                        //   setLocation(newInputValue);
-                        //   props.handleUserLocation(newInputValue);
-                        //   setSearchValue1("");
-                        //   props.handleSearchValue("");
-                        // }}
-                        sx={{ m: 1, width: ["100%"] }}
-                        value={location}
-                        slotProps={{
-                          popper: {
-                            sx: {
-                              zIndex: 1,
-                            },
-                          },
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            variant="standard"
-                            {...params}
-                            value={"All India"}
-                            // InputProps={{
-                            //   ...params.InputProps,
-                            //   startAdornment: (
-                            //     <InputAdornment
-                            //       position="start"
-                            //       title="Detect your current location"
-                            //     >
-                            //       <IconCurrentLocation
-                            //         className="pointer location-icon"
-                            //         onClick={handleLocationClick}
-                            //       />
-                            //     </InputAdornment>
-                            //   ),
-                            // }}
-                          />
-                        )}
-                      />
-                    </div>
-                  ) : (
-                    <Autocomplete
-                      size="small"
-                      id="combo-box-demo"
-                      options={cities.map((option) => option.district)}
-                      sx={{ m: 1, width: ["100%"] }}
-                      value={location}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          // InputProps={{
-                          //   ...params.InputProps,
-                          //   startAdornment: (
-                          //     <InputAdornment
-                          //       position="start"
-                          //       title="Detect your current location"
-                          //     >
-                          //       <IconCurrentLocation className="pointer location-icon" />
-                          //     </InputAdornment>
-                          //   ),
-                          // }}
-                        />
-                      )}
-                    />
-                  )}
-                </div> */}
+        
 
         <div className="image-cover hero-banner" data-select2-id="13">
           <div className="container" data-select2-id="12">
@@ -866,66 +785,7 @@ const Index = () => {
             </div>
           )} */}
         </div>
-        {/* <div>
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-
-          <button onClick={handleClick}>Serach</button>
-
-          <FormControl
-            sx={{ m: 1, width: ["100%"] }}
-            size="small"
-            className="col-md-3 mx-4 mx-md-0"
-          >
-            <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={proTypeFilter}
-              label="Filter By"
-              onChange={(e) => {
-                setProTypeFilter(e.target.value);
-              }}
-            >
-              <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"Sale"}>Sale</MenuItem>
-              <MenuItem value={"Rent"}>Rent</MenuItem>
-            </Select>
-          </FormControl>
-
-          <div className="d-flex flex-wrap text-center d-flex align-items-center">
-            {selectedTypes.length === 17 ? (
-              <div
-                onClick={() => setSelectedTypes([])}
-                className={`pro_radio_btn_1 pro_selected `}
-              >
-                 <IconMinus width={16} height={16} className="mr-1" stroke={1} /> 
-                Deselect All
-              </div>
-            ) : (
-              <div
-                onClick={handleAllTypes}
-                className={`pro_radio_btn_1 text-center d-flex align-items-center`}
-              >
-                 <IconPlus width={16} height={16} className="mr-1" /> 
-                Select All
-              </div>
-            )}
-            {propertyType.map((item) => (
-              <div
-                className={`pro_radio_btn_1 ${
-                  selectedTypes.includes(item.id) ? " pro_selected" : ""
-                }`}
-                onClick={() => handleTypeToggle(item.id)}
-              >
-                {item.type}
-              </div>
-            ))}
-          </div>
-        </div> */}
+        
 
         {/* ########## Featured properties ########## */}
 
@@ -1026,6 +886,42 @@ const Index = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> */}
+
+
+        {/* ########## New Recent List Section ########## */}
+
+        {/* <section className="most-view-Property mt-5 mb-5">
+          <div className="container">
+            <div className="section-title">
+              <h3>
+                Recent Listed <span>Properties</span>
+              </h3>
+              <p>
+                Looking for a service? Discover the most recent service
+                providers in your city, vetted and selected by our dedicated
+                team of analysts
+                <br /> based on feedback gathered from users like you!
+              </p>
+            </div>
+            <div class="container">
+              <div class="row ">
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div className="rec-img-overlay-wrapper">
+                    <img src="/images/default.png" alt="no image" />
+                    <div className="rec-img-overlay">
+                      
+                        <div class="inside-rec-img-overlay ">
+                             
+                        </div>
+                      
+                    </div>
+                  </div>
+                  <div></div>
                 </div>
               </div>
             </div>

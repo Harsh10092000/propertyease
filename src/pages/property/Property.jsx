@@ -737,7 +737,7 @@ const Property = () => {
           open={snackDailog}
           autoHideDuration={4000}
           onClose={() => handleSnackDialog(false)}
-          message="We Will Contact you soon !.."
+          message="Thank you for showing your interest in this property. Our team will get back to you soon."
         />
 
       <Snackbar
@@ -928,7 +928,7 @@ const Property = () => {
                               {data.pro_state}
                             </div>
                             <span className="right-border mx-2 mobile-hidden"></span>
-                            <div className=" pl-3 pl-md-0 pro-add">
+                            <div className=" pl-3 pl-md-0 pro-add listing-detail">
                               {userType === "Agent" &&
                               data.pro_user_type === "Agent" ? (
                                 <Link
@@ -953,7 +953,9 @@ const Property = () => {
                                   : data.pro_user_type + " ")
                               )}
 
+                              <div className="listing-detail-date">
                               {DateTime(data.pro_date)}
+                              </div>
                             </div>
                           </div>
                         ) : (

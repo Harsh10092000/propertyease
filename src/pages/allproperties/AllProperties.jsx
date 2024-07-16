@@ -769,6 +769,8 @@ useEffect(() => {
   }
 }, [popupData.email]);
 
+const [dupEntry, setDupEntry] = useState("");
+const [subError, setSubError] = useState(false);
 const handleSubmit = async () => {
   setLoader(true);
   try {
@@ -787,6 +789,8 @@ const handleSubmit = async () => {
     //setSnack(true);
   } catch (err) {
     console.log(err);
+    err.response.data.code === "ER_DUP_ENTRY" ? setDupEntry("Email Already Exists") : setSubError(true);
+      setLoader(false);
   }
 };
 
@@ -819,17 +823,19 @@ const handleStep = () => {
         aria-describedby="alert-dialog-description"
         className="dialog-wrapper"
       >
-        <div className="mail-popup">
-          
-          <div className="popup-heading-wrapper d-flex" >
-          <div>
-          <div className="popup-heading">Be the first to know!</div>
-            <div className="popup-subheading">
-            Subscribers are the first one to hear about new listed properties and best deals.
+           <div className="mail-popup">
+          <div className="popup-heading-wrapper d-flex">
+            <div>
+              <div className="popup-heading">Be the first to know!</div>
+              <div className="popup-subheading">
+                Subscribers are the first one to hear about new listed
+                properties and best deals.
+              </div>
             </div>
-          </div>
-            
-            <div onClick={handleClose} className="pointer" title="close"><IconX /></div>
+
+            <div onClick={handleClose} className="pointer" title="close">
+              <IconX />
+            </div>
           </div>
           <div className="popup-content-wrapper">
             <div className="popup-content-sec d-flex justify-content-between">
@@ -840,16 +846,18 @@ const handleStep = () => {
                   placeholder="Name"
                   required
                   onChange={(e) =>
+                  {
+                    setSubError(false);
                     setPopupData({
                       ...popupData,
-                      name: e.target.value.replace(
-                        /[^a-zA-Z ]/g,
-                        ""
-                      ),
+                      name: e.target.value.replace(/[^a-zA-Z ]/g, ""),
                     })
                   }
+                  }
                 />
-                <span className="popup-error-msg">{step && popupData.name === "" ? "Required" : ""}</span>
+                <span className="popup-error-msg">
+                  {step && popupData.name === "" ? "Required" : ""}
+                </span>
               </div>
               <div className="mb-3">
                 <input
@@ -859,6 +867,8 @@ const handleStep = () => {
                   required
                   value={popupData.phone}
                   onChange={(e) =>
+                    {
+                      setSubError(false);
                     setPopupData({
                       ...popupData,
                       phone: e.target.value.replace(
@@ -867,10 +877,13 @@ const handleStep = () => {
                       ),
                     })
                   }
+                }
                 />
-                <span className="popup-error-msg">{step && popupData.phone.length !== 10
-                                  ? "Phone number must be 10 digits."
-                                  : ""}</span>
+                <span className="popup-error-msg">
+                  {step && popupData.phone.length !== 10
+                    ? "Phone number must be 10 digits."
+                    : ""}
+                </span>
               </div>
             </div>
             <div className="mb-3">
@@ -879,31 +892,38 @@ const handleStep = () => {
                 type="email"
                 placeholder="Email"
                 required
-                onChange={(e) =>
+                onChange={(e) => {
+                  setDupEntry("");
+                  
+                    setSubError(false);
                   setPopupData({
                     ...popupData,
-                    email: e.target.value.replace(
-                      /[^a-zA-Z.@0-9/]/g,
-                      ""
-                    ),
+                    email: e.target.value.replace(/[^a-zA-Z.@0-9/]/g, ""),
                   })
                 }
+                }
               />
-              <span className="popup-error-msg">{step && emailError
-                                  ? "Please enter valid email address"
-                                  : ""}</span>
+              <span className="popup-error-msg">
+                {step && emailError ? "Please enter valid email address" :dupEntry.length > 1 ? dupEntry : ""}
+              </span>
             </div>
-            <div className="popup-btn-text">
+            {/* <div className="popup-btn-text">
               Subscribe to recieve the latest news by email about properties.
               Unsubscribe any time.
-            </div>
+            </div> */}
             <div>
-              <button class="pf-submit hover-opacity" onClick={handleStep}
-                              title="Click to Subscribe" >Subscribe</button>
+              <button
+                class="pf-submit hover-opacity"
+                onClick={handleStep}
+                title="Click to Subscribe"
+              >
+                Submit
+              </button>
             </div>
             <div className="popup-botton-text">
               We don't share data with anyone.
             </div>
+            <div>{subError && "Please try again after some time."}</div>
           </div>
         </div>
       </Dialog>

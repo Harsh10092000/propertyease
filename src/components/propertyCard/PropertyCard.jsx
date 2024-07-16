@@ -44,7 +44,7 @@ const handleSnackDialog = (value) => {
           open={snackDailog}
           autoHideDuration={2000}
           onClose={() => handleSnackDialog(false)}
-          message="We Will Contact you soon!"
+          message="Thank you for showing your interest in this property. Our team will get back to you soon."
         />
       {openContactDialog ? (
         <ContactUsForm

@@ -10,17 +10,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { IconX } from "@tabler/icons-react";
 // import CustomTextField from "../../components/TextField";
 
 const EmailSettings = (selectedOption) => {
   const [loader, setLoader] = useState(false);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
-
+  const [temp, setTemp] = useState();
   const [emailConfigData, setEmailConfigData] = useState({
     email_sender_name: "",
     email_sender_id: "",
-    email_reciever_id: "",
+    email_reciever_id: [],
   });
 
   const [enEmailConfigData, setEnEmailConfigData] = useState({
@@ -49,8 +50,7 @@ const EmailSettings = (selectedOption) => {
     if (
       emailConfigData.email_sender_name !== "" &&
       emailConfigData.email_sender_id !== "" &&
-      emailConfigData.email_reciever_id !== "" 
-      
+      emailConfigData.email_reciever_id !== ""
     ) {
       setSubmitDisabled(false);
     } else {
@@ -60,7 +60,6 @@ const EmailSettings = (selectedOption) => {
     emailConfigData.email_sender_name,
     emailConfigData.email_sender_id,
     emailConfigData.email_reciever_id,
-    
   ]);
 
   const encryptAES = (plaintext) => {
@@ -78,14 +77,17 @@ const EmailSettings = (selectedOption) => {
   };
 
   const handleClick = async () => {
+    console.log(emailConfigData)
     setOpen(false);
     try {
       enEmailConfigData.email_sender_name = encryptAES(
         emailConfigData.email_sender_name
       );
-      enEmailConfigData.email_reciever_id = encryptAES(
-        emailConfigData.email_reciever_id
-      );    
+      // enEmailConfigData.email_reciever_id = encryptAES(
+      //   emailConfigData.email_reciever_id
+      // );
+      enEmailConfigData.email_reciever_id = 
+        emailConfigData.email_reciever_id;
       enEmailConfigData.email_sender_id = encryptAES(
         emailConfigData.email_sender_id
       );
@@ -99,8 +101,9 @@ const EmailSettings = (selectedOption) => {
       setEmailConfigData({
         email_sender_name: "",
         email_sender_id: "",
-        email_reciever_id: "",
+        email_reciever_id: [],
       });
+      setTemp("");
       setLoader(false);
 
       //navigate(`/admin/adslist`);
@@ -117,6 +120,44 @@ const EmailSettings = (selectedOption) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleRemove = (id) => {
+    let copy = [...emailConfigData.email_reciever_id];
+    copy.splice(id, 1);
+    setEmailConfigData((prevState) => ({
+      ...prevState,
+      email_reciever_id: copy,
+    }));
+  };
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.keyCode === "Enter") {
+        console.log("Space clicked");
+        setEmailConfigData({
+          ...emailConfigData,
+          email_reciever_id: [...emailConfigData.email_reciever_id, temp],
+        });
+      }
+    };
+
+    document.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [emailConfigData]);
+
+  const handleSpacePress = (e) => {
+    console.log(e);
+    if (e.key === "Enter") {
+      console.log("Space clicked");
+      setEmailConfigData({
+        ...emailConfigData,
+        email_reciever_id: [...emailConfigData.email_reciever_id, temp],
+      });
+    }
   };
 
   return (
@@ -147,8 +188,6 @@ const EmailSettings = (selectedOption) => {
       <div>
         <div className="pl-2 pt-2 pb-2"></div>
 
-       
-
         <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
@@ -165,10 +204,7 @@ const EmailSettings = (selectedOption) => {
             onChange={(e) => {
               setEmailConfigData({
                 ...emailConfigData,
-                email_sender_name: e.target.value.replace(
-                  /[^a-zA-Z]/g,
-                  ""
-                ),
+                email_sender_name: e.target.value.replace(/[^a-zA-Z / .0-9 @]/g, ""),
               });
             }}
           />
@@ -191,7 +227,7 @@ const EmailSettings = (selectedOption) => {
               setEmailConfigData({
                 ...emailConfigData,
                 email_sender_id: e.target.value.replace(
-                  /[^a-zA-Z / . : 0-9 - #]/g,
+                  /[^a-zA-Z / .0-9 @]/g,
                   ""
                 ),
               });
@@ -199,32 +235,60 @@ const EmailSettings = (selectedOption) => {
           />
         </div>
 
-        <div className="pro_flex">
-          <TextField
-            sx={{ m: 1, width: ["100%"] }}
-            label="Enter Reciever Email Id"
-            variant="outlined"
-            size="small"
-            inputProps={{ maxlength: 50 }}
-            className="w-100"
-            value={emailConfigData.email_reciever_id}
-            helperText={
-              emailConfigData.email_reciever_id.length < 1 ? "Required" : ""
-            }
-            FormHelperTextProps={{ sx: { color: "red" } }}
-            onChange={(e) => {
+        <div className="d-flex">
+          <div className="pro_flex" style={{ width: "-webkit-fill-available" }}>
+            <TextField
+              sx={{ m: 1, width: ["100%"] }}
+              label="Enter Reciever Email Id"
+              variant="outlined"
+              size="small"
+              inputProps={{ maxlength: 50 }}
+              className="w-100"
+              //value={emailConfigData.email_reciever_id}
+              value={temp}
+              helperText={
+                emailConfigData.email_reciever_id.length < 1 ? "Required" : ""
+              }
+              FormHelperTextProps={{ sx: { color: "red" } }}
+              // onChange={(e) => {
+              //   setEmailConfigData({
+              //     ...emailConfigData,
+              //     email_reciever_id: e.target.value.replace(
+              //       /[^a-zA-Z / . : 0-9 - #]/g,
+              //       ""
+              //     ),
+              //   });
+              // }}
+              onChange={(e) => setTemp(e.target.value)}
+            />
+          </div>
+
+
+
+          <div
+            className="email-add-btn-wrapper "
+            onClick={(e) =>
+              temp.length > 0 && !emailConfigData.email_reciever_id.includes(temp) ? 
               setEmailConfigData({
                 ...emailConfigData,
-                email_reciever_id: e.target.value.replace(
-                  /[^a-zA-Z / . : 0-9 - #]/g,
-                  ""
-                ),
-              });
-            }}
-          />
+                email_reciever_id: [...emailConfigData.email_reciever_id, temp],
+              }) : ""
+            }
+          >
+            <div className="email-add-btn">Add</div>
+          </div>
         </div>
 
-        
+        <div className="email-text-wrapper d-flex flex-wrap">
+          {emailConfigData.email_reciever_id.map((item, index) => (
+            <div className="email-text  mb-2">
+              {item}
+              <span onClick={() => handleRemove(index)}>
+                <IconX className="pointer" width={14} height={14} />
+              </span>
+            </div>
+          ))}
+        </div>
 
         <div className="pro_flex justify-content-end">
           <button

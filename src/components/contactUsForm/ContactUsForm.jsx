@@ -103,7 +103,7 @@ const ContactUsForm = (props) => {
           open={snack}
           autoHideDuration={2000}
           onClose={handleSnack}
-          message="We Will Contact you soon!"
+          message="Thank you for showing your interest in this property. Our team will get back to you soon."
         />
        <Dialog open={open} onClose={() => props.handleCloseDialog(false)}>
           <DialogTitle>
