@@ -51,6 +51,7 @@ import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
+//import GetNearByAreas from "../../components/getNearByAreas.jsx/GetNearByAreas";
 
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
@@ -745,7 +746,7 @@ const handleClose = () => {
 useEffect(() => {
   const timer = setTimeout(() => {
     setOpen1(true);
-  }, 1000);
+  }, 5000);
   return () => clearTimeout(timer);
 }, []);
 
@@ -812,10 +813,12 @@ const handleStep = () => {
   }
 };
 
-
+// const userAgent = navigator.userAgent;
+// console.log("userAgent : " , userAgent);
 
   return (
     <div>
+      {/* <GetNearByAreas /> */}
       <Dialog
         open={open1}
         onClose={handleClose}
