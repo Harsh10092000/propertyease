@@ -5,11 +5,16 @@ import {
   IconMenu2,
   IconCategory2,
   IconX,
-  IconCrown, 
+  IconCrown,
   IconCaretDownFilled,
-  IconTicket
+  IconTicket,
 } from "@tabler/icons-react";
-import { IconBuilding, IconCategory, IconEye,IconUser  } from "@tabler/icons-react";
+import {
+  IconBuilding,
+  IconCategory,
+  IconEye,
+  IconUser,
+} from "@tabler/icons-react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -25,7 +30,7 @@ const User = () => {
   const navigate = useNavigate();
   const { currentUser, clearUser } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [myPlans, setMyPlans]= useState(false);
+  const [myPlans, setMyPlans] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,20 +59,7 @@ const User = () => {
     setState(false);
   };
 
-  
-
-                
   const items = [
-    {
-      icon: <IconUser width={32} height={32}  className="sidebar-faicon" />,
-      name: "My Profile",
-      linkto: `/user/user-profile/${currentUser[0].login_id}`,
-    },
-    {
-      icon: <IconBuilding className="sidebar-faicon" />,
-      name: "My Listed Properties",
-      linkto: "/user/dashboard",
-    },
     {
       icon: <IconBuilding className="sidebar-faicon" />,
       name: "Add Property",
@@ -79,11 +71,21 @@ const User = () => {
       linkto: "/allproperties",
     },
     {
+      icon: <IconBuilding className="sidebar-faicon" />,
+      name: "My Listed Properties",
+      linkto: "/user/dashboard",
+    },
+    {
+      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+      name: "My Profile",
+      linkto: `/user/user-profile/${currentUser[0].login_id}`,
+    },
+
+    {
       icon: <IconEye className="sidebar-faicon" />,
       name: "Shortlisted",
       linkto: "/user/shortlisted",
     },
-     
   ];
 
   const list = (anchor) => (
@@ -96,29 +98,26 @@ const User = () => {
           onKeyDown={closeDrawer}
         >
           <div className="flex justify-between p-3 pt-4 ">
-            <div>
-              
-            </div>
+            <div></div>
             <div className="d-flex justify-content-between align-items-center">
               <div>
-
-            <Link to="/">
-              <img
-                src="/images/logo.png"
-                alt="Propertyease Logo"
-                width={200}
-                height={180}
-                className="img-fluid logo-only-mobile"
-              />
-            </Link>
-            </div>
-            <div>
-            <IconX
-              className=" b-3 pointer text-slate-300"
-              onClick={toggleDrawer("add", true)}
-              title="Click to close Menu"
-            />
-            </div>
+                <Link to="/">
+                  <img
+                    src="/images/logo.png"
+                    alt="Propertyease Logo"
+                    width={200}
+                    height={180}
+                    className="img-fluid logo-only-mobile"
+                  />
+                </Link>
+              </div>
+              <div>
+                <IconX
+                  className=" b-3 pointer text-slate-300"
+                  onClick={toggleDrawer("add", true)}
+                  title="Click to close Menu"
+                />
+              </div>
             </div>
           </div>
 
@@ -131,16 +130,18 @@ const User = () => {
                   </div> */}
 
                   <div className=" pl-3">
-                    <ListItemText className="list-item-text" primary={item.name} />
+                    <ListItemText
+                      className="list-item-text"
+                      primary={item.name}
+                    />
                   </div>
-                  
                 </div>
               </Link>
-              
             ))}
           </List>
           <div className="p-3 m-2 d-flex pl-4 list-item">
-            <div className="list-item-text pl-3">Logout</div></div>
+            <div className="list-item-text pl-3">Logout</div>
+          </div>
         </Box>
       ) : (
         ""
@@ -230,10 +231,10 @@ const User = () => {
           /> */}
             </span>
             <div className="brand logo-wrapper">
-                <Link to="/">
-                  <img src="/images/white-logo.png" alt="Propertyease logo" />
-                </Link>
-              </div>
+              <Link to="/">
+                <img src="/images/white-logo.png" alt="Propertyease logo" />
+              </Link>
+            </div>
           </a>
           <div id="sidebar-nav" className={"sidebar mobile-show "}>
             <div className="sidebar-scroll">
@@ -246,70 +247,6 @@ const User = () => {
               <nav>
                 <ul className="nav">
                   <li>
-                    <Link to={`/user/user-profile/${currentUser[0].login_id}`}>
-                      <div
-                        title="My Profile"
-                        className="d-flex align-items-center"
-                      >
-                        <IconUser  className="sidebar-faicon" />
-                        My Profile
-                      </div>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/user/dashboard">
-                      <div
-                        title="My Listed Properties"
-                        className="d-flex align-items-center"
-                      >
-                        <IconCategory className="sidebar-faicon" />
-                        My Listed Properties
-                      </div>
-                    </Link>
-                  </li>
-                  {/* <li>
-                    <Link to="/user/dashboard">
-                      <div
-                        title="My Listed Properties"
-                        className="d-flex align-items-center"
-                      >
-                        <IconCategory className="sidebar-faicon" />
-                        Subscription
-                      </div>
-                    </Link>
-                  </li> */}
-                  <li>
-                  <a
-                    title="Property Listing Plans"
-                    onClick={() => setMyPlans(!myPlans)}
-                    className="pointer"
-                  >
-                    <div className="d-flex justify-content-between">
-                      <div>
-                        <IconCrown />
-                        <span>Subscription</span>
-                      </div>
-                      <div>
-                        <IconCaretDownFilled />
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                {myPlans && (
-                  <>
-                    <li className="pl-3">
-                      <Link to="/user/mysubscription/">
-                        <a title="View All My Transactions">
-                          <IconEye />
-                          <span>View All My Transactions</span>
-                        </a>
-                      </Link>
-                    </li>
-                    
-                  </>
-                )}
-                  <li>
-
                     <Link to="/addproperty">
                       <div
                         title="Add Property"
@@ -328,6 +265,70 @@ const User = () => {
                       </a>
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/user/dashboard">
+                      <div
+                        title="My Listed Properties"
+                        className="d-flex align-items-center"
+                      >
+                        <IconCategory className="sidebar-faicon" />
+                        My Listed Properties
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/user/user-profile/${currentUser[0].login_id}`}>
+                      <div
+                        title="My Profile"
+                        className="d-flex align-items-center"
+                      >
+                        <IconUser className="sidebar-faicon" />
+                        My Profile
+                      </div>
+                    </Link>
+                  </li>
+
+                  {/* <li>
+                    <Link to="/user/dashboard">
+                      <div
+                        title="My Listed Properties"
+                        className="d-flex align-items-center"
+                      >
+                        <IconCategory className="sidebar-faicon" />
+                        Subscription
+                      </div>
+                    </Link>
+                  </li> */}
+                  <li>
+                    <a
+                      title="Property Listing Plans"
+                      onClick={() => setMyPlans(!myPlans)}
+                      className="pointer"
+                    >
+                      <div className="d-flex justify-content-between">
+                        <div>
+                          <IconCrown />
+                          <span>Subscription</span>
+                        </div>
+                        <div>
+                          <IconCaretDownFilled />
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  {myPlans && (
+                    <>
+                      <li className="pl-3">
+                        <Link to="/user/mysubscription/">
+                          <a title="View All My Transactions">
+                            <IconEye />
+                            <span>View All My Transactions</span>
+                          </a>
+                        </Link>
+                      </li>
+                    </>
+                  )}
+
                   <li>
                     <Link to="/user/shortlisted">
                       <a title="Shortlisted">
