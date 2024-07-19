@@ -142,7 +142,7 @@ const Property = () => {
     axios
       .get(
         import.meta.env.VITE_BACKEND +
-          `/api/agent/checkUserType/${data.pro_user_id}`
+          `/api/agent/checkUserType/${data?.pro_user_id}`
       )
       .then((res) => {
         setUserType(res.data[0]?.agent_type);
@@ -154,7 +154,7 @@ const Property = () => {
     axios
       .get(
         import.meta.env.VITE_BACKEND +
-          `/api/agent/fetchAgentNameById/${data.pro_user_id}`
+          `/api/agent/fetchAgentNameById/${data?.pro_user_id}`
       )
       .then((res) => {
         setAgentName(res.data[0].agent_name);
