@@ -253,7 +253,7 @@ const AgentProperties = () => {
           "Thank You for showing interest in this property, we will get back to you soon."
         }
       /> */}
-      <div className={"main"}>
+      <div className={"main padding-top"}>
         <section className="main-content">
           <div className="container">
             <div className="title">

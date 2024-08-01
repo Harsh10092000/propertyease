@@ -30,8 +30,11 @@ import DateTime from "../../dateTime";
 import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 import ContactUsForm from "../../components/contactUsForm/ContactUsForm";
-
+import moment from "moment";
 //import { HelmetProvider, Helmet } from 'react-helmet-async'
+import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
+import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
 const Property = () => {
   const curr_date = Date.now();
@@ -651,7 +654,7 @@ const Property = () => {
  }
 
   return (
-    <div>
+    <div className="padding-top">
       <meta property="og:type" content="website" />
       <meta
         property="og:url"
@@ -954,7 +957,12 @@ const Property = () => {
                               )}
 
                               <div className="listing-detail-date">
-                              {DateTime(data.pro_date)}
+                              {/* {DateTime(data.pro_date)} */}
+                              {/* {moment(data.pro_date, "YYYYMMDD").fromNow()} */}
+                              {moment(data.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()}
+
+{/* 
+time3.add(12, "minutes") */}
                               </div>
                             </div>
                           </div>
@@ -1666,145 +1674,14 @@ const Property = () => {
                     )}
                     <section className="most-view-Property mt-5 mb-5">
                       <div className="container">
-                        <div className="section-title">
-                          <h3>
-                            Recent Listed <span>Properties</span>
-                          </h3>
-                          <p>
-                            Looking for a service? Discover the most recent
-                            service providers in your city, vetted and selected
-                            by our dedicated team of analysts
-                            <br /> based on feedback gathered from users like
-                            you!
-                          </p>
-                        </div>
+                        <RecentListHeader />
                         <div className="row">
                           {latestProperty.map((item, index) => (
-                            <div className="col-md-4 pb-4" key={index}>
-                              <div className="uniBlock">
-                                <div className="recent-box-serv">
-                                  <div className="re-bus-img">
-                                    <Link to={`/${item.pro_url}`}>
-                                      {item.img_link ? (
-                                        <img
-                                          src={`${
-                                            import.meta.env.VITE_BACKEND
-                                          }/propertyImages/watermark/${
-                                            item.img_link
-                                          }`}
-                                          alt="img"
-                                        />
-                                      ) : (
-                                        <img
-                                          src="/images/default.png"
-                                          alt="no image"
-                                        />
-                                      )}
-                                    </Link>
-                                  </div>
-                                  <div className="recent-bus-content">
-                                    <h5 className="property-listing-type">
-                                      <Link to={`/${item.pro_url}`}>
-                                        <a>{item.pro_type.split(",")[0]}</a>
-                                      </Link>
-                                    </h5>
-                                    <ul className="front-all-property-slider">
-                                      <li className="text-capitalize">
-                                        <img
-                                          src="/img/location.png"
-                                          className="property-slider-icon"
-                                        />
-                                        <strong className="frontPropIcon">
-                                          Address&nbsp;{" "}
-                                        </strong>
-                                        {item.pro_locality},&nbsp;
-                                        {item.pro_sub_district
-                                          ? item.pro_sub_district + ", "
-                                          : ""}
-                                        {item.pro_city}
-                                      </li>
-                                      {item.plot_area_size ? (
-                                        <li>
-                                          <img
-                                            src="/img/face-detection.png"
-                                            className="property-slider-icon"
-                                          />
-                                          <strong className="frontPropIcon">
-                                            Plot Size &nbsp;
-                                          </strong>
-                                          {item.plot_area_size}
-                                        </li>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {item.pro_width ? (
-                                        <li>
-                                          <img
-                                            src="/img/meter.png"
-                                            className="property-slider-icon"
-                                          />
-                                          <strong className="frontPropIcon">
-                                            Dimension&nbsp;
-                                          </strong>
-                                          ({item.pro_width} Feet *{" "}
-                                          {item.pro_length} Feet)
-                                        </li>
-                                      ) : (
-                                        ""
-                                      )}
-
-                                      <li>
-                                        <img
-                                          src="/img/rupee.png"
-                                          className="property-slider-icon"
-                                        />
-                                        <strong className="frontPropIcon">
-                                          Price{" "}
-                                        </strong>
-                                        &nbsp;
-                                        {"₹ " +
-                                          item.pro_amt +
-                                          " " +
-                                          item.pro_amt_unit}
-                                      </li>
-
-                                      <li>
-                                        <img
-                                          src="/img/facing.png"
-                                          className="property-slider-icon"
-                                        />
-                                        <strong className="frontPropIcon">
-                                          Property Facing
-                                        </strong>
-                                        &nbsp;
-                                        {item.pro_facing}
-                                      </li>
-                                    </ul>
-                                    <Link to={`/${item.pro_url}`}>
-                                      <a
-                                        title="View complete details of this property"
-                                        className="btn-viewmore"
-                                      >
-                                        View More
-                                      </a>
-                                    </Link>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
                           ))}
                         </div>
 
-                        <div className="d-flex flex-row-reverse  mr-3">
-                          <Link to={`/property/${proType}`}>
-                            <a
-                              title="Click to view all properties"
-                              className="btn-viewall px-4 "
-                            >
-                              View All
-                            </a>
-                          </Link>
-                        </div>
+                        <AllPropertyButton />
                       </div>
                     </section>
                     <div className="property-more-detail">

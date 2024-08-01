@@ -96,7 +96,7 @@ const Listing = () => {
         <title>Propertyease - {cat}</title>
       </Helmet>
       <Navbar />
-      <div className={"main"}>
+      <div className={"main padding-top"}>
         <section className="main-content">
           <div className="container">
             <div className="title">

@@ -92,7 +92,7 @@ const ContactUs = () => {
         message="We Will Contact you soon !.."
       />
       <section
-        class="ftco-section img bg-hero"
+        class="ftco-section img bg-hero padding-top"
         style={{ backgroundImage: "url(images/bg_1.jpg)" }}
       >
         <div class="container">

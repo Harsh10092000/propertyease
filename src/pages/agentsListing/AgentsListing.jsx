@@ -263,7 +263,7 @@ const AgentsListing = () => {
         }
         />
       <Navbar />
-      <section className="main-content">
+      <section className="main-content padding-top mt-5">
         <div className="container agent-card-wrapper">
           <div className="title">
             <h2>

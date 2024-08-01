@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
+//import Navbar from "../../components/navbar/Navbar";
+//import Navbar from "../../components/navbar2/Navbar";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
@@ -51,7 +53,7 @@ import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
-//import GetNearByAreas from "../../components/getNearByAreas.jsx/GetNearByAreas";
+import GetNearByAreas from "../../components/getNearByAreas.jsx/GetNearByAreas";
 
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
@@ -81,6 +83,9 @@ const AllProperties = (props) => {
   const [change, setChange] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [results, setResults] = useState("");
+
+  
+  const [genData, setGenData] = useState("");
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
@@ -100,7 +105,16 @@ const AllProperties = (props) => {
       .then((res) => {
         setRentData(res.data);
       });
+    // axios
+    //   .post(import.meta.env.VITE_BACKEND + "/api/gencode/generateCode")
+    //   .then((res) => {
+    //     setGenData(res.data);
+    //     //setResults(res.data);
+    //     //setSkeleton(false);
+    //   });
   }, []);
+
+  
 
   useEffect(() => {
     const myParam = searchParams.get("search");
@@ -177,6 +191,7 @@ const AllProperties = (props) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
   }, [data]);
+
 
   var origin_url = document.referrer;
   useEffect(() => {
@@ -733,6 +748,8 @@ const AllProperties = (props) => {
 // }, [data]); 
 
 
+
+
 const [open1, setOpen1] = useState(false);
 const handleClickOpen = () => {
   console.log("open1 : ")
@@ -743,12 +760,27 @@ const handleClose = () => {
   setOpen1(false);
 };
 
+const [subscribedUser , setSubscribedUser] = useState(false);
+  useEffect(() => {
+    if (currentUser && currentUser[0] && currentUser[0].login_email) {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/setting/fetchSubscriberDataById/${currentUser[0].login_email}`)
+      .then((res) => {
+        setSubscribedUser(res.data);
+      });
+    }
+  }, [currentUser]);
+
+
 useEffect(() => {
-  const timer = setTimeout(() => {
-    setOpen1(true);
-  }, 5000);
-  return () => clearTimeout(timer);
-}, []);
+  if(subscribedUser !== true) {
+
+    const timer = setTimeout(() => {
+      setOpen1(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }
+}, [subscribedUser]);
 
 
 
@@ -790,7 +822,7 @@ const handleSubmit = async () => {
     //setSnack(true);
   } catch (err) {
     console.log(err);
-    err.response.data.code === "ER_DUP_ENTRY" ? setDupEntry("Email Already Exists") : setSubError(true);
+    err.response.data.code === "ER_DUP_ENTRY" ? setDupEntry("Already Subscribed ") : setSubError(true);
       setLoader(false);
   }
 };
@@ -813,11 +845,56 @@ const handleStep = () => {
   }
 };
 
+
+const [inputText, setInputText] = useState('');
+const [generatedCode, setGeneratedCode] = useState('');
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState('');
+
+const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await axios.post(import.meta.env.VITE_BACKEND + "/api/gencode/generateCode", { text: inputText });
+      setGeneratedCode(response.data.code);
+    } catch (error) {
+      setError('Failed to generate code');
+      console.error('Error:', error);
+    }
+    setLoading(false);
+};
+
 // const userAgent = navigator.userAgent;
 // console.log("userAgent : " , userAgent);
 
   return (
     <div>
+
+{/* <div>
+      <form onSubmit={handleSubmit2}>
+        <textarea
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          placeholder="Enter description or prompt..."
+          rows={5}
+          cols={50}
+        />
+        <br />
+        <button type="submit" disabled={loading}>
+          Generate Code
+        </button>
+      </form>
+      {loading && <p>Loading...</p>}
+      {generatedCode && (
+        <div>
+          <h3>Generated Code:</h3>
+          <pre>{generatedCode}</pre>
+        </div>
+      )}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div> */}
+
       {/* <GetNearByAreas /> */}
       <Dialog
         open={open1}
@@ -972,7 +1049,7 @@ const handleStep = () => {
 
         
       </Helmet>
-      <Navbar />
+      <Navbar  />
       
 
       {/* <div ref={viewerRef} />; */}
@@ -984,7 +1061,7 @@ const handleStep = () => {
         width={"50%"}
       /> */}
 
-      <div className={"main"}>
+      <div className={"main padding-top"}>
         <section className="main-content">
           <div className="container">
             <div className="title">

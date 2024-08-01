@@ -78,6 +78,7 @@ import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
 
 
 
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -148,6 +149,8 @@ const App = () => {
       path: "/property/:cat",
       element: <Listing />,
     },
+
+    
     {
       path: "/contactus",
 
@@ -167,6 +170,9 @@ const App = () => {
         </>
       ),
     },
+
+   
+
     {
       path: "/about",
       element: (
@@ -201,6 +207,8 @@ const App = () => {
           <User />
         </ProtectedRoute>
       ),
+
+      
       children: [
         {
           path: "dashboard",
@@ -310,13 +318,14 @@ const App = () => {
       path: "/admin",
       element: (
         <ProtectedAdmin>
+          <ScrollToTop />
           <Admin />
         </ProtectedAdmin>
       ),
       children: [
         {
           path: "dashboard",
-          element: <AdminDashboard />,
+          element: <><ScrollToTop /> <AdminDashboard /></> ,
         },
         {
           path: "interested",

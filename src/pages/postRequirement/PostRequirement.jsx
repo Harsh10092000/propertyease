@@ -136,9 +136,14 @@ const PostRequirement = () => {
         </DialogContent>
       </Dialog>
       <Navbar />
-      <div className="post-requierment-wrapper ">
-        <div className=" post-requierment-heading ">Post Requirement</div>
-        <div className="pl-2 pt-2 pb-2">Are you searching to buy any property? Please fill out this form to let us know about your preferred city, property type, and your budget. </div>
+      <div className="post-requierment-wrapper padding-top">
+        {/* <div className=" post-requierment-heading ">Post Requirement</div> */}
+
+        <h3 className="aboutus ml-2">
+        Post Requirement <div className="heading-divider"></div>
+              </h3>
+
+        <div className="ml-2 pt-2 pb-2 text-dark">Are you searching to buy any property? Please fill out this form to let us know about your preferred city, property type, and your budget. </div>
         <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
