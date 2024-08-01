@@ -610,17 +610,17 @@ const Footer = () => {
     { lintto: "/residential/Builder-Floor", type: "Builder Floor" },
     { lintto: "/residential/independent-house", type: "Farm HouseRaw House" },
     { lintto: "/residential/Retirement-Community", type: "Retirement Community" },
-    { lintto: "/residential/independent-house", type: "Studio Apartment" },
+    { lintto: "/residential/studio-apartment", type: "Studio Apartment" },
 
   ];
 
   const landPropertyType = [
 
-    { lintto: "land/residential-land", type: "Residential Land" },
-    { lintto: "land/commercial-land", type: "Commercial Land" },
-    { lintto: "land/industrial-land", type: "Industrial Land" },
-    { lintto: "land/agricultural-land", type: "Agricultural Land" },
-    { lintto: "land/farm-house-land", type: "Farm House Land" },
+    { lintto: "/land/residential-land", type: "Residential Land" },
+    { lintto: "/land/commercial-land", type: "Commercial Land" },
+    { lintto: "/land/industrial-land", type: "Industrial Land" },
+    { lintto: "/land/agricultural-land", type: "Agricultural Land" },
+    { lintto: "/land/farm-house-land", type: "Farm House Land" },
 
   ];
 
