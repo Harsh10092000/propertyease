@@ -607,9 +607,9 @@ const Footer = () => {
   const plotsPropertyType = [
     { lintto: "/residential/apartment", type: "Apartment" },
     { lintto: "/residential/independent-house", type: "Independent House" },
-    { lintto: "/residential/Builder-Floor", type: "Builder Floor" },
+    { lintto: "/residential/builder-floor", type: "Builder Floor" },
     { lintto: "/residential/independent-house", type: "Farm HouseRaw House" },
-    { lintto: "/residential/Retirement-Community", type: "Retirement Community" },
+    { lintto: "/residential/retirement-community", type: "Retirement Community" },
     { lintto: "/residential/studio-apartment", type: "Studio Apartment" },
 
   ];
