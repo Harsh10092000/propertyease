@@ -1291,6 +1291,7 @@ const handleSubmit2 = async (e) => {
                 )} */}
               </div>
               <div className="col-md-3 d-flex flex-column gap-3">
+              <div className="allproperty-filter">
                 <div className="all-pro-filter shadow">
                   <div className="p-1 ">
                     {/* ########### filter 1 ########### */}
@@ -1649,84 +1650,7 @@ const handleSubmit2 = async (e) => {
 
                 <Sidebar2  handleForSale={handleForSale} handleForRent={handleForRent} />
 
-                {/* <div>
-                <div className="pro_flex pro_flex_1">
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of bedrooms
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      //propertyData.pro_bedroom === item.value
-                                      1 === 1
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    // onClick={() =>
-                                    //   setPropertyData({
-                                    //     ...propertyData,
-                                    //     pro_bedroom: item.value,
-                                    //   })
-                                    // }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                             
-                            </div>
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of Washrooms
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      //propertyData.pro_washrooms === item.value
-                                      1 === 1
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    // onClick={() =>
-                                    //   setPropertyData({
-                                    //     ...propertyData,
-                                    //     pro_washrooms: item.value,
-                                    //   })
-                                    // }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              
-                            </div>
-                          </div>
-                </div> */}
-
-                {/* <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">Rent</div>
-                    {rentData.map((rent, index) => (
-                      <Link
-                        to={`/rental/${rent.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{rent.pro_type.split(",")[0]}</div>
-                          <div>({rent.pro_sub_cat_number})</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div> */}
-
-                {/* ad section start */}
+               
 
               
 
@@ -1762,6 +1686,8 @@ const handleSubmit2 = async (e) => {
 
                 <div>
                   <CreateAgentAd />
+                </div>
+
                 </div>
               </div>
             </div>

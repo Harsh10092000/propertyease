@@ -700,6 +700,137 @@ const Footer = () => {
   return (
     <>
     {loader1 && <Loader /> }
+
+         <Snackbar
+           ContentProps={{
+             sx: {
+               background: "green",
+               color: "white",
+             },
+           }}
+           anchorOrigin={{ vertical: "top", horizontal: "center" }}
+           open={snack}
+           autoHideDuration={1000}
+           onClose={handleSnack}
+           message="We Will Contact you soon !.."
+         />
+    <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>
+            <img src="/images/logo.png" />
+            <p className="font-weight-bold text-danger mb-0 call_headline ">
+              Free Enquiry
+            </p>
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              id="name"
+              name="name"
+              label="Name"
+              type="text"
+              value={data.name}
+              helperText={data.name === "" ? "Required" : ""}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  name: e.target.value.replace(/[^a-zA-Z ]/g, ""),
+                })
+              }
+              inputProps={{
+                maxLength: 40,
+              }}
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="email"
+              name="email"
+              label="Email Address"
+              type="email"
+              inputProps={{
+                maxLength: 40,
+              }}
+              helperText={emailError ? "Please enter valid email address" : ""}
+              value={data.email}
+              onChange={(e) =>
+                setData({
+                  ...data,
+                  email: e.target.value.replace(/[^a-zA-Z.@0-9/]/g, ""),
+                })
+              }
+              fullWidth
+               variant="standard"
+             />
+             <div className="mt-3">
+               <TextField
+                 id="mobile"
+                 fullWidth
+                 autoFocus
+                 name="phone"
+                 helperText={
+                   data.phone.length < 10
+                     ? "Please enter valid phone number"
+                     : ""
+                 }
+                 value={data.phone}
+                 inputProps={{
+                   maxLength: 10,
+                 }}
+                 onChange={(e) =>
+                   setData({
+                     ...data,
+                     phone: e.target.value.replace(
+                       regEx[2].phoneNumberValidation,
+                       ""
+                     ),
+                   })
+                 }
+                 margin="dense"
+                 InputProps={{
+                   startAdornment: (
+                     <InputAdornment position="start">+91 </InputAdornment>
+                   ),
+                 }}
+                 variant="standard"
+               />
+             </div>
+             <div className="bg-gray-300 mt-4 py-4">
+               <p className="font-weight-bold text-center">Our Promise</p>
+               <div className="d-flex ">
+                 <div className="col-md-3 text-center ">
+                   <IconSquareRoundedCheckFilled /> <br />
+                   Assured <br /> Privacy
+                 </div>
+                 <div className="col-md-3 text-center ">
+                   <IconSchool className=" text-red" />
+                   <br />
+                   Expert <br /> Consultation
+                 </div>
+                 <div className="col-md-3 text-center">
+                   <IconWorld />
+                   <br />
+                   Free Site Visit
+                 </div>
+                 <div className="col-md-3 text-center">
+                   <IconCurrencyDollar />
+                   <br />
+                   Best <br />
+                   Price
+                 </div>
+               </div>
+             </div>
+           </DialogContent>
+           <DialogActions>
+             <Button onClick={handleClose}>Cancel</Button>
+             <Button type="submit" onClick={handleSubmit} disabled={disabled}>
+               Submit
+             </Button>
+           </DialogActions>
+         </Dialog>
     <footer id="app_footer">
       <div className="footer-content">
         <div className="footer-logo ">

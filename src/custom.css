@@ -20244,9 +20244,9 @@ width: 28%;
   min-width: 20px !important;
 }
 
-.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root {
+/* .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root {
   padding: 0px !important;
-}
+} */
 .view_profile_btn_3 .hover_text {
   display: inline;
   margin-left: 8px;
@@ -20297,14 +20297,14 @@ width: 28%;
 .css-wjh20t-MuiPagination-ul > li:first-child::before, .css-nhb8h9 > li:first-child::before {
   content: "Prev";
   position: absolute;
-  top: 19px;
+  top: 18px;
   margin: 3px 0px 0px 20px;
 }
 
 .css-wjh20t-MuiPagination-ul > li:last-child::before, .css-nhb8h9 > li:last-child::before {
   content: "Next";
   position: absolute;
-  top: 20px;
+  top: 18px;
   margin: 2px 0px 0px 10px;
 }
 
@@ -20485,3 +20485,9 @@ width: 100%;
     display: block !important;
    }
   }
+
+
+.allproperty-filter {
+  position: sticky;
+  top: 100px;
+}
