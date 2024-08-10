@@ -898,8 +898,48 @@ const Navbar = () => {
               <Link to="/" title="Get Started"> 
               <div className="new-navbar-item-content">Get Started</div></Link>
             </div> */}
+<div className="new-navbar-item pr-3">
+              <Link to={"/allproperties"} className="text-black">
+                <span className="new-navbar-item-content">
+                  {" "}
+                  Search Properties{" "}
+                </span>
+              </Link>
+            </div>
+            {/* <div className="new-navbar-item pr-3 ">
+              {!currentUser ? (
+                <Link to="/login" className="">
+                  <span className="new-navbar-item-content" title="Get Started">
+                    Get Started
+                   
+                  </span>
+                </Link>
+              ) : (
+                <Link to="/user/dashboard" className="">
+                  <div className="new-navbar-item-content" title="Dashboard">
+                    Dashboard
+                  </div>
+                </Link>
+              )}
+            </div> */}
+            <div className="new-navbar-item">
+              <Link to="/contactus" title="Contact Us">
+                <div className="new-navbar-item-content">Contact Us</div>
+              </Link>
+            </div>
+          </div>
 
-            <div className="new-navbar-item pr-3 ">
+          <div className="d-flex align-items-center">
+            {/* <div className="pr-3 new-navbar-item-search new-navbar-btn-2">
+              <Link to={"/allproperties"} className="text-black">
+                <span className="new-navbar-item-content">
+                  {" "}
+                  Search Properties{" "}
+                </span>
+              </Link>
+            </div> */}
+
+            <div className="pr-3 new-navbar-item-search new-navbar-btn-2 ">
               {!currentUser ? (
                 <Link to="/login" className="">
                   <span className="new-navbar-item-content" title="Get Started">
@@ -917,22 +957,7 @@ const Navbar = () => {
                 </Link>
               )}
             </div>
-            <div className="new-navbar-item">
-              <Link to="/contactus" title="Contact Us">
-                <div className="new-navbar-item-content">Contact Us</div>
-              </Link>
-            </div>
-          </div>
 
-          <div className="d-flex align-items-center">
-            <div className="pr-3 new-navbar-item-search new-navbar-btn-2">
-              <Link to={"/allproperties"} className="text-black">
-                <span className="new-navbar-item-content">
-                  {" "}
-                  Search Properties{" "}
-                </span>
-              </Link>
-            </div>
             <div className="new-navbar-btn-wrapper">
               <div className="new-navbar-item-content new-navbar-btn">
                 <Link to={"/addproperty"} className="text-white">

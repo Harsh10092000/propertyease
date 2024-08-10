@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { TextField } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
+import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
+import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
 const AdminRequirement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 15;
@@ -38,12 +40,98 @@ const AdminRequirement = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
+  const theadArray = [
+    { value: "Sno." },
+    { value: "Query Id" },
+    { value: "Email" },
+    { value: "Phone" },
+    { value: "Property Type" },
+    { value: "City" },
+    { value: "Plot Size" },
+    { value: "Client Budget" },
+    { value: "Comments" },
+  ];
+
+
+
+  const tbodyArray = [
+    { value: "serial_no" },
+    { value: "data_id", transform: (id) => 1000 + parseInt(id) },
+    { value: "data_email" },
+    {
+      value: "data_phone",
+      transform: (val) => `+91 ${val}`,
+    },
+    { value: "data_pro_type" },
+    { value: "data_in_city" },
+    {
+      value: "data_size",
+      transform_1: (val) => {return val.data_pro_size + " " + val.data_pro_size_unit },
+    },   
+    { value: "data_price_quo" },     
+    {
+      type: "desc",
+      transform_1: (val) => {
+        return val.data_desc !== null && val.data_desc !== "" ? val.data_desc : "-";
+      }
+    },
+   
+  ];
+  const handleCurreentPage = (value) => {
+    setCurrentPage(value);
+  };
+
+  const handleSearchValue = (value) => {
+    setSearchValue(value);
+  };
+
+
   return (
-    <div className="card-body table-border-style">
+    <div className="container-fluid admin-dashboard admin-icon">
       
         
+
+      <AdminDashUpperBody
+        data={data}
+        handleCurreentPage={handleCurreentPage}
+        //filter={filter}
+        //listingids={listingids}
+        //handleFilterChange={handleFilterChange}
+        //handleFilterChangeprop={handleFilterChangeprop}
+        handleSearchValue={handleSearchValue}
+        //handleSelectedAction={handleSelectedAction}
+        //filterChange={filterChange}
+        //selectedAction={selectedAction}
+        //listMultipleProperty={listMultipleProperty}
+        heading={"Post Requirements"}
+        //filterOptions={filterOptions}
+        //selectedActions={selectedActions}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={true}
+      />
+
+
+<AdminDashTable
+        theadArray={theadArray}
+        //handleAllTypes={handleAllTypes}
+        //allSelected={allSelected}
+        tbodyArray={tbodyArray}
+        compData={records}
+        //FormatDate={FormatDate}
+        //handleCheckboxChange={handleCheckboxChange}
+        //listingids={listingids}
+        //handleClickOpen={handleClickOpen}
+        //listProperty={listProperty}
+        context="dashboard"
+        //dataLoaded={dataLoaded}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        pagination={true}
+      />
+
       
-        <div className="row justify-content-between align-items-center">
+        {/* <div className="row justify-content-between align-items-center">
          
           <h1 className="pl-3">Post Requirements</h1>
           </div>
@@ -67,9 +155,9 @@ const AdminRequirement = () => {
             }}
           />
           
-        </div>
+        </div> */}
 
-      <div className="table-responsive">
+      {/* <div className="table-responsive">
         <table className="table table-hover">
           <thead>
             <tr>
@@ -83,13 +171,13 @@ const AdminRequirement = () => {
 
               <th>Client Budget</th>
               <th>Comments</th>
-              {/* <th>Actions</th> */}
+             
             </tr>
           </thead>
           <tbody>
             {records.map((item, index) => (
               <tr key={index}>
-                {/* <td>{index + 1}</td> */}
+               
                 <td>{item.serial_no}</td>
                 <td>{1000 + parseInt(item.data_id)}</td>
                 <td>{item.data_email}</td>
@@ -99,7 +187,7 @@ const AdminRequirement = () => {
 
                 <td>{item.data_pro_size + " " + item.data_pro_size_unit}</td>
                 <td>{item.data_price_quo}</td>
-                {console.log(item.data_desc)}
+                
                 <td>{item.data_desc !== null && item.data_desc !== "" ? item.data_desc : "-"}</td>
                 {/* <td className="d-flex gap-3">
                   <Link
@@ -114,12 +202,12 @@ const AdminRequirement = () => {
                       <IconEye />
                     </button>
                   </Link>
-                </td> */}
+                </td> *
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 };

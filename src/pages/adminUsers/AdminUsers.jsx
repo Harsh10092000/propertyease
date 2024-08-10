@@ -4,6 +4,13 @@ import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
+import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
+import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faEye } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
+import { IconHome, IconUserSearch } from "@tabler/icons-react";
+
 const AdminUsers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 15;
@@ -63,21 +70,196 @@ const AdminUsers = () => {
     //setSnack(true);
   };
 
+  console.log(data)
+
+
   
+  const handleCurreentPage = (value) => {
+    setCurrentPage(value);
+  };
+  
+  
+  const theadArray = [
+    // {
+    //   value: (
+    //     <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+    //   ),
+    // },
+    { value: "Sno." },
+    { value: "User Id" },
+    { value: "User Type" },
+    { value: "Email" },
+    { value: "Phone" },
+    
+    { value: "Properties listed in last 30 Days", customClass: "th-width-10" },
+    { value: "Transaction Id" },
+    { value: "Plan Status" },
+    // { value: "Property Listing Access" },
+    { value: "Actions", customClass: "th-width-24" },
+  ];
+
+  
+  // const tbodyArray = [
+  //   {value: "pro_ad_type"},
+  //   {value: "pro_ad_type"},
+  // ]
+
+  const tbodyArray = [
+    // {
+    //   value: `<Checkbox
+    //   size="small"
+    //   checked={listingids.includes(item.pro_id)}
+    //   onClick={() => handleCheckboxChange(item.pro_id)}
+    // />`,
+    // },
+    // {
+    //   type: "checkbox",
+    //   condition: "checkbox",
+    //   checkcond: "listingids",
+    //   checkval: "pro_id",
+    //   size: "small",
+    // },
+    { value: "serial_no" },
+    { value: "login_id"},
+    // { type: "pro_id", value: "pro_id", id: 5000 },
+    
+    
+    {value: "agent_type", transform: (val) => val ? val : "-" },
+    { value: "login_email" },
+    {
+      value: "login_number",
+      transform: (val) => `+91 ${val}`,
+    },
+    
+    { value: "pro_count", transform: (val) => val ? val : "-"},
+    { value: "tran_id", transform: (val) => val ? 9000 + val : "-"},
+
+    // {parseInt(item.plan_status) === 1
+    //   ? "Active"
+    //   : parseInt(item.plan_status) === 2
+    //   ? "Access Granted By Admin"
+    //   : parseInt(item.plan_status) === 3
+    //   ? "Access Remove By Admin"
+    //   : "-"}
+
+    // {
+    //   value: "plan_status",
+    //   transform: (val) => { 
+    //     const planStatusOptions = {
+    //       1 : "Active",
+    //       2 : "Access Granted By Admin",
+    //       3 : "Access Remove By Admin"
+    //     }
+    //    return val ? planStatusOptions[parseInt(val)] : "-" },
+    // },
+    { type: "plan_status"},
+    
+                  
+    // { type: "conditional", condition: "property_date" },
+    // { type: "conditional", condition: "property_title" },
+
+    {type: "conditional-btns-links",
+      conditons: [
+
+    // {
+    //   type: "link",
+    //   condition: "edit_btn",
+    //   icon: "View Properties",
+    //   to: "/editProperty",
+    //   customClass: "dash-edit-btn",
+    // },
+    {
+      type: "view_profile",
+      condition: "view_profile",
+      icon: <IconUserSearch />,
+      span: "View Profile",
+      to: "/",
+      customClass: "dash-edit-btn view_profile_btn mr-3",
+      transform: (val) => `/agentProfile/${val.login_id}`,
+      
+    },
+
+    {
+      type: "view_profile_pro",
+      condition: "view_profile",
+      icon: <IconHome />,
+      span: "View Properties",
+      to: "/",
+      customClass: "dash-edit-btn view_profile_pro_btn mr-3",
+      transform: (val) => `/view-properties/${val.login_id}`,
+    },
+
+    {
+      transform: (val1, val2 ) => { val1 == 5000 ? removeAccess(val2) : handleClick(val2) },
+      type: "view_profile_3",
+      //condition: "view_profile",
+      icon: <IconHome />,
+      
+      to: "/",
+      customClass: "dash-edit-btn view_profile_btn_3 mr-3",
+      //delisttitle: "Remove Access",
+      //listtitle: "Grant Access",
+
+
+      displayVal1: "Grant Access",
+      displayVal2: "Revoke Access",
+      //cond1: 1,
+      //cond2: null,
+
+      
+    },
+
+    // {
+    //     type: "button",
+    //     delisttitle: "Remove Access",
+    //     listtitle: "Grant Access to List Property",
+    //     condition: "list_delist_btn",
+    //     classdelist: "btn btn-danger btn-sm vbtn",
+    //     classlist: "btn btn-success btn-sm vbtn",
+    //     displayVal1: "Grant Access to List Property",
+    //     displayVal2: "Remove Access",
+    //     checkval: "pro_listed",
+    //     cond1: 1,
+    //     cond2: null,
+    //   },
+    // {
+    //   type: "link",
+    //   condition: "view_btn",
+    //   icon: "View Profile",
+    //   to: "/",
+    //   customClass: "dash-edit-btn",
+    // },
+
+    // {
+    //   type: "button",
+    //   delisttitle: "Click to Dislist your property",
+    //   listtitle: "Click to List your property",
+    //   condition: "list_delist_btn",
+    //   classdelist: "btn btn-danger btn-sm vbtn",
+    //   classlist: "btn btn-success btn-sm vbtn",
+    //   displayVal1: "Grant Access to List Property",
+    //   displayVal2: "Remove Access",
+    //   checkval: "pro_listed",
+    //   cond1: 1,
+    //   cond2: null,
+    // },
+  ]}
+    // {value: `Actions`},
+  ];
  
 
   return (
-    <div>
+    <div className="container-fluid admin-dashboard admin-icon">
       {loader ? <Loader /> : ""}
-      <div className="card-body table-border-style">
-        <h1>All Users</h1>
+      {/* <div className="card-body table-border-style"> */}
+        {/* <h1>All Users</h1>
         <div className="row justify-content-between align-items-center my-2">
-          <Pagination
+           <Pagination
             count={nPages}
             color="primary"
             onChange={(e, value) => setCurrentPage(value)}
             className="col-md-6"
-          />
+          /> 
           <TextField
             variant="outlined"
             className="col-md-3 mx-4 mx-md-0 mt-3"
@@ -89,139 +271,52 @@ const AdminUsers = () => {
               setSearchValue(e.target.value);
             }}
           />
-        </div>
+        </div> */}
         
-        <div className="table-responsive">
-          <table className="table table-hover">
-            <thead className="text-center">
-              <tr>
-                <th>Sno.</th>
-                <th>User Id</th>
-                <th>User Type</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>
-                  Properties listed <br />
-                  in last 30 Days
-                </th>
-                <th>Transaction Id</th>
-                <th>Plan Status</th>
-                <th>
-                  Property Listing <br />
-                  Access
-                </th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {records.map((item, index) => (
-                <tr key={index}>
-                  {/* <td>{index + 1}</td> */}
-                  <td>{item.serial_no}</td>
-                  <td>{item.login_id}</td>
-                  <td>{item.agent_type !== null ? item.agent_type : "-"}</td>
 
-                  <td>{item.login_email}</td>
-                  <td>+91{item.login_number}</td>
-                  <td>{item.pro_count !== null ? item.pro_count : "-"}</td>
-                  <td>{item.tran_id != 0 ? 9000 + item.tran_id : "-"}</td>
-                  {/* <td>{item.plan_status != 0 ? "Plan Active" : "-"}</td> */}
+        <AdminDashUpperBody
+        data={data}
+       handleCurreentPage={handleCurreentPage}
+       // filter={filter}
+        //listingids={listingids}
+       // handleFilterChange={handleFilterChange}
+        //handleFilterChangeprop={handleFilterChangeprop}
+        //handleSearchValue={handleSearchValue}
+        //handleSelectedAction={handleSelectedAction}
+        //filterChange={filterChange}
+        //selectedAction={selectedAction}
+        //listMultipleProperty={listMultipleProperty}
+        heading={"All Users"}
+        //filterOptions={filterOptions}
+        //selectedActions={selectedActions}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={true}
+      />
 
-                  <td>
-                    {parseInt(item.plan_status) === 1
-                      ? "Active"
-                      : parseInt(item.plan_status) === 2
-                      ? "Access Granted By Admin"
-                      : parseInt(item.plan_status) === 3
-                      ? "Access Remove By Admin"
-                      : "-"}
-                  </td>
 
-                  <td>
-                    {parseInt(item.pro_plan_added_slots) === 5000 ? (
-                      <button
-                        title="Remove Access"
-                        className="btn btn-danger btn-sm vbtn"
-                        onClick={() => removeAccess(item.tran_id)}
-                      >
-                        Remove Access
-                      </button>
-                    ) : item.plan_status == 0 ? (
-                      <button
-                        title="Grant Access to list Property"
-                        className="btn btn-success btn-sm vbtn"
-                        onClick={() => handleClick(item.login_id)}
-                      >
-                        Grant Access <br /> to list Property
-                      </button>
-                    ) : (
-                      <button
-                        title="Plan Activated"
-                        className="btn btn-primary btn-sm vbtn blocked-pointer"
-                        disabled
-                      >
-                        Plan Activated
-                      </button>
-                    )}
-                  </td>
-                  <td>
-                    {item.agent_type === "Agent" &&
-                    item.count_of_properties !== null ? (
-                      <>
-                        <Link target="_blank" to={`/view-properties/${item.login_id}`}>
-                          <button
-                            title="View Your Property"
-                            className="btn btn-primary btn-sm vbtn"
-                          >
-                            <a className="btn btn-primary btn-sm ">
-                              View Properties
-                            </a>
-                          </button>
-                        </Link>
-                        <Link target="_blank"  to={`/agentProfile/${item.login_id}`}>
-                          <button
-                            title="View Your Property"
-                            className="btn btn-primary btn-sm vbtn"
-                          >
-                            <a className="btn btn-primary btn-sm ">
-                              View Profile
-                            </a>
-                          </button>
-                        </Link>
-                      </>
-                    ) : item.agent_type === "Agent" ? (
-                      <Link target="_blank" to={`/agentProfile/${item.login_id}`}>
-                        <button
-                          title="View Your Property"
-                          className="btn btn-primary btn-sm vbtn"
-                        >
-                          <a className="btn btn-primary btn-sm ">
-                            View Profile
-                          </a>
-                        </button>
-                      </Link>
-                    ) : item.count_of_properties !== null ? (
-                      <Link target="_blank" to={`/view-properties/${item.login_id}`}>
-                        <button
-                          title="View Your Property"
-                          className="btn btn-primary btn-sm vbtn"
-                        >
-                          <a className="btn btn-primary btn-sm ">
-                            View Properties
-                          </a>
-                        </button>
-                      </Link>
-                    ) : (
-                      <span className="pl-3">-</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+<AdminDashTable
+        theadArray={theadArray}
+        //handleAllTypes={handleAllTypes}
+        //allSelected={allSelected}
+        tbodyArray={tbodyArray}
+        compData={records}
+        //FormatDate={FormatDate}
+        //handleCheckboxChange={handleCheckboxChange}
+        //listingids={listingids}
+        //handleClickOpen={handleClickOpen}
+        //listProperty={listProperty}
+        context="dashboard"
+        //dataLoaded={dataLoaded}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        pagination={true}
+      />
+
+
+      
       </div>
-    </div>
+    // </div>
   );
 };
 

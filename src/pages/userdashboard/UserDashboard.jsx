@@ -1,28 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { IconEdit, IconEye } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Snackbar } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
-import {
-  TextField,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-} from "@mui/material";
+
+import { Checkbox, Snackbar } from "@mui/material";
+
 import Loader from "../../components/loader/Loader";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import Cleartoken from "../../components/Cleartoken";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+
+import "./UserDashboard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment";
+
+import { faEye, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+
+import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
+
+import DashTable from "../../components/userDasboardComp/DashTable";
 
 const UserDashboard = () => {
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -35,20 +35,25 @@ const UserDashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const [change, setChange] = useState(0);
   const [filter, setFilter] = useState("All");
-  const [dataLoaded , setDataLoaded] = useState(false);
+  const [selectedAction, setSelectedAction] = useState();
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [listingids, setListingids] = useState([]);
+
+  const [allSelected, setAllSelected] = useState(false);
+
+  //const allSelected = data.every(item => listingids.includes(item.pro_id));
+
   useEffect(() => {
-    
-     axios
+    axios
       .get(
         import.meta.env.VITE_BACKEND +
           `/api/pro/fetchPropertyDataByUserId1/${currentUser[0].login_id}`
       )
       .then((res) => {
-        console.log("res.data : " , res.data)
+        console.log("res.data : ", res.data);
         if (res.data === "failed") {
           clearUser();
         } else {
-
           res.data.forEach((item, i) => {
             item.serial_no = i + 1;
           });
@@ -57,49 +62,47 @@ const UserDashboard = () => {
         }
       });
   }, [change]);
+
   useEffect(() => {
     data.forEach((item, i) => {
       item.pro_modified_id = 5000 + parseInt(item.pro_id);
     });
   }, [data, change]);
 
-  //useEffect(() => {
-  // data &&
-  //   data.forEach((item, i) => {
-  //     item.serial_no = i + 1;
-  //   });
-  // }, [data])
+  const [filterChange, setFilterChange] = useState(1);
 
-  const filteredData = data
-    .filter((code) => {
-      if (filter === "Listed Properties") {
-        return code.pro_listed === 1 || code.pro_listed === null;
-      } else if (filter === "Delisted Properties") {
-        return code.pro_listed == 0;
-      } else if (filter === "All") {
-        return true;
-      }
-    })
-    .filter(
-      (code) =>
-        code.pro_locality.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_sub_district
-          .toLowerCase()
-          .includes(searchValue.toLowerCase()) ||
-        code.pro_pincode.startsWith(searchValue) ||
-        code.pro_modified_id.toString().startsWith(searchValue) ||
-        code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
-        code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    setFilteredData(
+      data
+        .filter((code) => {
+          if (filter === "Listed Properties") {
+            return code.pro_listed === 1 || code.pro_listed === null;
+          } else if (filter === "Delisted Properties") {
+            return code.pro_listed == 0;
+          } else if (filter === "All") {
+            return true;
+          }
+        })
+        .filter(
+          (code) =>
+            code.pro_locality
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            code.pro_sub_district
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            code.pro_pincode.startsWith(searchValue) ||
+            code.pro_modified_id.toString().startsWith(searchValue) ||
+            code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
+            code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
+        )
     );
+  }, [filterChange, data]);
 
-  // const [records, setRecords] = useState([]);
-  // useEffect(() => {
-  //   console.log(filteredData)
-  //   setRecords(filteredData.slice(firstIndex, lastIndex));
-  // }, [filteredData,change]);
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
-
   const [proDate, setProDate] = useState("");
   const FormatDate = (dateString) => {
     if (dateString.includes("-")) {
@@ -140,8 +143,8 @@ const UserDashboard = () => {
   });
 
   const [open, setOpen] = React.useState(false);
-  const [data1 , setData1] = useState();
-  const handleClickOpen = (data) => {    
+  const [data1, setData1] = useState();
+  const handleClickOpen = (data) => {
     setData1(data);
     setOpen(true);
   };
@@ -149,7 +152,6 @@ const UserDashboard = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
 
   const delistProperty = async () => {
     setOpen(false);
@@ -163,12 +165,11 @@ const UserDashboard = () => {
     setChange(change + 1);
     setLoader(false);
     setSnackQ(true);
-    
   };
 
   const listProperty = async (data) => {
-    
     setLoader(true);
+    console.log("data : ", data);
     proListingStatus.pro_listed = 1;
     proListingStatus.pro_id = data.pro_id;
     await axios.put(
@@ -176,15 +177,193 @@ const UserDashboard = () => {
       proListingStatus
     );
     setChange(change + 1);
-    
+
     setLoader(false);
     setSnack(true);
-
   };
 
- 
+  const listMultipleProperty = async (list_status) => {
+    setLoader(true);
+    // proListingStatus.pro_listed = 1;
+    // proListingStatus.pro_id = listingids;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateProListingMultipleStatus",
+      { pro_listed: list_status, listingids: listingids }
+    );
+    setChange(change + 1);
+
+    setLoader(false);
+    setSnack(true);
+  };
+
+  const handleCheckboxChange = (itemProId) => {
+    console.log(itemProId);
+    setListingids((prevState) => {
+      if (prevState.includes(itemProId)) {
+        // If the ID is already in the array, remove it
+        // setAllSelected(false);
+        return prevState.filter((id) => id !== itemProId);
+      } else {
+        // Otherwise, add the ID to the array
+        // if(listingids.length === data.length) {
+        //   setAllSelected(true);
+        // }
+        return [...prevState, itemProId];
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (listingids.length === records.length) {
+      setAllSelected(true);
+    } else {
+      setAllSelected(false);
+    }
+  }, [listingids, records]);
+
+  const handleAllTypes = () => {
+    console.log();
+    if (listingids.length === records.length) {
+      setListingids([]);
+      //setAllSelected(false);
+    } else {
+      setListingids((prevListingIds) => {
+        //setAllSelected(true);
+        const updatedTypes = records
+          .map((item) => item.pro_id)
+          .filter((pro_id) => !prevListingIds.includes(pro_id));
+        return [...prevListingIds, ...updatedTypes];
+      });
+    }
+  };
+
+  const theadArray = [
+    {
+      value: (
+        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+      ),
+    },
+    { value: "Sno." },
+    { value: "Property Id" },
+    { value: "Status" },
+    { value: "Property Type" },
+    { value: "Sale/Rent" },
+    { value: "Price" },
+    { value: "Posted On" },
+    { value: "Property Title", customClass: "th-width-28" },
+    { value: "Actions" },
+  ];
+
+  // const tbodyArray = [
+  //   {value: "pro_ad_type"},
+  //   {value: "pro_ad_type"},
+  // ]
+
+  const tbodyArray = [
+    // {
+    //   value: `<Checkbox
+    //   size="small"
+    //   checked={listingids.includes(item.pro_id)}
+    //   onClick={() => handleCheckboxChange(item.pro_id)}
+    // />`,
+    // },
+    {
+      type: "checkbox",
+      condition: "checkbox",
+      checkcond: "listingids",
+      checkval: "pro_id",
+      size: "small",
+    },
+    { value: "serial_no" },
+    { value: "pro_id", transform: (id) => 5000 + parseInt(id) },
+    // { type: "pro_id", value: "pro_id", id: 5000 },
+    { type: "conditional", condition: "status" },
+    { type: "conditional", condition: "property_type" },
+    { value: "pro_ad_type" },
+    { type: "conditional", condition: "property_price" },
+    {
+      value: "pro_creation_date",
+      transform: (date) => moment(date).format("MMMM DD YYYY"),
+    },
+    // { type: "conditional", condition: "property_date" },
+    { type: "conditional", condition: "property_title" },
+
+
+    {type: "conditional-btns-links",
+      conditons: [
+
+      
+    {
+
+      type: "link",
+      condition: "edit_btn",
+      icon: (
+        <FontAwesomeIcon
+          icon={faPencilAlt}
+          className="font-awe-icon-edit "
+          title="Edit property"
+        />
+      ),
+      to: "/editProperty",
+      customClass: "dash-edit-btn mr-2",
+    },
+    {
+      type: "link",
+      condition: "view_btn",
+      icon: (
+        <FontAwesomeIcon
+          icon={faEye}
+          className="font-awe-icon-delete "
+          title="View property"
+        />
+      ),
+      to: "/",
+      customClass: "dash-edit-btn mr-2",
+    },
+
+    {
+      type: "button",
+      delisttitle: "Click to Dislist your property",
+      listtitle: "Click to List your property",
+      condition: "list_delist_btn",
+      classdelist: "btn btn-danger btn-sm vbtn",
+      classlist: "btn btn-success btn-sm vbtn",
+      displayVal1: "List Again",
+      displayVal2: "Delist",
+      checkval: "pro_listed",
+      cond1: 1,
+      cond2: null,
+    },
+  ]
+  }
+    // {value: `Actions`},
+  ];
+
   // Create a new string in the format "26 March 2024"
   //const formattedDate = `${day} ${month} ${year}`;
+
+  const handleCurreentPage = (value) => {
+    setCurrentPage(value);
+  };
+
+  const handleFilterChange = (value) => {
+    setFilter(value);
+  };
+
+  const handleFilterChangeprop = (value) => {
+    setFilterChange(value);
+  };
+
+  const handleSelectedAction = (value) => {
+    setSelectedAction(value);
+  };
+
+  const handleSearchValue = (value) => {
+    setSearchValue(value);
+  };
+
+  const filterOptions = ["All", "Listed Properties", "Delisted Properties"];
+  const selectedActions = ["List Again", "Delist Properties"];
 
   return (
     <div className="container-fluid admin-dashboard admin-icon">
@@ -199,7 +378,7 @@ const UserDashboard = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          You can relist the property at any time.
+            You can relist the property at any time.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -238,230 +417,49 @@ const UserDashboard = () => {
         onClose={() => setSnack(false)}
         message={"Property Listed"}
       />
-      <div className="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 className="h3 mb-0 text-gray-800">All Property</h1>
-      </div>
-      <div className="row justify-content-between align-items-center my-2">
-        <Pagination
-          count={nPages}
-          color="primary"
-          onChange={(e, value) => setCurrentPage(value)}
-          className="col-md-6"
-        />
-        <div className="col-md-6 d-flex justify-content-end">
-          <FormControl
-            sx={{ m: 1, width: ["100%"] }}
-            size="small"
-            className="col-md-3 "
-          >
-            <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={filter}
-              label="Filter By"
-              onChange={(e) => {
-                setFilter(e.target.value), setCurrentPage(1);
-              }}
-            >
-              <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"Listed Properties"}>Listed Properties</MenuItem>
-              <MenuItem value={"Delisted Properties"}>
-                Delisted Properties
-              </MenuItem>
-            </Select>
-          </FormControl>
 
-          <TextField
-            variant="outlined"
-            className="col-md-5 mt-2"
-            size="small"
-            label="Search for properties..."
-            onChange={(e) => {
-              setCurrentPage(1);
-              setSearchValue(e.target.value);
-            }}
-          />
-        </div>
-      </div>
+      <DashUpperBody
+        data={data}
+        handleCurreentPage={handleCurreentPage}
+        filter={filter}
+        listingids={listingids}
+        handleFilterChange={handleFilterChange}
+        handleFilterChangeprop={handleFilterChangeprop}
+        handleSearchValue={handleSearchValue}
+        handleSelectedAction={handleSelectedAction}
+        filterChange={filterChange}
+        selectedAction={selectedAction}
+        listMultipleProperty={listMultipleProperty}
+        heading={"My Properties"}
+        filterOptions={filterOptions}
+        selectedActions={selectedActions}
+        filterAva={true}
+        selectedActionsAva={true}
+        searchAva={true}
+      />
 
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card">
-            <div className="card-header">
-              <div className="row">
-                <div className="col-md-6">
-                  <h5>Property List</h5>
-                </div>
-                <div className="col-md-6 text-right"></div>
-              </div>
-            </div>
-            <div className="card-body table-border-style">
-              <div className="table-responsive">
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>SNo.</th>
-                      <th>Property Id</th>
-                      {/* <th>Property Type</th> */}
-                      <th>Sale/Rent</th>
-                      <th>Price</th>
-                      <th>Posted On</th>
-                      <th>Property Title</th>
-                      <th>Status</th>
-                      {/* <th>Address</th> */}
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-black">
-                    {records.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.serial_no}</td>
-                        {/* <td>{5000 + parseInt(item.pro_id)}</td> */}
-                        <td>{item.pro_type.split(",")[0]}</td>
-                        <td>{item.pro_ad_type}</td>
-                        <td>
-                          {item.pro_amt
-                            ? item.pro_amt + " " + item.pro_amt_unit
-                            : "-"}
-                        </td>
-                        {/* <td>{item.pro_date }</td> */}
-                        {<td>{FormatDate(item.pro_date)}</td>}
-                        <td>
-                          {" "}
-                          <span className="text-wrap">
-                            {item.pro_area_size +
-                              " " +
-                              item.pro_area_size_unit +
-                              " " +
-                              item.pro_type.split(",")[0] +
-                              " "}
-                            for {item.pro_ad_type === "Rent" ? "Rent" : "Sale"}{" "}
-                            in {item.pro_locality}
-                            ,&nbsp;
-                            {item.pro_city}
-                          </span>
-                        </td>
-                        {/* <td>{item.pro_locality},&nbsp;
-                                {item.pro_sub_district
-                                  ? item.pro_sub_district + ", "
-                                  : ""}
-                                {item.pro_city},&nbsp;
-                                  {item.pro_state}</td> */}
-                        <td>
-                          {item.pro_listed === 1 || item.pro_listed === null
-                            ? "Listed"
-                            : "Delisted"}
-                        </td>
-                        <td>
-                          <button
-                            title="Edit Your Property"
-                            className="btn btn-primary btn-sm vbtn"
-                          >
-                            {/* <Link to={"/editProperty/" + item.pro_id}> */}
-                            <Link
-                            to={`/editProperty/${item.pro_url}`}
-                            //   to={`/editProperty/${
-                            //     item.pro_area_size.toLowerCase() +
-                            //     "-" +
-                            //     item.pro_area_size_unit
-                            //       .toLowerCase()
-                            //       .replaceAll(" ", "-")
-                            //       .replaceAll(".", "") +
-                            //     "-"
-                            //   }${
-                            //     item.pro_type
-                            //       ? item.pro_type
-                            //           .split(",")[0]
-                            //           .toLowerCase()
-                            //           .replaceAll(" ", "-")
-                            //       : ""
-                            //   }-for-${
-                            //     item.pro_ad_type === "rent" ? "rent" : "sale"
-                            //   }-in-${item.pro_locality.replace(/\s+$/, "")
-                            //     .toLowerCase()
-                            //     .replaceAll(" ", "-")}-${item.pro_city
-                            //     .toLowerCase()
-                            //     .replaceAll(" ", "-")}-${item.pro_id}`}
-                             >
-                              <a
-                                target="_blank"
-                                className="btn btn-primary btn-sm "
-                              >
-                                <IconEdit className="admin-faicon" />
-                              </a>
-                            </Link>
-                          </button>
-                          <Link target="_blank"
-                          to={`/${item.pro_url}`}
-                            // to={`/${
-                            //   item.pro_area_size.toLowerCase() +
-                            //   "-" +
-                            //   item.pro_area_size_unit
-                            //     .toLowerCase()
-                            //     .replaceAll(" ", "-")
-                            //     .replaceAll(".", "") +
-                            //   "-"
-                            // }${
-                            //   item.pro_type
-                            //     ? item.pro_type
-                            //         .split(",")[0]
-                            //         .toLowerCase()
-                            //         .replaceAll(" ", "-")
-                            //     : ""
-                            // }-for-${
-                            //   item.pro_ad_type === "rent" ? "rent" : "sale"
-                            // }-in-${item.pro_locality.replace(/\s+$/, "")
-                            //   .toLowerCase()
-                            //   .replaceAll(" ", "-")}-${item.pro_city
-                            //   .toLowerCase()
-                            //   .replaceAll(" ", "-")}-${item.pro_id}`}
-                          >
-                            <button
-                              title="View Your Property"
-                              className="btn btn-primary btn-sm vbtn"
-                            >
-                              <a className="btn btn-primary btn-sm ">
-                                <IconEye className="admin-faicon" />
-                              </a>
-                            </button>
-                          </Link>
+      <DashTable
+        theadArray={theadArray}
+        handleAllTypes={handleAllTypes}
+        allSelected={allSelected}
+        tbodyArray={tbodyArray}
+        compData={records}
+        FormatDate={FormatDate}
+        handleCheckboxChange={handleCheckboxChange}
+        listingids={listingids}
+        handleClickOpen={handleClickOpen}
+        listProperty={listProperty}
+        context="dashboard"
+        dataLoaded={dataLoaded}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        pagination={true}
+      />
 
-                          {item.pro_listed === 1 || item.pro_listed === null ? (
-                            <button
-                              title="Click to Dislist your property"
-                              className="btn btn-danger btn-sm vbtn"
-                              // onClick={() => delistProperty(item)}
-                              onClick={() => handleClickOpen(item)}
-                            >
-                              Delist
-                            </button>
-                          ) : (
-                            <button
-                              title="Click to List your property"
-                              className="btn btn-success btn-sm vbtn"
-                              onClick={() => listProperty(item)}
-                            >
-                              List Again
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {dataLoaded === true && records.length === 0 && (
-                  <div className="d-flex align-items-center justify-content-center">
-                    <div className="no-record-msg pt-2 pb-2">No Records Found</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
   );
 };
 
 export default UserDashboard;
+

@@ -11,13 +11,18 @@ import {
 import axios from "axios";
 import Checkbox from "@mui/material/Checkbox";
 import Autocomplete from "@mui/material/Autocomplete";
-import { IconSquareCheckFilled, IconSquare, IconX } from "@tabler/icons-react";
+import { IconSquareCheckFilled, IconSquare, IconX,  IconUser,
+  IconHome,
+  IconBuilding,
+  IconPhoto,
+  IconBriefcase, } from "@tabler/icons-react";
 import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { AuthContext } from "../../context/AuthContext";
 import { useForm, Controller } from "react-hook-form";
+import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 
 const EditUserProfile = () => {
 
@@ -131,11 +136,14 @@ const EditUserProfile = () => {
   const [subDistrict, setSubDistrict] = useState();
   const [cityState, setCityState] = useState();
 
+  const navigate = useNavigate();
+  const insertId = useRef();
+  const [selectedTypes, setSelectedTypes] = useState([]);
+
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/SubDistrictData`)
       .then((res) => {
-        console.log("res.data : " , res.data)
         // if (res.data === "failed") {
         //   clearUser();
         // } else {
@@ -157,7 +165,6 @@ const EditUserProfile = () => {
           `/api/agent/fetchAgentDataById1/${agentId}`
       )
       .then((res) => {
-        console.log("res.data : " , res.data)
         setUserData({
           user_type: res.data.data[0].agent_type,
           user_name: res.data.data[0].agent_name,
@@ -192,6 +199,40 @@ const EditUserProfile = () => {
           ...prevUserData,
           user_work_sub_district: res.data.subDistrictData,
         }));
+
+       
+
+        if(
+          res.data.data[0].agent_type !== "" &&
+          res.data.data[0].agent_name !== "" &&
+          res.data.data[0].agent_email !== "" &&
+          res.data.data[0].agent_phone !== "" ) {
+            setFormStepsStatus({...formStepsStatus , step1: true})
+          } else {
+            setFormStepsStatus({...formStepsStatus , step1: false})
+          }
+
+
+          if(
+            res.data.data[0].agent_state !== "" &&
+          res.data.data[0].agent_city !== "" &&
+          res.data.data[0].agent_locality !== "" &&
+          res.data.data[0].agent_sub_district !== "" ) {
+              setFormStepsStatus({...formStepsStatus , step2: true})
+            } else {
+              setFormStepsStatus({...formStepsStatus , step2: false})
+            }
+
+
+            if(
+              res.data.data[0].agent_comapnay_name !== "" &&
+          res.data.data[0].agent_company_website !== "" &&
+          res.data.data[0].agent_work_area !== "" &&
+          res.data.data[0].agent_exp !== "" ) {
+                setFormStepsStatus({...formStepsStatus , step3: true})
+              } else {
+                setFormStepsStatus({...formStepsStatus , step3: false})
+              }
         //setSelectedTypes(updatedList.split(","))
         //console.log(res.data[0].agent_work_area, filtertedList);
       });
@@ -234,7 +275,97 @@ const EditUserProfile = () => {
   }, [cityState]);
 
   
-  console.log("userData : " ,userData);
+  const [formStepsStatus , setFormStepsStatus] = useState({
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
+    step5: false,
+  })
+
+
+  const formSteps = [
+    { stepActive: true,  loc: "#personal-info", customClass: formStepsStatus.step1 ? "pro-picks-card-disabled" : "pro-picks-card" , title: "Basic Information", desc: "Name, Email, Phone Number, About You" , icon: <IconUser width="28" height="28"  style={formStepsStatus.step1 === false ? {  color: 'blue' } : {} } /> },
+    { stepActive: true, loc: "#address", customClass: formStepsStatus.step2 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Address", desc: "Address, State, City, District, Locality", icon: <IconHome width="34" height="28" style={formStepsStatus.step2 === false ? { color: 'green' } : {} } /> },
+    
+    { stepActive: userData.user_type === "Agent" ? true : false , loc: "#company-info", customClass: formStepsStatus.step3 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Company Information", desc: "Company Name, Website, Expernince, Work Categories" , icon: <IconBuilding width="28" height="28" style={formStepsStatus.step3 === false ? { color: '#FFD700' } : {} } /> },
+    { stepActive: userData.user_type === "Agent" ? true : false , loc: "#work-info", customClass: formStepsStatus.step4 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Work Location", desc: "State, City, Locality" , icon: <IconBriefcase width="28" height="28" style={formStepsStatus.step4 === false ? { color: 'red' } : {} } /> },
+    
+    { stepActive: true, loc: "#upload-image", customClass: formStepsStatus.step5 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Profile Picture", desc: "Upload Your Profile Image" , icon: <IconPhoto width="28" height="28" style={formStepsStatus.step5 === false ? { color: 'gray' } : {} } />},
+  ];
+
+  // for step1
+  useEffect(() => {
+    if(
+    userData.user_type !== "" &&
+    userData.user_name !== "" &&
+    userData.user_email !== "" &&
+    userData.user_phone !== "" ) {
+      setFormStepsStatus({...formStepsStatus , step1: true})
+    } else {
+      setFormStepsStatus({...formStepsStatus , step1: false})
+    }
+  }, [userData.user_type, userData.user_name, userData.user_email, userData.user_phone, cityState])
+
+
+
+
+   // for step2
+   useEffect(() => {
+    if(
+    userData.user_state !== "" &&
+    userData.user_city !== "" &&
+    userData.user_locality !== "" &&
+    userData.user_sub_district !== "" ) {
+      setFormStepsStatus({...formStepsStatus , step2: true})
+    } else {
+      setFormStepsStatus({...formStepsStatus , step2: false})
+    }
+  }, [userData.user_state, userData.user_city, userData.user_locality, userData.user_sub_district, cityState])
+
+  
+
+
+
+     // for step3
+     useEffect(() => {
+      if(
+      userData.user_comapnay_name !== "" &&
+      userData.user_company_website !== "" &&
+      userData.user_exp !== "" &&
+      selectedTypes !== "" ) {
+        setFormStepsStatus({...formStepsStatus , step3: true})
+      } else {
+        setFormStepsStatus({...formStepsStatus , step3: false})
+      }
+    }, [userData.user_comapnay_name, userData.user_company_website, userData.user_exp, selectedTypes])
+
+
+
+
+    // for step4
+    useEffect(() => {
+      if(
+      userData.user_work_state !== "" &&
+      userData.user_work_city !== "" &&
+      userData.user_work_sub_district !== "" ) {
+        setFormStepsStatus({...formStepsStatus , step4: true})
+      } else {
+        setFormStepsStatus({...formStepsStatus , step4: false})
+      }
+    }, [userData.user_work_state, userData.user_work_city, userData.user_work_sub_district])
+
+
+    // for step5
+    useEffect(() => {
+      if(
+      userData.user_image !== "" ) {
+        setFormStepsStatus({...formStepsStatus , step5: true})
+      } else {
+        setFormStepsStatus({...formStepsStatus , step5: false})
+      }
+    }, [userData.user_image])
+
 
 
   const [filterDistricts, setFilterDistricts] = useState([]);
@@ -292,9 +423,7 @@ const EditUserProfile = () => {
     }
   }, [userData.user_email]);
 
-  const navigate = useNavigate();
-  const insertId = useRef();
-  const [selectedTypes, setSelectedTypes] = useState([]);
+  
 
   const handleTypeToggle = (type) => {
     //console.log("type : " , type);
@@ -522,16 +651,33 @@ const EditUserProfile = () => {
   );
 
   return (
-    <div>
+    <div className="container-fluid">
+       <div className="profile-form-upper-section">
+        <DashUpperBody
+        heading={"Update Profile"}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={false}
+      />
+</div>
+    <div className="row user-profile-form-comp">
+
+
       {loader ? <Loader /> : ""}
+      <div className="col-md-8">
+     
       <div className="user-profile-form-wrapper ">
-        <div className=" user-profile-form-heading ">Edit Your Profile</div>
+        {/* <div className=" user-profile-form-heading ">Edit Your Profile</div>
         <div className="pl-2 pt-2 pb-2">
           {`\u2022  Updating your profile? Feel free to customize your profile by sharing your preferred city,
            locality, and budget.`}{" "}
-        </div>
+        </div> */}
 
-        <div className="user-profile-form mt-2">
+        <div className="user-profile-form mt-2 form-fields form-fields-1"  id="personal-info">
+        <div className="header-no-5-wrapper pt-1">
+                  <h5 className="header-no-5">Personal Details</h5>
+                  <div class="heading-divider "></div>
+                </div>
           <div className="pro_flex pro_flex_1 ml-2">
             <div className="w-100 m-1 mb-1 ">
               <span className="pro_heading">Tell us who you are ?</span>
@@ -641,7 +787,10 @@ const EditUserProfile = () => {
               required
             />
           </div>
-
+          <div className="header-no-5-wrapper" id="address">
+                  <h5 className="header-no-5">Address</h5>
+                  <div class="heading-divider "></div>
+                </div>
           {userData !== null &&
             stateList !== null &&
             cityState !== undefined && (
@@ -801,7 +950,11 @@ const EditUserProfile = () => {
           </div>
 
           {userData.user_type === "Agent" && (
-            <div>
+            <div id="company-info">
+              <div className="header-no-5-wrapper">
+                    <h5 className="header-no-5">Company Details</h5>
+                    <div class="heading-divider "></div>
+                  </div>
               <div className="pro_flex">
                 <TextField
                   sx={{ m: 1, width: ["100%"] }}
@@ -928,6 +1081,11 @@ const EditUserProfile = () => {
                   )}
                 </div>
               </div>
+
+              <div className="header-no-5-wrapper" id="work-info">
+                    <h5 className="header-no-5">Location</h5>
+                    <div class="heading-divider "></div>
+                  </div>
 
               <div className="pro_flex">
                 <Controller
@@ -1233,6 +1391,10 @@ const EditUserProfile = () => {
                 />
               </div>
 
+              <div className="header-no-5-wrapper">
+                    <h5 className="header-no-5">Discription</h5>
+                    <div class="heading-divider "></div>
+                  </div>
               <div className="pro_flex">
                 <TextField
                   multiline
@@ -1267,6 +1429,10 @@ const EditUserProfile = () => {
               </div>
             </div>
           )}
+          <div className="header-no-5-wrapper" id="upload-image">
+                    <h5 className="header-no-5">Upload Image</h5>
+                    <div class="heading-divider "></div>
+                  </div>
           <div className="m-2">
             <input
               type="file"
@@ -1331,6 +1497,60 @@ const EditUserProfile = () => {
           </div>
         </div>
       </div>
+      </div>
+
+      <div className="col-md-3">
+        <div className="sidebar">
+          <div className="sidebar-content-wrapper-head">
+            <div className="sidebar-content-heading">Upadte Your Profile <div className=" mt-1 heading-divider"></div></div>
+            <div className="sidebar-content-desc">Updating your profile? Feel free to customize your profile by sharing your preferred city,
+            locality, and budget.</div>
+          </div>
+
+          <div className="row">
+              {
+                formSteps
+                  
+                  .map((item, index) => (
+                    item.stepActive &&
+                    <div className="col-md-12 sidebar-content-wrapper">
+                      <div className={item.customClass}>
+                        {/* <div className="image"> */}
+                          {/* <img
+                            src={`../images/pro-picks-${index + 1}.png`}
+                            alt="image"
+                          /> */}
+                          <div className="sidebar-content-icon">
+                          {item.icon}
+                          </div>
+                          
+                        {/* </div> */}
+                        <div className="content">
+                          <h3>
+                             <a
+                             href={item.loc}
+                            //  title={item.pro_type.split(",")[0]}
+                            //   to={`/${item.pro_type
+                            //     .split(",")[1]
+                            //     .toLowerCase()}/${item.pro_type
+                            //     .split(",")[0]
+                            //     .replaceAll(" ", "-")
+                            //     .toLowerCase()}`}
+                             
+                             >
+                              {item.title}
+                            </a>
+                          </h3>
+                          <span>{item.desc}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+        </div>
+      </div>
+
+    </div>
     </div>
   );
 };

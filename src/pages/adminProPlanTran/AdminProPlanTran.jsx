@@ -13,6 +13,8 @@ import {
   MenuItem,
 } from "@mui/material";
 import moment from "moment";
+import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
+import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
 
 const AdminProPlanTran = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -103,13 +105,194 @@ const AdminProPlanTran = () => {
       setLoader(false);
       //setSnackQ(true);
     };
+
+
+    const theadArray = [
+      // {
+      //   value: (
+      //     <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+      //   ),
+      // },
+      { value: "Sno." },
+      { value: "Transaction Id" },
+      { value: "User Id" },
+      { value: "Plan Name" },
+      { value: "Transaction Date" },
+
+      { value: "Plan Amount" },
+      { value: "Discount" },
+      { value: "Transaction Amount" },
+      { value: "Plan Started On" },
+
+      { value: "Plan Expired On" },
+      { value: "Subscription Plan Status" },
+      { value: "Payment Id" },
+      { value: "Order Id" },
+      { value: "Payment Status" },
+      
+    ];
+  
+
+
+
+
+    
+    
+  
+
+
+    const tbodyArray = [
+      
+      { value: "serial_no" },
+    
+      { value: "tran_id", transform: (val) => val ? 9000 + val : "-"},
+      { value: "user_id"},
+      { value: "plan_name"},
+      {
+      value: "tran_date",
+      transform: (date) => moment(date).format("MMMM DD YYYY"),
+    },
+ { value: "original_price", transform: (val) => {return parseInt(val) !== 0 && val !== null ? val : "-" }, },
+ {
+        value: "payment_discount",
+        transform: (val) => {return parseInt(val) === 0 ?  "-" : val+"%" },
+      },
+
+
+      { value: "tran_amt"},
+     
+      {
+        type: "conditional",
+        condition: "payment_status",
+        trueConditions: [
+          {
+            value: "list_plan_starts_on",
+            transform: (item) => {
+              return moment(item.list_plan_starts_on).format("MMMM DD YYYY");
+            },
+          },
+          {
+            value: "plan_end_date",
+            transform: (item) => {
+              const startDate = moment(item.list_plan_starts_on);
+              const endDate = startDate.add(
+                parseInt(item.list_plan_valid_for_days),
+                "days"
+              );
+              return parseInt(item.plan_status) === 1 ||
+                parseInt(item.plan_status) === 0
+                ? endDate.format("MMMM DD YYYY")
+                : "-";
+            },
+          },
+          // {
+          //   value: "plan_status",
+          //   transform: (status) => {
+          //     const statusMap =
+          //     {
+          //       1: "Active",
+          //       2: "Access Granted By Admin",
+          //       0: "Expired",
+  
+          //     };
+          //     // const statusMap = {
+          //     //   1: { text: "Active", className: "current-status-green" },
+          //     //   2: { text: "Access Granted By Admin22", className: "current-status-green" },
+          //     //   0: { text: "Expired", className: "current-status-red" },
+          //     // };
+          //     return statusMap[parseInt(status.plan_status)] ||"Access Removed By Admin"
+          //   }
+          // }
+        ],
+        falseConditions: [
+          { value: "-", transform: () => "-" },
+          { value: "-", transform: () => "-" },
+          // { value: "-", transform: () => "-" }
+        ],
+      },
+
+     
+      {
+        type: "plan_status_cond",
+        statusMap: [
+          { value: 1, text: "Active", className: "current-status-green" },
+          {
+            value: 2,
+            text: "Access Granted By Admin",
+            className: "current-status-green",
+          },
+          { value: 0, text: "Expired", className: "current-status-red" },
+          {
+            value: 3,
+            text: "Access Removed By Admin",
+            className: "current-status-red",
+          },
+        ],
+      },
+
+      { value: "payment_id"},
+      { value: "order_id"},
+      { value: "payment_status"},
+
+    ];
+   
+    const handleCurreentPage = (value) => {
+      setCurrentPage(value);
+    };
+    
+    const handleSearchValue = (value) => {
+      setSearchValue(value);
+    };
     
   return (
-    <div>
+    
      
       
-      <div className="card-body table-border-style">
-        <h1>All Property Listing Plans</h1>
+     <div className="container-fluid admin-dashboard admin-icon">
+
+
+
+      <AdminDashUpperBody
+        data={data}
+       
+       // filter={filter}
+        //listingids={listingids}
+       // handleFilterChange={handleFilterChange}
+        //handleFilterChangeprop={handleFilterChangeprop}
+        handleSearchValue={handleSearchValue}
+        //handleSelectedAction={handleSelectedAction}
+        //filterChange={filterChange}
+        //selectedAction={selectedAction}
+        //listMultipleProperty={listMultipleProperty}
+        heading={"Property Listing Plans"}
+        //filterOptions={filterOptions}
+        //selectedActions={selectedActions}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={true}
+      />
+
+
+<AdminDashTable
+        theadArray={theadArray}
+        //handleAllTypes={handleAllTypes}
+        //allSelected={allSelected}
+        tbodyArray={tbodyArray}
+        compData={records}
+        //FormatDate={FormatDate}
+        //handleCheckboxChange={handleCheckboxChange}
+        //listingids={listingids}
+        //handleClickOpen={handleClickOpen}
+        //listProperty={listProperty}
+        context="dashboard1"
+        //dataLoaded={dataLoaded}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        pagination={true}
+      />
+
+
+        {/* <h1>All Property Listing Plans</h1>
         <div className="row justify-content-between align-items-center my-2">
           <Pagination
             count={nPages}
@@ -118,7 +301,7 @@ const AdminProPlanTran = () => {
             className="col-md-6"
           />
           <div className="col-md-6 d-flex justify-content-end">
-            {/* <FormControl
+            /* <FormControl
               sx={{ m: 1, width: ["100%"] }}
               size="small"
               className="col-md-3 "
@@ -147,7 +330,7 @@ const AdminProPlanTran = () => {
                   Property Page Ad 2
                 </MenuItem>
               </Select>
-            </FormControl> */}
+            </FormControl> *
             <TextField
               variant="outlined"
               className="col-md-5 mt-2"
@@ -216,8 +399,8 @@ const AdminProPlanTran = () => {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
+        </div> */}
+     
     </div>
   )
 }
