@@ -1767,11 +1767,20 @@ const handleSubmit2 = async (e) => {
             </div>
 
             {records?.length > 0 && (
+              // <Pagination
+              //   count={nPages}
+              //   color="primary"
+              //   siblingCount={1}
+              //   page={currentPage}
+              //   onChange={(e, value) => setCurrentPage(value)}
+              //   className="col-md-6 mx-auto py-2"
+              // />
               <Pagination
                 count={nPages}
                 color="primary"
                 siblingCount={1}
-                page={currentPage}
+                //page={currentPage} 
+                shape="rounded"
                 onChange={(e, value) => setCurrentPage(value)}
                 className="col-md-6 mx-auto py-2"
               />

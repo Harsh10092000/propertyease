@@ -20266,17 +20266,17 @@ width: 28%;
   justify-content: start !important;
 }
 
-.css-wjh20t-MuiPagination-ul {
+.css-wjh20t-MuiPagination-ul, .css-nhb8h9 {
   border-radius: 10px;
   padding: 9px !important;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 } 
 
-.css-wjh20t-MuiPagination-ul > li {
+.css-wjh20t-MuiPagination-ul > li, .css-nhb8h9 > li {
   margin: 0px !important;
 }
 
-.css-wjh20t-MuiPagination-ul > li > button {
+.css-wjh20t-MuiPagination-ul > li > button , .css-nhb8h9 > li > button {
   border: none;
 }
 
@@ -20286,22 +20286,22 @@ width: 28%;
   background: #1976d2 !important;
 }
 
-.css-wjh20t-MuiPagination-ul li:first-child > .MuiButtonBase-root {
+.css-wjh20t-MuiPagination-ul li:first-child > .MuiButtonBase-root , .css-nhb8h9 li:first-child > .MuiButtonBase-root {
   padding-right: 45px !important;
 }
 
-.css-wjh20t-MuiPagination-ul li:last-child > .MuiButtonBase-root {
+.css-wjh20t-MuiPagination-ul li:last-child > .MuiButtonBase-root , .css-nhb8h9 li:last-child > .MuiButtonBase-root {
   padding-left: 45px !important;
 }
 
-.css-wjh20t-MuiPagination-ul > li:first-child::before {
+.css-wjh20t-MuiPagination-ul > li:first-child::before, .css-nhb8h9 > li:first-child::before {
   content: "Prev";
   position: absolute;
   top: 20px;
   margin: 2px 0px 0px 16px;
 }
 
-.css-wjh20t-MuiPagination-ul > li:last-child::before {
+.css-wjh20t-MuiPagination-ul > li:last-child::before, .css-nhb8h9 > li:last-child::before {
   content: "Next";
   position: absolute;
   top: 20px;
