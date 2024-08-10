@@ -20297,8 +20297,8 @@ width: 28%;
 .css-wjh20t-MuiPagination-ul > li:first-child::before, .css-nhb8h9 > li:first-child::before {
   content: "Prev";
   position: absolute;
-  top: 20px;
-  margin: 2px 0px 0px 16px;
+  top: 19px;
+  margin: 3px 0px 0px 20px;
 }
 
 .css-wjh20t-MuiPagination-ul > li:last-child::before, .css-nhb8h9 > li:last-child::before {
