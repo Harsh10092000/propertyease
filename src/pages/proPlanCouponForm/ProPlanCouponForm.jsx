@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import { AdminDashUpperBody, FormHeading } from "../../components/adminDashboardComp/AdminDashTbody";
 
 const ProPlanCouponForm = () => {
   const today = new Date();
@@ -25,7 +26,7 @@ const ProPlanCouponForm = () => {
     dayjs(todaysDate.add(1, "days"))
   );
 
-  console.log(transactionDate , transactionDate2)
+
 
   const [couponData, setCouponData] = useState({
     pro_coupon_name: "",
@@ -84,12 +85,29 @@ const ProPlanCouponForm = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid">
       {loader && <Loader />}
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Add Coupon</div>
 
-        <div className="pl-2 pt-2 pb-2"></div>
+      <div className="profile-form-upper-section">
+        <AdminDashUpperBody
+        heading={"Add Coupon"}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={false}
+      />
+</div>
+
+<div className="row user-profile-form-comp">
+      <div className="col-md-6">
+
+<div className="user-profile-form-wrapper ">
+<div className="form-fields">
+
+      
+        
+        <FormHeading heading={"Add Coupon"} />
+
+        
 
         <div className="pro_flex">
           <TextField
@@ -270,6 +288,9 @@ const ProPlanCouponForm = () => {
           </button>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

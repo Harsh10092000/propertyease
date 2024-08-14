@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import { AdminDashUpperBody, FormHeading } from "../../components/adminDashboardComp/AdminDashTbody";
 
 const EditProPlanCoupon = () => {
   const { couponId } = useParams();
@@ -28,7 +29,7 @@ const EditProPlanCoupon = () => {
     dayjs(todaysDate.add(1, "days"))
   );
 
-  console.log(transactionDate , transactionDate2)
+
 
   const [couponData, setCouponData] = useState({
     coupon_id: "",
@@ -48,7 +49,7 @@ const EditProPlanCoupon = () => {
           `/api/admin/fetchCouponDataById/${couponId}`
       )
       .then((res) => {
-        console.log("res.data : " , res.data)
+       
         setCouponData({
             pro_coupon_name: res.data[0].coupon_name,
             pro_coupon_code: res.data[0].coupon_code,
@@ -100,7 +101,7 @@ const EditProPlanCoupon = () => {
   
 
   const handleClick = async () => {
-    console.log("coupon data : " , couponData , transactionDate , transactionDate2);
+    
     try {
       setLoader(true);
       couponData.pro_coupon_valid_form = transactionDate.$y +"-"+ (parseInt(transactionDate.$M) + 1) +"-"+ transactionDate.$D +" "+ "00:00:00";
@@ -118,12 +119,27 @@ const EditProPlanCoupon = () => {
   };
 
   return (
-    <div>
-      {loader && <Loader />}
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Add Coupon</div>
+    <div className="container-fluid">
+    {loader && <Loader />}
 
-        <div className="pl-2 pt-2 pb-2"></div>
+    <div className="profile-form-upper-section">
+      <AdminDashUpperBody
+      heading={"Edit Coupon"}
+      filterAva={false}
+      selectedActionsAva={false}
+      searchAva={false}
+    />
+</div>
+
+<div className="row user-profile-form-comp">
+    <div className="col-md-6">
+
+<div className="user-profile-form-wrapper ">
+<div className="form-fields">
+<FormHeading heading={"Edit Coupon"} />
+        
+
+        
 
 
 
@@ -305,6 +321,9 @@ const EditProPlanCoupon = () => {
           </button>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

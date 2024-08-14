@@ -19,8 +19,12 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment";
-
-const EditAdsForm = () => {
+import {
+  AdminDashUpperBody,
+  FormHeading,
+  FormStrcture,
+} from "../../components/adminDashboardComp/AdminDashTbody";
+const EditAdsForm1 = () => {
   //const adId = 3;
 
   const today = new Date();
@@ -74,7 +78,10 @@ const EditAdsForm = () => {
         //setTransactionDate(moment(res.data[0].ad_created_at).add(1, "days"))
         setTransactionDate(
           dayjs(
-            moment(res.data[0].ad_created_at).add(parseInt(res.data[0].ad_days), "days")
+            moment(res.data[0].ad_created_at).add(
+              parseInt(res.data[0].ad_days),
+              "days"
+            )
           )
         );
       });
@@ -140,30 +147,6 @@ const EditAdsForm = () => {
     }
   };
 
-  // const handleClick = async (e) => {
-  //   setLoader(true);
-
-  //   e.preventDefault();
-  //   try {
-  //     await axios
-  //       .post(
-  //         import.meta.env.VITE_BACKEND + `/api/ad/addAd`,
-  //         adData
-  //       )
-  //       .then((res) => {
-  //         setLoader(false);
-
-  //         setAdData({
-  //           ad_type: "",
-  //           ad_link: "",
-  //           ad_image: "",
-  //         });
-  //       });
-  //   } catch (err) {
-  //     console.log(err.response.data);
-  //   }
-  // };
-
   const handleClick = async () => {
     try {
       setLoader(true);
@@ -187,25 +170,6 @@ const EditAdsForm = () => {
     }
   };
 
-  //   const handleClick = async () => {
-  //     //e.preventDefault();
-  //     try {
-  //       setLoader(true);
-  //       const formData = new FormData();
-  //       formData.append("image", selectedFiles !== null ? selectedFiles[0] : "");
-  //       formData.append("ad_type", adData.ad_type);
-  //       formData.append("ad_link", adData.ad_link);
-  //       formData.append("ad_image", adData.ad_image);
-  //       await axios
-  //         .post(import.meta.env.VITE_BACKEND + "/api/ad/addAd", formData)
-  //         setLoader(false);
-  //        navigate(`/admin/adslist`);
-  //       //navigate(`/user/user-profile/${currentUser[0].login_id}`);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
   const removeImage = () => {
     setAdData({ ...adData, ad_image: "" });
     setSelectedFiles(null);
@@ -214,70 +178,71 @@ const EditAdsForm = () => {
   };
 
   return (
-    <div>
+    <>
       {loader && <Loader />}
 
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Ads Form</div>
-        <div className="pl-2 pt-2 pb-2">
-          {/* Are you searching to buy any property? Please fill out this form to
-          let us know about your preferred city, property type, and your budget.{" "} */}
-        </div>
-
-        <div className="pro_flex m-2">
-          <FormControl
-            sx={{ width: ["100%"] }}
-            size="small"
-            // error={propertyData.pro_type === "" ? true : false}
-          >
-            <InputLabel htmlFor="grouped-native-select">Ad Type</InputLabel>
-            <Select
-              helpperText
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Ad Type"
-              onChange={(e) =>
-                setAdData({
-                  ...adData,
-                  ad_type: e.target.value,
-                })
-              }
-              value={adData.ad_type}
-            >
-              <option aria-label="Select Type" value="" />
-              <option value={"all_properties_ad_1"}>All Properties Ad 1 (Top of the page)</option>
-              <option value={"all_properties_ad_2"}>All Properties Ad 2 (Middle of the page)</option>
-              <option value={"property_page_ad_1"}>Property Page Ad 1 (Top of the page)</option>
-              <option value={"property_page_ad_2"}>Property Page Ad 2 (Middle of page at right side)</option>
-            </Select>
-            {adData.ad_type === "" && (
-              <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
-            )}
-          </FormControl>
-        </div>
-
-        <div className="pro_flex">
-          <TextField
-            sx={{ m: 1, width: ["100%"] }}
-            label="Ad Link"
-            variant="outlined"
-            size="small"
-            inputProps={{ maxlength: 50 }}
-            className="w-100"
-            value={adData.ad_link}
-            helperText={adData.ad_link.length < 1 ? "Required" : ""}
-            FormHelperTextProps={{ sx: { color: "red" } }}
-            onChange={(e) => {
+      <div className="pro_flex m-2">
+        <FormControl
+          sx={{ width: ["100%"] }}
+          size="small"
+          // error={propertyData.pro_type === "" ? true : false}
+        >
+          <InputLabel htmlFor="grouped-native-select">Ad Type</InputLabel>
+          <Select
+            helpperText
+            native
+            defaultValue=""
+            id="grouped-native-select"
+            label="Ad Type"
+            onChange={(e) =>
               setAdData({
                 ...adData,
-                ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
-              });
-            }}
-          />
-        </div>
+                ad_type: e.target.value,
+              })
+            }
+            value={adData.ad_type}
+          >
+            <option aria-label="Select Type" value="" />
+            <option value={"all_properties_ad_1"}>
+              All Properties Ad 1 (Top of the page)
+            </option>
+            <option value={"all_properties_ad_2"}>
+              All Properties Ad 2 (Middle of the page)
+            </option>
+            <option value={"property_page_ad_1"}>
+              Property Page Ad 1 (Top of the page)
+            </option>
+            <option value={"property_page_ad_2"}>
+              Property Page Ad 2 (Middle of page at right side)
+            </option>
+          </Select>
+          {adData.ad_type === "" && (
+            <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
+          )}
+        </FormControl>
+      </div>
 
-        {/* <div className="pro_flex">
+      <div className="pro_flex">
+        <TextField
+          sx={{ m: 1, width: ["100%"] }}
+          label="Ad Link"
+          variant="outlined"
+          size="small"
+          inputProps={{ maxlength: 50 }}
+          className="w-100"
+          value={adData.ad_link}
+          helperText={adData.ad_link.length < 1 ? "Required" : ""}
+          FormHelperTextProps={{ sx: { color: "red" } }}
+          onChange={(e) => {
+            setAdData({
+              ...adData,
+              ad_link: e.target.value.replace(/[^a-zA-Z / . : 0-9 - #]/g, ""),
+            });
+          }}
+        />
+      </div>
+
+      {/* <div className="pro_flex">
           <TextField
             sx={{ m: 1, width: ["100%"] }}
             label="Total No. of days"
@@ -297,7 +262,7 @@ const EditAdsForm = () => {
           />
         </div> */}
 
-        {/* <div className="pro_flex m-2">
+      {/* <div className="pro_flex m-2">
           <div className="w-100 date-wrapper">
 
           <LocalizationProvider dateAdapter={AdapterDayjs} >
@@ -338,93 +303,93 @@ const EditAdsForm = () => {
           </div>
         </div> */}
 
-        <div className="pro_flex m-1 ">
-          <div className="w-100 date-wrapper m-1">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker", "DatePicker"]}>
-                <DatePicker
-                  label="Created At"
-                  value={dayjs(adData.ad_created_at)}
-                  //onChange={(newValue) => setTransactionDate(newValue)}
-                  format="LL"
-                  className="w-full"
-                  //minDate={todaysDate.add(1, "days")}
-                  // onError={(newError) => {
-                  //   setError(newError);
-                  // }}
-                  readOnly
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
-          <div className="w-100 date-wrapper m-1">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker", "DatePicker"]}>
-                <DatePicker
-                  label="Disabled At"
-                  value={transactionDate}
-                  onChange={(newValue) => setTransactionDate(newValue)}
-                  format="LL"
-                  className="w-full"
-                  minDate={todaysDate.add(1, "days")}
-                  onError={(newError) => {
-                    setError(newError);
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </div>
+      <div className="pro_flex m-1 ">
+        <div className="w-100 date-wrapper m-1">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker", "DatePicker"]}>
+              <DatePicker
+                label="Created At"
+                value={dayjs(adData.ad_created_at)}
+                //onChange={(newValue) => setTransactionDate(newValue)}
+                format="LL"
+                className="w-full"
+                //minDate={todaysDate.add(1, "days")}
+                // onError={(newError) => {
+                //   setError(newError);
+                // }}
+                readOnly
+              />
+            </DemoContainer>
+          </LocalizationProvider>
         </div>
-
-        <div className="pro_flex ">
-          <TextField
-            sx={{ m: 1, width: ["100%"] }}
-            label="Total No. of days"
-            variant="outlined"
-            size="small"
-            inputProps={{ maxlength: 50 }}
-            className="w-100"
-            value={adData.ad_days}
-            disabled
-            helperText={adData.ad_days.length < 1 ? "Required" : ""}
-            FormHelperTextProps={{ sx: { color: "red" } }}
-            onChange={(e) => {
-              setAdData({
-                ...adData,
-                ad_days: e.target.value.replace(/[^0-9]/g, ""),
-              });
-            }}
-          />
+        <div className="w-100 date-wrapper m-1">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DatePicker", "DatePicker"]}>
+              <DatePicker
+                label="Disabled At"
+                value={transactionDate}
+                onChange={(newValue) => setTransactionDate(newValue)}
+                format="LL"
+                className="w-full"
+                minDate={todaysDate.add(1, "days")}
+                onError={(newError) => {
+                  setError(newError);
+                }}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
         </div>
+      </div>
 
-        <div className="m-2">
-          <input
-            type="file"
-            id="file-1"
-            class="hidden sr-only w-full "
-            accept="image/x-png,image/gif,image/jpeg"
-            onChange={(event) => {
-              setFormatError(false),
-                setFileSizeExceeded(false),
-                setSelectedFiles(event.target.files),
-                handleImage(event.target.files);
-            }}
-          />
-          <label
-            htmlFor="file-1"
-            className="mb-3"
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            <div className="d-flex flex-column align-items-center border border-[#5a5c69] py-4 rounded-2 ">
-              <div>Drop files here</div>
-              <div className="py-1">Or</div>
-              <div className="border py-2 px-4">Browse</div>
-            </div>
-          </label>
-          {/* <div className="  w-100">
+      <div className="pro_flex ">
+        <TextField
+          sx={{ m: 1, width: ["100%"] }}
+          label="Total No. of days"
+          variant="outlined"
+          size="small"
+          inputProps={{ maxlength: 50 }}
+          className="w-100"
+          value={adData.ad_days}
+          disabled
+          helperText={adData.ad_days.length < 1 ? "Required" : ""}
+          FormHelperTextProps={{ sx: { color: "red" } }}
+          onChange={(e) => {
+            setAdData({
+              ...adData,
+              ad_days: e.target.value.replace(/[^0-9]/g, ""),
+            });
+          }}
+        />
+      </div>
+
+      <div className="m-2">
+        <input
+          type="file"
+          id="file-1"
+          class="hidden sr-only w-full "
+          accept="image/x-png,image/gif,image/jpeg"
+          onChange={(event) => {
+            setFormatError(false),
+              setFileSizeExceeded(false),
+              setSelectedFiles(event.target.files),
+              handleImage(event.target.files);
+          }}
+        />
+        <label
+          htmlFor="file-1"
+          className="mb-3"
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+        >
+          <div className="d-flex flex-column align-items-center border border-[#5a5c69] py-4 rounded-2 ">
+            <div>Drop files here</div>
+            <div className="py-1">Or</div>
+            <div className="border py-2 px-4">Browse</div>
+          </div>
+        </label>
+        {/* <div className="  w-100">
               {selectedFiles != null && selectedFiles != undefined ? (
                 // ? files.map((item) => (
                 <div className="d-flex file-name-wrapper justify-content-between  ">
@@ -443,54 +408,81 @@ const EditAdsForm = () => {
               )}
             </div> */}
 
-          <div className=" ad-image w-100">
-            {(selectedFiles != null && selectedFiles != undefined) ||
-            adData.ad_image !== "" ? (
-              // ? files.map((item) => (
-              <div className="d-flex file-name-wrapper justify-content-between  ">
-                <div className="file-name">
-                  {selectedFiles != null && selectedFiles != undefined
-                    ? selectedFiles[0].name
-                    : adData.ad_image}
-                </div>
-                <div
-                  className="pointer text-[#C4C5C8]"
-                  onClick={removeImage}
-                  title="Click to remove selected file"
-                >
-                  <IconX />
-                </div>
+        <div className=" ad-image w-100">
+          {(selectedFiles != null && selectedFiles != undefined) ||
+          adData.ad_image !== "" ? (
+            // ? files.map((item) => (
+            <div className="d-flex file-name-wrapper justify-content-between  ">
+              <div className="file-name">
+                {selectedFiles != null && selectedFiles != undefined
+                  ? selectedFiles[0].name
+                  : adData.ad_image}
               </div>
-            ) : (
-              // ))
-              ""
-            )}
-          </div>
-
-          <div className="text-danger ml-2 error_msg ">
-            {formatError ? "Invalid Format" : ""}
-            {fileSizeExceeded
-              ? "File size must be greater than 10KB and less than 1MB"
-              : ""}
-          </div>
+              <div
+                className="pointer text-[#C4C5C8]"
+                onClick={removeImage}
+                title="Click to remove selected file"
+              >
+                <IconX />
+              </div>
+            </div>
+          ) : (
+            // ))
+            ""
+          )}
         </div>
-        <div className="pro_flex justify-content-end">
-          <button
-            onClick={handleClick}
-            type="button"
-            class={
-              submitDisabled
-                ? "cursor-not-allowed-btn btn btn-secondary px-5 py-2 m-2"
-                : "btn btn-primary px-5 py-2 m-2 "
-            }
-            disabled={submitDisabled}
-          >
-            Submit
-          </button>
+
+        <div className="text-danger ml-2 error_msg ">
+          {formatError ? "Invalid Format" : ""}
+          {fileSizeExceeded
+            ? "File size must be greater than 10KB and less than 1MB"
+            : ""}
         </div>
       </div>
-    </div>
+      <div className="pro_flex justify-content-end">
+        <button
+          onClick={handleClick}
+          type="button"
+          class={
+            submitDisabled
+              ? "cursor-not-allowed-btn btn btn-secondary px-5 py-2 m-2"
+              : "btn btn-primary px-5 py-2 m-2 "
+          }
+          disabled={submitDisabled}
+        >
+          Submit
+        </button>
+      </div>
+    </>
   );
 };
 
+const EditAdsForm = () => {
+  return (
+    // <div className="container-fluid">
+    //   <div className="profile-form-upper-section">
+    //     <AdminDashUpperBody
+    //       heading={"Edit Ad"}
+    //       filterAva={false}
+    //       selectedActionsAva={false}
+    //       searchAva={false}
+    //     />
+    //   </div>
+
+    //   <div className="row user-profile-form-comp">
+    //     <div className="col-md-6">
+    //       <div className="user-profile-form-wrapper ">
+    //         <div className="form-fields">
+    //           <FormHeading heading={"Edit Ad"} />
+    //           <EditAdsForm1 />
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <FormStrcture heading={"Edit Ad"}> 
+      <EditAdsForm1 />
+      </FormStrcture>
+  );
+};
 export default EditAdsForm;

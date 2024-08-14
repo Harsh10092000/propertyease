@@ -21,6 +21,8 @@ import { faEye, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 
 import DashTable from "../../components/userDasboardComp/DashTable";
+import { IconCheck, IconEdit, IconEye, IconHome, IconHomeOff } from "@tabler/icons-react";
+import { IconCheckbox } from "@tabler/icons-react";
 
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -142,6 +144,11 @@ const UserDashboard = () => {
     pro_id: "",
   });
 
+  const [proSaleStatus, setProSaleStatus] = useState({
+    sale_status: "",
+    pro_id: "",
+  });
+
   const [open, setOpen] = React.useState(false);
   const [data1, setData1] = useState();
   const handleClickOpen = (data) => {
@@ -169,7 +176,6 @@ const UserDashboard = () => {
 
   const listProperty = async (data) => {
     setLoader(true);
-    console.log("data : ", data);
     proListingStatus.pro_listed = 1;
     proListingStatus.pro_id = data.pro_id;
     await axios.put(
@@ -192,6 +198,32 @@ const UserDashboard = () => {
     );
     setChange(change + 1);
 
+    setLoader(false);
+    setSnack(true);
+  };
+
+  const updateSaleStatus = async (data) => {
+    setLoader(true);
+    proSaleStatus.sale_status = 1;
+    proSaleStatus.pro_id = data.pro_id;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateSaleStatus",
+      proSaleStatus
+    );
+    setChange(change + 1);
+    setLoader(false);
+    setSnack(true);
+  };
+
+  const updateMultipleSaleStatus = async (sale_status) => {
+    setLoader(true);
+    // proListingStatus.pro_listed = 1;
+    // proListingStatus.pro_id = listingids;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateMultipleSaleStatus",
+      { sale_status: sale_status, listingids: listingids }
+    );
+    setChange(change + 1);
     setLoader(false);
     setSnack(true);
   };
@@ -240,17 +272,23 @@ const UserDashboard = () => {
   const theadArray = [
     {
       value: (
-        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+        <Checkbox
+          size="small"
+          onClick={handleAllTypes}
+          checked={allSelected}
+          className="checkbox-alignment"
+        />
       ),
     },
     { value: "Sno." },
     { value: "Property Id" },
-    { value: "Status" },
+
     { value: "Property Type" },
     { value: "Sale/Rent" },
     { value: "Price" },
     { value: "Posted On" },
     { value: "Property Title", customClass: "th-width-28" },
+    { value: "Status" },
     { value: "Actions" },
   ];
 
@@ -277,7 +315,7 @@ const UserDashboard = () => {
     { value: "serial_no" },
     { value: "pro_id", transform: (id) => 5000 + parseInt(id) },
     // { type: "pro_id", value: "pro_id", id: 5000 },
-    { type: "conditional", condition: "status" },
+
     { type: "conditional", condition: "property_type" },
     { value: "pro_ad_type" },
     { type: "conditional", condition: "property_price" },
@@ -287,55 +325,127 @@ const UserDashboard = () => {
     },
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },
-
-
-    {type: "conditional-btns-links",
-      conditons: [
-
-      
-    {
-
-      type: "link",
-      condition: "edit_btn",
-      icon: (
-        <FontAwesomeIcon
-          icon={faPencilAlt}
-          className="font-awe-icon-edit "
-          title="Edit property"
-        />
-      ),
-      to: "/editProperty",
-      customClass: "dash-edit-btn mr-2",
-    },
-    {
-      type: "link",
-      condition: "view_btn",
-      icon: (
-        <FontAwesomeIcon
-          icon={faEye}
-          className="font-awe-icon-delete "
-          title="View property"
-        />
-      ),
-      to: "/",
-      customClass: "dash-edit-btn mr-2",
-    },
+    { type: "conditional", condition: "status" },
+    // {
+    //   type: "conditional2",
+    //   condition: "status",
+    //   icon: (
+    //     <FontAwesomeIcon
+    //       icon={faPencilAlt}
+    //       className="action-edit-icon "
+    //       title="Edit property"
+    //     />
+    //   ),
+    //   to: "/editProperty",
+    // },
 
     {
-      type: "button",
-      delisttitle: "Click to Dislist your property",
-      listtitle: "Click to List your property",
-      condition: "list_delist_btn",
-      classdelist: "btn btn-danger btn-sm vbtn",
-      classlist: "btn btn-success btn-sm vbtn",
-      displayVal1: "List Again",
-      displayVal2: "Delist",
-      checkval: "pro_listed",
-      cond1: 1,
-      cond2: null,
+      type: "conditional2",
+      conditions: [
+        {
+          type: "link",
+          condition: "edit_btn",
+          // icon: (
+          //   <FontAwesomeIcon
+          //     icon={faPencilAlt}
+          //     className="action-edit-icon "
+          //     title="Edit property"
+          //   />
+          // ),
+          icon: <IconEdit className="action-edit-icon " height={19} width={19} />,
+          to: "/editProperty",
+          customClass: "action_status_btn mr-2",
+          tagType: "a",
+          title:"Edit property"
+        },
+        {
+          type: "link",
+          condition: "view_btn",
+          icon: <IconEye className="action-edit-icon " height={19} width={19} />,
+          // icon: (
+          //   <FontAwesomeIcon
+          //     icon={faEye}
+          //     className="action-edit-icon "
+          //     title="View property"
+          //   />
+          // ),
+          to: "/",
+          customClass: "action_status_btn mr-2",
+          tagType: "Link",
+          title:"View property"
+        },
+
+        {
+          condition: "listing_status",
+          delisttitle: "Click to Dislist your property",
+          listtitle: "Click to List your property",
+          icon1: <IconHome className="action-edit-icon " height={18} width={18} />,
+          icon2: <IconHomeOff className="action-edit-icon " height={18} width={18} />,
+          classdelist: "btn btn-sm vbtn action_status_btn",
+          classlist: "btn btn-sm vbtn action_status_btn",
+          displayVal1: "List Again",
+          displayVal2: "Delist",
+          checkval: "pro_listed",
+          cond1: 1,
+          cond2: null,
+        },
+
+        {
+          condition: "sale_status",
+          title: "Click to mark your property as sold",
+          icon: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
+          
+          customClass: "btn btn-sm vbtn action_status_btn"
+        }
+      ],
     },
-  ]
-  }
+
+    //   {type: "conditional-btns-links",
+    //     conditons: [
+
+    //   {
+
+    //     type: "link",
+    //     condition: "edit_btn",
+    //     icon: (
+    //       <FontAwesomeIcon
+    //         icon={faPencilAlt}
+    //         className="font-awe-icon-edit "
+    //         title="Edit property"
+    //       />
+    //     ),
+    //     to: "/editProperty",
+    //     customClass: "dash-edit-btn mr-2",
+    //   },
+    //   {
+    //     type: "link",
+    //     condition: "view_btn",
+    //     icon: (
+    //       <FontAwesomeIcon
+    //         icon={faEye}
+    //         className="font-awe-icon-delete "
+    //         title="View property"
+    //       />
+    //     ),
+    //     to: "/",
+    //     customClass: "dash-edit-btn mr-2",
+    //   },
+
+    //   {
+    //     type: "button",
+    //     delisttitle: "Click to Dislist your property",
+    //     listtitle: "Click to List your property",
+    //     condition: "list_delist_btn",
+    //     classdelist: "btn btn-danger btn-sm vbtn",
+    //     classlist: "btn btn-success btn-sm vbtn",
+    //     displayVal1: "List Again",
+    //     displayVal2: "Delist",
+    //     checkval: "pro_listed",
+    //     cond1: 1,
+    //     cond2: null,
+    //   },
+    // ]
+    // }
     // {value: `Actions`},
   ];
 
@@ -436,6 +546,7 @@ const UserDashboard = () => {
         filterAva={true}
         selectedActionsAva={true}
         searchAva={true}
+        updateMultipleSaleStatus={updateMultipleSaleStatus}
       />
 
       <DashTable
@@ -454,12 +565,10 @@ const UserDashboard = () => {
         nPages={nPages}
         handleCurreentPage={handleCurreentPage}
         pagination={true}
+        updateSaleStatus={updateSaleStatus}
       />
-
-      
     </div>
   );
 };
 
 export default UserDashboard;
-

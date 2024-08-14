@@ -18,8 +18,9 @@ import Loader from "../../components/loader/Loader";
 import { IconX } from "@tabler/icons-react";
 import moment from "moment";
 import { stateList } from "../addProperty/State";
+import { FormStrcture } from "../../components/adminDashboardComp/AdminDashTbody";
 
-const EditCityMaps = () => {
+const EditCityMaps1 = () => {
   const [cityState, setCityState] = useState();
   const [mapCategories, setMapCategories] = useState();
   useEffect(() => {
@@ -190,46 +191,12 @@ const EditCityMaps = () => {
   }, [mapData.map_city, mapData.map_category, mapData.map_sub_category, subCatError, fileSizeExceeded, formatError]);
 
   return (
-    <div>
+   
+
+      <>
       {loader && <Loader />}
-
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Edit City Map</div>
-        <div className="pl-2 pt-2 pb-2"></div>
-
-        {/* <div className="pro_flex m-2">
-          <FormControl
-            sx={{ width: ["100%"] }}
-            size="small"
-            // error={mapData.pro_type === "" ? true : false}
-          >
-            <InputLabel htmlFor="grouped-native-select">City</InputLabel>
-            <Select
-              helpperText
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="City"
-              onChange={(e) =>
-                setMapData({
-                  ...mapData,
-                  map_city: e.target.value,
-                })
-              }
-              value={mapData.map_city}
-            >
-              <option aria-label="Select City" value="" />
-              <option value={"all_properties_ad_1"}>All Properties Ad 1</option>
-              <option value={"all_properties_ad_2"}>All Properties Ad 2</option>
-              <option value={"property_page_ad_1"}>Property Page Ad 1</option>
-              <option value={"property_page_ad_2"}>Property Page Ad 2</option>
-              <option value={"other"}>Other</option>
-            </Select>
-            {mapData.map_city === "" && (
-              <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
-            )}
-          </FormControl>
-        </div> */}
+       
+      
 
         <div className="pro_flex">
           <FormControl sx={{ m: 1, width: ["100%"] }} size="small">
@@ -291,25 +258,6 @@ const EditCityMaps = () => {
           </FormControl>
         </div>
 
-        {/* {mapData.map_city === "other" && (
-          <div className="pro_flex">
-            <TextField
-              sx={{ m: 1, width: ["100%"] }}
-              label="Enter City"
-              variant="outlined"
-              size="small"
-              inputProps={{ maxlength: 150 }}
-              className="w-100"
-              value={otherCity}
-              helperText={otherCity.length < 1 ? "Required" : ""}
-              FormHelperTextProps={{ sx: { color: "red" } }}
-              onChange={(e) => {
-                setOtherCity(e.target.value.replace(/[^a-zA-Z 0-9]/g, ""));
-              }}
-            />
-          </div>
-        )} */}
-
         <div className="pro_flex">
           <FormControl sx={{ m: 1, width: ["100%"] }} size="small">
             <InputLabel id="demo-simple-select-label">Map Category</InputLabel>
@@ -341,43 +289,6 @@ const EditCityMaps = () => {
             )}
           </FormControl>
         </div>
-
-        {/* <div className="pro_flex m-2">
-          <FormControl
-            sx={{ width: ["100%"] }}
-            size="small"
-            // error={mapData.pro_type === "" ? true : false}
-          >
-            <InputLabel htmlFor="grouped-native-select">
-              Map Category
-            </InputLabel>
-            <Select
-              helpperText
-              native
-              defaultValue=""
-              id="grouped-native-select"
-              label="Map Category"
-              onChange={(e) =>
-                setMapData({
-                  ...mapData,
-                  map_category: e.target.value,
-                })
-              }
-              value={mapData.map_category}
-            >
-              <option aria-label="Select Category" value="" />
-              <option value={"all_properties_ad_1"}>All Properties Ad 1</option>
-              <option value={"all_properties_ad_2"}>All Properties Ad 2</option>
-              <option value={"property_page_ad_1"}>Property Page Ad 1</option>
-              <option value={"property_page_ad_2"}>Property Page Ad 2</option>
-              <option value={"others"}>Others</option>
-              <option value={"new_cat"}>Add New Category</option>
-            </Select>
-            {mapData.map_category === "" && (
-              <FormHelperText sx={{ color: "red" }}>Required</FormHelperText>
-            )}
-          </FormControl>
-        </div> */}
 
         {mapData.map_category === "new_cat" && (
           <div className="pro_flex">
@@ -495,8 +406,17 @@ const EditCityMaps = () => {
             Submit
           </button>
         </div>
-      </div>
-    </div>
+      
+    </>
+  );
+};
+
+const EditCityMaps = () => {
+  return (
+    
+    <FormStrcture heading={"Edit City Map"}> 
+      <EditCityMaps1 />
+      </FormStrcture>
   );
 };
 

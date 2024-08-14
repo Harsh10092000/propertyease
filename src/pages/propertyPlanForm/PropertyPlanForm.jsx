@@ -5,6 +5,7 @@ import {
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
+import { AdminDashUpperBody, FormHeading } from "../../components/adminDashboardComp/AdminDashTbody";
 
 
 const PropertyPlanForm = () => {
@@ -53,14 +54,26 @@ const PropertyPlanForm = () => {
 
 
   return (
-    <div>
+    <div className="container-fluid">
       {loader && <Loader />}
+      <div className="profile-form-upper-section">
+        <AdminDashUpperBody
+        heading={"Add Property Plans"}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={false}
+      />
+</div>
 
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Add Property Plans</div>
-        <div className="pl-2 pt-2 pb-2">
-         
-        </div>
+<div className="row user-profile-form-comp">
+      <div className="col-md-6">
+
+<div className="user-profile-form-wrapper ">
+<div className="form-fields">
+        {/* <div className=" ad-form-heading ">Add Property Plans</div> */}
+        {/* <div className="sidebar-content-heading">Add Property Plans <div className=" mt-1 heading-divider"></div></div> */}
+        <FormHeading heading={"Add Property Plans"} />
+        
 
         
 
@@ -252,6 +265,9 @@ const PropertyPlanForm = () => {
           </button>
         </div>
       </div>
+      </div>
+    </div>
+    </div>
     </div>
   );
 };

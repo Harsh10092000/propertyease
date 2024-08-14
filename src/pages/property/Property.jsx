@@ -639,7 +639,7 @@ const Property = () => {
 
   const handleSnackDialog = (value) => {
     setSnackDailog(value);
-  }
+  };
 
   const handleCloseDialog = (value) => {
     setOpenContactDialog(value);
@@ -649,9 +649,9 @@ const Property = () => {
     setChange(value);
   };
 
- const handleChange = () => {
-  setChange(change + 1);
- }
+  const handleChange = () => {
+    setChange(change + 1);
+  };
 
   return (
     <div className="padding-top">
@@ -730,18 +730,18 @@ const Property = () => {
       {loader ? <Loader /> : ""}
 
       <Snackbar
-          ContentProps={{
-            sx: {
-              background: "green",
-              color: "white",
-            },
-          }}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={snackDailog}
-          autoHideDuration={4000}
-          onClose={() => handleSnackDialog(false)}
-          message="Thank you for showing your interest in this property. Our team will get back to you soon."
-        />
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackDailog}
+        autoHideDuration={4000}
+        onClose={() => handleSnackDialog(false)}
+        message="Thank you for showing your interest in this property. Our team will get back to you soon."
+      />
 
       <Snackbar
         ContentProps={{
@@ -849,7 +849,12 @@ const Property = () => {
                     </li>
                     <li>{data.pro_sub_cat}</li>
                   </ul>
-                ) : (
+                ) : data.pro_sale_status === 1 ? 
+                ( <div class="no-longer-available">
+                  <h1>This property has been sold.</h1>
+                  <p>Check out our other listings.</p>
+                </div>) :
+                (
                   <div class="no-longer-available">
                     <h1>This property is no longer available.</h1>
                     <p>We apologize for any inconvenience this may cause.</p>
@@ -957,11 +962,14 @@ const Property = () => {
                               )}
 
                               <div className="listing-detail-date">
-                              {/* {DateTime(data.pro_date)} */}
-                              {/* {moment(data.pro_date, "YYYYMMDD").fromNow()} */}
-                              {moment(data.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()}
+                                {/* {DateTime(data.pro_date)} */}
+                                {/* {moment(data.pro_date, "YYYYMMDD").fromNow()} */}
+                                {moment(data.pro_creation_date)
+                                  .add(5, "h")
+                                  .add(30, "minutes")
+                                  .fromNow()}
 
-{/* 
+                                {/* 
 time3.add(12, "minutes") */}
                               </div>
                             </div>
@@ -1132,6 +1140,7 @@ time3.add(12, "minutes") */}
                                   handleCurrentImage={handleCurrentImage}
                                   totalViews={data.pro_views}
                                 />
+                                
                               ) : (
                                 <div>
                                   <img
@@ -1153,6 +1162,14 @@ time3.add(12, "minutes") */}
                                     height={550}
                                     className="img-fluid"
                                   />
+                                  {/* <marquee
+                                    width="100%"
+                                    direction="right"
+                                    height="28px"
+                                    className="scrolling-text"
+                                  >
+                                    This property has been sold out.
+                                  </marquee> */}
                                   <div className="top-left-2">
                                     {data.pro_views !== null &&
                                       parseInt(data.pro_views) > 0 && (
@@ -1677,7 +1694,11 @@ time3.add(12, "minutes") */}
                         <RecentListHeader />
                         <div className="row">
                           {latestProperty.map((item, index) => (
-                            <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
+                            <PropertyCard2
+                              item={item}
+                              currentUser={currentUser}
+                              index={index}
+                            />
                           ))}
                         </div>
 

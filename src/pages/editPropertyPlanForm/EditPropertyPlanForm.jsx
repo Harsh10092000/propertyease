@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import moment from "moment";
+import { AdminDashUpperBody, FormHeading } from "../../components/adminDashboardComp/AdminDashTbody";
 
 const EditPropertyPlanForm = () => {
   //const planId = 1;
@@ -184,16 +185,28 @@ const EditPropertyPlanForm = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid">
+      <div className="profile-form-upper-section">
+        <AdminDashUpperBody
+        heading={"Edit Property Plans"}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={false}
+      />
+</div>
       {loader && <Loader />}
 
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Edit Property Plans</div>
-        <div className="pl-2 pt-2 pb-2">
-          {/* Are you searching to buy any property? Please fill out this form to
-          let us know about your preferred city, property type, and your budget.{" "} */}
-        </div>
 
+      <div className="row user-profile-form-comp">
+      <div className="col-md-6">
+
+<div className="user-profile-form-wrapper ">
+<div className="form-fields">
+
+      
+       
+        <FormHeading heading={"Edit Property Plans"} />
+       
         
 
         <div className="pro_flex">
@@ -383,6 +396,9 @@ const EditPropertyPlanForm = () => {
           </button>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
     </div>
   );
 };

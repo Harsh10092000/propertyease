@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { IconEye, IconTrashFilled, IconEdit } from "@tabler/icons-react";
-import { Snackbar } from "@mui/material";
+import { Checkbox, Snackbar } from "@mui/material";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Loader from "../../components/loader/Loader";
@@ -13,6 +13,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
+import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
 
 const AdminPropertyPlans = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +27,9 @@ const AdminPropertyPlans = () => {
   const [change, setChange] = useState(0);
   const [snack, setSnack] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [listingids, setListingids] = useState([]);
+  const [allSelected, setAllSelected] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
   //const records = data.slice(firstIndex, lastIndex);
   //const nPages = Math.ceil(data.length / recordsPerPage);
   useEffect(() => {
@@ -30,6 +37,7 @@ const AdminPropertyPlans = () => {
       .get(import.meta.env.VITE_BACKEND + "/api/proplan/fetchProPlanData")
       .then((res) => {
         setData(res.data);
+        setDataLoaded(true);
       });
   }, [change]);
 
@@ -112,8 +120,193 @@ const AdminPropertyPlans = () => {
     setLoader(false);
     //setSnackQ(true);
   };
+
+
+
+  const handleCheckboxChange = (itemProId) => {
+    console.log(itemProId);
+    setListingids((prevState) => {
+      if (prevState.includes(itemProId)) {
+        // If the ID is already in the array, remove it
+        // setAllSelected(false);
+        return prevState.filter((id) => id !== itemProId);
+      } else {
+        // Otherwise, add the ID to the array
+        // if(listingids.length === data.length) {
+        //   setAllSelected(true);
+        // }
+        return [...prevState, itemProId];
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (listingids.length === records.length) {
+      setAllSelected(true);
+    } else {
+      setAllSelected(false);
+    }
+  }, [listingids, records]);
+
+  const handleAllTypes = () => {
+    
+    if (listingids.length === records.length) {
+      setListingids([]);
+      //setAllSelected(false);
+    } else {
+      setListingids((prevListingIds) => {
+        //setAllSelected(true);
+        const updatedTypes = records
+          .map((item) => item.pro_id)
+          .filter((pro_id) => !prevListingIds.includes(pro_id));
+        return [...prevListingIds, ...updatedTypes];
+      });
+    }
+  };
+
+  const [open, setOpen] = useState(false);
+  const [delId, setDelId] = useState("");
+  const handleClickOpen = (data) => {    
+    setDelId(data);
+    setOpen(true);
+  };
+
+  const handleCurreentPage = (value) => {
+    setCurrentPage(value);
+  };
+
+
+  
+
+  const handleSearchValue = (value) => {
+    setSearchValue(value);
+  };
+
+
+  const theadArray = [
+    {
+      value: (
+        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+      ),
+    },
+    { value: "Sno." },
+    { value: "Plan Id" },
+    { value: "Plan Name" },
+    { value: "Plan Amount" },
+    { value: "Created At" },
+    { value: "Plan Validity (In Days)" },
+    { value: "Actions", customClass: "th-width-14" },
+  ];
+
+  
+
+
+  // const tbodyArray = [
+  //   {value: "pro_ad_type"},
+  //   {value: "pro_ad_type"},
+  // ]
+
+
+
+
+
+                 
+                  // <td>{item.pro_plan_validity + " Days"}
+
+  const tbodyArray = [
+    // {
+    //   value: `<Checkbox
+    //   size="small"
+    //   checked={listingids.includes(item.pro_id)}
+    //   onClick={() => handleCheckboxChange(item.pro_id)}
+    // />`,
+    // },
+    {
+      type: "checkbox",
+      condition: "checkbox",
+      checkcond: "listingids",
+      checkval: "pro_id",
+      size: "small",
+    },
+    { value: "serial_no" },
+    { value: "pro_plan_id", transform: (id) => 7000 + parseInt(id) },
+    // { type: "pro_id", value: "pro_id", id: 5000 },
+    { value: "pro_plan_name" },
+    
+    {value: "pro_plan_amt"},
+    
+
+    
+    {
+      value: "pro_plan_date",
+      transform: (date) => moment(date).format("MMMM DD YYYY"),
+    },
+    {
+      value: "pro_plan_validity",
+      transform: (val) => `${val} Days`,
+    },
+
+    
+    {type: "conditional-btns-links",
+      conditons: [
+
+    {
+      type: "link",
+      condition: "edit_btn",
+      icon: (
+        <FontAwesomeIcon
+          icon={faPencilAlt}
+          className="font-awe-icon-edit"
+          title="Edit property"
+        />
+      ),
+      params: "pro_plan_id",
+      to: "/admin/editpropertyplan",
+      customClass: "dash-edit-btn",
+    },
+    
+
+    // {
+    //   type: "button",
+    //   delisttitle: "Click to Dislist your property",
+    //   listtitle: "Click to List your property",
+    //   condition: "delete_btn",
+    //   classdelist: "btn btn-danger btn-sm vbtn",
+    //   classlist: "btn btn-success btn-sm vbtn",
+    //   displayVal1: "List Again",
+    //   displayVal2: "Delist",
+    //   checkval: "pro_listed",
+    //   cond1: 1,
+    //   cond2: null,
+    //   icon: (
+    //     <FontAwesomeIcon
+    //       icon={faPencilAlt}
+    //       className="font-awe-icon-edit"
+    //       title="Edit property"
+    //     />
+    //   ),
+    // },
+    {
+      type: "button",
+      condition: "delete_btn",
+      onClick: (object) => handleClickOpen(object.pro_id),
+      icon: (
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className="font-awe-icon-delete "
+          delisttitle="Delete Property"
+        />
+      ),
+      to: "/",
+      customClass: "shortlist-delete-btn",
+    },
+  ]}
+    // {value: `Actions`},
+  ];
+
+
   return (
-    <div>
+    <div className="container-fluid admin-dashboard admin-icon">
       {loader ? <Loader /> : ""}
       <Snackbar
         ContentProps={{
@@ -128,7 +321,47 @@ const AdminPropertyPlans = () => {
         onClose={() => setSnack(false)}
         message={"Deleted Successfully"}
       />
-      <div className="card-body table-border-style">
+
+<AdminDashUpperBody
+        data={data}
+        handleCurreentPage={handleCurreentPage}
+        //filter={filter}
+        //listingids={listingids}
+        //handleFilterChange={handleFilterChange}
+        //handleFilterChangeprop={handleFilterChangeprop}
+        handleSearchValue={handleSearchValue}
+        //handleSelectedAction={handleSelectedAction}
+        //filterChange={filterChange}
+        //selectedAction={selectedAction}
+        //listMultipleProperty={listMultipleProperty}
+        heading={"All Property Listing Plans"}
+        //filterOptions={filterOptions}
+        //selectedActions={selectedActions}
+        filterAva={false}
+        selectedActionsAva={false}
+        searchAva={true}
+      />
+
+
+      <AdminDashTable
+        theadArray={theadArray}
+        handleAllTypes={handleAllTypes}
+        allSelected={allSelected}
+        tbodyArray={tbodyArray}
+        compData={records}
+        //FormatDate={FormatDate}
+        handleCheckboxChange={handleCheckboxChange}
+        listingids={listingids}
+        handleClickOpen={handleClickOpen}
+        //listProperty={listProperty}
+        context="dashboard"
+        dataLoaded={dataLoaded}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        pagination={true}
+      />
+
+      {/* <div className="card-body table-border-style">
         <h1>All Property Listing Plans</h1>
         <div className="row justify-content-between align-items-center my-2">
           <Pagination
@@ -138,36 +371,7 @@ const AdminPropertyPlans = () => {
             className="col-md-6"
           />
           <div className="col-md-6 d-flex justify-content-end">
-            {/* <FormControl
-              sx={{ m: 1, width: ["100%"] }}
-              size="small"
-              className="col-md-3 "
-            >
-              <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={filter}
-                label="Filter By"
-                onChange={(e) => {
-                  setFilter(e.target.value), setCurrentPage(1);
-                }}
-              >
-                <MenuItem value={"All"}>All</MenuItem>
-                <MenuItem value={"all_properties_ad_1"}>
-                  Property Page Ad 1
-                </MenuItem>
-                <MenuItem value={"all_properties_ad_2"}>
-                  All Properties Ad 2
-                </MenuItem>
-                <MenuItem value={"property_page_ad_1"}>
-                  Property Page Ad 1
-                </MenuItem>
-                <MenuItem value={"property_page_ad_2"}>
-                  Property Page Ad 2
-                </MenuItem>
-              </Select>
-            </FormControl> */}
+            
             <TextField
               variant="outlined"
               className="col-md-5 mt-2"
@@ -204,19 +408,18 @@ const AdminPropertyPlans = () => {
                   <td>{item.pro_plan_name}</td>
                   <td>{item.pro_plan_amt}</td>
                   
-                  {/* <td>{item.pro_plan_listed === 1 ? "Listed" : "Delisted"}</td> */}
+                 
 
                   <td>{moment(item.pro_plan_date).format("MMMM DD YYYY")}</td>
                   <td>{item.pro_plan_validity + " Days"}</td>
                   {/* <td>{moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity), "days").format("MMMM DD YYYY")}</td>
-                  <td>Plan End {moment(moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td> */}
-                  {/* <td>{moment(item.pro_plan_date).subtract(item.pro_plan_validity, 'days').fromNow()}</td>  */}
-                  {/* <td>{moment(item.pro_plan_date).fromNow()}</td> */}
+                  <td>Plan End {moment(moment(item.pro_plan_date).add(parseInt(item.pro_plan_validity) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td>
+                  
                   <td className="d-flex gap-3">
                     
                     <Link to={"/admin/editpropertyplan/" + item.pro_plan_id}>
                       <button title="Edit Your Plan" className="view">
-                        {/* <Link to={"/edit/" + item.pro_id}> */}
+                        
 
                         <IconEdit className="" />
                       </button>
@@ -236,7 +439,7 @@ const AdminPropertyPlans = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

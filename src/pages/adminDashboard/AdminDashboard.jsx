@@ -18,6 +18,7 @@ import moment from "moment";
 import {
   faEye,
   faPencilAlt,
+  faTrashCan,
 
 } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -167,7 +168,7 @@ const AdminDashboard = () => {
   }, [listingids, records]);
 
   const handleAllTypes = () => {
-    console.log();
+    
     if (listingids.length === records.length) {
       setListingids([]);
       //setAllSelected(false);
@@ -187,7 +188,7 @@ const AdminDashboard = () => {
   const theadArray = [
     {
       value: (
-        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} className="checkbox-alignment" />
       ),
     },
     { value: "Sno." },
@@ -253,19 +254,20 @@ const AdminDashboard = () => {
     {type: "conditional-btns-links",
       conditons: [
 
-    {
-      type: "link",
-      condition: "edit_btn",
-      icon: (
-        <FontAwesomeIcon
-          icon={faPencilAlt}
-          className="font-awe-icon-edit"
-          title="Edit property"
-        />
-      ),
-      to: "/editProperty",
-      customClass: "dash-edit-btn",
-    },
+    // {
+    //   type: "link",
+    //   condition: "edit_btn",
+    //   icon: (
+    //     <FontAwesomeIcon
+    //       icon={faPencilAlt}
+    //       className="font-awe-icon-edit"
+    //       title="Edit property"
+    //     />
+    //   ),
+    //   params: "pro_url",
+    //   to: "/editProperty",
+    //   customClass: "dash-edit-btn",
+    // },
     {
       type: "link",
       condition: "view_btn",
@@ -280,18 +282,39 @@ const AdminDashboard = () => {
       customClass: "dash-edit-btn",
     },
 
+    // {
+    //   type: "button",
+    //   delisttitle: "Click to Dislist your property",
+    //   listtitle: "Click to List your property",
+    //   condition: "delete_btn",
+    //   classdelist: "btn btn-danger btn-sm vbtn",
+    //   classlist: "btn btn-success btn-sm vbtn",
+    //   displayVal1: "List Again",
+    //   displayVal2: "Delist",
+    //   checkval: "pro_listed",
+    //   cond1: 1,
+    //   cond2: null,
+    //   icon: (
+    //     <FontAwesomeIcon
+    //       icon={faPencilAlt}
+    //       className="font-awe-icon-edit"
+    //       title="Edit property"
+    //     />
+    //   ),
+    // },
     {
       type: "button",
-      delisttitle: "Click to Dislist your property",
-      listtitle: "Click to List your property",
-      condition: "list_delist_btn",
-      classdelist: "btn btn-danger btn-sm vbtn",
-      classlist: "btn btn-success btn-sm vbtn",
-      displayVal1: "List Again",
-      displayVal2: "Delist",
-      checkval: "pro_listed",
-      cond1: 1,
-      cond2: null,
+      condition: "delete_btn",
+      onClick: (object) => handleClickOpen(object.pro_id),
+      icon: (
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className="font-awe-icon-delete "
+          delisttitle="Delete Property"
+        />
+      ),
+      to: "/",
+      customClass: "shortlist-delete-btn",
     },
   ]}
     // {value: `Actions`},

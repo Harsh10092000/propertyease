@@ -53,18 +53,18 @@ const renderConditional = (item, condition, transform) => {
   }
 };
 
-const renderConditionalLink = (item, condition, icon, to, customClass) => {
+const renderConditionalLink = (item, condition, icon, params, to, customClass) => {
   switch (condition) {
     case "edit_btn":
       return (
-        <Link className={customClass} to={`${to}/${item.pro_url}`}>
+        <Link className={`${customClass} mr-3`} to={`${to}/${item[params]}`}>
           {icon}
         </Link>
       );
     case "view_btn":
       return (
         <Link
-          className={customClass}
+        className={`${customClass} mr-3`}
           //target="_blank"
           to={`${to}${item.pro_url}`}
         >
@@ -114,7 +114,8 @@ const renderConditionalButton = (
   cond1,
   cond2,
   icon,
-  onClick
+  onClick,
+  customClass
   
 ) => {
   switch (condition) {
@@ -145,7 +146,7 @@ const renderConditionalButton = (
         <button
           title={delisttitle}
           //className={classdelist}
-          className=""
+          className={customClass}
           onClick={() => onClick(item)}
         >
           {icon}
@@ -159,7 +160,7 @@ const renderConditionalButton = (
 const renderViewProfileButton = (item, icon, to, customClass, span, transform) => {
   return (
     <Link className={customClass} to={transform(item)}>
-      <span>{icon}</span> <span className="hover_text">{span}</span>
+     <span> <span>{icon}</span> <span className="hover_text">{span}</span></span>
     </Link>
   );
 };
@@ -268,6 +269,7 @@ const AdminDashTbody = ({
                         item,
                         cond.condition,
                         cond.icon,
+                        cond.params,
                         cond.to,
                         cond.customClass
                       );
@@ -287,22 +289,13 @@ const AdminDashTbody = ({
                       return renderViewProfileButton3(
                         cond.transform,
                         item,
-                        
                         cond.icon,
                         cond.to,
                         cond.customClass,
                         cond.delisttitle,
                         cond.listtitle,
-                        
-
                         cond.displayVal1,
                         cond.displayVal2,
-
-
-  
-
-
-                        
                       );
                     } else if (cond.type === "button") {
                       return renderConditionalButton(
@@ -320,7 +313,8 @@ const AdminDashTbody = ({
                         cond.cond1,
                         cond.cond2,
                         cond.icon,
-                        cond.onClick
+                        cond.onClick,
+                        cond.customClass
                       );
                     }
                   })
@@ -485,7 +479,7 @@ export const AdminDashUpperBody = ({
           <div className="d-flex justify-content-between">
             <div className="dash-header-heading">
               {heading}
-              <span class="badge">{data.length}</span>
+              <span class="badge">{data?.length}</span>
             </div>
             <div className="dash-upper-text-content-2">
               {/* <IconMenuDeep /> <span className="dash-content-2">Dasboard Navigation</span> */}
@@ -578,3 +572,37 @@ export const AdminDashUpperBody = ({
     </div>
   );
 };
+
+
+export const FormHeading = ({heading}) => {
+  return ( <div className="sidebar-content-heading ml-2">{heading}<div className=" mt-1 heading-divider"></div></div> )
+}
+
+
+export const FormStrcture = ({heading, children }) => {
+  return (
+
+  
+  <div className="container-fluid">
+      <div className="profile-form-upper-section">
+        <AdminDashUpperBody
+          heading={heading}
+          filterAva={false}
+          selectedActionsAva={false}
+          searchAva={false}
+        />
+      </div>
+
+      <div className="row user-profile-form-comp">
+        <div className="col-md-6">
+          <div className="user-profile-form-wrapper ">
+            <div className="form-fields">
+            <div className="sidebar-content-heading ml-2">{heading}<div className=" mt-1 heading-divider"></div></div>
+              {children }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    )
+}

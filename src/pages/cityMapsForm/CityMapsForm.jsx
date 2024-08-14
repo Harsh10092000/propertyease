@@ -16,8 +16,9 @@ import Loader from "../../components/loader/Loader";
 import { IconX } from "@tabler/icons-react";
 import moment from "moment";
 import { stateList } from "../addProperty/State";
+import { FormStrcture } from "../../components/adminDashboardComp/AdminDashTbody";
 
-const CityMapsForm = () => {
+const CityMapsForm1 = () => {
   const [cityState, setCityState] = useState();
   const [mapCategories, setMapCategories] = useState();
   useEffect(() => {
@@ -174,12 +175,11 @@ useEffect(() => {
   ]);
 
   return (
-    <div>
+    
+    <>
       {loader && <Loader />}
-
-      <div className="ad-form-wrapper ">
-        <div className=" ad-form-heading ">Add City Maps</div>
-        <div className="pl-2 pt-2 pb-2"></div>
+      
+   
 
         {/* <div className="pro_flex m-2">
           <FormControl
@@ -478,8 +478,20 @@ useEffect(() => {
             Submit
           </button>
         </div>
-      </div>
-    </div>
+     
+      </>
+    
+  );
+};
+
+
+
+const CityMapsForm = () => {
+  return (
+    
+    <FormStrcture heading={"Add City Maps"}> 
+      <CityMapsForm1 />
+      </FormStrcture>
   );
 };
 

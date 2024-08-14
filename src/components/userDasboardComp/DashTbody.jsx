@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Checkbox } from "@mui/material";
 import {
@@ -19,7 +19,7 @@ const renderComplexContent = (item) => {
         " " +
         item.pro_area_size_unit +
         " " +
-        item.pro_type.split(",")[0] +
+        item.pro_type?.split(",")[0] +
         " "}
       for {item.pro_ad_type === "Rent" ? "Rent" : "Sale"} in {item.pro_locality}
       ,&nbsp;
@@ -31,13 +31,17 @@ const renderComplexContent = (item) => {
 const renderConditional = (item, condition, transform) => {
   switch (condition) {
     case "status":
-      return item.pro_listed === 1 || item.pro_listed === null ? (
-        <span className="current-status-green">Listed</span>
+      return item.pro_sale_status === 0 ? (
+        item.pro_listed === 1 || item.pro_listed === null ? (
+          <span className="current-status-green">Listed</span>
+        ) : (
+          <span className="current-status-red">Delisted</span>
+        )
       ) : (
-        <span className="current-status-red">Delisted</span>
+        <span className="current-status-blue">Sold</span>
       );
     case "property_type":
-      return item.pro_type.split(",")[0];
+      return item.pro_type?.split(",")[0];
     case "property_price":
       return item.pro_amt ? `${item.pro_amt} ${item.pro_amt_unit}` : "-";
     // case "property_date":
@@ -51,11 +55,167 @@ const renderConditional = (item, condition, transform) => {
   }
 };
 
+// const dropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus) => {
+//   const [open, setOpen] = useState(false);
+//   const dropdownRef = useRef(null);
+//   const handleClickOutside = (event) => {
+//     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+//       setOpen(false);
+//     }
+//   };
+//   useEffect(() => {
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, []);
+//   return (
+//     <>
+//       <div ref={dropdownRef} className="action-dropdown-wrapper">
+//         {item.pro_sale_status !== 1 ?
+//         <span
+//           onClick={() => setOpen(!open)}
+//           className="action-dropdown arrow-down"
+//         >
+//           Actions
+//         </span>
+//         :  
+//         <span
+//         onClick={() => setOpen(!open)}
+//         className="action-dropdown-blocked"
+//       >
+//         Sold Out
+//       </span> }
+//         {open && item.pro_sale_status !== 1 && (
+//           <div className="action-menu">
+//             {property.conditions.map((cond, index) =>
+//               cond.condition === "edit_btn" ? (
+//                 <div className="action-btn" ><Link className={cond.customClass} title={cond.title} to={`${cond.to}/${item.pro_url}`}  >{cond.icon} Edit</Link></div>
+//               ) : cond.condition === "view_btn" ? (
+//                 <div className="action-btn" ><a className={cond.customClass} title={cond.title} target="_blank" href={`/${item.pro_url}`} >{cond.icon} View</a></div>
+//               ) : cond.condition === "listing_status" ? (
+//                 <div className="action-btn" >{item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
+//                   <button
+//                     title={cond.delisttitle}
+//                     className={cond.classdelist}
+//                     onClick={() => handleClickOpen(item)}
+//                   >
+//                    {cond.icon2} {cond.displayVal2}
+//                   </button>
+//                 ) : (
+//                   <button
+//                     title={cond.listtitle}
+//                     className={cond.classlist}
+//                     onClick={() => listProperty(item)}
+//                   >
+//                    {cond.icon1} {cond.displayVal1}
+//                   </button>
+//                 )}</div>
+//               ) : cond.condition === "sale_status" ? (
+//                 <div className="action-btn" ><button
+//                 title={cond.title}
+//                 className={cond.customClass}
+//                 onClick={() => updateSaleStatus(item)}
+//               >
+//                {cond.icon} Mark As Sold
+//               </button></div>
+//               ) : (
+//                 ""
+//               )
+//             )}
+//           </div>
+//         )}
+//       </div>
+//     </>
+//   );
+// };
+
+
+// const dropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus, open, handleOpenMenu, dropdownRef) => {
+//   const handleClickOutside = (event) => {
+//     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+//       handleOpenMenu(false);
+//     }
+//   };
+//   useEffect(() => {
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, []);
+//   return (
+    
+//       <div ref={dropdownRef} className="action-dropdown-wrapper">
+//         {item.pro_sale_status !== 1 ?
+//         <span
+//           onClick={() => handleOpenMenu(!open)}
+//           className="action-dropdown arrow-down"
+//         >
+//           Actions
+//         </span>
+//         :  
+//         <span
+        
+//         className="action-dropdown-blocked"
+//       >
+//         Sold Out
+//       </span> }
+//         {open && item.pro_sale_status !== 1 && (
+//           <div className="action-menu">
+//             {property.conditions.map((cond) =>
+//               cond.condition === "edit_btn" ? (
+//                 <div className="action-btn" ><Link className={cond.customClass} title={cond.title} to={`${cond.to}/${item.pro_url}`}  >{cond.icon} Edit</Link></div>
+//               ) : cond.condition === "view_btn" ? (
+//                 <div className="action-btn" ><a className={cond.customClass} title={cond.title} target="_blank" href={`/${item.pro_url}`} >{cond.icon} View</a></div>
+//               ) : cond.condition === "listing_status" ? (
+//                 <div className="action-btn" >{item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
+//                   <button
+//                     title={cond.delisttitle}
+//                     className={cond.classdelist}
+//                     onClick={() => handleClickOpen(item)}
+//                   >
+//                    {cond.icon2} {cond.displayVal2}
+//                   </button>
+//                 ) : (
+//                   <button
+//                     title={cond.listtitle}
+//                     className={cond.classlist}
+//                     onClick={() => listProperty(item)}
+//                   >
+//                    {cond.icon1} {cond.displayVal1}
+//                   </button>
+//                 )}</div>
+//               ) : cond.condition === "sale_status" ? (
+//                 <div className="action-btn" ><button
+//                 title={cond.title}
+//                 className={cond.customClass}
+//                 onClick={() => updateSaleStatus(item)}
+//               >
+//                {cond.icon} Mark As Sold
+//               </button></div>
+//               ) : (
+//                 ""
+//               )
+//             )}
+//           </div>
+//          )}
+//       </div>
+    
+//   );
+// };
+
+
+
+
 const renderConditionalLink = (item, condition, icon, to, customClass) => {
   switch (condition) {
     case "edit_btn":
       return (
-        <Link className={customClass} to={`${to}/${item.pro_url}`} title="Edit Property">
+        <Link
+          className={customClass}
+          to={`${to}/${item.pro_url}`}
+          title="Edit Property"
+        >
           {icon}
         </Link>
       );
@@ -83,7 +243,6 @@ const renderConditionalCheckbox = (
   handleCheckboxChange,
   listingids
 ) => {
-  console.log(checkcond);
   switch (condition) {
     case "checkbox":
       return (
@@ -156,6 +315,139 @@ const renderConditionalButton = (
   }
 };
 
+
+
+const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSaleStatus }) => {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => setOpen(prev => !prev);
+
+  return (
+    <div ref={dropdownRef} className="action-dropdown-wrapper">
+      {item.pro_sale_status !== 1 ? (
+        <>
+          <span
+            onClick={toggleDropdown}
+            className="action-dropdown arrow-down"
+          >
+            Actions
+          </span>
+          {open && (
+            <div className="action-menu">
+              {console.log(property)}
+              {property.conditions.map((cond, index) => {
+                if (cond.condition === "edit_btn") {
+                  return (
+                    <div key={index} className="action-btn">
+                      <Link
+                        className={cond.customClass}
+                        title={cond.title}
+                        to={`${cond.to}/${item.pro_url}`}
+                      >
+                        {cond.icon} Edit
+                      </Link>
+                    </div>
+                  );
+                }
+                if (cond.condition === "view_btn") {
+                  return (
+                    <div key={index} className="action-btn">
+                      <a
+                        className={cond.customClass}
+                        title={cond.title}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/${item.pro_url}`}
+                      >
+                        {cond.icon} View
+                      </a>
+                    </div>
+                  );
+                }
+                if (cond.condition === "listing_status") {
+                  return (
+                    <div key={index} className="action-btn">
+                      {item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
+                        <button
+                          title={cond.delisttitle}
+                          className={cond.classdelist}
+                          onClick={() => handleClickOpen(item)}
+                        >
+                          {cond.icon2} {cond.displayVal2}
+                        </button>
+                      ) : (
+                        <button
+                          title={cond.listtitle}
+                          className={cond.classlist}
+                          onClick={() => listProperty(item)}
+                        >
+                          {cond.icon1} {cond.displayVal1}
+                        </button>
+                      )}
+                    </div>
+                  );
+                }
+                if (cond.condition === "sale_status") {
+                  return (
+                    <div key={index} className="action-btn">
+                      <button
+                        title={cond.title}
+                        className={cond.customClass}
+                        onClick={() => updateSaleStatus(item)}
+                      >
+                        {cond.icon} Mark As Sold
+                      </button>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          )}
+        </>
+      ) : (
+        <span className="action-dropdown-blocked">
+          Sold Out
+        </span>
+      )}
+    </div>
+  );
+};
+
+
+const DropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus ) => {
+  return (
+    <>
+     {console.log(property)}
+        <DropdownMenu
+          //key={index}
+          item={item}
+          property={property}
+          handleClickOpen={handleClickOpen}
+          listProperty={listProperty}
+          updateSaleStatus={updateSaleStatus}
+        />
+     
+    </>
+  );
+};
+
+
+
 const DashTbody = ({
   tbodyArray,
   compData,
@@ -163,31 +455,42 @@ const DashTbody = ({
   listingids,
   handleClickOpen,
   listProperty,
+  updateSaleStatus
 }) => {
+  // const [open, setOpen] = useState(false);
+  // const dropdownRef = useRef(null);
+  
+  // const handleOpenMenu = (value) => {
+  //   setOpen(value);
+  // }
+  
+  
   return (
     <tbody className="text-black">
       {compData.map((item, index) => (
         <tr key={index}>
           {tbodyArray.map((property, idx) => (
             <td key={idx}>
-              {
-                property.type === "conditional"
-                  ? renderConditional(
-                      item,
-                      property.condition,
-                      property.transform
-                    )
-                  : property.type === "checkbox"
-                  ? renderConditionalCheckbox(
-                      item,
-                      property.condition,
-                      property.checkcond,
-                      property.checkval,
-                      handleCheckboxChange,
-                      listingids
-                    )
-                  : property.type === "conditional-btns-links"  ? 
-                  property.conditons.map((cond, index) => { 
+              {property.type === "conditional"
+                ? renderConditional(
+                    item,
+                    property.condition,
+                    property.transform
+                  )
+                : property.type === "checkbox"
+                ? renderConditionalCheckbox(
+                    item,
+                    property.condition,
+                    property.checkcond,
+                    property.checkval,
+                    handleCheckboxChange,
+                    listingids
+                  )
+                : property.type === "conditional2"
+                ? DropdownButtons(item, property, handleClickOpen,
+                  listProperty,updateSaleStatus)
+                : property.type === "conditional-btns-links"
+                ? property.conditons.map((cond, index) => {
                     if (cond.type === "link") {
                       return renderConditionalLink(
                         item,
@@ -195,9 +498,8 @@ const DashTbody = ({
                         cond.icon,
                         cond.to,
                         cond.customClass
-                      )
-                    }
-                    else if (cond.type === "button") {
+                      );
+                    } else if (cond.type === "button") {
                       return renderConditionalButton(
                         item,
                         cond.condition,
@@ -218,9 +520,9 @@ const DashTbody = ({
                       );
                     }
                   })
-                  : property.transform ? property.transform(item[property.value]) : item[property.value]
-                
-              }
+                : property.transform
+                ? property.transform(item[property.value])
+                : item[property.value]}
             </td>
           ))}
         </tr>
@@ -346,7 +648,8 @@ export const DashUpperBody = ({
   selectedActions,
   filterAva,
   selectedActionsAva,
-  searchAva
+  searchAva,
+  updateMultipleSaleStatus,
 }) => {
   return (
     <div className="dashboard-upper-sec">
@@ -370,87 +673,92 @@ export const DashUpperBody = ({
           </div>
         </div>
         <div className="col-md-6 d-flex justify-content-end header-menu">
+          {filterAva && (
+            <FormControl
+              sx={{ m: 1, width: ["100%"] }}
+              size="small"
+              className="col-md-3 "
+            >
+              <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={filter}
+                label="Filter By"
+                onChange={(e) => {
+                  handleFilterChange(e.target.value), handleCurreentPage(1);
+                  handleFilterChangeprop(filterChange + 1);
+                }}
+              >
+                {filterOptions.map((item) => (
+                  <MenuItem value={item}>{item}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
 
-        {filterAva &&
+          {selectedActionsAva && (
+            <FormControl
+              sx={{ m: 1, width: ["100%"] }}
+              size="small"
+              className="col-md-3 "
+              disabled={listingids.length === 0}
+              title={
+                listingids.length === 0
+                  ? "Select item to perform this action"
+                  : ""
+              }
+            >
+              <InputLabel id="demo-simple-select-label">
+                With selected
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedAction}
+                label="With selected"
+                onChange={(e) => {
+                  handleSelectedAction(e.target.value), handleCurreentPage(1);
+                }}
+              >
+                <MenuItem
+                  disabled={listingids.length === 0}
+                  value={"Listed Properties"}
+                  onClick={() => listMultipleProperty(1)}
+                >
+                  List Again
+                </MenuItem>
+                <MenuItem
+                  disabled={listingids.length === 0}
+                  value={"Delisted Properties"}
+                  onClick={() => listMultipleProperty(0)}
+                >
+                  Delist Properties
+                </MenuItem>
+                <MenuItem
+                  disabled={listingids.length === 0}
+                  value={"Delisted Properties"}
+                  onClick={() => updateMultipleSaleStatus(1)}
+                >
+                  Mark as Sold Out
+                </MenuItem>
+              </Select>
+            </FormControl>
+          )}
 
-          <FormControl
-            sx={{ m: 1, width: ["100%"] }}
-            size="small"
-            className="col-md-3 "
-          >
-            <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={filter}
-              label="Filter By"
+          {searchAva && (
+            <TextField
+              variant="outlined"
+              className="col-md-5 mt-2"
+              size="small"
+              label="Search for properties..."
               onChange={(e) => {
-                handleFilterChange(e.target.value), handleCurreentPage(1);
+                handleCurreentPage(1);
+                handleSearchValue(e.target.value);
                 handleFilterChangeprop(filterChange + 1);
               }}
-            >
-              {filterOptions.map((item) => (
-                <MenuItem value={item}>{item}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-}
-
-
-{selectedActionsAva &&
-
-          <FormControl
-            sx={{ m: 1, width: ["100%"] }}
-            size="small"
-            className="col-md-3 "
-            disabled={listingids.length === 0}
-            title={
-              listingids.length === 0
-                ? "Select item to perform this action"
-                : ""
-            }
-          >
-            <InputLabel id="demo-simple-select-label">With selected</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedAction}
-              label="With selected"
-              onChange={(e) => {
-                handleSelectedAction(e.target.value), handleCurreentPage(1);
-              }}
-            >
-              <MenuItem
-                disabled={listingids.length === 0}
-                value={"Listed Properties"}
-                onClick={() => listMultipleProperty(1)}
-              >
-                List Again
-              </MenuItem>
-              <MenuItem
-                disabled={listingids.length === 0}
-                value={"Delisted Properties"}
-                onClick={() => listMultipleProperty(0)}
-              >
-                Delist Properties
-              </MenuItem>
-            </Select>
-          </FormControl>
-}
-
-{searchAva &&
-          <TextField
-            variant="outlined"
-            className="col-md-5 mt-2"
-            size="small"
-            label="Search for properties..."
-            onChange={(e) => {
-              handleCurreentPage(1);
-              handleSearchValue(e.target.value);
-              handleFilterChangeprop(filterChange + 1);
-            }}
-          />
-}
+            />
+          )}
         </div>
       </div>
     </div>
