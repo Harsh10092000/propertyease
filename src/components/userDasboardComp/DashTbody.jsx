@@ -10,7 +10,9 @@ import {
 } from "@mui/material";
 import DashboardNavbar from "../dashboardNavbar/DashboardNavbar";
 import { IconMenuDeep } from "@tabler/icons-react";
-import { faHeading } from "@fortawesome/free-solid-svg-icons";
+
+
+
 
 const renderComplexContent = (item) => {
   return (
@@ -343,12 +345,14 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
           <span
             onClick={toggleDropdown}
             className="action-dropdown arrow-down"
+            
           >
             Actions
           </span>
+          
           {open && (
             <div className="action-menu">
-              {console.log(property)}
+             
               {property.conditions.map((cond, index) => {
                 if (cond.condition === "edit_btn") {
                   return (
@@ -432,7 +436,7 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
 const DropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus ) => {
   return (
     <>
-     {console.log(property)}
+  
         <DropdownMenu
           //key={index}
           item={item}
