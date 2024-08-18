@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Checkbox } from "@mui/material";
 import {
@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 //import DashboardNavbar from "../dashboardNavbar/DashboardNavbar";
-import { IconMenuDeep } from "@tabler/icons-react";
+import { IconCaretDown, IconMenuDeep } from "@tabler/icons-react";
 import { faHeading } from "@fortawesome/free-solid-svg-icons";
 import AdminDashNavbar from "./AdminDashNavbar";
 
@@ -32,11 +32,15 @@ const renderComplexContent = (item) => {
 const renderConditional = (item, condition, transform) => {
   switch (condition) {
     case "status":
-      return item.pro_listed === 1 || item.pro_listed === null ? (
+      return item.pro_sale_status === 0 ? (
+      item.pro_listed === 1 || item.pro_listed === null ? (
         <span className="current-status-green">Listed</span>
       ) : (
         <span className="current-status-red">Delisted</span>
-      );
+      )
+    ) : (
+      <span className="current-status-blue ">Sold Out</span>
+    );
     case "property_type":
       return item.pro_type.split(",")[0];
     case "property_price":
@@ -53,7 +57,14 @@ const renderConditional = (item, condition, transform) => {
   }
 };
 
-const renderConditionalLink = (item, condition, icon, params, to, customClass) => {
+const renderConditionalLink = (
+  item,
+  condition,
+  icon,
+  params,
+  to,
+  customClass
+) => {
   switch (condition) {
     case "edit_btn":
       return (
@@ -64,7 +75,7 @@ const renderConditionalLink = (item, condition, icon, params, to, customClass) =
     case "view_btn":
       return (
         <Link
-        className={`${customClass} mr-3`}
+          className={`${customClass} mr-3`}
           //target="_blank"
           to={`${to}${item.pro_url}`}
         >
@@ -116,7 +127,6 @@ const renderConditionalButton = (
   icon,
   onClick,
   customClass
-  
 ) => {
   switch (condition) {
     case "list_delist_btn":
@@ -157,10 +167,20 @@ const renderConditionalButton = (
   }
 };
 
-const renderViewProfileButton = (item, icon, to, customClass, span, transform) => {
+const renderViewProfileButton = (
+  item,
+  icon,
+  to,
+  customClass,
+  span,
+  transform
+) => {
   return (
     <Link className={customClass} to={transform(item)}>
-     <span> <span>{icon}</span> <span className="hover_text">{span}</span></span>
+      <span>
+        {" "}
+        <span>{icon}</span> <span className="hover_text">{span}</span>
+      </span>
     </Link>
   );
 };
@@ -175,13 +195,12 @@ const renderViewProfileButton3 = (
   listtitle,
   displayVal1,
   displayVal2
- 
 ) => {
   return parseInt(item.pro_plan_added_slots) === 5000 ? (
     <button
       className={`${customClass} min-btn-width btn-col-red`}
       //className={customClass}
-      onClick= { () => transform(item.pro_plan_added_slots, item.tran_id)}
+      onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
     >
       <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
     </button>
@@ -194,11 +213,11 @@ const renderViewProfileButton3 = (
       <span>{icon}</span> <span className="hover_text">{displayVal1}</span>
     </button>
   ) : (
-    <button 
-    //className={`${customClass} min-btn-width pointer-disabled `} 
-    className={customClass}
-    disabled >
-
+    <button
+      //className={`${customClass} min-btn-width pointer-disabled `}
+      className={customClass}
+      disabled
+    >
       <span>{icon}</span> <span className="hover_text">Plan Active</span>
     </button>
   );
@@ -230,103 +249,285 @@ const renderViewProfileButton3 = (
 //   </button>
 // )}
 
+const DropdownMenu = ({
+  item,
+  property,
+  handleClickOpen,
+  //handleClickOpenDel,
+  listProperty,
+  //deleteProperty,
+  updateSaleStatus,
+}) => {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = () => setOpen((prev) => !prev);
+
+  return (
+    <div ref={dropdownRef} className="action-dropdown-wrapper">
+      {/* {item.pro_sale_status !== 1 ? ( */}
+        <>
+          <span onClick={toggleDropdown} className="action-dropdown arrow-down">
+            Actions
+          </span>
+
+          {open && (
+            <div className="action-menu">
+              {property.conditions.map((cond, index) => {
+                if (cond.condition === "edit_btn") {
+                  return (
+                    <div key={index} className="action-btn">
+                      <Link
+                        className={cond.customClass}
+                        title={cond.title}
+                        to={`${cond.to}/${item.pro_url}`}
+                      >
+                        {cond.icon} Edit
+                      </Link>
+                    </div>
+                  );
+                }
+                if (cond.condition === "view_btn") {
+                  return (
+                    <div key={index} className="action-btn">
+                      <a
+                        className={cond.customClass}
+                        title={cond.title}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/${item.pro_url}`}
+                      >
+                        {cond.icon} View
+                      </a>
+                    </div>
+                  );
+                }
+                if (cond.condition === "listing_status") {
+                  return (
+                    <div key={index} className="action-btn">
+                      {item[cond.checkval] === cond.cond1 ||
+                      item[cond.checkval] === cond.cond2 ? (
+                        <button
+                          title={cond.delisttitle}
+                          className={cond.classdelist}
+                          onClick={() => handleClickOpen(item)}
+                        >
+                          {cond.icon2} {cond.displayVal2}
+                        </button>
+                      ) : (
+                        <button
+                          title={cond.listtitle}
+                          className={cond.classlist}
+                          onClick={() => listProperty(item)}
+                        >
+                          {cond.icon1} {cond.displayVal1}
+                        </button>
+                      )}
+                    </div>
+                  );
+                }
+                if (cond.condition === "sale_status") {
+                  return (
+                    <div key={index} className="action-btn">
+                       {item[cond.checkval] === 0 ?
+                      <button
+                        title={cond.title}
+                        className={cond.customClass}
+                        onClick={() => updateSaleStatus(item, 1)}
+                      >
+                        {cond.icon} Mark As Sold
+                      </button>
+                      : 
+                      <button
+                        title={cond.title}
+                        className={cond.customClass}
+                        onClick={() => updateSaleStatus(item, 0)}
+                      >
+                        {cond.icon} Mark As Unsold
+                      </button>
+                       }
+                    </div>
+                  );
+                }
+                if (cond.condition === "delete_btn") {
+                  return (
+                    <div
+                      key={index}
+                      className="action-btn action_status_del_btn"
+                    >
+                      <button
+                        title={cond.title}
+                        //className={classdelist}
+                        className={cond.customClass}
+                        onClick={() => cond.onClick(item)}
+                      >
+                        {cond.icon} Delete
+                      </button>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          )}
+        </>
+      {/* ) : (
+        <span className="action-dropdown-blocked">Sold Out</span>
+      )} */}
+    </div>
+  );
+};
+
+const DropdownButtons = (
+  item,
+  property,
+  handleClickOpen,
+  //handleClickOpenDel,
+  listProperty,
+  //deleteProperty,
+  updateSaleStatus
+) => {
+  return (
+    <>
+      <DropdownMenu
+        //key={index}
+        item={item}
+        property={property}
+        handleClickOpen={handleClickOpen}
+        //handleClickOpenDel={handleClickOpenDel}
+        listProperty={listProperty}
+        //deleteProperty={deleteProperty}
+        updateSaleStatus={updateSaleStatus}
+      />
+    </>
+  );
+};
+
 const AdminDashTbody = ({
   tbodyArray,
   compData,
   handleCheckboxChange,
   listingids,
   handleClickOpen,
+  //handleClickOpenDel,
   listProperty,
+  //deleteProperty,
+  updateSaleStatus,
 }) => {
   return (
     <tbody className="text-black">
-      {compData.map((item, index) => (
-        item.pro_id !== null &&
-        <tr key={index}>
-          {tbodyArray.map((property, idx) => (
-            <td key={idx}>
-              {property.type === "conditional"
-                ? renderConditional(
-                    item,
-                    property.condition,
-                    property.transform
-                  )
-                : property.type === "checkbox"
-                ? renderConditionalCheckbox(
-                    item,
-                    property.condition,
-                    property.checkcond,
-                    property.checkval,
-                    handleCheckboxChange,
-                    listingids
-                  )
-                : property.type === "plan_status"
-                ? renderPlanStatusColumn2(item)
-                : property.type === "conditional-btns-links"
-                ? property.conditons.map((cond, index) => {
-                    if (cond.type === "link") {
-                      return renderConditionalLink(
+      {compData.map(
+        (item, index) =>
+          item.pro_id !== null && (
+            <tr key={index}>
+              {tbodyArray.map((property, idx) => (
+                <td key={idx}>
+                  {property.type === "conditional"
+                    ? renderConditional(
                         item,
-                        cond.condition,
-                        cond.icon,
-                        cond.params,
-                        cond.to,
-                        cond.customClass
-                      );
-                    } else if (
-                      cond.type === "view_profile" ||
-                      cond.type === "view_profile_pro"
-                    ) {
-                      return renderViewProfileButton(
+                        property.condition,
+                        property.transform
+                      )
+                    : property.type === "checkbox"
+                    ? renderConditionalCheckbox(
                         item,
-                        cond.icon,
-                        cond.to,
-                        cond.customClass,
-                        cond.span,
-                        cond.transform
-                      );
-                    } else if (cond.type === "view_profile_3") {
-                      return renderViewProfileButton3(
-                        cond.transform,
+                        property.condition,
+                        property.checkcond,
+                        property.checkval,
+                        handleCheckboxChange,
+                        listingids
+                      )
+                    : property.type === "plan_status"
+                    ? renderPlanStatusColumn2(item)
+                    : property.type === "conditional2"
+                    ? DropdownButtons(
                         item,
-                        cond.icon,
-                        cond.to,
-                        cond.customClass,
-                        cond.delisttitle,
-                        cond.listtitle,
-                        cond.displayVal1,
-                        cond.displayVal2,
-                      );
-                    } else if (cond.type === "button") {
-                      return renderConditionalButton(
-                        item,
-                        cond.condition,
-                        cond.delisttitle,
-                        cond.listtitle,
-                        cond.classdelist,
-                        cond.classlist,
-                        cond.displayVal1,
-                        cond.displayVal2,
-                        cond.checkval,
+                        property,
                         handleClickOpen,
+                        //handleClickOpenDel,
                         listProperty,
-                        cond.cond1,
-                        cond.cond2,
-                        cond.icon,
-                        cond.onClick,
-                        cond.customClass
-                      );
-                    }
-                  })
-                : property.transform
-                ? property.transform(item[property.value])
-                : property.transform_1
-                ? property.transform_1(item)
-                : item[property.value]}
-            </td>
-          ))}
-        </tr>
-      ))}
+                        //deleteProperty,
+                        updateSaleStatus
+                      )
+                    : property.type === "conditional-btns-links"
+                    ? property.conditons.map((cond, index) => {
+                        if (cond.type === "link") {
+                          return renderConditionalLink(
+                            item,
+                            cond.condition,
+                            cond.icon,
+                            cond.params,
+                            cond.to,
+                            cond.customClass
+                          );
+                        } else if (
+                          cond.type === "view_profile" ||
+                          cond.type === "view_profile_pro"
+                        ) {
+                          return renderViewProfileButton(
+                            item,
+                            cond.icon,
+                            cond.to,
+                            cond.customClass,
+                            cond.span,
+                            cond.transform
+                          );
+                        } else if (cond.type === "view_profile_3") {
+                          return renderViewProfileButton3(
+                            cond.transform,
+                            item,
+                            cond.icon,
+                            cond.to,
+                            cond.customClass,
+                            cond.delisttitle,
+                            cond.listtitle,
+                            cond.displayVal1,
+                            cond.displayVal2
+                          );
+                        } else if (cond.type === "button") {
+                          return renderConditionalButton(
+                            item,
+                            cond.condition,
+                            cond.delisttitle,
+                            cond.listtitle,
+                            cond.classdelist,
+                            cond.classlist,
+                            cond.displayVal1,
+                            cond.displayVal2,
+                            cond.checkval,
+                            handleClickOpen,
+                            listProperty,
+                            cond.cond1,
+                            cond.cond2,
+                            cond.icon,
+                            cond.onClick,
+                            cond.customClass
+                          );
+                        }
+                      })
+                    : property.transform
+                    ? property.transform(item[property.value])
+                    : property.transform_1
+                    ? property.transform_1(item)
+                    : item[property.value]}
+                </td>
+              ))}
+            </tr>
+          )
+      )}
     </tbody>
   );
 };
@@ -390,11 +591,17 @@ const renderPlanStatusColumn = (item) => {
     </td>
   ) : item.plan_status == 2 ? (
     <td>
-      <span className="current-status-green line-height-18">Access Granted <br/>By Admin</span>
+      <span className="current-status-green line-height-18">
+        Access Granted <br />
+        By Admin
+      </span>
     </td>
   ) : item.plan_status == 3 ? (
     <td>
-      <span className="current-status-red line-height-18">Access Removed <br/>By Admin</span>{" "}
+      <span className="current-status-red line-height-18">
+        Access Removed <br />
+        By Admin
+      </span>{" "}
     </td>
   ) : (
     <td>-</td>
@@ -573,17 +780,18 @@ export const AdminDashUpperBody = ({
   );
 };
 
-
-export const FormHeading = ({heading}) => {
-  return ( <div className="sidebar-content-heading ml-2">{heading}<div className=" mt-1 heading-divider"></div></div> )
-}
-
-
-export const FormStrcture = ({heading, children }) => {
+export const FormHeading = ({ heading }) => {
   return (
+    <div className="sidebar-content-heading ml-2">
+      {heading}
+      <div className=" mt-1 heading-divider"></div>
+    </div>
+  );
+};
 
-  
-  <div className="container-fluid">
+export const FormStrcture = ({ heading, children }) => {
+  return (
+    <div className="container-fluid">
       <div className="profile-form-upper-section">
         <AdminDashUpperBody
           heading={heading}
@@ -597,12 +805,15 @@ export const FormStrcture = ({heading, children }) => {
         <div className="col-md-6">
           <div className="user-profile-form-wrapper ">
             <div className="form-fields">
-            <div className="sidebar-content-heading ml-2">{heading}<div className=" mt-1 heading-divider"></div></div>
-              {children }
+              <div className="sidebar-content-heading ml-2">
+                {heading}
+                <div className=" mt-1 heading-divider"></div>
+              </div>
+              {children}
             </div>
           </div>
         </div>
       </div>
     </div>
-    )
-}
+  );
+};
