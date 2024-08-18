@@ -20569,10 +20569,10 @@ tr:nth-last-child(1) .action-dropdown-wrapper .action-menu , tr:nth-last-child(2
     transform-origin: 140px 0px;
     position: absolute;
     top: -170px;
-    left: -60px;
+    left: -80px;
     box-shadow: rgba(145, 158, 171, 0.2) 0px 5px 5px -3px, rgba(145, 158, 171, 0.14) 0px 8px 10px 1px, rgba(145, 158, 171, 0.12) 0px 3px 14px 2px;
     border-radius: 8px;
-    width: 160px;
+    width: 180px;
     background-color: white;
     z-index: 10;
 }
@@ -20588,6 +20588,8 @@ tr:nth-last-child(1) .action-dropdown-wrapper .action-menu , tr:nth-last-child(2
     /* background-color: #eff6f7; */
     border-color: #eff6f7;
     cursor: default;
+    color: rgb(183, 29, 24);
+    background-color: rgba(255, 86, 48, 0.16);
 }
 
 .action-dropdown-wrapper {
@@ -20631,10 +20633,10 @@ tr:nth-last-child(1) .action-dropdown-wrapper .action-menu , tr:nth-last-child(2
   transform-origin: 140px 0px;
   position: absolute;
   top: 40px;
-  left: -60px;
+  left: -80px;
   box-shadow: rgba(145, 158, 171, 0.2) 0px 5px 5px -3px, rgba(145, 158, 171, 0.14) 0px 8px 10px 1px, rgba(145, 158, 171, 0.12) 0px 3px 14px 2px;
   border-radius: 8px;
-  width: 160px;
+  width: 180px;
   background-color: white;
   z-index: 10;
 }
@@ -20711,6 +20713,10 @@ tr:nth-last-child(1) .action-dropdown-wrapper .action-menu , tr:nth-last-child(2
   padding: 0px;
   color: black;
   font-size: 15px;
+}
+
+.action_status_del_btn {
+  border-top: 1px solid #e3e6f0 !important;
 }
 
 .action-btn:hover {
