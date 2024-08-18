@@ -40,7 +40,7 @@ const renderConditional = (item, condition, transform) => {
           <span className="current-status-red">Delisted</span>
         )
       ) : (
-        <span className="current-status-blue">Sold</span>
+        <span className="current-status-blue ">Sold Out</span>
       );
     case "property_type":
       return item.pro_type?.split(",")[0];
@@ -340,7 +340,7 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
 
   return (
     <div ref={dropdownRef} className="action-dropdown-wrapper">
-      {item.pro_sale_status !== 1 ? (
+      {/* {item.pro_sale_status !== 1 ? ( */}
         <>
           <span
             onClick={toggleDropdown}
@@ -408,12 +408,39 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
                 if (cond.condition === "sale_status") {
                   return (
                     <div key={index} className="action-btn">
+                       {item[cond.checkval] === 0 ?
                       <button
                         title={cond.title}
                         className={cond.customClass}
-                        onClick={() => updateSaleStatus(item)}
+                        onClick={() => updateSaleStatus(item, 1)}
                       >
                         {cond.icon} Mark As Sold
+                      </button>
+                      : 
+                      <button
+                        title={cond.title}
+                        className={cond.customClass}
+                        onClick={() => updateSaleStatus(item, 0)}
+                      >
+                        {cond.icon} Mark As Unsold
+                      </button>
+                       }
+                    </div>
+                  );
+                }
+                if (cond.condition === "delete_btn") {
+                  return (
+                    <div
+                      key={index}
+                      className="action-btn action_status_del_btn"
+                    >
+                      <button
+                        title={cond.title}
+                        //className={classdelist}
+                        className={cond.customClass}
+                        onClick={() => cond.onClick(item)}
+                      >
+                        {cond.icon} Delete
                       </button>
                     </div>
                   );
@@ -423,11 +450,11 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
             </div>
           )}
         </>
-      ) : (
+      {/* ) : (
         <span className="action-dropdown-blocked">
           Sold Out
         </span>
-      )}
+      )} */}
     </div>
   );
 };
@@ -676,6 +703,7 @@ export const DashUpperBody = ({
             </div>
           </div>
         </div>
+        {/* {console.log(selectedAction)} */}
         <div className="col-md-6 d-flex justify-content-end header-menu">
           {filterAva && (
             <FormControl
@@ -739,13 +767,22 @@ export const DashUpperBody = ({
                 >
                   Delist Properties
                 </MenuItem>
+                
                 <MenuItem
                   disabled={listingids.length === 0}
-                  value={"Delisted Properties"}
+                  value={"Mark as Sold Out"}
                   onClick={() => updateMultipleSaleStatus(1)}
                 >
                   Mark as Sold Out
                 </MenuItem>
+
+                <MenuItem
+                disabled={listingids.length === 0}
+                value={"Mark as Unsold"}
+                onClick={() => updateMultipleSaleStatus(0)}
+              >
+                Mark as Unsold
+              </MenuItem>
               </Select>
             </FormControl>
           )}

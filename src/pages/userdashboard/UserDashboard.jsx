@@ -23,6 +23,7 @@ import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 import DashTable from "../../components/userDasboardComp/DashTable";
 import { IconCheck, IconEdit, IconEye, IconHome, IconHomeOff } from "@tabler/icons-react";
 import { IconCheckbox } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +41,7 @@ const UserDashboard = () => {
   const [selectedAction, setSelectedAction] = useState();
   const [dataLoaded, setDataLoaded] = useState(false);
   const [listingids, setListingids] = useState([]);
-
+  const [snackDel, setSnackDel] = useState(false);
   const [allSelected, setAllSelected] = useState(false);
 
   //const allSelected = data.every(item => listingids.includes(item.pro_id));
@@ -174,6 +175,33 @@ const UserDashboard = () => {
     setSnackQ(true);
   };
 
+
+  const [openDel, setOpenDel] = useState(false);
+  const [delId, setDelId] = useState("");
+  const handleClickOpenDel = (data) => {    
+    setDelId(data);
+    setOpenDel(true);
+  };
+
+  const handleCloseDel = () => {
+    setOpenDel(false);
+  };
+
+  const deleteProperty = async () => {
+    try {
+      await axios.delete(
+        import.meta.env.VITE_BACKEND + `/api/admin/deletePro/${delId}`
+      );
+      setSearchValue("")
+      setChange(change + 1);
+      setSnackDel(true);
+      setOpenDel(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   const listProperty = async (data) => {
     setLoader(true);
     proListingStatus.pro_listed = 1;
@@ -202,9 +230,9 @@ const UserDashboard = () => {
     setSnack(true);
   };
 
-  const updateSaleStatus = async (data) => {
+  const updateSaleStatus = async (data, val) => {
     setLoader(true);
-    proSaleStatus.sale_status = 1;
+    proSaleStatus.sale_status = val;
     proSaleStatus.pro_id = data.pro_id;
     await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateSaleStatus",
@@ -344,22 +372,6 @@ const UserDashboard = () => {
       conditions: [
         {
           type: "link",
-          condition: "edit_btn",
-          // icon: (
-          //   <FontAwesomeIcon
-          //     icon={faPencilAlt}
-          //     className="action-edit-icon "
-          //     title="Edit property"
-          //   />
-          // ),
-          icon: <IconEdit className="action-edit-icon " height={19} width={19} />,
-          to: "/editProperty",
-          customClass: "action_status_btn mr-2",
-          tagType: "a",
-          title:"Edit property"
-        },
-        {
-          type: "link",
           condition: "view_btn",
           icon: <IconEye className="action-edit-icon " height={19} width={19} />,
           // icon: (
@@ -374,6 +386,23 @@ const UserDashboard = () => {
           tagType: "Link",
           title:"View property"
         },
+        {
+          type: "link",
+          condition: "edit_btn",
+          // icon: (
+          //   <FontAwesomeIcon
+          //     icon={faPencilAlt}
+          //     className="action-edit-icon "
+          //     title="Edit property"
+          //   />
+          // ),
+          icon: <IconEdit className="action-edit-icon " height={19} width={19} />,
+          to: "/editProperty",
+          customClass: "action_status_btn mr-2",
+          tagType: "a",
+          title:"Edit property"
+        },
+        
 
         {
           condition: "listing_status",
@@ -383,8 +412,8 @@ const UserDashboard = () => {
           icon2: <IconHomeOff className="action-edit-icon " height={18} width={18} />,
           classdelist: "btn btn-sm vbtn action_status_btn",
           classlist: "btn btn-sm vbtn action_status_btn",
-          displayVal1: "List Again",
-          displayVal2: "Delist",
+          displayVal1: "Active",
+          displayVal2: "Inactive",
           checkval: "pro_listed",
           cond1: 1,
           cond2: null,
@@ -394,9 +423,22 @@ const UserDashboard = () => {
           condition: "sale_status",
           title: "Click to mark your property as sold",
           icon: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
-          
-          customClass: "btn btn-sm vbtn action_status_btn"
-        }
+          customClass: "btn btn-sm vbtn action_status_btn",
+          titleUnsold: "Click to mark your property as unsold",
+          icon2: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
+          checkval: "pro_sale_status"
+        },
+
+        {
+          type: "button",
+          condition: "delete_btn",
+          onClick: (object) => handleClickOpenDel(object.pro_id),
+          title: "Delete Property",
+          icon: <IconTrash className="action-edit-icon " height={18} width={18} />,
+          to: "/",
+          customClass: "btn btn-sm vbtn action_status_btn ",
+        },
+
       ],
     },
 
@@ -477,6 +519,40 @@ const UserDashboard = () => {
 
   return (
     <div className="container-fluid admin-dashboard admin-icon">
+       <Dialog
+        open={openDel}
+        onClose={handleCloseDel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete this property? "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          You will not be able to recover it.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDel}>Cancel</Button>
+          <Button className="btn-danger" onClick={deleteProperty} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackDel}
+        autoHideDuration={1000}
+        onClose={() => setSnackDel(false)}
+        message={"Deleted Successfully"}
+      />
       <Dialog
         open={open}
         onClose={handleClose}

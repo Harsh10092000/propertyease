@@ -169,23 +169,26 @@
 .current-status-blue {
     
     background-color: rgb(0 140 246 / 6%);
-    border: 1px solid #1e1d85;
+    /* border: 1px solid #1e1d85; */
     color: #1e1d85;
     line-height: 1.15;
-    letter-spacing: .87px;
+    /* letter-spacing: .87px; */
     text-transform: uppercase;
     text-transform: capitalize !important;
 
     display: inline-block;
-    padding: 5px 8px;
+    padding: 8px 8px;
     font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
+    font-weight: 600;
+    /* line-height: 1; */
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
     border-radius: 3px;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    color: rgb(183, 29, 24);
+    background-color: rgba(255, 86, 48, 0.16);
+    width: 75px;
 }
 
 @media screen and (max-width: 1024px) {

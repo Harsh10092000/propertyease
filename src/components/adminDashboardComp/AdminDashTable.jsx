@@ -6,7 +6,7 @@ import { Pagination } from '@mui/material'
 
 
 
-const AdminDashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSelected, FormatDate, handleCheckboxChange, listingids, handleClickOpen, listProperty, context,dataLoaded, handleCurreentPage, nPages, pagination }) => {
+const AdminDashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSelected, FormatDate, handleCheckboxChange, listingids, handleClickOpen, listProperty, context,dataLoaded, handleCurreentPage, nPages, pagination, updateSaleStatus }) => {
   
   
     const RenderTbody = context === 'dashboard' ? AdminDashTbody : DashTbodySub;
@@ -30,6 +30,7 @@ const AdminDashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSe
             listingids={listingids}
             handleClickOpen={handleClickOpen}
             listProperty={listProperty}
+            updateSaleStatus={updateSaleStatus}
           />
 
             

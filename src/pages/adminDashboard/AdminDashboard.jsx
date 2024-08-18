@@ -14,7 +14,7 @@ import "./admindashboard.css";
 import { Checkbox } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
-
+import Loader from "../../components/loader/Loader";
 import {
   faEye,
   faPencilAlt,
@@ -24,6 +24,9 @@ import {
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
 import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
+import { IconEdit, IconEye, IconHomeOff, IconTrash } from "@tabler/icons-react";
+import { IconHome } from "@tabler/icons-react";
+import { IconCheckbox } from "@tabler/icons-react";
 
 const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,10 +35,12 @@ const AdminDashboard = () => {
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
   const [change, setChange] = useState(0);
+  const [snackQ, setSnackQ] = useState(false);
   const [snack, setSnack] = useState(false);
+  const [snackDel, setSnackDel] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [listingids, setListingids] = useState([]);
-
+  const [loader, setLoader] = useState(false);
   const [allSelected, setAllSelected] = useState(false);
 
   //const records = data.slice(firstIndex, lastIndex);
@@ -116,15 +121,15 @@ const AdminDashboard = () => {
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
-  const [open, setOpen] = useState(false);
+  const [openDel, setOpenDel] = useState(false);
   const [delId, setDelId] = useState("");
-  const handleClickOpen = (data) => {    
+  const handleClickOpenDel = (data) => {    
     setDelId(data);
-    setOpen(true);
+    setOpenDel(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseDel = () => {
+    setOpenDel(false);
   };
 
   const deleteProperty = async () => {
@@ -134,16 +139,68 @@ const AdminDashboard = () => {
       );
       setSearchValue("")
       setChange(change + 1);
-      setSnack(true);
-      setOpen(false);
+      setSnackDel(true);
+      setOpenDel(false);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const [proListingStatus, setProListingStatus] = useState({
+    pro_listed: "",
+    pro_id: "",
+  });
+
+  
+  const [proSaleStatus, setProSaleStatus] = useState({
+    sale_status: "",
+    pro_id: "",
+  });
+
+  const [open, setOpen] = useState(false);
+  const [data1, setData1] = useState();
+  const handleClickOpen = (data) => {   
+    setData1(data); 
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    
+    setOpen(false);
+  };
+
+  const delistProperty = async () => {
+    setOpen(false);
+    setLoader(true);
+    proListingStatus.pro_listed = 0;
+    proListingStatus.pro_id = data1.pro_id;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateProListingStatus",
+      proListingStatus
+    );
+    setChange(change + 1);
+    setLoader(false);
+    setSnackQ(true);
+  };
+
+  const listProperty = async (data) => {
+    setLoader(true);
+    proListingStatus.pro_listed = 1;
+    proListingStatus.pro_id = data.pro_id;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateProListingStatus",
+      proListingStatus
+    );
+    setChange(change + 1);
+
+    setLoader(false);
+    setSnack(true);
+  };
+  
+
 
   const handleCheckboxChange = (itemProId) => {
-    console.log(itemProId);
+    
     setListingids((prevState) => {
       if (prevState.includes(itemProId)) {
         // If the ID is already in the array, remove it
@@ -183,6 +240,31 @@ const AdminDashboard = () => {
     }
   };
 
+  const updateSaleStatus = async (data, val) => {
+    setLoader(true);
+    proSaleStatus.sale_status = val;
+    proSaleStatus.pro_id = data.pro_id;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateSaleStatus",
+      proSaleStatus
+    );
+    setChange(change + 1);
+    setLoader(false);
+    setSnack(true);
+  };
+
+  const updateMultipleSaleStatus = async (sale_status) => {
+    setLoader(true);
+    // proListingStatus.pro_listed = 1;
+    // proListingStatus.pro_id = listingids;
+    await axios.put(
+      import.meta.env.VITE_BACKEND + "/api/pro/updateMultipleSaleStatus",
+      { sale_status: sale_status, listingids: listingids }
+    );
+    setChange(change + 1);
+    setLoader(false);
+    setSnack(true);
+  };
 
 
   const theadArray = [
@@ -202,7 +284,7 @@ const AdminDashboard = () => {
     { value: "Email" },
     { value: "Phone" },
     { value: "Address" },
-    { value: "Actions", customClass: "th-width-14" },
+    { value: "Actions", customClass: "th-width-2" },
   ];
 
   
@@ -251,7 +333,74 @@ const AdminDashboard = () => {
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },
 
-    {type: "conditional-btns-links",
+    
+
+    {
+      type: "conditional2",
+      conditions: [
+       
+        {
+          type: "link",
+          condition: "view_btn",
+          icon: <IconEye className="action-edit-icon " height={19} width={19} />,
+          // icon: (
+          //   <FontAwesomeIcon
+          //     icon={faEye}
+          //     className="action-edit-icon "
+          //     title="View property"
+          //   />
+          // ),
+          to: "/",
+          customClass: "action_status_btn mr-2",
+          tagType: "Link",
+          title:"View property"
+        },
+
+        {
+          condition: "listing_status",
+          delisttitle: "Click to Dislist your property",
+          listtitle: "Click to List your property",
+          icon1: <IconHome className="action-edit-icon " height={18} width={18} />,
+          icon2: <IconHomeOff className="action-edit-icon " height={18} width={18} />,
+          classdelist: "btn btn-sm vbtn action_status_btn",
+          classlist: "btn btn-sm vbtn action_status_btn",
+          displayVal1: "List Again",
+          displayVal2: "Delist",
+          checkval: "pro_listed",
+          cond1: 1,
+          cond2: null,
+        },
+
+        {
+          condition: "sale_status",
+          title: "Click to mark your property as sold",
+          icon: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
+          customClass: "btn btn-sm vbtn action_status_btn",
+          titleUnsold: "Click to mark your property as unsold",
+          icon2: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
+          checkval: "pro_sale_status"
+         
+        },
+
+        {
+          type: "button",
+          condition: "delete_btn",
+          onClick: (object) => handleClickOpenDel(object.pro_id),
+          title: "Delete Property",
+          // icon: (
+          //   <FontAwesomeIcon
+          //     icon={faTrashCan}
+          //     className="font-awe-icon-delete "
+          //   />
+          // ),
+          icon: <IconTrash className="action-edit-icon " height={18} width={18} />,
+          to: "/",
+          customClass: "btn btn-sm vbtn action_status_btn ",
+        },
+      ],
+    },
+
+    {type: "conditional-btns-links-1",
       conditons: [
 
     // {
@@ -349,8 +498,8 @@ const AdminDashboard = () => {
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={openDel}
+        onClose={handleCloseDel}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -363,7 +512,7 @@ const AdminDashboard = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleCloseDel}>Cancel</Button>
           <Button className="btn-danger" onClick={deleteProperty} autoFocus>
             Delete
           </Button>
@@ -377,11 +526,64 @@ const AdminDashboard = () => {
           },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackDel}
+        autoHideDuration={1000}
+        onClose={() => setSnackDel(false)}
+        message={"Deleted Successfully"}
+      />
+
+
+<Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure you want to delist this property? "}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You can relist the property at any time.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={delistProperty} autoFocus>
+            Delist
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {loader ? <Loader /> : ""}
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "red",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackQ}
+        autoHideDuration={1000}
+        onClose={() => setSnackQ(false)}
+        message={"Property Delisted"}
+      />
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={snack}
         autoHideDuration={1000}
         onClose={() => setSnack(false)}
-        message={"Deleted Successfully"}
+        message={"Property Listed"}
       />
+
       {/* <div className="card-body table-border-style"> */}
         {/* <h1>All Properties</h1>
         <div className="row justify-content-between align-items-center my-2">
@@ -557,12 +759,15 @@ const AdminDashboard = () => {
         handleCheckboxChange={handleCheckboxChange}
         listingids={listingids}
         handleClickOpen={handleClickOpen}
-        //listProperty={listProperty}
+        // handleClickOpenDel={handleClickOpenDel}
+        listProperty={listProperty}
+        //deleteProperty={deleteProperty}
         context="dashboard"
         dataLoaded={dataLoaded}
         nPages={nPages}
         handleCurreentPage={handleCurreentPage}
         pagination={true}
+        updateSaleStatus={updateSaleStatus}
       />
 
 {/* 
