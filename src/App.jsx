@@ -76,8 +76,8 @@ import EmailSet from "./pages/adminSettings/EmailSet";
 import ChangePhoneNumber from "./pages/adminSettings/ChangePhoneNumber";
 import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
 
-
-
+import Package1 from "./pages/premimumPackages/Package1";
+import UserInsights from "./pages/userInsights/UserInsights";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -136,6 +136,10 @@ const App = () => {
     {
       path: "/notfound",
       element: <NotFound />,
+    },
+    {
+      path: "/pricing",
+      element: <Package1 />,
     },
     {
       path: "/login",
@@ -216,6 +220,15 @@ const App = () => {
             <>
               <SendJwt />
               <UserDashboard />
+            </>
+          ),
+        },
+        {
+          path: "insights/:proid",
+          element: (
+            <>
+              <SendJwt />
+              <UserInsights />
             </>
           ),
         },

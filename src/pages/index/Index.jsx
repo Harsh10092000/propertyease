@@ -521,6 +521,21 @@ const Index = () => {
     }
   };
 
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenPropertyAdTypeOptions(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div>
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
@@ -678,7 +693,7 @@ const Index = () => {
             <div className="container hero-search-wrapper">
               <div className="row">
                 <div
-                  className={`col-md-3 all-types pointer position-relative ${
+                   className={`col-md-3 all-types pointer position-relative ${
                     openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
                   }`}
                   onClick={() =>
@@ -687,7 +702,7 @@ const Index = () => {
                 >
                   <div className="">{propertyAdTypeFilter}</div>
                   {openPropertyAdTypeOptions && (
-                    <div className=" pro-ad-type-list-wrapper">
+                    <div ref={dropdownRef} className=" pro-ad-type-list-wrapper">
                       <div id="pro-ad-type-list">
                         {propertyAdTypeOptions.map((item) => (
                           <div

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios, { all } from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -16,14 +16,26 @@ import "./UserDashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 
-import { faEye, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleRight,
+  faEye,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 
 import DashTable from "../../components/userDasboardComp/DashTable";
-import { IconCheck, IconEdit, IconEye, IconHome, IconHomeOff } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconEdit,
+  IconEye,
+  IconHome,
+  IconHomeOff,
+} from "@tabler/icons-react";
 import { IconCheckbox } from "@tabler/icons-react";
 import { IconTrash } from "@tabler/icons-react";
+import { IconInfoSquareRounded } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +56,12 @@ const UserDashboard = () => {
   const [snackDel, setSnackDel] = useState(false);
   const [allSelected, setAllSelected] = useState(false);
 
+  const [totalViews, setTotalViews] = useState("");
+  const [totalResponses, setTotalResponses] = useState("");
+  const [listingiInLast30, setListingiInLast30] = useState([]);
+  const [remainingInLast30, setRemainingInLast30] = useState("");
+  const [openInfoCard , setOpenInfoCard] = useState(false);
+
   //const allSelected = data.every(item => listingids.includes(item.pro_id));
 
   useEffect(() => {
@@ -62,9 +80,61 @@ const UserDashboard = () => {
           });
           setData(res.data);
           setDataLoaded(true);
+
+        }
+      });
+
+    // axios
+    //   .get(
+    //     import.meta.env.VITE_BACKEND +
+    //       `/api/pro/fetchViews/${currentUser[0].login_id}`
+    //   )
+    //   .then((res) => {
+    //     if (res.data === "failed") {
+    //       clearUser();
+    //     } else {
+    //       setTotalViews(res.data[0].pro_views);
+    //     }
+    //   });
+
+    // axios
+    //   .get(
+    //     import.meta.env.VITE_BACKEND +
+    //       `/api/pro/fetchResponses/${currentUser[0].login_id}`
+    //   )
+    //   .then((res) => {
+    //     if (res.data === "failed") {
+    //       clearUser();
+    //     } else {
+    //       setTotalResponses(res.data[0].pro_responses);
+    //     }
+    //   });
+
+    
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/fetchLast30DaysListings/${currentUser[0].login_id}`
+      )
+      .then((res) => {
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+          setListingiInLast30(res.data);
         }
       });
   }, [change]);
+
+
+  useEffect(() => {
+    setTotalViews(data.reduce((accumulator, currentObject) => {
+      return parseInt(accumulator) + parseInt(currentObject.pro_views1);
+    }, 0));
+    
+    setTotalResponses(data.reduce((accumulator, currentObject) => {
+      return accumulator + currentObject.pro_responses;
+    }, 0));
+  }, [data])
 
   useEffect(() => {
     data.forEach((item, i) => {
@@ -73,7 +143,6 @@ const UserDashboard = () => {
   }, [data, change]);
 
   const [filterChange, setFilterChange] = useState(1);
-
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
@@ -175,10 +244,9 @@ const UserDashboard = () => {
     setSnackQ(true);
   };
 
-
   const [openDel, setOpenDel] = useState(false);
   const [delId, setDelId] = useState("");
-  const handleClickOpenDel = (data) => {    
+  const handleClickOpenDel = (data) => {
     setDelId(data);
     setOpenDel(true);
   };
@@ -192,7 +260,7 @@ const UserDashboard = () => {
       await axios.delete(
         import.meta.env.VITE_BACKEND + `/api/admin/deletePro/${delId}`
       );
-      setSearchValue("")
+      setSearchValue("");
       setChange(change + 1);
       setSnackDel(true);
       setOpenDel(false);
@@ -200,7 +268,6 @@ const UserDashboard = () => {
       console.log(err);
     }
   };
-
 
   const listProperty = async (data) => {
     setLoader(true);
@@ -315,16 +382,13 @@ const UserDashboard = () => {
     { value: "Sale/Rent" },
     { value: "Price" },
     { value: "Posted On" },
-    { value: "Property Title", customClass: "th-width-28" },
+    { value: "Property Title", customClass: "th-width-16" },
+    { value: "Resonse and Views" , customClass: "th-width-16" },
     { value: "Status" },
-    { value: "Actions" },
+    { value: "Actions" , customClass: "th-width-2"},
   ];
 
-  // const tbodyArray = [
-  //   {value: "pro_ad_type"},
-  //   {value: "pro_ad_type"},
-  // ]
-
+ 
   const tbodyArray = [
     // {
     //   value: `<Checkbox
@@ -353,6 +417,7 @@ const UserDashboard = () => {
     },
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },
+    { type: "conditional", condition: "views" , totalResponses:{totalResponses} },
     { type: "conditional", condition: "status" },
     // {
     //   type: "conditional2",
@@ -373,7 +438,9 @@ const UserDashboard = () => {
         {
           type: "link",
           condition: "view_btn",
-          icon: <IconEye className="action-edit-icon " height={19} width={19} />,
+          icon: (
+            <IconEye className="action-edit-icon " height={19} width={19} />
+          ),
           // icon: (
           //   <FontAwesomeIcon
           //     icon={faEye}
@@ -384,7 +451,7 @@ const UserDashboard = () => {
           to: "/",
           customClass: "action_status_btn mr-2",
           tagType: "Link",
-          title:"View property"
+          title: "View property",
         },
         {
           type: "link",
@@ -396,20 +463,25 @@ const UserDashboard = () => {
           //     title="Edit property"
           //   />
           // ),
-          icon: <IconEdit className="action-edit-icon " height={19} width={19} />,
+          icon: (
+            <IconEdit className="action-edit-icon " height={19} width={19} />
+          ),
           to: "/editProperty",
           customClass: "action_status_btn mr-2",
           tagType: "a",
-          title:"Edit property"
+          title: "Edit property",
         },
-        
 
         {
           condition: "listing_status",
           delisttitle: "Click to Dislist your property",
           listtitle: "Click to List your property",
-          icon1: <IconHome className="action-edit-icon " height={18} width={18} />,
-          icon2: <IconHomeOff className="action-edit-icon " height={18} width={18} />,
+          icon1: (
+            <IconHome className="action-edit-icon " height={18} width={18} />
+          ),
+          icon2: (
+            <IconHomeOff className="action-edit-icon " height={18} width={18} />
+          ),
           classdelist: "btn btn-sm vbtn action_status_btn",
           classlist: "btn btn-sm vbtn action_status_btn",
           displayVal1: "Active",
@@ -422,11 +494,23 @@ const UserDashboard = () => {
         {
           condition: "sale_status",
           title: "Click to mark your property as sold",
-          icon: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
+          icon: (
+            <IconCheckbox
+              className="action-edit-icon "
+              height={18}
+              width={18}
+            />
+          ),
           customClass: "btn btn-sm vbtn action_status_btn",
           titleUnsold: "Click to mark your property as unsold",
-          icon2: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
-          checkval: "pro_sale_status"
+          icon2: (
+            <IconCheckbox
+              className="action-edit-icon "
+              height={18}
+              width={18}
+            />
+          ),
+          checkval: "pro_sale_status",
         },
 
         {
@@ -434,11 +518,12 @@ const UserDashboard = () => {
           condition: "delete_btn",
           onClick: (object) => handleClickOpenDel(object.pro_id),
           title: "Delete Property",
-          icon: <IconTrash className="action-edit-icon " height={18} width={18} />,
+          icon: (
+            <IconTrash className="action-edit-icon " height={18} width={18} />
+          ),
           to: "/",
           customClass: "btn btn-sm vbtn action_status_btn ",
         },
-
       ],
     },
 
@@ -517,9 +602,86 @@ const UserDashboard = () => {
   const filterOptions = ["All", "Listed Properties", "Delisted Properties"];
   const selectedActions = ["List Again", "Delist Properties"];
 
+  // const [infoCard, setInfoCard] = useState([
+  // {value: "Free Membership", text: "Your current package"},
+  // {value: totalViews, text: "Total Views"},
+  // {value: totalResponses, text: "Total Responses"},
+  // {value: "5", text: "Listing Included"},
+  // {value: "5", text: "Listing Remaining"},
+  // {value: "5", text: "Listing Remaining"},
+  // {value: "5", text: "Listing Remaining"},
+  // {value: "5", text: "Listing Remaining"},
+  // {value: "5", text: "Listing Remaining"},
+  // ]);
+
+  const [infoCard, setInfoCard] = useState([]);
+
+  useEffect(() => {
+    // Initialize the state when component mounts or values change
+    setInfoCard([
+      { value: "Free Membership", text: "Your current package" },
+      { value: totalViews, text: "Total Views" },
+      { value: totalResponses, text: "Total Responses" },
+      { value: "5", text: "Listing Included" },
+      { value: "5", text: "Listing Remaining" },
+      { value: "5", text: "Listing Remaining" },
+      { value: "5", text: "Listing Remaining" },
+      { value: "5", text: "Listing Remaining" },
+      { value: "5", text: "Listing Remaining" },
+    ]);
+  }, [totalViews, totalResponses]);
+
+
+
+  const handleNextCard2 = () => {
+    console.log("Sfg");
+    setInfoCard((prevInfoCard) => {
+      // Destructure the array into the first item and the rest
+      const [firstItem, ...rest] = prevInfoCard;
+      // Append the first item to the end of the array
+      return [...rest, firstItem];
+    });
+  };
+
+  const infoCardWrapperRef = useRef(null);
+
+  const handleNextCard = () => {
+    setInfoCard((prevInfoCard) => {
+      const [firstItem, ...rest] = prevInfoCard;
+      return [...rest, firstItem];
+    });
+
+    if (infoCardWrapperRef.current) {
+      // Add the sliding effect
+      infoCardWrapperRef.current.classList.add("slide-out");
+      setTimeout(() => {
+        infoCardWrapperRef.current.classList.remove("slide-out");
+      }, 500); // Duration should match the CSS transition time
+    }
+  };
+
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenInfoCard(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const sumOfSoldProperties = data.reduce((sum, item) => sum + item.pro_sale_status, 0);
+
+ 
+
   return (
     <div className="container-fluid admin-dashboard admin-icon">
-       <Dialog
+      <Dialog
         open={openDel}
         onClose={handleCloseDel}
         aria-labelledby="alert-dialog-title"
@@ -530,7 +692,7 @@ const UserDashboard = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          You will not be able to recover it.
+            You will not be able to recover it.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -604,6 +766,154 @@ const UserDashboard = () => {
         message={"Property Listed"}
       />
 
+      {/* {parseInt(listingiInLast30[0]?.plan_status) !== 2 && ( */}
+        <div className="row info-card">
+          <div className="col-lg-3 align-self-center mb-3 mb-lg-0">
+            <div className="d-flex align-items-center flex-row flex-wrap">
+              <div className="position-relative mr-3">
+                {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
+
+                <img
+                  src="/img/person.jpg"
+                  alt=""
+                  height="110"
+                  width="107"
+                  className="rounded-circle"
+                />
+              </div>
+              <div className="info-card-name">
+                <h5 className="fw-semibold fs-22 mb-1">Harsh Gupta</h5>
+                {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membrship</p> : <p className="mb-0 text-muted fw-medium">Pro Membrship</p> }
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-8 ms-auto align-self-center">
+            <div className="justify-content-center  info-card-sec-wrap">
+              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+                  {totalViews}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Total Views</p>
+              </div>
+              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0 ">
+                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+                  {totalResponses}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Total Responses</p>
+              </div>
+
+
+
+              {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 &&
+              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+                  {5 - parseInt(listingiInLast30[0]?.pro_count)}
+                </h5>
+                <div className="d-flex justify-content-between">
+                  <p className="text-muted mb-0 fw-medium">
+                    Listing Remaining
+                  </p>
+                  
+                  <div className="info-popup">
+                    <IconInfoSquareRounded className="pointer"  onClick={() => setOpenInfoCard(prevState => !prevState)} />
+                      {openInfoCard &&
+                    <div ref={dropdownRef} className="info-popup-card">
+                      <p>
+                        You have {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
+                        more property listings available until
+                        <span>{" " +
+                          moment(listingiInLast30[0].pro_creation_date)
+                            .add(30, "days")
+                            .format("MMMM DD YYYY")}</span>
+                        . Upgrade to a Pro membership for unlimited listings and
+                        enhanced features.
+                      </p>
+
+                      {/* <button>
+                    Close
+                  </button> */}
+
+                      <div>
+                        <Link to="/pricing" class="package-purchase-button">
+                          Upgrade
+                        </Link>
+                        <a href="#" class="package-purchase-button-close" onClick={() => setOpenInfoCard(false)}>
+                          Close
+                        </a>
+                      </div>
+                    </div>
+      }
+                  </div>
+                </div>
+
+                {/* {moment(listingiInLast30[0].pro_creation_date)
+              .add(30, "days")
+              .format("MMMM DD YYYY")} */}
+              </div>
+}
+              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+                  {sumOfSoldProperties}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Properties Sold</p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* <div className="col-lg-2 align-self-center">
+            {/* <div className="row row-cols-2"> *
+             
+              <div className="col align-self-center">
+                {/* <button
+                  type="button"
+                  className="btn btn-primary  d-inline-block"
+                >
+                  Follow
+                </button>
+                <button type="button" className="btn btn-light  d-inline-block">
+                  Hire Me
+                </button> *
+                <a class="user__profile--menu__link position-relative" href="#">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    data-lucide="gem"
+                    class="lucide lucide-gem inline-block size-4 ltr:mr-2 rtl:ml-2"
+                  >
+                    <path d="M6 3h12l4 6-10 13L2 9Z"></path>
+                    <path d="M11 3 8 9l4 13 4-13-3-6"></path>
+                    <path d="M2 9h20"></path>
+                  </svg>{" "}
+                  Upgrade <span class="profile__upgrade--badge">Pro</span>{" "}
+                </a>
+              </div>
+            /* </div> *
+          </div> */}
+        </div>
+      {/* )} */}
+      {/* <div className="info-card-sec">
+<div className="info-card-wrapper" ref={infoCardWrapperRef}>
+  {infoCard.map((item) => (
+    <div className="info-card"><span className="info-card-badge">{item.value}</span><div className="info-card-haeading">{item.text}</div></div>
+  ))}
+
+  
+  
+</div> 
+<div onClick={handleNextCard}> next
+<FontAwesomeIcon onClick={handleNextCard} icon={faAngleRight} className="angle-right-icon"/>
+</div>
+</div> */}
+
       <DashUpperBody
         data={data}
         handleCurreentPage={handleCurreentPage}
@@ -642,6 +952,7 @@ const UserDashboard = () => {
         handleCurreentPage={handleCurreentPage}
         pagination={true}
         updateSaleStatus={updateSaleStatus}
+       
       />
     </div>
   );

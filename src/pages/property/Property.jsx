@@ -35,6 +35,15 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
+import GoogleMap1, {
+  // FetchNearbyLocations,
+  // FindCoordinates,
+  // GoogleMap2,
+  // //GoogleMap2,
+  // //NearbyPlaces,
+  // //NearbyPlaces1,
+  // NearPlaces,
+} from "../../components/googleMap/GoogleMap";
 
 const Property = () => {
   const curr_date = Date.now();
@@ -512,53 +521,10 @@ const Property = () => {
     }
   };
 
-  // const [dialog, setDialog] = useState(false);
-  // const askQuestion = () => {
-  //   if (!currentUser) {
-  //     setDialog(true);
-  //   } else {
-  //     sendQuestion();
-  //   }
-  // };
+ 
   const [snackQ, setSnackQ] = useState(false);
 
-  // const sendQuestion = async () => {
-  //   setLoader(true);
-  //   try {
-  //     await axios.post(
-  //       import.meta.env.VITE_BACKEND + "/api/contact/askquestion",
-  //       {
-  //         userId: currentUser[0].login_email,
-  //         phone: currentUser[0].login_number,
-  //         propertySlug: id,
-  //         proId,
-  //         user_id: currentUser[0].login_id,
-  //         pro_user_id: data.pro_user_id,
-  //       }
-  //     );
-  //     await axios.post(
-  //       import.meta.env.VITE_BACKEND + "/api/contact/interestShowed",
-  //       {
-  //         pro_user_id: data.pro_user_id,
-  //       }
-  //     );
-
-  //     contactedData.pro_contacted =
-  //       (data.pro_contacted !== null ? parseInt(data.pro_contacted) : 0) + 1;
-  //     contactedData.pro_id = data.pro_id;
-  //     axios.put(
-  //       import.meta.env.VITE_BACKEND + "/api/pro/updateContacted",
-  //       contactedData
-  //     );
-  //     data.pro_contacted = parseInt(data.pro_contacted) + 1;
-  //     setLoader(false);
-  //     setSnackQ(true);
-  //     setChange(change + 1);
-  //     checkInterested();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -609,27 +575,7 @@ const Property = () => {
       });
   }, []);
 
-  // UsePageSeo(
-  //   {
-  //     title:"viewer page",
-  //     description:"viewer des",
-  //     keywords:["viewer keyword 1","viewer keyword 2"],
-  //     ogTitle:"viewerpage",
-  //     ogDescription:"viewer deskjfvnskdf",
-  //     ogImage:"https://api.propertyease.in/propertyImages/watermark/default.png",
-  //     ogUrl:"https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
 
-  //   }
-  // )
-
-  // useEffect(() => {
-  //   document.title = 'Our Properties';
-  //   document.querySelector('meta[name="description"]').setAttribute("content", "Browse our selection of properties available for sale or rent.");
-  //   document.querySelector('meta[property="og:title"]').setAttribute("content", "Our Properties");
-  //   document.querySelector('meta[property="og:description"]').setAttribute("content", "Browse our selection of properties available for sale or rent.");
-  //   // document.querySelector('meta[property="og:image"]').setAttribute("content", "/images/og-properties.jpg");
-  //   document.querySelector('meta[property="og:url"]').setAttribute("content", "https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313");
-  // }, []);
 
   const [snackDailog, setSnackDailog] = useState(false);
   const [openContactDialog, setOpenContactDialog] = useState(false);
@@ -652,6 +598,79 @@ const Property = () => {
   const handleChange = () => {
     setChange(change + 1);
   };
+
+
+  const [cordinates, setCodinates] = useState({
+    lat: "",
+    lng: "",
+    formatted_address: "",
+  });
+
+//   const handleCordinates = (val1, val2) => {
+//     setCodinates({...cordinates , [val1] : val2})
+//  }
+
+const handleCordinates = (key, value) => {
+  console.log(key , value)
+  setCodinates(prevState => ({
+    ...prevState,
+    [key]: value
+  }));
+}
+ const [cordinatesChanged , setCordinatesChanged] = useState(false);
+
+ useEffect(() => {
+  console.log(cordinates)
+  cordinates.lat !== "" ? 
+  setCordinatesChanged(true) : setCordinatesChanged(false)
+ }, [cordinates, data])
+
+//  const [cordinates, setCodinates] = useState({
+//   lat: "",
+//   lng: "",
+//   formatted_address: "",
+// });
+
+ useEffect(() => {
+
+  const location = {
+    name: data.pro_locality,
+    lat: 29.9692794,
+    lng: 76.8735374,
+    formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+  };
+
+  data.pro_locality !== undefined &&
+
+  axios
+  .get(
+    `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+        n&key=AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS`
+  )
+  .then((res) => {
+    
+
+    
+      setCodinates({
+        ...cordinates,
+        lat: res.data.results[0].geometry.location.lat,
+        lng: res.data.results[0].geometry.location.lng,
+        formatted_address: res.data.results[0].formatted_address,
+
+      }
+      
+    ),
+    setCordinatesChanged(true)
+       //handleCordinates("lat", res.data.results[0].geometry.location.lat),
+       //handleCordinates("lng",res.data.results[0].geometry.location.lng),
+       //handleCordinates("formatted_address", res.data.results[0].formatted_address));
+ });
+ }, [data])
+
+
+
+
+
 
   return (
     <div className="padding-top">
@@ -849,12 +868,12 @@ const Property = () => {
                     </li>
                     <li>{data.pro_sub_cat}</li>
                   </ul>
-                ) : data.pro_sale_status === 1 ? 
-                ( <div class="no-longer-available">
-                  <h1>This property has been sold.</h1>
-                  <p>Check out our other listings.</p>
-                </div>) :
-                (
+                ) : data.pro_sale_status === 1 ? (
+                  <div class="no-longer-available">
+                    <h1>This property has been sold.</h1>
+                    <p>Check out our other listings.</p>
+                  </div>
+                ) : (
                   <div class="no-longer-available">
                     <h1>This property is no longer available.</h1>
                     <p>We apologize for any inconvenience this may cause.</p>
@@ -1140,7 +1159,6 @@ time3.add(12, "minutes") */}
                                   handleCurrentImage={handleCurrentImage}
                                   totalViews={data.pro_views}
                                 />
-                                
                               ) : (
                                 <div>
                                   <img
@@ -1515,105 +1533,46 @@ time3.add(12, "minutes") */}
                         </div>
                       </div>
                     </div>
+                    {data !== undefined && data.pro_listed !== 0 &&
+                  
+                    <div className="property-more-detail">
+                      <div className="row">
+                        <div className="col-md-12">
+                          {/* <FindCoordinates data={data} handleCordinates={handleCordinates} /> */}
+                          
+                          {cordinatesChanged && (
+
+
+         <GoogleMap1 cordinates={cordinates} pro_locality={data.pro_locality} img_link={images[0].img_link} pro_url={data.pro_url} />
+        
+      )}
+                        </div>
+                      </div>
+                    </div>
+}
+                  {/*  <div className="property-more-detail">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <FetchNearbyLocations />
+                        </div>
+                      </div>
+                    </div> */}
 
                     {/* <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
-                          <div className="details">
-                            <div className="row">
-                              {data.pro_type && (
-                                <div className="col-md-12">
-                                  <div className="more-detail-heading">
-                                    Additional Features
-                                  </div>
+                          <div>NearbyPlaces</div>
+                          <NearbyPlaces1 />
+                        </div>
+                      </div>
+                    </div> */}
 
-                                  {data.pro_type.split(",")[1] ===
-                                  "Residential" ? (
-                                    <p>
-                                      Its neighborhood is great for a dream
-                                      home. Located near the{" "}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}. A lovely backyard was
-                                      recently renovated, with a patio ideal for
-                                      entertaining guests. Good schools, parks,
-                                      and shops are nearby. Whether you are
-                                      moving in tomorrow or today, this house is
-                                      ready to be occupied.
-                                    </p>
-                                  ) : data.pro_type.split(",")[1] ==
-                                    "Commercial" ? (
-                                    <p>
-                                      {data.pro_area_size +
-                                        " " +
-                                        data.pro_area_size_unit +
-                                        " "}
-                                      {data.pro_type
-                                        ? data.pro_type.split(",")[0]
-                                        : ""}
-                                      for{" "}
-                                      {data.pro_ad_type === "Rent"
-                                        ? "Rent"
-                                        : "Sale"}{" "}
-                                      in
-                                      {data.pro_locality
-                                        ? data.pro_locality + ", "
-                                        : ""}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}
-                                      in a convenient spot. Lots of parking
-                                      spaces. Easy to see from the road.
-                                      Flexible open spaces inside. Secure entry.
-                                      Close to highways and shopping areas.
-                                      Perfect place for your executing your
-                                      commercial goals Great commercial property
-                                      is available at key locations at
-                                      affordable rates! Don't miss this
-                                      fantastic opportunity!
-                                    </p>
-                                  ) : data.pro_type.split(",")[1] === "Land" ? (
-                                    <p>
-                                      {data.pro_area_size +
-                                        " " +
-                                        data.pro_area_size_unit +
-                                        " "}
-                                      {data.pro_type
-                                        ? data.pro_type.split(",")[0]
-                                        : ""}
-                                      for{" "}
-                                      {data.pro_ad_type === "Rent"
-                                        ? "Rent"
-                                        : "Sale"}{" "}
-                                      in
-                                      {data.pro_locality
-                                        ? " " + data.pro_locality + ", "
-                                        : ""}
-                                      {data.pro_sub_district
-                                        ? data.pro_sub_district + ", "
-                                        : ""}
-                                      {data.pro_city}. Pretty, calm setting with
-                                      lovely views. Gently sloping ground is
-                                      perfect for building your dream home. The
-                                      property is ideal for multiple-purpose use
-                                      because of the good connectivity with the
-                                      city. Utilities are ready, so you can
-                                      start building right away. Neighborhood
-                                      rules help keep things looking nice.
-                                      Flexible zoning for different property
-                                      uses. Low taxes and HOA fees. This is an
-                                      excellent chance to invest in or build
-                                      your peaceful natural hideaway.
-                                    </p>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          </div>
+
+                   {/* <div className="property-more-detail">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div>NearbyPlaces</div>
+                          <NearPlaces />
                         </div>
                       </div>
                     </div> */}

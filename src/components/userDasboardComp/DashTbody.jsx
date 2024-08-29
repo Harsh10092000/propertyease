@@ -16,6 +16,7 @@ import { IconMenuDeep } from "@tabler/icons-react";
 
 const renderComplexContent = (item) => {
   return (
+    <Link to={`/${item.pro_url}`} title="Click to view property" className="text-dark">
     <span className="text-wrap">
       {item.pro_area_size +
         " " +
@@ -27,10 +28,32 @@ const renderComplexContent = (item) => {
       ,&nbsp;
       {item.pro_city}
     </span>
+    </Link>
   );
 };
 
-const renderConditional = (item, condition, transform) => {
+const renderResponsesViews = (item, totalResponses) => {
+ 
+  return ( 
+    parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? 
+    // <span>Views : {parseInt(item.pro_views) > 0 ? item.pro_views : 0 }  Responses : {parseInt(totalResponses) > 0 ? totalResponses : 0}</span>
+    <div className="d-flex gap-3">
+      {parseInt(item.pro_responses) > 0 ? <>
+      <Link to={`/user/insights/${item.pro_id}`}><div className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div></Link>
+      <Link  to={`/user/insights/${item.pro_id}`}> <div className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div></Link>
+      </>: <>
+    <div title="No responses yet" className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
+     <div title="No responses yet" className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
+    </>
+   }
+      </div>
+
+    : <span>-</span>
+   );
+}
+
+
+const renderConditional = (item, condition, transform, totalResponses) => {
   switch (condition) {
     case "status":
       return item.pro_sale_status === 0 ? (
@@ -50,6 +73,8 @@ const renderConditional = (item, condition, transform) => {
     //   return FormatDate(item.pro_date);
     case "property_title":
       return renderComplexContent(item);
+    case "views":
+      return renderResponsesViews(item, totalResponses);
     case "property_location":
       return transform ? transform(item) : "-";
     default:
@@ -506,7 +531,8 @@ const DashTbody = ({
                 ? renderConditional(
                     item,
                     property.condition,
-                    property.transform
+                    property.transform,
+                    property.totalResponses
                   )
                 : property.type === "checkbox"
                 ? renderConditionalCheckbox(

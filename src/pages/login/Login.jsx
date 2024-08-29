@@ -79,7 +79,7 @@ const Login = () => {
       if (result !== false) {
         navigate("/user/dashboard");
       } else {
-        setLoginStatus("Wrong Otp Entered");
+        setLoginStatus("Incorrect OTP. Please try again.");
       }
     }
   };

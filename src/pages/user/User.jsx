@@ -376,6 +376,9 @@ import {
   IconCrown,
   IconCaretDownFilled,
   IconTicket,
+  IconHomePlus,
+  
+  IconBuildingSkyscraper
 } from "@tabler/icons-react";
 import {
   IconBuilding,
@@ -397,6 +400,7 @@ import "./User.css";
 
 //import Navbar from "../../components/navbar2/Navbar";
 import Navbar from "../../components/navbar/Navbar";
+import { IconChecklist } from "@tabler/icons-react";
 
 const User = () => {
   const navigate = useNavigate();
@@ -436,12 +440,12 @@ const User = () => {
 
   const items = [
     {
-      icon: <IconBuilding className="sidebar-faicon" />,
+      icon: <IconHomePlus className="sidebar-faicon" />,
       name: "Add Property",
       linkto: "/addproperty",
     },
     {
-      icon: <IconBuilding className="sidebar-faicon" />,
+      icon: <IconBuildingSkyscraper className="sidebar-faicon" />,
       name: "View All Properties",
       linkto: "/allproperties",
     },
@@ -463,16 +467,21 @@ const User = () => {
       subItems: [
         {
           icon: <IconEye className="sidebar-faicon" />,
-          name: "View All My Transactions",
+          name: "All Transactions",
           linkto: "/user/mysubscription",
         },
       ],
     },
 
     {
-      icon: <IconEye className="sidebar-faicon" />,
+      icon: <IconChecklist className="sidebar-faicon" />,
       name: "Shortlisted",
       linkto: "/user/shortlisted",
+    },
+    {
+      icon: <IconChecklist className="sidebar-faicon" />,
+      name: "Insights",
+      linkto: "/user/Insights/all",
     },
   ];
 
