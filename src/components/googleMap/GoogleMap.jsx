@@ -277,7 +277,7 @@ import axios from "axios";
 import React from "react";
 import { useRef } from "react";
 //import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+//import "leaflet/dist/leaflet.css";
 
 import { MapContainer, TileLayer, LayersControl, FeatureGroup, useMap , Marker, Polygon, Popup  } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
