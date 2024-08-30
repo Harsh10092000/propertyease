@@ -383,7 +383,7 @@ const UserDashboard = () => {
     { value: "Price" },
     { value: "Posted On" },
     { value: "Property Title", customClass: "th-width-16" },
-    { value: "Resonse and Views" , customClass: "th-width-16" },
+    { value: "Responses and Views" , customClass: "th-width-16" },
     { value: "Status" },
     { value: "Actions" , customClass: "th-width-2"},
   ];
