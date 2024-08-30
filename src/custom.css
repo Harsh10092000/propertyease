@@ -18875,15 +18875,30 @@ border-radius: 0;
 }
 
 
-@media screen and (min-height: 600px) and (max-height: 700px) { 
+@media screen and (max-height: 600px) { 
+  .hero-banner {
+    height: 90vh;
+  }
+}
+
+/* For screens between 601px and 700px in height */
+@media screen and (min-height: 601px) and (max-height: 700px) { 
   .hero-banner {
     height: 80vh;
   }
 }
 
-@media screen and (max-height: 700px)  { 
+/* For screens between 701px and 750px in height */
+@media screen and (min-height: 701px) and (max-height: 750px) { 
   .hero-banner {
     height: 70vh;
+  }
+}
+
+/* For screens between 751px and 830px in height */
+@media screen and (min-height: 751px) and (max-height: 830px) { 
+  .hero-banner {
+    height: 60vh;
   }
 }
 
