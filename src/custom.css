@@ -18881,7 +18881,7 @@ border-radius: 0;
   }
 }
 
-@media screen and (min-height: 700px) and (max-height: 830px) { 
+@media screen and (max-height: 700px)  { 
   .hero-banner {
     height: 70vh;
   }
