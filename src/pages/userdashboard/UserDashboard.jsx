@@ -768,7 +768,7 @@ const UserDashboard = () => {
 
       {/* {parseInt(listingiInLast30[0]?.plan_status) !== 2 && ( */}
         <div className="row info-card">
-          <div className="col-lg-3 align-self-center mb-3 mb-lg-0">
+          <div className="col-lg-4 align-self-center mb-3 mb-lg-0">
             <div className="d-flex align-items-center flex-row flex-wrap">
               <div className="position-relative mr-3">
                 {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
@@ -782,7 +782,7 @@ const UserDashboard = () => {
                 />
               </div>
               <div className="info-card-name">
-                <h5 className="fw-semibold fs-22 mb-1">Harsh Gupta</h5>
+                <h5 className="fw-semibold fs-22 mb-1">{currentUser[0].login_email}</h5>
                 {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membrship</p> : <p className="mb-0 text-muted fw-medium">Pro Membrship</p> }
               </div>
             </div>

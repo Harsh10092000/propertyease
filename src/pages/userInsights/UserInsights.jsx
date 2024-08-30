@@ -19,6 +19,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 const UserInsights = () => {
   const { proid } = useParams();
@@ -42,6 +43,8 @@ const UserInsights = () => {
   const [filter, setFilter] = useState("All");
   const [changeFilter, setChangeFilter] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
+
+  const [skeleton, setSkeleton] = useState(true);
 
   useEffect(() => {
     if (proid !== "all") {
@@ -101,9 +104,11 @@ const UserInsights = () => {
               setSelectedProperty(description);
               setTotalViewsPro(object.pro_views);
               setTotalResponsesOnPro(object.pro_responses);
+              
               //setFilter(description);
             }
           });
+          setSkeleton(false);
         }
       });
 
@@ -199,7 +204,7 @@ const UserInsights = () => {
     { value: "Sale/Rent" },
     { value: "Price" },
     { value: "Posted On" },
-    { value: "Resonse and Views", customClass: "th-width-16" },
+    { value: "Responses and Views", customClass: "th-width-16" },
 
     { value: "Status" },
     // { value: "Actions", customClass: "th-width-2" },
@@ -310,7 +315,39 @@ useEffect(() => {
 
   return (
     <>
-      {maxProResponses > 0 ? (
+      { skeleton ? (
+                  <div className="container-fluid">
+                 
+            
+                  
+        
+                  <div className="row user-profile-form-comp">
+                    <div className="col-md-12">
+                    <Skeleton variant="rectangular"  height={160} />
+                    <Skeleton
+                      variant="rectangular"
+                      
+                      height={100}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      
+                      height={250}
+                      className="mt-3"
+                    />
+                    <Skeleton
+                      variant="rectangular"
+                      
+                      height={250}
+                      className="mt-3"
+                    />
+                 
+                  </div>
+                  </div>
+                  </div>
+                ) :
+      maxProResponses > 0 ? (
         <div className="container-fluid admin-dashboard admin-icon">
           {/* {parseInt(listingiInLast30[0]?.plan_status) !== 2 && ( */}
             <div className="row info-card">
@@ -532,14 +569,9 @@ useEffect(() => {
         </div>
       ) : (
         <div className="container-fluid">
-          <div className="profile-form-upper-section">
-            {/* <AdminDashUpperBody
-    heading={heading}
-    filterAva={false}
-    selectedActionsAva={false}
-    searchAva={false}
-  /> */}
-          </div>
+         
+    
+          
 
           <div className="row user-profile-form-comp">
             <div className="col-md-12">
@@ -609,6 +641,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
+        
       )}
     </>
   );

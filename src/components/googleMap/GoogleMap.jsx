@@ -493,7 +493,7 @@ const GoogleMap1 = ({ cordinates, pro_locality, img_link, pro_url }) => {
           // center={center}
           key={`${cordinates.lat}-${cordinates.lng}`}
           center={[cordinates.lat, cordinates.lng]}
-          zoom={12}
+          zoom={15}
           style={{ height: "50vh", width: "100%" }}
         >
           

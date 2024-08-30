@@ -401,6 +401,7 @@ import "./User.css";
 //import Navbar from "../../components/navbar2/Navbar";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChecklist } from "@tabler/icons-react";
+import { IconReportAnalytics } from "@tabler/icons-react";
 
 const User = () => {
   const navigate = useNavigate();
@@ -454,11 +455,7 @@ const User = () => {
       name: "My Listed Properties",
       linkto: "/user/dashboard",
     },
-    {
-      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
-      name: "My Profile",
-      linkto: `/user/user-profile/${currentUser[0].login_id}`,
-    },
+    
 
     {
       icon: <IconCrown width={32} height={32} className="sidebar-faicon" />,
@@ -479,9 +476,14 @@ const User = () => {
       linkto: "/user/shortlisted",
     },
     {
-      icon: <IconChecklist className="sidebar-faicon" />,
+      icon: <IconReportAnalytics className="sidebar-faicon" />,
       name: "Insights",
       linkto: "/user/Insights/all",
+    },
+    {
+      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+      name: "My Profile",
+      linkto: `/user/user-profile/${currentUser[0].login_id}`,
     },
   ];
 
