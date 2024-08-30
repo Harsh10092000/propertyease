@@ -18870,12 +18870,33 @@ border-radius: 0;
 }
 
 .hero-banner .pro-ad-type-list-wrapper #pro-ad-type-list {
-
   top: 140px;
 }
-
 }
 
+
+@media screen and (min-height: 600px) and (max-height: 700px) { 
+  .hero-banner {
+    height: 80vh;
+  }
+}
+
+@media screen and (min-height: 700px) and (max-height: 830px) { 
+  .hero-banner {
+    height: 70vh;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mobile-res-card-2 {
+    padding-right: 0px !important; 
+    padding-left: 0px !important;
+  }
+  .mobile-res-card-2 .uniBlock {
+    padding-right: 6px !important; 
+    padding-left: 6px !important;
+  }
+}
 
 .all-pro-filter {
   /* padding-top: 15px;
