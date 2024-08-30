@@ -737,6 +737,14 @@ const Navbar = () => {
             </Link>
           </div>
           <div className="new-menu">
+          {/* <div className="new-navbar-item pr-3">
+              <Link to={"/allproperties"} className="text-black">
+                <span className="new-navbar-item-content search-button">
+                  <span><IconSearch className="animated rollOut" width={18} height={18} stroke={3} /></span>
+                  Search Properties
+                </span>
+              </Link>
+            </div> */}
             <div className="buy-menu new-navbar-item">
               <span
                 className="rent justify-content-center pointer"
@@ -898,14 +906,7 @@ const Navbar = () => {
               <Link to="/" title="Get Started"> 
               <div className="new-navbar-item-content">Get Started</div></Link>
             </div> */}
-<div className="new-navbar-item pr-3">
-              <Link to={"/allproperties"} className="text-black">
-                <span className="new-navbar-item-content">
-                  {" "}
-                  Search Properties{" "}
-                </span>
-              </Link>
-            </div>
+
             {/* <div className="new-navbar-item pr-3 ">
               {!currentUser ? (
                 <Link to="/login" className="">
@@ -922,6 +923,14 @@ const Navbar = () => {
                 </Link>
               )}
             </div> */}
+            <div className="new-navbar-item pr-3">
+              <Link to={"/allproperties"} className="text-black">
+                <span className="new-navbar-item-content">
+                  {" "}
+                  Search Properties{" "}
+                </span>
+              </Link>
+            </div>
             <div className="new-navbar-item">
               <Link to="/contactus" title="Contact Us">
                 <div className="new-navbar-item-content">Contact Us</div>

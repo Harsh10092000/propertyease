@@ -4,7 +4,7 @@ import moment from 'moment'
 
 const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
   return (
-    <div className={`col-md-${col || 4} pb-4  ${padding}`} key={index}>
+    <div className={`col-md-${col || 4} pb-4  ${padding} mobile-res-card-2`} key={index} >
                     <div className="uniBlock">
                       <div className="recent-box-serv-1">
                         <div className="re-bus-img-1">

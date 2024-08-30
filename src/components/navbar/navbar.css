@@ -175,3 +175,23 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 .admin-dashboard {
     padding-bottom: 10px;
 }
+
+@media screen and (max-width: 400px) {
+    .logo img {
+        width: 140px;
+    }
+    .new-navbar-btn {
+        padding: 7px 9px;
+    }
+    .new-mobile-nav {
+        padding: 5px 9px;
+    }
+}
+
+
+
+@media screen and (max-width: 380px) {
+    .logo img {
+        width: 130px;
+    }
+}
