@@ -154,7 +154,11 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                     : item.pro_user_type + " ")
                 )}
                               </div>
-                              <div className="details-2">{moment(item.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()}</div>
+                              <div className="details-2">
+                                {/* {moment(item.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()} */}
+                                {moment(data.pro_creation_date).fromNow()}
+
+                              </div>
                             </div>
                             <div className="details"> <Link to={`/${item.pro_url}`}>
                           <a
