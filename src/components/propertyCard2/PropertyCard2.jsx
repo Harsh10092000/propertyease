@@ -156,7 +156,7 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                               </div>
                               <div className="details-2">
                                 {/* {moment(item.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()} */}
-                                {moment(data.pro_creation_date).fromNow()}
+                                {moment(item.pro_creation_date).fromNow()}
 
                               </div>
                             </div>
