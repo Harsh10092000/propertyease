@@ -983,10 +983,16 @@ const handleCordinates = (key, value) => {
                               <div className="listing-detail-date">
                                 {/* {DateTime(data.pro_date)} */}
                                 {/* {moment(data.pro_date, "YYYYMMDD").fromNow()} */}
-                                {moment(data.pro_creation_date)
+                                {/* {moment(data.pro_creation_date)
                                   .add(5, "h")
                                   .add(30, "minutes")
-                                  .fromNow()}
+                                  .fromNow()} */}
+
+{/* {moment(data.pro_creation_date)
+                                  
+                                  .fromNow()} */}
+
+                                  {moment(data.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()}
 
                                 {/* 
 time3.add(12, "minutes") */}
