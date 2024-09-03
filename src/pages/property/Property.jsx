@@ -988,7 +988,7 @@ const handleCordinates = (key, value) => {
                                   .add(30, "minutes")
                                   .fromNow()} */}
 
-{/* {moment(data.pro_creation_date)
+ {/* {moment(data.pro_creation_date)
                                   
                                   .fromNow()} */}
 
