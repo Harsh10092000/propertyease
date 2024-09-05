@@ -18902,6 +18902,12 @@ border-radius: 0;
   }
 }
 
+@media screen and (max-height: 830px) { 
+  .hero-banner {
+    height: 45vh;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .mobile-res-card-2 {
     padding-right: 0px !important; 
@@ -21224,4 +21230,108 @@ tr:nth-last-child(1) .action-dropdown-wrapper .action-menu , tr:nth-last-child(2
 .no-response-sub-point {
   padding: 3px 0px;
   
+}
+
+.email-add-btn-wrapper-1 {
+  padding-top: 13px;
+}
+
+.tox-statusbar {
+  display: none !important;
+}
+
+.contact-list-sec { 
+  margin-top: 8px;
+  margin-bottom: 30px;
+  padding-right: 40px;
+
+}
+
+.contact-list-Wrapper {
+  overflow-y: scroll;
+  /* height: 80vh; */
+  /* padding: 15px; */
+  height: calc(100vh - 165px);
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  background-color: White;
+  margin-bottom: 20px;
+}
+
+.contact-list-Wrapper .contact-list-item {
+  padding: 6px 15px;
+}
+
+.contact-list-header {
+  display: flex;
+  border-bottom: 1px solid black;
+  margin-left: 20px;
+  position: sticky;
+  top: 0;
+  background-color: white !important;
+  z-index: 99;
+  padding: 15px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  
+}
+
+.contact-list-header-item {
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
+  padding: 8px 18px 8px 0px;
+  
+}
+
+.broadcast-mail-wrapper {
+  padding: 0px 10px;
+  margin-top: 8px;
+  margin-bottom: 30px;
+  
+}
+
+.broadcast-mail-sec {
+  overflow-y: scroll;
+  height: calc(100vh - 165px);
+  /* padding: 15px; */
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  background-color: White;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.selected-item {
+  color: #1e1d85;
+  border-bottom: 1px solid #1e1d85;
+  transition: all 0.3 ease;
+}
+
+.contact-list-type {
+  margin: 16px;
+  background-color: #f8f8f8;
+  padding: 10px 10px;
+  padding-left: 16px;
+  border-radius: 8px;
+  color: #1e1d85;
+  font-weight: 600;
+}
+
+.add-email-btn-1 {
+  font-size: 15px;
+  line-height: 21px;
+  padding: 8px;
+  /* border: 1px solid green; */
+}
+
+
+.add-email-btn{ 
+  color: white;
+  background-color: #1e1d85;
+}
+
+.cancel-dia-btn {
+  border: 1px solid #1e1d85;
+  color: #1e1d85;
 }

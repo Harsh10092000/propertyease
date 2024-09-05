@@ -323,7 +323,8 @@ import {
   IconMessage,
   IconPhone,
   IconMap,
-  IconDashboard
+  IconDashboard,
+  IconMail
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
@@ -446,6 +447,12 @@ const Admin = () => {
           linkto: "/admin/citymapsform",
         },
       ],
+    },
+
+    {
+      icon: <IconMail width={32} height={32} className="sidebar-faicon" />,
+      name: "Mail",
+      linkto: `/admin/mail`,
     },
 
     {

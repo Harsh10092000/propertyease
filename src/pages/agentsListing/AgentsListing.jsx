@@ -243,6 +243,8 @@ const AgentsListing = () => {
     }
   };
 
+    const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
+
   return (
     <div>
       {loader ? <Loader /> : ""}
@@ -438,7 +440,7 @@ const AgentsListing = () => {
                           ) : item.work_state.length > 80 ? (
                             <>
                               {item.work_state.slice(0, 80)}...
-                              <Link title="View Agent Profile" to={`/agentProfile/${item.agent_id}`}>
+                              <Link title="View Agent Profile" to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.agent_id}`}>
                                 more
                               </Link>
                             </>
@@ -499,7 +501,7 @@ const AgentsListing = () => {
                           </button>
                         </div>
                         <div className="pl-2">
-                          <Link to={`/agentProfile/${item.user_cnct_id}`}>
+                          <Link to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.user_cnct_id}`}>
                             <button
                               type="button"
                               class="btn btn-sm view-profile"

@@ -17,13 +17,9 @@ import axios from "axios";
 import Modal from "@mui/material/Modal";
 import { AuthContext } from "../../context/AuthContext";
 import { Skeleton, Snackbar } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+
 import Loader from "../../components/loader/Loader";
-import { Helmet } from "react-helmet";
+
 import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
 import DateTime from "../../dateTime";
@@ -31,22 +27,13 @@ import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 import ContactUsForm from "../../components/contactUsForm/ContactUsForm";
 import moment from "moment";
-//import { HelmetProvider, Helmet } from 'react-helmet-async'
+
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import GoogleMap1, {
-  // FetchNearbyLocations,
-  // FindCoordinates,
-  // GoogleMap2,
-  // //GoogleMap2,
-  // //NearbyPlaces,
-  // //NearbyPlaces1,
-  // NearPlaces,
-} from "../../components/googleMap/GoogleMap";
+import GoogleMap1 from "../../components/googleMap/GoogleMap";
 
 const Property = () => {
-  const curr_date = Date.now();
   const date = new Date(1710738331821);
 
   date.setUTCHours(date.getUTCHours() + 5);
@@ -59,7 +46,7 @@ const Property = () => {
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
-  const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  //const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
@@ -162,6 +149,12 @@ const Property = () => {
   }, [data]);
 
   const [agentName, setAgentName] = useState("");
+  const [agentDetails, setAgentDetails] = useState({
+    agentCity: "",
+    agentSubDistrict: "",
+    agentstate: "",
+  });
+
   useEffect(() => {
     axios
       .get(
@@ -169,7 +162,13 @@ const Property = () => {
           `/api/agent/fetchAgentNameById/${data?.pro_user_id}`
       )
       .then((res) => {
+        console.log(res.data)
         setAgentName(res.data[0].agent_name);
+        setAgentDetails({
+          agentCity: res.data[0].agent_city,
+          agentSubDistrict: res.data[0].agent_sub_district,
+          agentstate: res.data[0].agent_state,
+        });
       });
   }, [data]);
 
@@ -203,29 +202,6 @@ const Property = () => {
       );
     }
   }, [data?.pro_id]);
-
-  // const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById1/${proId}`);
-  //       setIsLoading(true)
-  //       setData(response.data[0]);
-  //       setLatestProperty(response.data1);
-  //       setProType(response.data[0].pro_type.split(",")[1]);
-  //       setSkeleton(false);
-  //       const response1 = await axios.get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`);
-  //       setImages([...response1.data, { img_link: "default.png" }]);
-  //       setIsLoading(false)
-  //       checkShortlist();
-  //   checkInterested();
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const propertyType1 = data !== undefined && [
     {
@@ -521,10 +497,8 @@ const Property = () => {
     }
   };
 
- 
   const [snackQ, setSnackQ] = useState(false);
 
-  
   const [sticky, setSticky] = useState(false);
   const handleScroll = () => {
     const scrollPosition = window.scrollY; // => scroll position
@@ -575,8 +549,6 @@ const Property = () => {
       });
   }, []);
 
-
-
   const [snackDailog, setSnackDailog] = useState(false);
   const [openContactDialog, setOpenContactDialog] = useState(false);
   // const handleContactUs = () => {
@@ -599,78 +571,68 @@ const Property = () => {
     setChange(change + 1);
   };
 
-
   const [cordinates, setCodinates] = useState({
     lat: "",
     lng: "",
     formatted_address: "",
   });
 
-//   const handleCordinates = (val1, val2) => {
-//     setCodinates({...cordinates , [val1] : val2})
-//  }
+  //   const handleCordinates = (val1, val2) => {
+  //     setCodinates({...cordinates , [val1] : val2})
+  //  }
 
-const handleCordinates = (key, value) => {
-  console.log(key , value)
-  setCodinates(prevState => ({
-    ...prevState,
-    [key]: value
-  }));
-}
- const [cordinatesChanged , setCordinatesChanged] = useState(false);
-
- useEffect(() => {
-  console.log(cordinates)
-  cordinates.lat !== "" ? 
-  setCordinatesChanged(true) : setCordinatesChanged(false)
- }, [cordinates, data])
-
-//  const [cordinates, setCodinates] = useState({
-//   lat: "",
-//   lng: "",
-//   formatted_address: "",
-// });
-
- useEffect(() => {
-
-  const location = {
-    name: data.pro_locality,
-    lat: 29.9692794,
-    lng: 76.8735374,
-    formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+  const handleCordinates = (key, value) => {
+    console.log(key, value);
+    setCodinates((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
   };
+  const [cordinatesChanged, setCordinatesChanged] = useState(false);
 
-  data.pro_locality !== undefined &&
+  useEffect(() => {
+    console.log(cordinates);
+    cordinates.lat !== ""
+      ? setCordinatesChanged(true)
+      : setCordinatesChanged(false);
+  }, [cordinates, data]);
 
-  axios
-  .get(
-    `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+  //  const [cordinates, setCodinates] = useState({
+  //   lat: "",
+  //   lng: "",
+  //   formatted_address: "",
+  // });
+
+  useEffect(() => {
+    const location = {
+      name: data.pro_locality,
+      lat: 29.9692794,
+      lng: 76.8735374,
+      formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+    };
+
+    data.pro_locality !== undefined &&
+      axios
+        .get(
+          `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
         n&key=AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS`
-  )
-  .then((res) => {
-    
+        )
+        .then((res) => {
+          setCodinates({
+            ...cordinates,
+            lat: res.data.results[0].geometry.location.lat,
+            lng: res.data.results[0].geometry.location.lng,
+            formatted_address: res.data.results[0].formatted_address,
+          }),
+            setCordinatesChanged(true);
+          //handleCordinates("lat", res.data.results[0].geometry.location.lat),
+          //handleCordinates("lng",res.data.results[0].geometry.location.lng),
+          //handleCordinates("formatted_address", res.data.results[0].formatted_address));
+        });
+  }, [data]);
 
-    
-      setCodinates({
-        ...cordinates,
-        lat: res.data.results[0].geometry.location.lat,
-        lng: res.data.results[0].geometry.location.lng,
-        formatted_address: res.data.results[0].formatted_address,
-
-      }
-      
-    ),
-    setCordinatesChanged(true)
-       //handleCordinates("lat", res.data.results[0].geometry.location.lat),
-       //handleCordinates("lng",res.data.results[0].geometry.location.lng),
-       //handleCordinates("formatted_address", res.data.results[0].formatted_address));
- });
- }, [data])
-
-
-
-
-
+  
+  const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
 
   return (
     <div className="padding-top">
@@ -959,7 +921,15 @@ const handleCordinates = (key, value) => {
                               {userType === "Agent" &&
                               data.pro_user_type === "Agent" ? (
                                 <Link
-                                  to={`/agentProfile/${data.pro_user_id}`}
+                                  to={`/agentProfile/${formatString(
+                                    agentName
+                                  )}-in-${formatString(
+                                    agentDetails.agentSubDistrict
+                                  )}-${formatString(
+                                    agentDetails.agentCity
+                                  )}-${formatString(agentDetails.agentstate)}-${
+                                    data.pro_user_id
+                                  }`}
                                   title="Click to View Agent Profile"
                                 >
                                   Listed by{" "}
@@ -988,11 +958,9 @@ const handleCordinates = (key, value) => {
                                   .add(30, "minutes")
                                   .fromNow()} */}
 
- {moment(data.pro_creation_date)
-                                  
-                                  .fromNow()}
+                                {moment(data.pro_creation_date).fromNow()}
 
-                                  {/* {moment(data.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()} */}
+                                {/* {moment(data.pro_creation_date).add(5,"h").add(30, "minutes").fromNow()} */}
 
                                 {/* 
 time3.add(12, "minutes") */}
@@ -1539,24 +1507,25 @@ time3.add(12, "minutes") */}
                         </div>
                       </div>
                     </div>
-                    {data !== undefined && data.pro_listed !== 0 &&
-                  
-                    <div className="property-more-detail">
-                      <div className="row">
-                        <div className="col-md-12">
-                          {/* <FindCoordinates data={data} handleCordinates={handleCordinates} /> */}
-                          
-                          {cordinatesChanged && (
+                    {data !== undefined && data.pro_listed !== 0 && (
+                      <div className="property-more-detail">
+                        <div className="row">
+                          <div className="col-md-12">
+                            {/* <FindCoordinates data={data} handleCordinates={handleCordinates} /> */}
 
-
-         <GoogleMap1 cordinates={cordinates} pro_locality={data.pro_locality} img_link={images[0].img_link} pro_url={data.pro_url} />
-        
-      )}
+                            {cordinatesChanged && (
+                              <GoogleMap1
+                                cordinates={cordinates}
+                                pro_locality={data.pro_locality}
+                                img_link={images[0].img_link}
+                                pro_url={data.pro_url}
+                              />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-}
-                  {/*  <div className="property-more-detail">
+                    )}
+                    {/*  <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
                           <FetchNearbyLocations />
@@ -1573,8 +1542,7 @@ time3.add(12, "minutes") */}
                       </div>
                     </div> */}
 
-
-                   {/* <div className="property-more-detail">
+                    {/* <div className="property-more-detail">
                       <div className="row">
                         <div className="col-md-12">
                           <div>NearbyPlaces</div>

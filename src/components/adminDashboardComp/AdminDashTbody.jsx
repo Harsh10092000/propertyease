@@ -789,7 +789,7 @@ export const FormHeading = ({ heading }) => {
   );
 };
 
-export const FormStrcture = ({ heading, children }) => {
+export const FormStrcture = ({ heading, children, dynamic_col }) => {
   return (
     <div className="container-fluid">
       <div className="profile-form-upper-section">
@@ -802,7 +802,7 @@ export const FormStrcture = ({ heading, children }) => {
       </div>
 
       <div className="row user-profile-form-comp">
-        <div className="col-md-6">
+        <div className={`col-md-${dynamic_col || "6"}`}>
           <div className="user-profile-form-wrapper ">
             <div className="form-fields">
               <div className="sidebar-content-heading ml-2">

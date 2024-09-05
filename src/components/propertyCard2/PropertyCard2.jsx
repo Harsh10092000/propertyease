@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 
 const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
+  const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
   return (
     <div className={`col-md-${col || 4} pb-4  ${padding} mobile-res-card-2`} key={index} >
                     <div className="uniBlock">
@@ -137,7 +138,8 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                 item.pro_user_type === "Agent" ? (
                   <Link
                   className="user-profile-link"
-                    to={`/agentProfile/${item.pro_user_id}`}
+                    //to={`/agentProfile/${item.pro_user_id}`}
+                    to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.pro_user_id}`}
                     title="Click to View Agent Profile"
                   >
                     Listed by{" "}

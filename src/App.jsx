@@ -78,6 +78,7 @@ import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
 
 import Package1 from "./pages/premimumPackages/Package1";
 import UserInsights from "./pages/userInsights/UserInsights";
+import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -420,6 +421,11 @@ const App = () => {
         {
           path: "mailbroadcast",
           element: <EmailBoardcast />,
+        },
+
+        {
+          path: "mail",
+          element: <InviteFromAdmin />,
         },
         
       ],

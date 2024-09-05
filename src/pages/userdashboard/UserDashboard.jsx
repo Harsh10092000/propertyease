@@ -324,7 +324,6 @@ const UserDashboard = () => {
   };
 
   const handleCheckboxChange = (itemProId) => {
-    console.log(itemProId);
     setListingids((prevState) => {
       if (prevState.includes(itemProId)) {
         // If the ID is already in the array, remove it
@@ -783,7 +782,7 @@ const UserDashboard = () => {
               </div>
               <div className="info-card-name">
                 <h5 className="fw-semibold fs-22 mb-1">{currentUser[0].login_email}</h5>
-                {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membrship</p> : <p className="mb-0 text-muted fw-medium">Pro Membrship</p> }
+                {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membership</p> : <p className="mb-0 text-muted fw-medium">Pro Membership</p> }
               </div>
             </div>
           </div>

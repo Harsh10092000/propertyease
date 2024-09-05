@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IconEye, IconBrandWhatsapp, IconSend } from "@tabler/icons-react";
 import ContactUsForm from "../contactUsForm/ContactUsForm";
 import { Snackbar } from "@mui/material";
+import moment from "moment";
 
 const PropertyCard = ({ object, index, currentUser, DateTime }) => {
 
@@ -29,7 +30,7 @@ const handleSnackDialog = (value) => {
 
 
 
-
+const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
 
   return (
     <div className="list-group" key={index}>
@@ -206,8 +207,9 @@ const handleSnackDialog = (value) => {
                 {object.user_type === "Agent" &&
                 object.pro_user_type === "Agent" ? (
                   <Link
-                    to={`/agentProfile/${object.pro_user_id}`}
+                    to={`/agentProfile/${formatString(object.agent_name)}-in-${formatString(object.agent_sub_district)}-${formatString(object.agent_city)}-${formatString(object.agent_state)}-${object.pro_user_id}`}
                     title="Click to View Agent Profile"
+                    
                   >
                     Listed by{" "}
                     {currentUser &&
@@ -226,7 +228,8 @@ const handleSnackDialog = (value) => {
                     : object.pro_user_type + " ")
                 )}
                 <br />
-                {DateTime(object.pro_date)}
+                {/* {DateTime(object.pro_date)} */}
+                {moment(object.pro_creation_date).fromNow()}
               </div>
 
               <div className="d-flex listing-buttons">

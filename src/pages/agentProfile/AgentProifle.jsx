@@ -29,7 +29,11 @@ import Loader from "../../components/loader/Loader";
 const AgentProifle = () => {
   const { currentUser } = useContext(AuthContext);
   //const { agentId } = useParams();
+  //const { userId } = useParams();
   const { userId } = useParams();
+  const arrproId = userId.split("-");
+  const agentId = arrproId[arrproId.length - 1];
+
   const propertyUserType = [
     { value: "Buy" },
     { value: "Sale" },
@@ -67,7 +71,7 @@ const AgentProifle = () => {
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData1/${userId}`
+        import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData1/${agentId}`
       )
       .then((res) => {
         console.log("res : ", res.data, res.data.agentData[0]);
@@ -237,6 +241,8 @@ const AgentProifle = () => {
     }
   }, [data, emailError]);
 
+  const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
+
   return (
     <div>
       <Navbar />
@@ -393,7 +399,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${agentData.user_cnct_id}`}
+                                    href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/agentProfile/${formatString(agentData.agent_name)}-in-${formatString(agentData.agent_sub_district)}-${formatString(agentData.agent_city)}-${formatString(agentData.agent_state)}-${agentData.user_cnct_id}`}
                                     target="_blank"
                                     className="share-property"
                                   >
@@ -412,7 +418,7 @@ const AgentProifle = () => {
                                 >
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile/${agentData.user_cnct_id}`}
+                                    href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/agentProfile/${formatString(agentData.agent_name)}-in-${formatString(agentData.agent_sub_district)}-${formatString(agentData.agent_city)}-${formatString(agentData.agent_state)}-${agentData.user_cnct_id}`}
                                     target="_blank"
                                     className="share-propertywp"
                                   >

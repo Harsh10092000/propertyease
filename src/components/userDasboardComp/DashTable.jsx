@@ -4,7 +4,7 @@ import DashThead from './DashThead'
 import { DashTbodySub } from './DashTbody'
 import { Pagination } from '@mui/material'
 
-const DashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSelected, FormatDate, handleCheckboxChange, listingids, handleClickOpen, listProperty, context,dataLoaded, handleCurreentPage, nPages, pagination, updateSaleStatus }) => {
+const DashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSelected, FormatDate, handleCheckboxChange, listingids, handleClickOpen, listProperty, context,dataLoaded, handleCurreentPage, nPages, pagination, updateSaleStatus}) => {
   
   
     const RenderTbody = context === 'dashboard' ? DashTbody : DashTbodySub;
@@ -29,6 +29,8 @@ const DashTable = ({theadArray, tbodyArray, compData, handleAllTypes, allSelecte
             handleClickOpen={handleClickOpen}
             listProperty={listProperty}
             updateSaleStatus={updateSaleStatus}
+            
+            
           />
 
             
