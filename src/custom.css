@@ -3570,6 +3570,12 @@ a.btn-resiter-earing span {
     border-radius: 3px;
     text-decoration: none;
   }
+  .hero-banner { 
+    height: auto !important;
+  }
+  .hero-search {
+    position: inherit !important;
+  }
 }
 @media only screen and (max-width: 425px) {
   .cat-img-icon {
@@ -3863,6 +3869,12 @@ a.btn-resiter-earing span {
   }
   .property-side-detail {
     box-shadow: inherit;
+  }
+  .hero-search {
+    position: inherit;
+  }
+  .hero-banner {
+    height: auto;
   }
 }
 @media only screen and (max-width: 375px) {
@@ -18699,23 +18711,11 @@ border-radius: 0;
 }
 
 
-@media screen and (max-height: 600px) { 
-  .hero-banner {
-    background: #eff6ff no-repeat url(../images/hero-2.png);
-    height: 45vh;
-    position: relative;
-    background-size: cover;
-  }
-}
+
 
 
 @media screen and (max-width: 720px) { 
-.hero-banner {
-  background: #eff6ff no-repeat url(../images/hero-2.png);
-  height: 50vh;
-  position: relative;
-  background-size: cover;
-}
+
 .hero-search .hero-search-wrapper .row {
   box-shadow: 0px 10px 12px rgb(56 147 206 / 10%);
   -webkit-box-shadow: 0px 10px 12px rgb(56 147 206 / 10%);
@@ -18791,12 +18791,6 @@ border-radius: 0;
 
 
 
-.hero-banner {
-  background: #eff6ff no-repeat url(../images/hero-2.png);
-  height: 55vh;
-  position: relative;
-  background-size: cover;
-}
 
 
 
@@ -18875,38 +18869,11 @@ border-radius: 0;
 }
 
 
-@media screen and (max-height: 600px) { 
-  .hero-banner {
-    height: 90vh;
-  }
-}
 
-/* For screens between 601px and 700px in height */
-@media screen and (min-height: 601px) and (max-height: 700px) { 
-  .hero-banner {
-    height: 80vh;
-  }
-}
 
-/* For screens between 701px and 750px in height */
-@media screen and (min-height: 701px) and (max-height: 750px) { 
-  .hero-banner {
-    height: 70vh;
-  }
-}
 
-/* For screens between 751px and 830px in height */
-@media screen and (min-height: 751px) and (max-height: 830px) { 
-  .hero-banner {
-    height: 60vh;
-  }
-}
 
-@media screen and (max-height: 830px) { 
-  .hero-banner {
-    height: 45vh;
-  }
-}
+
 
 @media screen and (max-width: 600px) {
   .mobile-res-card-2 {
