@@ -60,7 +60,11 @@ const SmsComponent = () => {
 
   const handleClick = () => {
 
-      var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PROPEZ&message=' + encodeURIComponent('Someone has invited to join propertyease.in , a real estate portal to list, manage your properties for free. Join Now!!');
+    //   var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PROPEZ&message=' + encodeURIComponent('Someone has invited to join propertyease.in , a real estate portal to list, manage your properties for free. Join Now!!');
+    var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PROPEZ&message=' + encodeURIComponent("Propertyease.in: 457415 is your code for login. Your code expires in 10 minutes. Don't share your code.");
+      
+    // var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PROPEZ&message=' + encodeURIComponent("Hi, Mukesh Chitra +91-9992498195 expressed interest in your property on propertyease.in");
+    
       axios
         .get(url)
         .then(function (response) {
