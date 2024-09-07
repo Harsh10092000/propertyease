@@ -9,6 +9,9 @@ import {
   IconCaretDownFilled,
   IconTicket,
   IconMenuDeep,
+  IconUsers,
+  IconChecklist,
+  IconReportAnalytics,
 } from "@tabler/icons-react";
 import {
   IconBuilding,
@@ -64,6 +67,11 @@ const DashboardNavbar = () => {
 
   const items = [
     {
+      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+      name: "My Profile",
+      linkto: `/user/user-profile/${currentUser[0].login_id}`,
+    },
+    {
       icon: <IconBuilding className="sidebar-faicon" />,
       name: "Add Property",
       linkto: "/addproperty",
@@ -78,16 +86,23 @@ const DashboardNavbar = () => {
       name: "My Listed Properties",
       linkto: "/user/dashboard",
     },
-    {
-      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
-      name: "My Profile",
-      linkto: `/user/user-profile/${currentUser[0].login_id}`,
-    },
+    
 
     {
-      icon: <IconEye className="sidebar-faicon" />,
+      icon: <IconChecklist className="sidebar-faicon" />,
       name: "Shortlisted",
       linkto: "/user/shortlisted",
+    },
+    {
+      icon: <IconReportAnalytics className="sidebar-faicon" />,
+      name: "Insights",
+      linkto: "/user/Insights/all",
+    },
+   
+    {
+      icon: <IconUsers width={32} height={32} className="sidebar-faicon" />,
+      name: "Invite Friends",
+      linkto: `/user/invite-user`,
     },
   ];
 

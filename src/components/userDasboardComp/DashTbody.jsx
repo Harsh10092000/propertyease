@@ -10,7 +10,8 @@ import {
 } from "@mui/material";
 import DashboardNavbar from "../dashboardNavbar/DashboardNavbar";
 import { IconMenuDeep } from "@tabler/icons-react";
-
+import DashThead from "./DashThead";
+import axios from "axios";
 
 
 
@@ -32,11 +33,12 @@ const renderComplexContent = (item) => {
   );
 };
 
-const renderResponsesViews = (item, totalResponses) => {
+
+const renderResponsesViews = (item) => {
  
   return ( 
     parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? 
-    // <span>Views : {parseInt(item.pro_views) > 0 ? item.pro_views : 0 }  Responses : {parseInt(totalResponses) > 0 ? totalResponses : 0}</span>
+    
     <div className="d-flex gap-3">
       {parseInt(item.pro_responses) > 0 ? <>
       <Link to={`/user/insights/${item.pro_id}`}><div className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div></Link>
@@ -52,8 +54,73 @@ const renderResponsesViews = (item, totalResponses) => {
    );
 }
 
+const renderResponsesViews2 = (item, handleShowResData, handleShowResDataId , showData, respondantDataByPro ,tbodyArray1 , showDataId, theadArray1, resDataPopUpRef) => {
+  
+  return ( 
+    parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? 
+    <div className="d-flex gap-3">
+      {parseInt(item.pro_responses) > 0 ? <>
+     
+      <div className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
+       <div className="info-badge info-badge-2 position-relative " onClick={() => {showDataId == item.pro_id ? (handleShowResData(false), handleShowResDataId("") ): (handleShowResData(true), handleShowResDataId(item.pro_id))}}>Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
+       {showData && showDataId == item.pro_id && (
+          <div ref={resDataPopUpRef} className="popup-table">
+            {/* <td colSpan={tbodyArray.length} className="text-center">
+              <div>test</div>
+            </td> */}
+            <thead className="head">
+      <tr>
+        {theadArray1.map((item, index) => {
+          // Handle colspan
+          if (item.colspan) {
+            return (
+              <th
+                key={index}
+                colSpan={item.colspan}
+                className={`table-head-1 ${item.customClass || ''}`}
+              >
+                {item.value}
+              </th>
+            );
+          }
 
-const renderConditional = (item, condition, transform, totalResponses) => {
+          // Handle customClass
+          return (
+            <th
+              key={index}
+              className={`table-head-1 ${item.customClass || ''}`}
+            >
+              {item.value}
+            </th>
+          );
+        })}
+      </tr>
+    </thead>
+               <tbody className="text-black">
+                {respondantDataByPro.map((item, index) => (
+                  <tr key={index}>
+                    {tbodyArray1.map((property, idx) => (
+            <td key={idx}>{item[property.value]}</td>
+              ))}
+           
+                  </tr>
+                ))}
+               </tbody>
+          </div>
+        )}
+      </>: <>
+    <div title="No responses yet" className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
+     <div title="No responses yet" className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
+    </>
+   }
+      </div>
+
+    : <span>-</span>
+   );
+}
+
+
+const renderConditional = (item, condition, transform, totalResponses, handleShowResData , handleShowResDataId, showData, respondantDataByPro ,tbodyArray1, showDataId, theadArray1,resDataPopUpRef ) => {
   switch (condition) {
     case "status":
       return item.pro_sale_status === 0 ? (
@@ -74,8 +141,10 @@ const renderConditional = (item, condition, transform, totalResponses) => {
     case "property_title":
       return renderComplexContent(item);
     case "views":
-      return renderResponsesViews(item, totalResponses);
-    case "property_location":
+      return renderResponsesViews(item);
+      case "views-2":
+        return renderResponsesViews2(item, handleShowResData, handleShowResDataId, showData, respondantDataByPro ,tbodyArray1, showDataId, theadArray1, resDataPopUpRef);
+      case "property_location":
       return transform ? transform(item) : "-";
     default:
       return null;
@@ -519,12 +588,75 @@ const DashTbody = ({
   // const handleOpenMenu = (value) => {
   //   setOpen(value);
   // }
+
+  const [showData, setShowData] = useState(false);
+
+  const handleShowResData = (value) => {
+    setShowData(value);
+  }
+
+  const [showDataId, setShowDataId] = useState("");
+
+  const handleShowResDataId = (value) => {
+    setShowDataId(value);
+  }
+
+
+  const [respondantDataByPro, setRespondantDataByPro] = useState([]);
   
+
+  useEffect(() => {
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND + `/api/pro/fetchRespondentByPro/${showDataId}`
+      )
+      .then((res) => {
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+          res.data.forEach((item, i) => {
+            item.serial_no = i + 1;
+          });
+          setRespondantDataByPro(res.data);
+        }
+      });
+  }, [ showDataId]);
+  
+
+  const theadArray1 = [
+    { value: "Sno.", customClass: "text-center" },
+    { value: "Name" },
+    { value: "Email" },
+    { value: "Phone" },
+  ];
+
+  const tbodyArray1 = [
+    { value: "serial_no" },
+    { value: "interested_name" },
+    { value: "interested_email" },
+    { value: "interested_phone" },
+  ];
+
+  const resDataPopUpRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (resDataPopUpRef.current && !resDataPopUpRef.current.contains(event.target)) {
+      setShowData(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   
   return (
     <tbody className="text-black">
       {compData.map((item, index) => (
-        <tr key={index}>
+        <>
+        <tr key={index} className="position-relative">
           {tbodyArray.map((property, idx) => (
             <td key={idx}>
               {property.type === "conditional"
@@ -532,8 +664,12 @@ const DashTbody = ({
                     item,
                     property.condition,
                     property.transform,
-                    property.totalResponses
+                    property.totalResponses,
+                    handleShowResData,
+                    handleShowResDataId
+                    , showData, respondantDataByPro ,tbodyArray1, showDataId,theadArray1, resDataPopUpRef
                   )
+                
                 : property.type === "checkbox"
                 ? renderConditionalCheckbox(
                     item,
@@ -582,8 +718,12 @@ const DashTbody = ({
                 : item[property.value]}
             </td>
           ))}
+           
         </tr>
+       
+        </>
       ))}
+      
     </tbody>
   );
 };

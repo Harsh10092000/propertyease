@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import axios, { all } from "axios";
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 import { Checkbox, Snackbar } from "@mui/material";
@@ -13,24 +13,26 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
 import "./UserDashboard.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 
-import {
-  faAngleRight,
-  faEye,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
+// import {
+//   faAngleRight,
+//   faEye,
+//   faPencilAlt,
+// } from "@fortawesome/free-solid-svg-icons";
 
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 
 import DashTable from "../../components/userDasboardComp/DashTable";
 import {
-  IconCheck,
   IconEdit,
   IconEye,
   IconHome,
+  IconHomeCheck,
   IconHomeOff,
+  IconInnerShadowTopLeft,
+  IconUser,
 } from "@tabler/icons-react";
 import { IconCheckbox } from "@tabler/icons-react";
 import { IconTrash } from "@tabler/icons-react";
@@ -59,10 +61,9 @@ const UserDashboard = () => {
   const [totalViews, setTotalViews] = useState("");
   const [totalResponses, setTotalResponses] = useState("");
   const [listingiInLast30, setListingiInLast30] = useState([]);
-  const [remainingInLast30, setRemainingInLast30] = useState("");
-  const [openInfoCard , setOpenInfoCard] = useState(false);
 
-  //const allSelected = data.every(item => listingids.includes(item.pro_id));
+  const [openInfoCard, setOpenInfoCard] = useState(false);
+ 
 
   useEffect(() => {
     axios
@@ -71,7 +72,6 @@ const UserDashboard = () => {
           `/api/pro/fetchPropertyDataByUserId1/${currentUser[0].login_id}`
       )
       .then((res) => {
-        console.log("res.data : ", res.data);
         if (res.data === "failed") {
           clearUser();
         } else {
@@ -80,37 +80,9 @@ const UserDashboard = () => {
           });
           setData(res.data);
           setDataLoaded(true);
-
         }
       });
 
-    // axios
-    //   .get(
-    //     import.meta.env.VITE_BACKEND +
-    //       `/api/pro/fetchViews/${currentUser[0].login_id}`
-    //   )
-    //   .then((res) => {
-    //     if (res.data === "failed") {
-    //       clearUser();
-    //     } else {
-    //       setTotalViews(res.data[0].pro_views);
-    //     }
-    //   });
-
-    // axios
-    //   .get(
-    //     import.meta.env.VITE_BACKEND +
-    //       `/api/pro/fetchResponses/${currentUser[0].login_id}`
-    //   )
-    //   .then((res) => {
-    //     if (res.data === "failed") {
-    //       clearUser();
-    //     } else {
-    //       setTotalResponses(res.data[0].pro_responses);
-    //     }
-    //   });
-
-    
     axios
       .get(
         import.meta.env.VITE_BACKEND +
@@ -125,16 +97,19 @@ const UserDashboard = () => {
       });
   }, [change]);
 
-
   useEffect(() => {
-    setTotalViews(data.reduce((accumulator, currentObject) => {
-      return parseInt(accumulator) + parseInt(currentObject.pro_views1);
-    }, 0));
-    
-    setTotalResponses(data.reduce((accumulator, currentObject) => {
-      return accumulator + currentObject.pro_responses;
-    }, 0));
-  }, [data])
+    setTotalViews(
+      data.reduce((accumulator, currentObject) => {
+        return parseInt(accumulator) + parseInt(currentObject.pro_views1);
+      }, 0)
+    );
+
+    setTotalResponses(
+      data.reduce((accumulator, currentObject) => {
+        return accumulator + currentObject.pro_responses;
+      }, 0)
+    );
+  }, [data]);
 
   useEffect(() => {
     data.forEach((item, i) => {
@@ -173,41 +148,12 @@ const UserDashboard = () => {
     );
   }, [filterChange, data]);
 
+
+ 
+
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
   const [proDate, setProDate] = useState("");
-  const FormatDate = (dateString) => {
-    if (dateString.includes("-")) {
-      () => setProDate(dateString);
-      const date = new Date(dateString);
-
-      const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      };
-
-      const formattedDate = date.toLocaleDateString("en-US", options);
-
-      return formattedDate;
-    } else {
-      const date = new Date(parseInt(dateString));
-      date.setUTCHours(date.getUTCHours() + 5);
-      date.setUTCMinutes(date.getUTCMinutes() + 30);
-      const year = date.getUTCFullYear();
-      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-      const day = String(date.getUTCDate()).padStart(2, "0");
-      // const hours = String(date.getUTCHours()).padStart(2, "0");
-      // const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-      // const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-      // const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-      const formattedTimestamp = `${year}-${month}-${day} `;
-      const date2 = new Date(formattedTimestamp);
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      const formattedDate = date2.toLocaleDateString("en-US", options);
-      return formattedDate;
-    }
-  };
 
   const [proListingStatus, setProListingStatus] = useState({
     pro_listed: "",
@@ -382,12 +328,11 @@ const UserDashboard = () => {
     { value: "Price" },
     { value: "Posted On" },
     { value: "Property Title", customClass: "th-width-16" },
-    { value: "Responses and Views" , customClass: "th-width-16" },
+    { value: "Responses and Views", customClass: "th-width-16" },
     { value: "Status" },
-    { value: "Actions" , customClass: "th-width-2"},
+    { value: "Actions", customClass: "th-width-2" },
   ];
 
- 
   const tbodyArray = [
     // {
     //   value: `<Checkbox
@@ -416,7 +361,11 @@ const UserDashboard = () => {
     },
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },
-    { type: "conditional", condition: "views" , totalResponses:{totalResponses} },
+    {
+      type: "conditional",
+      condition: "views-2",
+      totalResponses: { totalResponses },
+    },
     { type: "conditional", condition: "status" },
     // {
     //   type: "conditional2",
@@ -575,8 +524,8 @@ const UserDashboard = () => {
     // {value: `Actions`},
   ];
 
-  // Create a new string in the format "26 March 2024"
-  //const formattedDate = `${day} ${month} ${year}`;
+
+
 
   const handleCurreentPage = (value) => {
     setCurrentPage(value);
@@ -601,18 +550,6 @@ const UserDashboard = () => {
   const filterOptions = ["All", "Listed Properties", "Delisted Properties"];
   const selectedActions = ["List Again", "Delist Properties"];
 
-  // const [infoCard, setInfoCard] = useState([
-  // {value: "Free Membership", text: "Your current package"},
-  // {value: totalViews, text: "Total Views"},
-  // {value: totalResponses, text: "Total Responses"},
-  // {value: "5", text: "Listing Included"},
-  // {value: "5", text: "Listing Remaining"},
-  // {value: "5", text: "Listing Remaining"},
-  // {value: "5", text: "Listing Remaining"},
-  // {value: "5", text: "Listing Remaining"},
-  // {value: "5", text: "Listing Remaining"},
-  // ]);
-
   const [infoCard, setInfoCard] = useState([]);
 
   useEffect(() => {
@@ -630,35 +567,6 @@ const UserDashboard = () => {
     ]);
   }, [totalViews, totalResponses]);
 
-
-
-  const handleNextCard2 = () => {
-    console.log("Sfg");
-    setInfoCard((prevInfoCard) => {
-      // Destructure the array into the first item and the rest
-      const [firstItem, ...rest] = prevInfoCard;
-      // Append the first item to the end of the array
-      return [...rest, firstItem];
-    });
-  };
-
-  const infoCardWrapperRef = useRef(null);
-
-  const handleNextCard = () => {
-    setInfoCard((prevInfoCard) => {
-      const [firstItem, ...rest] = prevInfoCard;
-      return [...rest, firstItem];
-    });
-
-    if (infoCardWrapperRef.current) {
-      // Add the sliding effect
-      infoCardWrapperRef.current.classList.add("slide-out");
-      setTimeout(() => {
-        infoCardWrapperRef.current.classList.remove("slide-out");
-      }, 500); // Duration should match the CSS transition time
-    }
-  };
-
   const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -668,15 +576,16 @@ const UserDashboard = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const sumOfSoldProperties = data.reduce((sum, item) => sum + item.pro_sale_status, 0);
-
- 
+  const sumOfSoldProperties = data.reduce(
+    (sum, item) => sum + item.pro_sale_status,
+    0
+  );
 
   return (
     <div className="container-fluid admin-dashboard admin-icon">
@@ -766,102 +675,152 @@ const UserDashboard = () => {
       />
 
       {/* {parseInt(listingiInLast30[0]?.plan_status) !== 2 && ( */}
-        <div className="row info-card">
-          <div className="col-lg-4 align-self-center mb-3 mb-lg-0">
-            <div className="d-flex align-items-center flex-row flex-wrap">
-              <div className="position-relative mr-3">
-                {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
+      <div className="row info-card">
+        <div className="col-lg-3 align-self-center mb-3 mb-lg-0 d-flex align-items-center">
+          {/* <div className="d-flex align-items-center flex-row flex-wrap"> */}
+          <div className="position-relative mr-3">
+            {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
 
-                <img
-                  src="/img/person.jpg"
-                  alt=""
-                  height="110"
-                  width="107"
-                  className="rounded-circle"
-                />
-              </div>
-              <div className="info-card-name">
-                <h5 className="fw-semibold fs-22 mb-1">{currentUser[0].login_email}</h5>
-                {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membership</p> : <p className="mb-0 text-muted fw-medium">Pro Membership</p> }
-              </div>
-            </div>
+            <img
+              src="/img/person.jpg"
+              alt=""
+              height="70"
+              width="70"
+              className="rounded-circle"
+            />
           </div>
+          <div className="info-card-name">
+            <h5 className="fw-semibold name-font-size mb-1">
+              {currentUser[0].login_email}
+            </h5>
+            {parseInt(listingiInLast30[0]?.plan_status) !== 1 &&
+            parseInt(listingiInLast30[0]?.plan_status) !== 2 ? (
+              <p className="mb-0 text-muted fw-medium">Free Membership</p>
+            ) : (
+              <p className="mb-0 text-muted fw-medium">Pro Membership</p>
+            )}
+          </div>
+          {/* </div> */}
+        </div>
 
-          <div className="col-lg-8 ms-auto align-self-center">
-            <div className="justify-content-center  info-card-sec-wrap">
-              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+        <div className="col-lg-9 ms-auto align-self-center">
+          <div className="  info-card-sec-wrap">
+            <div className="col-md-3 dashborad-info-card d-flex border-dashed dashborad-info-card-bg-1 rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+              <div className="info-card-icon-wrapper">
+                <div className="info-card-icon">
+                  <IconEye />
+                </div>
+              </div>
+
+              <div className="">
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
                   {totalViews}
                 </h5>
                 <p className="text-muted mb-0 fw-medium">Total Views</p>
               </div>
-              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0 ">
-                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+            </div>
+
+            <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-2 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0 ">
+              <div className="info-card-icon-wrapper">
+                <div className="info-card-icon">
+                  <IconUser />
+                </div>
+              </div>
+              <div className="">
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
                   {totalResponses}
                 </h5>
                 <p className="text-muted mb-0 fw-medium">Total Responses</p>
               </div>
+            </div>
 
-
-
-              {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 &&
-              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
-                  {5 - parseInt(listingiInLast30[0]?.pro_count)}
-                </h5>
-                <div className="d-flex justify-content-between">
-                  <p className="text-muted mb-0 fw-medium">
-                    Listing Remaining
-                  </p>
-                  
-                  <div className="info-popup">
-                    <IconInfoSquareRounded className="pointer"  onClick={() => setOpenInfoCard(prevState => !prevState)} />
-                      {openInfoCard &&
-                    <div ref={dropdownRef} className="info-popup-card">
-                      <p>
-                        You have {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
-                        more property listings available until
-                        <span>{" " +
-                          moment(listingiInLast30[0].pro_creation_date)
-                            .add(30, "days")
-                            .format("MMMM DD YYYY")}</span>
-                        . Upgrade to a Pro membership for unlimited listings and
-                        enhanced features.
+            {parseInt(listingiInLast30[0]?.plan_status) !== 1 &&
+              parseInt(listingiInLast30[0]?.plan_status) !== 2 && (
+                <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-3 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                  <div className="info-card-icon-wrapper">
+                    <div className="info-card-icon">
+                      <IconInnerShadowTopLeft />
+                    </div>
+                  </div>
+                  <div>
+                    <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
+                      {5 - parseInt(listingiInLast30[0]?.pro_count)}
+                    </h5>
+                    <div className="d-flex justify-content-between">
+                      <p className="text-muted mb-0 fw-medium">
+                        Listing Remaining
                       </p>
 
-                      {/* <button>
+                      <div className="info-popup ml-2">
+                        <IconInfoSquareRounded
+                          className="pointer"
+                          onClick={() =>
+                            setOpenInfoCard((prevState) => !prevState)
+                          }
+                        />
+                        {openInfoCard && (
+                          <div ref={dropdownRef} className="info-popup-card">
+                            <p>
+                              You have{" "}
+                              {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
+                              more property listings available until
+                              <span>
+                                {" " +
+                                  moment(listingiInLast30[0].pro_creation_date)
+                                    .add(30, "days")
+                                    .format("MMMM DD YYYY")}
+                              </span>
+                              . Upgrade to a Pro membership for unlimited
+                              listings and enhanced features.
+                            </p>
+
+                            {/* <button>
                     Close
                   </button> */}
 
-                      <div>
-                        <Link to="/pricing" class="package-purchase-button">
-                          Upgrade
-                        </Link>
-                        <a href="#" class="package-purchase-button-close" onClick={() => setOpenInfoCard(false)}>
-                          Close
-                        </a>
+                            <div>
+                              <Link
+                                to="/pricing"
+                                class="package-purchase-button"
+                              >
+                                Upgrade
+                              </Link>
+                              <a
+                                href="#"
+                                class="package-purchase-button-close"
+                                onClick={() => setOpenInfoCard(false)}
+                              >
+                                Close
+                              </a>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
-      }
                   </div>
-                </div>
 
-                {/* {moment(listingiInLast30[0].pro_creation_date)
+                  {/* {moment(listingiInLast30[0].pro_creation_date)
               .add(30, "days")
               .format("MMMM DD YYYY")} */}
+                </div>
+              )}
+            <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-4 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+              <div className="info-card-icon-wrapper">
+                <div className="info-card-icon">
+                  <IconHomeCheck />
+                </div>
               </div>
-}
-              <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
+              <div className="">
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
                   {sumOfSoldProperties}
                 </h5>
                 <p className="text-muted mb-0 fw-medium">Properties Sold</p>
               </div>
-
             </div>
           </div>
+        </div>
 
-          {/* <div className="col-lg-2 align-self-center">
+        {/* <div className="col-lg-2 align-self-center">
             {/* <div className="row row-cols-2"> *
              
               <div className="col align-self-center">
@@ -897,21 +856,8 @@ const UserDashboard = () => {
               </div>
             /* </div> *
           </div> */}
-        </div>
+      </div>
       {/* )} */}
-      {/* <div className="info-card-sec">
-<div className="info-card-wrapper" ref={infoCardWrapperRef}>
-  {infoCard.map((item) => (
-    <div className="info-card"><span className="info-card-badge">{item.value}</span><div className="info-card-haeading">{item.text}</div></div>
-  ))}
-
-  
-  
-</div> 
-<div onClick={handleNextCard}> next
-<FontAwesomeIcon onClick={handleNextCard} icon={faAngleRight} className="angle-right-icon"/>
-</div>
-</div> */}
 
       <DashUpperBody
         data={data}
@@ -940,7 +886,6 @@ const UserDashboard = () => {
         allSelected={allSelected}
         tbodyArray={tbodyArray}
         compData={records}
-        FormatDate={FormatDate}
         handleCheckboxChange={handleCheckboxChange}
         listingids={listingids}
         handleClickOpen={handleClickOpen}
@@ -951,7 +896,8 @@ const UserDashboard = () => {
         handleCurreentPage={handleCurreentPage}
         pagination={true}
         updateSaleStatus={updateSaleStatus}
-       
+
+        
       />
     </div>
   );

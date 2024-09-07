@@ -477,6 +477,7 @@ const InviteFromAdmin = () => {
   const [delId, setDelId] = useState("");
   const [delMail, setDelMail] = useState("");
   const [change , setChange] = useState(1);
+  const [snackMail, setSnackMail] = useState(false);
 
   useEffect(() => {
     axios
@@ -648,6 +649,7 @@ const InviteFromAdmin = () => {
         emailConfigData
       );
       setLoader(false);
+      setSnackMail(true)
     } catch (err) {
       console.log(err);
     }
@@ -678,8 +680,8 @@ const InviteFromAdmin = () => {
   ]);
 
 
-
   
+
   const handleCheckboxChange = (email) => {
     
     if (emailConfigData.email_reciever_id.includes(email)) {
@@ -766,7 +768,7 @@ const InviteFromAdmin = () => {
   
   return (
     <div className="row m-0">
-
+      {loader && <Loader />}
 <Dialog
         open={openEmailDel}
         onClose={handleCloseEmailDel}
@@ -862,6 +864,20 @@ const InviteFromAdmin = () => {
         autoHideDuration={1000}
         onClose={() => setSnackAdd(false)}
         message={"Added Successfully"}
+      />
+
+<Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={snackMail}
+        autoHideDuration={1000}
+        onClose={() => setSnackMail(false)}
+        message={"Invitaion mail sent successfully"}
       />
 
       <div className="col-md-8 ">

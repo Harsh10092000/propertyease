@@ -8,6 +8,10 @@ import {
   IconEye,
   IconMenuDeep,
   IconCheck,
+  IconHomeCheck,
+  IconHomeOff,
+  IconInnerShadowTopLeft,
+  IconUser,
 } from "@tabler/icons-react";
 import DashTable from "../../components/userDasboardComp/DashTable";
 import moment from "moment";
@@ -350,105 +354,173 @@ useEffect(() => {
       maxProResponses > 0 ? (
         <div className="container-fluid admin-dashboard admin-icon">
           {/* {parseInt(listingiInLast30[0]?.plan_status) !== 2 && ( */}
-            <div className="row info-card">
-              <div className="col-lg-4 align-self-center mb-3 mb-lg-0">
-                <div className="d-flex align-items-center flex-row flex-wrap">
-                  <div className="position-relative mr-3">
-                    {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
+          <div className="row info-card">
+          <div className="col-lg-3 align-self-center mb-3 mb-lg-0 d-flex align-items-center">
+            {/* <div className="d-flex align-items-center flex-row flex-wrap"> */}
+              <div className="position-relative mr-3">
+                {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
 
-                    <img
-                      src="/img/person.jpg"
-                      alt=""
-                      height="110"
-                      width="107"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div className="info-card-name">
-                    <h5 className="fw-semibold fs-22 mb-1">{currentUser[0].login_email}</h5>
-                    {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membrship</p> : <p className="mb-0 text-muted fw-medium">Pro Membrship</p> }
+                <img
+                  src="/img/person.jpg"
+                  alt=""
+                  height="70"
+                  width="70"
+                  className="rounded-circle"
+                />
+              </div>
+              <div className="info-card-name">
+                <h5 className="fw-semibold name-font-size mb-1">{currentUser[0].login_email}</h5>
+                {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 ? <p className="mb-0 text-muted fw-medium">Free Membership</p> : <p className="mb-0 text-muted fw-medium">Pro Membership</p> }
+              </div>
+            {/* </div> */}
+          </div>
+
+          <div className="col-lg-9 ms-auto align-self-center">
+            <div className="  info-card-sec-wrap">
+             
+
+              <div className="col-md-3 dashborad-info-card d-flex border-dashed dashborad-info-card-bg-1 rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                <div className="info-card-icon-wrapper">
+                  <div className="info-card-icon">
+                  <IconEye />
                   </div>
                 </div>
+
+                <div className="">
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
+                  {totalViews}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Total Views</p>
+                </div>
+
               </div>
 
-              <div className="col-lg-8 ms-auto align-self-center">
-                <div className="justify-content-center  info-card-sec-wrap">
-                  <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                    <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
-                      {totalViews}
-                    </h5>
-                    <p className="text-muted mb-0 fw-medium">Total Views</p>
+              <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-2 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0 ">
+                
+              <div className="info-card-icon-wrapper">
+                  <div className="info-card-icon">
+                  <IconUser />
                   </div>
-                  <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0 ">
-                    <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
-                      {totalResponses}
-                    </h5>
-                    <p className="text-muted mb-0 fw-medium">Total Responses</p>
-                  </div>
+                </div>
+                <div className="">
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
+                  {totalResponses}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Total Responses</p>
+              </div>
+              </div>
 
-                  {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 &&
-                  <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                    <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
-                      {5 - parseInt(listingiInLast30[0]?.pro_count)}
-                    </h5>
-                    <div className="d-flex justify-content-between">
-                      <p className="text-muted mb-0 fw-medium">
-                        Listing Remaining
+
+              {parseInt(listingiInLast30[0]?.plan_status) !== 1 && parseInt(listingiInLast30[0]?.plan_status) !== 2 &&
+              <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-3 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                
+                <div className="info-card-icon-wrapper">
+                  <div className="info-card-icon">
+                  <IconInnerShadowTopLeft />
+                  </div>
+                </div>
+<div>
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
+                  {5 - parseInt(listingiInLast30[0]?.pro_count)}
+                </h5>
+                <div className="d-flex justify-content-between">
+                  <p className="text-muted mb-0 fw-medium">
+                    Listing Remaining
+                  </p>
+                  
+                  <div className="info-popup ml-2">
+                    <IconInfoSquareRounded className="pointer"  onClick={() => setOpenInfoCard(prevState => !prevState)} />
+                      {openInfoCard &&
+                    <div ref={dropdownRef} className="info-popup-card">
+                      <p>
+                        You have {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
+                        more property listings available until
+                        <span>{" " +
+                          moment(listingiInLast30[0].pro_creation_date)
+                            .add(30, "days")
+                            .format("MMMM DD YYYY")}</span>
+                        . Upgrade to a Pro membership for unlimited listings and
+                        enhanced features.
                       </p>
 
-                      <div className="info-popup">
-                        <IconInfoSquareRounded
-                          className="pointer"
-                          onClick={() =>
-                            setOpenInfoCard((prevState) => !prevState)
-                          }
-                        />
-                        {openInfoCard && (
-                          <div ref={dropdownRef} className="info-popup-card">
-                            <p>
-                              You have{" "}
-                              {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
-                              more property listings available until
-                              <span>
-                                {" " +
-                                  moment(listingiInLast30[0].pro_creation_date)
-                                    .add(30, "days")
-                                    .format("MMMM DD YYYY")}
-                              </span>
-                              . Upgrade to a Pro membership for unlimited
-                              listings and enhanced features.
-                            </p>
+                      {/* <button>
+                    Close
+                  </button> */}
 
-                            <div>
-                              <Link
-                                to="/pricing"
-                                className="package-purchase-button"
-                              >
-                                Upgrade
-                              </Link>
-                              <a
-                                href="#"
-                                className="package-purchase-button-close"
-                                onClick={() => setOpenInfoCard(false)}
-                              >
-                                Close
-                              </a>
-                            </div>
-                          </div>
-                        )}
+                      <div>
+                        <Link to="/pricing" class="package-purchase-button">
+                          Upgrade
+                        </Link>
+                        <a href="#" class="package-purchase-button-close" onClick={() => setOpenInfoCard(false)}>
+                          Close
+                        </a>
                       </div>
                     </div>
-                  </div>
-}
-                  <div className="border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                    <h5 className="fw-semibold fs-22 mb-1 info-heading-color">
-                      {sumOfSoldProperties}
-                    </h5>
-                    <p className="text-muted mb-0 fw-medium">Properties Sold</p>
+      }
                   </div>
                 </div>
+                </div>
+
+                {/* {moment(listingiInLast30[0].pro_creation_date)
+              .add(30, "days")
+              .format("MMMM DD YYYY")} */}
+              </div>
+}
+              <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-4 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
+                
+              <div className="info-card-icon-wrapper">
+                  <div className="info-card-icon">
+                  <IconHomeCheck />
+                  </div>
+                </div>
+                <div className="">
+                
+                <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
+                  {sumOfSoldProperties}
+                </h5>
+                <p className="text-muted mb-0 fw-medium">Properties Sold</p>
+              </div>
               </div>
             </div>
+          </div>
+
+          {/* <div className="col-lg-2 align-self-center">
+            {/* <div className="row row-cols-2"> *
+             
+              <div className="col align-self-center">
+                {/* <button
+                  type="button"
+                  className="btn btn-primary  d-inline-block"
+                >
+                  Follow
+                </button>
+                <button type="button" className="btn btn-light  d-inline-block">
+                  Hire Me
+                </button> *
+                <a class="user__profile--menu__link position-relative" href="#">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    data-lucide="gem"
+                    class="lucide lucide-gem inline-block size-4 ltr:mr-2 rtl:ml-2"
+                  >
+                    <path d="M6 3h12l4 6-10 13L2 9Z"></path>
+                    <path d="M11 3 8 9l4 13 4-13-3-6"></path>
+                    <path d="M2 9h20"></path>
+                  </svg>{" "}
+                  Upgrade <span class="profile__upgrade--badge">Pro</span>{" "}
+                </a>
+              </div>
+            /* </div> *
+          </div> */}
+        </div>
           {/* )} */}
 
           <div className="dashboard-upper-sec">

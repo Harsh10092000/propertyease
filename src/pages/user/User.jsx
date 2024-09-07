@@ -378,7 +378,8 @@ import {
   IconTicket,
   IconHomePlus,
   
-  IconBuildingSkyscraper
+  IconBuildingSkyscraper,
+  IconUsers
 } from "@tabler/icons-react";
 import {
   IconBuilding,
@@ -441,6 +442,11 @@ const User = () => {
 
   const items = [
     {
+      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+      name: "My Profile",
+      linkto: `/user/user-profile/${currentUser[0].login_id}`,
+    },
+    {
       icon: <IconHomePlus className="sidebar-faicon" />,
       name: "Add Property",
       linkto: "/addproperty",
@@ -480,10 +486,11 @@ const User = () => {
       name: "Insights",
       linkto: "/user/Insights/all",
     },
+   
     {
-      icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
-      name: "My Profile",
-      linkto: `/user/user-profile/${currentUser[0].login_id}`,
+      icon: <IconUsers width={32} height={32} className="sidebar-faicon" />,
+      name: "Invite Friends",
+      linkto: `/user/invite-user`,
     },
   ];
 
@@ -622,7 +629,7 @@ const User = () => {
                     className="sidebar-faicon"
                   />
                 </span>
-                Log Out
+                Logout
               </div>
             </div>
           </div>

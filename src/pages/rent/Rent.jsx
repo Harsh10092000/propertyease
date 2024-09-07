@@ -20,6 +20,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar2 from "../../components/sidebar2/Sidebar2";
 
 
+
 const Rent = () => {
   const { cat } = useParams();
   const filCat = cat.replaceAll("-", " ");

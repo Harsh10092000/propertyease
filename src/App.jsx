@@ -79,6 +79,7 @@ import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
 import Package1 from "./pages/premimumPackages/Package1";
 import UserInsights from "./pages/userInsights/UserInsights";
 import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
+import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -267,6 +268,19 @@ const App = () => {
             </>
           ),
         },
+        {
+          path: "invite-user",
+          element: (
+            <>
+              <SendJwt />
+              <InviteFromUser />
+            </>
+          ),
+        },
+
+
+
+
         {
           path: "mysubscription",
           element: (
