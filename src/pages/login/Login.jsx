@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { regEx } from "../regEx";
 import { Helmet } from "react-helmet";
 import "../register/register.css";
+
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
@@ -308,3 +309,7 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
+

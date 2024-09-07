@@ -80,6 +80,7 @@ import Package1 from "./pages/premimumPackages/Package1";
 import UserInsights from "./pages/userInsights/UserInsights";
 import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
 import InviteFromUser from "./pages/InviteUser/InviteFromUser";
+import SmsComponent from "./components/smsComponent/SmsComponent";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -317,6 +318,10 @@ const App = () => {
     {
       path: "/rental/:cat",
       element: <Rent />,
+    },
+    {
+      path: "/sms",
+      element: <SmsComponent />,
     },
     // {
     //   path: "/payment-succesful",
