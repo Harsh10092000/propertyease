@@ -60,7 +60,7 @@ const SmsComponent = () => {
 
   const handleClick = () => {
 
-      var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PR8PEZ&message=' + encodeURIComponent('OTP to login to app is 123456');
+      var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PR8PEZ&message=OTP to login to app is 123456';
       axios
         .get(url)
         .then(function (response) {
