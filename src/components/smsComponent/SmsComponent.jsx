@@ -60,7 +60,7 @@ const SmsComponent = () => {
 
   const handleClick = () => {
 
-      var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PR8PEZ&message=' + encodeURIComponent('Someone has invited to join propertyease.in , a real estate portal to list, manage your properties for free. Join Now!!');
+      var url = 'https://api.textlocal.in/send/?apikey=NTYzNjcxNmM0OTY1NGM3MzQ4NzA1MDRmMzI2ZjcwNGE=&numbers=917404302678&sender=PROPEZ&message=' + encodeURIComponent('Someone has invited to join propertyease.in , a real estate portal to list, manage your properties for free. Join Now!!');
       axios
         .get(url)
         .then(function (response) {
