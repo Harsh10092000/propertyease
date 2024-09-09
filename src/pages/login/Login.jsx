@@ -54,7 +54,7 @@ const Login = () => {
           setOtpf(true);
         });
       await axios
-        .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms`)
+        .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms/${data.email}`)
         .then((res) => {
           //setOtpf(true);
           console.log(res.data);
