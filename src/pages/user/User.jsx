@@ -418,7 +418,7 @@ const User = () => {
     setAnchorEl(null);
   };
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("user2");
     clearUser();
   };
 
