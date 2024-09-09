@@ -44,6 +44,7 @@ const Login = () => {
 
   const fetchOtp = async (e) => {
     e.preventDefault();
+    console.log(data.phone);
     try {
       setTimer(true);
       setOtpRequet(true);
@@ -55,7 +56,7 @@ const Login = () => {
       await axios
         .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms/${data.phone}`)
         .then((res) => {
-          setOtpf(true);
+          //setOtpf(true);
         });
         
     } catch (err) {
