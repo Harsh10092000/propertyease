@@ -381,7 +381,7 @@ export const InviteForm = () => {
       />
 
       <div className="invite-friends-wrapper">
-        <div className="invite-friends-heading">Invite Freinds and connect</div>
+        <div className="invite-friends-heading">Invite Friends and connect</div>
 
         <div className="invite-friends-text">
           Invite your friends to join our community and enjoy exclusive
@@ -434,7 +434,7 @@ export const InviteForm = () => {
 
             <div className="col-md-4">
               <a
-                href={`https://api.whatsapp.com/send?text=Someone has invited to join propertyease.in, a real estate portal to list, manage your properties for free. Join Now!! https://www.propertyease.in/`}
+                href={`https://api.whatsapp.com/send?text=Someone has invited to join propertyease.in, a real estate portal to list, manage your properties for free. Join Now!!`}
               >
                 <div className="share-type share-type-one pointer">
                   <IconBrandWhatsapp
