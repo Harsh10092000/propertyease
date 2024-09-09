@@ -57,6 +57,7 @@ const Login = () => {
         .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms`)
         .then((res) => {
           //setOtpf(true);
+          console.log(res.data);
         });
         
     } catch (err) {
