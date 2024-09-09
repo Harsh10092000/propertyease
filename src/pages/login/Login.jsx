@@ -53,12 +53,12 @@ const Login = () => {
         .then((res) => {
           setOtpf(true);
         });
-      await axios
-        .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms`)
-        .then((res) => {
-          //setOtpf(true);
-          console.log(res.data);
-        });
+      // await axios
+      //   .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms`)
+      //   .then((res) => {
+      //     //setOtpf(true);
+      //     console.log(res.data);
+      //   });
         
     } catch (err) {
       setErr(err.response.data);
