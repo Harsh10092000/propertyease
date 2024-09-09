@@ -44,7 +44,6 @@ const Login = () => {
 
   const fetchOtp = async (e) => {
     e.preventDefault();
-    console.log(data.phone);
     try {
       setTimer(true);
       setOtpRequet(true);
@@ -53,12 +52,12 @@ const Login = () => {
         .then((res) => {
           setOtpf(true);
         });
-      await axios
-        .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms/${data.email}`)
-        .then((res) => {
-          //setOtpf(true);
-          console.log(res.data);
-        });
+      // await axios
+      //   .get(import.meta.env.VITE_BACKEND + `/api/auth/send-sms/${data.email}`)
+      //   .then((res) => {
+      //     //setOtpf(true);
+      //     console.log(res.data);
+      //   });
         
     } catch (err) {
       setErr(err.response.data);
