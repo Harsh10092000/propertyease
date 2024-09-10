@@ -1158,7 +1158,7 @@ const InviteFromAdmin = () => {
   <div>
    
     {contactList.some(i => i.already_user === 1) && (
-      <div className="contact-list-type"> Already User</div>
+      <div className="contact-list-type"> Already a User</div>
     )}
 
    

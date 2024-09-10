@@ -40,6 +40,117 @@ import { Skeleton } from "@mui/material";
 import PropertyListingPlan from "../../components/propertyListingPlan/PropertyListingPlan";
 import PaymentSucess from "../paymentSuccess/PaymentSucess";
 
+// const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
+//   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
+//   <div className="w-100 m-1 mb-3">
+//                               <span className="pro_heading">
+//                                 {heading}
+//                               </span>
+//                               <div className="d-flex ">
+//                                 {array.map((item) => (
+//                                   <div
+//                                     className={
+//                                       field_item === item.value
+//                                         ? "pro_radio_btn pro_selected"
+//                                         : "pro_radio_btn"
+//                                     }
+//                                     onClick={() =>
+//                                       setPropertyData({
+//                                         ...propertyData,
+//                                         field_item_val: item.value,
+//                                       })
+//                                     }
+//                                   >
+//                                     {item.value}
+//                                   </div>
+//                                 ))}
+//                               </div>
+//                               {step_val === true &&
+//                                 field_item === "" && (
+//                                   <div className="error_msg">Required</div>
+//                                 )}
+//                             </div>
+// }
+
+const BoxSelectOptions = ({
+  heading,
+  array,
+  field_item,
+  field_item_val,
+  propertyData,
+  setPropertyData,
+  step_val,
+}) => {
+  return (
+    <div className="w-100 m-1 mb-3">
+      <span className="pro_heading">{heading}</span>
+      <div className="d-flex">
+        {array.map((item) => (
+          <div
+            key={item.value} // Added a unique key for each item
+            className={
+              field_item === item.value
+                ? "pro_radio_btn pro_selected"
+                : "pro_radio_btn"
+            }
+            onClick={() =>
+              setPropertyData({
+                ...propertyData,
+                [field_item_val]: item.value, // Use computed property name
+              })
+            }
+          >
+            {item.value}
+          </div>
+        ))}
+      </div>
+      {step_val === true && field_item === "" && (
+        <div className="error_msg">Required</div>
+      )}
+    </div>
+  );
+};
+
+const RadioBoxSelection = ({
+  heading,
+  array,
+  field_item,
+  field_item_val,
+  propertyData,
+  setPropertyData,
+  step_val,
+}) => {
+  return (
+    <div className="pro_flex pro_flex_1">
+      <div className="w-100 m-1 mb-3">
+        <span className="pro_heading">{heading}</span>
+        <div className="d-flex flex-wrap ">
+          {array.map((item) => (
+            <div
+              className={
+                field_item === item.value
+                  ? "pro_radio_btn_1 pro_selected"
+                  : "pro_radio_btn_1"
+              }
+              onClick={() =>
+                setPropertyData({
+                  ...propertyData,
+                  [field_item_val]: item.value,
+                })
+              }
+            >
+              {item.value}
+            </div>
+          ))}
+        </div>
+        {step_val === true && field_item === "" && (
+          <div className="error_msg">Required</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const AddProperty = () => {
   const { currentUser, login } = useContext(AuthContext);
   const [prevData, setPrevData] = useState();
@@ -60,8 +171,6 @@ const AddProperty = () => {
         setProListingPlan(res.data);
       });
   }, []);
-
- 
 
   const applyCoupon = (planId) => {
     console.log("planId : ", planId);
@@ -112,14 +221,11 @@ const AddProperty = () => {
       });
   }, [change]);
 
-
-  console.log("prevData, upcomingDate : " , prevData, upcomingDate);
-
   const handleChange = () => {
-    console.log("XScdgf")
+    console.log("XScdgf");
     setChange(change + 1);
     setPaymentSuccessful(false);
-  }
+  };
 
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -546,7 +652,22 @@ const AddProperty = () => {
 
   const [step3, setStep3] = useState(false);
   const handleStep3 = () => {
-    if (propertyData.pro_type.split(",")[1] !== "Land") {
+    if (propertyData.pro_type.split(",")[1] === "Commercial") {
+      if (
+        propertyData.pro_washrooms !== "" &&
+        propertyData.pro_age !== "" &&
+        propertyData.pro_facing !== "" &&
+        propertyData.pro_possession !== "" &&
+        propertyData.pro_area_size !== "" &&
+        formatError === false &&
+        fileSizeExceeded === false
+      ) {
+        setStep3(false);
+        setActiveStep(activeStep + 1);
+      } else {
+        setStep3(true);
+      }
+    } else if (propertyData.pro_type.split(",")[1] !== "Land") {
       if (
         propertyData.pro_age !== "" &&
         propertyData.pro_floor !== "" &&
@@ -754,8 +875,10 @@ const AddProperty = () => {
             discount: couponAmt1,
             original_price: item.pro_plan_amt,
             pro_added_recently: prevData.pro_count,
-            total_no_pro_user_can_add: parseInt(prevData.pro_count) + parseInt(item.pro_plan_property_slots)
-          }
+            total_no_pro_user_can_add:
+              parseInt(prevData.pro_count) +
+              parseInt(item.pro_plan_property_slots),
+          };
           setOrderId(response.razorpay_order_id);
           setPaymentAmt(
             item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100
@@ -962,15 +1085,17 @@ const AddProperty = () => {
           orderId={orderId}
           paymentAmt={paymentAmt}
           paymentId={paymentId}
-          handleChange = {handleChange}
+          handleChange={handleChange}
         />
       ) : (
-          parseInt(prevData?.plan_status) === 1 || parseInt(prevData?.plan_status) === 2 ? parseInt(prevData?.total_no_pro_user_can_add) >
+          parseInt(prevData?.plan_status) === 1 ||
+          parseInt(prevData?.plan_status) === 2
+            ? parseInt(prevData?.total_no_pro_user_can_add) >
               parseInt(prevData?.pro_count)
-            : parseInt(prevData?.pro_count) < 5
+            : parseInt(prevData?.pro_count) < 0
         ) ? (
         <div className="container">
-          {console.log("prevData?.pro_plan_added_slots 22222 : " , prevData?.pro_plan_added_slots , prevData?.pro_count)}
+         
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
               <h4>
@@ -1852,303 +1977,134 @@ const AddProperty = () => {
                       <div className="flex-col-sm mainDiv">
                         <h2>Property Details</h2>
 
-                        <div className="pro_flex pro_flex_1">
-                          <div className="w-100 m-1">
-                            <span className="pro_heading">
-                              Age of Property (in year)
-                            </span>
-                            <div className="d-flex flex-wrap ">
-                              {propertyAge.map((item) => (
-                                <div
-                                  className={
-                                    propertyData.pro_age === item.value
-                                      ? "pro_radio_btn_1 pro_selected"
-                                      : "pro_radio_btn_1 "
-                                  }
-                                  onClick={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_age: item.value,
-                                    })
-                                  }
-                                >
-                                  {item.value}
-                                </div>
-                              ))}
-                            </div>
-                            {step3 === true && propertyData.pro_age === "" && (
-                              <div className="error_msg">Required</div>
-                            )}
-                          </div>
-                        </div>
+                        <RadioBoxSelection
+                          heading="Age of Property (in year)"
+                          array={propertyAge}
+                          field_item={propertyData.pro_age}
+                          field_item_val="pro_age"
+                          propertyData={propertyData}
+                          setPropertyData={setPropertyData}
+                          step_val={step3}
+                        />
 
-                        {propertyData.pro_type.split(",")[1] !== "Land" && (
-                          <div className="pro_flex pro_flex_1">
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of bedrooms
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_bedroom === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_bedroom: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_bedroom === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of Washrooms
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_washrooms === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_washrooms: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_washrooms === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-                          </div>
+                        {propertyData.pro_type.split(",")[1] ===
+                          "Commercial" && (
+                          
+                         
+                          <BoxSelectOptions
+                            heading="Number of Washrooms"
+                            array={propertyBedrooms}
+                            field_item={propertyData.pro_washrooms}
+                            field_item_val="pro_washrooms"
+                            propertyData={propertyData}
+                            setPropertyData={setPropertyData}
+                            step_val={step3}
+                          />
                         )}
+                        {propertyData.pro_type.split(",")[1] !== "Land" &&
+                          propertyData.pro_type.split(",")[1] !==
+                            "Commercial" && (
+                            <div className="pro_flex pro_flex_1">
+                              <BoxSelectOptions
+                                heading="Number of Bedrooms"
+                                array={propertyBedrooms}
+                                field_item={propertyData.pro_bedroom}
+                                field_item_val="pro_bedroom"
+                                propertyData={propertyData}
+                                setPropertyData={setPropertyData}
+                                step_val={step3}
+                              />
+
+                              <BoxSelectOptions
+                                heading="Number of Washrooms"
+                                array={propertyBedrooms}
+                                field_item={propertyData.pro_washrooms}
+                                field_item_val="pro_washrooms"
+                                propertyData={propertyData}
+                                setPropertyData={setPropertyData}
+                                step_val={step3}
+                              />
+                            </div>
+                          )}
+                        {propertyData.pro_type.split(",")[1] !== "Land" &&
+                          propertyData.pro_type.split(",")[1] !==
+                            "Commercial" && (
+                            <div className="pro_flex pro_flex_1">
+                              <BoxSelectOptions
+                                heading="Number of Balconies"
+                                array={propertyBedrooms}
+                                field_item={propertyData.pro_balcony}
+                                field_item_val="pro_balcony"
+                                propertyData={propertyData}
+                                setPropertyData={setPropertyData}
+                                step_val={step3}
+                              />
+
+                              <BoxSelectOptions
+                                heading="Car Parking"
+                                array={propertyBedrooms}
+                                field_item={propertyData.pro_parking}
+                                field_item_val="pro_parking"
+                                propertyData={propertyData}
+                                setPropertyData={setPropertyData}
+                                step_val={step3}
+                              />
+                            </div>
+                          )}
+
+                        <RadioBoxSelection
+                          heading="Property Facing"
+                          array={propertyFacing}
+                          field_item={propertyData.pro_facing}
+                          field_item_val="pro_facing"
+                          propertyData={propertyData}
+                          setPropertyData={setPropertyData}
+                          step_val={step3}
+                        />
+
                         {propertyData.pro_type.split(",")[1] !== "Land" && (
-                          <div className="pro_flex pro_flex_1">
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of Balconies
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_balcony === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_balcony: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_balcony === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">Car Parking</span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_parking === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_parking: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_parking === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-                          </div>
+                          <RadioBoxSelection
+                            heading="Furnishing"
+                            array={propertyFurnishing}
+                            field_item={propertyData.pro_furnishing}
+                            field_item_val="pro_furnishing"
+                            propertyData={propertyData}
+                            setPropertyData={setPropertyData}
+                            step_val={step3}
+                          />
                         )}
-                        <div className="pro_flex pro_flex_1">
-                          <div className="w-100 m-1 mb-3">
-                            <span className="pro_heading">Property Facing</span>
-                            <div className="d-flex flex-wrap ">
-                              {propertyFacing.map((item) => (
-                                <div
-                                  className={
-                                    propertyData.pro_facing === item.value
-                                      ? "pro_radio_btn_1 pro_selected"
-                                      : "pro_radio_btn_1"
-                                  }
-                                  onClick={() =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_facing: item.value,
-                                    })
-                                  }
-                                >
-                                  {item.value}
-                                </div>
-                              ))}
-                            </div>
-                            {step3 === true &&
-                              propertyData.pro_facing === "" && (
-                                <div className="error_msg">Required</div>
-                              )}
-                          </div>
-                        </div>
+
+                        <RadioBoxSelection
+                          heading="Possession Available"
+                          array={propertyPossession}
+                          field_item={propertyData.pro_possession}
+                          field_item_val="pro_possession"
+                          propertyData={propertyData}
+                          setPropertyData={setPropertyData}
+                          step_val={step3}
+                        />
 
                         {propertyData.pro_type.split(",")[1] !== "Land" && (
                           <div className="pro_flex pro_flex_1">
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">Furnishing</span>
-                              <div className="d-flex flex-wrap ">
-                                {propertyFurnishing.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_furnishing === item.value
-                                        ? "pro_radio_btn_1 pro_selected"
-                                        : "pro_radio_btn_1"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_furnishing: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_furnishing === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-                          </div>
-                        )}
-                        <div className="pro_flex pro_flex_1">
-                          <div className="w-100 m-1 mb-3">
-                            <span className="pro_heading">
-                              Possession Available
-                            </span>
-                            <div className="d-flex flex-wrap ">
-                              {propertyPossession.map((item) => (
-                                <div
-                                  className={
-                                    propertyData.pro_possession === item.value
-                                      ? "pro_radio_btn_1 pro_selected"
-                                      : "pro_radio_btn_1"
-                                  }
-                                  onClick={() =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_possession: item.value,
-                                    })
-                                  }
-                                >
-                                  {item.value}
-                                </div>
-                              ))}
-                            </div>
-                            {step3 === true &&
-                              propertyData.pro_possession === "" && (
-                                <div className="error_msg">Required</div>
-                              )}
-                          </div>
-                        </div>
+                            <BoxSelectOptions
+                              heading="Number of Floors"
+                              array={propertyBedrooms}
+                              field_item={propertyData.pro_floor}
+                              field_item_val="pro_floor"
+                              propertyData={propertyData}
+                              setPropertyData={setPropertyData}
+                              step_val={step3}
+                            />
 
-                        {propertyData.pro_type.split(",")[1] !== "Land" && (
-                          <div className="pro_flex pro_flex_1">
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of Floors
-                              </span>
-                              <div className="d-flex ">
-                                {propertyBedrooms.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_floor === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_floor: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_floor === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
-
-                            <div className="w-100 m-1 mb-3">
-                              <span className="pro_heading">
-                                Number of Open Sides
-                              </span>
-                              <div className="d-flex ">
-                                {propertySides.map((item) => (
-                                  <div
-                                    className={
-                                      propertyData.pro_open_sides === item.value
-                                        ? "pro_radio_btn pro_selected"
-                                        : "pro_radio_btn"
-                                    }
-                                    onClick={() =>
-                                      setPropertyData({
-                                        ...propertyData,
-                                        pro_open_sides: item.value,
-                                      })
-                                    }
-                                  >
-                                    {item.value}
-                                  </div>
-                                ))}
-                              </div>
-                              {step3 === true &&
-                                propertyData.pro_open_sides === "" && (
-                                  <div className="error_msg">Required</div>
-                                )}
-                            </div>
+                            <BoxSelectOptions
+                              heading="Number of Open Sides"
+                              array={propertySides}
+                              field_item={propertyData.pro_open_sides}
+                              field_item_val="pro_open_sides"
+                              propertyData={propertyData}
+                              setPropertyData={setPropertyData}
+                              step_val={step3}
+                            />
                           </div>
                         )}
                         <div className="pro_flex ">
@@ -2379,67 +2335,25 @@ const AddProperty = () => {
                     ) : activeStep === 3 ? (
                       <div className="flex-col mainDiv">
                         <h2>Pricing and Others</h2>
+                        <RadioBoxSelection
+                          heading="Ownership"
+                          array={propertyOwnership}
+                          field_item={propertyData.pro_ownership_type}
+                          field_item_val="pro_ownership_type"
+                          propertyData={propertyData}
+                          setPropertyData={setPropertyData}
+                          step_val={step4}
+                        />
 
-                        <div className="pro_flex pro_flex_1 mb-3">
-                          <div className="w-100 m-1">
-                            <span className="pro_heading">Ownership</span>
-                            <div className="d-flex flex-wrap ">
-                              {propertyOwnership.map((item) => (
-                                <div
-                                  className={
-                                    propertyData.pro_ownership_type ===
-                                    item.value
-                                      ? "pro_radio_btn_1 pro_selected"
-                                      : "pro_radio_btn_1 "
-                                  }
-                                  onClick={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_ownership_type: item.value,
-                                    })
-                                  }
-                                >
-                                  {item.value}
-                                </div>
-                              ))}
-                            </div>
-                            {step4 === true &&
-                              propertyData.pro_ownership_type === "" && (
-                                <div className="error_msg pb-0">Required</div>
-                              )}
-                          </div>
-                        </div>
-
-                        <div className="pro_flex pro_flex_1 mb-3">
-                          <div className="w-100 m-1">
-                            <span className="pro_heading">
-                              Authority Approved
-                            </span>
-                            <div className="d-flex flex-wrap ">
-                              {propertyAuthority.map((item) => (
-                                <div
-                                  className={
-                                    propertyData.pro_approval === item.value
-                                      ? "pro_radio_btn_1 pro_selected"
-                                      : "pro_radio_btn_1 "
-                                  }
-                                  onClick={(e) =>
-                                    setPropertyData({
-                                      ...propertyData,
-                                      pro_approval: item.value,
-                                    })
-                                  }
-                                >
-                                  {item.value}
-                                </div>
-                              ))}
-                            </div>
-                            {step4 === true &&
-                              propertyData.pro_approval === "" && (
-                                <div className="error_msg pb-0">Required</div>
-                              )}
-                          </div>
-                        </div>
+                        <RadioBoxSelection
+                          heading="Authority Approved"
+                          array={propertyAuthority}
+                          field_item={propertyData.pro_approval}
+                          field_item_val="pro_approval"
+                          propertyData={propertyData}
+                          setPropertyData={setPropertyData}
+                          step_val={step4}
+                        />
 
                         <div className="pro_flex ">
                           <TextField
@@ -2640,7 +2554,7 @@ const AddProperty = () => {
             </div>
           </section>
         </div>
-      ) : parseInt(prevData?.pro_count) >= 5 ? (
+      ) : parseInt(prevData?.pro_count) >= 0 ? (
         <div className="container">
           <div className="row">
             <div className="col-md-12">
@@ -2708,7 +2622,7 @@ const AddProperty = () => {
                       <br /> based on feedback gathered from users like you!
                     </p>
                   </div>
-                  
+
                   <div className="row">
                     {latestProperty?.map((item, index) => (
                       <div className="col-md-4" key={index}>
@@ -2914,7 +2828,6 @@ const AddProperty = () => {
       ) : (
         //<div className="no-data"></div>
 
-        
         <div className="container">
           {prevData?.pro_count}
           <div className="row">
