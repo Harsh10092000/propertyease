@@ -270,7 +270,7 @@ const AgentProifle = () => {
                     <li>
                       <Link to="/agentlist">
                         <a>
-                          All Agents
+                          All Brokers
                           <span>
                             <IconChevronRight className="sidebar-faicon" />
                           </span>
@@ -281,7 +281,7 @@ const AgentProifle = () => {
                     <li>
                       {/* <Link>
                         <a> */}
-                      Real Estate Agents in {agentData.agent_state}
+                      Real Estate Brokers in {agentData.agent_state}
                       <IconChevronRight className="sidebar-faicon" />
                       {/* </a>
                       </Link> */}
@@ -289,7 +289,7 @@ const AgentProifle = () => {
 
                     {agentData.agent_city !== "" && (
                       <li>
-                        Real Estate Agents in {agentData.agent_city}
+                        Real Estate Brokers in {agentData.agent_city}
                         <span>
                           <IconChevronRight className="sidebar-faicon" />
                         </span>
@@ -575,7 +575,7 @@ const AgentProifle = () => {
 
                                     <p>
                                       We act as real estate market project
-                                      facilitators, sales agents, or brokers. We
+                                      facilitators, sales brokers, or brokers. We
                                       carry out sole marketing and selling of
                                       projects developed by the top-most
                                       builders & developers and therefore
@@ -752,7 +752,7 @@ const AgentProifle = () => {
                               <div class="row moreDetail">
                                 <div class="col-md-12 more-detail-right">
                                   <div className="loc-list">
-                                    <span>Real Estate Agents</span>
+                                    <span>Real Estate Brokers</span>
                                   </div>
                                 </div>
                               </div>
