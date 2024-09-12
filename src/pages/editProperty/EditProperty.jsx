@@ -115,7 +115,7 @@ const EditProperty = () => {
 
   const propertyAdType = [{ value: "Sale" }, { value: "Rent" }];
 
-  const propertyUserType = [{ value: "Agent" }, { value: "Owner" }];
+  const propertyUserType = [{ value: "Broker" }, { value: "Owner" }];
 
   const propertyAuthority = [
     { value: "HSVP" },
