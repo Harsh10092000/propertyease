@@ -8,10 +8,10 @@ const EmailBoardcast = () => {
   const [selectedOption, setSelectedOption] = useState("Mail Configuration");
 
   const emailConfigFormOpt = [
-    {
-      id: "1",
-      option: "Mail Configuration",
-    },
+    // {
+    //   id: "1",
+    //   option: "Mail Configuration",
+    // },
 
     {
       id: "2",

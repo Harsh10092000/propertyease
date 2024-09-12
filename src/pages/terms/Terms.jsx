@@ -60,7 +60,7 @@ const Terms = () => {
                     Propertyease.in and will provide certain details on an
                     anonymous or non-anonymous basis depending on the
                     Propertyease.in service to third parties who are, in most
-                    cases, appropriate members of its real estate agent network.
+                    cases, appropriate members of its real estate broker network.
                     User/clients may also agree to have the information he/she
                     has supplied to Propertyease.in forwarded to real estate or
                     other third-party professionals referred by Propertyease.in.
@@ -71,7 +71,7 @@ const Terms = () => {
                     services. Propertyease.in user/clients will also be required
                     to consent to receive e mail s from third party(ies) if the
                     Propertyease.in service requested requires services from a
-                    third party(ies)(for example, a local real estate agent).{" "}
+                    third party(ies)(for example, a local real estate broker).{" "}
                   </p>
                 </li>
                 <li>
@@ -205,7 +205,7 @@ const Terms = () => {
                 your real property transaction and/or settlement documents;
                 <br />
                 <b>4.7</b> You represent that you are not licensed as a real
-                estate agent or broker; even you are licensed you will inform
+                estate broker or broker; even you are licensed you will inform
                 with licensed proofs to be submitted with us
                 <br />
                 <b>4.8</b> You acknowledge that Propertyease.in recommends your

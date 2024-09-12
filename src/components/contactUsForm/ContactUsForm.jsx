@@ -106,10 +106,10 @@ const ContactUsForm = (props) => {
           message="Thank you for showing your interest in this property. Our team will get back to you soon."
         />
        <Dialog open={open} onClose={() => props.handleCloseDialog(false)}>
-          <DialogTitle>
+          <DialogTitle className='text-center'>
             <img src="/images/logo.png" />
-            <p className="font-weight-bold text-danger mb-0 call_headline ">
-              Free Enquiry
+            <p className="mb-0 call_headline contact-form-heading">
+            Please share your contact details
             </p>
           </DialogTitle>
           <DialogContent>
@@ -121,7 +121,7 @@ const ContactUsForm = (props) => {
               label="Name"
               type="text"
               value={data.name}
-              helperText={data.name === "" ? "Required" : ""}
+              helperText={data.name === "" ? "Required" : " "}
               onChange={(e) =>
                 setData({
                   ...data,
@@ -145,7 +145,7 @@ const ContactUsForm = (props) => {
               inputProps={{
                 maxLength: 40,
               }}
-              helperText={emailError ? "Please enter valid email address" : ""}
+              helperText={emailError ? "Please enter valid email address" : " "}
               value={data.email}
               onChange={(e) =>
                 setData({
@@ -165,7 +165,7 @@ const ContactUsForm = (props) => {
                 helperText={
                   data.phone.length < 10
                     ? "Please enter valid phone number"
-                    : ""
+                    : " "
                 }
                 value={data.phone}
                 inputProps={{
@@ -193,10 +193,16 @@ const ContactUsForm = (props) => {
           </DialogContent>
           <DialogActions>
             {/* <Button onClick={() => props.handleCloseDialog(false)}>Cancel</Button> */}
-            <Button onClick={() => setData({name: "", phone: "", email: ""})}>Reset</Button>
+            {/* <Button onClick={() => setData({name: "", phone: "", email: ""})}>Reset</Button>
             <Button type="submit" onClick={handleSubmit} disabled={disabled}>
               Submit
-            </Button>
+            </Button> */}
+            <div className='col-md-6 p-2 pl-4'>
+            <button onClick={() => setData({name: "", phone: "", email: ""})} className='btn btn-reset-contact-form'>Reset</button>
+            </div>
+            <div className='col-md-6 p-2 pr-4'>
+            <button onClick={handleSubmit} disabled={disabled} className={`btn ${disabled ? "btn-submit-contact-form-dis" : "btn-submit-contact-form"}`}>Submit</button>
+            </div>
           </DialogActions>
         </Dialog>
     </div>

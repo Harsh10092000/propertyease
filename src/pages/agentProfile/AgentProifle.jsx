@@ -542,7 +542,7 @@ const AgentProifle = () => {
                                       {agentData.agent_comapnay_name
                                         ? agentData.agent_comapnay_name + " is "
                                         : agentData.agent_name +
-                                          ", real estate agent, "}{" "}
+                                          ", real estate broker, "}{" "}
                                       located in{" "}
                                       {agentData.agent_city
                                         ? agentData.agent_city +
@@ -804,7 +804,7 @@ const AgentProifle = () => {
                           <div className="agentdetail">
                             <h3>
                               {agentData.agent_name}
-                              <span>Real Estate Agent</span>
+                              <span>Real Estate Broker</span>
                             </h3>
 
                             <div className="agent-deatil">
@@ -875,7 +875,7 @@ const AgentProifle = () => {
                         </div>
 
                         <div className="agent-form">
-                          <h5>Connect with Agent</h5>
+                          <h5>Connect with Broker</h5>
 
                           {/* <fieldset>
                               <legend>You Want to</legend>

@@ -53,7 +53,7 @@ const EditUserProfile = () => {
     { type: "Industrial Estate" },
   ];
   const propertyUserType = [
-    { key: "Agent", value: "I'm an agent or broker" },
+    { key: "Broker", value: "I'm an broker" },
     { key: "Owner", value: "I'm an induivdual property owner" },
   ];
   const agentExp = [
@@ -288,8 +288,8 @@ const EditUserProfile = () => {
     { stepActive: true,  loc: "#personal-info", customClass: formStepsStatus.step1 ? "pro-picks-card-disabled" : "pro-picks-card" , title: "Basic Information", desc: "Name, Email, Phone Number, About You" , icon: <IconUser width="28" height="28"  style={formStepsStatus.step1 === false ? {  color: 'blue' } : {} } /> },
     { stepActive: true, loc: "#address", customClass: formStepsStatus.step2 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Address", desc: "Address, State, City, District, Locality", icon: <IconHome width="34" height="28" style={formStepsStatus.step2 === false ? { color: 'green' } : {} } /> },
     
-    { stepActive: userData.user_type === "Agent" ? true : false , loc: "#company-info", customClass: formStepsStatus.step3 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Company Information", desc: "Company Name, Website, Expernince, Work Categories" , icon: <IconBuilding width="28" height="28" style={formStepsStatus.step3 === false ? { color: '#FFD700' } : {} } /> },
-    { stepActive: userData.user_type === "Agent" ? true : false , loc: "#work-info", customClass: formStepsStatus.step4 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Work Location", desc: "State, City, Locality" , icon: <IconBriefcase width="28" height="28" style={formStepsStatus.step4 === false ? { color: 'red' } : {} } /> },
+    { stepActive: userData.user_type === "Broker" ? true : false , loc: "#company-info", customClass: formStepsStatus.step3 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Company Information", desc: "Company Name, Website, Expernince, Work Categories" , icon: <IconBuilding width="28" height="28" style={formStepsStatus.step3 === false ? { color: '#FFD700' } : {} } /> },
+    { stepActive: userData.user_type === "Broker" ? true : false , loc: "#work-info", customClass: formStepsStatus.step4 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Work Location", desc: "State, City, Locality" , icon: <IconBriefcase width="28" height="28" style={formStepsStatus.step4 === false ? { color: 'red' } : {} } /> },
     
     { stepActive: true, loc: "#upload-image", customClass: formStepsStatus.step5 ? "pro-picks-card-disabled" : "pro-picks-card" ,title: "Profile Picture", desc: "Upload Your Profile Image" , icon: <IconPhoto width="28" height="28" style={formStepsStatus.step5 === false ? { color: 'gray' } : {} } />},
   ];
@@ -445,7 +445,7 @@ const EditUserProfile = () => {
 
   const [formSubmit, setFormSubmit] = useState(false);
   const handleSubmit = () => {
-    if (userData.user_type === "Agent") {
+    if (userData.user_type === "Broker") {
       if (
         //userData.user_type !== "" &&
         userData.user_name !== "" &&
@@ -949,7 +949,7 @@ const EditUserProfile = () => {
             />
           </div>
 
-          {userData.user_type === "Agent" && (
+          {userData.user_type === "Broker" && (
             <div id="company-info">
               <div className="header-no-5-wrapper">
                     <h5 className="header-no-5">Company Details</h5>

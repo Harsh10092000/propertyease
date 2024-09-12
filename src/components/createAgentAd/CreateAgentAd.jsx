@@ -11,11 +11,11 @@ const CreateAgentAd = () => {
     <div className="ad-agent-card  ">
       <img
         src="images/create-agent.jpg"
-        alt="Want to become an Estate Agent ?"
+        alt="Want to become an Estate Broker ?"
       />
       <div className=" ad-agent-card-text">
         Want to become an
-        <p className="mb-0 fs-18">Estate Agent?</p>
+        <p className="mb-0 fs-18">Estate Broker?</p>
       </div>
       <Link to={`/user/user-profile/${currentUser && currentUser[0].login_id}`} className="btn btn-primary reg-btn">
         Register

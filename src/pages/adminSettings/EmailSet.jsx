@@ -17,10 +17,10 @@ const EmailSet = () => {
       id: "2",
       option: "Email Settings",
     },
-    {
-      id: "3",
-      option: "Email Broadcasts",
-    },
+    // {
+    //   id: "3",
+    //   option: "Email Broadcasts",
+    // },
   ];
 
 

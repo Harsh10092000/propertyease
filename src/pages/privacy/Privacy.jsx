@@ -60,7 +60,7 @@ const Privacy = () => {
                 about a customer.
               </p>
               <p>
-                If the Real estate professional, Builder, Agent/Broker or any
+                If the Real estate professional, Builder, Broker or any
                 individual has provided their contact information for everyone
                 to see then users can contact them at their request.
               </p>

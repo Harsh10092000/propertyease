@@ -465,11 +465,11 @@ const Admin = () => {
           name: "Email Settings",
           linkto: "/admin/emailsettings",
         },
-        {
-          icon: <IconPhone className="sidebar-faicon" />,
-          name: "Phone Number Settings",
-          linkto: "/admin/numbersettings",
-        },
+        // {
+        //   icon: <IconPhone className="sidebar-faicon" />,
+        //   name: "Phone Number Settings",
+        //   linkto: "/admin/numbersettings",
+        // },
         {
           icon: <IconPhone className="sidebar-faicon" />,
           name: "Email Broadcast Settings",

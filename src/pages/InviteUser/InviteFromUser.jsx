@@ -430,6 +430,8 @@ export const InviteForm = () => {
                   <div className="share-type-link">Propertyease.in</div>
                 </div>
               </div>
+
+              
             </div>
 
             <div className="col-md-4">

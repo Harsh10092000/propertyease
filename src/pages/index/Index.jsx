@@ -55,7 +55,7 @@ const Index = () => {
   const testData = [
     {
       name: "Anita Sharma",
-      content: `This real estate agent made the home-buying process so easy for us. They understood our needs and showed us several options within our budget. We are very happy with our new home!`,
+      content: `This real estate broker made the home-buying process so easy for us. They understood our needs and showed us several options within our budget. We are very happy with our new home!`,
       city: "Mohali",
     },
     {
@@ -65,7 +65,7 @@ const Index = () => {
     },
     {
       name: "Ritesh",
-      content: `I found the perfect office space for my business thanks to this real estate agent. They listened to what I needed and found several great options for me to choose from.`,
+      content: `I found the perfect office space for my business thanks to this real estate broker. They listened to what I needed and found several great options for me to choose from.`,
       city: "Gurugram",
     },
     {
@@ -75,17 +75,17 @@ const Index = () => {
     },
     {
       name: "Sanjay Kumar",
-      content: `Working with this real estate agent was a fantastic experience. They were always available to answer my questions and guided me through buying my first home.`,
+      content: `Working with this real estate broker was a fantastic experience. They were always available to answer my questions and guided me through buying my first home.`,
       city: "Ambala",
     },
     {
       name: "Namit Garg",
-      content: `I am incredibly impressed by how this real estate agent works. They helped me meet many sellers and landowners who were interested in selling.`,
+      content: `I am incredibly impressed by how this real estate broker works. They helped me meet many sellers and landowners who were interested in selling.`,
       city: "Ambala",
     },
     {
       name: "Priya Singh",
-      content: `I was looking to sell my house quickly, and the agent did it in no time. They were professional and efficient and got me a great price.
+      content: `I was looking to sell my house quickly, and the broker did it in no time. They were professional and efficient and got me a great price.
       .
             `,
       city: "Chandigarh",

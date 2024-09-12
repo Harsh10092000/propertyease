@@ -30,21 +30,7 @@ const EmailSettings = (selectedOption) => {
     email_reciever_id: [],
   });
 
-  const emailConfigFormOpt = [
-    {
-      id: "1",
-      option: "Mail Configuration",
-    },
-
-    {
-      id: "2",
-      option: "Email Settings",
-    },
-    {
-      id: "3",
-      option: "Contact Us Email",
-    },
-  ];
+  
 
   useEffect(() => {
     if (

@@ -134,13 +134,13 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                           <div className="rec-footer d-flex justify-content-between">
                             <div className="details d-block">
                               <div className="details-1">
-                              {item.user_type === "Agent" &&
-                item.pro_user_type === "Agent" ? (
+                              {item.user_type === "Broker" &&
+                item.pro_user_type === "Broker" ? (
                   <Link
                   className="user-profile-link"
                     //to={`/agentProfile/${item.pro_user_id}`}
                     to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.pro_user_id}`}
-                    title="Click to View Agent Profile"
+                    title="Click to View Broker Profile"
                   >
                     Listed by{" "}
                     {currentUser &&

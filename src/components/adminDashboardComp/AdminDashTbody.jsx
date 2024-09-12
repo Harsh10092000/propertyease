@@ -176,12 +176,14 @@ const renderViewProfileButton = (
   transform
 ) => {
   return (
-    <Link className={customClass} to={transform(item)}>
-      <span>
-        {" "}
-        <span>{icon}</span> <span className="hover_text">{span}</span>
-      </span>
-    </Link>
+    // <Link className={customClass} to={transform(item)}>
+    //   <span>
+    //     <span>{icon}</span> <span className="hover_text">{span}</span>
+    //   </span>
+    // </Link>
+    <Link className={`${customClass} mr-3`} to={transform(item)}>
+          {icon}
+        </Link>
   );
 };
 
@@ -300,6 +302,15 @@ const DropdownMenu = ({
                     </div>
                   );
                 }
+                if (cond.condition === "view_profile") {
+                  return (
+                    <div key={index} className="action-btn">
+                <Link className={`${cond.customClass} mr-3`} to={cond.transform(item)}>
+          {cond.icon} {cond.span}
+        </Link>
+        </div>
+ );
+}
                 if (cond.condition === "view_btn") {
                   return (
                     <div key={index} className="action-btn">
@@ -817,3 +828,6 @@ export const FormStrcture = ({ heading, children, dynamic_col }) => {
     </div>
   );
 };
+
+
+

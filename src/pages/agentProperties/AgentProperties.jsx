@@ -556,11 +556,11 @@ const AgentProperties = () => {
                             </div>
                             <div className="pt-3 d-flex justify-content-between  align-items-center listing-details-wrapper">
                             <div className=" listed pl-md-0">
-                              {object.user_type === "Agent" &&
-                              object.pro_user_type === "Agent" ? (
+                              {object.user_type === "Broker" &&
+                              object.pro_user_type === "Broker" ? (
                                 <Link
                                   to={`/agentProfile/${object.pro_user_id}`}
-                                  title="Click to View Agent Profile"
+                                  title="Click to View Broker Profile"
                                 >
                                   Listed by{" "}
                                   {currentUser &&
