@@ -448,7 +448,12 @@ const User = () => {
     },
     {
       icon: <IconHomePlus className="sidebar-faicon" />,
-      name: "Add Property",
+      //name: "Add Property",
+      name: (
+        <>
+          List Property <span className="blink-2 blink-3 d-none d-inline">free</span>
+        </>
+      ),
       linkto: "/addproperty",
     },
     {
@@ -537,7 +542,7 @@ const User = () => {
 
                   <div className=" pl-3">
                     <ListItemText
-                      className="list-item-text"
+                      className="list-item-text pointer"
                       primary={item.name}
                     />
                   </div>
