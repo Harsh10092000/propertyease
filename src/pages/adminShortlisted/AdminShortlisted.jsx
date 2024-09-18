@@ -38,7 +38,6 @@ const AdminShortlisted = () => {
 
 
   const theadArray = [
-
     { value: "Sno." },
     { value: "Property Id" },
     { value: "Email" },
@@ -49,13 +48,8 @@ const AdminShortlisted = () => {
     { value: "Actions" },
   ];
 
-  
-
-  
 
   const tbodyArray = [
-   
-    
     { value: "serial_no" },
     { value: "pro_id", transform: (id) => 5000 + parseInt(id) },
     { value: "login_email" },
@@ -64,16 +58,7 @@ const AdminShortlisted = () => {
       transform: (val) => `+91 ${val}`,
     },
     { value: "pro_type" },
-    { type: "conditional", condition: "status" },
-    // { type: "conditional", condition: "status" },
-
-    // {item.pro_locality},&nbsp;
-    //                             {item.pro_sub_district
-    //                               ? item.pro_sub_district + ", "
-    //                               : ""}
-    //                             {item.pro_city},&nbsp;
-    //                               {item.pro_state}
-
+    { type: "conditional", condition: "status" },                     
     {
       type: "address",
       transform_1: (val) => {
@@ -82,20 +67,6 @@ const AdminShortlisted = () => {
     },
     {type: "conditional-btns-links",
       conditons: [
-
-    // {
-    //   type: "link",
-    //   condition: "edit_btn",
-    //   icon: (
-    //     <FontAwesomeIcon
-    //       icon={faPencilAlt}
-    //       className="font-awe-icon-edit"
-    //       title="Edit property"
-    //     />
-    //   ),
-    //   to: "/editProperty",
-    //   customClass: "dash-edit-btn",
-    // },
     {
       type: "link",
       condition: "view_btn",
@@ -109,22 +80,7 @@ const AdminShortlisted = () => {
       to: "/",
       customClass: "dash-edit-btn",
     },
-
-    // {
-    //   type: "button",
-    //   delisttitle: "Click to Dislist your property",
-    //   listtitle: "Click to List your property",
-    //   condition: "list_delist_btn",
-    //   classdelist: "btn btn-danger btn-sm vbtn",
-    //   classlist: "btn btn-success btn-sm vbtn",
-    //   displayVal1: "List Again",
-    //   displayVal2: "Delist",
-    //   checkval: "pro_listed",
-    //   cond1: 1,
-    //   cond2: null,
-    // },
   ]}
-    // {value: `Actions`},
   ];
   const handleCurreentPage = (value) => {
     setCurrentPage(value);

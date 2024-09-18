@@ -33,14 +33,14 @@ const renderConditional = (item, condition, transform) => {
   switch (condition) {
     case "status":
       return item.pro_sale_status === 0 ? (
-      item.pro_listed === 1 || item.pro_listed === null ? (
-        <span className="current-status-green">Listed</span>
+        item.pro_listed === 1 || item.pro_listed === null ? (
+          <span className="current-status-green">Listed</span>
+        ) : (
+          <span className="current-status-red">Delisted</span>
+        )
       ) : (
-        <span className="current-status-red">Delisted</span>
-      )
-    ) : (
-      <span className="current-status-blue ">Sold Out</span>
-    );
+        <span className="current-status-blue ">Sold Out</span>
+      );
     case "property_type":
       return item.pro_type.split(",")[0];
     case "property_price":
@@ -182,8 +182,8 @@ const renderViewProfileButton = (
     //   </span>
     // </Link>
     <Link className={`${customClass} mr-3`} to={transform(item)}>
-          {icon}
-        </Link>
+      {icon}
+    </Link>
   );
 };
 
@@ -204,6 +204,7 @@ const renderViewProfileButton3 = (
       //className={customClass}
       onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
     >
+      
       <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
     </button>
   ) : item.plan_status == 0 ? (
@@ -212,7 +213,8 @@ const renderViewProfileButton3 = (
       //className={customClass}
       onClick={() => transform(item.pro_plan_added_slots, item.login_id)}
     >
-      <span>{icon}</span> <span className="hover_text">{displayVal1}</span>
+      <span>{icon}</span> <span className="hover_text">{displayVal1}</span>\
+      
     </button>
   ) : (
     <button
@@ -221,6 +223,7 @@ const renderViewProfileButton3 = (
       disabled
     >
       <span>{icon}</span> <span className="hover_text">Plan Active</span>
+      
     </button>
   );
 };
@@ -251,6 +254,31 @@ const renderViewProfileButton3 = (
 //   </button>
 // )}
 
+
+const renderActionButton = (cond, item, index) => {
+  const isViewProfile = cond.condition === "view_profile";
+  const isViewProfile3 = cond.condition === "view_profile_3";
+
+  const handleClick = (val) => {
+    if (isViewProfile3) {
+      // Call the appropriate function based on val1
+      val === 5000 ? removeAccess(val) : handleClick(val);
+    }
+  };
+
+  return (
+    <div key={index} className="action-btn">
+      <div
+        className={`${cond.customClass} mr-3`}
+        onClick={isViewProfile ? cond.transform(item) : "#"}
+        //onClick={isViewProfile3 ? () => handleClick(item) : undefined}
+      >
+        {cond.icon} {isViewProfile ? cond.span : cond.displayVal1 || cond.displayVal2}
+      </div>
+    </div>
+  );
+};
+
 const DropdownMenu = ({
   item,
   property,
@@ -278,82 +306,134 @@ const DropdownMenu = ({
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
+  
+
   return (
     <div ref={dropdownRef} className="action-dropdown-wrapper">
       {/* {item.pro_sale_status !== 1 ? ( */}
-        <>
-          <span onClick={toggleDropdown} className="action-dropdown arrow-down">
-            Actions
-          </span>
+      <>
+        <span onClick={toggleDropdown} className="action-dropdown arrow-down">
+          Actions
+        </span>
 
-          {open && (
-            <div className="action-menu">
-              {property.conditions.map((cond, index) => {
-                if (cond.condition === "edit_btn") {
-                  return (
-                    <div key={index} className="action-btn">
-                      <Link
+        {open && (
+          <div className="action-menu">
+            {property.conditions.map((cond, index) => {
+              if (cond.condition === "edit_btn") {
+                return (
+                  <div key={index} className="action-btn">
+                    <Link
+                      className={cond.customClass}
+                      title={cond.title}
+                      to={`${cond.to}/${item.pro_url}`}
+                    >
+                      {cond.icon} Edit
+                    </Link>
+                  </div>
+                );
+              }
+              if (cond.condition === "view_profile") {
+                return (
+                  <div key={index} className="action-btn">
+                    <Link
+                      className={`${cond.customClass} mr-3`}
+                      to={cond.transform(item)}
+                    >
+                      {cond.icon} {cond.span}
+                    </Link>
+                  </div>
+                );
+              }
+              if (cond.condition === "view_profile_3") {
+                return (
+                  <div key={index} className="action-btn">
+      {/* <div
+        className={`${cond.customClass} mr-3`}
+        //to={isViewProfile ? cond.transform(item) : "#"}
+        onClick={() => cond.transform(item.pro_id) }
+      >
+        {cond.icon} {cond.displayVal1}
+      </div> */}
+      {parseInt(item.pro_plan_added_slots) === 5000 ? (
+                      <div
+                        title={cond.displayVal2}
                         className={cond.customClass}
-                        title={cond.title}
-                        to={`${cond.to}/${item.pro_url}`}
+                        onClick={() => cond.transform(item.pro_plan_added_slots, item.tran_id)}
                       >
-                        {cond.icon} Edit
-                      </Link>
-                    </div>
-                  );
-                }
-                if (cond.condition === "view_profile") {
-                  return (
-                    <div key={index} className="action-btn">
-                <Link className={`${cond.customClass} mr-3`} to={cond.transform(item)}>
-          {cond.icon} {cond.span}
-        </Link>
-        </div>
- );
-}
-                if (cond.condition === "view_btn") {
-                  return (
-                    <div key={index} className="action-btn">
-                      <a
+                        {cond.icon2} {cond.displayVal2}
+                      </div>
+                    ) : item.plan_status == 0 ? (
+                      <div
+                        title={cond.displayVal1}
                         className={cond.customClass}
-                        title={cond.title}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/${item.pro_url}`}
+                        onClick={() => cond.transform(item.pro_plan_added_slots, item.login_id)}
                       >
-                        {cond.icon} View
-                      </a>
-                    </div>
-                  );
-                }
-                if (cond.condition === "listing_status") {
-                  return (
-                    <div key={index} className="action-btn">
-                      {item[cond.checkval] === cond.cond1 ||
-                      item[cond.checkval] === cond.cond2 ? (
-                        <button
-                          title={cond.delisttitle}
-                          className={cond.classdelist}
-                          onClick={() => handleClickOpen(item)}
-                        >
-                          {cond.icon2} {cond.displayVal2}
-                        </button>
-                      ) : (
-                        <button
-                          title={cond.listtitle}
-                          className={cond.classlist}
-                          onClick={() => listProperty(item)}
-                        >
-                          {cond.icon1} {cond.displayVal1}
-                        </button>
-                      )}
-                    </div>
-                  );
-                }
-                if (cond.condition === "sale_status") {
-                  return (
-                    <div key={index} className="action-btn">
-                       {item[cond.checkval] === 0 ?
+                        {cond.icon1} {cond.displayVal1}
+                      </div>
+                    ) : ""}
+    </div> 
+//      <button
+//      className={`${customClass} min-btn-width btn-col-red`}
+//      //className={customClass}
+//      onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
+//    >
+     
+//      <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
+//    </button>
+//  ) : item.plan_status == 0 ? (
+//    <button
+//      className={`${customClass} min-btn-width btn-col-green`}
+//      //className={customClass}
+//      onClick={() => transform(item.pro_plan_added_slots, item.login_id)}
+//    >
+//      <span>{icon}</span> <span className="hover_text">{displayVal1}</span>\
+     
+//    </button>
+                );
+              }
+              if (cond.condition === "view_btn") {
+                return (
+                  <div key={index} className="action-btn">
+                    <a
+                      className={cond.customClass}
+                      title={cond.title}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/${item.pro_url}`}
+                    >
+                      {cond.icon} View
+                    </a>
+                  </div>
+                );
+              }
+              if (cond.condition === "listing_status") {
+                return (
+                  <div key={index} className="action-btn">
+                    {item[cond.checkval] === cond.cond1 ||
+                    item[cond.checkval] === cond.cond2 ? (
+                      <button
+                        title={cond.delisttitle}
+                        className={cond.classdelist}
+                        onClick={() => handleClickOpen(item)}
+                      >
+                        {cond.icon2} {cond.displayVal2}
+                      </button>
+                    ) : (
+                      <button
+                        title={cond.listtitle}
+                        className={cond.classlist}
+                        onClick={() => listProperty(item)}
+                      >
+                        {cond.icon1} {cond.displayVal1}
+                      </button>
+                    )}
+                  </div>
+                );
+              }
+              if (cond.condition === "sale_status") {
+                return (
+                  <div key={index} className="action-btn">
+                    {item[cond.checkval] === 0 ? (
                       <button
                         title={cond.title}
                         className={cond.customClass}
@@ -361,7 +441,7 @@ const DropdownMenu = ({
                       >
                         {cond.icon} Mark As Sold
                       </button>
-                      : 
+                    ) : (
                       <button
                         title={cond.title}
                         className={cond.customClass}
@@ -369,32 +449,29 @@ const DropdownMenu = ({
                       >
                         {cond.icon} Mark As Unsold
                       </button>
-                       }
-                    </div>
-                  );
-                }
-                if (cond.condition === "delete_btn") {
-                  return (
-                    <div
-                      key={index}
-                      className="action-btn action_status_del_btn"
+                    )}
+                  </div>
+                );
+              }
+              if (cond.condition === "delete_btn") {
+                return (
+                  <div key={index} className="action-btn action_status_del_btn">
+                    <button
+                      title={cond.title}
+                      //className={classdelist}
+                      className={cond.customClass}
+                      onClick={() => cond.onClick(item)}
                     >
-                      <button
-                        title={cond.title}
-                        //className={classdelist}
-                        className={cond.customClass}
-                        onClick={() => cond.onClick(item)}
-                      >
-                        {cond.icon} Delete
-                      </button>
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </div>
-          )}
-        </>
+                      {cond.icon} Delete
+                    </button>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
+        )}
+      </>
       {/* ) : (
         <span className="action-dropdown-blocked">Sold Out</span>
       )} */}
@@ -828,6 +905,3 @@ export const FormStrcture = ({ heading, children, dynamic_col }) => {
     </div>
   );
 };
-
-
-

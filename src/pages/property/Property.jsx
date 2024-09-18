@@ -591,7 +591,7 @@ const Property = () => {
   const [cordinatesChanged, setCordinatesChanged] = useState(false);
 
   useEffect(() => {
-    console.log(cordinates);
+
     cordinates.lat !== ""
       ? setCordinatesChanged(true)
       : setCordinatesChanged(false);
@@ -615,7 +615,7 @@ const Property = () => {
       axios
         .get(
           `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-        n&key=AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS`
+        n&key=AlzaSybFfjAYhDYb8NnWfuK_GS5XnpU_2dLnYQn`
         )
         .then((res) => {
           setCodinates({
@@ -918,8 +918,8 @@ const Property = () => {
                             </div>
                             <span className="right-border mx-2 mobile-hidden"></span>
                             <div className=" pl-3 pl-md-0 pro-add listing-detail">
-                              {userType === "Agent" &&
-                              data.pro_user_type === "Agent" ? (
+                              {userType === "Broker" &&
+                              data.pro_user_type === "Broker" ? (
                                 <Link
                                   to={`/agentProfile/${formatString(
                                     agentName
@@ -930,7 +930,7 @@ const Property = () => {
                                   )}-${formatString(agentDetails.agentstate)}-${
                                     data.pro_user_id
                                   }`}
-                                  title="Click to View Agent Profile"
+                                  title="Click to View Broker Profile"
                                 >
                                   Listed by{" "}
                                   {currentUser &&
@@ -1649,18 +1649,7 @@ time3.add(12, "minutes") */}
                                 </div>
 
                                 <p>
-                                  All the information displayed is as posted by
-                                  the User and displayed on the website for
-                                  informational purposes only. Propertyease.in
-                                  makes no representations and warranties of any
-                                  kind, whether expressed or implied, for the
-                                  Services and in relation to the accuracy or
-                                  quality of any information transmitted or
-                                  obtained at Propertyease.in. You are hereby
-                                  strongly advised to verify all information
-                                  including visiting the relevant authorities
-                                  before taking any decision based on the
-                                  contents displayed on the website.
+                                All images/information provided in this listing given by its owner, brokers or builders may be actual or used for illustrative purposes only and may not represent real individuals, places, or events.  In real, images/information about this property may vary. Kindly verify the physical possession of the property and its owners and property documents and cross-check everything before any transaction. The company is not responsible for discrepancies found at any stage. Any resemblance to actual persons or copyrighted materials is purely coincidental. Unauthorized use or reproduction of these images/information is prohibited. If you believe any image/information violates your rights, don't hesitate to get in touch with us for prompt resolution.
                                 </p>
                               </div>
                             </div>

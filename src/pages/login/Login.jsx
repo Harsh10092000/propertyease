@@ -2,7 +2,7 @@ import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 
 import { useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { TextField, InputAdornment } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -192,7 +192,7 @@ const Login = () => {
                       setErr(null),
                       setOtpRequet(false);
                   }}
-                  helperText={emailError ? emailError : ""}
+                  helperText={emailError ? emailError : " "}
                   readOnly={otpRequet === true && err === null}
                   disabled={otpRequet === true && err === null}
                 />
@@ -223,12 +223,17 @@ const Login = () => {
                     className="w-100"
                     value={data.phone}
                     FormHelperTextProps={{ sx: { color: "red" } }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">+91 </InputAdornment>
+                      ),
+                    }}
                     helperText={
                       numberFormatErr !== null
                         ? "Please enter a valid Phone Number"
                         : numberErr === true
                         ? "Phone Number Already Registered"
-                        : ""
+                        : " "
                     }
                     onChange={(e) =>
                       setData({

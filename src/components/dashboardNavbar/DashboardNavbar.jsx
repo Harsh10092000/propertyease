@@ -73,7 +73,11 @@ const DashboardNavbar = () => {
     },
     {
       icon: <IconBuilding className="sidebar-faicon" />,
-      name: "Add Property",
+      name: (
+        <>
+          List Property <span className="blink-2 blink-3 d-none d-inline">free</span>
+        </>
+      ),
       linkto: "/addproperty",
     },
     {

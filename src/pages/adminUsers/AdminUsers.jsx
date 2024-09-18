@@ -9,7 +9,7 @@ import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDas
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faEye } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import { IconHome, IconUserSearch } from "@tabler/icons-react";
+import { IconCircle, IconCircleCheck, IconCircleMinus, IconHome, IconUserSearch } from "@tabler/icons-react";
 import { IconEye } from "@tabler/icons-react";
 
 const AdminUsers = () => {
@@ -271,6 +271,31 @@ const AdminUsers = () => {
               customClass: "action_status_btn mr-2",
               transform: (val) => `/view-properties/${val.login_id}`,
             },
+
+            // {
+            //   type: "view_profile",
+            //   condition: "view_profile",
+            //   icon: <IconHome className="action-edit-icon " height={19} width={19} />,
+            //   span: "View Properties",
+            //   to: "/",
+            //   customClass: "action_status_btn mr-2",
+            //   transform: (val) => `/view-properties/${val.login_id}`,
+            // },
+
+
+            {
+              type: "view_profile_3",
+              condition: "view_profile_3",
+                  transform: (val1, val2 ) => { val1 == 5000 ? removeAccess(val2) : handleClick(val2) },
+                 
+                  icon1: <IconCircleCheck className="action-edit-icon " height={19} width={19} />,
+                  icon2: <IconCircleMinus className="action-edit-icon " height={19} width={19} />,
+                  to: "/",
+                  customClass: "action_status_btn mr-2",
+                  displayVal1: "Grant Access",
+                  displayVal2: "Revoke Access",
+                
+                },
 
         // {
         //   type: "link",

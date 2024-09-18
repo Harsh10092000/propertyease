@@ -92,7 +92,7 @@ const UserdashboardProfile = () => {
         //   console.log("dfg"),
         //   navigate("/user/user-profile-form")
         // ) :
-        agentData.agent_type === "Agent" ? (
+        agentData.agent_type === "Broker" ? (
           <div className="container-fluid">
             <div className="row">
               <div className="pro-cont-main">
@@ -113,7 +113,7 @@ const UserdashboardProfile = () => {
                               </div>
                             </div>
                             <div className="company-name">
-                              Real Estate Agent
+                              Real Estate Broker
                             </div>
                             <div className="company-name">
                             

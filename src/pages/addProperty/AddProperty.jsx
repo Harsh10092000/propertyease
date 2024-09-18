@@ -7,6 +7,8 @@ import {
   IconSquare,
   IconSquareCheckFilled,
   IconX,
+  IconChevronsLeft,
+  IconPlus,
 } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -39,6 +41,10 @@ import moment from "moment";
 import { Skeleton } from "@mui/material";
 import PropertyListingPlan from "../../components/propertyListingPlan/PropertyListingPlan";
 import PaymentSucess from "../paymentSuccess/PaymentSucess";
+import { IconChevronsRight } from "@tabler/icons-react";
+import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
+import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
 // const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
 //   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
@@ -222,7 +228,6 @@ const AddProperty = () => {
   }, [change]);
 
   const handleChange = () => {
-    console.log("XScdgf");
     setChange(change + 1);
     setPaymentSuccessful(false);
   };
@@ -512,7 +517,7 @@ const AddProperty = () => {
 
   const [propertyData, setPropertyData] = useState({
     pro_user_type: "",
-    pro_ad_type: "",
+    pro_ad_type: "Sale",
     pro_type: "",
     pro_city: "",
     pro_locality: "",
@@ -1269,7 +1274,7 @@ const AddProperty = () => {
                             // }
                             onClick={handleStep1}
                           >
-                            Next
+                            Next <IconChevronsRight />
                           </button>
                         </div>
                       </div>
@@ -1381,6 +1386,29 @@ const AddProperty = () => {
                                   >
                                     Industrial Estate
                                   </option>
+
+
+
+                                  <option
+                                    value={"Institutional,Commercial"}
+                                  >
+                                    Institutional
+                                  </option>
+
+                                  <option
+                                    value={"Petrol Pump,Commercial"}
+                                  >
+                                    Petrol Pump
+                                  </option>
+
+                                  <option
+                                    value={"Cold Store,Commercial"}
+                                  >
+                                    Cold Store
+                                  </option>
+
+
+   
                                 </optgroup>
                               </Select>
                               {step2 === true &&
@@ -1597,7 +1625,7 @@ const AddProperty = () => {
                                 setPropertyData({
                                   ...propertyData,
                                   pro_locality: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . /]/g,
+                                    /[^0-9A-Z a-z ]/g,
                                     ""
                                   ),
                                 })
@@ -1670,8 +1698,8 @@ const AddProperty = () => {
                           </div>
                           <div className="d-flex justify-content-between ">
                             {activeStep > 0 ? (
-                              <button className="btn" onClick={handleBackStep}>
-                                Back
+                              <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                               <IconChevronsLeft /> Back
                               </button>
                             ) : (
                               ""
@@ -1682,7 +1710,7 @@ const AddProperty = () => {
                               //disabled={step2 === true ? true : false}
                               onClick={handleStep2}
                             >
-                              Next
+                              Next <IconChevronsRight />
                             </button>
                           </div>
                         </div>
@@ -1690,7 +1718,7 @@ const AddProperty = () => {
                         <div className="container">
                           <div className="row">
                             <div className="col-md-12">
-                              <section class="property-view-outer">
+                              <section class="property-view-outer no-list-access-msg">
                                 <div class="no-longer-available">
                                   <div className="msg-haeding">
                                     You've exceeded the limit of 5 properties in
@@ -1743,232 +1771,30 @@ const AddProperty = () => {
                                   </div>
                                 </div>
                               </div>
-                              <section className="most-view-Property mt-5 mb-5">
-                                <div className="container">
-                                  <div className="section-title">
-                                    <h3>
-                                      Recent Listed <span>Properties</span>
-                                    </h3>
-                                    <p>
-                                      Looking for a service? Discover the most
-                                      recent service providers in your city,
-                                      vetted and selected by our dedicated team
-                                      of analysts
-                                      <br /> based on feedback gathered from
-                                      users like you!
-                                    </p>
-                                  </div>
-                                  <div className="row">
-                                    {latestProperty?.map((item, index) => (
-                                      <div className="col-md-4" key={index}>
-                                        <div className="uniBlock">
-                                          <div className="recent-box-serv">
-                                            <div className="re-bus-img">
-                                              <Link
-                                                to={`/${
-                                                  item.pro_area_size.toLowerCase() +
-                                                  "-" +
-                                                  item.pro_area_size_unit.toLowerCase() +
-                                                  "-"
-                                                }${
-                                                  item.pro_type
-                                                    ? item.pro_type
-                                                        .split(",")[0]
-                                                        .toLowerCase()
-                                                        .replaceAll(" ", "-")
-                                                    : ""
-                                                }-for-${
-                                                  item.pro_ad_type === "rent"
-                                                    ? "rent"
-                                                    : "sale"
-                                                }-in-${item.pro_locality
-                                                  .toLowerCase()
-                                                  .replaceAll(
-                                                    " ",
-                                                    "-"
-                                                  )}-${item.pro_city.toLowerCase()}-${
-                                                  item.pro_id
-                                                }`}
-                                              >
-                                                {item.img_link ? (
-                                                  <img
-                                                    src={`${
-                                                      import.meta.env
-                                                        .VITE_BACKEND
-                                                    }/propertyImages/watermark/${
-                                                      item.img_link
-                                                    }`}
-                                                    alt="img"
-                                                  />
-                                                ) : (
-                                                  <img
-                                                    src="/images/default.png"
-                                                    alt="no image"
-                                                  />
-                                                )}
-                                              </Link>
-                                            </div>
-                                            <div className="recent-bus-content">
-                                              <h5 className="property-listing-type">
-                                                <Link
-                                                  to={`/${
-                                                    item.pro_area_size.toLowerCase() +
-                                                    "-" +
-                                                    item.pro_area_size_unit.toLowerCase() +
-                                                    "-"
-                                                  }${
-                                                    item.pro_type
-                                                      ? item.pro_type
-                                                          .split(",")[0]
-                                                          .toLowerCase()
-                                                          .replaceAll(" ", "-")
-                                                      : ""
-                                                  }-for-${
-                                                    item.pro_ad_type === "rent"
-                                                      ? "rent"
-                                                      : "sale"
-                                                  }-in-${item.pro_locality
-                                                    .toLowerCase()
-                                                    .replaceAll(
-                                                      " ",
-                                                      "-"
-                                                    )}-${item.pro_city.toLowerCase()}-${
-                                                    item.pro_id
-                                                  }`}
-                                                >
-                                                  <a>
-                                                    {
-                                                      item.pro_type.split(
-                                                        ","
-                                                      )[0]
-                                                    }
-                                                  </a>
-                                                </Link>
-                                              </h5>
-                                              <ul className="front-all-property-slider">
-                                                <li className="text-capitalize">
-                                                  <img
-                                                    src="/img/location.png"
-                                                    className="property-slider-icon"
-                                                  />
-                                                  <strong className="frontPropIcon">
-                                                    Address&nbsp;{" "}
-                                                  </strong>
-                                                  {item.pro_locality},&nbsp;
-                                                  {item.pro_sub_district
-                                                    ? item.pro_sub_district +
-                                                      ", "
-                                                    : ""}
-                                                  {item.pro_city}
-                                                </li>
-                                                {item.plot_area_size ? (
-                                                  <li>
-                                                    <img
-                                                      src="/img/face-detection.png"
-                                                      className="property-slider-icon"
-                                                    />
-                                                    <strong className="frontPropIcon">
-                                                      Plot Size &nbsp;
-                                                    </strong>
-                                                    {item.plot_area_size}
-                                                  </li>
-                                                ) : (
-                                                  ""
-                                                )}
-                                                {item.pro_width ? (
-                                                  <li>
-                                                    <img
-                                                      src="/img/meter.png"
-                                                      className="property-slider-icon"
-                                                    />
-                                                    <strong className="frontPropIcon">
-                                                      Dimension&nbsp;
-                                                    </strong>
-                                                    ({item.pro_width} Feet *{" "}
-                                                    {item.pro_length} Feet)
-                                                  </li>
-                                                ) : (
-                                                  ""
-                                                )}
 
-                                                <li>
-                                                  <img
-                                                    src="/img/rupee.png"
-                                                    className="property-slider-icon"
-                                                  />
-                                                  <strong className="frontPropIcon">
-                                                    Price{" "}
-                                                  </strong>
-                                                  &nbsp;
-                                                  {"₹ " +
-                                                    item.pro_amt +
-                                                    " " +
-                                                    item.pro_amt_unit}
-                                                </li>
+                              <section className="most-view-Property mt-5 mb-5 ">
+                                
+          <div className="container">
+            <RecentListHeader />
+            
+            <div className="container">
+              <div className="row ">
+                {latestProperty.slice(0, 6).map((item, index) => (
+               
+                <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
+                ))}
 
-                                                <li>
-                                                  <img
-                                                    src="/img/facing.png"
-                                                    className="property-slider-icon"
-                                                  />
-                                                  <strong className="frontPropIcon">
-                                                    Property Facing
-                                                  </strong>
-                                                  &nbsp;
-                                                  {item.pro_facing}
-                                                </li>
-                                              </ul>
-                                              <Link
-                                                to={`/${
-                                                  item.pro_area_size.toLowerCase() +
-                                                  "-" +
-                                                  item.pro_area_size_unit.toLowerCase() +
-                                                  "-"
-                                                }${
-                                                  item.pro_type
-                                                    ? item.pro_type
-                                                        .split(",")[0]
-                                                        .toLowerCase()
-                                                        .replaceAll(" ", "-")
-                                                    : ""
-                                                }-for-${
-                                                  item.pro_ad_type === "rent"
-                                                    ? "rent"
-                                                    : "sale"
-                                                }-in-${item.pro_locality
-                                                  .toLowerCase()
-                                                  .replaceAll(
-                                                    " ",
-                                                    "-"
-                                                  )}-${item.pro_city.toLowerCase()}-${
-                                                  item.pro_id
-                                                }`}
-                                              >
-                                                <a
-                                                  title="View complete details of this property"
-                                                  className="btn-viewmore"
-                                                >
-                                                  View More
-                                                </a>
-                                              </Link>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  <div className="d-flex flex-row-reverse mt-4 mr-3">
-                                    <Link to={`/allproperties`}>
-                                      <a
-                                        title="Click to view all properties"
-                                        className="btn-viewall px-4 "
-                                      >
-                                        View All
-                                      </a>
-                                    </Link>
-                                  </div>
-                                </div>
-                              </section>
+                
+              </div>
+            </div>
+
+           <AllPropertyButton />
+
+          </div>
+        </section>
+
+
+                           
                             </div>
                           </div>
                         </div>
@@ -2317,8 +2143,8 @@ const AddProperty = () => {
 
                         <div className="d-flex justify-content-between ">
                           {activeStep > 0 ? (
-                            <button className="btn" onClick={handleBackStep}>
-                              Back
+                            <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                              <IconChevronsLeft /> Back
                             </button>
                           ) : (
                             ""
@@ -2328,7 +2154,7 @@ const AddProperty = () => {
                             //disabled={step3 === true ? true : false}
                             onClick={handleStep3}
                           >
-                            Next
+                           Next <IconChevronsRight />
                           </button>
                         </div>
                       </div>
@@ -2529,8 +2355,8 @@ const AddProperty = () => {
 
                         <div className="d-flex justify-content-between ">
                           {activeStep > 0 ? (
-                            <button className="btn" onClick={handleBackStep}>
-                              Back
+                            <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                              <IconChevronsLeft /> Back
                             </button>
                           ) : (
                             ""
@@ -2541,7 +2367,7 @@ const AddProperty = () => {
                             // onClick={handleClick}
                             onClick={handleStep4}
                           >
-                            Add Property
+                           <IconPlus /> Add Property
                           </button>
                         </div>
                       </div>
@@ -2558,7 +2384,7 @@ const AddProperty = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <section class="property-view-outer">
+              <section class="property-view-outer no-list-access-msg">
                 <div class="no-longer-available">
                   <div className="msg-haeding">
                     You've exceeded the limit of 5 properties in the last 30
@@ -2609,219 +2435,29 @@ const AddProperty = () => {
                   </div>
                 </div>
               </div>
-              <section className="most-view-Property mt-5 mb-5">
-                <div className="container">
-                  <div className="section-title">
-                    <h3>
-                      Recent Listed <span>Properties</span>
-                    </h3>
-                    <p>
-                      Looking for a service? Discover the most recent service
-                      providers in your city, vetted and selected by our
-                      dedicated team of analysts
-                      <br /> based on feedback gathered from users like you!
-                    </p>
-                  </div>
 
-                  <div className="row">
-                    {latestProperty?.map((item, index) => (
-                      <div className="col-md-4" key={index}>
-                        <div className="uniBlock">
-                          <div className="recent-box-serv">
-                            <div className="re-bus-img">
-                              <Link
-                                to={`/${
-                                  item.pro_area_size.toLowerCase() +
-                                  "-" +
-                                  item.pro_area_size_unit.toLowerCase() +
-                                  "-"
-                                }${
-                                  item.pro_type
-                                    ? item.pro_type
-                                        .split(",")[0]
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                    : ""
-                                }-for-${
-                                  item.pro_ad_type === "rent" ? "rent" : "sale"
-                                }-in-${item.pro_locality
-                                  .toLowerCase()
-                                  .replaceAll(
-                                    " ",
-                                    "-"
-                                  )}-${item.pro_city.toLowerCase()}-${
-                                  item.pro_id
-                                }`}
-                              >
-                                {item.img_link ? (
-                                  <img
-                                    src={`${
-                                      import.meta.env.VITE_BACKEND
-                                    }/propertyImages/watermark/${
-                                      item.img_link
-                                    }`}
-                                    alt="img"
-                                  />
-                                ) : (
-                                  <img
-                                    src="/images/default.png"
-                                    alt="no image"
-                                  />
-                                )}
-                              </Link>
-                            </div>
-                            <div className="recent-bus-content">
-                              <h5 className="property-listing-type">
-                                <Link
-                                  to={`/${
-                                    item.pro_area_size.toLowerCase() +
-                                    "-" +
-                                    item.pro_area_size_unit.toLowerCase() +
-                                    "-"
-                                  }${
-                                    item.pro_type
-                                      ? item.pro_type
-                                          .split(",")[0]
-                                          .toLowerCase()
-                                          .replaceAll(" ", "-")
-                                      : ""
-                                  }-for-${
-                                    item.pro_ad_type === "rent"
-                                      ? "rent"
-                                      : "sale"
-                                  }-in-${item.pro_locality
-                                    .toLowerCase()
-                                    .replaceAll(
-                                      " ",
-                                      "-"
-                                    )}-${item.pro_city.toLowerCase()}-${
-                                    item.pro_id
-                                  }`}
-                                >
-                                  <a>{item.pro_type.split(",")[0]}</a>
-                                </Link>
-                              </h5>
-                              <ul className="front-all-property-slider">
-                                <li className="text-capitalize">
-                                  <img
-                                    src="/img/location.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Address&nbsp;{" "}
-                                  </strong>
-                                  {item.pro_locality},&nbsp;
-                                  {item.pro_sub_district
-                                    ? item.pro_sub_district + ", "
-                                    : ""}
-                                  {item.pro_city}
-                                </li>
-                                {item.plot_area_size ? (
-                                  <li>
-                                    <img
-                                      src="/img/face-detection.png"
-                                      className="property-slider-icon"
-                                    />
-                                    <strong className="frontPropIcon">
-                                      Plot Size &nbsp;
-                                    </strong>
-                                    {item.plot_area_size}
-                                  </li>
-                                ) : (
-                                  ""
-                                )}
-                                {item.pro_width ? (
-                                  <li>
-                                    <img
-                                      src="/img/meter.png"
-                                      className="property-slider-icon"
-                                    />
-                                    <strong className="frontPropIcon">
-                                      Dimension&nbsp;
-                                    </strong>
-                                    ({item.pro_width} Feet * {item.pro_length}{" "}
-                                    Feet)
-                                  </li>
-                                ) : (
-                                  ""
-                                )}
+              <section className="most-view-Property mt-5 mb-5 ">
+                                
+          <div className="container">
+            <RecentListHeader />
+            
+            <div className="container">
+              <div className="row ">
+                {latestProperty.slice(0, 6).map((item, index) => (
+               
+                <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
+                ))}
 
-                                <li>
-                                  <img
-                                    src="/img/rupee.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Price{" "}
-                                  </strong>
-                                  &nbsp;
-                                  {"₹ " +
-                                    item.pro_amt +
-                                    " " +
-                                    item.pro_amt_unit}
-                                </li>
+                
+              </div>
+            </div>
 
-                                <li>
-                                  <img
-                                    src="/img/facing.png"
-                                    className="property-slider-icon"
-                                  />
-                                  <strong className="frontPropIcon">
-                                    Property Facing
-                                  </strong>
-                                  &nbsp;
-                                  {item.pro_facing}
-                                </li>
-                              </ul>
-                              <Link
-                                to={`/${
-                                  item.pro_area_size.toLowerCase() +
-                                  "-" +
-                                  item.pro_area_size_unit.toLowerCase() +
-                                  "-"
-                                }${
-                                  item.pro_type
-                                    ? item.pro_type
-                                        .split(",")[0]
-                                        .toLowerCase()
-                                        .replaceAll(" ", "-")
-                                    : ""
-                                }-for-${
-                                  item.pro_ad_type === "rent" ? "rent" : "sale"
-                                }-in-${item.pro_locality
-                                  .toLowerCase()
-                                  .replaceAll(
-                                    " ",
-                                    "-"
-                                  )}-${item.pro_city.toLowerCase()}-${
-                                  item.pro_id
-                                }`}
-                              >
-                                <a
-                                  title="View complete details of this property"
-                                  className="btn-viewmore"
-                                >
-                                  View More
-                                </a>
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="d-flex flex-row-reverse mt-4 mr-3">
-                    <Link to={`/allproperties`}>
-                      <a
-                        title="Click to view all properties"
-                        className="btn-viewall px-4 "
-                      >
-                        View All
-                      </a>
-                    </Link>
-                  </div>
-                </div>
-              </section>
+           <AllPropertyButton />
+
+          </div>
+        </section>
+
+          
             </div>
           </div>
         </div>

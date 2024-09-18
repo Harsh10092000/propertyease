@@ -9,118 +9,236 @@ import {
   MenuItem,
 } from "@mui/material";
 import DashboardNavbar from "../dashboardNavbar/DashboardNavbar";
-import { IconMenuDeep } from "@tabler/icons-react";
+import {
+  IconAlertCircle,
+  IconAlertTriangle,
+  IconMenuDeep,
+} from "@tabler/icons-react";
 import DashThead from "./DashThead";
 import axios from "axios";
 
-
-
 const renderComplexContent = (item) => {
   return (
-    <Link to={`/${item.pro_url}`} title="Click to view property" className="text-dark">
-    <span className="text-wrap">
-      {item.pro_area_size +
-        " " +
-        item.pro_area_size_unit +
-        " " +
-        item.pro_type?.split(",")[0] +
-        " "}
-      for {item.pro_ad_type === "Rent" ? "Rent" : "Sale"} in {item.pro_locality}
-      ,&nbsp;
-      {item.pro_city}
-    </span>
+    <Link
+      to={`/${item.pro_url}`}
+      title="Click to view property"
+      className="text-dark"
+    >
+      <span className="text-wrap">
+        {item.pro_area_size +
+          " " +
+          item.pro_area_size_unit +
+          " " +
+          item.pro_type?.split(",")[0] +
+          " "}
+        for {item.pro_ad_type === "Rent" ? "Rent" : "Sale"} in{" "}
+        {item.pro_locality}
+        ,&nbsp;
+        {item.pro_city}
+      </span>
     </Link>
   );
 };
 
-
 const renderResponsesViews = (item) => {
- 
-  return ( 
-    parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? 
-    
+  return parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? (
     <div className="d-flex gap-3">
-      {parseInt(item.pro_responses) > 0 ? <>
-      <Link to={`/user/insights/${item.pro_id}`}><div className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div></Link>
-      <Link  to={`/user/insights/${item.pro_id}`}> <div className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div></Link>
-      </>: <>
-    <div title="No responses yet" className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
-     <div title="No responses yet" className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
-    </>
-   }
-      </div>
+      {parseInt(item.pro_responses) > 0 ? (
+        <>
+          <Link to={`/user/insights/${item.pro_id}`}>
+            <div className="info-badge info-badge-1">
+              Views{" "}
+              <span className="no-badge">
+                {parseInt(item.pro_views) > 0 ? item.pro_views : 0}
+              </span>
+            </div>
+          </Link>
+          <Link to={`/user/insights/${item.pro_id}`}>
+            {" "}
+            <div className="info-badge info-badge-2">
+              Responses{" "}
+              <span className="no-badge">
+                {parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}
+              </span>
+            </div>
+          </Link>
+        </>
+      ) : (
+        <>
+          <div title="No responses yet" className="info-badge info-badge-1">
+            Views{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_views) > 0 ? item.pro_views : 0}
+            </span>
+          </div>
+          <div title="No responses yet" className="info-badge info-badge-2">
+            Responses{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}
+            </span>
+          </div>
+        </>
+      )}
+    </div>
+  ) : (
+    <span>-</span>
+  );
+};
 
-    : <span>-</span>
-   );
-}
-
-const renderResponsesViews2 = (item, handleShowResData, handleShowResDataId , showData, respondantDataByPro ,tbodyArray1 , showDataId, theadArray1, resDataPopUpRef) => {
-  
-  return ( 
-    parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? 
+const renderResponsesViews2 = (
+  item,
+  handleShowResData,
+  handleShowResDataId,
+  showData,
+  respondantDataByPro,
+  tbodyArray1,
+  showDataId,
+  theadArray1,
+  resDataPopUpRef
+) => {
+  return parseInt(item.pro_views) > 0 || parseInt(item.pro_responses) > 0 ? (
     <div className="d-flex gap-3">
-      {parseInt(item.pro_responses) > 0 ? <>
-     
-      <div className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
-       <div className="info-badge info-badge-2 position-relative " onClick={() => {showDataId == item.pro_id ? (handleShowResData(false), handleShowResDataId("") ): (handleShowResData(true), handleShowResDataId(item.pro_id))}}>Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
-       {showData && showDataId == item.pro_id && (
-          <div ref={resDataPopUpRef} className="popup-table">
-            {/* <td colSpan={tbodyArray.length} className="text-center">
+      {parseInt(item.pro_responses) > 0 ? (
+        <>
+          <div className="info-badge info-badge-1">
+            Views{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_views) > 0 ? item.pro_views : 0}
+            </span>
+          </div>
+          <div
+            className="info-badge info-badge-2 position-relative "
+            onClick={() => {
+              showDataId == item.pro_id
+                ? (handleShowResData(false), handleShowResDataId(""))
+                : (handleShowResData(true), handleShowResDataId(item.pro_id));
+            }}
+          >
+            Responses{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}
+            </span>
+          </div>
+          {showData && showDataId == item.pro_id && (
+            <div ref={resDataPopUpRef} className="popup-table">
+              {/* <td colSpan={tbodyArray.length} className="text-center">
               <div>test</div>
             </td> */}
-            <thead className="head">
-      <tr>
-        {theadArray1.map((item, index) => {
-          // Handle colspan
-          if (item.colspan) {
-            return (
-              <th
-                key={index}
-                colSpan={item.colspan}
-                className={`table-head-1 ${item.customClass || ''}`}
-              >
-                {item.value}
-              </th>
-            );
-          }
+              <thead className="head">
+                <tr>
+                  {theadArray1.map((item, index) => {
+                    // Handle colspan
+                    if (item.colspan) {
+                      return (
+                        <th
+                          key={index}
+                          colSpan={item.colspan}
+                          className={`table-head-1 ${item.customClass || ""}`}
+                        >
+                          {item.value}
+                        </th>
+                      );
+                    }
 
-          // Handle customClass
-          return (
-            <th
-              key={index}
-              className={`table-head-1 ${item.customClass || ''}`}
-            >
-              {item.value}
-            </th>
-          );
-        })}
-      </tr>
-    </thead>
-               <tbody className="text-black">
+                    // Handle customClass
+                    return (
+                      <th
+                        key={index}
+                        className={`table-head-1 ${item.customClass || ""}`}
+                      >
+                        {item.value}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody className="text-black">
                 {respondantDataByPro.map((item, index) => (
                   <tr key={index}>
                     {tbodyArray1.map((property, idx) => (
-            <td key={idx}>{item[property.value]}</td>
-              ))}
-           
+                      <td key={idx}>{item[property.value]}</td>
+                    ))}
                   </tr>
                 ))}
-               </tbody>
+              </tbody>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div title="No responses yet" className="info-badge info-badge-1">
+            Views{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_views) > 0 ? item.pro_views : 0}
+            </span>
           </div>
-        )}
-      </>: <>
-    <div title="No responses yet" className="info-badge info-badge-1">Views <span className="no-badge">{parseInt(item.pro_views) > 0 ? item.pro_views : 0 }</span></div>
-     <div title="No responses yet" className="info-badge info-badge-2">Responses <span className="no-badge">{parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}</span></div>
-    </>
-   }
+          <div title="No responses yet" className="info-badge info-badge-2">
+            Responses{" "}
+            <span className="no-badge">
+              {parseInt(item.pro_responses) > 0 ? item.pro_responses : 0}
+            </span>
+          </div>
+        </>
+      )}
+    </div>
+  ) : (
+    <span>-</span>
+  );
+};
+
+const renderConditionalRemark = (item, condition, handleAttentionReq, openAttReq, handleShowResDataId,showDataId, resDataPopUpRef) => {
+  
+  return item.pro_pincode ? (
+    "-"
+  ) : (
+    <div ref={resDataPopUpRef} className="pointer"
+    onClick={() => {
+      showDataId == item.pro_id
+        ? (handleAttentionReq(false), handleShowResDataId(""))
+        : (handleAttentionReq(true), handleShowResDataId(item.pro_id));
+    }}
+    
+    >
+      <div
+        className="action-required"
+        title="Attention! To ensure your property stands out and captures the interest of the right buyers or renters, it's essential to complete your listing."
+      >
+        <IconAlertCircle
+          height={24}
+          width={24}
+          className="circle pulse mr-1"
+        />
+        Action Required
       </div>
+      {openAttReq && showDataId === item.pro_id &&
+      
+      <div className="att-req-popup">
+        Attention! To ensure your property stands out and captures the interest
+        of the right buyers or renters, it's essential to complete your listing.
+        <Link to={`${"/editProperty"}/${item.pro_url}`}><div className="edit-property">Edit Property</div></Link>
+      </div>
+        
 
-    : <span>-</span>
-   );
+      
 }
+    </div>
+  );
+};
 
-
-const renderConditional = (item, condition, transform, totalResponses, handleShowResData , handleShowResDataId, showData, respondantDataByPro ,tbodyArray1, showDataId, theadArray1,resDataPopUpRef ) => {
+const renderConditional = (
+  item,
+  condition,
+  transform,
+  totalResponses,
+  handleShowResData,
+  handleShowResDataId,
+  showData,
+  respondantDataByPro,
+  tbodyArray1,
+  showDataId,
+  theadArray1,
+  resDataPopUpRef
+) => {
   switch (condition) {
     case "status":
       return item.pro_sale_status === 0 ? (
@@ -140,12 +258,24 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
     //   return FormatDate(item.pro_date);
     case "property_title":
       return renderComplexContent(item);
+    //return <tr>complete property listing</tr>
     case "views":
       return renderResponsesViews(item);
-      case "views-2":
-        return renderResponsesViews2(item, handleShowResData, handleShowResDataId, showData, respondantDataByPro ,tbodyArray1, showDataId, theadArray1, resDataPopUpRef);
-      case "property_location":
+    case "views-2":
+      return renderResponsesViews2(
+        item,
+        handleShowResData,
+        handleShowResDataId,
+        showData,
+        respondantDataByPro,
+        tbodyArray1,
+        showDataId,
+        theadArray1,
+        resDataPopUpRef
+      );
+    case "property_location":
       return transform ? transform(item) : "-";
+
     default:
       return null;
   }
@@ -175,7 +305,7 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
 //         >
 //           Actions
 //         </span>
-//         :  
+//         :
 //         <span
 //         onClick={() => setOpen(!open)}
 //         className="action-dropdown-blocked"
@@ -226,7 +356,6 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
 //   );
 // };
 
-
 // const dropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus, open, handleOpenMenu, dropdownRef) => {
 //   const handleClickOutside = (event) => {
 //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -240,7 +369,7 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
 //     };
 //   }, []);
 //   return (
-    
+
 //       <div ref={dropdownRef} className="action-dropdown-wrapper">
 //         {item.pro_sale_status !== 1 ?
 //         <span
@@ -249,9 +378,9 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
 //         >
 //           Actions
 //         </span>
-//         :  
+//         :
 //         <span
-        
+
 //         className="action-dropdown-blocked"
 //       >
 //         Sold Out
@@ -296,12 +425,9 @@ const renderConditional = (item, condition, transform, totalResponses, handleSho
 //           </div>
 //          )}
 //       </div>
-    
+
 //   );
 // };
-
-
-
 
 const renderConditionalLink = (item, condition, icon, to, customClass) => {
   switch (condition) {
@@ -411,9 +537,13 @@ const renderConditionalButton = (
   }
 };
 
-
-
-const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSaleStatus }) => {
+const DropdownMenu = ({
+  item,
+  property,
+  handleClickOpen,
+  listProperty,
+  updateSaleStatus,
+}) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -424,85 +554,81 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const toggleDropdown = () => setOpen(prev => !prev);
+  const toggleDropdown = () => setOpen((prev) => !prev);
 
   return (
     <div ref={dropdownRef} className="action-dropdown-wrapper">
       {/* {item.pro_sale_status !== 1 ? ( */}
-        <>
-          <span
-            onClick={toggleDropdown}
-            className="action-dropdown arrow-down"
-            
-          >
-            Actions
-          </span>
-          
-          {open && (
-            <div className="action-menu">
-             
-              {property.conditions.map((cond, index) => {
-                if (cond.condition === "edit_btn") {
-                  return (
-                    <div key={index} className="action-btn">
-                      <Link
-                        className={cond.customClass}
-                        title={cond.title}
-                        to={`${cond.to}/${item.pro_url}`}
+      <>
+        <span onClick={toggleDropdown} className="action-dropdown arrow-down">
+          Actions
+        </span>
+
+        {open && (
+          <div className="action-menu">
+            {property.conditions.map((cond, index) => {
+              if (cond.condition === "edit_btn") {
+                return (
+                  <div key={index} className="action-btn">
+                    <Link
+                      className={cond.customClass}
+                      title={cond.title}
+                      to={`${cond.to}/${item.pro_url}`}
+                    >
+                      {cond.icon} Edit
+                    </Link>
+                  </div>
+                );
+              }
+              if (cond.condition === "view_btn") {
+                return (
+                  <div key={index} className="action-btn">
+                    <a
+                      className={cond.customClass}
+                      title={cond.title}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`/${item.pro_url}`}
+                    >
+                      {cond.icon} View
+                    </a>
+                  </div>
+                );
+              }
+              if (cond.condition === "listing_status") {
+                return (
+                  <div key={index} className="action-btn">
+                    {item[cond.checkval] === cond.cond1 ||
+                    item[cond.checkval] === cond.cond2 ? (
+                      <button
+                        title={cond.delisttitle}
+                        className={cond.classdelist}
+                        onClick={() => handleClickOpen(item)}
                       >
-                        {cond.icon} Edit
-                      </Link>
-                    </div>
-                  );
-                }
-                if (cond.condition === "view_btn") {
-                  return (
-                    <div key={index} className="action-btn">
-                      <a
-                        className={cond.customClass}
-                        title={cond.title}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`/${item.pro_url}`}
+                        {cond.icon2} {cond.displayVal2}
+                      </button>
+                    ) : (
+                      <button
+                        title={cond.listtitle}
+                        className={cond.classlist}
+                        onClick={() => listProperty(item)}
                       >
-                        {cond.icon} View
-                      </a>
-                    </div>
-                  );
-                }
-                if (cond.condition === "listing_status") {
-                  return (
-                    <div key={index} className="action-btn">
-                      {item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
-                        <button
-                          title={cond.delisttitle}
-                          className={cond.classdelist}
-                          onClick={() => handleClickOpen(item)}
-                        >
-                          {cond.icon2} {cond.displayVal2}
-                        </button>
-                      ) : (
-                        <button
-                          title={cond.listtitle}
-                          className={cond.classlist}
-                          onClick={() => listProperty(item)}
-                        >
-                          {cond.icon1} {cond.displayVal1}
-                        </button>
-                      )}
-                    </div>
-                  );
-                }
-                if (cond.condition === "sale_status") {
-                  return (
-                    <div key={index} className="action-btn">
-                       {item[cond.checkval] === 0 ?
+                        {cond.icon1} {cond.displayVal1}
+                      </button>
+                    )}
+                  </div>
+                );
+              }
+              if (cond.condition === "sale_status") {
+                return (
+                  <div key={index} className="action-btn">
+                    {item[cond.checkval] === 0 ? (
                       <button
                         title={cond.title}
                         className={cond.customClass}
@@ -510,7 +636,7 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
                       >
                         {cond.icon} Mark As Sold
                       </button>
-                      : 
+                    ) : (
                       <button
                         title={cond.title}
                         className={cond.customClass}
@@ -518,32 +644,29 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
                       >
                         {cond.icon} Mark As Unsold
                       </button>
-                       }
-                    </div>
-                  );
-                }
-                if (cond.condition === "delete_btn") {
-                  return (
-                    <div
-                      key={index}
-                      className="action-btn action_status_del_btn"
+                    )}
+                  </div>
+                );
+              }
+              if (cond.condition === "delete_btn") {
+                return (
+                  <div key={index} className="action-btn action_status_del_btn">
+                    <button
+                      title={cond.title}
+                      //className={classdelist}
+                      className={cond.customClass}
+                      onClick={() => cond.onClick(item)}
                     >
-                      <button
-                        title={cond.title}
-                        //className={classdelist}
-                        className={cond.customClass}
-                        onClick={() => cond.onClick(item)}
-                      >
-                        {cond.icon} Delete
-                      </button>
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </div>
-          )}
-        </>
+                      {cond.icon} Delete
+                    </button>
+                  </div>
+                );
+              }
+              return null;
+            })}
+          </div>
+        )}
+      </>
       {/* ) : (
         <span className="action-dropdown-blocked">
           Sold Out
@@ -553,25 +676,26 @@ const DropdownMenu = ({item, property, handleClickOpen, listProperty, updateSale
   );
 };
 
-
-const DropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus ) => {
+const DropdownButtons = (
+  item,
+  property,
+  handleClickOpen,
+  listProperty,
+  updateSaleStatus
+) => {
   return (
     <>
-  
-        <DropdownMenu
-          //key={index}
-          item={item}
-          property={property}
-          handleClickOpen={handleClickOpen}
-          listProperty={listProperty}
-          updateSaleStatus={updateSaleStatus}
-        />
-     
+      <DropdownMenu
+        //key={index}
+        item={item}
+        property={property}
+        handleClickOpen={handleClickOpen}
+        listProperty={listProperty}
+        updateSaleStatus={updateSaleStatus}
+      />
     </>
   );
 };
-
-
 
 const DashTbody = ({
   tbodyArray,
@@ -580,35 +704,40 @@ const DashTbody = ({
   listingids,
   handleClickOpen,
   listProperty,
-  updateSaleStatus
+  updateSaleStatus,
 }) => {
   // const [open, setOpen] = useState(false);
   // const dropdownRef = useRef(null);
-  
+
   // const handleOpenMenu = (value) => {
   //   setOpen(value);
   // }
+
+  const [openAttReq, setOpenAttReq] = useState(false);
+
+  const handleAttentionReq = (value) => {
+    setOpenAttReq(value);
+  };
 
   const [showData, setShowData] = useState(false);
 
   const handleShowResData = (value) => {
     setShowData(value);
-  }
+  };
 
   const [showDataId, setShowDataId] = useState("");
 
   const handleShowResDataId = (value) => {
     setShowDataId(value);
-  }
-
+  };
 
   const [respondantDataByPro, setRespondantDataByPro] = useState([]);
-  
 
   useEffect(() => {
     axios
       .get(
-        import.meta.env.VITE_BACKEND + `/api/pro/fetchRespondentByPro/${showDataId}`
+        import.meta.env.VITE_BACKEND +
+          `/api/pro/fetchRespondentByPro/${showDataId}`
       )
       .then((res) => {
         if (res.data === "failed") {
@@ -620,8 +749,7 @@ const DashTbody = ({
           setRespondantDataByPro(res.data);
         }
       });
-  }, [ showDataId]);
-  
+  }, [showDataId]);
 
   const theadArray1 = [
     { value: "Sno.", customClass: "text-center" },
@@ -640,8 +768,12 @@ const DashTbody = ({
   const resDataPopUpRef = useRef(null);
 
   const handleClickOutside = (event) => {
-    if (resDataPopUpRef.current && !resDataPopUpRef.current.contains(event.target)) {
+    if (
+      resDataPopUpRef.current &&
+      !resDataPopUpRef.current.contains(event.target)
+    ) {
       setShowData(false);
+      setOpenAttReq(false);
     }
   };
 
@@ -651,79 +783,92 @@ const DashTbody = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   return (
     <tbody className="text-black">
       {compData.map((item, index) => (
         <>
-        <tr key={index} className="position-relative">
-          {tbodyArray.map((property, idx) => (
-            <td key={idx}>
-              {property.type === "conditional"
-                ? renderConditional(
-                    item,
-                    property.condition,
-                    property.transform,
-                    property.totalResponses,
-                    handleShowResData,
-                    handleShowResDataId
-                    , showData, respondantDataByPro ,tbodyArray1, showDataId,theadArray1, resDataPopUpRef
-                  )
-                
-                : property.type === "checkbox"
-                ? renderConditionalCheckbox(
-                    item,
-                    property.condition,
-                    property.checkcond,
-                    property.checkval,
-                    handleCheckboxChange,
-                    listingids
-                  )
-                : property.type === "conditional2"
-                ? DropdownButtons(item, property, handleClickOpen,
-                  listProperty,updateSaleStatus)
-                : property.type === "conditional-btns-links"
-                ? property.conditons.map((cond, index) => {
-                    if (cond.type === "link") {
-                      return renderConditionalLink(
-                        item,
-                        cond.condition,
-                        cond.icon,
-                        cond.to,
-                        cond.customClass
-                      );
-                    } else if (cond.type === "button") {
-                      return renderConditionalButton(
-                        item,
-                        cond.condition,
-                        cond.delisttitle,
-                        cond.listtitle,
-                        cond.classdelist,
-                        cond.classlist,
-                        cond.displayVal1,
-                        cond.displayVal2,
-                        cond.checkval,
-                        handleClickOpen,
-                        listProperty,
-                        cond.cond1,
-                        cond.cond2,
-                        cond.icon,
-                        cond.onClick,
-                        cond.customClass
-                      );
-                    }
-                  })
-                : property.transform
-                ? property.transform(item[property.value])
-                : item[property.value]}
-            </td>
-          ))}
-           
-        </tr>
-       
+          <tr key={index} className="position-relative">
+            {tbodyArray.map((property, idx) => (
+              <td key={idx}>
+                {property.type === "conditional"
+                  ? renderConditional(
+                      item,
+                      property.condition,
+                      property.transform,
+                      property.totalResponses,
+                      handleShowResData,
+                      handleShowResDataId,
+                      showData,
+                      respondantDataByPro,
+                      tbodyArray1,
+                      showDataId,
+                      theadArray1,
+                      resDataPopUpRef
+                    )
+                  : property.type === "conditionalRemark"
+                  ? renderConditionalRemark(item, property.condition, handleAttentionReq, openAttReq , handleShowResDataId, showDataId , resDataPopUpRef)
+                  : property.type === "checkbox"
+                  ? renderConditionalCheckbox(
+                      item,
+                      property.condition,
+                      property.checkcond,
+                      property.checkval,
+                      handleCheckboxChange,
+                      listingids
+                    )
+                  : property.type === "conditional2"
+                  ? DropdownButtons(
+                      item,
+                      property,
+                      handleClickOpen,
+                      listProperty,
+                      updateSaleStatus
+                    )
+                  : property.type === "conditional-btns-links"
+                  ? property.conditons.map((cond, index) => {
+                      if (cond.type === "link") {
+                        return renderConditionalLink(
+                          item,
+                          cond.condition,
+                          cond.icon,
+                          cond.to,
+                          cond.customClass
+                        );
+                      } else if (cond.type === "button") {
+                        return renderConditionalButton(
+                          item,
+                          cond.condition,
+                          cond.delisttitle,
+                          cond.listtitle,
+                          cond.classdelist,
+                          cond.classlist,
+                          cond.displayVal1,
+                          cond.displayVal2,
+                          cond.checkval,
+                          handleClickOpen,
+                          listProperty,
+                          cond.cond1,
+                          cond.cond2,
+                          cond.icon,
+                          cond.onClick,
+                          cond.customClass
+                        );
+                      }
+                    })
+                  : property.transform
+                  ? property.transform(item[property.value])
+                  : item[property.value]}
+              </td>
+            ))}
+          </tr>
+          {/* {item.pro_pincode === null &&
+        <td colspan="11" className="complete-listing-msg">
+        <IconAlertCircle height={24} width={24} className="circle pulse mr-1" /> Attention! To ensure your property stands out and captures the interest of the right buyers or renters, it's essential to complete your listing.
+          </td>
+        } */}
         </>
       ))}
-      
     </tbody>
   );
 };
@@ -933,7 +1078,7 @@ export const DashUpperBody = ({
                 >
                   Delist Properties
                 </MenuItem>
-                
+
                 <MenuItem
                   disabled={listingids.length === 0}
                   value={"Mark as Sold Out"}
@@ -943,12 +1088,12 @@ export const DashUpperBody = ({
                 </MenuItem>
 
                 <MenuItem
-                disabled={listingids.length === 0}
-                value={"Mark as Unsold"}
-                onClick={() => updateMultipleSaleStatus(0)}
-              >
-                Mark as Unsold
-              </MenuItem>
+                  disabled={listingids.length === 0}
+                  value={"Mark as Unsold"}
+                  onClick={() => updateMultipleSaleStatus(0)}
+                >
+                  Mark as Unsold
+                </MenuItem>
               </Select>
             </FormControl>
           )}

@@ -440,7 +440,7 @@ const AgentsListing = () => {
                           ) : item.work_state.length > 80 ? (
                             <>
                               {item.work_state.slice(0, 80)}...
-                              <Link title="View Agent Profile" to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.agent_id}`}>
+                              <Link title="View Broker Profile" to={`/agentProfile/${formatString(item.agent_name)}-in-${formatString(item.agent_sub_district)}-${formatString(item.agent_city)}-${formatString(item.agent_state)}-${item.agent_id}`}>
                                 more
                               </Link>
                             </>
@@ -449,7 +449,7 @@ const AgentsListing = () => {
                           )}
                         </div>
                         <p class="desc">
-                          We are Real Estate Agent, providing Buying,
+                          We are Real Estate Broker, providing Buying,
                           Selling and Renting Services for all types of Property
                           in {item.agent_state}.
                         </p>
@@ -495,7 +495,7 @@ const AgentsListing = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex ">
                         <div className="pl-2">
-                          <button onClick={contactAgent} title="Contact Agent" type="button" class="btn btn-sm contact-agent">
+                          <button onClick={contactAgent} title="Contact Broker" type="button" class="btn btn-sm contact-agent">
                             <IconSend width="20px" height="20px" />
                             <span className="pl-1">Contact</span>
                           </button>
@@ -505,7 +505,7 @@ const AgentsListing = () => {
                             <button
                               type="button"
                               class="btn btn-sm view-profile"
-                              title="View Agent Profile"
+                              title="View Broker Profile"
                             >
                               View Profile
                             </button>

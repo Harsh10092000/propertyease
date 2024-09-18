@@ -38,6 +38,7 @@ import { IconCheckbox } from "@tabler/icons-react";
 import { IconTrash } from "@tabler/icons-react";
 import { IconInfoSquareRounded } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,7 +64,7 @@ const UserDashboard = () => {
   const [listingiInLast30, setListingiInLast30] = useState([]);
 
   const [openInfoCard, setOpenInfoCard] = useState(false);
- 
+  const [skeleton, setSkeleton] = useState(true);
 
   useEffect(() => {
     axios
@@ -80,6 +81,7 @@ const UserDashboard = () => {
           });
           setData(res.data);
           setDataLoaded(true);
+          setSkeleton(false);
         }
       });
 
@@ -328,8 +330,9 @@ const UserDashboard = () => {
     { value: "Price" },
     { value: "Posted On" },
     { value: "Property Title", customClass: "th-width-16" },
-    { value: "Responses and Views", customClass: "th-width-16" },
+    { value: "Responses and Views", customClass: "th-width-2" },
     { value: "Status" },
+    { value: "Remarks", customClass: "th-width-11" },
     { value: "Actions", customClass: "th-width-2" },
   ];
 
@@ -367,6 +370,7 @@ const UserDashboard = () => {
       totalResponses: { totalResponses },
     },
     { type: "conditional", condition: "status" },
+    { type: "conditionalRemark", condition: "pro_pincode"  },
     // {
     //   type: "conditional2",
     //   condition: "status",
@@ -588,6 +592,34 @@ const UserDashboard = () => {
   );
 
   return (
+    <>
+    {skeleton ? 
+  <div className="container-fluid">
+                 
+            
+                  
+        
+  <div className="row user-profile-form-comp">
+    <div className="col-md-12">
+    <Skeleton variant="rectangular"  height={160} />
+    <Skeleton
+      variant="rectangular"
+      
+      height={100}
+      className="mt-3"
+    />
+    
+    <Skeleton
+      variant="rectangular"
+      
+      height={350}
+      className="mt-3"
+    />
+ 
+  </div>
+  </div>
+  </div>  
+ :
     <div className="container-fluid admin-dashboard admin-icon">
       <Dialog
         open={openDel}
@@ -900,6 +932,8 @@ const UserDashboard = () => {
         
       />
     </div>
+     }
+     </>
   );
 };
 

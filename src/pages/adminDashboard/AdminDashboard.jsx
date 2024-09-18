@@ -403,20 +403,7 @@ const AdminDashboard = () => {
     {type: "conditional-btns-links-1",
       conditons: [
 
-    // {
-    //   type: "link",
-    //   condition: "edit_btn",
-    //   icon: (
-    //     <FontAwesomeIcon
-    //       icon={faPencilAlt}
-    //       className="font-awe-icon-edit"
-    //       title="Edit property"
-    //     />
-    //   ),
-    //   params: "pro_url",
-    //   to: "/editProperty",
-    //   customClass: "dash-edit-btn",
-    // },
+   
     {
       type: "link",
       condition: "view_btn",
@@ -431,26 +418,7 @@ const AdminDashboard = () => {
       customClass: "dash-edit-btn",
     },
 
-    // {
-    //   type: "button",
-    //   delisttitle: "Click to Dislist your property",
-    //   listtitle: "Click to List your property",
-    //   condition: "delete_btn",
-    //   classdelist: "btn btn-danger btn-sm vbtn",
-    //   classlist: "btn btn-success btn-sm vbtn",
-    //   displayVal1: "List Again",
-    //   displayVal2: "Delist",
-    //   checkval: "pro_listed",
-    //   cond1: 1,
-    //   cond2: null,
-    //   icon: (
-    //     <FontAwesomeIcon
-    //       icon={faPencilAlt}
-    //       className="font-awe-icon-edit"
-    //       title="Edit property"
-    //     />
-    //   ),
-    // },
+    
     {
       type: "button",
       condition: "delete_btn",
