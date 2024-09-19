@@ -81,6 +81,7 @@ import UserInsights from "./pages/userInsights/UserInsights";
 import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
 import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 import SmsComponent from "./components/smsComponent/SmsComponent";
+import QuickListing from "./pages/quickListing/QuickListing";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -322,6 +323,10 @@ const App = () => {
     {
       path: "/sms",
       element: <SmsComponent />,
+    },
+    {
+      path: "/quick-list",
+      element: <QuickListing />,
     },
     // {
     //   path: "/payment-succesful",

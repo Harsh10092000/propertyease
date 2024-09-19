@@ -30,9 +30,10 @@ import { city } from "../addProperty/City";
 import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
 import Checkbox from "@mui/material/Checkbox";
+import { Skeleton } from "@mui/material";
 
 const EditProperty = () => {
-  
+  const [skeleton, setSkeleton] = useState(false);
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const EditProperty = () => {
 
   //const { id } = useParams();
   const { id1 } = useParams();
-  console.log("id1 : " , id1)
+
   const arrproId = id1.split("-");
   const id = arrproId[arrproId.length - 1];
   const [activeStep, setActiveStep] = useState(0);
@@ -188,6 +189,7 @@ const EditProperty = () => {
         import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertyDataById/${id}`
       )
       .then((res) => {
+        //setSkeleton(false);
         setPropertyData({
           ...propertyData,
           pro_id: res.data[0].pro_id,
@@ -200,17 +202,24 @@ const EditProperty = () => {
           pro_plot_no: res.data[0].pro_plot_no,
           pro_street: res.data[0].pro_street,
           pro_age: res.data[0].pro_age,
-          pro_floor: res.data[0].pro_floor === 5 ? res.data[0].pro_floor + "+" : res.data[0].pro_floor,
+          pro_floor:
+            res.data[0].pro_floor === 5
+              ? res.data[0].pro_floor + "+"
+              : res.data[0].pro_floor,
           // pro_bedroom:
           //   res.data[0].pro_bedroom === 0 ? "" : res.data[0].pro_bedroom,
 
           // pro_washrooms:
           //   res.data[0].pro_washrooms === 0 ? "" : res.data[0].pro_washrooms,
           pro_bedroom:
-            res.data[0].pro_bedroom === 5 ? res.data[0].pro_bedroom + "+" : res.data[0].pro_bedroom,
+            res.data[0].pro_bedroom === 5
+              ? res.data[0].pro_bedroom + "+"
+              : res.data[0].pro_bedroom,
 
           pro_washrooms:
-            res.data[0].pro_washrooms === 5 ? res.data[0].pro_washrooms + "+" : res.data[0].pro_washrooms,
+            res.data[0].pro_washrooms === 5
+              ? res.data[0].pro_washrooms + "+"
+              : res.data[0].pro_washrooms,
           //pro_bedroom: res.data[0].pro_bedroom,
           //pro_washrooms: res.data[0].pro_washrooms,
           //pro_balcony: res.data[0].pro_balcony,
@@ -220,9 +229,13 @@ const EditProperty = () => {
           // pro_parking:
           //   res.data[0].pro_parking === 0 ? "" : res.data[0].pro_parking,
           pro_balcony:
-            res.data[0].pro_balcony === 5 ? res.data[0].pro_balcony + "+" : res.data[0].pro_balcony,
+            res.data[0].pro_balcony === 5
+              ? res.data[0].pro_balcony + "+"
+              : res.data[0].pro_balcony,
           pro_parking:
-            res.data[0].pro_parking === 5 ? res.data[0].pro_parking + "+" : res.data[0].pro_parking,
+            res.data[0].pro_parking === 5
+              ? res.data[0].pro_parking + "+"
+              : res.data[0].pro_parking,
           pro_facing: res.data[0].pro_facing,
           pro_area_size: res.data[0].pro_area_size,
 
@@ -231,8 +244,7 @@ const EditProperty = () => {
           pro_facing_road_width: res.data[0].pro_facing_road_width,
           // pro_open_sides:
           //   res.data[0].pro_open_sides === 0 ? "" : res.data[0].pro_open_sides,
-          pro_open_sides:
-            res.data[0].pro_open_sides ,
+          pro_open_sides: res.data[0].pro_open_sides,
           pro_furnishing: res.data[0].pro_furnishing,
 
           pro_ownership_type: res.data[0].pro_ownership_type,
@@ -261,6 +273,7 @@ const EditProperty = () => {
           pro_negotiable: res.data[0].pro_negotiable,
           pro_user_id: res.data[0].pro_user_id,
         });
+       // setSkeleton(false);
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${id}`)
@@ -274,38 +287,8 @@ const EditProperty = () => {
   const maxFileSize = 1000000;
   const minFileSize = 10000;
 
-
-  console.log("propertyData : " , propertyData);
-
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
-  // const handleImage = (data) => {
-  //   setFormatError(false);
-  //   //setSelectedFiles(data.target.files);
-
-  //   const pattern = /image-*/;
-  //   for (let i = 0; i < data.target.files.length; i++) {
-  //     if (data.target.files[i].type.match(pattern)) {
-  //       setFormatError(false);
-  //       if (
-  //         data.target.files[i].size < maxFileSize &&
-  //         data.target.files[i].size > minFileSize
-  //       ) {
-  //         formData.append(`files`, data.target.files[i]);
-  //         setFileSizeExceeded(false);
-  //       } else {
-  //         setFileSizeExceeded(true);
-  //         return;
-  //       }
-  //     } else {
-  //       setFormatError(true);
-  //     }
-  //   }
-
-  //   for (let i = 0; i < data.target.files.length; i++) {
-  //     formData.append(`files`, data.target.files[i]);
-  //   }
-  // };
 
   const pattern = /image-*/;
   const handleImage = (data) => {
@@ -349,31 +332,17 @@ const EditProperty = () => {
     files = Array.from(selectedFiles);
   }
 
-
-  // const removeImage1 = (index) => {
-  //   const newSelectedFiles = [...images]; 
-  //   newSelectedFiles.splice(index, 1); 
-  //   setSelectedFiles(newSelectedFiles); 
-  //   files = Array.from(newSelectedFiles);
-  //   //files = Array.from(newSelectedFiles);
-  // };
-
   const removeImage = (item, index) => {
-    const newSelectedFiles = [...selectedFiles]; 
-    newSelectedFiles.splice(index, 1); 
-    setSelectedFiles(newSelectedFiles); 
+    const newSelectedFiles = [...selectedFiles];
+    newSelectedFiles.splice(index, 1);
+    setSelectedFiles(newSelectedFiles);
     files = Array.from(newSelectedFiles);
-    handleImage(newSelectedFiles)
+    handleImage(newSelectedFiles);
   };
 
   const [step1, setStep1] = useState(false);
   const handleStep1 = () => {
-    if (
-      propertyData.pro_ad_type !== "" &&
-      propertyData.pro_user_type !== ""
-      //state.emailFormatError === false &&
-      //currentUser !== null
-    ) {
+    if (propertyData.pro_ad_type !== "" && propertyData.pro_user_type !== "") {
       setStep1(false);
       setActiveStep(activeStep + 1);
     } else {
@@ -435,13 +404,13 @@ const EditProperty = () => {
     }
   };
 
-  
-
   const [step4, setStep4] = useState(false);
   const handleStep4 = () => {
     if (
       propertyData.pro_ownership_type !== "" &&
-      propertyData.pro_approval !== ""
+      propertyData.pro_approval !== "" &&
+      propertyData.pro_ownership_type !== null &&
+      propertyData.pro_approval !== null
     ) {
       setStep4(false);
       handleClick();
@@ -450,107 +419,14 @@ const EditProperty = () => {
     }
   };
 
-  // const [step1Disabled, setStep1Disabled] = useState(true);
-  // useEffect(() => {
-  //   if (propertyData.pro_ad_type !== "" && propertyData.pro_user_type !== "") {
-  //     setStep1Disabled(false);
-  //   } else {
-  //     setStep1Disabled(true);
-  //   }
-  // }, [propertyData.pro_ad_type, propertyData.pro_user_type]);
-
-  // const [step2Disabled, setStep2Disabled] = useState(true);
-  // useEffect(() => {
-  //   if (
-  //     propertyData.pro_type !== "" &&
-  //     propertyData.pro_city !== "" &&
-  //     propertyData.pro_sub_district !== "" &&
-  //     propertyData.pro_locality !== "" &&
-  //     propertyData.pro_pincode.length > 5
-  //   ) {
-  //     setStep2Disabled(false);
-  //   } else {
-  //     setStep2Disabled(true);
-  //   }
-  // }, [
-  //   propertyData.pro_type,
-  //   propertyData.pro_city,
-  //   propertyData.pro_locality,
-  //   propertyData.pro_pincode,
-  //   propertyData.pro_sub_district,
-  // ]);
-
-  // const [step3Disabled, setStep3Disabled] = useState(true);
-  // useEffect(() => {
-  //   if (propertyData.pro_type.split(",")[1] !== "Land") {
-  //     if (
-  //       propertyData.pro_age !== "" &&
-  //       propertyData.pro_floor !== "" &&
-  //       propertyData.pro_bedroom !== "" &&
-  //       propertyData.pro_washrooms !== "" &&
-  //       propertyData.pro_balcony !== "" &&
-  //       propertyData.pro_parking !== "" &&
-  //       propertyData.pro_facing !== "" &&
-  //       propertyData.pro_possession !== "" &&
-  //       propertyData.pro_open_sides !== "" &&
-  //       propertyData.pro_furnishing !== "" &&
-  //       formatError === false &&
-  //       fileSizeExceeded === false &&
-  //       propertyData.pro_area_size !== ""
-  //     ) {
-  //       setStep3Disabled(false);
-  //     } else {
-  //       setStep3Disabled(true);
-  //     }
-  //   }
-  // }, [
-  //   propertyData.pro_age,
-  //   propertyData.pro_floor,
-  //   propertyData.pro_bedroom,
-  //   propertyData.pro_washrooms,
-  //   propertyData.pro_balcony,
-  //   propertyData.pro_parking,
-  //   propertyData.pro_facing,
-  //   propertyData.pro_possession,
-  //   propertyData.pro_open_sides,
-  //   propertyData.pro_furnishing !== "",
-  //   formatError,
-  //   fileSizeExceeded,
-  //   propertyData.pro_type,
-  //   propertyData.pro_area_size,
-  // ]);
-
-  // useEffect(() => {
-  //   if (propertyData.pro_type.split(",")[1] === "Land") {
-  //     if (
-  //       propertyData.pro_age !== "" &&
-  //       propertyData.pro_facing !== "" &&
-  //       propertyData.pro_possession !== "" &&
-  //       propertyData.pro_open_sides !== "" &&
-  //       formatError === false &&
-  //       fileSizeExceeded === false
-  //     ) {
-  //       setStep3Disabled(false);
-  //     } else {
-  //       setStep3Disabled(true);
-  //     }
-  //   }
-  // }, [
-  //   propertyData.pro_age,
-  //   propertyData.pro_facing,
-  //   propertyData.pro_possession,
-  //   propertyData.pro_open_sides,
-  //   formatError,
-  //   fileSizeExceeded,
-  //   propertyData.pro_type,
-  // ]);
-
   const [submitDisabled, setSubmitDisabled] = useState(true);
   useEffect(() => {
     if (
       propertyData.pro_ownership_type !== "" &&
       propertyData.pro_approval !== "" &&
       (propertyData.pro_amt === "" || propertyData.pro_amt > 0) &&
+      propertyData.pro_desc !== null &&
+      propertyData.pro_desc !== "" &&
       (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000)
     ) {
       setSubmitDisabled(false);
@@ -565,9 +441,6 @@ const EditProperty = () => {
   ]);
 
   const handleClick = () => {
-    // propertyData.pro_state = stateList
-    //   .filter((item) => parseInt(item.id) === parseInt(propertyData.pro_state))
-    //   .map((filteredItem) => filteredItem.name);
     var val = propertyData.pro_locality.trim();
     var a = val.replace(/\s{2,}/g, " ");
     propertyData.pro_locality = a;
@@ -608,38 +481,50 @@ const EditProperty = () => {
       );
     }
     //navigate(`/${id}`);
-    navigate(`/${
-      propertyData.pro_area_size.toLowerCase() +
-      "-" +
-      propertyData.pro_area_size_unit.toLowerCase().replaceAll(" ","-").replaceAll(".", "") +
-      "-"
-    }${
-      propertyData.pro_type
-        ? propertyData.pro_type
-            .split(",")[0]
-            .toLowerCase()
-            .replaceAll(" ", "-")
-        : ""
-    }-for-${
-      propertyData.pro_ad_type === "Rent"
-        ? "rent"
-        : "sale"
-    }-in-${propertyData.pro_locality
-      .toLowerCase()
-      .replaceAll(" ", "-")}-${propertyData.pro_city
-      .toLowerCase()
-      .replaceAll(" ", "-")}-${id}`);
+    navigate(
+      `/${
+        propertyData.pro_area_size.toLowerCase() +
+        "-" +
+        propertyData.pro_area_size_unit
+          .toLowerCase()
+          .replaceAll(" ", "-")
+          .replaceAll(".", "") +
+        "-"
+      }${
+        propertyData.pro_type
+          ? propertyData.pro_type
+              .split(",")[0]
+              .toLowerCase()
+              .replaceAll(" ", "-")
+          : ""
+      }-for-${
+        propertyData.pro_ad_type === "Rent" ? "rent" : "sale"
+      }-in-${propertyData.pro_locality
+        .toLowerCase()
+        .replaceAll(" ", "-")}-${propertyData.pro_city
+        .toLowerCase()
+        .replaceAll(" ", "-")}-${id}`
+    );
   };
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 100);
-  // }, [handleStep1, handleStep2, handleStep3, handleStep4, handleBackStep]);
 
   return (
     <div>
-      {propertyData.pro_user_id === currentUser[0].login_id ? (
+      {skeleton ? (
+       <>
+        <Navbar />
+       <div className="container">
+          <div className="row user-profile-form-comp" style={{ marginTop: "130px" }}>
+            <div className="col-md-12">
+              
+              <Skeleton variant="rectangular" height={100} className=""  />
+
+              <Skeleton variant="rectangular" height={400} className="mt-4 " />
+            </div>
+          </div>
+        </div> 
+      </> 
+      ) : propertyData.pro_user_id === currentUser[0].login_id ? (
         <>
-          {" "}
           <Navbar />
           <div className="container">
             <section className="signup-section upper-form-heading post-property">
@@ -714,7 +599,6 @@ const EditProperty = () => {
                             Start Posting your Property,It's Free
                           </h2>
                           <h2 style={{ textAlign: "center" }}>Basic Details</h2>
-                          
 
                           <div className="pro_flex m-1 mt-3">
                             <div className="w-100 m-1">
@@ -930,7 +814,6 @@ const EditProperty = () => {
                                 //value={ isNaN(propertyData.pro_state) === true ? stateList.filter((item) =>  item.name ===  propertyData.pro_state)[0].id : propertyData.pro_state  }
                                 value={propertyData.pro_state}
                                 label="State"
-                                
                                 onChange={(e) =>
                                   setPropertyData({
                                     ...propertyData,
@@ -966,7 +849,10 @@ const EditProperty = () => {
                                 id="demo-simple-select"
                                 value={propertyData.pro_city}
                                 label="City"
-                                title={propertyData.pro_state === "" && "Select State to add City"}
+                                title={
+                                  propertyData.pro_state === "" &&
+                                  "Select State to add City"
+                                }
                                 onChange={(e) =>
                                   setPropertyData({
                                     ...propertyData,
@@ -975,15 +861,19 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                {cityState && cityState
-                                  .filter(
-                                    (i) => i.state === propertyData.pro_state
-                                  )
-                                  .map((item, index) => (
-                                    <MenuItem value={item.district} key={index}>
-                                      {item.district}
-                                    </MenuItem>
-                                  ))}
+                                {cityState &&
+                                  cityState
+                                    .filter(
+                                      (i) => i.state === propertyData.pro_state
+                                    )
+                                    .map((item, index) => (
+                                      <MenuItem
+                                        value={item.district}
+                                        key={index}
+                                      >
+                                        {item.district}
+                                      </MenuItem>
+                                    ))}
                               </Select>
                               {propertyData.pro_city === "" &&
                                 propertyData.pro_state === "" && (
@@ -1011,7 +901,11 @@ const EditProperty = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                title={propertyData.pro_state !== "" && propertyData.pro_city === "" && "Select City to add sub district"}
+                                title={
+                                  propertyData.pro_state !== "" &&
+                                  propertyData.pro_city === "" &&
+                                  "Select City to add sub district"
+                                }
                                 value={propertyData.pro_sub_district}
                                 label="Sub District"
                                 onChange={(e) =>
@@ -1021,18 +915,20 @@ const EditProperty = () => {
                                   })
                                 }
                               >
-                                {subDistrict && subDistrict
-                                  .filter(
-                                    (i) => i.district === propertyData.pro_city
-                                  )
-                                  .map((item, index) => (
-                                    <MenuItem
-                                      value={item.sub_district}
-                                      key={index}
-                                    >
-                                      {item.sub_district}
-                                    </MenuItem>
-                                  ))}
+                                {subDistrict &&
+                                  subDistrict
+                                    .filter(
+                                      (i) =>
+                                        i.district === propertyData.pro_city
+                                    )
+                                    .map((item, index) => (
+                                      <MenuItem
+                                        value={item.sub_district}
+                                        key={index}
+                                      >
+                                        {item.sub_district}
+                                      </MenuItem>
+                                    ))}
                               </Select>
                               {(propertyData.pro_city === "" ||
                                 propertyData.pro_state === "") && (
@@ -1092,8 +988,16 @@ const EditProperty = () => {
                               className="w-full"
                               name="Complete Address"
                               inputProps={{ maxLength: 200 }}
+                              // helperText={
+                              //   propertyData.pro_desc !== null && propertyData.pro_desc !== "" &&
+                              //    propertyData.pro_desc.length < 2001
+                              //     ? ""
+                              //     : "Description should be smaller than 2000 characters"
+                              // }
                               helperText={
-                                propertyData.pro_desc.length < 2001
+                                propertyData.pro_desc === null
+                                  ? ""
+                                  : propertyData.pro_desc.length < 2001
                                   ? ""
                                   : "Description should be smaller than 2000 characters"
                               }
@@ -1122,6 +1026,8 @@ const EditProperty = () => {
                               inputProps={{ maxLength: 6 }}
                               value={propertyData.pro_pincode}
                               helperText={
+                                (propertyData.pro_pincode !== null ||
+                                  propertyData.pro_pincode !== "") &&
                                 propertyData.pro_pincode.length < 6
                                   ? "Enter Valid Pin Code"
                                   : ""
@@ -1201,7 +1107,8 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_bedroom.toString() === item.value.toString()
+                                        propertyData.pro_bedroom.toString() ===
+                                        item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
@@ -1295,7 +1202,8 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_parking.toString() === item.value.toString()
+                                        propertyData.pro_parking.toString() ===
+                                        item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
@@ -1420,7 +1328,8 @@ const EditProperty = () => {
                                   {propertyBedrooms.map((item) => (
                                     <div
                                       className={
-                                        propertyData.pro_floor.toString() === item.value.toString()
+                                        propertyData.pro_floor.toString() ===
+                                        item.value.toString()
                                           ? "pro_radio_btn pro_selected"
                                           : "pro_radio_btn"
                                       }
@@ -1466,7 +1375,8 @@ const EditProperty = () => {
                                   ))}
                                 </div>
                                 {step3 === true &&
-                                  (propertyData.pro_open_sides === "" || propertyData.pro_open_sides === 0) && (
+                                  (propertyData.pro_open_sides === "" ||
+                                    propertyData.pro_open_sides === 0) && (
                                     <div className="error_msg">Required</div>
                                   )}
                               </div>
@@ -1652,36 +1562,37 @@ const EditProperty = () => {
                                 : ""}
                             </div> */}
                             <div>
-                            
-                            <div className="add-pro-img w-100 pb-3">
-                              {selectedFiles != null &&
-                              selectedFiles != undefined
-                                ? files.map((item, index) => (
-                                  
-                                    <div className="pt-3">
-                                      
-                                      <div className="d-flex file-name-wrapper justify-content-between">
-                                        <div className="file-name">{item.name}</div>
-                                        <div
-                                          className="pointer text-[#C4C5C8]"
-                                          onClick={()=>removeImage(item, index)}
-                                          title="Click to remove selected file"
-                                        >
-                                          <IconX />
+                              <div className="add-pro-img w-100 pb-3">
+                                {selectedFiles != null &&
+                                selectedFiles != undefined
+                                  ? files.map((item, index) => (
+                                      <div className="pt-3">
+                                        <div className="d-flex file-name-wrapper justify-content-between">
+                                          <div className="file-name">
+                                            {item.name}
+                                          </div>
+                                          <div
+                                            className="pointer text-[#C4C5C8]"
+                                            onClick={() =>
+                                              removeImage(item, index)
+                                            }
+                                            title="Click to remove selected file"
+                                          >
+                                            <IconX />
+                                          </div>
+                                        </div>
+                                        <div className="text-danger">
+                                          {item.size >= 10000 &&
+                                          item.size <= 1000000 &&
+                                          item.type.match(pattern)
+                                            ? ""
+                                            : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
                                         </div>
                                       </div>
-                                      <div className="text-danger">
-                                        {item.size >= 10000 &&
-                                        item.size <= 1000000 &&
-                                        item.type.match(pattern)
-                                          ? ""
-                                          : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
-                                      </div>
-                                    </div>
-                                  ))
-                                : ""}
+                                    ))
+                                  : ""}
+                              </div>
                             </div>
-                          </div>
                             {/* <div>
                               {selectedFiles === null &&
                               formatError === false &&
@@ -1695,30 +1606,34 @@ const EditProperty = () => {
                                 : ""}
                             </div> */}
 
-<div>
-                            {console.log("images : " , selectedFiles , formatError , fileSizeExceeded)}
-                            <div className="add-pro-img w-100 pb-3">
-                              {selectedFiles === null 
-                                ? images.map((item, index) => (
-                                  
-                                    <div className="pt-3">
-                                      
-                                      <div className="d-flex file-name-wrapper justify-content-between">
-                                        <div className="file-name">{item.img_link}</div>
-                                        {/* <div
+                            <div>
+                              {console.log(
+                                "images : ",
+                                selectedFiles,
+                                formatError,
+                                fileSizeExceeded
+                              )}
+                              <div className="add-pro-img w-100 pb-3">
+                                {selectedFiles === null
+                                  ? images.map((item, index) => (
+                                      <div className="pt-3">
+                                        <div className="d-flex file-name-wrapper justify-content-between">
+                                          <div className="file-name">
+                                            {item.img_link}
+                                          </div>
+                                          {/* <div
                                           className="pointer text-[#C4C5C8]"
                                           onClick={()=>removeImage1(index)}
                                           title="Click to remove selected file"
                                         >
                                           <IconX />
                                         </div> */}
+                                        </div>
                                       </div>
-                                      
-                                    </div>
-                                  ))
-                                : ""}
+                                    ))
+                                  : ""}
+                              </div>
                             </div>
-                          </div>
 
                             {/* <div className="text-danger ml-2">
                               {formatError ? "Invalid Format" : ""}
@@ -1772,10 +1687,11 @@ const EditProperty = () => {
                                   </div>
                                 ))}
                               </div>
-                              {step4 === true &&
-                                propertyData.pro_ownership_type === "" && (
+                              {(step4 === true &&
+                                propertyData.pro_ownership_type === "") ||
+                                (propertyData.pro_ownership_type === null && (
                                   <div className="error_msg pb-0">Required</div>
-                                )}
+                                ))}
                             </div>
                           </div>
 
@@ -1803,10 +1719,11 @@ const EditProperty = () => {
                                   </div>
                                 ))}
                               </div>
-                              {step4 === true &&
-                                propertyData.pro_approval === "" && (
+                              {(step4 === true &&
+                                propertyData.pro_approval === "") ||
+                                (propertyData.pro_approval === null && (
                                   <div className="error_msg pb-0">Required</div>
-                                )}
+                                ))}
                             </div>
                           </div>
 
@@ -1928,7 +1845,11 @@ const EditProperty = () => {
                                   icon={icon}
                                   checkedIcon={checkedIcon}
                                   style={{ marginRight: 8 }}
-                                  checked={propertyData.pro_negotiable === "Yes" ? true : false}
+                                  checked={
+                                    propertyData.pro_negotiable === "Yes"
+                                      ? true
+                                      : false
+                                  }
                                   onClick={() => {
                                     setPropertyData({
                                       ...propertyData,
@@ -1948,7 +1869,11 @@ const EditProperty = () => {
                                 <Checkbox
                                   icon={icon}
                                   checkedIcon={checkedIcon}
-                                  checked={propertyData.pro_rental_status === "Yes" ? true : false}
+                                  checked={
+                                    propertyData.pro_rental_status === "Yes"
+                                      ? true
+                                      : false
+                                  }
                                   style={{ marginRight: 8 }}
                                   onClick={() => {
                                     setPropertyData({
@@ -1979,7 +1904,9 @@ const EditProperty = () => {
                               value={propertyData.pro_desc}
                               FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
-                                propertyData.pro_desc.length < 2001
+                                propertyData.pro_desc === null
+                                  ? ""
+                                  : propertyData.pro_desc.length < 2001
                                   ? ""
                                   : "Description should be smaller than 2000 characters"
                               }

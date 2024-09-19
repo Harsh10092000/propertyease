@@ -204,7 +204,6 @@ const renderViewProfileButton3 = (
       //className={customClass}
       onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
     >
-      
       <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
     </button>
   ) : item.plan_status == 0 ? (
@@ -214,7 +213,6 @@ const renderViewProfileButton3 = (
       onClick={() => transform(item.pro_plan_added_slots, item.login_id)}
     >
       <span>{icon}</span> <span className="hover_text">{displayVal1}</span>\
-      
     </button>
   ) : (
     <button
@@ -223,7 +221,6 @@ const renderViewProfileButton3 = (
       disabled
     >
       <span>{icon}</span> <span className="hover_text">Plan Active</span>
-      
     </button>
   );
 };
@@ -254,7 +251,6 @@ const renderViewProfileButton3 = (
 //   </button>
 // )}
 
-
 const renderActionButton = (cond, item, index) => {
   const isViewProfile = cond.condition === "view_profile";
   const isViewProfile3 = cond.condition === "view_profile_3";
@@ -273,7 +269,8 @@ const renderActionButton = (cond, item, index) => {
         onClick={isViewProfile ? cond.transform(item) : "#"}
         //onClick={isViewProfile3 ? () => handleClick(item) : undefined}
       >
-        {cond.icon} {isViewProfile ? cond.span : cond.displayVal1 || cond.displayVal2}
+        {cond.icon}{" "}
+        {isViewProfile ? cond.span : cond.displayVal1 || cond.displayVal2}
       </div>
     </div>
   );
@@ -305,8 +302,6 @@ const DropdownMenu = ({
   }, []);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
-
-  
 
   return (
     <div ref={dropdownRef} className="action-dropdown-wrapper">
@@ -347,18 +342,23 @@ const DropdownMenu = ({
               if (cond.condition === "view_profile_3") {
                 return (
                   <div key={index} className="action-btn">
-      {/* <div
+                    {/* <div
         className={`${cond.customClass} mr-3`}
         //to={isViewProfile ? cond.transform(item) : "#"}
         onClick={() => cond.transform(item.pro_id) }
       >
         {cond.icon} {cond.displayVal1}
       </div> */}
-      {parseInt(item.pro_plan_added_slots) === 5000 ? (
+                    {parseInt(item.pro_plan_added_slots) === 5000 ? (
                       <div
                         title={cond.displayVal2}
                         className={cond.customClass}
-                        onClick={() => cond.transform(item.pro_plan_added_slots, item.tran_id)}
+                        onClick={() =>
+                          cond.transform(
+                            item.pro_plan_added_slots,
+                            item.tran_id
+                          )
+                        }
                       >
                         {cond.icon2} {cond.displayVal2}
                       </div>
@@ -366,29 +366,36 @@ const DropdownMenu = ({
                       <div
                         title={cond.displayVal1}
                         className={cond.customClass}
-                        onClick={() => cond.transform(item.pro_plan_added_slots, item.login_id)}
+                        onClick={() =>
+                          cond.transform(
+                            item.pro_plan_added_slots,
+                            item.login_id
+                          )
+                        }
                       >
                         {cond.icon1} {cond.displayVal1}
                       </div>
-                    ) : ""}
-    </div> 
-//      <button
-//      className={`${customClass} min-btn-width btn-col-red`}
-//      //className={customClass}
-//      onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
-//    >
-     
-//      <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
-//    </button>
-//  ) : item.plan_status == 0 ? (
-//    <button
-//      className={`${customClass} min-btn-width btn-col-green`}
-//      //className={customClass}
-//      onClick={() => transform(item.pro_plan_added_slots, item.login_id)}
-//    >
-//      <span>{icon}</span> <span className="hover_text">{displayVal1}</span>\
-     
-//    </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  //      <button
+                  //      className={`${customClass} min-btn-width btn-col-red`}
+                  //      //className={customClass}
+                  //      onClick={() => transform(item.pro_plan_added_slots, item.tran_id)}
+                  //    >
+
+                  //      <span>{icon}</span> <span className="hover_text">{displayVal2}</span>
+                  //    </button>
+                  //  ) : item.plan_status == 0 ? (
+                  //    <button
+                  //      className={`${customClass} min-btn-width btn-col-green`}
+                  //      //className={customClass}
+                  //      onClick={() => transform(item.pro_plan_added_slots, item.login_id)}
+                  //    >
+                  //      <span>{icon}</span> <span className="hover_text">{displayVal1}</span>\
+
+                  //    </button>
                 );
               }
               if (cond.condition === "view_btn") {

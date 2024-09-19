@@ -21760,3 +21760,8 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
     color: red;
     margin-top: 4px;
 }
+
+.contact-list-search {
+  margin: 16px;
+  margin-bottom: 0px;
+}

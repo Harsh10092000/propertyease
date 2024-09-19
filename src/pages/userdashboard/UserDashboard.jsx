@@ -155,7 +155,7 @@ const UserDashboard = () => {
 
   const records = filteredData.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
-  const [proDate, setProDate] = useState("");
+
 
   const [proListingStatus, setProListingStatus] = useState({
     pro_listed: "",

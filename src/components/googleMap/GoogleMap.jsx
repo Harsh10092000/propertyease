@@ -302,7 +302,7 @@ export const FindCoordinates = ({ data, handleCordinates }) => {
     axios
       .get(
         `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-            n&key=AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS`
+            n&key=AlzaSy9vtuHyEa0_Ry78C48bbJeMC_eBt-CJPby`
       )
       .then((res) => {
         
@@ -728,7 +728,7 @@ export const FetchNearbyLocations = () => {
       const GO_MAPS_PRO_API_KEY = "AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS"; // Your API Key
       const url = `https://maps.gomaps.pro/maps/api/place/queryautocomplete/json?input=${encodeURIComponent(
         searchVal
-      )}&key=AlzaSyPisziFeX4vTtFzhyhjcyW1mVoVzyqEMLS`;
+      )}&key=AlzaSy9vtuHyEa0_Ry78C48bbJeMC_eBt-CJPby`;
 
       try {
         const response = await axios.get(url);

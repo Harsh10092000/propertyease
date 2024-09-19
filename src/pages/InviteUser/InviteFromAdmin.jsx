@@ -1,5 +1,6 @@
 import React from "react";
-import { FormStrcture } from "../../components/adminDashboardComp/AdminDashTbody";
+import DOMPurify from 'dompurify';
+
 import Loader from "../../components/loader/Loader";
 import {
   TextField,
@@ -43,7 +44,7 @@ const InviteFromAdmin = () => {
   const [contactList, setContactList] = useState([]);
   const [showList, setShowList] = useState(true);
   const [showSelected, setShowSelected] = useState(false);
-  const [selectedEmails, setSelectedEmails] = useState([]);
+
 
   const [openEmailDia, setOpenEmailDia] = useState(false);
   const [snackAdd, setSnackAdd] = useState(false);
@@ -55,15 +56,29 @@ const InviteFromAdmin = () => {
   const [change, setChange] = useState(1);
   const [snackMail, setSnackMail] = useState(false);
 
-  const [showAlreadyUserEmails, setShowAlreadyUserEmails] = useState(false);
-  const [showNotUserEmails, setShowNotUserEmails] = useState(false);
+  const [showAlreadyUserEmails, setShowAlreadyUserEmails] = useState(true);
+  const [showNotUserEmails, setShowNotUserEmails] = useState(true);
+
+  const [searchValue , setSearchValue] = useState("");
+  const [results , setResults] = useState("");
+
+  const [mailContent, setMailContent] = useState([]);
+  
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/invite/getMailContactList`)
       .then((res) => {
         setContactList(res.data);
       });
+      axios
+      .get(import.meta.env.VITE_BACKEND + `/api/invite/getMailContent`)
+      .then((res) => {
+        setMailContent(res.data);
+      });
   }, [change]);
+
+
+  
 
   const [emailConfigData, setEmailConfigData] = useState({
     email_reciever_id: [],
@@ -384,6 +399,35 @@ const InviteFromAdmin = () => {
     });
   };
 
+
+  //console.log(contactList)
+
+
+
+
+
+useEffect(() => {
+  let searchWords = searchValue?.toLowerCase().split(",").map(word => word.trim());
+  //console.log("searchWords: ", searchWords);
+
+  const filteredData = contactList.filter(contact => {
+    const parts = contact.email.split('@').flatMap(part => part.split('.'));
+    const lowerCaseParts = parts.map(part => part.toLowerCase());
+
+    if (searchWords.length !== 0) {
+      return searchWords.every(word =>
+        lowerCaseParts.some(part => part.includes(word))
+      );
+    } else {
+      return true;
+    }
+  });
+
+  setResults(filteredData);
+}, [searchValue, contactList]);
+
+  //console.log("results : " , results);
+
   return (
     <div className="row m-0">
       {loader && <Loader />}
@@ -503,6 +547,19 @@ const InviteFromAdmin = () => {
         onClose={() => setSnackMail(false)}
         message={"Invitaion mail sent successfully"}
       />
+
+      {/* <div>
+        {mailContent.map((item) => (
+         <div>
+         {mailContent.map((item, index) => (
+           <div
+             key={index}
+             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.mail_content) }}
+           />
+         ))}
+       </div>
+        ))}
+      </div> */}
 
       <div className="col-md-8 ">
         {/* <FormStrcture heading={"Invite Users"} dynamic_col={12}> */}
@@ -771,44 +828,22 @@ const InviteFromAdmin = () => {
             </div>
           </div>
 
-          {/* {showList && (
-            <div className="contact-list-item">
-              <Checkbox
-                size="small"
-                //onClick={handleAllTypes}
-                //checked={allSelected}
-                // className="checkbox-alignment"
-              />
-              Select All
-            </div>
-          )} */}
+         
 
-          {/* {showList &&
           
 
-          (
-            {contactList
-              .filter(i => i.already_user === 1) === true  && <div>Already User</div>}
-            contactList
-              .filter(i => i.already_user === 1)
-              .map((item) => (
-                <div>
-                <div className="contact-list-item d-flex justify-content-between">
-                  <div >
-                  <Checkbox
-                    size="small"
-                    onClick={() => handleCheckboxChange(item.email)}
-                    checked={emailConfigData.email_reciever_id.includes(item.email)}
-                    // className="checkbox-alignment"
+          <div className="contact-list-search">
+          <input
+                    type="text"
+                    className="form-control "
+                    placeholder="Search for a Email"
+                    value={searchValue}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value);
+                    }}
                   />
-                  {item.email}
-                  </div>
-                  <div>
-                    <IconTrash className="mr-3" />
-                  </div>
-                </div>
-                </div>
-              )))} */}
+          </div>
+
 
           {showList && (
             <div>
@@ -828,6 +863,8 @@ const InviteFromAdmin = () => {
                 </div>
               )}
 
+              
+
               {showAlreadyUserEmails && (
                 <>
                   <div className="contact-list-item d-flex justify-content-between">
@@ -842,7 +879,7 @@ const InviteFromAdmin = () => {
                       Select All
                     </div>
                   </div>
-                  {contactList
+                  {results && results
                     .filter((i) => i.already_user === 1)
                     .map((item) => (
                       <div key={item.email}>
@@ -888,7 +925,7 @@ const InviteFromAdmin = () => {
                       Select All
                     </div>
                   </div>
-                  {contactList
+                  {results && results
                     .filter((i) => i.already_user === 0)
                     .map((item) => (
                       <div key={item.email}>
