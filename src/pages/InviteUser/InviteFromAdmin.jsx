@@ -1,5 +1,5 @@
 import React from "react";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 import Loader from "../../components/loader/Loader";
 import {
@@ -37,14 +37,14 @@ const InviteFromAdmin = () => {
   const [loader, setLoader] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [temp, setTemp] = useState();
-
+  const [temp1, setTemp1] = useState();
   const [idExists, setIdExists] = useState(false);
   const [data, setData] = useState([]);
+  const [addMaildata, setAddMaildata] = useState([]);
   const [invalidEmilErr, setInvalidEmilErr] = useState(false);
   const [contactList, setContactList] = useState([]);
   const [showList, setShowList] = useState(true);
   const [showSelected, setShowSelected] = useState(false);
-
 
   const [openEmailDia, setOpenEmailDia] = useState(false);
   const [snackAdd, setSnackAdd] = useState(false);
@@ -59,26 +59,23 @@ const InviteFromAdmin = () => {
   const [showAlreadyUserEmails, setShowAlreadyUserEmails] = useState(true);
   const [showNotUserEmails, setShowNotUserEmails] = useState(true);
 
-  const [searchValue , setSearchValue] = useState("");
-  const [results , setResults] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [results, setResults] = useState("");
 
   const [mailContent, setMailContent] = useState([]);
-  
+  const [emailIdTobeAdded, setEmailIdTobeAdded] = useState([]);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/invite/getMailContactList`)
       .then((res) => {
         setContactList(res.data);
       });
-      axios
+    axios
       .get(import.meta.env.VITE_BACKEND + `/api/invite/getMailContent`)
       .then((res) => {
         setMailContent(res.data);
       });
   }, [change]);
-
-
-  
 
   const [emailConfigData, setEmailConfigData] = useState({
     email_reciever_id: [],
@@ -204,6 +201,97 @@ const InviteFromAdmin = () => {
     reader.readAsBinaryString(file);
   };
 
+  const fileInputRef1 = useRef(null);
+
+  const handleFileUpload1 = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      fileInputRef1.current.value = "";
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const workbook = XLSX.read(event.target.result, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const sheetData = XLSX.utils.sheet_to_json(sheet);
+      setAddMaildata(sheetData);
+    };
+    reader.readAsBinaryString(file);
+  };
+
+
+  useEffect(() => {
+    if (addMaildata.length > 0) {
+      const newEmails = addMaildata
+        .map((item) => item.email)
+        .filter((email) => email)
+        .filter((email, index, self) => self.indexOf(email) === index);
+
+
+      setEmailIdTobeAdded((prevState) => {
+        const updatedEmails = newEmails.filter(
+          (email) => !emailIdTobeAdded.includes(email)
+        );
+console.log("updatedEmails : " , updatedEmails)
+        if (updatedEmails.length > 0) {
+          return [...prevState, ...updatedEmails];
+          
+        }
+        return prevState;
+      });
+    }
+  }, [addMaildata]);
+
+  //console.log("emailIdTobeAdded : " , emailIdTobeAdded, addMaildata);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 13) {
+        if (temp1.length > 0) {
+          //const emailArray = temp.split(',').map(email => email.trim());
+
+          const emailArray = temp1
+            .split(",")
+            .map((item) => item.trim())
+            .filter((email) => email)
+            .filter((email, index, self) => self.indexOf(email) === index);
+
+          const validEmails = emailArray.filter(
+            (email) =>
+              email.length > 0 &&
+              !emailIdTobeAdded.includes(email) &&
+              EMAIL_REGEX.test(email)
+          );
+
+          const invalidEmails = emailArray.filter(
+            (email) => email.length > 0 && !EMAIL_REGEX.test(email)
+          );
+
+          if (validEmails.length > 0) {
+            setEmailIdTobeAdded((prevState) => ([
+              ...prevState,
+                ...validEmails,
+              
+            ]));
+          }
+
+          if (invalidEmails.length > 0) {
+            setTemp1(invalidEmails.join(", "));
+            setInvalidEmilErr(true);
+          } else {
+            setTemp1("");
+          }
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [addMaildata, temp1]);
+
   useEffect(() => {
     if (data.length > 0) {
       const newEmails = data
@@ -241,10 +329,10 @@ const InviteFromAdmin = () => {
       setSnackMail(true);
       setEmailConfigData({
         email_reciever_id: [],
-    email_sub: "",
-    email_cont: "",
-      })
-      editorRef.current.setContent('');
+        email_sub: "",
+        email_cont: "",
+      });
+      editorRef.current.setContent("");
     } catch (err) {
       console.log(err);
     }
@@ -299,6 +387,8 @@ const InviteFromAdmin = () => {
 
   const handleCloseEmailDia = () => {
     setOpenEmailDia(false);
+    setAddMaildata([]);
+    setEmailIdTobeAdded([]);
   };
 
   const handleClickOpenDel = (id, email) => {
@@ -311,7 +401,7 @@ const InviteFromAdmin = () => {
     setOpenEmailDel(false);
   };
 
-  const [emailIdTobeAdded, setEmailIdTobeAdded] = useState("");
+  
 
   const handleAddEmail = async () => {
     try {
@@ -319,7 +409,8 @@ const InviteFromAdmin = () => {
       setLoader(true);
       await axios.post(
         import.meta.env.VITE_BACKEND + "/api/invite/addSingleMail",
-        { email: emailIdTobeAdded }
+        // { email: emailIdTobeAdded }
+        emailIdTobeAdded
       );
 
       setLoader(false);
@@ -332,7 +423,7 @@ const InviteFromAdmin = () => {
   };
 
   const deleteEmail = async () => {
-    console.log(delId);
+    //console.log(delId);
     try {
       setOpenEmailDel(false);
       setLoader(true);
@@ -348,25 +439,27 @@ const InviteFromAdmin = () => {
     }
   };
 
-
-
-
   const handleAllAlreadyUsers = () => {
     const alreadyUserEmails = contactList
-      .filter(contact => contact.already_user === 1)
-      .map(contact => contact.email);
-  
-    const allAlreadyUsersSelected = alreadyUserEmails.every(email => emailConfigData.email_reciever_id.includes(email));
-  
-    setEmailConfigData(prevState => {
-      if (allAlreadyUsersSelected) {
+      .filter((contact) => contact.already_user === 1)
+      .map((contact) => contact.email);
 
+    const allAlreadyUsersSelected = alreadyUserEmails.every((email) =>
+      emailConfigData.email_reciever_id.includes(email)
+    );
+
+    setEmailConfigData((prevState) => {
+      if (allAlreadyUsersSelected) {
         return {
           ...prevState,
-          email_reciever_id: prevState.email_reciever_id.filter(email => !alreadyUserEmails.includes(email)),
+          email_reciever_id: prevState.email_reciever_id.filter(
+            (email) => !alreadyUserEmails.includes(email)
+          ),
         };
       } else {
-        const newEmails = alreadyUserEmails.filter(email => !prevState.email_reciever_id.includes(email));
+        const newEmails = alreadyUserEmails.filter(
+          (email) => !prevState.email_reciever_id.includes(email)
+        );
         return {
           ...prevState,
           email_reciever_id: [...prevState.email_reciever_id, ...newEmails],
@@ -377,20 +470,25 @@ const InviteFromAdmin = () => {
 
   const handleAllNotUsers = () => {
     const alreadyUserEmails = contactList
-      .filter(contact => contact.already_user === 0)
-      .map(contact => contact.email);
-  
-    const allAlreadyUsersSelected = alreadyUserEmails.every(email => emailConfigData.email_reciever_id.includes(email));
-  
-    setEmailConfigData(prevState => {
-      if (allAlreadyUsersSelected) {
+      .filter((contact) => contact.already_user === 0)
+      .map((contact) => contact.email);
 
+    const allAlreadyUsersSelected = alreadyUserEmails.every((email) =>
+      emailConfigData.email_reciever_id.includes(email)
+    );
+
+    setEmailConfigData((prevState) => {
+      if (allAlreadyUsersSelected) {
         return {
           ...prevState,
-          email_reciever_id: prevState.email_reciever_id.filter(email => !alreadyUserEmails.includes(email)),
+          email_reciever_id: prevState.email_reciever_id.filter(
+            (email) => !alreadyUserEmails.includes(email)
+          ),
         };
       } else {
-        const newEmails = alreadyUserEmails.filter(email => !prevState.email_reciever_id.includes(email));
+        const newEmails = alreadyUserEmails.filter(
+          (email) => !prevState.email_reciever_id.includes(email)
+        );
         return {
           ...prevState,
           email_reciever_id: [...prevState.email_reciever_id, ...newEmails],
@@ -399,32 +497,27 @@ const InviteFromAdmin = () => {
     });
   };
 
+  useEffect(() => {
+    let searchWords = searchValue
+      ?.toLowerCase()
+      .split(",")
+      .map((word) => word.trim());
 
-  //console.log(contactList)
+    const filteredData = contactList.filter((contact) => {
+      const parts = contact.email.split("@").flatMap((part) => part.split("."));
+      const lowerCaseParts = parts.map((part) => part.toLowerCase());
 
+      if (searchWords.length !== 0) {
+        return searchWords.every((word) =>
+          lowerCaseParts.some((part) => part.includes(word))
+        );
+      } else {
+        return true;
+      }
+    });
 
-
-
-
-useEffect(() => {
-  let searchWords = searchValue?.toLowerCase().split(",").map(word => word.trim());
-  //console.log("searchWords: ", searchWords);
-
-  const filteredData = contactList.filter(contact => {
-    const parts = contact.email.split('@').flatMap(part => part.split('.'));
-    const lowerCaseParts = parts.map(part => part.toLowerCase());
-
-    if (searchWords.length !== 0) {
-      return searchWords.every(word =>
-        lowerCaseParts.some(part => part.includes(word))
-      );
-    } else {
-      return true;
-    }
-  });
-
-  setResults(filteredData);
-}, [searchValue, contactList]);
+    setResults(filteredData);
+  }, [searchValue, contactList]);
 
   //console.log("results : " , results);
 
@@ -479,6 +572,7 @@ useEffect(() => {
             id="alert-dialog-description"
             sx={{ width: ["500px"] }}
           >
+            <p>Enter email or upload csv file to add multiple email ids</p>
             <TextField
               sx={{ width: ["100%"] }}
               label="Enter Email "
@@ -487,7 +581,7 @@ useEffect(() => {
               inputProps={{ maxlength: 500 }}
               className="w-100"
               //value={emailConfigData.email_reciever_id}
-              value={emailIdTobeAdded}
+              //value={emailIdTobeAdded}
               helperText={emailIdTobeAdded < 1 ? "Required" : ""}
               FormHelperTextProps={{ sx: { color: "red" } }}
               // onChange={(e) => {
@@ -496,15 +590,62 @@ useEffect(() => {
               //     email_sub: e.target.value.replace(/[^a-zA-Z 0-9 -]/g, ""),
               //   });
               // }}
-              onChange={(e) => {
-                setEmailIdTobeAdded(e.target.value);
-              }}
+              // onChange={(e) => {
+              //   setEmailIdTobeAdded(e.target.value);
+              // }}
               // onChange={(e) => {
               //   (e.target.value.replace(/[^a-zA-Z . ,0-9 @]/g, "")),
               //     setIdExists(false);
               //     setInvalidEmilErr(false);
               // }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <input
+                      type="file"
+                      id="file-2"
+                      style={{ display: "none" }}
+                      //accept="xlxs/csv"
+                      accept=".xlsx, .csv"
+                      onChange={handleFileUpload1}
+                      ref={fileInputRef1}
+                    />
+                    <label
+                      htmlFor="file-2"
+                      className="mb-0"
+                      title="Upload file"
+                    >
+                      <span
+                        className="pl-1 pointer"
+                        style={{ fontSize: "15px", color: "#3a3a3a" }}
+                      >
+                        Upload CSV File
+                      </span>
+                      <IconUpload
+                        className="pl-1 pointer"
+                        width={22}
+                        height={22}
+                      />
+                    </label>
+                  </InputAdornment>
+                ),
+              }}
+              value={temp1}
+              // helperText={
+              //   emailConfigData.email_reciever_id.length < 1
+              //     ? "Required"
+              //     : ""
+              // }
+              //FormHelperTextProps={{ sx: { color: "red" } }}
+              onChange={(e) => {
+                setTemp1(
+                  e.target.value.replace(/[^a-zA-Z . ,0-9 @]/g, "")
+                ),
+                  setIdExists(false);
+                setInvalidEmilErr(false);
+              }}
             />
+           {emailIdTobeAdded.length > 0 ? <span>{emailIdTobeAdded.length} Email id Selected</span> : ''}
           </DialogContentText>
         </DialogContent>
         <DialogActions className="pr-4 mb-2">
@@ -579,7 +720,7 @@ useEffect(() => {
                     label="Enter Reciever Email Id"
                     variant="outlined"
                     size="small"
-                    inputProps={{ maxlength: 500 }}
+                    inputProps={{ maxlength: 5000 }}
                     className="w-100"
                     InputProps={{
                       endAdornment: (
@@ -588,7 +729,8 @@ useEffect(() => {
                             type="file"
                             id="file-1"
                             style={{ display: "none" }}
-                            accept="xlxs"
+                            //accept="xlxs/csv"
+                            accept=".xlsx, .csv"
                             onChange={handleFileUpload}
                             ref={fileInputRef}
                           />
@@ -597,7 +739,12 @@ useEffect(() => {
                             className="mb-0"
                             title="Upload file"
                           >
-                           <span className="pl-1 pointer" style={{fontSize: "15px", color: "#3a3a3a"}}>Upload CSV File</span> 
+                            <span
+                              className="pl-1 pointer"
+                              style={{ fontSize: "15px", color: "#3a3a3a" }}
+                            >
+                              Upload CSV File
+                            </span>
                             <IconUpload
                               className="pl-1 pointer"
                               width={22}
@@ -624,18 +771,25 @@ useEffect(() => {
                   />
                 </div>
                 <div className="d-flex justify-content-between">
-
-{emailConfigData.email_reciever_id.length < 1 ?
-                <div className="invite-user-helper-text float-left">
-                     Required 
-                    </div> : <div></div>
-                    }
-                    <div title="Click to download sample CSV sheet" className="invite-user-helper-text float-right">
-                     <a href={`${
-                                  import.meta.env.VITE_BACKEND
-                                }/sample-csv.csv`}  download >Download sample CSV sheet</a>
+                  {emailConfigData.email_reciever_id.length < 1 ? (
+                    <div className="invite-user-helper-text float-left">
+                      Required
                     </div>
-                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  <div
+                    title="Click to download sample CSV sheet"
+                    className="invite-user-helper-text float-right"
+                  >
+                    <a
+                      href={`${import.meta.env.VITE_BACKEND}/sample-csv.csv`}
+                      download
+                    >
+                      Download sample CSV sheet
+                    </a>
+                  </div>
+                </div>
                 {idExists && <div>Id already exists</div>}
                 {invalidEmilErr && <div>Enter Correct Email</div>}
 
@@ -660,14 +814,32 @@ useEffect(() => {
               </div>
 
               <div className="email-text-wrapper d-flex flex-wrap">
-                {emailConfigData.email_reciever_id.map((item, index) => (
-                  <div className="email-text  mb-2">
-                    {item}
-                    <span onClick={() => handleRemove(index)}>
-                      <IconX className="pointer" width={14} height={14} />
-                    </span>
-                  </div>
-                ))}
+                {emailConfigData.email_reciever_id
+                  .slice(0, 4)
+                  .map((item, index) => (
+                    <div className="email-text  mb-2">
+                      {item}
+                      <span onClick={() => handleRemove(index)}>
+                        <IconX className="pointer" width={14} height={14} />
+                      </span>
+                    </div>
+                  ))}
+
+              {emailConfigData.email_reciever_id.length > 4 &&
+                <div className="pointer email-text email-text-more mb-2" onClick={() => {
+                  setShowList(false), setShowSelected(true);
+                }}>
+                  <span>
+                    <IconPlus
+                      style={{ marginBottom: "2px", paddingRight: "2px" }}
+                      className="pointer"
+                      width={14}
+                      height={14}
+                    />
+                  </span>
+                  {emailConfigData.email_reciever_id.length - 4} More
+                </div>
+}
               </div>
             </div>
 
@@ -828,24 +1000,22 @@ useEffect(() => {
             </div>
           </div>
 
-         
-
           
 
-          <div className="contact-list-search">
-          <input
-                    type="text"
-                    className="form-control "
-                    placeholder="Search for a Email"
-                    value={searchValue}
-                    onChange={(e) => {
-                      setSearchValue(e.target.value);
-                    }}
-                  />
-          </div>
-
-
           {showList && (
+            <>
+            
+            <div className="contact-list-search">
+            <input
+              type="text"
+              className="form-control "
+              placeholder="Search for a Email"
+              value={searchValue}
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+              }}
+            />
+          </div>
             <div>
               {contactList.some((i) => i.already_user === 1) && (
                 <div
@@ -863,8 +1033,6 @@ useEffect(() => {
                 </div>
               )}
 
-              
-
               {showAlreadyUserEmails && (
                 <>
                   <div className="contact-list-item d-flex justify-content-between">
@@ -872,34 +1040,43 @@ useEffect(() => {
                       <Checkbox
                         size="small"
                         //onChange={() => handleCheckboxChange(item.email)}
-                        
-                        checked={contactList.filter(contact => contact.already_user === 1).every(contact => emailConfigData.email_reciever_id.includes(contact.email))}
+
+                        checked={contactList
+                          .filter((contact) => contact.already_user === 1)
+                          .every((contact) =>
+                            emailConfigData.email_reciever_id.includes(
+                              contact.email
+                            )
+                          )}
                         onClick={() => handleAllAlreadyUsers()}
                       />
                       Select All
                     </div>
                   </div>
-                  {results && results
-                    .filter((i) => i.already_user === 1)
-                    .map((item) => (
-                      <div key={item.email}>
-                        <div className="contact-list-item d-flex justify-content-between">
-                          <div>
-                            <Checkbox
-                              size="small"
-                              onChange={() => handleCheckboxChange(item.email)}
-                              checked={emailConfigData.email_reciever_id.includes(
-                                item.email
-                              )}
-                            />
-                            {item.email}
-                          </div>
-                          {/* <div>
+                  {results &&
+                    results
+                      .filter((i) => i.already_user === 1)
+                      .map((item) => (
+                        <div key={item.email}>
+                          <div className="contact-list-item d-flex justify-content-between">
+                            <div>
+                              <Checkbox
+                                size="small"
+                                onChange={() =>
+                                  handleCheckboxChange(item.email)
+                                }
+                                checked={emailConfigData.email_reciever_id.includes(
+                                  item.email
+                                )}
+                              />
+                              {item.email}
+                            </div>
+                            {/* <div>
               <IconTrash className="mr-3" />
             </div> */}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                 </>
               )}
               {contactList.some((i) => i.already_user === 0) && (
@@ -914,47 +1091,57 @@ useEffect(() => {
 
               {showNotUserEmails && (
                 <>
-                 <div className="contact-list-item d-flex justify-content-between">
+                  <div className="contact-list-item d-flex justify-content-between">
                     <div>
                       <Checkbox
                         size="small"
                         //onChange={() => handleCheckboxChange(item.email)}
-                        checked={contactList.filter(contact => contact.already_user === 0).every(contact => emailConfigData.email_reciever_id.includes(contact.email))}
+                        checked={contactList
+                          .filter((contact) => contact.already_user === 0)
+                          .every((contact) =>
+                            emailConfigData.email_reciever_id.includes(
+                              contact.email
+                            )
+                          )}
                         onClick={() => handleAllNotUsers()}
                       />
                       Select All
                     </div>
                   </div>
-                  {results && results
-                    .filter((i) => i.already_user === 0)
-                    .map((item) => (
-                      <div key={item.email}>
-                        <div className="contact-list-item d-flex justify-content-between">
-                          <div>
-                            <Checkbox
-                              size="small"
-                              onChange={() => handleCheckboxChange(item.email)}
-                              checked={emailConfigData.email_reciever_id.includes(
-                                item.email
-                              )}
-                            />
-                            {item.email}
-                          </div>
-                          <div>
-                            <IconTrash
-                              className="mr-3 pointer"
-                              title="Delete Email"
-                              onClick={() =>
-                                handleClickOpenDel(item.email_id, item.email)
-                              }
-                            />
+                  {results &&
+                    results
+                      .filter((i) => i.already_user === 0)
+                      .map((item) => (
+                        <div key={item.email}>
+                          <div className="contact-list-item d-flex justify-content-between">
+                            <div>
+                              <Checkbox
+                                size="small"
+                                onChange={() =>
+                                  handleCheckboxChange(item.email)
+                                }
+                                checked={emailConfigData.email_reciever_id.includes(
+                                  item.email
+                                )}
+                              />
+                              {item.email}
+                            </div>
+                            <div>
+                              <IconTrash
+                                className="mr-3 pointer"
+                                title="Delete Email"
+                                onClick={() =>
+                                  handleClickOpenDel(item.email_id, item.email)
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                 </>
               )}
             </div>
+            </>
           )}
 
           {showSelected &&

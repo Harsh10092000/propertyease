@@ -634,6 +634,13 @@ const Property = () => {
   
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
 
+
+  const checkDataExists = (data) => {
+    return(
+    data ? data : "-"
+    )
+  }
+
   return (
     <div className="padding-top">
       <meta property="og:type" content="website" />
@@ -1241,7 +1248,7 @@ time3.add(12, "minutes") */}
                                     Side Open(s)
                                   </span>
                                   <span className="propertyData">
-                                    {data.pro_open_sides}
+                                    {checkDataExists(data.pro_open_sides)}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
@@ -1250,7 +1257,7 @@ time3.add(12, "minutes") */}
                                     Facing
                                   </span>
                                   <span className="propertyData">
-                                    {data.pro_facing}
+                                    {checkDataExists(data.pro_facing)}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
@@ -1259,7 +1266,7 @@ time3.add(12, "minutes") */}
                                     Possession Available
                                   </span>
                                   <span className="propertyData">
-                                    {data.pro_possession}
+                                    {checkDataExists(data.pro_possession)}
                                   </span>
                                 </div>
                                 {data.pro_type == "Commercial" ||
@@ -1270,7 +1277,7 @@ time3.add(12, "minutes") */}
                                       Car Parking(s)
                                     </span>
                                     <span className="propertyData">
-                                      {data.pro_parking}
+                                      {checkDataExists(data.pro_parking)}
                                     </span>
                                   </div>
                                 ) : (
@@ -1280,7 +1287,7 @@ time3.add(12, "minutes") */}
                                       Property Age
                                     </span>
                                     <span className="propertyData">
-                                      {data.pro_age}
+                                      {checkDataExists(data.pro_age)}
                                     </span>
                                   </div>
                                 )}
@@ -1312,7 +1319,7 @@ time3.add(12, "minutes") */}
                                 </span>
                                 <p>
                                   <span className="propertyData">
-                                    {data.pro_rental_status}
+                                    {checkDataExists(data.pro_rental_status)}
                                   </span>
                                 </p>
                               </div>
@@ -1328,7 +1335,7 @@ time3.add(12, "minutes") */}
                                 </span>
                                 <p>
                                   <span className="propertyData">
-                                    {data.pro_ownership_type}
+                                    {checkDataExists(data.pro_ownership_type)}
                                   </span>
                                 </p>
                               </div>
@@ -1339,7 +1346,7 @@ time3.add(12, "minutes") */}
                                 </span>
                                 <p>
                                   <span className="propertyData">
-                                    {data.pro_approval}
+                                    {checkDataExists(data.pro_approval)}
                                   </span>
                                 </p>
                               </div>
@@ -1359,7 +1366,7 @@ time3.add(12, "minutes") */}
                                       </span>
                                       <p>
                                         <span className="propertyData">
-                                          {data.pro_age}
+                                          {checkDataExists(data.pro_age)}
                                         </span>
                                       </p>
                                     </div>
@@ -1373,7 +1380,7 @@ time3.add(12, "minutes") */}
                                       </span>
                                       <p>
                                         <span className="propertyData">
-                                          {data.pro_furnishing}
+                                          {checkDataExists(data.pro_furnishing)}
                                         </span>
                                       </p>
                                     </div>

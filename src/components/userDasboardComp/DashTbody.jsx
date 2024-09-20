@@ -186,41 +186,44 @@ const renderResponsesViews2 = (
   );
 };
 
-const renderConditionalRemark = (item, condition, handleAttentionReq, openAttReq, handleShowResDataId,showDataId, resDataPopUpRef) => {
-  
+const renderConditionalRemark = (
+  item,
+  condition,
+  handleAttentionReq,
+  openAttReq,
+  handleShowResDataId,
+  showDataId,
+  resDataPopUpRef
+) => {
   return item.pro_pincode ? (
     "-"
   ) : (
-    <div ref={resDataPopUpRef} className="pointer"
-    onClick={() => {
-      showDataId == item.pro_id
-        ? (handleAttentionReq(false), handleShowResDataId(""))
-        : (handleAttentionReq(true), handleShowResDataId(item.pro_id));
-    }}
-    
+    <div
+      ref={resDataPopUpRef}
+      className="pointer"
+      onClick={() => {
+        showDataId == item.pro_id
+          ? (handleAttentionReq(false), handleShowResDataId(""))
+          : (handleAttentionReq(true), handleShowResDataId(item.pro_id));
+      }}
     >
       <div
         className="action-required"
         title="Attention! To ensure your property stands out and captures the interest of the right buyers or renters, it's essential to complete your listing."
       >
-        <IconAlertCircle
-          height={24}
-          width={24}
-          className="circle pulse mr-1"
-        />
+        <IconAlertCircle height={24} width={24} className="circle pulse mr-1" />
         Action Required
       </div>
-      {openAttReq && showDataId === item.pro_id &&
-      
-      <div className="att-req-popup">
-        Attention! To ensure your property stands out and captures the interest
-        of the right buyers or renters, it's essential to complete your listing.
-        <Link to={`${"/editProperty"}/${item.pro_url}`}><div className="edit-property">Edit Property</div></Link>
-      </div>
-        
-
-      
-}
+      {openAttReq && showDataId === item.pro_id && (
+        <div className="att-req-popup">
+          Attention! To ensure your property stands out and captures the
+          interest of the right buyers or renters, it's essential to complete
+          your listing.
+          <Link to={`${"/editProperty"}/${item.pro_url}`}>
+            <div className="edit-property">Edit Property</div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
@@ -767,10 +770,21 @@ const DashTbody = ({
 
   const resDataPopUpRef = useRef(null);
 
+  // const handleClickOutside = (event) => {
+  //   if (
+  //     resDataPopUpRef.current &&
+  //     !resDataPopUpRef.current.contains(event.target)
+  //   ) {
+  //     setShowData(false);
+  //     setOpenAttReq(false);
+  //   }
+  // };
+
   const handleClickOutside = (event) => {
     if (
       resDataPopUpRef.current &&
-      !resDataPopUpRef.current.contains(event.target)
+      !resDataPopUpRef.current.contains(event.target) &&
+      !event.target.classList.contains("edit-property") // Prevent closing when clicking the button
     ) {
       setShowData(false);
       setOpenAttReq(false);
@@ -807,7 +821,15 @@ const DashTbody = ({
                       resDataPopUpRef
                     )
                   : property.type === "conditionalRemark"
-                  ? renderConditionalRemark(item, property.condition, handleAttentionReq, openAttReq , handleShowResDataId, showDataId , resDataPopUpRef)
+                  ? renderConditionalRemark(
+                      item,
+                      property.condition,
+                      handleAttentionReq,
+                      openAttReq,
+                      handleShowResDataId,
+                      showDataId,
+                      resDataPopUpRef
+                    )
                   : property.type === "checkbox"
                   ? renderConditionalCheckbox(
                       item,

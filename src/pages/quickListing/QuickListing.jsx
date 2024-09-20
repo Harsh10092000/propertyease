@@ -158,6 +158,7 @@ const QuickListing = () => {
     pro_sub_district: "",
     pro_user_email: "",
     pro_login_number: "",
+    pro_desc: "",
   });
 
   useEffect(() => {
@@ -228,9 +229,9 @@ const QuickListing = () => {
   const selectedSubDistrict = React.useMemo(
     () =>
       filterSubDistricts.find(
-        (v) => v.sub_district === propertyData.pro_sub?.sub_district
+        (v) => v.sub_district === propertyData.pro_sub_district?.sub_district
       ) || null,
-    [filterSubDistricts, propertyData.pro_sub]
+    [filterSubDistricts, propertyData.pro_sub_district]
   );
 
   const propertyAdType = [{ value: "Sale" }, { value: "Rent" }];
@@ -320,15 +321,15 @@ const QuickListing = () => {
 
       //propertyData.pro_city !== "" &&
       ((propertyData.pro_state !== "" && filterDistricts.length < 1) || propertyData.pro_city !== "") &&
-      ((filterDistricts.length < 1 && filterSubDistricts.length < 1) || propertyData.pro_sub !== "") &&
+      ((filterDistricts.length < 1 && filterSubDistricts.length < 1) || propertyData.pro_sub_district !== "") &&
 
       propertyData.pro_locality !== "" &&
       propertyData.pro_facing !== "" &&
       propertyData.pro_area_size !== "" &&
+      (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000) &&
       formatError === false &&
       fileSizeExceeded === false
     ) {
-      console.log("Sd");
       handleClick();
     }
     // else {
@@ -344,7 +345,7 @@ const QuickListing = () => {
       (propertyData.pro_login_number = currentUser[0].login_number);
     propertyData.pro_state = propertyData.pro_state.name;
     propertyData.pro_city = propertyData.pro_city.district;
-    propertyData.pro_sub = propertyData.pro_sub.sub_district;
+    propertyData.pro_sub_district = propertyData.pro_sub_district.sub_district;
     propertyData.pro_locality = changeFormatting(propertyData.pro_locality);
     propertyData.pro_date = Date.now();
     // propertyData.pro_state = stateList.filter(
@@ -818,7 +819,7 @@ const QuickListing = () => {
                     ...propertyData,
                     pro_state: selectedValues,
                     pro_city: "",
-                    pro_sub: "",
+                    pro_sub_district: "",
                     searchCity: "",
                   });
                 }}
@@ -859,7 +860,7 @@ const QuickListing = () => {
                     setPropertyData({
                       ...propertyData,
                       pro_city: selectedValues,
-                      pro_sub: "",
+                      pro_sub_district: "",
                     });
                   }}
                   value={selectedCity}
@@ -924,7 +925,7 @@ const QuickListing = () => {
                 onChange={(event, selectedValues) => {
                   setPropertyData({
                     ...propertyData,
-                    pro_sub: selectedValues,
+                    pro_sub_district: selectedValues,
                     //   pro_sub_district: "",
                   });
                 }}
@@ -949,7 +950,7 @@ const QuickListing = () => {
                           (propertyData.pro_city === null ||
                             propertyData.pro_city === "")
                         ? "Select city to add sub district"
-                        : formSubmit === true && propertyData.pro_sub === ""
+                        : formSubmit === true && propertyData.pro_sub_district === ""
                         ? "Required"
                         : ""
                       //: ""
@@ -1004,7 +1005,8 @@ const QuickListing = () => {
               storeInArray={true}
             />
 
-            <div className=" w-30 m-8">
+<div className="d-flex">
+            <div className=" w-30  mr-3" style={{width: '100%'}}>
               <input
                 multiple
                 type="file"
@@ -1020,14 +1022,14 @@ const QuickListing = () => {
               />
               <label
                 htmlFor="file-1"
-                className="border py-4 mx-2 rounded-2 border-secondary"
+                className="border py-4  rounded-2 border-secondary quick-list-upload"
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
               >
                 <div className="d-flex flex-column  align-items-center">
-                  <div>Drop files here</div>
+                  <div>Drop Property Images here</div>
                   <div className="py-1">Or</div>
                   <div className="border py-2 px-4">Browse</div>
                 </div>
@@ -1066,6 +1068,41 @@ const QuickListing = () => {
                               ? "File size must be greater than 10KB and less than 1MB"
                               : ""}
                           </div> */}
+            </div>
+            <div className=" w-30  ml-3"  style={{width: '100%'}}>
+            <TextField
+                            multiline
+                            sx={{ width: ["100%"], paddingBottom: '0px' }}
+                            id="outlined-basic"
+                            variant="outlined"
+                            size="small"
+                            label="Property Description"
+                            className="w-full hello"
+                            name="Property Description"
+                            inputProps={{ maxLength: 2000 }}
+                            value={propertyData.pro_desc}
+                            helperText={
+                              propertyData.pro_desc.length < 2001
+                                ? ""
+                                : "Description should be smaller than 2000 characters"
+                            }
+                            FormHelperTextProps={{ sx: { color: "red" } }}
+                            InputProps={{
+                              rows: 6,
+                            }}
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_desc: e.target.value.replace(
+                                  /[^0-9A-Z a-z , . /]/g,
+                                  ""
+                                ),
+                              })
+                            }
+                          />
+
+             
+            </div>
             </div>
 
             <div className="d-flex justify-content-end ">

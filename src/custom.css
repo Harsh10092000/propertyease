@@ -19787,6 +19787,13 @@ padding-top: 3px;
 padding-bottom: 3px;
 }
 
+.email-text-more { 
+  color: #1e1d85;
+  background-color: #eff6f7;
+  border-color: #eff6f7;
+  font-weight: 500;
+  text-shadow: 0 0 black;
+}
 
 .email-add-btn-wrapper {
   padding-top: 8px;
@@ -21764,4 +21771,13 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
 .contact-list-search {
   margin: 16px;
   margin-bottom: 0px;
+}
+
+.css-1qxw4jt-MuiInputBase-root-MuiOutlinedInput-root  {
+  padding-bottom: 0px !important;
+}
+
+.quick-list-upload {
+  border-radius: 4px;
+  border-color: #c4c4c4 !important;
 }

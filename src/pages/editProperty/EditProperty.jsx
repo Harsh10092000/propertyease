@@ -33,7 +33,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Skeleton } from "@mui/material";
 
 const EditProperty = () => {
-  const [skeleton, setSkeleton] = useState(false);
+  const [skeleton, setSkeleton] = useState(true);
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
   const navigate = useNavigate();
@@ -273,7 +273,7 @@ const EditProperty = () => {
           pro_negotiable: res.data[0].pro_negotiable,
           pro_user_id: res.data[0].pro_user_id,
         });
-       // setSkeleton(false);
+       setSkeleton(false);
       });
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${id}`)
@@ -889,6 +889,7 @@ const EditProperty = () => {
                                 )}
                             </FormControl>
                           </div>
+
 
                           <div className="pro_flex">
                             <FormControl
