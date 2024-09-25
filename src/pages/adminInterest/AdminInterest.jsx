@@ -1,4 +1,4 @@
-import { IconEye } from "@tabler/icons-react";
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
 } from "@fortawesome/free-solid-svg-icons";
-
+import moment from "moment";
 const AdminInterest = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 15;
@@ -34,10 +34,12 @@ const AdminInterest = () => {
   const theadArray = [
     { value: "Sno." },
     { value: "Property Id" },
+    { value: "Name" },
     { value: "Email" },
     { value: "Phone" },
+    {value: "Date"},
     { value: "Property Type" },
-    { value: "Address" },
+    { value: "Address",  customClass: "th-width-14" },
     
     { value: "Actions" },
   ];
@@ -46,11 +48,18 @@ const AdminInterest = () => {
   const tbodyArray = [
     { value: "serial_no" },
     { value: "pro_id", transform: (id) => 5000 + parseInt(id) },
-    { value: "login_email" },
+    { value: "interested_name" },
+    { value: "interested_email" },
     {
-      value: "login_number",
+      value: "interested_phone",
       transform: (val) => `+91 ${val}`,
     },
+    {
+      value: "interested_DATE",
+      transform: (date) => moment(date).format("MMMM DD YYYY"),
+    },
+    
+
     { value: "pro_type" },
                          
     {

@@ -459,27 +459,7 @@ const EditAdsForm1 = () => {
 
 const EditAdsForm = () => {
   return (
-    // <div className="container-fluid">
-    //   <div className="profile-form-upper-section">
-    //     <AdminDashUpperBody
-    //       heading={"Edit Ad"}
-    //       filterAva={false}
-    //       selectedActionsAva={false}
-    //       searchAva={false}
-    //     />
-    //   </div>
-
-    //   <div className="row user-profile-form-comp">
-    //     <div className="col-md-6">
-    //       <div className="user-profile-form-wrapper ">
-    //         <div className="form-fields">
-    //           <FormHeading heading={"Edit Ad"} />
-    //           <EditAdsForm1 />
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
+    
     <FormStrcture heading={"Edit Ad"}> 
       <EditAdsForm1 />
       </FormStrcture>

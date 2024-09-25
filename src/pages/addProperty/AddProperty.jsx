@@ -36,15 +36,11 @@ import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
 import { InputAdornment } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+
 import moment from "moment";
 import { Skeleton } from "@mui/material";
-import PropertyListingPlan from "../../components/propertyListingPlan/PropertyListingPlan";
-import PaymentSucess from "../paymentSuccess/PaymentSucess";
+
 import { IconChevronsRight } from "@tabler/icons-react";
-import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
-import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
-import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
 // const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
 //   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
@@ -178,20 +174,7 @@ const AddProperty = () => {
       });
   }, []);
 
-  const applyCoupon = (planId) => {
-    console.log("planId : ", planId);
-    setProListingPlan({
-      ...proListingPlan,
-      proListingPlan: proListingPlan.map((item) =>
-        item.pro_plan_id == planId
-          ? {
-              ...item,
-              pro_plan_amt: 170,
-            }
-          : item
-      ),
-    });
-  };
+ 
 
   const [subDistrict, setSubDistrict] = useState();
   const [cityState, setCityState] = useState();
@@ -227,10 +210,8 @@ const AddProperty = () => {
       });
   }, [change]);
 
-  const handleChange = () => {
-    setChange(change + 1);
-    setPaymentSuccessful(false);
-  };
+
+
 
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -317,10 +298,6 @@ const AddProperty = () => {
   const [numberError, setNumberError] = useState(true);
   const [loginStatus, setLoginStatus] = useState("");
   const [getOtp, setGetOtp] = useState(false);
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [paymentId, setPaymentId] = useState("");
-  const [paymentAmt, setPaymentAmt] = useState("");
 
   const [userData, setUserData] = useState({
     email: "",
@@ -771,21 +748,8 @@ const AddProperty = () => {
       .then((res) => addImages(res.data));
   };
 
-  const [planData, setPlanData] = useState({
-    list_plan_id: "",
-    plan_name: "",
-    tran_amt: "",
-    user_id: "",
-    list_plan_valid_for_days: "",
-    pro_plan_added_slots: "",
-    plan_status: "",
-    order_id: "",
-    payment_id: "",
-    payment_status: "",
-  });
-  const handleBuy = (item, couponAmt, planId) => {
-    checkoutHandler(item, couponAmt, planId);
-  };
+
+
 
   const addImages = async (id) => {
     if (selectedFiles !== null) {
@@ -827,135 +791,13 @@ const AddProperty = () => {
     );
   };
 
-  const propertyType = [
-    { type: "View Residentail Properties", link: "/property/residential" },
-    { type: "View Commerical Properties", link: "/property/commercial" },
-    { type: "View Land/Plots Properties", link: "/property/land" },
-    { type: "View All Properties", link: "/allproperties" },
-  ];
+
 
   // useEffect(() => {
   //   window.scrollTo(0, 100);
   // }, []);
 
-  const checkoutHandler = async (item, couponAmt, planId) => {
-    const couponAmt1 = item.pro_plan_id !== planId ? 0 : couponAmt;
-
-    setLoader(true);
-    const amount =
-      item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100;
-    try {
-      const response = await axios.post(
-        import.meta.env.VITE_BACKEND + "/api/pay/proListingPay",
-        { amount }
-      );
-      setLoader(false);
-      const orderId = response.data.id;
-      const options = {
-        key: import.meta.env.RAZORPAY_API_KEY,
-
-        amount:
-          (item.pro_plan_amt - (item.pro_plan_amt * couponAmt1) / 100) * 100,
-        currency: "INR",
-        name: item.pro_plan_name,
-        //callback_url: import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
-        handler: async function (response) {
-          const data = {
-            orderCreationId: orderId,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-            list_plan_id: item.pro_plan_id,
-            plan_name: item.pro_plan_name,
-            tran_amt:
-              item.pro_plan_amt -
-              (item.pro_plan_amt * Math.abs(couponAmt1)) / 100,
-            list_plan_valid_for_days: item.pro_plan_validity,
-            user_id: currentUser[0].login_id,
-            pro_plan_added_slots: item.pro_plan_property_slots,
-            plan_status: "1",
-            payment_status: "Success",
-            login_email: currentUser[0].login_email,
-            login_number: currentUser[0].login_number,
-            discount: couponAmt1,
-            original_price: item.pro_plan_amt,
-            pro_added_recently: prevData.pro_count,
-            total_no_pro_user_can_add:
-              parseInt(prevData.pro_count) +
-              parseInt(item.pro_plan_property_slots),
-          };
-          setOrderId(response.razorpay_order_id);
-          setPaymentAmt(
-            item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100
-          );
-          setPaymentId(response.razorpay_payment_id);
-          setLoader(true);
-          const result = await axios.post(
-            import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
-            data
-          );
-          setLoader(false);
-          //result.data == 1 ? navigate("/payment-succesful") : "";
-          result.data == 1
-            ? setPaymentSuccessful(true)
-            : setPaymentSuccessful(false);
-        },
-        description: "Testing",
-        order_id: orderId,
-        prefill: {
-          // name: "",
-          email: currentUser[0].login_email,
-          contact: currentUser[0].login_number,
-        },
-        notes: {
-          address: "Razorpay Corporate Office",
-        },
-        theme: {
-          color: "#121212",
-        },
-      };
-
-      const razor = new window.Razorpay(options);
-      razor.on("payment.failed", (response) => {
-        //paymentId.current = response.error.metadata.payment_id;
-        console.log("payment.failed : ", response.error);
-        planData.list_plan_id = item.pro_plan_id;
-        planData.plan_name = item.pro_plan_name;
-        planData.tran_amt =
-          item.pro_plan_amt - (item.pro_plan_amt * couponAmt1) / 100;
-        planData.list_plan_valid_for_days = item.pro_plan_validity;
-        planData.user_id = currentUser[0].login_id;
-        planData.pro_plan_added_slots = item.pro_plan_property_slots;
-        planData.plan_status = "0";
-        planData.order_id = response.error.metadata.order_id;
-        planData.payment_id = response.error.metadata.payment_id;
-        planData.payment_status = "Failed";
-        planData.discount = couponAmt1;
-        planData.original_price = item.pro_plan_amt;
-        axios.post(
-          import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan",
-          planData
-        );
-
-        alert(response.error.description);
-      });
-      // razor.on("payment.failed", (response) => {
-      //   alert(response.error.code);
-      //   alert(response.error.description);
-      //   alert(response.error.source);
-      //   alert(response.error.step);
-      //   alert(response.error.reason);
-      //   alert(response.error.metadata.order_id);
-      //   alert(response.error.metadata.payment_id);
-      // });
-      razor.open();
-
-      // axios
-      //   .post(import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan", planData);
-    } catch (error) {
-      console.error("Error creating order:", error);
-    }
-  };
+ 
 
   return (
     <div>
@@ -1085,20 +927,8 @@ const AddProperty = () => {
       </Dialog>
       <Navbar />
 
-      {paymentSuccessful ? (
-        <PaymentSucess
-          orderId={orderId}
-          paymentAmt={paymentAmt}
-          paymentId={paymentId}
-          handleChange={handleChange}
-        />
-      ) : (
-          parseInt(prevData?.plan_status) === 1 ||
-          parseInt(prevData?.plan_status) === 2
-            ? parseInt(prevData?.total_no_pro_user_can_add) >
-              parseInt(prevData?.pro_count)
-            : parseInt(prevData?.pro_count) < 0
-        ) ? (
+      {true ? (
+        
         <div className="container">
          
           <section className="signup-section upper-form-heading post-property">
@@ -1279,13 +1109,7 @@ const AddProperty = () => {
                         </div>
                       </div>
                     ) : activeStep === 1 ? (
-                      (
-                        parseInt(prevData?.plan_status) === 1 ||
-                        parseInt(prevData?.plan_status) === 2
-                          ? parseInt(prevData?.total_no_pro_user_can_add) >
-                            parseInt(prevData?.pro_count)
-                          : parseInt(prevData?.pro_count) < 5
-                      ) ? (
+                     
                         <div className="flex-col-sm mainDiv">
                           <h2>Locations Details </h2>
 
@@ -1714,91 +1538,7 @@ const AddProperty = () => {
                             </button>
                           </div>
                         </div>
-                      ) : (
-                        <div className="container">
-                          <div className="row">
-                            <div className="col-md-12">
-                              <section class="property-view-outer no-list-access-msg">
-                                <div class="no-longer-available">
-                                  <div className="msg-haeding">
-                                    You've exceeded the limit of 5 properties in
-                                    the last 30 days.
-                                  </div>
-
-                                  <div className="msg-haeding">
-                                    You cannot add more properties at this time.
-                                  </div>
-                                  <p>
-                                    You can add properties again after{" "}
-                                    {upcomingDate}. We apologize for any
-                                    inconvenience this may cause.{" "}
-                                  </p>
-                                </div>
-                              </section>
-
-                              <div className="">
-                                <PropertyListingPlan
-                                  proListingPlan={proListingPlan}
-                                  applyCoupon={applyCoupon}
-                                  handleBuy={handleBuy}
-                                />
-                              </div>
-
-                              <div className="property-more-detail">
-                                <div className="row">
-                                  <div className="col-md-12">
-                                    <div className="details">
-                                      <div className="row">
-                                        <div className="col-md-12">
-                                          <div className="more-detail-heading">
-                                            View Near By Properties
-                                          </div>
-
-                                          <div className="d-flex flex-wrap tags-link ">
-                                            {propertyType.map((item) => (
-                                              <Link to={item.link}>
-                                                <div className="loc-list mb-0">
-                                                  <span className="text-dark font-weight-bold">
-                                                    {item.type}
-                                                  </span>
-                                                </div>
-                                              </Link>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <section className="most-view-Property mt-5 mb-5 ">
-                                
-          <div className="container">
-            <RecentListHeader />
-            
-            <div className="container">
-              <div className="row ">
-                {latestProperty.slice(0, 6).map((item, index) => (
-               
-                <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
-                ))}
-
-                
-              </div>
-            </div>
-
-           <AllPropertyButton />
-
-          </div>
-        </section>
-
-
-                           
-                            </div>
-                          </div>
-                        </div>
-                      )
+                      
                     ) : activeStep === 2 ? (
                       <div className="flex-col-sm mainDiv">
                         <h2>Property Details</h2>
@@ -2133,12 +1873,7 @@ const AddProperty = () => {
                             </div>
                           </div>
 
-                          {/* <div className="text-danger ml-2 ">
-                            {formatError ? "Invalid Format" : ""}
-                            {fileSizeExceeded
-                              ? "File size must be greater than 10KB and less than 1MB"
-                              : ""}
-                          </div> */}
+                         
                         </div>
 
                         <div className="d-flex justify-content-between ">
@@ -2252,31 +1987,7 @@ const AddProperty = () => {
                               />{" "}
                               Price Negotiable
                             </span>
-                            {/* <div className="d-flex flex-wrap ">
-                            {propertyNegotiable.map((item) => (
-                              <div
-                                className={
-                                  propertyData.pro_negotiable === item.value
-                                    ? " "
-                                    : " "
-                                }
-                                onClick={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_negotiable: item.value,
-                                  })
-                                }
-                              >
-                                <Checkbox
-                                  icon={icon}
-                                  checkedIcon={checkedIcon}
-                                  style={{ marginRight: 8 }}
-                                  //checked={selected}
-                                />{" "}
-                                {item.value}
-                              </div>
-                            ))}
-                          </div> */}
+                            
                           </div>
 
                           <div className="w-100 ">
@@ -2298,25 +2009,7 @@ const AddProperty = () => {
                               />{" "}
                               Already on Rented
                             </span>
-                            {/* <div className="d-flex flex-wrap ">
-                            {propertyRentalStatus.map((item) => (
-                              <div
-                                className={
-                                  propertyData.pro_rental_status === item.value
-                                    ? "pro_radio_btn_1 pro_selected"
-                                    : "pro_radio_btn_1 "
-                                }
-                                onClick={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_rental_status: item.value,
-                                  })
-                                }
-                              >
-                                {item.value}
-                              </div>
-                            ))}
-                          </div> */}
+                           
                           </div>
                         </div>
 
@@ -2380,89 +2073,9 @@ const AddProperty = () => {
             </div>
           </section>
         </div>
-      ) : parseInt(prevData?.pro_count) >= 0 ? (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <section class="property-view-outer no-list-access-msg">
-                <div class="no-longer-available">
-                  <div className="msg-haeding">
-                    You've exceeded the limit of 5 properties in the last 30
-                    days.
-                  </div>
-
-                  <div className="msg-haeding">
-                    You cannot add more properties at this time.
-                  </div>
-                  <p>
-                    You can add properties again after {upcomingDate}. We
-                    apologize for any inconvenience this may cause.{" "}
-                  </p>
-                </div>
-              </section>
-
-              <div className="">
-                <PropertyListingPlan
-                  proListingPlan={proListingPlan}
-                  handleBuy={handleBuy}
-                />
-              </div>
-
-              <div className="property-more-detail">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="details">
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="more-detail-heading">
-                            View Near By Properties
-                          </div>
-
-                          <div className="d-flex flex-wrap tags-link ">
-                            {propertyType.map((item) => (
-                              <Link to={item.link}>
-                                <div className="loc-list mb-0">
-                                  <span className="text-dark font-weight-bold">
-                                    {item.type}
-                                  </span>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <section className="most-view-Property mt-5 mb-5 ">
-                                
-          <div className="container">
-            <RecentListHeader />
-            
-            <div className="container">
-              <div className="row ">
-                {latestProperty.slice(0, 6).map((item, index) => (
-               
-                <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
-                ))}
-
-                
-              </div>
-            </div>
-
-           <AllPropertyButton />
-
-          </div>
-        </section>
-
-          
-            </div>
-          </div>
-        </div>
+     
       ) : (
-        //<div className="no-data"></div>
+      
 
         <div className="container">
           {prevData?.pro_count}

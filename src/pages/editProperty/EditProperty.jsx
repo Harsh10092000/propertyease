@@ -767,6 +767,23 @@ const EditProperty = () => {
                                   >
                                     Industrial Estate
                                   </option>
+                                  <option
+                                    value={"Institutional,Commercial"}
+                                  >
+                                    Institutional
+                                  </option>
+
+                                  <option
+                                    value={"Petrol Pump,Commercial"}
+                                  >
+                                    Petrol Pump
+                                  </option>
+
+                                  <option
+                                    value={"Cold Store,Commercial"}
+                                  >
+                                    Cold Store
+                                  </option>
                                 </optgroup>
                               </Select>
                               {propertyData.pro_type === "" && (

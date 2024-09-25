@@ -55,6 +55,7 @@ import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
 import GetNearByAreas from "../../components/getNearByAreas.jsx/GetNearByAreas";
 
+
 const AllProperties = (props) => {
   // const [config, setConfig] = useState({
   //   autoRotate: -2,
@@ -871,6 +872,9 @@ const handleSubmit2 = async (e) => {
   return (
     <div>
 
+
+
+
 {/* <div>
       <form onSubmit={handleSubmit2}>
         <textarea
@@ -895,7 +899,10 @@ const handleSubmit2 = async (e) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div> */}
 
-      {/* <GetNearByAreas /> */}
+{/* <div className="mt-5 pt-5">
+      <GetNearByAreas  className="mt-5 pt-5"/>
+</div> */}
+
       <Dialog
         open={open1}
         onClose={handleClose}

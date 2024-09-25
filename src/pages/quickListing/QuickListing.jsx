@@ -15,6 +15,12 @@ import { IconPlus, IconX } from "@tabler/icons-react";
 import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
 import { useNavigate } from "react-router-dom";
+import useUserLogin from "../../customHooks/useUserLogin";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { InputAdornment } from "@mui/material";
 
 const RadioBoxSelection = ({
   heading,
@@ -25,44 +31,43 @@ const RadioBoxSelection = ({
   setPropertyData,
   formSubmit,
   storeInArray,
-  setData
+  setData,
 }) => {
   return (
     <div className="pro_flex pro_flex_1">
       <div className="w-100 m-1 mb-3">
         <span className="pro_heading">{heading}</span>
         <div className="d-flex flex-wrap ">
-          {storeInArray ? array.map((item) => (
-            <div
-              className={
-                field_item === item.value
-                  ? "pro_radio_btn_1 pro_selected"
-                  : "pro_radio_btn_1"
-              }
-              onClick={() =>
-                setPropertyData({
-                  ...propertyData,
-                  [field_item_val]: item.value,
-                })
-              }
-            >
-              {item.value}
-            </div>
-          )) : 
-          array.map((item) => (
-          <div
-              className={
-                field_item === item.value
-                  ? "pro_radio_btn_1 pro_selected"
-                  : "pro_radio_btn_1"
-              }
-              onClick={() =>
-                setData(item.value)
-              }
-            >
-              {item.value}
-            </div>
-          ))}
+          {storeInArray
+            ? array.map((item) => (
+                <div
+                  className={
+                    field_item === item.value
+                      ? "pro_radio_btn_1 pro_selected"
+                      : "pro_radio_btn_1"
+                  }
+                  onClick={() =>
+                    setPropertyData({
+                      ...propertyData,
+                      [field_item_val]: item.value,
+                    })
+                  }
+                >
+                  {item.value}
+                </div>
+              ))
+            : array.map((item) => (
+                <div
+                  className={
+                    field_item === item.value
+                      ? "pro_radio_btn_1 pro_selected"
+                      : "pro_radio_btn_1"
+                  }
+                  onClick={() => setData(item.value)}
+                >
+                  {item.value}
+                </div>
+              ))}
         </div>
         {formSubmit && field_item === "" && (
           <div className="error_msg">Required</div>
@@ -128,6 +133,52 @@ const QuickListing = () => {
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const [tempProType, setTempProType] = useState("");
+  //const [loader, setLoader] = useState(false);
+
+  const [userData, setUserData] = useState({
+    email: '',
+    number: '',
+    otp: '',
+  });
+
+  // const [open, setOpen] = useState(false);
+  // const handleClickOpen = () => {
+  //   console.log("Opening dialog");
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  //   setUserData({ ...userData, number: "" });
+  //  // dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
+  // };
+
+  const {
+    state,
+    verifyEmail,
+    verifyNumber,
+    fetchOtp,
+    addUser,
+    checkLogin,
+    numberError,
+    getOtp,
+    change,
+    setChange,
+    loader,
+    loginStatus,
+    prevData,
+    upcomingDate,
+    open,
+    handleClose
+  } = useUserLogin(userData,setUserData, currentUser);
+
+ 
+  
+
+  // useEffect(() => {
+  //   setLoader(loader1);
+  // }, [loader1])
+ 
 
   useEffect(() => {
     axios
@@ -210,13 +261,9 @@ const QuickListing = () => {
 
   const selectedState = React.useMemo(
     () =>
-      stateList.find(
-        (v) => v.name === propertyData.pro_state?.name
-      ) || null,
+      stateList.find((v) => v.name === propertyData.pro_state?.name) || null,
     [stateList, propertyData.pro_state]
   );
-
-  
 
   const selectedCity = React.useMemo(
     () =>
@@ -241,7 +288,7 @@ const QuickListing = () => {
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const maxFileSize = 1000000;
   const minFileSize = 10000;
-  const [loader, setLoader] = useState(false);
+  
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
   const pattern = /image-*/;
@@ -318,19 +365,23 @@ const QuickListing = () => {
       propertyData.pro_user_type !== "" &&
       propertyData.pro_type !== "" &&
       propertyData.pro_state !== "" &&
-
       //propertyData.pro_city !== "" &&
-      ((propertyData.pro_state !== "" && filterDistricts.length < 1) || propertyData.pro_city !== "") &&
-      ((filterDistricts.length < 1 && filterSubDistricts.length < 1) || propertyData.pro_sub_district !== "") &&
-
+      ((propertyData.pro_state !== "" && filterDistricts.length < 1) ||
+        propertyData.pro_city !== "") &&
+      ((filterDistricts.length < 1 && filterSubDistricts.length < 1) ||
+        propertyData.pro_sub_district !== "") &&
       propertyData.pro_locality !== "" &&
       propertyData.pro_facing !== "" &&
       propertyData.pro_area_size !== "" &&
       (propertyData.pro_desc === "" || propertyData.pro_desc.length < 2000) &&
       formatError === false &&
-      fileSizeExceeded === false
+      fileSizeExceeded === false &&
+      currentUser !== null
     ) {
       handleClick();
+    } else if (currentUser === null && state.emailFormatError === false) {
+      console.log("Sdgsdg")
+      fetchOtp();
     }
     // else {
     //   console.log(  propertyData.pro_locality, propertyData.pro_state)
@@ -421,11 +472,10 @@ const QuickListing = () => {
   // ]
 
   const proTypes = [
-    {value: "Residential"},
-    {value: "Land"},
-    {value: "Commercial"},
-  ]
-
+    { value: "Residential" },
+    { value: "Land" },
+    { value: "Commercial" },
+  ];
 
   const proResSubTypes = [
     { value: "Apartment,Residential", item: "Apartment" },
@@ -435,8 +485,7 @@ const QuickListing = () => {
     { value: "Raw House,Residential", item: "Raw House" },
     { value: "Retirement Community,Residential", item: "Retirement Community" },
     { value: "Studio Apartment,Residential", item: "Studio Apartment" },
-
-  ]
+  ];
   const proLandSubTypes = [
     { value: "Residential Land,Land", item: "Residential Land" },
     { value: "Commercial Land,Land", item: "Commercial Land" },
@@ -444,8 +493,7 @@ const QuickListing = () => {
     { value: "Agricultural Land,Land", item: "Agricultural Land" },
     { value: "Farm House Land,Land", item: "Farm House Land" },
     { value: "Institutional Land,Land", item: "Institutional Land" },
-
-  ]
+  ];
 
   const proCommercialSubTypes = [
     { value: "Retail Showroom,Commercial", item: "Retail Showroom" },
@@ -464,7 +512,6 @@ const QuickListing = () => {
     },
     { value: "Petrol Pump,Commercial", item: "Petrol Pump" },
     { value: "Cold Store,Commercial", item: "Cold Store" },
-
   ];
 
   const propertyType = [
@@ -498,12 +545,136 @@ const QuickListing = () => {
     },
     { value: "Petrol Pump,Commercial", item: "Petrol Pump" },
     { value: "Cold Store,Commercial", item: "Cold Store" },
-
   ];
 
   return (
     <div>
       {loader && <Loader />}
+     
+     
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {state.emailErr !== null ? "Create Account" : "Get Started"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {state.emailErr !== null
+              ? "Please enter your phone number."
+              : "Check your Mail for OTP."}
+          </DialogContentText>
+
+          {state.emailErr === null && (
+            <div className="otpWrapper">
+              <TextField
+                label="OTP"
+                variant="outlined"
+                size="small"
+                inputProps={{ maxlength: 6 }}
+                className="w-100"
+                value={userData.otp}
+                onChange={(e) => {
+                  setUserData({
+                    ...userData,
+                    otp: e.target.value.replace(
+                      regEx[2].phoneNumberValidation,
+                      ""
+                    ),
+                  }),
+                    setLoginStatus("");
+                }}
+              />
+
+              {state.timer === true ? (
+                <p>
+                  Time Remaining: {state.minutes}:
+                  {state.seconds < 10 ? `0${state.seconds}` : state.seconds}
+                </p>
+              ) : (
+                <p>Didn't recieve code?</p>
+              )}
+            </div>
+          )}
+
+          {state.emailErr !== null && (
+            <TextField
+              sx={{ m: 1, width: ["100%"] }}
+              id="outlined-basic"
+              variant="standard"
+              size="small"
+              label="Phone Number"
+              className="w-full"
+              name="Phone Number"
+              inputProps={{
+                maxLength: 10,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">+91 </InputAdornment>
+                ),
+              }}
+              //value={propertyData.pro_plot_no}
+              helperText={
+                numberError
+                  ? "Please enter a valid Phone Number"
+                  : state.numberErr === true
+                  ? "Phone Number Already Registered"
+                  : ""
+              }
+              disabled={currentUser === null ? false : true}
+              value={userData.number}
+              onChange={(e) =>
+                setUserData({
+                  ...userData,
+                  number: e.target.value.replace(/[^0-9/]/g, ""),
+                })
+              }
+              required
+            />
+          )}
+          <div className="input-group text-center">
+            <div className="left-block" />
+            {state.emailErr !== null ? (
+              <button
+                className={
+                  numberError === false && state.numberErr !== true
+                    ? "logina"
+                    : "nextDisabled"
+                }
+                onClick={addUser}
+                // disabled={state.timer === true ? true : false}
+                disabled={
+                  numberError === false &&
+                  state.numberErr !== true &&
+                  getOtp === false
+                    ? false
+                    : true
+                }
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                className={state.timer === true ? "nextDisabled " : "logina"}
+                onClick={fetchOtp}
+                disabled={state.timer === true ? true : false}
+              >
+                Resend OTP
+              </button>
+            )}
+          </div>
+          <div
+            style={{ color: "red" }}
+            className="pt-2 d-flex justify-content-center "
+          >
+            {loginStatus === "" ? "" : loginStatus}
+          </div>
+        </DialogContent>
+      </Dialog>
       <Navbar />
 
       <div className="container">
@@ -587,18 +758,25 @@ const QuickListing = () => {
               storeInArray={false}
             />
 
-
-{tempProType &&
-            <RadioBoxSelection2
-              heading="Property Sub Type"
-              array={tempProType === "Residential" ? proResSubTypes : tempProType === "Land" ? proLandSubTypes : tempProType === "Commercial" ? proCommercialSubTypes : ""  }
-              field_item={propertyData.pro_type}
-              field_item_val="pro_type"
-              propertyData={propertyData}
-              setPropertyData={setPropertyData}
-              formSubmit={formSubmit}
-            />
-}
+            {tempProType && (
+              <RadioBoxSelection2
+                heading="Property Sub Type"
+                array={
+                  tempProType === "Residential"
+                    ? proResSubTypes
+                    : tempProType === "Land"
+                    ? proLandSubTypes
+                    : tempProType === "Commercial"
+                    ? proCommercialSubTypes
+                    : ""
+                }
+                field_item={propertyData.pro_type}
+                field_item_val="pro_type"
+                propertyData={propertyData}
+                setPropertyData={setPropertyData}
+                formSubmit={formSubmit}
+              />
+            )}
             <div className="pro_flex d-flex">
               {/* <FormControl
                 sx={{
@@ -688,57 +866,53 @@ const QuickListing = () => {
                 )}
               </FormControl> */}
 
-
-<TextField
-                            sx={{ mt: 1,
-                              mb: 1,
-                               width: ["80%"], mr: 0, ml: 1 }}
-                            id="outlined-basic"
-                            variant="outlined"
-                            size="small"
-                            label="Expected Amount"
-                            className="w-full pro_flex_select"
-                            name="Expected Amount"
-                            inputProps={{ maxLength: 10 }}
-                            value={propertyData.pro_amt}
-                            FormHelperTextProps={{ sx: { color: "red" } }}
-                            helperText={
-                              propertyData.pro_amt > 0 ||
-                              propertyData.pro_amt === ""
-                                ? ""
-                                : "Enter Valid Amount"
-                            }
-                            onChange={(e) =>
-                              setPropertyData({
-                                ...propertyData,
-                                pro_amt: e.target.value.replace(
-                                  regEx[1].numberValidation,
-                                  "$1"
-                                ),
-                              })
-                            }
-                          />
-                          <FormControl
-                            sx={{ mt: 1, width: ["20%"] }}
-                            size="small"
-                            className="pro_flex_select2"
-                          >
-                            <Select
-                              id="demo-simple-select"
-                              value={propertyData.pro_amt_unit}
-                              inputProps={{ "aria-label": "Without label" }}
-                              onChange={(e) =>
-                                setPropertyData({
-                                  ...propertyData,
-                                  pro_amt_unit: e.target.value,
-                                })
-                              }
-                            >
-                              <MenuItem value={"Crores"}>Crores</MenuItem>
-                              <MenuItem value={"Lakhs"}>Lakhs</MenuItem>
-                              <MenuItem value={"Thousand"}>Thousand</MenuItem>
-                            </Select>
-                          </FormControl>
+              <TextField
+                sx={{ mt: 1, mb: 1, width: ["70%"], mr: 0, ml: 1, ml: { xs: 0, sm: 0, xl: 1 }, }}
+                id="outlined-basic"
+                variant="outlined"
+                size="small"
+                label="Expected Amount"
+                className="w-full pro_flex_select"
+                name="Expected Amount"
+                inputProps={{ maxLength: 10 }}
+                value={propertyData.pro_amt}
+                FormHelperTextProps={{ sx: { color: "red" } }}
+                helperText={
+                  propertyData.pro_amt > 0 || propertyData.pro_amt === ""
+                    ? ""
+                    : "Enter Valid Amount"
+                }
+                onChange={(e) =>
+                  setPropertyData({
+                    ...propertyData,
+                    pro_amt: e.target.value.replace(
+                      regEx[1].numberValidation,
+                      "$1"
+                    ),
+                  })
+                }
+              />
+              <FormControl
+                sx={{ mt: 1, width: ["30%"] }}
+                size="small"
+                className="pro_flex_select2"
+              >
+                <Select
+                  id="demo-simple-select"
+                  value={propertyData.pro_amt_unit}
+                  inputProps={{ "aria-label": "Without label" }}
+                  onChange={(e) =>
+                    setPropertyData({
+                      ...propertyData,
+                      pro_amt_unit: e.target.value,
+                    })
+                  }
+                >
+                  <MenuItem value={"Crores"}>Crores</MenuItem>
+                  <MenuItem value={"Lakhs"}>Lakhs</MenuItem>
+                  <MenuItem value={"Thousand"}>Thousand</MenuItem>
+                </Select>
+              </FormControl>
 
               <TextField
                 sx={{
@@ -871,15 +1045,21 @@ const QuickListing = () => {
                       helperText={
                         // filterDistricts.length > 0
                         //   ?
-                        formSubmit === true && 
-                        (propertyData.pro_state === null || propertyData.pro_state === "") &&
-                        (propertyData.pro_city === null || propertyData.pro_city === "")
+                        formSubmit === true &&
+                        (propertyData.pro_state === null ||
+                          propertyData.pro_state === "") &&
+                        (propertyData.pro_city === null ||
+                          propertyData.pro_city === "")
                           ? "Select state to add city"
-                          : propertyData.pro_state !== null && propertyData.pro_state !== "" && filterDistricts.length < 1 
+                          : propertyData.pro_state !== null &&
+                            propertyData.pro_state !== "" &&
+                            filterDistricts.length < 1
                           ? ""
-                          : formSubmit === true && (propertyData.pro_city === null || propertyData.pro_city === "")
-                          ? "Required" 
-                           : ""
+                          : formSubmit === true &&
+                            (propertyData.pro_city === null ||
+                              propertyData.pro_city === "")
+                          ? "Required"
+                          : ""
                         // : ""
                       }
                       FormHelperTextProps={{ sx: { color: "red" } }}
@@ -944,13 +1124,15 @@ const QuickListing = () => {
                       (propertyData.pro_city === null ||
                         propertyData.pro_city === "")
                         ? "Select state and city to add sub district"
-                        : filterDistricts.length < 1 && filterSubDistricts.length < 1 
-                          ? ""
+                        : filterDistricts.length < 1 &&
+                          filterSubDistricts.length < 1
+                        ? ""
                         : formSubmit === true &&
                           (propertyData.pro_city === null ||
                             propertyData.pro_city === "")
                         ? "Select city to add sub district"
-                        : formSubmit === true && propertyData.pro_sub_district === ""
+                        : formSubmit === true &&
+                          propertyData.pro_sub_district === ""
                         ? "Required"
                         : ""
                       //: ""
@@ -1005,106 +1187,162 @@ const QuickListing = () => {
               storeInArray={true}
             />
 
-<div className="d-flex">
-            <div className=" w-30  mr-3" style={{width: '100%'}}>
-              <input
-                multiple
-                type="file"
-                id="file-1"
-                class="hidden sr-only w-full"
-                accept="image/x-png,image/gif,image/jpeg"
-                onChange={(event) => {
-                  setFormatError(false),
-                    setFileSizeExceeded(false),
-                    setSelectedFiles(event.target.files),
-                    handleImage(event.target.files);
-                }}
-              />
-              <label
-                htmlFor="file-1"
-                className="border py-4  rounded-2 border-secondary quick-list-upload"
-                onDragEnter={handleDrag}
-                onDragLeave={handleDrag}
-                onDragOver={handleDrag}
-                onDrop={handleDrop}
-              >
-                <div className="d-flex flex-column  align-items-center">
-                  <div>Drop Property Images here</div>
-                  <div className="py-1">Or</div>
-                  <div className="border py-2 px-4">Browse</div>
-                </div>
-              </label>
-              <div>
-                <div className="add-pro-img w-100 pb-3">
-                  {selectedFiles != null && selectedFiles != undefined
-                    ? files.map((item, index) => (
-                        <div className="pt-3">
-                          <div className="d-flex file-name-wrapper justify-content-between">
-                            <div className="file-name">{item.name}</div>
-                            <div
-                              className="pointer text-[#C4C5C8]"
-                              onClick={() => removeImage(item, index)}
-                              title="Click to remove selected file"
-                            >
-                              <IconX />
+            <div className="d-flex pro_flex">
+              <div className=" w-30  mr-3" style={{ width: "100%" }}>
+                <input
+                  multiple
+                  type="file"
+                  id="file-1"
+                  class="hidden sr-only w-full"
+                  accept="image/x-png,image/gif,image/jpeg"
+                  onChange={(event) => {
+                    setFormatError(false),
+                      setFileSizeExceeded(false),
+                      setSelectedFiles(event.target.files),
+                      handleImage(event.target.files);
+                  }}
+                />
+                <label
+                  htmlFor="file-1"
+                  className="border py-4  rounded-2 border-secondary quick-list-upload"
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <div className="d-flex flex-column  align-items-center">
+                    <div>Drop Property Images here</div>
+                    <div className="py-1">Or</div>
+                    <div className="border py-2 px-4">Browse</div>
+                  </div>
+                </label>
+                <div>
+                  <div className="add-pro-img w-100 pb-3">
+                    {selectedFiles != null && selectedFiles != undefined
+                      ? files.map((item, index) => (
+                          <div className="pt-3">
+                            <div className="d-flex file-name-wrapper justify-content-between">
+                              <div className="file-name">{item.name}</div>
+                              <div
+                                className="pointer text-[#C4C5C8]"
+                                onClick={() => removeImage(item, index)}
+                                title="Click to remove selected file"
+                              >
+                                <IconX />
+                              </div>
+                            </div>
+                            <div className="text-danger">
+                              {item.size >= 10000 &&
+                              item.size <= 1000000 &&
+                              item.type.match(pattern)
+                                ? ""
+                                : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
                             </div>
                           </div>
-                          <div className="text-danger">
-                            {item.size >= 10000 &&
-                            item.size <= 1000000 &&
-                            item.type.match(pattern)
-                              ? ""
-                              : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
-                          </div>
-                        </div>
-                      ))
-                    : ""}
+                        ))
+                      : ""}
+                  </div>
                 </div>
-              </div>
 
-              {/* <div className="text-danger ml-2 ">
+                {/* <div className="text-danger ml-2 ">
                             {formatError ? "Invalid Format" : ""}
                             {fileSizeExceeded
                               ? "File size must be greater than 10KB and less than 1MB"
                               : ""}
                           </div> */}
-            </div>
-            <div className=" w-30  ml-3"  style={{width: '100%'}}>
-            <TextField
-                            multiline
-                            sx={{ width: ["100%"], paddingBottom: '0px' }}
-                            id="outlined-basic"
-                            variant="outlined"
-                            size="small"
-                            label="Property Description"
-                            className="w-full hello"
-                            name="Property Description"
-                            inputProps={{ maxLength: 2000 }}
-                            value={propertyData.pro_desc}
-                            helperText={
-                              propertyData.pro_desc.length < 2001
-                                ? ""
-                                : "Description should be smaller than 2000 characters"
-                            }
-                            FormHelperTextProps={{ sx: { color: "red" } }}
-                            InputProps={{
-                              rows: 6,
-                            }}
-                            onChange={(e) =>
-                              setPropertyData({
-                                ...propertyData,
-                                pro_desc: e.target.value.replace(
-                                  /[^0-9A-Z a-z , . /]/g,
-                                  ""
-                                ),
-                              })
-                            }
-                          />
-
-             
-            </div>
+              </div>
+              <div className=" w-30 mb-1 " style={{ width: "100%" ,  ml: { xs: 0, sm: 0, xl: 3 },  mb: { xs: 2, sm: 2, xl: 0 }, }}>
+                <TextField
+                  multiline
+                  sx={{ width: ["100%"], paddingBottom: "0px" }}
+                  id="outlined-basic"
+                  variant="outlined"
+                  size="small"
+                  label="Property Description"
+                  className="w-full hello"
+                  name="Property Description"
+                  inputProps={{ maxLength: 2000 }}
+                  value={propertyData.pro_desc}
+                  helperText={
+                    propertyData.pro_desc.length < 2001
+                      ? ""
+                      : "Description should be smaller than 2000 characters"
+                  }
+                  FormHelperTextProps={{ sx: { color: "red" } }}
+                  InputProps={{
+                    rows: 6,
+                  }}
+                  onChange={(e) =>
+                    setPropertyData({
+                      ...propertyData,
+                      pro_desc: e.target.value.replace(
+                        /[^0-9A-Z a-z , . /]/g,
+                        ""
+                      ),
+                    })
+                  }
+                />
+              </div>
             </div>
 
+            {/* {currentUser === null && (
+                          <div className="pro_flex pl-md-5">
+                            <TextField
+                              sx={{ m: 1, width: ["100%"] }}
+                              id="outlined-basic"
+                              variant="outlined"
+                              size="small"
+                              label="Email"
+                              className="w-full"
+                              name="Email"
+                              FormHelperTextProps={{ sx: { color: "red" } }}
+                              //inputProps={{ maxLength: 60 }}
+                              helperText={
+                                step1 === true &&
+                                state.emailFormatError !== false
+                                  ? state.emailFormatError
+                                  : ""
+                              }
+                              disabled={currentUser === null ? false : true}
+                              value={userData.email}
+                              onChange={(e) =>
+                                setUserData({
+                                  ...userData,
+                                  email: e.target.value.replace(
+                                    /[^a-zA-Z.@0-9/]/g,
+                                    ""
+                                  ),
+                                })
+                              }
+                              required
+                            />
+                          </div>
+                        )} */}
+
+{currentUser === null && (
+<div>
+      <TextField
+        sx={{ m: 1, ml: 0, width: ["100%"] }}
+        id="outlined-basic"
+        variant="outlined"
+        size="small"
+        label="Email"
+        value={userData.email}
+        onChange={(e) =>
+          setUserData({ ...userData, email: e.target.value })
+        }
+        required
+        FormHelperTextProps={{ sx: { color: "red" } }}
+        helperText={
+          formSubmit === true &&
+          state.emailFormatError !== false
+            ? state.emailFormatError
+            : ""
+        }
+      />
+      
+    </div>
+)}
             <div className="d-flex justify-content-end ">
               <button
                 className="btn continue-btn"
@@ -1113,7 +1351,7 @@ const QuickListing = () => {
                 //onClick={handleClick}
                 onClick={handleSubmit}
               >
-               <IconPlus /> Add Property
+               {currentUser === null ? "Continue" : <><IconPlus /> Add Property</> }
               </button>
             </div>
           </div>

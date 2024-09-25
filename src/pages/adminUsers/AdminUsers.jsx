@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Pagination from "@mui/material/Pagination";
-import { TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+
 import Loader from "../../components/loader/Loader";
 import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
 import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt, faEye } from "@fortawesome/free-solid-svg-icons";
+
 import moment from "moment";
-import { IconCircle, IconCircleCheck, IconCircleMinus, IconHome, IconUserSearch } from "@tabler/icons-react";
+import {IconCircleCheck, IconCircleMinus, IconHome } from "@tabler/icons-react";
 import { IconEye } from "@tabler/icons-react";
 
 const AdminUsers = () => {
@@ -18,7 +15,7 @@ const AdminUsers = () => {
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const [data, setData] = useState([]);
-  const [userId, setUserId] = useState("");
+
   const [change, setChange] = useState(1);
   const [loader, setLoader] = useState(false);
   useEffect(() => {
@@ -91,6 +88,7 @@ const AdminUsers = () => {
     { value: "User Type" },
     { value: "Email" },
     { value: "Phone" },
+    { value: "Reg. Date" },
     
     { value: "Properties listed in last 30 Days", customClass: "th-width-10" },
     // { value: "Properties Auto Inactive in", customClass: "th-width-10" },
@@ -141,6 +139,10 @@ const AdminUsers = () => {
     {
       value: "login_number",
       transform: (val) => `+91 ${val}`,
+    },
+    {
+      value: "reg_date",
+      transform: (date) => moment(date).format("MMMM DD YYYY"),
     },
     
     { value: "pro_count", transform: (val) => val ? val : "-"},

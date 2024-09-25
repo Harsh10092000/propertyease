@@ -558,9 +558,13 @@ const Navbar = () => {
   };
 
   const items = [
+    // {
+    //   name: "List Property",
+    //   linkto: "/addproperty",
+    // },
     {
-      name: "List Property",
-      linkto: "/addproperty",
+      name: "Quick List Property",
+      linkto: "/quick-list",
     },
     {
       name: "Search Properties",
@@ -969,9 +973,13 @@ const Navbar = () => {
 
             <div className="new-navbar-btn-wrapper">
               <div className="new-navbar-item-content new-navbar-btn">
-                <Link to={"/addproperty"} className="text-white">
+                {/* <Link to={"/addproperty"} className="text-white">
                   {" "}
-                  List Property{" "}
+                  Quick List Property{" "}
+                  <span class="blink-2 d-none d-inline">Free</span>
+                </Link> */}
+                <Link to={"/quick-list"} className="text-white">
+                  Quick List Property
                   <span class="blink-2 d-none d-inline">Free</span>
                 </Link>
               </div>

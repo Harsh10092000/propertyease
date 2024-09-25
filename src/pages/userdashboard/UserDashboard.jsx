@@ -766,7 +766,7 @@ const UserDashboard = () => {
               </div>
             </div>
 
-            {parseInt(listingiInLast30[0]?.plan_status) !== 1 &&
+            {/* {parseInt(listingiInLast30[0]?.plan_status) !== 1 &&
               parseInt(listingiInLast30[0]?.plan_status) !== 2 && (
                 <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-3 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
                   <div className="info-card-icon-wrapper">
@@ -806,9 +806,7 @@ const UserDashboard = () => {
                               listings and enhanced features.
                             </p>
 
-                            {/* <button>
-                    Close
-                  </button> */}
+                           
 
                             <div>
                               <Link
@@ -831,11 +829,9 @@ const UserDashboard = () => {
                     </div>
                   </div>
 
-                  {/* {moment(listingiInLast30[0].pro_creation_date)
-              .add(30, "days")
-              .format("MMMM DD YYYY")} */}
+                 
                 </div>
-              )}
+              )} */}
             <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-4 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
               <div className="info-card-icon-wrapper">
                 <div className="info-card-icon">
