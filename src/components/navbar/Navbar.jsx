@@ -979,7 +979,7 @@ const Navbar = () => {
                   <span class="blink-2 d-none d-inline">Free</span>
                 </Link> */}
                 <Link to={"/quick-list"} className="text-white">
-                  Quick List Property
+                 <span className="pr-1">Quick List <span className="hide-name">Property</span></span> 
                   <span class="blink-2 d-none d-inline">Free</span>
                 </Link>
               </div>
