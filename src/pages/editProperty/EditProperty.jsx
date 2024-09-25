@@ -7,6 +7,8 @@ import {
   IconSquare,
   IconSquareCheckFilled,
   IconX,
+  IconChevronsLeft,
+  IconChevronsRight,
 } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -656,13 +658,13 @@ const EditProperty = () => {
                           </div>
 
                           <div className="d-flex justify-content-start">
-                            <button
+                          <button
                               className="btn continue-btn"
-                              //disabled={step1Disabled}
-                              //onClick={handleNextStep}
+                              //disabled={step2Disabled}
+                              //disabled={step2 === true ? true : false}
                               onClick={handleStep1}
                             >
-                              Next
+                              Next <IconChevronsRight />
                             </button>
                           </div>
                         </div>
@@ -1064,19 +1066,20 @@ const EditProperty = () => {
                           </div>
                           <div className="d-flex justify-content-between ">
                             {activeStep > 0 ? (
-                              <button className="btn" onClick={handleBackStep}>
-                                Back
-                              </button>
+                              
+                              <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                              <IconChevronsLeft /> Back
+                             </button>
                             ) : (
                               ""
                             )}
-                            <button
-                              className="btn btn-primary"
+                             <button
+                              className="btn continue-btn"
                               //disabled={step2Disabled}
-                              // onClick={handleNextStep}
+                              //disabled={step2 === true ? true : false}
                               onClick={handleStep2}
                             >
-                              Next
+                              Next <IconChevronsRight />
                             </button>
                           </div>
                         </div>
@@ -1663,19 +1666,19 @@ const EditProperty = () => {
 
                           <div className="d-flex justify-content-between">
                             {activeStep > 0 ? (
-                              <button className="btn" onClick={handleBackStep}>
-                                Back
-                              </button>
+                              <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                              <IconChevronsLeft /> Back
+                             </button>
                             ) : (
                               ""
                             )}
                             <button
                               className="btn continue-btn"
-                              //disabled={step3Disabled}
-                              //onClick={handleNextStep}
+                              //disabled={step2Disabled}
+                              //disabled={step2 === true ? true : false}
                               onClick={handleStep3}
                             >
-                              Next
+                              Next <IconChevronsRight />
                             </button>
                           </div>
                         </div>
@@ -1945,9 +1948,9 @@ const EditProperty = () => {
 
                           <div className="d-flex justify-content-between">
                             {activeStep > 0 ? (
-                              <button className="btn" onClick={handleBackStep}>
-                                Back
-                              </button>
+                              <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                              <IconChevronsLeft /> Back
+                             </button>
                             ) : (
                               ""
                             )}

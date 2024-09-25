@@ -221,6 +221,7 @@ const InviteFromAdmin = () => {
   };
 
 
+
   useEffect(() => {
     if (addMaildata.length > 0) {
       const newEmails = addMaildata
@@ -402,7 +403,7 @@ console.log("updatedEmails : " , updatedEmails)
   };
 
   
-
+  
   const handleAddEmail = async () => {
     try {
       setOpenEmailDia(false);
@@ -1167,3 +1168,9 @@ console.log("updatedEmails : " , updatedEmails)
 };
 
 export default InviteFromAdmin;
+
+
+
+
+// default value
+// tinymce.activeEditor.setContent("<p>Hello world!</p>");
