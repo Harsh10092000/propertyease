@@ -1087,7 +1087,7 @@ time3.add(12, "minutes") */}
                             <button className="fb" title="Share On Facebook">
                               <a
                                 rel="noreferrer nofollow"
-                                href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/property/${id}`}
+                                href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/${id}`}
                                 target="_blank"
                                 className="share-property"
                               >
@@ -1106,7 +1106,7 @@ time3.add(12, "minutes") */}
                             >
                               <a
                                 rel="noreferrer nofollow"
-                                href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/property/${id}`}
+                                href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/${id}`}
                                 target="_blank"
                                 className="share-propertywp"
                               >
