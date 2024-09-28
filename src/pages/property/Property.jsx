@@ -659,7 +659,7 @@ const Property = () => {
       <meta
       data-react-helmet="true"
         property="og:description"
-        content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+        content="1111111111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
       />
       <link rel="canonical" href={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}></link>
