@@ -64,6 +64,36 @@ const InviteFromAdmin = () => {
 
   const [mailContent, setMailContent] = useState([]);
   const [emailIdTobeAdded, setEmailIdTobeAdded] = useState([]);
+  
+  const [serverStatus, setServerStatus] = useState();
+  // useEffect(() => {
+  //   axios
+  //   .get(import.meta.env.VITE_BACKEND + `/api/invite/verifyServer`)
+  //   .then((res) => {
+  //     if(res.status === 200) {
+  //       console.log("sdf : "  , res.status);
+  //       setServerStatus(true);
+  //     } else {
+  //       setServerStatus(false);
+  //       console.log("sdf22 : " , res.status);
+  //     }
+      
+  //   });
+  // }, [])
+
+  useEffect(() => {
+    const verifyServer = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND}/api/invite/verifyServer`);
+        if (res.status === 200) {
+          setServerStatus(true);
+        }
+      } catch (error) {
+        setServerStatus(false); 
+      }
+    };
+    verifyServer();
+  }, []);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/invite/getMailContactList`)
@@ -75,6 +105,7 @@ const InviteFromAdmin = () => {
       .then((res) => {
         setMailContent(res.data);
       });
+   
   }, [change]);
 
   const [emailConfigData, setEmailConfigData] = useState({
@@ -234,7 +265,7 @@ const InviteFromAdmin = () => {
         const updatedEmails = newEmails.filter(
           (email) => !emailIdTobeAdded.includes(email)
         );
-console.log("updatedEmails : " , updatedEmails)
+
         if (updatedEmails.length > 0) {
           return [...prevState, ...updatedEmails];
           
@@ -520,9 +551,11 @@ console.log("updatedEmails : " , updatedEmails)
     setResults(filteredData);
   }, [searchValue, contactList]);
 
-  //console.log("results : " , results);
+ // console.log("serverStatus : " , serverStatus);
 
   return (
+    
+    
     <div className="row m-0">
       {loader && <Loader />}
       <Dialog
@@ -702,6 +735,19 @@ console.log("updatedEmails : " , updatedEmails)
        </div>
         ))}
       </div> */}
+
+      
+
+
+{serverStatus === false &&
+<>
+<div className="overlay" />
+      <div className="server-error mx-auto">
+        <div>Server is not reachable</div>
+
+      </div>
+      </>
+}
 
       <div className="col-md-8 ">
         {/* <FormStrcture heading={"Invite Users"} dynamic_col={12}> */}
@@ -1164,6 +1210,7 @@ console.log("updatedEmails : " , updatedEmails)
         </div>
       </div>
     </div>
+    
   );
 };
 

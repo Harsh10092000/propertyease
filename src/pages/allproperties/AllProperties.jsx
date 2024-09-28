@@ -604,7 +604,6 @@ const AllProperties = (props) => {
           return true;
         }
       });
-    console.log(filteredData);
     setCurrentPage(1);
     setResults(filteredData);
   }, [
@@ -872,7 +871,7 @@ const handleSubmit2 = async (e) => {
   return (
     <div>
 
-
+<meta name="keywords" content={`Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property `} />
 
 
 {/* <div>

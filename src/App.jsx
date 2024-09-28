@@ -82,6 +82,7 @@ import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
 import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 import SmsComponent from "./components/smsComponent/SmsComponent";
 import QuickListing from "./pages/quickListing/QuickListing";
+import MailBox from "./pages/InviteUser/MailBox";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -110,6 +111,14 @@ const App = () => {
     }
     return children;
   };
+
+  const ProtectedRouteQuickList = ({ children}) => {
+    if (!currentUser) {
+      return <Navigate to="/login" replace state={{ from: "/quick-list" }} />;
+    }
+    return children;
+  };
+
   const Unprotected = ({ children }) => {
     if (currentUser) {
       return <Navigate to="/user/dashboard" />;
@@ -208,6 +217,14 @@ const App = () => {
         </>
       ),
     },
+    // {
+    //   path: "quick-list",
+    //   element: (
+    //     <ProtectedRouteQuickList>
+    //       <QuickListing />
+    //       </ProtectedRouteQuickList>
+    //   ),
+    // },
     {
       path: "/user",
       element: (
@@ -227,6 +244,7 @@ const App = () => {
             </>
           ),
         },
+
         {
           path: "insights/:proid",
           element: (
@@ -280,8 +298,16 @@ const App = () => {
           ),
         },
 
-
-
+    //     {
+    //   path: "quick-list",
+    //   element: (
+    //     <>
+    //       <SendJwt />
+    //       <QuickListing />
+    //       </>
+    //   ),
+    // },
+        
 
         {
           path: "mysubscription",
@@ -324,7 +350,7 @@ const App = () => {
       path: "/sms",
       element: <SmsComponent />,
     },
-    {
+     {
       path: "/quick-list",
       element: <QuickListing />,
     },
@@ -447,10 +473,15 @@ const App = () => {
           element: <EmailBoardcast />,
         },
 
+        // {
+        //   path: "mail",
+        //   element: <InviteFromAdmin />,
+        // },
         {
           path: "mail",
-          element: <InviteFromAdmin />,
+          element: <MailBox />,
         },
+        
         
       ],
     },

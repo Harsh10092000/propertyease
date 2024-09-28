@@ -643,10 +643,11 @@ const Property = () => {
 
   return (
     <div className="padding-top">
+      <meta name="keywords" content={`Property for sale in kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
       <meta property="og:type" content="website" />
       <meta
         property="og:url"
-        content="https://www.propertyease.in/8-marla-residential-land-for-sale-in-sector-8-kurukshetra-313"
+        content={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}
       />
       <meta
         property="og:image"
@@ -656,10 +657,9 @@ const Property = () => {
       <meta
         property="og:description"
         content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
-
-
 "
       />
+      <link rel="canonical" href={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}></link>
 
       <title>
         {`${
