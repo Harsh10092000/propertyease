@@ -134,7 +134,8 @@ No results found
                 <div className="content-header">
                   <div className="name">{selectedMail.email_id}</div>
                   <div className="date">
-                    {moment(selectedMail.date_time).add(5,"h").add(30, "minutes").format("LL HH:mm:ss")}
+                    {/* {moment(selectedMail.date_time).add(5,"h").add(30, "minutes").format("LL HH:mm:ss")} */}
+                    {moment(selectedMail.date_time).format("LL HH:mm:ss")}
                   </div>
                 </div>
                 <div className="content-subject">{mailSub}</div>
