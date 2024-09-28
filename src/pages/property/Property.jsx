@@ -643,7 +643,7 @@ const Property = () => {
 
   return (
     <div className="padding-top">
-      <meta data-react-helmet="true" name="keywords" content={`Property for sale in kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
+      <meta  name="keywords" content={`Property for sale in kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
       <meta data-react-helmet="true" property="og:type" content="website" />
       <meta
         data-react-helmet="true"
@@ -662,7 +662,7 @@ const Property = () => {
         content="1111111111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
       />
-      <link rel="canonical" href={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}></link>
+      <link rel="canonical" href={`https://propertyease.in/${data !== undefined && data.pro_url}`}></link>
 
       <title>
         {`${
