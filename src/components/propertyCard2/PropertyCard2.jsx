@@ -19,7 +19,7 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                                 className="rec-img"
                               />
                             ) : (
-                              <img className="rec-img" src="/images/default1.webp" alt={item.pro_url} />
+                              <img className="rec-img" src="/images/default1.webp" alt="Property image" />
                             )}
                           </Link>
 
