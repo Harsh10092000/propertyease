@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /admin
 Disallow: /api
-Sitemap: https://www.google.com/sitemap.xml
+Sitemap: https://propertyease.in/sitemap.xml
