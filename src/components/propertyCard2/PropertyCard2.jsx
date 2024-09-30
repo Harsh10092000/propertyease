@@ -19,7 +19,7 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                                 className="rec-img"
                               />
                             ) : (
-                              <img className="rec-img" src="https://hips.hearstapps.com/hmg-prod/images/edc100123egan-002-6500742f5feb7.jpg?crop=0.688xw:1.00xh;0.157xw,0&resize=1200:*" alt="no image" />
+                              <img className="rec-img" src="/images/default1.webp" alt={item.pro_url} />
                             )}
                           </Link>
 
