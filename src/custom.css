@@ -17714,7 +17714,7 @@ width: 100%;
 
 
 .contact-us-setion {
-  background-image: url(../images/contact-us-home.png);
+  background-image: url(../images/contact-us-home.webp);
   background-color: #eff6f7;
   background-position: right;
   background-repeat: no-repeat;
@@ -18437,7 +18437,7 @@ margin-right: 15px;
 
 
 .hero-banner {
-  background:#eff6ff no-repeat url(../images/hero-2.png);
+  background:#eff6ff no-repeat url(../images/hero-2.webp);
   height: 45vh;
   position: relative;
   background-size: cover;

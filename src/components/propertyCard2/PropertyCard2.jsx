@@ -15,11 +15,12 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
                                 src={`${
                                   import.meta.env.VITE_BACKEND
                                 }/propertyImages/watermark/${item.img_link}`}
-                                alt="img"
+                                alt={`https://propertyease.in/${item.pro_url}`}
                                 className="rec-img"
+                                height="100%" width="100%"
                               />
                             ) : (
-                              <img className="rec-img" src="/images/default1.webp" alt="Property image" />
+                              <img className="rec-img" src="/images/default1.webp" alt={`https://propertyease.in/${item.pro_url}`} height="100%" width="100%" />
                             )}
                           </Link>
 

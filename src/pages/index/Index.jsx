@@ -250,23 +250,26 @@ const Index = () => {
     {
       sub_heading: "Buy Property",
       content: `Your dream home awaits here.`,
-      image: "images/services-icon-1.png",
+      image: "images/services-icon-1.webp",
       link: "/allproperties",
       title: "Click to View All Properties",
+      alt: `Buy Property on propertyease.in`
     },
     {
       sub_heading: "Sell Property",
       content: `Sell fast with our help at a good cost.`,
-      image: "images/services-icon-2.png",
+      image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
+      alt: "Sale Property on propertyease.in"
     },
     {
       sub_heading: "Rent Property",
       content: `Find your perfect rental today.`,
-      image: "images/services-icon-2.png",
+      image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
+      alt: "Rent Property on propertyease.in"
     },
     // {
     //   sub_heading: "Rent Property",
@@ -278,21 +281,24 @@ const Index = () => {
   const proType = [
     {
       heading: "Residential",
-      image: "images/pro-type-1.png",
+      image: "images/pro-type-1.webp",
       link: "/listing/residential",
       title: "Click to View All Residential Properties",
+      alt: "Check out Residential properties on propertyease.in"
     },
     {
       heading: "Commerical",
-      image: "images/pro-type-2.png",
+      image: "images/pro-type-2.webp",
       link: "/listing/commercial",
       title: "Click to View All Commerical Properties",
+      alt: "Check out Commerical properties on propertyease.in"
     },
     {
       heading: "Land",
-      image: "images/pro-type-3.png",
+      image: "images/pro-type-3.webp",
       link: "/listing/land",
       title: "Click to View All Land/Plots Properties",
+      alt: "Check out Land properties on propertyease.in"
     },
   ];
 
@@ -1341,9 +1347,10 @@ const Index = () => {
             <div className="col-md-6 about-us-left about-us-left-1">
               <div className="about-us-img-wrap about-img-left">
                 <img
-                  src="images/pro-about-6.jpeg"
+                  src="images/pro-about-6.webp"
                   className=""
                   alt="Buy a new home"
+                  
                 />
               </div>
             </div>
@@ -1363,9 +1370,10 @@ const Index = () => {
                   <div className="ltn__feature-icon">
                     <span>
                       <img
-                        src="images/about-us-1-3.png"
+                        src="images/about-us-1-3.webp"
                         className="about-us-icon"
-                        alt="Buy a new home"
+                        alt="Sale Property on propertyease"
+                        
                       />
                     </span>
                   </div>
@@ -1378,9 +1386,10 @@ const Index = () => {
                   <div className="ltn__feature-icon">
                     <span>
                       <img
-                        src="images/about-us-1-1.png"
+                        src="images/about-us-1-1.webp"
                         className="about-us-icon"
-                        alt="Buy a new home"
+                        alt="Buy Property on propertyease"
+                        
                       />
                     </span>
                   </div>
@@ -1395,9 +1404,10 @@ const Index = () => {
                   <div className="ltn__feature-icon">
                     <span>
                       <img
-                        src="images/about-us-1-2.png"
+                        src="images/about-us-1-2.webp"
                         className="about-us-icon"
-                        alt="Buy a new home"
+                        alt="List property for free on propertyease"
+                        
                       />
                     </span>
                   </div>
@@ -1429,6 +1439,7 @@ const Index = () => {
                         src="images/about-us-1-5.png"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        
                       />
                     </span>
                   </div>
@@ -1441,9 +1452,10 @@ const Index = () => {
                   <div className="ltn__feature-icon">
                     <span>
                       <img
-                        src="images/about-us-1-2.png"
+                        src="images/about-us-1-2.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        
                       />
                     </span>
                   </div>
@@ -1458,9 +1470,10 @@ const Index = () => {
                   <div className="ltn__feature-icon">
                     <span>
                       <img
-                        src="images/about-us-1-4.png"
+                        src="images/about-us-1-4.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        
                       />
                     </span>
                   </div>
@@ -1478,9 +1491,10 @@ const Index = () => {
             <div className="col-md-6 about-us-left about-us-left-2">
               <div className="about-us-img-wrap about-img-left ">
                 <img
-                  src="images/pro-about-7.jpeg"
+                  src="images/pro-about-7.webp"
                   className=""
                   alt="Buy a new home"
+                 
                 />
               </div>
             </div>
@@ -1545,7 +1559,7 @@ const Index = () => {
                 <div className="ser-card border-hover shadow-2 shadow-hover-lg-1   h-100 hover-change-image">
                   <div className="row ">
                     <div className="col-sm-3 ">
-                      <img src={item.image} className="" alt="Buy a new home" />
+                      <img src={item.image} className="" alt={item.alt} />
                     </div>
                     <div className="col-sm-9 ser-text-wrapper">
                       <div>
@@ -1946,8 +1960,8 @@ const Index = () => {
                       <div className="pro-picks-card">
                         <div className="image">
                           <img
-                            src={`images/pro-picks-${index + 1}.png`}
-                            alt="image"
+                            src={`images/pro-picks-${index + 1}.webp`}
+                            alt="Top property picks on https://propertyease.in/"
                           />
                         </div>
                         <div className="content">

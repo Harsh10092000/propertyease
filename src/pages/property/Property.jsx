@@ -128,7 +128,7 @@ const Property = () => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`)
       .then((res) => {
-        setImages([...res.data, { img_link: "default.png" }]);
+        setImages([...res.data, { img_link: "default.webp" }]);
       });
     checkShortlist();
     checkInterested();
@@ -162,7 +162,7 @@ const Property = () => {
           `/api/agent/fetchAgentNameById/${data?.pro_user_id}`
       )
       .then((res) => {
-        console.log(res.data)
+       
         setAgentName(res.data[0].agent_name);
         setAgentDetails({
           agentCity: res.data[0].agent_city,
@@ -653,7 +653,7 @@ const Property = () => {
       <meta
       data-react-helmet="true"
         property="og:image"
-        content="https://api.propertyease.in/propertyImages/watermark/default.png"
+        content="https://api.propertyease.in/propertyImages/watermark/default.webp"
       />
       <meta data-react-helmet="true"  property="og:title" content="Propertyease" />
       <meta
@@ -1146,7 +1146,8 @@ time3.add(12, "minutes") */}
                               ) : (
                                 <div>
                                   <img
-                                    src="/images/default.png"
+                                    src="/images/default.webp"
+                                    alt={`Property For ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${data.pro_city ? data.pro_city + ", " + data.pro_state : data.pro_state}`}
                                     //alt="No Image"
                                     // alt={
                                     //   data.pro_area_size +

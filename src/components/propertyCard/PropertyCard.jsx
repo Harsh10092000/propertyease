@@ -86,7 +86,7 @@ const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
                     src={`${
                       import.meta.env.VITE_BACKEND
                     }/propertyImages/watermark/${object.img_link}`}
-                    alt="img"
+                    alt={`Property For ${object.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${object.pro_city ? object.pro_city + ", " + object.pro_state : object.pro_state}`}
                   />
                   <div className="top-left-2">
                     {object.pro_views !== null &&
@@ -103,7 +103,7 @@ const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
                 </div>
               ) : (
                 <div>
-                  <img src="/images/default.png" alt="no image" />
+                  <img src="/images/default.webp" alt={`Property For ${object.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${object.pro_city ? object.pro_city + ", " + object.pro_state : object.pro_state}`} />
                   <div className="top-left-2">
                     {object.pro_views !== null &&
                       parseInt(object.pro_views) > 0 && (
