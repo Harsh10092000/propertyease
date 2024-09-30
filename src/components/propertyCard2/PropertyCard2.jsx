@@ -163,13 +163,13 @@ const PropertyCard2 = ({item, currentUser, index, col, padding}) => {
 
                               </div>
                             </div>
-                            <div className="details"> <Link to={`/${item.pro_url}`}>
-                          <a
-                            title="View complete details of this property"
+                            <div className="details"> <Link className="btn-viewmore rec-btn-view-more" to={`/${item.pro_url}`} title="View complete details of this property" >
+                          {/* <a
+                            
                             className="btn-viewmore rec-btn-view-more"
-                          >
+                          > */}
                             View More
-                          </a>
+                          {/* </a> */}
                         </Link></div>
                           </div>
                         

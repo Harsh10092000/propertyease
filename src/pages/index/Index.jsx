@@ -1515,16 +1515,16 @@ const Index = () => {
                   Be inspired to achieve more, get on top
                   <br /> of every Property challenge today
                 </h4>
-                <Link to="/postrequirement">
-                  <a
+                <Link to="/postrequirement" title="Post Requirement" className="explore-more post-requiremnet">
+                  {/* <a
                     className="explore-more post-requiremnet"
-                    title="Post Requirement"
-                  >
+                    
+                  > */}
                     <span>
                       <IconSend />
                     </span>
                     Post Requirement
-                  </a>
+                  {/* </a> */}
                 </Link>
               </div>
             </div>
