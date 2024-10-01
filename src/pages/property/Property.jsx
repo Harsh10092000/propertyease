@@ -643,7 +643,7 @@ const Property = () => {
 
   return (
     <div className="padding-top">
-      <meta  name="keywords" content={`Property for sale in kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
+      <meta  name="keywords" content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
       <meta data-react-helmet="true" property="og:type" content="website" />
       <meta
         data-react-helmet="true"
