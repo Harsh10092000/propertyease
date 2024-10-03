@@ -31,7 +31,8 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import GoogleMap1 from "../../components/googleMap/GoogleMap";
+import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
+
 
 const Property = () => {
   const date = new Date(1710738331821);
@@ -643,6 +644,8 @@ const Property = () => {
 
   return (
     <div className="padding-top">
+      
+      
       <meta  name="keywords" content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
       <meta data-react-helmet="true" property="og:type" content="website" />
       <meta
@@ -1524,14 +1527,15 @@ time3.add(12, "minutes") */}
                           <div className="col-md-12">
                             {/* <FindCoordinates data={data} handleCordinates={handleCordinates} /> */}
 
-                            {cordinatesChanged && (
+                            {/* {cordinatesChanged && (
                               <GoogleMap1
                                 cordinates={cordinates}
                                 pro_locality={data.pro_locality}
                                 img_link={images[0].img_link}
                                 pro_url={data.pro_url}
                               />
-                            )}
+                            )} */}
+                            <Map3 cordinates={cordinates} />
                           </div>
                         </div>
                       </div>

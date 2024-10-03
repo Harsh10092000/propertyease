@@ -284,6 +284,335 @@ import { EditControl } from 'react-leaflet-draw';
 
 import "../../custom.css";
 
+import { mappls, mappls_plugin  } from "mappls-web-maps";
+
+
+
+// const mapplsClassObject = new mappls();
+// const mapplsPluginObject = new mappls_plugin();
+
+// const PinmarkerPlugin = ({ map }) => {
+//   const pinMarkerRef = useRef(null);
+
+//   useEffect(() => {
+//     if (map && pinMarkerRef.current) {
+//       pinMarkerRef.current.remove();
+//       mapplsClassObject.removeLayer({ map, layer: pinMarkerRef.current });
+//     }
+
+//     pinMarkerRef.current = mapplsPluginObject.pinMarker(
+//       {
+//         map: map,
+//         pin: "123zrr",
+//         popupHtml: '<h1 style="color:green">MapmyIndia</h1>',
+//         icon:{url:"https://maps.mappls.com/images/to.png",width:30,height:40}
+//       },
+//       (e) => {
+//         console.log(e);
+//       }
+//     );
+//     return () => {
+//       if (map && pinMarkerRef.current) {
+//         mapplsClassObject.removeLayer({ map, layer: pinMarkerRef.current });
+//       }
+//     };
+//   }, [map]);
+// };
+
+// export const Map3 = () => {
+//   const mapRef = useRef(null);
+//   const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+//   const loadObject = { map: true, plugins: ["pinMarker"] };
+
+//   useEffect(() => {
+//     mapplsClassObject.initialize("bf1148c14b7bf6c5466b074f928ce9fc", loadObject, () => {
+//       const newMap = mapplsClassObject.Map({
+//         id: "map",
+//         properties: {
+//           center: [28.633, 77.2194],
+//           zoom: 10,
+//         },
+//       });
+
+//       newMap.on("load", () => {
+//         setIsMapLoaded(true);
+//       });
+
+//       mapRef.current = newMap;
+//     });
+//     return () => {
+//       if (mapRef.current) {
+//         mapRef.current.remove();
+//       }
+//     };
+//   }, []);
+
+//   return (
+//     <div
+//       id="map"
+//       style={{ width: "100%", height: "99vh", display: "inline-block" }}
+//     >
+//       {isMapLoaded && <PinmarkerPlugin map={mapRef.current} />}
+//     </div>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+const mapplsClassObject = new mappls();
+const mapplsClassObjectdet = new mappls();
+const mapplsPluginObject = new mappls_plugin();
+const PinmarkerPlugin = ({ map }) => {
+  const pinMarkerRef = useRef(null);
+
+  useEffect(() => {
+    if (map && pinMarkerRef.current) {
+      pinMarkerRef.current.remove();
+      mapplsClassObject.removeLayer({ map, layer: pinMarkerRef.current });
+    }
+
+    pinMarkerRef.current = mapplsPluginObject.pinMarker(
+      {
+        map: map,
+        pin: "mmi000",
+        popupHtml: '<h1 style="color:green">MapmyIndia</h1>',
+      },
+      (e) => {
+        console.log("eorrorrrrrrrr : " , e);
+      }
+    );
+    return () => {
+      if (map && pinMarkerRef.current) {
+        mapplsClassObject.removeLayer({ map, layer: pinMarkerRef.current });
+      }
+    };
+  }, [map]);
+};
+
+export const Map3 = ({cordinates}) => {
+  
+  const map = useRef(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const mapRef = useRef(null);
+  
+  useEffect(() => {
+    const mapplsClassObject = new mappls();
+    
+    var a = cordinates.lat;
+    var b = cordinates.lng;
+   var c = cordinates.formatted_address;
+    mapplsClassObject.initialize(
+      "bf1148c14b7bf6c5466b074f928ce9fc",
+      { map: true },
+      () => {
+        if (map.current) {
+          map.current.remove();
+        }
+        
+        map.current = mapplsClassObject.Map({
+          id: "map",
+          properties: {
+           // cordinates.lat, cordinates.lng
+           
+            //center: [29.9587948, 76.8821849],
+            center: [a,b],
+            draggable: true,
+            zoom: 14,
+            //minZoom: 8,
+            //maxZoom:100,
+            backgroundColor: "#fff",
+            //heading: 100,
+            traffic: true,
+            geolocation: false,
+            disableDoubleClickZoom: true,
+            fullscreenControl: true,
+            scrollWheel: true,
+            scrollZoom: true,
+            rotateControl: true,
+            scaleControl: true,
+            zoomControl: true,
+            clickableIcons: true,
+            indoor: true,
+            indoor_position: "bottom-left",
+            tilt: 30,
+            //pin: 'mmi000',
+          },
+        });
+
+
+        const geoData22 = {
+          "type": "FeatureCollection",
+          "features": [{
+                  "type": "Feature",
+                  "properties": {
+                      "description": "Lal Quila",
+                  },
+                  "geometry": {
+                      "coordinates": [76.8821849,  29.9587948],
+                      "type": "Point"
+                  }
+              },
+              {
+                  "type": "Feature",
+                  "properties": {
+                      "description": "Akshardham Temple",
+                  },
+                  "geometry": {
+                      "coordinates": [77.27730633469929, 28.61253778110617],
+                      "type": "Point"
+                  }
+              },
+              {
+                  "type": "Feature",
+                  "properties": {
+                      "description": "Connaught Place",
+                      "icon": "marker",
+                  },
+                  "geometry": {
+                      "coordinates": [77.21957706796468, 28.632854169068906],
+                      "type": "Point"
+                  }
+              }
+          ]
+      }
+
+        //mapplsClassObject.setPosition({lat:a,lng:b});
+        //mapplsClassObject.setIcon("https://apis.mapmyindia.com/map_v3/1.png");
+      //   map.current.addListener('load',function(){
+      //     /*getPinDetails plugin initialization*/
+      //     map.current.getPinDetails({
+      //         map: map,
+      //         pin: 'SSBSAT',
+      //         infoDiv:false,
+      //     },callback);
+      //     function callback(data) {
+      //         obj=data;
+      //         console.log(obj);
+      //         obj.fitbounds({ maxZoom: 16});
+      //     }
+      // });
+        
+        const geoData = {
+          "type": "FeatureCollection",
+          "features": [{
+                  "type": "Feature",
+                  "properties": {
+                      "description": c,
+                  },
+                  "geometry": {
+                      "coordinates": [b,a],
+                      "type": "Point"
+                  }
+              },
+              
+             
+          ]
+      }
+        
+        map.current.on("load", () => {
+          setIsMapLoaded(true);
+          map.current.loadImage(
+            'https://apis.mapmyindia.com/map_v3/1.png',
+            (error, image) => {
+                if (error) throw error;
+                map.current.addImage('marker', image);
+
+                map.current.addSource("points", {
+                    type: "geojson",
+                    data: geoData,
+                });
+                map.current.addLayer({
+                    'id': 'places-layer',
+                    'type': "symbol",
+                    'source': "points",
+                    "layout": {
+                        "icon-image": ["coalesce", ["get", "icon"], "common1_blue"],
+                    }
+                });
+            },
+        )
+
+        map.current.on('click', 'places-layer', (e) => {
+          console.log("e : " , e);
+            var coordinates = e.features[0].geometry.coordinates;
+            var description = e.features[0].properties.description;
+            new mapplsgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map.current);
+
+
+        
+                map.current.flyTo({
+                  center: coordinates,
+                  zoom: map.current.getZoom() + 2, // Adjust the zoom level as needed
+                  essential: true // This ensures the animation is not interrupted
+              });
+        });
+        
+    });
+          
+        });
+      
+    //   }
+    // );
+  }, [cordinates]);
+
+  return (
+    <div
+      id="map"
+      style={{ width: "100%", height: "55vh", display: "inline-block" }}
+    >
+      {isMapLoaded ? null : <p>Loading map...</p>}
+      {/* {isMapLoaded && <PinmarkerPlugin map={mapRef.current} />} */}
+    </div>
+  );
+};
+
+
+
+export const Map35 = () => {
+  const map = useRef(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+  useEffect(() => {
+    mapplsClassObject.initialize("bf1148c14b7bf6c5466b074f928ce9fc", { map: true }, () => {
+      if (map.current) {
+        map.current.remove();
+      }
+      map.current = mapplsClassObject.Map({
+        id: "map",
+        properties: {
+          center: [28.633, 77.2194],
+          zoom: 4,
+        },
+      });
+      map.current.on("load", () => {
+        setIsMapLoaded(true);
+      });
+    });
+  }, []);
+
+  return (
+    <div
+      id="map"
+      style={{ width: "100%", height: "99vh", display: "inline-block" }}
+    >
+      {isMapLoaded && <PolylineComponent map={map.current} />}
+    </div>
+  );
+};
+
+
+
 export const FindCoordinates = ({ data, handleCordinates }) => {
   const location = {
     name: data.pro_locality,

@@ -39,13 +39,14 @@ const CityMaps = () => {
     }, []);
     return (
       <div>
+         <meta  name="keywords" content={`Kurukshetra map, Kurukshetra city map, Kurukshetra Sector 29, Kurukshetra Sector 30, Kurukshetra Sector 31, Kurukshetra Sector 32, Kurukshetra Sector 7, Kurukshetra Sector 2, Kurukshetra Sector 4, Kurukshetra Sector 5 , Kurukshetra Sector 3 , Kurukshetra Sector 9, Kurukshetra Sector 8, Kurukshetra Sector 2 Commerical, kurukshetra Kohinoor City, kurukshetra Shree Vardhman City, Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, Kurukshetra City Map, Tehsil Map of District Kurukshetra, Maps of Kurukshetra,  `} />
         <Navbar />
-        <div className={"main"}>
+        <div className="main padding-top">
           <section className="main-content">
             <div className="container">
               <div className="title">
                 <h2>
-                  {city} Maps
+                  {city} Maps 
                   <span className="ml-2 numberProperties">{data.length}</span>
                 </h2>
                 <div className="row ">
@@ -71,7 +72,7 @@ const CityMaps = () => {
                                   src={`${
                                     import.meta.env.VITE_BACKEND
                                   }/mapImages/${item.map_image}`}
-                                  alt="img"
+                                  alt={`Checkout ${item.map_sub_category !== "Kurukshetra" ? item.map_sub_category+" Kurukshetra" : ""} map. Explore everything about ${item.map_sub_category}`} 
                                 />
                               </a>
                               <div className="pt-2 sub-heading">{item.map_sub_category}</div>
