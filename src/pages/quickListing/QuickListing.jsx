@@ -133,7 +133,7 @@ const QuickListing = () => {
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const [tempProType, setTempProType] = useState("");
-  //const [loader, setLoader] = useState(false);
+  const [loader1, setLoader1] = useState(false);
 
   const [userData, setUserData] = useState({
     email: '',
@@ -389,7 +389,7 @@ const QuickListing = () => {
   };
 
   const handleClick = async () => {
-    setLoader(true);
+    setLoader1(true);
     currentUser && (propertyData.pro_user_id = currentUser[0].login_id);
     currentUser && (propertyData.pro_user_email = currentUser[0].login_email);
     currentUser &&
@@ -422,7 +422,7 @@ const QuickListing = () => {
         formData
       );
     }
-    setLoader(false);
+    setLoader1(false);
     //navigate(`/${id}`);
     navigate(
       `/${
@@ -550,6 +550,7 @@ const QuickListing = () => {
   return (
     <div>
       {loader && <Loader />}
+      {loader1 && <Loader />}
      
      
       <Dialog
