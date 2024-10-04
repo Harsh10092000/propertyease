@@ -129,7 +129,7 @@ const Property = () => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`)
       .then((res) => {
-        setImages([...res.data, { img_link: "default.webp" }]);
+        setImages([...res.data, { img_link: "default.png" }]);
       });
     checkShortlist();
     checkInterested();
@@ -632,6 +632,8 @@ const Property = () => {
         });
   }, [data]);
 
+
+  console.log("cordinates : " , cordinates);
   
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
 
