@@ -66,20 +66,7 @@ const InviteFromAdmin = () => {
   const [emailIdTobeAdded, setEmailIdTobeAdded] = useState([]);
   
   const [serverStatus, setServerStatus] = useState();
-  // useEffect(() => {
-  //   axios
-  //   .get(import.meta.env.VITE_BACKEND + `/api/invite/verifyServer`)
-  //   .then((res) => {
-  //     if(res.status === 200) {
-  //       console.log("sdf : "  , res.status);
-  //       setServerStatus(true);
-  //     } else {
-  //       setServerStatus(false);
-  //       console.log("sdf22 : " , res.status);
-  //     }
-      
-  //   });
-  // }, [])
+  
 
   useEffect(() => {
     const verifyServer = async () => {

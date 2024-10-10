@@ -870,7 +870,10 @@ const handleSubmit2 = async (e) => {
 
   return (
     <div>
-
+     <title>Propertyease - View All Properties</title>
+      <meta name="description" content="Discover a diverse range of properties for sale and rent in Kurukshetra, including residential lands, independent houses, commercial buildings, and agricultural lands. Explore your dream property today!"/>
+  <meta name="author" content="Propertyease" />
+<link rel="canonical" href="https://propertyease.in/allproperties" />
 <meta name="keywords" content={`Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property `} />
 
 
@@ -908,6 +911,7 @@ const handleSubmit2 = async (e) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         className="dialog-wrapper"
+        role="dialog"
       >
            <div className="mail-popup">
           <div className="popup-heading-wrapper d-flex">

@@ -820,12 +820,12 @@ const Property = () => {
                         title="Click to View All Properties"
                         to="/allproperties"
                       >
-                        <a>
+                        {/* <a> */}
                           All Properties
                           <span>
                             <IconChevronRight className="sidebar-faicon" />
                           </span>
-                        </a>
+                        {/* </a> */}
                       </Link>
                     </li>
                     <li>
@@ -833,14 +833,14 @@ const Property = () => {
                         title={`Click to view ${
                           data.pro_type ? data.pro_type.split(",")[1] : ""
                         } Properties`}
-                        to={`/property/${
+                        to={`/listing/${
                           data.pro_type ? data.pro_type.split(",")[1] : ""
                         }`}
                       >
-                        <a>
+                        {/* <a> */}
                           {data.pro_type ? data.pro_type.split(",")[1] : ""}
                           <IconChevronRight className="sidebar-faicon" />
-                        </a>
+                        {/* </a> */}
                       </Link>
                     </li>
                     <li>{data.pro_sub_cat}</li>
@@ -1208,7 +1208,7 @@ time3.add(12, "minutes") */}
                                     "Residential" ? (
                                     <>
                                       <div className="property-numbers">
-                                        <img src="/img/bedroom.png" />
+                                        <img src="/img/bedroom.webp" alt="" />
                                         <span className="propertyHeading">
                                           Bedroom(s)
                                         </span>
@@ -1217,7 +1217,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/shower.png" />
+                                        <img src="/img/shower.webp" alt="" />
                                         <span className="propertyHeading">
                                           Washroom(s)
                                         </span>
@@ -1226,7 +1226,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/balcony.png" />
+                                        <img src="/img/balcony.webp" alt="" />
                                         <span className="propertyHeading">
                                           Balconies
                                         </span>
@@ -1235,7 +1235,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/tiles.png" />
+                                        <img src="/img/tiles.webp" alt="" />
                                         <span className="propertyHeading">
                                           Floor(s)
                                         </span>
@@ -1252,7 +1252,7 @@ time3.add(12, "minutes") */}
                                 )}
 
                                 <div className="property-numbers">
-                                  <img src="/img/transfer.png" />
+                                  <img src="/img/transfer.webp" alt="" />
                                   <span className="propertyHeading">
                                     Side Open(s)
                                   </span>
@@ -1261,7 +1261,7 @@ time3.add(12, "minutes") */}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
-                                  <img src="/img/face-detection.png" />
+                                  <img src="/img/face-detection.webp" alt="" />
                                   <span className="propertyHeading">
                                     Facing
                                   </span>
@@ -1270,7 +1270,7 @@ time3.add(12, "minutes") */}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
-                                  <img src="/img/ownership.png" />
+                                  <img src="/img/ownership.webp" alt="" />
                                   <span className="propertyHeading">
                                     Possession Available
                                   </span>
@@ -1281,7 +1281,7 @@ time3.add(12, "minutes") */}
                                 {data.pro_type == "Commercial" ||
                                 data.pro_type == "Residential" ? (
                                   <div className="property-numbers">
-                                    <img src="/img/parking.png" />
+                                    <img src="/img/parking.webp" alt="" />
                                     <span className="propertyHeading">
                                       Car Parking(s)
                                     </span>
@@ -1291,7 +1291,7 @@ time3.add(12, "minutes") */}
                                   </div>
                                 ) : (
                                   <div className="property-numbers">
-                                    <img src="/img/age.png" />
+                                    <img src="/img/age.webp" alt="" />
                                     <span className="propertyHeading">
                                       Property Age
                                     </span>
@@ -1304,7 +1304,7 @@ time3.add(12, "minutes") */}
                             </div>
                             <div className=" mmmm">
                               <div className="large-detials">
-                                <img src="/img/meter.png" className="desc" />
+                                <img src="/img/meter.webp" alt="" className="desc" />
                                 <span className="propertyHeading">
                                   Plot Size &amp; Dimension
                                 </span>
@@ -1322,7 +1322,7 @@ time3.add(12, "minutes") */}
                                 </p>
                               </div>
                               <div className="large-detials">
-                                <img src="/img/rent.png" className="desc" />
+                                <img src="/img/rent.webp" alt="" className="desc" />
                                 <span className="propertyHeading">
                                   Already Rent
                                 </span>
@@ -1336,7 +1336,7 @@ time3.add(12, "minutes") */}
                             <div className=" mmmm" id="interest">
                               <div className="large-detials">
                                 <img
-                                  src="/img/ownership-type.png"
+                                  src="/img/ownership-type.webp" alt=""
                                   className="desc"
                                 />
                                 <span className="propertyHeading">
@@ -1349,7 +1349,7 @@ time3.add(12, "minutes") */}
                                 </p>
                               </div>
                               <div className="large-detials">
-                                <img src="/img/rent.png" className="desc" />
+                                <img src="/img/rent.webp" alt="" className="desc" />
                                 <span className="propertyHeading">
                                   Authority Approval
                                 </span>
@@ -1367,7 +1367,7 @@ time3.add(12, "minutes") */}
                                   <div className=" mmmm">
                                     <div className="large-detials">
                                       <img
-                                        src="/img/age.png"
+                                        src="/img/age.webp" alt=""
                                         className="desc"
                                       />
                                       <span className="propertyHeading">
@@ -1381,7 +1381,7 @@ time3.add(12, "minutes") */}
                                     </div>
                                     <div className="large-detials">
                                       <img
-                                        src="/img/furnishing.png"
+                                        src="/img/furnishing.webp" alt=""
                                         className="desc"
                                       />
                                       <span className="propertyHeading">

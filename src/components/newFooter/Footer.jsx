@@ -773,7 +773,7 @@ const Footer = () => {
 
       <div className="footer-content">
         <div className="footer-logo ">
-          <img src="https://propertyease.in/images/logo.png" alt="logo" />
+          <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" />
         </div>
         <div className="footer-items">
           <div className="footer-lists">

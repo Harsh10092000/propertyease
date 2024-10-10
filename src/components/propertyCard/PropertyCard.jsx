@@ -234,13 +234,13 @@ const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
 
               <div className="d-flex listing-buttons">
                 <div className="mr-2 mt-1 ">
-                  <Link to={`/${object.pro_url}`}>
-                    <a
+                  <Link to={`/${object.pro_url}`} title="View complete details of this property" className=" btn-viewmore">
+                    {/* <a
                       title="View complete details of this property"
                       className=" btn-viewmore"
-                    >
+                    > */}
                       View More
-                    </a>
+                    {/* </a> */}
                   </Link>
                 </div>
 

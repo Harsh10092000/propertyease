@@ -105,7 +105,7 @@ const ContactUsForm = (props) => {
           onClose={handleSnack}
           message="Thank you for showing your interest in this property. Our team will get back to you soon."
         />
-       <Dialog open={open} onClose={() => props.handleCloseDialog(false)}>
+       <Dialog open={open} onClose={() => props.handleCloseDialog(false)} role="dialog">
           <DialogTitle className='text-center'>
             <img src="/images/logo.png" />
             <p className="mb-0 call_headline contact-form-heading">
