@@ -600,6 +600,7 @@ const Navbar = () => {
           // onClick={toggleDrawer(anchor, false)}
           onKeyDown={closeDrawer}
         >
+          
           <div className="flex justify-between p-3 pt-4 ">
             <div></div>
             <div className="d-flex justify-content-between align-items-center">
@@ -623,7 +624,10 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-
+{/* 
+ <Link to="/allproperties" className="search-pro-mobile pointer mt-4">
+            Search Properties
+            </Link> */}
           <List className="">
             {items.map((item, index) => (
               <Link to={item.linkto} key={index}>
@@ -643,7 +647,7 @@ const Navbar = () => {
               </Link>
             ))}
           </List>
-          <div className="p-3 m-2 d-flex pl-4 list-item d-flex ">
+          <div className="p-3 m-2 d-flex pl-4 list-item d-flex pointer">
             <div
               className="list-item-text pl-3 pointer"
               onClick={() => setShowBuyOptions(!showBuyOptions)}
@@ -678,7 +682,7 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
-          <div className="p-3 m-2 d-flex pl-4 list-item">
+          <div className="p-3 m-2 d-flex pl-4 list-item pointer">
             <div
               className="list-item-text pl-3 pointer"
               onClick={() => {

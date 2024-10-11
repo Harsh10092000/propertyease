@@ -103,7 +103,17 @@ const UserdashboardProfile = () => {
                         <div class="card-info">
                         <div class="left">
                              
-                              <img src="/img/person.jpg" />
+                              {/* <img src="/img/person.jpg" /> */}
+                              {agentData.agent_image ? (
+                                <img
+                                  src={`${
+                                    import.meta.env.VITE_BACKEND
+                                  }/userImages/${agentData.agent_image}`}
+                                  alt="img"
+                                />
+                              ) : (
+                                <img src="/img/person.jpg" />
+                              )}
                             </div>
                           
                           <div class="profileinfo">
