@@ -643,7 +643,7 @@ const Footer = () => {
                 </a>
               </li>
               {/* <li>
-                <a href="tel:9996716787" title="Call Now">
+                <a href="tel:9996167778" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
                   </span>

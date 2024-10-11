@@ -2031,7 +2031,7 @@ const Index = () => {
                 </p>
               </div>
               <div className="course-help-question__btn-wrap ">
-                <a href="tel:9996716787" className="btn-resiter-earing">
+                <a href="tel:9996167778" className="btn-resiter-earing">
                   <span>
                     <IconPhone />
                   </span>

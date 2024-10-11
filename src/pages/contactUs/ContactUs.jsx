@@ -124,11 +124,11 @@ const ContactUs = () => {
                         <div class="text pl-4">
                         <p>
                             <span>Phone:</span>{" "}
-                            <a href="tel://9996716787">+91 89500 40151</a>
+                            <a href="tel://8950040151">+91 89500 40151</a>
                           </p>
                           <p>
                             <span>Phone:</span>{" "}
-                            <a href="tel://9996716787">+91 99961 67778</a>
+                            <a href="tel://9996167778">+91 99961 67778</a>
                           </p>
                           
                         </div>
@@ -435,7 +435,7 @@ export default ContactUs;
 //                   <div class="text pl-4">
 //                     <p>
 //                       <div>Phone:</div>{" "}
-//                       <div><a href="tel://9996716787">+91 99967 16787</a></div>
+//                       <div><a href="tel://9996167778">+91 99967 16787</a></div>
 //                       <div><a href="tel://8950040151">+91 8950040151</a></div>
 //                     </p>
 //                   </div>
