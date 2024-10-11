@@ -589,7 +589,7 @@ const Footer = () => {
         <hr />
         <div className="footer-end">
           <small>
-            Copyright © 2024 Propertyease - Information. All Rights Reserved | Desgined & Developed By CAL info Training & Consultancy Private Limited
+            Copyright © 2024 Propertyease - Information. All Rights Reserved | Designed & Developed By CAL info Training & Consultancy Private Limited
             {/* CAL info Training & Consultancy Private Limited */}
           </small>
           <div className="social">
