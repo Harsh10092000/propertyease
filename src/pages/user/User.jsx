@@ -469,7 +469,7 @@ const User = () => {
     
 
     {
-      icon: <IconCrown width={32} height={32} className="sidebar-faicon" />,
+      icon: <IconCrown width={32} height={32} className="sidebar-faicon pointer" />,
       name: "Subscription",
       linkto: null,
       subItems: [
@@ -510,7 +510,7 @@ const User = () => {
         >
           <div className="flex justify-between p-3 pt-4 ">
             <div></div>
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center ">
               <div>
                 <Link to="/">
                   <img
@@ -585,7 +585,7 @@ const User = () => {
                           );
                         }
                       }}
-                      className={`user-dash-left-item ${
+                      className={`user-dash-left-item pointer ${
                         selectedOption === item.name && "selected-dash-option"
                       }`}
                     >

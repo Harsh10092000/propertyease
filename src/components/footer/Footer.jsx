@@ -323,7 +323,7 @@ const Footer = () => {
     <footer id="app_footer">
       <div className="footer-content">
         <div className="footer-logo ">
-          <img src="https://propertyease.in/images/logo.webp" alt="logo" />
+          <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" />
         </div>
         <div className="footer-items">
           <div className="footer-lists">
@@ -446,7 +446,8 @@ const Footer = () => {
         <hr />
         <div className="footer-end">
           <small>
-            Copyright © 2024 Propertyease - Information. All Rights Reserved | Powered By CAL info Training & Consultancy Private Limited
+            Copyright © 2024 Propertyease - Information. All Rights Reserved | Powered By Balaji Properties
+            {/* CAL info Training & Consultancy Private Limited */}
           </small>
           <div className="social">
             <i class="fa-brands fa-instagram"></i>
@@ -491,11 +492,11 @@ const Footer = () => {
               </li>
 
               <li>
-                <a href="tel:9996716787" title="Call Now">
+                <a href="tel:8950040151" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
                   </span>
-                  <span className="mobile-hidden">+91 99967 16787</span>
+                  <span className="mobile-hidden">+91 89500 40151</span>
                 </a>
               </li>
               {/* <li>
@@ -506,6 +507,15 @@ const Footer = () => {
                   <span className="mobile-hidden">+91 89500 40151</span>
                 </a>
               </li> */}
+              <li>
+                <a href="tel:9996167778" title="Call Now">
+                  <span className="mr-1">
+                    <IconPhone className="sidebar-faicon" />
+                  </span>
+                  <span className="mobile-hidden">+91 99961 67778
+                  </span>
+                </a>
+              </li>
             </ul>
           </div>
     </footer>

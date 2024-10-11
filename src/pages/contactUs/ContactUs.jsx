@@ -108,9 +108,12 @@ const ContactUs = () => {
                           <IconMap />
                         </div>
                         <div class="text pl-4">
-                          <p>
+                          {/* <p>
                             <span>Address:</span> #211 P, Sector 7,
                             Kurukshetra-136118, Haryana-India
+                          </p> */}
+                          <p>
+                            <span>Address:</span> Balaji Properties #1667 Sector 5 Kurukshetra-136118, Haryana-India
                           </p>
                         </div>
                       </div>
@@ -121,9 +124,14 @@ const ContactUs = () => {
                         <div class="text pl-4">
                           <p>
                             <span>Phone:</span>{" "}
-                            <a href="tel://9996716787">+91 99967 16787</a>
+                            <a href="tel://9996716787">+91 99961 67778</a>
+                          </p>
+                          <p>
+                            <span>Phone:</span>{" "}
+                            <a href="tel://9996716787">+91 89500 40151</a>
                           </p>
                         </div>
+                        
                       </div>
                       <div class="dbox w-100">
                         <div class="icond d-flex align-items-center justify-content-center bg-primary">

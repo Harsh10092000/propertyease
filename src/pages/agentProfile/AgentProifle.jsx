@@ -74,7 +74,7 @@ const AgentProifle = () => {
         import.meta.env.VITE_BACKEND + `/api/agent/fetchAgentData1/${agentId}`
       )
       .then((res) => {
-        console.log("res : ", res.data, res.data.agentData[0]);
+        //console.log("res : ", res.data, res.data.agentData[0]);
         setAgentData(res.data.agentData[0]);
         setAgentWorkPlaceData(res.data.agentWorkPlaceData);
         setAgentWorkPlaceState(res.data.agentWorkStateData[0].work_state);
@@ -137,7 +137,7 @@ const AgentProifle = () => {
       });
   }, [agentData]);
 
-  console.log("saleCount : ", saleCount);
+  //console.log("saleCount : ", saleCount);
 
   // console.log(agentData, agentWorkPlaceData);
   //   {
@@ -201,7 +201,7 @@ const AgentProifle = () => {
     }
   };
 
-  console.log("data : ", data);
+  //console.log("data : ", data);
 
   const handleSnack = () => {
     setSnack(false);
@@ -630,10 +630,7 @@ const AgentProifle = () => {
                                 </div>
                               </div>
                             </div>
-                            {console.log(
-                              "agentWorkPlaceState : ",
-                              agentWorkPlaceState
-                            )}
+                            
                             <div class="details">
                               <div class="row">
                                 <div class="col-md-12">

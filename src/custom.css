@@ -17789,9 +17789,15 @@ width: 100%;
 }
 
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .contact-us-setion .right-sec .phone-number {
       font-size: 48px !important;
+  }
+} */
+
+@media (min-width: 768px) {
+  .contact-us-setion .right-sec .phone-number {
+      font-size: 42px !important;
   }
 }
 
@@ -22027,3 +22033,26 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
     position: sticky;
     height: calc(100vh - 312px);
 }
+
+
+
+
+
+.search-pro {
+  color: #0ec6d5;
+  border-bottom: 3px solid #0ec6d5;
+  line-height: 54px !important;
+  padding-bottom: 25px;
+  font-weight: 700;
+  /* / text-transform: uppercase; / */
+}
+
+.search-pro:hover {
+  color: #0ec6d5;
+  border-bottom: none !important;
+  line-height: 54px !important;
+  padding-bottom: 25px;
+  font-weight: 700;
+  /* / text-transform: uppercase; / */
+}
+

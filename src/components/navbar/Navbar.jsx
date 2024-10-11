@@ -569,6 +569,7 @@ const Navbar = () => {
     {
       name: "Search Properties",
       linkto: "/allproperties",
+      customCss: "search-pro",
     },
     {
       name: "Dashboard",
@@ -927,9 +928,9 @@ const Navbar = () => {
                 </Link>
               )}
             </div> */}
-            <div className="new-navbar-item pr-3">
+            <div className="new-navbar-item pr-3 ">
               <Link to={"/allproperties"} className="text-black">
-                <span className="new-navbar-item-content">
+                <span className="new-navbar-item-content search-pro">
                   {" "}
                   Search Properties{" "}
                 </span>

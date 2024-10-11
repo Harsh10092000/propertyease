@@ -75,12 +75,12 @@ const PostRequirement = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`/allproperties`);
+    //navigate(`/allproperties`);
   };
 
   const handleClick = async (e) => {
-   // setLoader(true);
-    setOpen(true);
+    setLoader(true);
+    //setOpen(true);
     e.preventDefault();
     try {
       await axios

@@ -556,7 +556,7 @@ const ViewUserProperties = () => {
                                 <div>
                                   <a
                                     rel="noreferrer nofollow"
-                                    href={`https://wa.me/919996716787?text=https://www.propertyease.in/${
+                                    href={`https://wa.me/918950040151?text=https://www.propertyease.in/${
                                       object.pro_url}`}
                                     target="_blank"
                                     className="conatct-propertywp"
