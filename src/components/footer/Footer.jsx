@@ -11,6 +11,7 @@ import {
   IconSchool,
   IconSquareRoundedCheckFilled,
   IconWorld,
+  IconX
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -31,6 +32,7 @@ const Footer = () => {
   const [disabled, setDisabled] = useState(true);
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState(false);
+  const [open1, setOpen1] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -38,6 +40,10 @@ const Footer = () => {
   });
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const handleCloseSub = () => {
+    setOpen1(false);
   };
 
   const handleClose = () => {
@@ -157,6 +163,7 @@ const Footer = () => {
         phone: "",
       });
       setOpenSubSnack(true);
+      handleCloseSub(false);
       //setSnack(true);
     } catch (err) {
       console.log(err);
@@ -177,10 +184,11 @@ const Footer = () => {
       subEmailError === false
     ) {
       setStep(false);
-
+      
       handleSubmitSub();
     } else {
       setStep(true);
+      
     }
   };
 
@@ -189,6 +197,139 @@ const Footer = () => {
   return (
     <>
     {loader1 && <Loader /> }
+
+
+    <Dialog
+        open={open1}
+        onClose={handleCloseSub}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className="dialog-wrapper"
+        role="dialog"
+      >
+           <div className="mail-popup">
+          <div className="popup-heading-wrapper d-flex">
+            <div>
+              <div className="popup-heading">Be the first to know!</div>
+              <div className="popup-subheading">
+                Subscribers are the first one to hear about new listed
+                properties and best deals.
+              </div>
+            </div>
+
+            <div onClick={handleCloseSub} className="pointer" title="close">
+              <IconX />
+            </div>
+          </div>
+          <div className="popup-content-wrapper">
+            <div className="popup-content-sec d-flex justify-content-between">
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  type="text"
+                  placeholder="Name"
+                  required
+                  onChange={(e) =>
+                  {
+                    setSubError(false);
+                    setPopupData({
+                      ...popupData,
+                      name: e.target.value.replace(/[^a-zA-Z ]/g, ""),
+                    })
+                  }
+                  }
+                />
+                <span className="popup-error-msg">
+                  {step && popupData.name === "" ? "Required" : ""}
+                </span>
+              </div>
+              <div className="mb-3">
+                <input
+                  className="pf-input-1 "
+                  // type="text"
+                  placeholder="Phone"
+                  required
+                  value={popupData.phone}
+                  onChange={(e) =>
+                    {
+                      setSubError(false);
+                    setPopupData({
+                      ...popupData,
+                      phone: e.target.value.replace(
+                        regEx[2].phoneNumberValidation,
+                        ""
+                      ),
+                    })
+                  }
+                }
+                />
+                <span className="popup-error-msg">
+                  {step && popupData.phone.length !== 10
+                    ? "Phone number must be 10 digits."
+                    : ""}
+                </span>
+              </div>
+            </div>
+            <div className="mb-3">
+              <input
+                className="pf-input"
+                type="email"
+                placeholder="Email"
+                required
+                onChange={(e) => {
+                  setDupEntry("");
+                  
+                    setSubError(false);
+                  setPopupData({
+                    ...popupData,
+                    email: e.target.value.replace(/[^a-zA-Z.@0-9/]/g, ""),
+                  })
+                }
+                }
+              />
+              <span className="popup-error-msg">
+                {step && emailError ? "Please enter valid email address" :dupEntry.length > 1 ? dupEntry : ""}
+              </span>
+            </div>
+            {/* <div className="popup-btn-text">
+              Subscribe to recieve the latest news by email about properties.
+              Unsubscribe any time.
+            </div> */}
+            <div>
+              <button
+                class="pf-submit hover-opacity"
+                onClick={handleStep}
+                title="Click to Subscribe"
+              >
+                Submit
+              </button>
+            </div>
+            <div className="popup-botton-text">
+              We don't share data with anyone.
+            </div>
+            <div>{subError && "Please try again after some time."}</div>
+          </div>
+        </div>
+      </Dialog>
+
+      {loader ? <Loader /> : ""}
+      
+      <Snackbar
+        ContentProps={{
+          sx: {
+            background: "green",
+            color: "white",
+            textAlign: "center",
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSubSnack}
+        autoHideDuration={2000}
+        onClose={() => setOpenSubSnack(false)}
+        message={
+          "Thank You for subscribing us."
+        }
+      />
 
          <Snackbar
            ContentProps={{
@@ -322,8 +463,10 @@ const Footer = () => {
          </Dialog>
     <footer id="app_footer">
       <div className="footer-content">
-        <div className="footer-logo ">
+        <div className="footer-logo  justify-content-between align-items-center">
+
           <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" />
+          {/* <div className="subscribe-btn" onClick={() => setOpen1(true)}>Click to Subscribe Us</div> */}
         </div>
         <div className="footer-items">
           <div className="footer-lists">

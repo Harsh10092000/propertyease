@@ -566,11 +566,11 @@ const Navbar = () => {
       name: "Quick List Property",
       linkto: "/quick-list",
     },
-    {
-      name: "Search Properties",
-      linkto: "/allproperties",
-      customCss: "search-pro",
-    },
+    // {
+    //   name: "Search Properties",
+    //   linkto: "/allproperties",
+    //   customCss: "search-pro-mobile",
+    // },
     {
       name: "Dashboard",
       linkto: "/user/dashboard",
@@ -578,6 +578,10 @@ const Navbar = () => {
     {
       name: "Post Requirement",
       linkto: "/postrequirement",
+    },
+    {
+      name: "Contact Us",
+      linkto: "/contactus",
     },
   ];
 
@@ -628,7 +632,7 @@ const Navbar = () => {
                   {item.icon}
                   </div> */}
 
-                  <div className=" pl-3">
+                  <div className={` pl-3 ${item.customCss} `}>
                     <ListItemText
                       className="list-item-text"
                       primary={item.name}
@@ -641,7 +645,7 @@ const Navbar = () => {
           </List>
           <div className="p-3 m-2 d-flex pl-4 list-item d-flex ">
             <div
-              className="list-item-text pl-3"
+              className="list-item-text pl-3 pointer"
               onClick={() => setShowBuyOptions(!showBuyOptions)}
             >
               Buy
@@ -676,7 +680,7 @@ const Navbar = () => {
             ))}
           <div className="p-3 m-2 d-flex pl-4 list-item">
             <div
-              className="list-item-text pl-3"
+              className="list-item-text pl-3 pointer"
               onClick={() => {
                 setShowRentOptions(!showRentOptions);
               }}
@@ -715,6 +719,14 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
+{/* {
+      name: "Search Properties",
+      linkto: "/allproperties",
+      customCss: "search-pro-mobile",
+    }, */}
+            <Link to="/allproperties" className="search-pro-mobile pointer mt-4">
+            Search Properties
+            </Link>
         </Box>
       ) : (
         ""
@@ -931,8 +943,8 @@ const Navbar = () => {
             <div className="new-navbar-item pr-3 ">
               <Link to={"/allproperties"} className="text-black">
                 <span className="new-navbar-item-content search-pro">
-                  {" "}
-                  Search Properties{" "}
+                  
+                  Search Properties
                 </span>
               </Link>
             </div>

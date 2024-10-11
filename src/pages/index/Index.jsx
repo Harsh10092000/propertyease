@@ -2096,9 +2096,13 @@ const Index = () => {
                 <p className=" phone-number">89500 40151</p>
                 <p className=" phone-number">99961 67778</p>
 
-                <Link to="/contactus" className="btn btn-primary contact-btn ">
+                {/* <Link to="/contactus" className="btn btn-primary contact-btn ">
                   Contact us
-                </Link>
+                </Link> */}
+                 <div onClick={() => setOpen(true)}className="btn btn-primary contact-btn ">
+                 Subscribe Us
+                </div> 
+
               </div>
             </div>
           </div>
