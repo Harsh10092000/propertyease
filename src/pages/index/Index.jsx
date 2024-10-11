@@ -2100,7 +2100,7 @@ const Index = () => {
                   Contact us
                 </Link> */}
                  <div onClick={() => setOpen(true)}className="btn btn-primary contact-btn ">
-                 Subscribe Us
+                 Get Latest Property Updates 
                 </div> 
 
               </div>
