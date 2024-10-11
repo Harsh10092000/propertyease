@@ -17767,7 +17767,8 @@ width: 100%;
 .contact-us-setion .right-sec .contact-btn {
   cursor: pointer;
   margin-top: .625rem;
-  padding: 11px 70px;
+  /* padding: 11px 70px; */
+  padding: 11px 40px;
   font-size: .875rem;
   line-height: 2;
   border-radius: 5px;

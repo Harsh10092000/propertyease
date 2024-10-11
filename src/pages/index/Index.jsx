@@ -2099,7 +2099,7 @@ const Index = () => {
                 {/* <Link to="/contactus" className="btn btn-primary contact-btn ">
                   Contact us
                 </Link> */}
-                 <div onClick={() => setOpen(true)}className="btn btn-primary contact-btn ">
+                 <div onClick={() => setOpen(true)}className="btn btn-primary contact-btn " title="Get Latest Property Updates ">
                  Get Latest Property Updates 
                 </div> 
 
