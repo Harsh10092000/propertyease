@@ -122,18 +122,19 @@ const ContactUs = () => {
                           <IconPhone />
                         </div>
                         <div class="text pl-4">
+                        <p>
+                            <span>Phone:</span>{" "}
+                            <a href="tel://9996716787">+91 89500 40151</a>
+                          </p>
                           <p>
                             <span>Phone:</span>{" "}
                             <a href="tel://9996716787">+91 99961 67778</a>
                           </p>
-                          <p>
-                            <span>Phone:</span>{" "}
-                            <a href="tel://9996716787">+91 89500 40151</a>
-                          </p>
+                          
                         </div>
                         
                       </div>
-                      <div class="dbox w-100">
+                      {/* <div class="dbox w-100">
                         <div class="icond d-flex align-items-center justify-content-center bg-primary">
                           <IconMail />
                         </div>
@@ -145,7 +146,7 @@ const ContactUs = () => {
                             </a>
                           </p>
                         </div>
-                      </div>
+                      </div> */}
                       <div class="dbox w-100">
                         <div class="icond d-flex align-items-center justify-content-center bg-primary">
                           <IconGlobe />

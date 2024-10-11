@@ -851,7 +851,7 @@ const Footer = () => {
         <hr />
         <div className="footer-end">
           <small>
-            Copyright © 2024 Propertyease - Information. All Rights Reserved | Powered By Balaji Properties
+            Copyright © 2024 Propertyease - Information. All Rights Reserved | Designed & Developed by CAL info Training & Consultancy Private Limited
             {/* CAL info Training & Consultancy Private Limited */}
           </small>
           <div className="social">
@@ -911,7 +911,7 @@ const Footer = () => {
                   <span className="mobile-hidden">+91 99967 16787</span>
                 </a>
               </li> */}
-              <li>
+              {/* <li>
                 <a href="tel:9996167778" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
@@ -919,7 +919,7 @@ const Footer = () => {
                   <span className="mobile-hidden">+91 99961 67778
                   </span>
                 </a>
-              </li>
+              </li> */}
               {/* <li>
                 <a href="tel:9996716787" title="Call Now">
                   <span className="mr-1">
