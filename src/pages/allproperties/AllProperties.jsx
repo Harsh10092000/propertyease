@@ -776,7 +776,7 @@ useEffect(() => {
   if(subscribedUser !== true) {
 
     const timer = setTimeout(() => {
-      setOpen1(true);
+      setOpen1(false);
     }, 5000);
     return () => clearTimeout(timer);
   }
@@ -813,7 +813,7 @@ const handleSubmit = async () => {
     );
     setLoader(false);
     setOpen1(false)
-    setOpenSubSnack(true);
+    //setOpenSubSnack(true);
     setPopupData({
       name: "",
       email: "",

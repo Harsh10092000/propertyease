@@ -2,21 +2,21 @@ import { Link } from "react-router-dom";
 import {
   IconSend,
   IconArrowNarrowRight,
-  IconArrowRight,
-  IconAdjustmentsHorizontal,
-  IconCaretUpFilled,
-  IconCaretDownFilled,
-  IconBath,
-  IconCurrencyRupee,
+  // IconArrowRight,
+  // IconAdjustmentsHorizontal,
+  // IconCaretUpFilled,
+  // IconCaretDownFilled,
+  // IconBath,
+  // IconCurrencyRupee,
   IconX,
 } from "@tabler/icons-react";
-import { BedAlt, RupeeSign } from "react-flaticons";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import { Divider, InputAdornment } from "@mui/material";
+// import { BedAlt, RupeeSign } from "react-flaticons";
+// import FormControl from "@mui/material/FormControl";
+// import InputLabel from "@mui/material/InputLabel";
+// import Select from "@mui/material/Select";
+// import MenuItem from "@mui/material/MenuItem";
+// import TextField from "@mui/material/TextField";
+// import { Divider, InputAdornment } from "@mui/material";
 import Navbar from "../../components/navbar/Navbar";
 //import Navbar from "../../components/navbar2/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -29,7 +29,7 @@ import { Helmet } from "react-helmet";
 // import "owl.carousel/dist/assets/owl.carousel.css";
 // import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useNavigate } from "react-router-dom";
-import Autocomplete from "@mui/material/Autocomplete";
+// import Autocomplete from "@mui/material/Autocomplete";
 import Loader from "../../components/loader/Loader";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
@@ -92,17 +92,17 @@ const Index = () => {
     },
   ];
 
-  const cities = [{ district: "All India" }];
-  const [location, setLocation] = useState("All India");
+  // const cities = [{ district: "All India" }];
+  // const [location, setLocation] = useState("All India");
   const [cityData, setCityData] = useState();
   const [searchValue, setSearchValue] = useState("");
   const [currentFilter, setCurrentFilter] = useState("All");
-  const [proTypeFilter, setProTypeFilter] = useState("All");
-  const [proSubTypeFilter, setProSubTypeFilter] = useState(["t1", "t2"]);
+  // const [proTypeFilter, setProTypeFilter] = useState("All");
+  // const [proSubTypeFilter, setProSubTypeFilter] = useState(["t1", "t2"]);
 
-  const [propertyTypeFilter, setPropertyTypeFilter] =
-    useState("All Properties");
-  const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
+  // const [propertyTypeFilter, setPropertyTypeFilter] =
+  //   useState("All Properties");
+  // const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
 
   const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
     useState("All Properties");
@@ -461,7 +461,7 @@ const Index = () => {
     if(subscribedUser !== true) {
 
       const timer = setTimeout(() => {
-        setOpen(true);
+        setOpen(false);
       }, 5000);
       return () => clearTimeout(timer);
     }
@@ -499,7 +499,7 @@ const Index = () => {
         email: "",
         phone: "",
       });
-      setOpenSubSnack(true);
+      //setOpenSubSnack(true);
       //setSnack(true);
     } catch (err) {
       console.log(err);
