@@ -22,7 +22,7 @@ const actions = [
     name: "Facebook",
     linkTo: "https://www.facebook.com/Propertyease.in/",
   },
-  { icon: <IconPhone color="blue" />, name: "Phone", linkTo: "tel:9996716787" },
+  { icon: <IconPhone color="blue" />, name: "Phone", linkTo: "tel:8950040151" },
   { icon: <IconMail color="red" />, name: "Mail", linkTo: "mailto:propertyease.in@gmail.com" },
 ];
 

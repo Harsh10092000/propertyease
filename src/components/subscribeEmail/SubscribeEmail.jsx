@@ -16,7 +16,7 @@ const SubscribeEmail = (props) => {
         email: ""
       })
 
-      console.log("open : " , open);
+      //console.log("open : " , open);
     
       
     
