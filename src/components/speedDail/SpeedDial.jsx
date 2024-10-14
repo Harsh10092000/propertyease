@@ -15,7 +15,7 @@ const actions = [
   {
     icon: <IconBrandWhatsapp color="green" />,
     name: "Whatsapp",
-    linkTo: "https://wa.me/919996716787",
+    linkTo: "https://wa.me/918950040151",
   },
   {
     icon: <IconBrandFacebook color="blue" />,
