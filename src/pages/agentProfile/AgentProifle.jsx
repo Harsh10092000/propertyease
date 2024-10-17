@@ -1,22 +1,22 @@
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Radio from "@mui/material/Radio";
 import {
-  IconSend,
-  IconShare3,
-  IconStarFilled,
+  // IconSend,
+  // IconShare3,
+  // IconStarFilled,
   IconBrandWhatsapp,
   IconBrandFacebook,
-  IconX,
+  //IconX,
   IconChevronRight,
   IconPhone,
   IconMapPin,
   IconBriefcase,
   IconWorld,
-  IconBrandInstagram,
-  IconAsterisk,
+  // IconBrandInstagram,
+  // IconAsterisk,
 } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -42,14 +42,14 @@ const AgentProifle = () => {
 
   const [snack, setSnack] = useState(false);
   const [sticky, setSticky] = useState(false);
-  const handleScroll = () => {
-    const scrollPosition = window.scrollY; // => scroll position
-    if (scrollPosition > 100) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
-  };
+  // const handleScroll = () => {
+  //   const scrollPosition = window.scrollY; // => scroll position
+  //   if (scrollPosition > 100) {
+  //     setSticky(true);
+  //   } else {
+  //     setSticky(false);
+  //   }
+  // };
 
   //const agentId = 20;
   const [agentData, setAgentData] = useState();
@@ -831,7 +831,7 @@ const AgentProifle = () => {
                                     {" "}
                                     <IconPhone />
                                   </span>
-                                  {/* <a href="tel:9996716787"> */}
+                                  {/* <a href="tel:9996167778"> */}
                                   +91 {agentData.agent_phone.slice(0, 5)}
                                   <span className="fs-1">xxxxx</span>
                                   {/* </a> */}
@@ -840,7 +840,7 @@ const AgentProifle = () => {
                                   <span>
                                     <IconWorld />
                                   </span>{" "}
-                                  {/* <a href="mailto:propertyease.in@gmail.com"> */}
+                                  {/* <a href="mailto:sbpb136118@gmail.com"> */}
                                   {agentData.agent_email.slice(0, 2)}
                                   <span className="fs-1 mr-0">xxxxx</span>@
                                   {agentData.agent_email.split("@")[1]}

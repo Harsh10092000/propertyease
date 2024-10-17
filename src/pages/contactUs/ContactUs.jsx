@@ -141,8 +141,8 @@ const ContactUs = () => {
                         <div class="text pl-4">
                           <p>
                             <span>Email:</span>{" "}
-                            <a href="mailto:propertyease.in@gmail.com">
-                              propertyease.in@gmail.com
+                            <a href="mailto:sbpb136118@gmail.com">
+                              sbpb136118@gmail.com
                             </a>
                           </p>
                         </div>
@@ -461,8 +461,8 @@ export default ContactUs;
 //                   <div class="text pl-4">
 //                     <p>
 //                       <div>Email:</div>{" "}
-//                       <a href="mailto:propertyease.in@gmail.com">
-//                         propertyease.in@gmail.com
+//                       <a href="mailto:sbpb136118@gmail.com">
+//                         sbpb136118@gmail.com
 //                       </a>
 //                     </p>
 //                   </div>
