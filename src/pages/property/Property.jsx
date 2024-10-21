@@ -614,9 +614,13 @@ const Property = () => {
 
     data.pro_locality !== undefined &&
       axios
+        // .get(
+        //   `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+        // n&key=AlzaSybFfjAYhDYb8NnWfuK_GS5XnpU_2dLnYQn`
+        // )
         .get(
           `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-        n&key=AlzaSybFfjAYhDYb8NnWfuK_GS5XnpU_2dLnYQn`
+        n&key=AlzaSy0lq13QNpgxpubRmfmToudbYfmxjiMXutO`
         )
         .then((res) => {
           setCodinates({
