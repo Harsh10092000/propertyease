@@ -33,7 +33,7 @@ import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
 
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 const Property = () => {
   const date = new Date(1710738331821);
@@ -164,7 +164,6 @@ const Property = () => {
           `/api/agent/fetchAgentNameById/${data?.pro_user_id}`
       )
       .then((res) => {
-       
         setAgentName(res.data[0].agent_name);
         setAgentDetails({
           agentCity: res.data[0].agent_city,
@@ -593,7 +592,6 @@ const Property = () => {
   const [cordinatesChanged, setCordinatesChanged] = useState(false);
 
   useEffect(() => {
-
     cordinates.lat !== ""
       ? setCordinatesChanged(true)
       : setCordinatesChanged(false);
@@ -637,114 +635,146 @@ const Property = () => {
         });
   }, [data]);
 
+  console.log("cordinates : ", cordinates);
 
-  console.log("cordinates : " , cordinates);
-  
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
 
-
   const checkDataExists = (data) => {
-    return(
-    data ? data : "-"
-    )
-  }
+    return data ? data : "-";
+  };
 
   return (
     <div className="padding-top">
-      
-      <Helmet prioritizeSeoTags>
-      <meta  name="keywords" content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
-      <meta property="og:type" content="website" />
-      <meta
-        
-        property="og:url"
-        content={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}
-      />
-      <meta
-      
-        property="og:image"
-        content="https://api.propertyease.in/propertyImages/watermark/default.webp"
-      />
-      <meta  property="og:title" content={`${
-          arrproId[0] +
-          " " +
-          arrproId[1] +
-          " " +
-          arrproId[2] +
-          " " +
-          arrproId[3] +
-          " " +
-          arrproId[4] +
-          " " +
-          arrproId[5] +
-          " " +
-          arrproId[6] +
-          " " +
-          arrproId[7] +
-          " " +
-          arrproId[8] +
-          " " +
-          arrproId[9]
-        }`} />
-      <meta
-     
-        property="og:description"
-        content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+      <Helmet>
+        <meta
+          name="keywords"
+          content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${
+            data !== undefined && data.pro_state
+          }  `}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content={`https://www.propertyease.in/${
+            data !== undefined && data.pro_url
+          }`}
+        />
+        <meta
+          property="og:image"
+          content="https://api.propertyease.in/propertyImages/watermark/default.webp"
+        />
+        <meta
+          property="og:title"
+          content={`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
+        />
+        <meta
+          property="og:description"
+          content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
-      />
-      <link rel="canonical" href={`https://propertyease.in/${data !== undefined && data.pro_url}`}></link>
+        />
+        <link
+          rel="canonical"
+          href={`https://propertyease.in/${data !== undefined && data.pro_url}`}
+        ></link>
 
+        <meta
+          name="twitter:description"
+          content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
+        />
+        <meta property="twitter:domain" content="propertyease.in" />
+        <meta
+          property="twitter:url"
+          content={`https://www.propertyease.in/${
+            data !== undefined && data.pro_url
+          }`}
+        />
+        <meta
+          name="twitter:title"
+          content={`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
+        />
+        <meta
+          name="twitter:image"
+          content="https://api.propertyease.in/propertyImages/watermark/default.webp"
+        />
 
-    
+        <title>
+          {`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
+        </title>
 
-
-
-<meta name="twitter:description" content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance." />
-<meta property="twitter:domain" content="propertyease.in" />
-<meta property="twitter:url" content={`https://www.propertyease.in/${data !== undefined && data.pro_url}`} />
-<meta name="twitter:title" content="Propertyease" />
-<meta name="twitter:image" content="https://api.propertyease.in/propertyImages/watermark/default.webp" />
-
-
-
-      <title>
-        {`${
-          arrproId[0] +
-          " " +
-          arrproId[1] +
-          " " +
-          arrproId[2] +
-          " " +
-          arrproId[3] +
-          " " +
-          arrproId[4] +
-          " " +
-          arrproId[5] +
-          " " +
-          arrproId[6] +
-          " " +
-          arrproId[7] +
-          " " +
-          arrproId[8] +
-          " " +
-          arrproId[9]
-        }`}
-      </title>
-
-      <meta
-        name="description"
-        content={`Check out this ${
-          arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
-        }${arrproId[3] !== "for" ? arrproId[3] : ""}
+        <meta
+          name="description"
+          content={`Check out this ${
+            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
+          }${arrproId[3] !== "for" ? arrproId[3] : ""}
         for ${
           arrproId[3] === "for" ? arrproId[4] : arrproId[5]
         }. It is an ideal investment opportunity in a prime${
-          arrproId[3] !== "for"
-            ? " " + arrproId[2] + " " + arrproId[3]
-            : " " + arrproId[2] + ""
-        } area with verified property assurance.`}
-      />
-</Helmet>
+            arrproId[3] !== "for"
+              ? " " + arrproId[2] + " " + arrproId[3]
+              : " " + arrproId[2] + ""
+          } area with verified property assurance.`}
+        />
+      </Helmet>
       {openContactDialog ? (
         <ContactUsForm
           openContactDialog={openContactDialog}
@@ -859,10 +889,10 @@ const Property = () => {
                         to="/allproperties"
                       >
                         {/* <a> */}
-                          All Properties
-                          <span>
-                            <IconChevronRight className="sidebar-faicon" />
-                          </span>
+                        All Properties
+                        <span>
+                          <IconChevronRight className="sidebar-faicon" />
+                        </span>
                         {/* </a> */}
                       </Link>
                     </li>
@@ -876,8 +906,8 @@ const Property = () => {
                         }`}
                       >
                         {/* <a> */}
-                          {data.pro_type ? data.pro_type.split(",")[1] : ""}
-                          <IconChevronRight className="sidebar-faicon" />
+                        {data.pro_type ? data.pro_type.split(",")[1] : ""}
+                        <IconChevronRight className="sidebar-faicon" />
                         {/* </a> */}
                       </Link>
                     </li>
@@ -1190,7 +1220,15 @@ time3.add(12, "minutes") */}
                                 <div>
                                   <img
                                     src="/images/default.webp"
-                                    alt={`Property For ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in ${data.pro_city ? data.pro_city + ", " + data.pro_state : data.pro_state}`}
+                                    alt={`Property For ${
+                                      data.pro_ad_type === "Rent"
+                                        ? "Rent"
+                                        : "Sale"
+                                    } in ${
+                                      data.pro_city
+                                        ? data.pro_city + ", " + data.pro_state
+                                        : data.pro_state
+                                    }`}
                                     //alt="No Image"
                                     // alt={
                                     //   data.pro_area_size +
@@ -1342,7 +1380,11 @@ time3.add(12, "minutes") */}
                             </div>
                             <div className=" mmmm">
                               <div className="large-detials">
-                                <img src="/img/meter.webp" alt="" className="desc" />
+                                <img
+                                  src="/img/meter.webp"
+                                  alt=""
+                                  className="desc"
+                                />
                                 <span className="propertyHeading">
                                   Plot Size &amp; Dimension
                                 </span>
@@ -1360,7 +1402,11 @@ time3.add(12, "minutes") */}
                                 </p>
                               </div>
                               <div className="large-detials">
-                                <img src="/img/rent.webp" alt="" className="desc" />
+                                <img
+                                  src="/img/rent.webp"
+                                  alt=""
+                                  className="desc"
+                                />
                                 <span className="propertyHeading">
                                   Already Rent
                                 </span>
@@ -1374,7 +1420,8 @@ time3.add(12, "minutes") */}
                             <div className=" mmmm" id="interest">
                               <div className="large-detials">
                                 <img
-                                  src="/img/ownership-type.webp" alt=""
+                                  src="/img/ownership-type.webp"
+                                  alt=""
                                   className="desc"
                                 />
                                 <span className="propertyHeading">
@@ -1387,7 +1434,11 @@ time3.add(12, "minutes") */}
                                 </p>
                               </div>
                               <div className="large-detials">
-                                <img src="/img/rent.webp" alt="" className="desc" />
+                                <img
+                                  src="/img/rent.webp"
+                                  alt=""
+                                  className="desc"
+                                />
                                 <span className="propertyHeading">
                                   Authority Approval
                                 </span>
@@ -1405,7 +1456,8 @@ time3.add(12, "minutes") */}
                                   <div className=" mmmm">
                                     <div className="large-detials">
                                       <img
-                                        src="/img/age.webp" alt=""
+                                        src="/img/age.webp"
+                                        alt=""
                                         className="desc"
                                       />
                                       <span className="propertyHeading">
@@ -1419,7 +1471,8 @@ time3.add(12, "minutes") */}
                                     </div>
                                     <div className="large-detials">
                                       <img
-                                        src="/img/furnishing.webp" alt=""
+                                        src="/img/furnishing.webp"
+                                        alt=""
                                         className="desc"
                                       />
                                       <span className="propertyHeading">
@@ -1704,7 +1757,24 @@ time3.add(12, "minutes") */}
                                 </div>
 
                                 <p>
-                                All images/information provided in this listing given by its owner, brokers or builders may be actual or used for illustrative purposes only and may not represent real individuals, places, or events.  In real, images/information about this property may vary. Kindly verify the physical possession of the property and its owners and property documents and cross-check everything before any transaction. The company is not responsible for discrepancies found at any stage. Any resemblance to actual persons or copyrighted materials is purely coincidental. Unauthorized use or reproduction of these images/information is prohibited. If you believe any image/information violates your rights, don't hesitate to get in touch with us for prompt resolution.
+                                  All images/information provided in this
+                                  listing given by its owner, brokers or
+                                  builders may be actual or used
+                                  for illustrative purposes only and may not
+                                  represent real individuals, places, or events.
+                                   In real, images/information about this
+                                  property may vary. Kindly verify the physical
+                                  possession of the property and its owners and
+                                  property documents and cross-check everything
+                                  before any transaction. The company is not
+                                  responsible for discrepancies found at any
+                                  stage. Any resemblance to actual persons or
+                                  copyrighted materials is purely coincidental.
+                                  Unauthorized use or reproduction of these
+                                  images/information is prohibited. If you
+                                  believe any image/information violates your
+                                  rights, don't hesitate to get in touch with us
+                                  for prompt resolution.
                                 </p>
                               </div>
                             </div>
