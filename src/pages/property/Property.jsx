@@ -33,6 +33,7 @@ import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
 
+import { Helmet } from 'react-helmet-async';
 
 const Property = () => {
   const date = new Date(1710738331821);
@@ -651,7 +652,7 @@ const Property = () => {
   return (
     <div className="padding-top">
       
-      
+      <Helmet prioritizeSeoTags>
       <meta  name="keywords" content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
       <meta data-react-helmet="true" property="og:type" content="website" />
       <meta
@@ -668,7 +669,7 @@ const Property = () => {
       <meta
       data-react-helmet="true"
         property="og:description"
-        content="1111111111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+        content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
       />
       <link rel="canonical" href={`https://propertyease.in/${data !== undefined && data.pro_url}`}></link>
@@ -710,7 +711,7 @@ const Property = () => {
             : " " + arrproId[2] + ""
         } area with verified property assurance.`}
       />
-
+</Helmet>
       {openContactDialog ? (
         <ContactUsForm
           openContactDialog={openContactDialog}

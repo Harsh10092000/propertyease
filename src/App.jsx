@@ -83,6 +83,7 @@ import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 import SmsComponent from "./components/smsComponent/SmsComponent";
 import QuickListing from "./pages/quickListing/QuickListing";
 import MailBox from "./pages/InviteUser/MailBox";
+import { HelmetProvider } from 'react-helmet-async';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -564,7 +565,9 @@ const App = () => {
   ]);
   return (
     <>
+    <HelmetProvider>
       <RouterProvider router={router} />
+    </HelmetProvider>
     </>
   );
 };
