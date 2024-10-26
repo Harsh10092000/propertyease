@@ -96,6 +96,7 @@ const Footer = () => {
     { lintto: "/termsandconditions", type: "Terms & Conditions", target: "_self" },
     { lintto: "/privacypolicy", type: "Privacy Policy", target: "_self" },
     { lintto: "/documentsneededtobuyproperty.pdf", type: "Documents Needed To Buy Property", target: "_blank" },
+    { lintto: "/Balaji-PropertyEase-Brochure.pdf", type: "Propertyease Brochure", target: "_blank" },
   ];
 
 
