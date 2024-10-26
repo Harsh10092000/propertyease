@@ -665,7 +665,27 @@ const Property = () => {
         property="og:image"
         content="https://api.propertyease.in/propertyImages/watermark/default.webp"
       />
-      <meta data-react-helmet="true"  property="og:title" content="Propertyease" />
+      <meta data-react-helmet="true"  property="og:title" content={`${
+          arrproId[0] +
+          " " +
+          arrproId[1] +
+          " " +
+          arrproId[2] +
+          " " +
+          arrproId[3] +
+          " " +
+          arrproId[4] +
+          " " +
+          arrproId[5] +
+          " " +
+          arrproId[6] +
+          " " +
+          arrproId[7] +
+          " " +
+          arrproId[8] +
+          " " +
+          arrproId[9]
+        }`} />
       <meta
       data-react-helmet="true"
         property="og:description"
