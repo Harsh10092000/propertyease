@@ -654,18 +654,18 @@ const Property = () => {
       
       <Helmet prioritizeSeoTags>
       <meta  name="keywords" content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${data !== undefined && data.pro_state}  `} />
-      <meta data-react-helmet="true" property="og:type" content="website" />
+      <meta property="og:type" content="website" />
       <meta
-        data-react-helmet="true"
+        
         property="og:url"
         content={`https://www.propertyease.in/${data !== undefined && data.pro_url}`}
       />
       <meta
-      data-react-helmet="true"
+      
         property="og:image"
         content="https://api.propertyease.in/propertyImages/watermark/default.webp"
       />
-      <meta data-react-helmet="true"  property="og:title" content={`${
+      <meta  property="og:title" content={`${
           arrproId[0] +
           " " +
           arrproId[1] +
@@ -687,12 +687,25 @@ const Property = () => {
           arrproId[9]
         }`} />
       <meta
-      data-react-helmet="true"
+     
         property="og:description"
         content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
       />
       <link rel="canonical" href={`https://propertyease.in/${data !== undefined && data.pro_url}`}></link>
+
+
+    
+
+
+
+<meta name="twitter:description" content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance." />
+<meta property="twitter:domain" content="propertyease.in" />
+<meta property="twitter:url" content={`https://www.propertyease.in/${data !== undefined && data.pro_url}`} />
+<meta name="twitter:title" content="Propertyease" />
+<meta name="twitter:image" content="https://api.propertyease.in/propertyImages/watermark/default.webp" />
+
+
 
       <title>
         {`${
