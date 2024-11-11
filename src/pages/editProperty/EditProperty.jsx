@@ -984,7 +984,7 @@ const EditProperty = () => {
                                 setPropertyData({
                                   ...propertyData,
                                   pro_locality: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . /]/g,
+                                    /[^0-9A-Z a-z , . //\n]/g,
                                     ""
                                   ),
                                 })
@@ -1026,7 +1026,7 @@ const EditProperty = () => {
                                 setPropertyData({
                                   ...propertyData,
                                   pro_street: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . /]/g,
+                                    /[^0-9A-Z a-z , . //\n]/g,
                                     ""
                                   ),
                                 })
@@ -1938,7 +1938,7 @@ const EditProperty = () => {
                                 setPropertyData({
                                   ...propertyData,
                                   pro_desc: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . /]/g,
+                                    /[^0-9A-Z a-z , . //\n]/g,
                                     ""
                                   ),
                                 })

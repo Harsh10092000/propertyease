@@ -1483,7 +1483,7 @@ const AddProperty = () => {
                                 setPropertyData({
                                   ...propertyData,
                                   pro_street: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . /]/g,
+                                    /[^0-9A-Z a-z , . //\n]/g,
                                     ""
                                   ),
                                 })
@@ -2038,7 +2038,7 @@ const AddProperty = () => {
                               setPropertyData({
                                 ...propertyData,
                                 pro_desc: e.target.value.replace(
-                                  /[^0-9A-Z a-z , . /]/g,
+                                  /[^0-9A-Z a-z , . //\n]/g,
                                   ""
                                 ),
                               })

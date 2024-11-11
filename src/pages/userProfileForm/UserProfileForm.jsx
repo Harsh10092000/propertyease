@@ -840,7 +840,7 @@ const UserProfileForm = () => {
                       setUserData({
                         ...userData,
                         user_locality: e.target.value.replace(
-                          /[^0-9A-Z a-z , . /]/g,
+                          /[^0-9A-Z a-z , . //\n]/g,
                           ""
                         ),
                       })
@@ -879,7 +879,7 @@ const UserProfileForm = () => {
                         setUserData({
                           ...userData,
                           user_comapnay_name: e.target.value.replace(
-                            /[^0-9A-Z a-z , . /]/g,
+                            /[^0-9A-Z a-z , . //\n]/g,
                             ""
                           ),
                         })
@@ -1236,7 +1236,7 @@ const UserProfileForm = () => {
                         setUserData({
                           ...userData,
                           user_desc: e.target.value.replace(
-                            /[^0-9A-Z a-z , . /]/g,
+                            /[^0-9A-Z a-z , . //\n]/g,
                             ""
                           ),
                         })
