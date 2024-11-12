@@ -485,6 +485,7 @@ const EditProperty = () => {
     propertyData.pro_desc,
   ]);
 
+  
   const handleClick = () => {
     var val = propertyData.pro_locality.trim();
     var a = val.replace(/\s{2,}/g, " ");
