@@ -509,7 +509,7 @@ const AddProperty = () => {
     checkLogin();
   }, [userData.otp]);
 
-  const [activeStep, setActiveStep] = useState(3);
+  const [activeStep, setActiveStep] = useState(0);
   const handleNextStep = () => {
     activeStep <= 2 ? setActiveStep(activeStep + 1) : "";
   };
