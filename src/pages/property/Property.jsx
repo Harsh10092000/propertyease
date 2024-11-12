@@ -1497,6 +1497,9 @@ time3.add(12, "minutes") */}
                     </div>
                   </div>
                 )}
+
+               
+               
                 <div className="row">
                   <div className="col-md-12">
                     {data !== undefined && data.pro_listed !== 0 && (
@@ -1549,6 +1552,7 @@ time3.add(12, "minutes") */}
                                     : "-"}
                                 </div>
                               </div>
+
                               <div className="row moreDetail">
                                 <span className="col-md-3 more-detail-right">
                                   Description &nbsp;
@@ -1557,6 +1561,37 @@ time3.add(12, "minutes") */}
                                   {data.pro_desc}
                                 </span>
                               </div>
+
+                              {data.pro_other_rooms && (
+                                <div className="row moreDetail">
+                                  <span className="col-md-3 more-detail-right">
+                                    Other Rooms &nbsp;
+                                  </span>
+                                  <span className="col-md-9 more-detail-left ">
+                                    {data.pro_other_rooms}
+                                  </span>
+                                </div>
+                              )}
+                              {data.pro_near_by_facilities && (
+                                <div className="row moreDetail">
+                                  <span className="col-md-3 more-detail-right">
+                                    Near By Facilities &nbsp;
+                                  </span>
+                                  <span className="col-md-9 more-detail-left ">
+                                    {data.pro_near_by_facilities}
+                                  </span>
+                                </div>
+                              )}
+                              {data.pro_corner === 'Yes' && (
+                                <div className="row moreDetail">
+                                  <span className="col-md-3 more-detail-right">
+                                    Corner Property &nbsp;
+                                  </span>
+                                  <span className="col-md-9 more-detail-left ">
+                                    {data.pro_corner}
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
