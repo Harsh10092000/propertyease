@@ -47,7 +47,7 @@ const EditProperty = () => {
 
   const arrproId = id1.split("-");
   const id = arrproId[arrproId.length - 1];
-  const [activeStep, setActiveStep] = useState(3);
+  const [activeStep, setActiveStep] = useState(0);
   const handleNextStep = () => {
     activeStep <= 2 ? setActiveStep(activeStep + 1) : "";
   };
@@ -485,7 +485,7 @@ const EditProperty = () => {
     propertyData.pro_desc,
   ]);
 
-  
+
   const handleClick = () => {
     var val = propertyData.pro_locality.trim();
     var a = val.replace(/\s{2,}/g, " ");
