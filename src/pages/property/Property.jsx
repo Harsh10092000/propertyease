@@ -36,6 +36,11 @@ import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
 import { Helmet } from "react-helmet-async";
 
 const Property = () => {
+
+  const cleanString = (input) => {
+    return input.replace(/^,|,$/g, ''); 
+  };
+
   const date = new Date(1710738331821);
 
   date.setUTCHours(date.getUTCHours() + 5);
@@ -1499,7 +1504,7 @@ time3.add(12, "minutes") */}
                 )}
 
                
-               
+
                 <div className="row">
                   <div className="col-md-12">
                     {data !== undefined && data.pro_listed !== 0 && (
@@ -1568,7 +1573,7 @@ time3.add(12, "minutes") */}
                                     Other Rooms &nbsp;
                                   </span>
                                   <span className="col-md-9 more-detail-left ">
-                                    {data.pro_other_rooms}
+                                    {cleanString(data.pro_other_rooms)}
                                   </span>
                                 </div>
                               )}
@@ -1578,7 +1583,7 @@ time3.add(12, "minutes") */}
                                     Near By Facilities &nbsp;
                                   </span>
                                   <span className="col-md-9 more-detail-left ">
-                                    {data.pro_near_by_facilities}
+                                    {cleanString(data.pro_near_by_facilities)}
                                   </span>
                                 </div>
                               )}
@@ -1588,7 +1593,7 @@ time3.add(12, "minutes") */}
                                     Corner Property &nbsp;
                                   </span>
                                   <span className="col-md-9 more-detail-left ">
-                                    {data.pro_corner}
+                                    {cleanString(data.pro_corner)}
                                   </span>
                                 </div>
                               )}
