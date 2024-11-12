@@ -565,6 +565,7 @@ const AddProperty = () => {
     pro_negotiable: "No",
     pro_user_email: "",
     pro_login_number: "",
+    pro_corner: "No",
   });
 
   const [formatError, setFormatError] = useState(false);
@@ -2053,6 +2054,29 @@ const AddProperty = () => {
                             </span>
                           </div>
                         </div>
+
+                        <div className="pro_flex pro_flex_1">
+                          <div className="w-100 ">
+                            <span className="pro_heading">
+                              <Checkbox
+                                icon={icon}
+                                checkedIcon={checkedIcon}
+                                style={{ marginRight: 8 }}
+                                //checked={selected}
+                                onClick={() => {
+                                  setPropertyData({
+                                    ...propertyData,
+                                    pro_corner:
+                                      propertyData.pro_corner === "Yes"
+                                        ? "No"
+                                        : "Yes",
+                                  });
+                                }}
+                              />{" "}
+                              Corner Property
+                            </span>
+                          </div>
+                          </div>
 
                         <div>
                           <TextField

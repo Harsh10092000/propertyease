@@ -221,6 +221,7 @@ const EditProperty = () => {
     pro_negotiable: "",
     pro_other_rooms: "",
     pro_near_by_facilities: "",
+    pro_corner: "",
   });
 
   const [images, setImages] = useState([]);
@@ -313,6 +314,7 @@ const EditProperty = () => {
           // )[0].id,
           pro_negotiable: res.data[0].pro_negotiable,
           pro_user_id: res.data[0].pro_user_id,
+          pro_corner: res.data[0].pro_corner,
         });
         setSelectedOtherRooms(res.data[0].pro_other_rooms ? res.data[0].pro_other_rooms.split(",") : []);
         setSelectednearByFac(res.data[0].pro_other_rooms ? res.data[0].pro_near_by_facilities.split(",") : [])
@@ -1998,6 +2000,34 @@ const EditProperty = () => {
                                 Already on Rented
                               </span>
                             </div>
+                          </div>
+
+                          <div className="pro_flex pro_flex_1">
+                          <div className="w-100 ">
+                            <span className="pro_heading">
+                              <Checkbox
+                                icon={icon}
+                                //checkedIcon={checkedIcon}
+                                checked={
+                                  propertyData.pro_corner === "Yes"
+                                    ? true
+                                    : false
+                                }
+                                style={{ marginRight: 8 }}
+                                //checked={selected}
+                                onClick={() => {
+                                  setPropertyData({
+                                    ...propertyData,
+                                    pro_corner:
+                                      propertyData.pro_corner === "Yes"
+                                        ? "No"
+                                        : "Yes",
+                                  });
+                                }}
+                              />{" "}
+                              Corner Property
+                            </span>
+                          </div>
                           </div>
 
                           <div>
