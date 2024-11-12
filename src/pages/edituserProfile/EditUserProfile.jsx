@@ -187,6 +187,7 @@ const EditUserProfile = () => {
         //const filtertedList = updatedList.filter(item => item.replaceAll(" " , "") !== '');
         
         setSelectedTypes(res.data.data[0].agent_work_area.split(","));
+        
         setUserData((prevUserData) => ({
           ...prevUserData,
           user_work_state: res.data.stateData,
@@ -283,6 +284,10 @@ const EditUserProfile = () => {
     step5: false,
   })
 
+
+
+
+  
 
   const formSteps = [
     { stepActive: true,  loc: "#personal-info", customClass: formStepsStatus.step1 ? "pro-picks-card-disabled" : "pro-picks-card" , title: "Basic Information", desc: "Name, Email, Phone Number, About You" , icon: <IconUser width="28" height="28"  style={formStepsStatus.step1 === false ? {  color: 'blue' } : {} } /> },

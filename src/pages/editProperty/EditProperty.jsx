@@ -47,7 +47,7 @@ const EditProperty = () => {
 
   const arrproId = id1.split("-");
   const id = arrproId[arrproId.length - 1];
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(3);
   const handleNextStep = () => {
     activeStep <= 2 ? setActiveStep(activeStep + 1) : "";
   };
@@ -139,6 +139,43 @@ const EditProperty = () => {
     { value: "After 6 Months" },
   ];
 
+
+  const otherRooms = [
+    { value: "Puja Room" },
+    { value: "Store Room" },
+    { value: "Study Room " },
+  ];
+
+  const nearByFacilities = [
+    { value: "Schools" },
+    { value: "Hospitals" },
+    { value: "Public Transportation" },
+    { value: "Shops/Malls " },
+    { value: "Restaurants" },
+    { value: "Parks/Green Spaces " },
+  ];
+
+
+  
+  const [selectedOtherRooms, setSelectedOtherRooms] = useState([]);
+  const [selectednearByFac, setSelectednearByFac] = useState([]);
+
+  const handleTypeToggle = (type) => {
+    if (selectedOtherRooms.includes(type)) {
+      setSelectedOtherRooms(selectedOtherRooms.filter((item) => item !== type));
+    } else {
+      setSelectedOtherRooms([...selectedOtherRooms, type]);
+    }
+  };
+
+  const handleTypeToggleNearBy = (type) => {
+    if (selectednearByFac.includes(type)) {
+      setSelectednearByFac(selectednearByFac.filter((item) => item !== type));
+    } else {
+      setSelectednearByFac([...selectednearByFac, type]);
+    }
+  };
+
   const [propertyData, setPropertyData] = useState({
     pro_id: "",
     pro_user_type: "",
@@ -182,6 +219,8 @@ const EditProperty = () => {
     pro_state: "",
     pro_sub_district: "",
     pro_negotiable: "",
+    pro_other_rooms: "",
+    pro_near_by_facilities: "",
   });
 
   const [images, setImages] = useState([]);
@@ -275,6 +314,9 @@ const EditProperty = () => {
           pro_negotiable: res.data[0].pro_negotiable,
           pro_user_id: res.data[0].pro_user_id,
         });
+        setSelectedOtherRooms(res.data[0].pro_other_rooms ? res.data[0].pro_other_rooms.split(",") : []);
+        setSelectednearByFac(res.data[0].pro_other_rooms ? res.data[0].pro_near_by_facilities.split(",") : [])
+
        setSkeleton(false);
       });
     axios
@@ -283,6 +325,7 @@ const EditProperty = () => {
         setImages(res.data);
       });
   }, []);
+
 
   const [formatError, setFormatError] = useState(false);
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
@@ -446,6 +489,8 @@ const EditProperty = () => {
     var val = propertyData.pro_locality.trim();
     var a = val.replace(/\s{2,}/g, " ");
     propertyData.pro_locality = a;
+    propertyData.pro_other_rooms = selectedOtherRooms?.map((item) => item).join(",");
+    propertyData.pro_near_by_facilities = selectednearByFac?.map((item) => item).join(",");
     axios
       .put(
         import.meta.env.VITE_BACKEND + "/api/pro/updateProperty",
@@ -1747,6 +1792,49 @@ const EditProperty = () => {
                                 ))}
                             </div>
                           </div>
+
+
+
+                          <div className="pro_flex pro_flex_1 mb-3">
+                          <div className="d-flex flex-wrap text-center d-flex align-items-center">
+                            <span className="pro_heading">Other Rooms</span>
+                            {otherRooms.map((item) => (
+                              <div
+                                className={`pro_radio_btn_1 ${
+                                  selectedOtherRooms.includes(item.value)
+                                    ? " pro_selected"
+                                    : ""
+                                }`}
+                                onClick={() => handleTypeToggle(item.value)}
+                              >
+                                {item.value}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="pro_flex pro_flex_1 mb-3">
+                          <div className="d-flex flex-wrap text-center d-flex align-items-center">
+                            <span className="pro_heading">
+                              Near By Facilities
+                            </span>
+                            {nearByFacilities.map((item) => (
+                              <div
+                                className={`pro_radio_btn_1 ${
+                                  selectednearByFac.includes(item.value)
+                                    ? " pro_selected"
+                                    : ""
+                                }`}
+                                onClick={() =>
+                                  handleTypeToggleNearBy(item.value)
+                                }
+                              >
+                                {item.value}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
 
                           <div className="pro_flex">
                             <TextField

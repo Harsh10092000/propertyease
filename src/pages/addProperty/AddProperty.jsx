@@ -174,8 +174,6 @@ const AddProperty = () => {
       });
   }, []);
 
- 
-
   const [subDistrict, setSubDistrict] = useState();
   const [cityState, setCityState] = useState();
   useEffect(() => {
@@ -209,9 +207,6 @@ const AddProperty = () => {
         );
       });
   }, [change]);
-
-
-
 
   const icon = <IconSquare fontSize="small" />;
   const checkedIcon = <IconSquareCheckFilled fontSize="small" />;
@@ -269,6 +264,21 @@ const AddProperty = () => {
     { value: "4" },
   ];
 
+  const otherRooms = [
+    { value: "Puja Room" },
+    { value: "Store Room" },
+    { value: "Study Room " },
+  ];
+
+  const nearByFacilities = [
+    { value: "Schools" },
+    { value: "Hospitals" },
+    { value: "Public Transportation" },
+    { value: "Shops/Malls " },
+    { value: "Restaurants" },
+    { value: "Parks/Green Spaces " },
+  ];
+
   const propertyAdType = [{ value: "Sale" }, { value: "Rent" }];
 
   const propertyUserType = [{ value: "Broker" }, { value: "Owner" }];
@@ -291,6 +301,25 @@ const AddProperty = () => {
     { value: "3-6 Month" },
     { value: "After 6 Months" },
   ];
+
+  const [selectedOtherRooms, setSelectedOtherRooms] = useState([]);
+  const [selectednearByFac, setSelectednearByFac] = useState([]);
+
+  const handleTypeToggle = (type) => {
+    if (selectedOtherRooms.includes(type)) {
+      setSelectedOtherRooms(selectedOtherRooms.filter((item) => item !== type));
+    } else {
+      setSelectedOtherRooms([...selectedOtherRooms, type]);
+    }
+  };
+
+  const handleTypeToggleNearBy = (type) => {
+    if (selectednearByFac.includes(type)) {
+      setSelectednearByFac(selectednearByFac.filter((item) => item !== type));
+    } else {
+      setSelectednearByFac([...selectednearByFac, type]);
+    }
+  };
 
   const curr_date = Date.now();
   const [state, dispatch] = useReducer(fetchReducer, INITIAL_STATE);
@@ -480,7 +509,7 @@ const AddProperty = () => {
     checkLogin();
   }, [userData.otp]);
 
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(3);
   const handleNextStep = () => {
     activeStep <= 2 ? setActiveStep(activeStep + 1) : "";
   };
@@ -743,13 +772,15 @@ const AddProperty = () => {
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
     // )[0].name;
+
+    propertyData.pro_other_rooms = selectedOtherRooms?.map((item) => item).join(",");
+    propertyData.pro_near_by_facilities = selectednearByFac?.map((item) => item).join(",");
+    
+
     axios
       .post(import.meta.env.VITE_BACKEND + "/api/pro/addProperty", propertyData)
       .then((res) => addImages(res.data));
   };
-
-
-
 
   const addImages = async (id) => {
     if (selectedFiles !== null) {
@@ -791,13 +822,9 @@ const AddProperty = () => {
     );
   };
 
-
-
   // useEffect(() => {
   //   window.scrollTo(0, 100);
   // }, []);
-
- 
 
   return (
     <div>
@@ -928,9 +955,7 @@ const AddProperty = () => {
       <Navbar />
 
       {true ? (
-        
         <div className="container">
-         
           <section className="signup-section upper-form-heading post-property">
             <div className="heading_style">
               <h4>
@@ -1109,436 +1134,415 @@ const AddProperty = () => {
                         </div>
                       </div>
                     ) : activeStep === 1 ? (
-                     
-                        <div className="flex-col-sm mainDiv">
-                          <h2>Locations Details </h2>
+                      <div className="flex-col-sm mainDiv">
+                        <h2>Locations Details </h2>
 
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                              // error={propertyData.pro_type === "" ? true : false}
-                            >
-                              <InputLabel htmlFor="grouped-native-select">
-                                Property Type
-                              </InputLabel>
-                              <Select
-                                helpperText
-                                native
-                                defaultValue=""
-                                id="grouped-native-select"
-                                label="Property Type"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_type: e.target.value,
-                                  })
-                                }
-                                value={propertyData.pro_type}
-                              >
-                                <option aria-label="None" value="" />
-                                <optgroup label="Residential">
-                                  <option value={"Apartment,Residential"}>
-                                    Apartment
-                                  </option>
-                                  <option
-                                    value={"Independent House,Residential"}
-                                  >
-                                    Independent House
-                                  </option>
-                                  <option value={"Builder Floor,Residential"}>
-                                    Builder Floor
-                                  </option>
-                                  <option value={"Farm House,Residential"}>
-                                    Farm House
-                                  </option>
-                                  <option value={"Raw House,Residential"}>
-                                    Raw House
-                                  </option>
-                                  <option
-                                    value={"Retirement Community,Residential"}
-                                  >
-                                    Retirement Community
-                                  </option>
-                                  <option
-                                    value={"Studio Apartment,Residential"}
-                                  >
-                                    Studio Apartment
-                                  </option>
-                                </optgroup>
-                                <optgroup label="Land">
-                                  <option value={"Residential Land,Land"}>
-                                    Residential Land
-                                  </option>
-                                  <option value={"Commercial Land,Land"}>
-                                    Commercial Land
-                                  </option>
-                                  <option value={"Industrial Land,Land"}>
-                                    Industrial Land
-                                  </option>
-                                  <option value={"Agricultural Land,Land"}>
-                                    Agricultural Land
-                                  </option>
-                                  <option value={"Farm House Land,Land"}>
-                                    Farm House Land
-                                  </option>
-                                </optgroup>
-                                <optgroup label="Commercial">
-                                  <option value={"Retail Showroom,Commercial"}>
-                                    Retail Showroom
-                                  </option>
-                                  <option
-                                    value={"Commercial Building,Commercial"}
-                                  >
-                                    Commercial Building
-                                  </option>
-                                  <option value={"Office Complex,Commercial"}>
-                                    Office Complex
-                                  </option>
-                                  <option
-                                    value={
-                                      "Software Technology Park,Commercial"
-                                    }
-                                  >
-                                    Software Technology Park
-                                  </option>
-                                  <option value={"Warehouse,Commercial"}>
-                                    Warehouse
-                                  </option>
-                                  <option
-                                    value={"Industrial Estate,Commercial"}
-                                  >
-                                    Industrial Estate
-                                  </option>
-
-
-
-                                  <option
-                                    value={"Institutional,Commercial"}
-                                  >
-                                    Institutional
-                                  </option>
-
-                                  <option
-                                    value={"Petrol Pump,Commercial"}
-                                  >
-                                    Petrol Pump
-                                  </option>
-
-                                  <option
-                                    value={"Cold Store,Commercial"}
-                                  >
-                                    Cold Store
-                                  </option>
-
-
-   
-                                </optgroup>
-                              </Select>
-                              {step2 === true &&
-                                propertyData.pro_type === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
-
-                            <TextField
-                              sx={{ m: 1, width: ["100%"] }}
-                              id="outlined-basic"
-                              variant="outlined"
-                              size="small"
-                              label="Plot Number"
-                              className="w-full"
-                              name="Plot Number"
-                              inputProps={{ maxLength: 10 }}
-                              value={propertyData.pro_plot_no}
-                              // helperText={
-                              //   propertyData.pro_plot_no === "" ? "Required" : ""
-                              // }
+                        <div className="pro_flex">
+                          <FormControl
+                            sx={{ m: 1, width: ["100%"] }}
+                            size="small"
+                            // error={propertyData.pro_type === "" ? true : false}
+                          >
+                            <InputLabel htmlFor="grouped-native-select">
+                              Property Type
+                            </InputLabel>
+                            <Select
+                              helpperText
+                              native
+                              defaultValue=""
+                              id="grouped-native-select"
+                              label="Property Type"
                               onChange={(e) =>
                                 setPropertyData({
                                   ...propertyData,
-                                  pro_plot_no: e.target.value.replace(
-                                    /[^0-9/]/g,
-                                    ""
-                                  ),
+                                  pro_type: e.target.value,
                                 })
                               }
-                              //required
-                            />
-                          </div>
-
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
+                              value={propertyData.pro_type}
                             >
-                              <InputLabel id="demo-simple-select-label">
-                                State
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_state}
-                                label="State"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_state: e.target.value,
-                                    pro_city: "",
-                                    pro_sub_district: "",
-                                  })
-                                }
-                              >
-                                {stateList.map((item, index) => (
-                                  <MenuItem value={item.name} key={index}>
-                                    {item.name}
+                              <option aria-label="None" value="" />
+                              <optgroup label="Residential">
+                                <option value={"Apartment,Residential"}>
+                                  Apartment
+                                </option>
+                                <option value={"Independent House,Residential"}>
+                                  Independent House
+                                </option>
+                                <option value={"Builder Floor,Residential"}>
+                                  Builder Floor
+                                </option>
+                                <option value={"Farm House,Residential"}>
+                                  Farm House
+                                </option>
+                                <option value={"Raw House,Residential"}>
+                                  Raw House
+                                </option>
+                                <option
+                                  value={"Retirement Community,Residential"}
+                                >
+                                  Retirement Community
+                                </option>
+                                <option value={"Studio Apartment,Residential"}>
+                                  Studio Apartment
+                                </option>
+                              </optgroup>
+                              <optgroup label="Land">
+                                <option value={"Residential Land,Land"}>
+                                  Residential Land
+                                </option>
+                                <option value={"Commercial Land,Land"}>
+                                  Commercial Land
+                                </option>
+                                <option value={"Industrial Land,Land"}>
+                                  Industrial Land
+                                </option>
+                                <option value={"Agricultural Land,Land"}>
+                                  Agricultural Land
+                                </option>
+                                <option value={"Farm House Land,Land"}>
+                                  Farm House Land
+                                </option>
+                              </optgroup>
+                              <optgroup label="Commercial">
+                                <option value={"Retail Showroom,Commercial"}>
+                                  Retail Showroom
+                                </option>
+                                <option
+                                  value={"Commercial Building,Commercial"}
+                                >
+                                  Commercial Building
+                                </option>
+                                <option value={"Office Complex,Commercial"}>
+                                  Office Complex
+                                </option>
+                                <option
+                                  value={"Software Technology Park,Commercial"}
+                                >
+                                  Software Technology Park
+                                </option>
+                                <option value={"Warehouse,Commercial"}>
+                                  Warehouse
+                                </option>
+                                <option value={"Industrial Estate,Commercial"}>
+                                  Industrial Estate
+                                </option>
+
+                                <option value={"Institutional,Commercial"}>
+                                  Institutional
+                                </option>
+
+                                <option value={"Petrol Pump,Commercial"}>
+                                  Petrol Pump
+                                </option>
+
+                                <option value={"Cold Store,Commercial"}>
+                                  Cold Store
+                                </option>
+                              </optgroup>
+                            </Select>
+                            {step2 === true && propertyData.pro_type === "" && (
+                              <FormHelperText sx={{ color: "red" }}>
+                                Required
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+
+                          <TextField
+                            sx={{ m: 1, width: ["100%"] }}
+                            id="outlined-basic"
+                            variant="outlined"
+                            size="small"
+                            label="Plot Number"
+                            className="w-full"
+                            name="Plot Number"
+                            inputProps={{ maxLength: 10 }}
+                            value={propertyData.pro_plot_no}
+                            // helperText={
+                            //   propertyData.pro_plot_no === "" ? "Required" : ""
+                            // }
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_plot_no: e.target.value.replace(
+                                  /[^0-9/]/g,
+                                  ""
+                                ),
+                              })
+                            }
+                            //required
+                          />
+                        </div>
+
+                        <div className="pro_flex">
+                          <FormControl
+                            sx={{ m: 1, width: ["100%"] }}
+                            size="small"
+                          >
+                            <InputLabel id="demo-simple-select-label">
+                              State
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={propertyData.pro_state}
+                              label="State"
+                              onChange={(e) =>
+                                setPropertyData({
+                                  ...propertyData,
+                                  pro_state: e.target.value,
+                                  pro_city: "",
+                                  pro_sub_district: "",
+                                })
+                              }
+                            >
+                              {stateList.map((item, index) => (
+                                <MenuItem value={item.name} key={index}>
+                                  {item.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {step2 === true &&
+                              propertyData.pro_state === "" && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  Required
+                                </FormHelperText>
+                              )}
+                          </FormControl>
+
+                          <FormControl
+                            sx={{ m: 1, width: ["100%"] }}
+                            size="small"
+                          >
+                            <InputLabel id="demo-simple-select-label">
+                              City
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={propertyData.pro_city}
+                              disabled={
+                                propertyData.pro_state === "" ? true : false
+                              }
+                              label="City"
+                              title={
+                                propertyData.pro_state === ""
+                                  ? "Select State to add City"
+                                  : ""
+                              }
+                              onChange={(e) => {
+                                setPropertyData({
+                                  ...propertyData,
+                                  pro_city: e.target.value,
+                                  pro_sub_district: "",
+                                });
+                              }}
+                            >
+                              {cityState
+                                .filter(
+                                  (i) => i.state === propertyData.pro_state
+                                )
+                                .map((item, index) => (
+                                  <MenuItem value={item.district} key={index}>
+                                    {item.district}
                                   </MenuItem>
                                 ))}
-                              </Select>
-                              {step2 === true &&
-                                propertyData.pro_state === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
+                            </Select>
+                            {step2 === true &&
+                              propertyData.pro_city === "" &&
+                              propertyData.pro_state !== "" &&
+                              propertyData.pro_state !== null && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  {/* Select State to add City */}
+                                  Required
+                                </FormHelperText>
+                              )}
+                            {step2 === true &&
+                              propertyData.pro_city === "" &&
+                              propertyData.pro_state === "" && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  Required
+                                </FormHelperText>
+                              )}
+                          </FormControl>
+                        </div>
 
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
+                        <div className="pro_flex">
+                          <FormControl
+                            sx={{ m: 1, width: ["100%"] }}
+                            size="small"
+                          >
+                            <InputLabel id="demo-simple-select-label">
+                              Sub District
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              title={
+                                propertyData.pro_state === "" &&
+                                propertyData.pro_city === ""
+                                  ? "Select State and City to Sub District"
+                                  : propertyData.pro_state !== "" &&
+                                    propertyData.pro_city === ""
+                                  ? "Select City to add Sub District"
+                                  : ""
+                              }
+                              disabled={
+                                propertyData.pro_city === "" ||
+                                propertyData.pro_state === ""
+                                  ? true
+                                  : false
+                              }
+                              value={propertyData.pro_sub_district}
+                              label="Sub District"
+                              onChange={(e) =>
+                                setPropertyData({
+                                  ...propertyData,
+                                  pro_sub_district: e.target.value,
+                                })
+                              }
                             >
-                              <InputLabel id="demo-simple-select-label">
-                                City
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={propertyData.pro_city}
-                                disabled={
-                                  propertyData.pro_state === "" ? true : false
-                                }
-                                label="City"
-                                title={
-                                  propertyData.pro_state === ""
-                                    ? "Select State to add City"
-                                    : ""
-                                }
-                                onChange={(e) => {
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_city: e.target.value,
-                                    pro_sub_district: "",
-                                  });
-                                }}
-                              >
-                                {cityState
+                              {subDistrict &&
+                                subDistrict
                                   .filter(
-                                    (i) => i.state === propertyData.pro_state
+                                    (i) => i.district === propertyData.pro_city
                                   )
                                   .map((item, index) => (
-                                    <MenuItem value={item.district} key={index}>
-                                      {item.district}
+                                    <MenuItem
+                                      value={item.sub_district}
+                                      key={index}
+                                    >
+                                      {item.sub_district}
                                     </MenuItem>
                                   ))}
-                              </Select>
-                              {step2 === true &&
-                                propertyData.pro_city === "" &&
-                                propertyData.pro_state !== "" &&
-                                propertyData.pro_state !== null && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    {/* Select State to add City */}
-                                    Required
-                                  </FormHelperText>
-                                )}
-                              {step2 === true &&
-                                propertyData.pro_city === "" &&
-                                propertyData.pro_state === "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
-                          </div>
-
-                          <div className="pro_flex">
-                            <FormControl
-                              sx={{ m: 1, width: ["100%"] }}
-                              size="small"
-                            >
-                              <InputLabel id="demo-simple-select-label">
-                                Sub District
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                title={
-                                  propertyData.pro_state === "" &&
-                                  propertyData.pro_city === ""
-                                    ? "Select State and City to Sub District"
-                                    : propertyData.pro_state !== "" &&
-                                      propertyData.pro_city === ""
-                                    ? "Select City to add Sub District"
-                                    : ""
-                                }
-                                disabled={
-                                  propertyData.pro_city === "" ||
-                                  propertyData.pro_state === ""
-                                    ? true
-                                    : false
-                                }
-                                value={propertyData.pro_sub_district}
-                                label="Sub District"
-                                onChange={(e) =>
-                                  setPropertyData({
-                                    ...propertyData,
-                                    pro_sub_district: e.target.value,
-                                  })
-                                }
-                              >
-                                {subDistrict &&
-                                  subDistrict
-                                    .filter(
-                                      (i) =>
-                                        i.district === propertyData.pro_city
-                                    )
-                                    .map((item, index) => (
-                                      <MenuItem
-                                        value={item.sub_district}
-                                        key={index}
-                                      >
-                                        {item.sub_district}
-                                      </MenuItem>
-                                    ))}
-                              </Select>
-                              {step2 === true &&
-                                (propertyData.pro_city === "" ||
-                                  propertyData.pro_state === "") && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Select State and City to add Sub District
-                                  </FormHelperText>
-                                )}
-                              {step2 === true &&
-                                propertyData.pro_sub_district === "" &&
-                                propertyData.pro_city !== "" &&
-                                propertyData.pro_state !== "" && (
-                                  <FormHelperText sx={{ color: "red" }}>
-                                    Required
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
-                            <TextField
-                              sx={{ m: 1, width: ["100%"] }}
-                              id="outlined-basic"
-                              variant="outlined"
-                              size="small"
-                              label="Enter Locality"
-                              className="w-full"
-                              name="Enter Locality"
-                              inputProps={{ maxLength: 50 }}
-                              value={propertyData.pro_locality}
-                              FormHelperTextProps={{ sx: { color: "red" } }}
-                              helperText={
-                                step2 === true &&
-                                propertyData.pro_locality === ""
-                                  ? "Required"
-                                  : ""
-                              }
-                              onChange={(e) =>
-                                setPropertyData({
-                                  ...propertyData,
-                                  pro_locality: e.target.value.replace(
-                                    /[^0-9A-Z a-z ]/g,
-                                    ""
-                                  ),
-                                })
-                              }
-                              required
-                            />
-                          </div>
-
-                          <div>
-                            <TextField
-                              multiline
-                              InputProps={{
-                                rows: 5,
-                              }}
-                              sx={{ m: 1, width: ["100%"] }}
-                              id="outlined-basic"
-                              variant="outlined"
-                              size="small"
-                              label="Complete Address"
-                              className="w-full"
-                              name="Complete Address"
-                              FormHelperTextProps={{ sx: { color: "red" } }}
-                              helperText={
-                                propertyData.pro_desc.length < 2001
-                                  ? ""
-                                  : "Description should be smaller than 2000 characters"
-                              }
-                              inputProps={{ maxLength: 2000 }}
-                              value={propertyData.pro_street}
-                              onChange={(e) =>
-                                setPropertyData({
-                                  ...propertyData,
-                                  pro_street: e.target.value.replace(
-                                    /[^0-9A-Z a-z , . //\n]/g,
-                                    ""
-                                  ),
-                                })
-                              }
-                            />
-                          </div>
-                          <div>
-                            <TextField
-                              sx={{ m: 1, width: ["100%"] }}
-                              id="outlined-basic"
-                              variant="outlined"
-                              size="small"
-                              label="Pin Code"
-                              className="w-full"
-                              name="Pin Code"
-                              inputProps={{ maxLength: 6 }}
-                              FormHelperTextProps={{ sx: { color: "red" } }}
-                              value={propertyData.pro_pincode}
-                              helperText={
-                                step2 === true &&
-                                propertyData.pro_pincode.length < 6
-                                  ? "Enter Valid Pin Code"
-                                  : ""
-                              }
-                              onChange={(e) =>
-                                setPropertyData({
-                                  ...propertyData,
-                                  pro_pincode: e.target.value.replace(
-                                    /[^0-9]/g,
-                                    ""
-                                  ),
-                                })
-                              }
-                              required
-                            />
-                          </div>
-                          <div className="d-flex justify-content-between ">
-                            {activeStep > 0 ? (
-                              <button className="btn add-pro-back-btn" onClick={handleBackStep}>
-                               <IconChevronsLeft /> Back
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                            <button
-                              className="btn continue-btn"
-                              //disabled={step2Disabled}
-                              //disabled={step2 === true ? true : false}
-                              onClick={handleStep2}
-                            >
-                              Next <IconChevronsRight />
-                            </button>
-                          </div>
+                            </Select>
+                            {step2 === true &&
+                              (propertyData.pro_city === "" ||
+                                propertyData.pro_state === "") && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  Select State and City to add Sub District
+                                </FormHelperText>
+                              )}
+                            {step2 === true &&
+                              propertyData.pro_sub_district === "" &&
+                              propertyData.pro_city !== "" &&
+                              propertyData.pro_state !== "" && (
+                                <FormHelperText sx={{ color: "red" }}>
+                                  Required
+                                </FormHelperText>
+                              )}
+                          </FormControl>
+                          <TextField
+                            sx={{ m: 1, width: ["100%"] }}
+                            id="outlined-basic"
+                            variant="outlined"
+                            size="small"
+                            label="Enter Locality"
+                            className="w-full"
+                            name="Enter Locality"
+                            inputProps={{ maxLength: 50 }}
+                            value={propertyData.pro_locality}
+                            FormHelperTextProps={{ sx: { color: "red" } }}
+                            helperText={
+                              step2 === true && propertyData.pro_locality === ""
+                                ? "Required"
+                                : ""
+                            }
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_locality: e.target.value.replace(
+                                  /[^0-9A-Z a-z ]/g,
+                                  ""
+                                ),
+                              })
+                            }
+                            required
+                          />
                         </div>
-                      
+
+                        <div>
+                          <TextField
+                            multiline
+                            InputProps={{
+                              rows: 5,
+                            }}
+                            sx={{ m: 1, width: ["100%"] }}
+                            id="outlined-basic"
+                            variant="outlined"
+                            size="small"
+                            label="Complete Address"
+                            className="w-full"
+                            name="Complete Address"
+                            FormHelperTextProps={{ sx: { color: "red" } }}
+                            helperText={
+                              propertyData.pro_desc.length < 2001
+                                ? ""
+                                : "Description should be smaller than 2000 characters"
+                            }
+                            inputProps={{ maxLength: 2000 }}
+                            value={propertyData.pro_street}
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_street: e.target.value.replace(
+                                  /[^0-9A-Z a-z , . //\n]/g,
+                                  ""
+                                ),
+                              })
+                            }
+                          />
+                        </div>
+                        <div>
+                          <TextField
+                            sx={{ m: 1, width: ["100%"] }}
+                            id="outlined-basic"
+                            variant="outlined"
+                            size="small"
+                            label="Pin Code"
+                            className="w-full"
+                            name="Pin Code"
+                            inputProps={{ maxLength: 6 }}
+                            FormHelperTextProps={{ sx: { color: "red" } }}
+                            value={propertyData.pro_pincode}
+                            helperText={
+                              step2 === true &&
+                              propertyData.pro_pincode.length < 6
+                                ? "Enter Valid Pin Code"
+                                : ""
+                            }
+                            onChange={(e) =>
+                              setPropertyData({
+                                ...propertyData,
+                                pro_pincode: e.target.value.replace(
+                                  /[^0-9]/g,
+                                  ""
+                                ),
+                              })
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="d-flex justify-content-between ">
+                          {activeStep > 0 ? (
+                            <button
+                              className="btn add-pro-back-btn"
+                              onClick={handleBackStep}
+                            >
+                              <IconChevronsLeft /> Back
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                          <button
+                            className="btn continue-btn"
+                            //disabled={step2Disabled}
+                            //disabled={step2 === true ? true : false}
+                            onClick={handleStep2}
+                          >
+                            Next <IconChevronsRight />
+                          </button>
+                        </div>
+                      </div>
                     ) : activeStep === 2 ? (
                       <div className="flex-col-sm mainDiv">
                         <h2>Property Details</h2>
@@ -1555,8 +1559,6 @@ const AddProperty = () => {
 
                         {propertyData.pro_type.split(",")[1] ===
                           "Commercial" && (
-                          
-                         
                           <BoxSelectOptions
                             heading="Number of Washrooms"
                             array={propertyBedrooms}
@@ -1872,13 +1874,14 @@ const AddProperty = () => {
                                 : ""}
                             </div>
                           </div>
-
-                         
                         </div>
 
                         <div className="d-flex justify-content-between ">
                           {activeStep > 0 ? (
-                            <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                            <button
+                              className="btn add-pro-back-btn"
+                              onClick={handleBackStep}
+                            >
                               <IconChevronsLeft /> Back
                             </button>
                           ) : (
@@ -1889,7 +1892,7 @@ const AddProperty = () => {
                             //disabled={step3 === true ? true : false}
                             onClick={handleStep3}
                           >
-                           Next <IconChevronsRight />
+                            Next <IconChevronsRight />
                           </button>
                         </div>
                       </div>
@@ -1915,6 +1918,46 @@ const AddProperty = () => {
                           setPropertyData={setPropertyData}
                           step_val={step4}
                         />
+
+                        <div className="pro_flex pro_flex_1 mb-3">
+                          <div className="d-flex flex-wrap text-center d-flex align-items-center">
+                            <span className="pro_heading">Other Rooms</span>
+                            {otherRooms.map((item) => (
+                              <div
+                                className={`pro_radio_btn_1 ${
+                                  selectedOtherRooms.includes(item.value)
+                                    ? " pro_selected"
+                                    : ""
+                                }`}
+                                onClick={() => handleTypeToggle(item.value)}
+                              >
+                                {item.value}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="pro_flex pro_flex_1 mb-3">
+                          <div className="d-flex flex-wrap text-center d-flex align-items-center">
+                            <span className="pro_heading">
+                              Near By Facilities
+                            </span>
+                            {nearByFacilities.map((item) => (
+                              <div
+                                className={`pro_radio_btn_1 ${
+                                  selectednearByFac.includes(item.value)
+                                    ? " pro_selected"
+                                    : ""
+                                }`}
+                                onClick={() =>
+                                  handleTypeToggleNearBy(item.value)
+                                }
+                              >
+                                {item.value}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
 
                         <div className="pro_flex ">
                           <TextField
@@ -1987,7 +2030,6 @@ const AddProperty = () => {
                               />{" "}
                               Price Negotiable
                             </span>
-                            
                           </div>
 
                           <div className="w-100 ">
@@ -2009,7 +2051,6 @@ const AddProperty = () => {
                               />{" "}
                               Already on Rented
                             </span>
-                           
                           </div>
                         </div>
 
@@ -2048,7 +2089,10 @@ const AddProperty = () => {
 
                         <div className="d-flex justify-content-between ">
                           {activeStep > 0 ? (
-                            <button className="btn add-pro-back-btn" onClick={handleBackStep}>
+                            <button
+                              className="btn add-pro-back-btn"
+                              onClick={handleBackStep}
+                            >
                               <IconChevronsLeft /> Back
                             </button>
                           ) : (
@@ -2060,7 +2104,7 @@ const AddProperty = () => {
                             // onClick={handleClick}
                             onClick={handleStep4}
                           >
-                           <IconPlus /> Add Property
+                            <IconPlus /> Add Property
                           </button>
                         </div>
                       </div>
@@ -2073,10 +2117,7 @@ const AddProperty = () => {
             </div>
           </section>
         </div>
-     
       ) : (
-      
-
         <div className="container">
           {prevData?.pro_count}
           <div className="row">

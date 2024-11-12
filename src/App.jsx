@@ -85,6 +85,8 @@ import QuickListing from "./pages/quickListing/QuickListing";
 import MailBox from "./pages/InviteUser/MailBox";
 import { HelmetProvider } from 'react-helmet-async';
 import Disclaimer from "./pages/disclaimer/Disclaimer";
+import axios from "axios";
+import redirectionData from './components/Redirection.json';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -114,6 +116,9 @@ const App = () => {
     return children;
   };
 
+
+  
+
   const ProtectedRouteQuickList = ({ children}) => {
     if (!currentUser) {
       return <Navigate to="/login" replace state={{ from: "/quick-list" }} />;
@@ -139,7 +144,41 @@ const App = () => {
     }
     return children;
   };
+
+
+  //const redirectionData = import.meta.env.VITE_BACKEND}/Redirection.json
+  //href={`${import.meta.env.VITE_BACKEND}/sample-csv.csv`}
+
+  //const [redirectionData, setRedirectionData] = useState([]);
+  
+  // useEffect(() => {
+  //   axios
+  //     .get(`${import.meta.env.VITE_BACKEND}/redirection`)
+  //     .then((res) => {
+  //       console.log(res)
+  //       setRedirectionData(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching redirection data:", error);
+  //     });
+  // }, []);
+
+  const redirections = redirectionData.map((item, index) => ({
+    path: item.old_url, 
+    element: <Navigate key={index} to={item.new_url} />
+  }));
+  
+
   const router = createBrowserRouter([
+    // {
+    //   path: "/166-marla-independent-house-for-sale-in-sector-4-kurukshetra-454",
+    //   replace: "/id=6-marla-independent-house-for-sale-in-sector-4-kurukshetra-454",
+    //   element: <Property />
+    // },
+
+    ...redirections,
+  
+   
     {
       path: "/",
       element: <Index />,
