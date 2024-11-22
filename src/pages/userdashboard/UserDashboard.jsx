@@ -122,6 +122,35 @@ const UserDashboard = () => {
   const [filterChange, setFilterChange] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
 
+  // useEffect(() => {
+  //   setFilteredData(
+  //     data
+  //       .filter((code) => {
+  //         if (filter === "Listed Properties") {
+  //           return code.pro_listed === 1 || code.pro_listed === null;
+  //         } else if (filter === "Delisted Properties") {
+  //           return code.pro_listed == 0;
+  //         } else if (filter === "All") {
+  //           return true;
+  //         }
+  //       })
+  //       .filter(
+  //         (code) =>
+  //           code.pro_locality
+  //             .toLowerCase()
+  //             .includes(searchValue.toLowerCase()) ||
+  //           code.pro_sub_district
+  //             .toLowerCase()
+  //             .includes(searchValue.toLowerCase()) ||
+  //           code.pro_pincode.startsWith(searchValue) ||
+  //           code.pro_modified_id.toString().startsWith(searchValue) ||
+  //           code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
+  //           code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
+  //       )
+  //   );
+  // }, [filterChange, data]);
+
+
   useEffect(() => {
     setFilteredData(
       data
@@ -133,22 +162,24 @@ const UserDashboard = () => {
           } else if (filter === "All") {
             return true;
           }
+          return false;  // Add a default return value for safety
         })
-        .filter(
-          (code) =>
-            code.pro_locality
-              .toLowerCase()
-              .includes(searchValue.toLowerCase()) ||
-            code.pro_sub_district
-              .toLowerCase()
-              .includes(searchValue.toLowerCase()) ||
-            code.pro_pincode.startsWith(searchValue) ||
-            code.pro_modified_id.toString().startsWith(searchValue) ||
-            code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
-            code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
-        )
+        .filter((code) => {
+          const normalizedSearchValue = searchValue.toLowerCase();
+          
+          return (
+            (code.pro_locality && code.pro_locality.toLowerCase().includes(normalizedSearchValue)) ||
+            (code.pro_sub_district && code.pro_sub_district.toLowerCase().includes(normalizedSearchValue)) ||
+            (code.pro_pincode && code.pro_pincode.startsWith(searchValue)) ||
+            (code.pro_modified_id && code.pro_modified_id.toString().startsWith(searchValue)) ||
+            (code.pro_city && code.pro_city.toLowerCase().includes(normalizedSearchValue)) ||
+            (code.pro_state && code.pro_state.toLowerCase().startsWith(normalizedSearchValue)) ||
+            (code.pro_ad_type && code.pro_ad_type.toLowerCase().startsWith(normalizedSearchValue))
+          );
+        })
     );
-  }, [filterChange, data]);
+  }, [filterChange, data, searchValue]);
+  
 
 
  
@@ -720,6 +751,16 @@ const UserDashboard = () => {
               width="70"
               className="rounded-circle"
             />
+            {/* {agentData.agent_image ? (
+                                <img
+                                  src={`${
+                                    import.meta.env.VITE_BACKEND
+                                  }/userImages/${agentData.agent_image}`}
+                                  alt="img"
+                                />
+                              ) : (
+                                <img src="/img/person.jpg" />
+                              )} */}
           </div>
           <div className="info-card-name">
             <h5 className="fw-semibold name-font-size mb-1">
