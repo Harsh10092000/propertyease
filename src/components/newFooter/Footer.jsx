@@ -482,7 +482,7 @@
 //               </li>
 
 //               <li>
-//                 <a href="tel:9996716787" title="Call Now">
+//                 <a href="tel:9996167778" title="Call Now">
 //                   <span className="mr-1">
 //                     <IconPhone className="sidebar-faicon" />
 //                   </span>
@@ -490,7 +490,7 @@
 //                 </a>
 //               </li>
 //               {/* <li>
-//                 <a href="tel:9996716787" title="Call Now">
+//                 <a href="tel:9996167778" title="Call Now">
 //                   <span className="mr-1">
 //                     <IconPhone className="sidebar-faicon" />
 //                   </span>
@@ -624,7 +624,7 @@ const Footer = () => {
 
   ];
 
-  const commericalPropertyType = [
+  const CommercialPropertyType = [
     { lintto: "/commercial/retail-showroom", type: "Retail Showroom" },
     { lintto: "/commercial/commercial-building", type: "Commercial Building" },
     { lintto: "/commercial/office-complex", type: "Office Complex" },
@@ -812,7 +812,7 @@ const Footer = () => {
             </ul>
             <ul className="footer-lists-container">
               <li className="footer-list-heading">Commercial</li>
-              {commericalPropertyType.map((item) => (
+              {CommercialPropertyType.map((item) => (
                 <li className="footer-list-item">
                 <Link to={item.lintto}>{item.type} </Link>
               </li>
@@ -904,7 +904,7 @@ const Footer = () => {
                 </a>
               </li>
               {/* <li>
-                <a href="tel:9996716787" title="Call Now">
+                <a href="tel:9996167778" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
                   </span>
@@ -921,7 +921,7 @@ const Footer = () => {
                 </a>
               </li> */}
               {/* <li>
-                <a href="tel:9996716787" title="Call Now">
+                <a href="tel:9996167778" title="Call Now">
                   <span className="mr-1">
                     <IconPhone className="sidebar-faicon" />
                   </span>

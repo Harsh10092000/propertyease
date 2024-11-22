@@ -122,15 +122,19 @@ const AllProperties = (props) => {
     const proadtype = searchParams.get("proadtype");
     const proCat = searchParams.get("procat");
     //const temp = searchParams.get("proSubTypeFilter");
+    //console.log("proadtype : " , proadtype,proCat );
     if (myParam !== null && proadtype !== null) {
       setSearchValue(myParam);
       setSearchValue1(myParam);
       setPropertyAdTypeFilter(proadtype);
       setChange(change + 1);
       //handleSearch();
-    } else if (proCat !== null) {
+    } 
+    if (proCat !== null) {
       setProCategoryFilter([proCat]);
     }
+    if (proCat === "All Properties") {
+      setProCategoryFilter(["Residential" , "Commercial" ,"Land"])}
     //setProSubTypeFilter(temp);
   }, []);
 

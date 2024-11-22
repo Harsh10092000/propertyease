@@ -122,7 +122,7 @@ const Footer = () => {
 
   ];
 
-  const commericalPropertyType = [
+  const CommercialPropertyType = [
     { lintto: "/commercial/retail-showroom", type: "Retail Showroom" },
     { lintto: "/commercial/commercial-building", type: "Commercial Building" },
     { lintto: "/commercial/office-complex", type: "Office Complex" },
@@ -508,7 +508,7 @@ const Footer = () => {
             </ul>
             <ul className="footer-lists-container">
               <li className="footer-list-heading">Commercial</li>
-              {commericalPropertyType.map((item) => (
+              {CommercialPropertyType.map((item) => (
                 <li className="footer-list-item">
                 <Link to={item.lintto}>{item.type} </Link>
               </li>

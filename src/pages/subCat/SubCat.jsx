@@ -392,7 +392,7 @@ const SubCat = () => {
           >
             <MenuItem value={"All"}>All</MenuItem>
             <MenuItem value={"Residential"}>Residential</MenuItem>
-            <MenuItem value={"Commerical"}>Commerical</MenuItem>
+            <MenuItem value={"Commercial"}>Commercial</MenuItem>
             <MenuItem value={"Land"}>Land/Plots</MenuItem>
           </Select>
         </FormControl> */}

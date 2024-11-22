@@ -63,7 +63,7 @@ const AgentProifle = () => {
 
   const propertyType = [
     { type: "View Residentail Properties", link: "/property/residential" },
-    { type: "View Commerical Properties", link: "/property/commercial" },
+    { type: "View Commercial Properties", link: "/property/commercial" },
     { type: "View Land/Plots Properties", link: "/property/land" },
     { type: "View All Properties", link: "/allproperties" },
   ];

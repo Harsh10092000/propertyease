@@ -41,7 +41,7 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-
+import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
 // import Reviews from "../../components/reviews/Reviews";
 
 const Index = () => {
@@ -104,10 +104,12 @@ const Index = () => {
   //   useState("All Properties");
   // const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
 
-  const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
-    useState("All Properties");
-  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] =
-    useState(false);
+  const [propertyAdTypeFilter, setPropertyAdTypeFilter] = useState("All Properties");
+  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] = useState(false);
+
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("Property Types ");
+  const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
+
 
   const latest_pro_btns = [
     {
@@ -171,7 +173,7 @@ const Index = () => {
   const handleClick = (index) => {
     //var newArr = selectedTypes.join(",").replaceAll(",", "-");
     navigate(
-      `/allproperties?search=${searchValue}&proadtype=${propertyAdTypeFilter}`
+      `/allproperties?search=${searchValue}&proadtype=${propertyAdTypeFilter}&procat=${propertyTypeFilter}`
     );
   };
 
@@ -287,11 +289,11 @@ const Index = () => {
       alt: "Check out Residential properties on propertyease.in"
     },
     {
-      heading: "Commerical",
+      heading: "Commercial",
       image: "images/pro-type-2.webp",
       link: "/listing/commercial",
-      title: "Click to View All Commerical Properties",
-      alt: "Check out Commerical properties on propertyease.in"
+      title: "Click to View All Commercial Properties",
+      alt: "Check out Commercial properties on propertyease.in"
     },
     {
       heading: "Land",
@@ -305,7 +307,7 @@ const Index = () => {
   const propertyTypeOptions = [
     { type: "All Properties" },
     { type: "Residential" },
-    { type: "Commerical" },
+    { type: "Commercial" },
     { type: "Land" },
   ];
 
@@ -528,12 +530,12 @@ const Index = () => {
   };
 
   const dropdownRef = useRef(null);
-
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setOpenPropertyAdTypeOptions(false);
     }
   };
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -542,8 +544,26 @@ const Index = () => {
     };
   }, []);
 
+
+  const dropdownRef1 = useRef(null);
+  const handleClickOutside1 = (event) => {
+    if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
+      setOpenPropertyTypeOptions(false);
+    }
+  };
+
+
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside1);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside1);
+    };
+  }, []);
+
   return (
     <div>
+
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
@@ -678,6 +698,7 @@ const Index = () => {
       />
       {/* <div onClick={handleClickOpen}>Open Dialog</div> */}
 
+
       <div>
         <div className="image-cover hero-banner" data-select2-id="13">
           <div className="container" data-select2-id="12">
@@ -695,7 +716,10 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="hero-search">
+
+          {/* <div><VoiceRecognation /> </div> */}
+
+          {/* <div className="hero-search">
             <div className="container hero-search-wrapper">
               <div className="row">
                 <div
@@ -720,6 +744,120 @@ const Index = () => {
                             onClick={() => {
                               setPropertyAdTypeFilter(item.type),
                                 setOpenPropertyAdTypeOptions(false);
+                            }}
+                          >
+                            {item.type}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                </div>
+
+                <div className="col-md">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search for a property"
+                    value={searchValue}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value), setOpenSuggestions(true);
+                    }}
+                  />
+                  {openSuggestions && (
+                    <div className=" search-suggestions-2 pt-2 shadow pb-2">
+                      {suggestions.map((item) => (
+                        <div
+                          className="py-2 pl-2 suggesion-item-2 pointer"
+                          onClick={() => {
+                            setSearchValue(item), setOpenSuggestions(false);
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  
+                </div>
+                <div className="col-md-2">
+                  <button
+                    type="submit"
+                    className="btn btn-primary w-100 "
+                    onClick={handleClick}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> */}
+
+<div className="hero-search">
+            <div className="container hero-search-wrapper">
+              <div className="row">
+                <div ref={dropdownRef}
+                style={{zIndex: 9}}
+                   className={`col-md-2 all-types pointer position-relative ${
+                    openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
+                  }`}
+                  onClick={() =>
+                    //setOpenPropertyAdTypeOptions(!openPropertyAdTypeOptions)
+                    setOpenPropertyAdTypeOptions(openPropertyAdTypeOptions ? false : true)
+                  }
+                >
+                  <div className="">{propertyAdTypeFilter}</div>
+                  {openPropertyAdTypeOptions && (
+                    <div  className=" pro-ad-type-list-wrapper">
+                      <div id="pro-ad-type-list">
+                        {propertyAdTypeOptions.map((item) => (
+                          <div
+                            className={`${
+                              propertyAdTypeFilter === item.type
+                                ? "selected"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setPropertyAdTypeFilter(item.type),
+                                setOpenPropertyAdTypeOptions(false);
+                            }}
+                          >
+                            {item.type}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* <div className="location-icon-3">
+                    <IconCaretUpFilled />
+                  </div> */}
+                </div>
+
+                <div ref={dropdownRef1}
+                   className={`col-md-2 all-types pointer position-relative ${
+                    openPropertyTypeOptions ? "arrow-up" : "arrow-down"
+                  }`}
+                  onClick={() =>
+                    // setOpenPropertyTypeOptions(!openPropertyTypeOptions)
+                    setOpenPropertyTypeOptions(openPropertyTypeOptions ? false : true)
+                  }
+                >
+                  <div  className="">{propertyTypeFilter}</div>
+                  {openPropertyTypeOptions && (
+                    <div  className=" pro-ad-type-list-wrapper">
+                      <div id="pro-ad-type-list">
+                        {propertyTypeOptions.map((item) => (
+                          <div
+                            className={`${
+                              propertyTypeFilter === item.type
+                                ? "selected"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setPropertyTypeFilter(item.type),
+                                setOpenPropertyTypeOptions(false);
                             }}
                           >
                             {item.type}
@@ -774,6 +912,7 @@ const Index = () => {
               </div>
             </div>
           </div>
+
           {/* {openPropertyAdTypeOptions && (
             <div className="container pro-ad-type-list-wrapper">
               <div id="pro-ad-type-list">

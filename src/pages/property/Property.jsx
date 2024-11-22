@@ -75,7 +75,7 @@ const Property = () => {
 
   const propertyType = [
     { type: "View Residential Properties", link: "/listing/residential" },
-    { type: "View Commerical Properties", link: "/listing/commercial" },
+    { type: "View Commercial Properties", link: "/listing/commercial" },
     { type: "View Land/Plots Properties", link: "/listing/land" },
     { type: "View All Properties", link: "/allproperties" },
   ];
@@ -624,7 +624,7 @@ const Property = () => {
         // )
         .get(
           `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-        n&key=AlzaSy0lq13QNpgxpubRmfmToudbYfmxjiMXutO`
+        n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
         )
         .then((res) => {
           setCodinates({
