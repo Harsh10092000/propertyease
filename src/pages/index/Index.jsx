@@ -41,7 +41,7 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
+// import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
 // import Reviews from "../../components/reviews/Reviews";
 
 const Index = () => {
