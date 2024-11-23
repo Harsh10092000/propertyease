@@ -322,18 +322,18 @@ const Index = () => {
 
   const directSearchButtons = [
     {
-      heading: "Rent",
-      image: "images/services-icon-2.webp",
-      link: "/addproperty",
-      title: "List Property",
-      alt: "Rent Property on propertyease.in",
-    },
-    {
       heading: "Buy",
       image: "images/services-icon-1.webp",
       link: "/allproperties",
       title: "Click to View All Properties",
       alt: `Buy Property on propertyease.in`,
+    },
+    {
+      heading: "Rent",
+      image: "images/services-icon-2.webp",
+      link: "/addproperty",
+      title: "List Property",
+      alt: "Rent Property on propertyease.in",
     },
     {
       heading: "Residential",
