@@ -46,9 +46,17 @@ import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton"
 
 const Index = () => {
 
-// const OPTIONS = { align: 'start', dragFree: true, loop: true }
-// const SLIDE_COUNT = 5
-// const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+  const scrollContainerRef = useRef(null);
+
+  const handleScroll = (e) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  };
+  
+  // const OPTIONS = { align: 'start', dragFree: true, loop: true }
+  // const SLIDE_COUNT = 5
+  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -104,12 +112,14 @@ const Index = () => {
   //   useState("All Properties");
   // const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
 
-  const [propertyAdTypeFilter, setPropertyAdTypeFilter] = useState("All Properties");
-  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] = useState(false);
+  const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
+    useState("All Properties");
+  const [openPropertyAdTypeOptions, setOpenPropertyAdTypeOptions] =
+    useState(false);
 
-  const [propertyTypeFilter, setPropertyTypeFilter] = useState("Property Types ");
+  const [propertyTypeFilter, setPropertyTypeFilter] =
+    useState("Property Types ");
   const [openPropertyTypeOptions, setOpenPropertyTypeOptions] = useState(false);
-
 
   const latest_pro_btns = [
     {
@@ -141,26 +151,27 @@ const Index = () => {
   }, []);
 
   const [data, setData] = useState([]);
-  const [subscribedUser , setSubscribedUser] = useState(false);
+  const [subscribedUser, setSubscribedUser] = useState(false);
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
       .then((res) => {
         setData(res.data);
       });
-   
   }, []);
 
   useEffect(() => {
     if (currentUser && currentUser[0] && currentUser[0].login_email) {
-    axios
-      .get(import.meta.env.VITE_BACKEND + `/api/setting/fetchSubscriberDataById/${currentUser[0].login_email}`)
-      .then((res) => {
-        setSubscribedUser(res.data);
-      });
+      axios
+        .get(
+          import.meta.env.VITE_BACKEND +
+            `/api/setting/fetchSubscriberDataById/${currentUser[0].login_email}`
+        )
+        .then((res) => {
+          setSubscribedUser(res.data);
+        });
     }
   }, [currentUser]);
-
 
   // const handleClick = (index) => {
   //   var newArr = selectedTypes.join(",").replaceAll(",", "-");
@@ -255,7 +266,7 @@ const Index = () => {
       image: "images/services-icon-1.webp",
       link: "/allproperties",
       title: "Click to View All Properties",
-      alt: `Buy Property on propertyease.in`
+      alt: `Buy Property on propertyease.in`,
     },
     {
       sub_heading: "Sell Property",
@@ -263,7 +274,7 @@ const Index = () => {
       image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
-      alt: "Sale Property on propertyease.in"
+      alt: "Sale Property on propertyease.in",
     },
     {
       sub_heading: "Rent Property",
@@ -271,7 +282,7 @@ const Index = () => {
       image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
-      alt: "Rent Property on propertyease.in"
+      alt: "Rent Property on propertyease.in",
     },
     // {
     //   sub_heading: "Rent Property",
@@ -281,27 +292,79 @@ const Index = () => {
   ];
 
   const proType = [
+    
     {
       heading: "Residential",
       image: "images/pro-type-1.webp",
       link: "/listing/residential",
       title: "Click to View All Residential Properties",
-      alt: "Check out Residential properties on propertyease.in"
+      alt: "Check out Residential properties on propertyease.in",
     },
     {
       heading: "Commercial",
       image: "images/pro-type-2.webp",
       link: "/listing/commercial",
       title: "Click to View All Commercial Properties",
-      alt: "Check out Commercial properties on propertyease.in"
+      alt: "Check out Commercial properties on propertyease.in",
     },
     {
       heading: "Land",
       image: "images/pro-type-3.webp",
       link: "/listing/land",
       title: "Click to View All Land/Plots Properties",
-      alt: "Check out Land properties on propertyease.in"
+      alt: "Check out Land properties on propertyease.in",
     },
+   
+    
+
+  ];
+
+
+  const directSearchButtons = [
+    {
+      heading: "Rent",
+      image: "images/services-icon-2.webp",
+      link: "/addproperty",
+      title: "List Property",
+      alt: "Rent Property on propertyease.in",
+    },
+    {
+      heading: "Buy",
+      image: "images/services-icon-1.webp",
+      link: "/allproperties",
+      title: "Click to View All Properties",
+      alt: `Buy Property on propertyease.in`,
+    },
+    {
+      heading: "Residential",
+      image: "images/pro-type-1.webp",
+      link: "/listing/residential",
+      title: "Click to View All Residential Properties",
+      alt: "Check out Residential properties on propertyease.in",
+    },
+    {
+      heading: "Commercial",
+      image: "images/pro-type-2.webp",
+      link: "/listing/commercial",
+      title: "Click to View All Commercial Properties",
+      alt: "Check out Commercial properties on propertyease.in",
+    },
+    {
+      heading: "Land",
+      image: "images/pro-type-3.webp",
+      link: "/listing/land",
+      title: "Click to View All Land/Plots Properties",
+      alt: "Check out Land properties on propertyease.in",
+    },
+    {
+      heading: "List Property",
+      image: "images/services-icon-2.webp",
+      link: "/addproperty",
+      title: "List Property",
+      alt: "Sale Property on propertyease.in",
+    }
+    
+
   ];
 
   const propertyTypeOptions = [
@@ -316,6 +379,8 @@ const Index = () => {
     { type: "Sale" },
     { type: "Rent" },
   ];
+
+ 
 
   const propertyType = [
     { id: "t1", type: "Apartment" },
@@ -366,8 +431,6 @@ const Index = () => {
         setSubData(res.data);
       });
   }, []);
-
- 
 
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
@@ -460,8 +523,7 @@ const Index = () => {
   };
 
   useEffect(() => {
-    if(subscribedUser !== true) {
-
+    if (subscribedUser !== true) {
       const timer = setTimeout(() => {
         setOpen(false);
       }, 5000);
@@ -536,14 +598,12 @@ const Index = () => {
     }
   };
 
-
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   const dropdownRef1 = useRef(null);
   const handleClickOutside1 = (event) => {
@@ -552,18 +612,15 @@ const Index = () => {
     }
   };
 
-
-
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside1);
+    document.addEventListener("mousedown", handleClickOutside1);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside1);
+      document.removeEventListener("mousedown", handleClickOutside1);
     };
   }, []);
 
   return (
     <div>
-
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
@@ -698,7 +755,6 @@ const Index = () => {
       />
       {/* <div onClick={handleClickOpen}>Open Dialog</div> */}
 
-
       <div>
         <div className="image-cover hero-banner" data-select2-id="13">
           <div className="container" data-select2-id="12">
@@ -795,22 +851,75 @@ const Index = () => {
             </div>
           </div> */}
 
-<div className="hero-search">
+          {/* <div className="container">
+          <div className="d-flex search-options-2">
+                {directSearchButtons.map((item, index) => (
+                  // <div className="search-option-item-2">{item.type}</div>
+                  <div className="inside-search-options-2">
+                  <Link to={item.link} title={item.title}>
+                    <div className="search-option-item-2">
+                      <img
+                        src={item.image}
+                        className="card-img-top"
+                        alt={item.heading}
+                      />
+                      <div className="card-body px-0  pb-0">
+                        <h4 className="card-title mb-0 ">{item.heading}</h4>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                ))}
+              </div>
+          </div> */}
+
+          <div className="hero-search">
             <div className="container hero-search-wrapper">
+              {/* <div className="d-flex justify-content-between search-options">
+                {directSearchButtons.map((item, index) => (
+                  <div className="search-option-item">{item.type}</div>
+                ))}
+              </div> */}
+
+              
+<div className="d-flex search-options-2" ref={scrollContainerRef}
+      onWheel={handleScroll}>
+                {directSearchButtons.map((item, index) => (
+                  // <div className="search-option-item-2">{item.type}</div>
+                  <div className="inside-search-options-2">
+                  <Link to={item.link} title={item.title}>
+                    <div className="search-option-item-2">
+                      <img
+                        src={item.image}
+                        className="card-img-top"
+                        alt={item.heading}
+                      />
+                      <div className="card-body px-0  pb-0">
+                        <h4 className="card-title mb-0 ">{item.heading}</h4>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                ))}
+              </div>
               <div className="row">
-                <div ref={dropdownRef}
-                style={{zIndex: 9}}
-                   className={`col-md-2 all-types pointer position-relative ${
+                
+                <div
+                  ref={dropdownRef}
+                  style={{ zIndex: 9 }}
+                  className={`col-md-2 all-types pointer position-relative ${
                     openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
                   }`}
                   onClick={() =>
                     //setOpenPropertyAdTypeOptions(!openPropertyAdTypeOptions)
-                    setOpenPropertyAdTypeOptions(openPropertyAdTypeOptions ? false : true)
+                    setOpenPropertyAdTypeOptions(
+                      openPropertyAdTypeOptions ? false : true
+                    )
                   }
                 >
                   <div className="">{propertyAdTypeFilter}</div>
                   {openPropertyAdTypeOptions && (
-                    <div  className=" pro-ad-type-list-wrapper">
+                    <div className=" pro-ad-type-list-wrapper">
                       <div id="pro-ad-type-list">
                         {propertyAdTypeOptions.map((item) => (
                           <div
@@ -835,25 +944,26 @@ const Index = () => {
                   </div> */}
                 </div>
 
-                <div ref={dropdownRef1}
-                   className={`col-md-2 all-types pointer position-relative ${
+                <div
+                  ref={dropdownRef1}
+                  className={`col-md-2 all-types pointer position-relative ${
                     openPropertyTypeOptions ? "arrow-up" : "arrow-down"
                   }`}
                   onClick={() =>
                     // setOpenPropertyTypeOptions(!openPropertyTypeOptions)
-                    setOpenPropertyTypeOptions(openPropertyTypeOptions ? false : true)
+                    setOpenPropertyTypeOptions(
+                      openPropertyTypeOptions ? false : true
+                    )
                   }
                 >
-                  <div  className="">{propertyTypeFilter}</div>
+                  <div className="">{propertyTypeFilter}</div>
                   {openPropertyTypeOptions && (
-                    <div  className=" pro-ad-type-list-wrapper">
+                    <div className=" pro-ad-type-list-wrapper">
                       <div id="pro-ad-type-list">
                         {propertyTypeOptions.map((item) => (
                           <div
                             className={`${
-                              propertyTypeFilter === item.type
-                                ? "selected"
-                                : ""
+                              propertyTypeFilter === item.type ? "selected" : ""
                             }`}
                             onClick={() => {
                               setPropertyTypeFilter(item.type),
@@ -1058,16 +1168,16 @@ const Index = () => {
             <div className="container">
               <div className="row ">
                 {filteredData.slice(0, 6).map((item, index) => (
-               
-                <PropertyCard2 item={item} currentUser={currentUser} index={index}/>
+                  <PropertyCard2
+                    item={item}
+                    currentUser={currentUser}
+                    index={index}
+                  />
                 ))}
-
-                
               </div>
             </div>
 
-           <AllPropertyButton />
-
+            <AllPropertyButton />
           </div>
         </section>
 
@@ -1455,8 +1565,8 @@ const Index = () => {
             {/* <h3>
               About <span>Us</span>
             </h3> */}
-             <h3 className="aboutus">
-               {/* <div className="d-dlex justify-content-between">
+            <h3 className="aboutus">
+              {/* <div className="d-dlex justify-content-between">
                 <div>About Us </div>  <div className="text-center">
               <Link
                 to={`/allproperties`}
@@ -1467,9 +1577,9 @@ const Index = () => {
                 <IconArrowRight className="ml-1" />
               </Link>
             </div></div> */}
-            About Us
-                <div className="heading-divider "></div>
-              </h3>
+              About Us
+              <div className="heading-divider "></div>
+            </h3>
             <p>
               Founded in 2023, Propertyease.in aims to make buying and selling
               property easy and stress-free. We connect buyers and sellers
@@ -1489,7 +1599,6 @@ const Index = () => {
                   src="images/pro-about-6.webp"
                   className=""
                   alt="Buy a new home"
-                  
                 />
               </div>
             </div>
@@ -1512,7 +1621,6 @@ const Index = () => {
                         src="images/about-us-1-3.webp"
                         className="about-us-icon"
                         alt="Sale Property on propertyease"
-                        
                       />
                     </span>
                   </div>
@@ -1528,7 +1636,6 @@ const Index = () => {
                         src="images/about-us-1-1.webp"
                         className="about-us-icon"
                         alt="Buy Property on propertyease"
-                        
                       />
                     </span>
                   </div>
@@ -1546,7 +1653,6 @@ const Index = () => {
                         src="images/about-us-1-2.webp"
                         className="about-us-icon"
                         alt="List property for free on propertyease"
-                        
                       />
                     </span>
                   </div>
@@ -1578,7 +1684,6 @@ const Index = () => {
                         src="images/about-us-1-5.png"
                         className="about-us-icon"
                         alt="Buy a new home"
-                        
                       />
                     </span>
                   </div>
@@ -1594,7 +1699,6 @@ const Index = () => {
                         src="images/about-us-1-2.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
-                        
                       />
                     </span>
                   </div>
@@ -1612,7 +1716,6 @@ const Index = () => {
                         src="images/about-us-1-4.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
-                        
                       />
                     </span>
                   </div>
@@ -1633,7 +1736,6 @@ const Index = () => {
                   src="images/pro-about-7.webp"
                   className=""
                   alt="Buy a new home"
-                 
                 />
               </div>
             </div>
@@ -1641,21 +1743,23 @@ const Index = () => {
         </div>
 
         <section className="business-banner">
-
-<div className="business-banner-wrapper">
-
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <span className="tadline">
-                  Once you’ve settled on a Property
-                </span>
-                <h4 className="display-4 banner-heading">
-                  Be inspired to achieve more, get on top
-                  <br /> of every Property challenge today
-                </h4>
-                <Link to="/postrequirement" title="Post Requirement" className="explore-more post-requiremnet">
-                  {/* <a
+          <div className="business-banner-wrapper">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <span className="tadline">
+                    Once you’ve settled on a Property
+                  </span>
+                  <h4 className="display-4 banner-heading">
+                    Be inspired to achieve more, get on top
+                    <br /> of every Property challenge today
+                  </h4>
+                  <Link
+                    to="/postrequirement"
+                    title="Post Requirement"
+                    className="explore-more post-requiremnet"
+                  >
+                    {/* <a
                     className="explore-more post-requiremnet"
                     
                   > */}
@@ -1663,11 +1767,11 @@ const Index = () => {
                       <IconSend />
                     </span>
                     Post Requirement
-                  {/* </a> */}
-                </Link>
+                    {/* </a> */}
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </section>
 
@@ -1677,10 +1781,9 @@ const Index = () => {
               Services <span>Offered</span>
             </h3> */}
             <h3 className="aboutus">
-              
-            Services Offered
-                <div className="heading-divider "></div>
-              </h3>
+              Services Offered
+              <div className="heading-divider "></div>
+            </h3>
             <p>
               We offer a variety of real estate services, including buying,
               selling, renting, and property management. As the best property
@@ -1871,8 +1974,7 @@ const Index = () => {
                 Top Property <span>Picks</span>
               </h3> */}
               <h3 className="aboutus">
-              
-              Top Property Picks
+                Top Property Picks
                 <div className="heading-divider "></div>
               </h3>
               <p>
@@ -2238,15 +2340,17 @@ const Index = () => {
                 {/* <Link to="/contactus" className="btn btn-primary contact-btn ">
                   Contact us
                 </Link> */}
-                 <div onClick={() => setOpen(true)}className="btn btn-primary contact-btn " title="Get Latest Property Updates ">
-                 Get Latest Property Updates 
-                </div> 
-
+                <div
+                  onClick={() => setOpen(true)}
+                  className="btn btn-primary contact-btn "
+                  title="Get Latest Property Updates "
+                >
+                  Get Latest Property Updates
+                </div>
               </div>
             </div>
           </div>
         </section>
-
 
         {/* <Reviews slides={SLIDES} options={OPTIONS} />*/}
 
