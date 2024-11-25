@@ -9,6 +9,7 @@ import {
   // IconBath,
   // IconCurrencyRupee,
   IconX,
+  IconSearch,
 } from "@tabler/icons-react";
 // import { BedAlt, RupeeSign } from "react-flaticons";
 // import FormControl from "@mui/material/FormControl";
@@ -619,6 +620,20 @@ const Index = () => {
     };
   }, []);
 
+
+
+
+const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Haryana"];
+  const [state, setState] = useState(0);
+
+  useEffect(() => {
+    setInterval(() => {
+      setState((s) => (s + 1));
+    }, 4000);
+  }, []);
+
+  const placeholder = placeholderText[state % placeholderText.length]
+
   return (
     <div>
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
@@ -650,6 +665,7 @@ const Index = () => {
           <div className="popup-content-wrapper">
             <div className="popup-content-sec d-flex justify-content-between">
               <div className="mb-3">
+                
                 <input
                   className="pf-input-1 "
                   type="text"
@@ -981,11 +997,13 @@ const Index = () => {
                   </div> */}
                 </div>
 
-                <div className="col-md">
+                <div className="col-md d-flex">
+                
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Search for a property"
+                    //placeholder="Search for a property"
+                    placeholder={placeholder}
                     value={searchValue}
                     onChange={(e) => {
                       setSearchValue(e.target.value), setOpenSuggestions(true);
