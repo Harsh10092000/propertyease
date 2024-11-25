@@ -359,7 +359,7 @@ const UserDashboard = () => {
     { value: "Property Type" },
     { value: "Sale/Rent" },
     { value: "Price" },
-    { value: "Posted On" },
+    { value: "Posted On", customClass: "th-width-2" },
     { value: "Property Title", customClass: "th-width-16" },
     { value: "Responses and Views", customClass: "th-width-2" },
     { value: "Status" },
@@ -391,7 +391,8 @@ const UserDashboard = () => {
     { type: "conditional", condition: "property_price" },
     {
       value: "pro_creation_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      //transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },

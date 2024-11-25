@@ -193,7 +193,7 @@ const AdminPropertyPlans = () => {
     { value: "Plan Id" },
     { value: "Plan Name" },
     { value: "Plan Amount" },
-    { value: "Created At" },
+    { value: "Created At" , customClass: "th-width-2"},
     { value: "Plan Validity (In Days)" },
     { value: "Actions", customClass: "th-width-14" },
   ];
@@ -239,7 +239,8 @@ const AdminPropertyPlans = () => {
     
     {
       value: "pro_plan_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      //transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     {
       value: "pro_plan_validity",

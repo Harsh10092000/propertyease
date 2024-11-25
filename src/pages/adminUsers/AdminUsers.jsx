@@ -88,7 +88,7 @@ const AdminUsers = () => {
     { value: "User Type" },
     { value: "Email" },
     { value: "Phone" },
-    { value: "Reg. Date" },
+    { value: "Reg. Date" , customClass: "th-width-2" },
     
     { value: "Properties listed in last 30 Days", customClass: "th-width-10" },
     // { value: "Properties Auto Inactive in", customClass: "th-width-10" },
@@ -142,7 +142,8 @@ const AdminUsers = () => {
     },
     {
       value: "reg_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      // transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     
     { value: "pro_count", transform: (val) => val ? val : "-"},

@@ -160,7 +160,7 @@ const UserShortlisted = () => {
     { value: "Property Type" },
     { value: "Sale/Rent" },
     { value: "Price" },
-    { value: "Posted On" },
+    { value: "Posted On", customClass: "th-width-2"  },
     { value: "Property Title", customClass: "th-width-28" },
     { value: "Actions" },
   ];
@@ -181,7 +181,8 @@ const UserShortlisted = () => {
     { type: "conditional", condition: "property_price" },
     {
       value: "pro_creation_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      // transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     // { type: "conditional", condition: "property_date" },
     { type: "conditional", condition: "property_title" },

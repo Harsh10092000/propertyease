@@ -37,7 +37,7 @@ const AdminInterest = () => {
     { value: "Name" },
     { value: "Email" },
     { value: "Phone" },
-    {value: "Date"},
+    {value: "Date", customClass: "th-width-2"},
     { value: "Property Type" },
     { value: "Address",  customClass: "th-width-14" },
     
@@ -56,7 +56,8 @@ const AdminInterest = () => {
     },
     {
       value: "interested_DATE",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      // transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     
 

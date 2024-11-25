@@ -279,7 +279,7 @@ const AdminDashboard = () => {
     { value: "User" },
     { value: "Property Type" },
     
-    { value: "Posted On" },
+    { value: "Posted On", customClass: "th-width-2" },
     { value: "Status" },
     { value: "Email" },
     { value: "Phone" },
@@ -321,7 +321,8 @@ const AdminDashboard = () => {
     
     {
       value: "pro_creation_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
+      //transform: (date) => moment(date).format("MMMM DD YYYY"),
+      transform: (date) => moment(date).format("DD MMM, YY"),
     },
     { type: "conditional", condition: "status" },
     { value: "login_email" },

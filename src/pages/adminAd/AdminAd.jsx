@@ -206,9 +206,9 @@ const AdminAd = () => {
                   <td>{item.ad_link}</td>
                   <td>{item.ad_image}</td>
                   {/* <td>{item.ad_listed === 1 ? "Listed" : "Delisted"}</td> */}
-                  <td>{moment(item.ad_created_at).format("MMMM DD YYYY")}</td>
-                  <td>{moment(item.ad_created_at).add(parseInt(item.ad_days), "days").format("MMMM DD YYYY")}</td>
-                  <td>Ad Disabled {moment(moment(item.ad_created_at).add(parseInt(item.ad_days) + 1, "days").format("MMMM DD YYYY")).fromNow()}</td>             
+                  <td>{moment(item.ad_created_at).format("DD MMM, YY")}</td>
+                  <td>{moment(item.ad_created_at).add(parseInt(item.ad_days), "days").format("DD MMM, YY")}</td>
+                  <td>Ad Disabled {moment(moment(item.ad_created_at).add(parseInt(item.ad_days) + 1, "days").format("DD MMM, YY")).fromNow()}</td>             
                   {/* <td>{moment(item.ad_created_at).subtract(item.ad_days, 'days').fromNow()}</td>  */}
                   {/* <td>{moment(item.ad_created_at).fromNow()}</td> */}
                   <td className="d-flex gap-3">
