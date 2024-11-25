@@ -3582,6 +3582,17 @@ a.btn-resiter-earing span {
     position: inherit !important;
   }
 }
+
+
+@media only screen and (max-width: 1366px) {
+.hero-banner { 
+  height: auto !important;
+}
+.hero-search {
+  position: inherit !important;
+}
+}
+
 @media only screen and (max-width: 425px) {
   .cat-img-icon {
     position: relative;
@@ -18807,7 +18818,7 @@ border-radius: 0;
   padding-bottom: 5px;
   font-size: 45px !important;
   line-height: 1.1;
-  color: #0c2339;
+  /* color: #0c2339; */
   font-weight: 700;
   text-transform: capitalize;
   margin-left: 25px;
@@ -18815,11 +18826,11 @@ border-radius: 0;
   margin-top: 105px;
   font-family: 'Jost', sans-serif;
   word-spacing: 1px;
-  color: #777B7F;
+  /* color: #777B7F; */
   /* color : #1e1d85 */
   text-shadow: 0px 2px 0px #32526e38;
   /* color: #0ec6d5; */
-  color: #1e1d85;
+  color: #1e1d85 !important;
 }
 
 .hero-banner .banner-text-2 p {
