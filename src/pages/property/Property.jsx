@@ -159,7 +159,7 @@ const Property = () => {
       "@type": "RealEstateListing",
       "name": capitalizedName, 
       "url": data.pro_url,
-      "priceCurrency": "INR",  
+       
       "price": data.pro_amt,
       "address": {
         "@type": "PostalAddress",
@@ -175,32 +175,15 @@ const Property = () => {
         "value": data.pro_area_size,
         "unitCode": data.pro_area_size_unit
       },
-      "numberOfRooms": data.pro_bedroom,
-      "numberOfBathrooms": data.pro_washrooms,
-      "numberOfFloors": data.pro_floor,
-      "parkingSpaces": data.pro_parking,
-      "furnishingStatus": data.pro_furnishing,
-      "propertyType": data.pro_type,
-      "propertyCategory": data.pro_sub_cat,
-      "floor": data.pro_floor,
-      "yearBuilt": data.pro_age,
-      "ownership": data.pro_ownership_type,
-      "approvalStatus": data.pro_approval,
-      "listingDate": data.pro_creation_date,
+      
       "datePosted": data.pro_date,
-      "rentalStatus": data.pro_rental_status,
-      "possession": data.pro_possession,
+      
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+91 9996167778", 
         "contactType": "Propertyease Real Estate Agent"
       },
-      "isNegotiable": data.pro_negotiable === 'Yes',
-      "floorWidth": data.pro_width,
-      "floorLength": data.pro_length,
-      "facing": data.pro_facing,
-      "cornerLot": data.pro_corner === 'Yes',
-      "nearbyFacilities": data.pro_near_by_facilities,
+      
       "listedBy": {
         "@type": "Real Estate Agent",
         "name": data.pro_user_type
