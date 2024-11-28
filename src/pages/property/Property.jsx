@@ -145,6 +145,72 @@ const Property = () => {
     // }
   }, [proId, change]);
 
+
+  const [schemaMarkup, setSchemaMarkup] = useState({});
+
+  useEffect(() => {
+    const capitalizedName = arrproId
+      .slice(0, arrproId.length - 1)
+      .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+      .join(' ');
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": capitalizedName, 
+      "url": data.pro_url,
+      "priceCurrency": "INR",  
+      "price": data.pro_amt,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": data.pro_street,
+        "addressLocality": data.pro_locality,
+        "addressRegion": data.pro_state,
+        "postalCode": data.pro_pincode,
+        "addressCountry": "IN"
+      },
+      
+      "floorSize": {
+        "@type": "QuantitativeValue",
+        "value": data.pro_area_size,
+        "unitCode": data.pro_area_size_unit
+      },
+      "numberOfRooms": data.pro_bedroom,
+      "numberOfBathrooms": data.pro_washrooms,
+      "numberOfFloors": data.pro_floor,
+      "parkingSpaces": data.pro_parking,
+      "furnishingStatus": data.pro_furnishing,
+      "propertyType": data.pro_type,
+      "propertyCategory": data.pro_sub_cat,
+      "floor": data.pro_floor,
+      "yearBuilt": data.pro_age,
+      "ownership": data.pro_ownership_type,
+      "approvalStatus": data.pro_approval,
+      "listingDate": data.pro_creation_date,
+      "datePosted": data.pro_date,
+      "rentalStatus": data.pro_rental_status,
+      "possession": data.pro_possession,
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91 9996167778", 
+        "contactType": "Propertyease Real Estate Agent"
+      },
+      "isNegotiable": data.pro_negotiable === 'Yes',
+      "floorWidth": data.pro_width,
+      "floorLength": data.pro_length,
+      "facing": data.pro_facing,
+      "cornerLot": data.pro_corner === 'Yes',
+      "nearbyFacilities": data.pro_near_by_facilities,
+      "listedBy": {
+        "@type": "Real Estate Agent",
+        "name": data.pro_user_type
+      }
+    };
+
+    setSchemaMarkup(schema);
+  }, [data]);
+
+
   useEffect(() => {
     axios
       .get(
@@ -641,7 +707,7 @@ const Property = () => {
         });
   }, [data]);
 
-  console.log("cordinates : ", cordinates);
+  //console.log("cordinates : ", cordinates);
 
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
 
@@ -649,9 +715,15 @@ const Property = () => {
     return data ? data : "-";
   };
 
+
+  
+
   return (
     <div className="padding-top">
       <Helmet>
+      <script type="application/ld+json">
+          {JSON.stringify(schemaMarkup)}
+        </script>
         <meta
           name="keywords"
           content={`Property for sale in kurukshetra, Sale in Kurukshetra, Properties in kurukshetra, Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property, ${
@@ -662,13 +734,14 @@ const Property = () => {
         <meta
           property="og:url"
           content={`https://www.propertyease.in/${
-            data !== undefined && data.pro_url
+            id
           }`}
         />
         <meta
           property="og:image"
           content="https://api.propertyease.in/propertyImages/watermark/default.webp"
         />
+
         <meta
           property="og:title"
           content={`${
@@ -695,23 +768,23 @@ const Property = () => {
         />
         <meta
           property="og:description"
-          content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
+          content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
         />
         <link
           rel="canonical"
-          href={`https://propertyease.in/${data !== undefined && data.pro_url}`}
+          href={`https://propertyease.in/${id}`}
         ></link>
 
         <meta
           name="twitter:description"
-          content="11111111 We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
+          content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
         />
         <meta property="twitter:domain" content="propertyease.in" />
         <meta
           property="twitter:url"
           content={`https://www.propertyease.in/${
-            data !== undefined && data.pro_url
+            id
           }`}
         />
         <meta
@@ -781,6 +854,7 @@ const Property = () => {
           } area with verified property assurance.`}
         />
       </Helmet>
+      
       {openContactDialog ? (
         <ContactUsForm
           openContactDialog={openContactDialog}

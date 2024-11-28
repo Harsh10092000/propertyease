@@ -574,22 +574,24 @@ const QuickListing = () => {
     <div>
       {loader && <Loader />}
       {loader1 && <Loader />}
-
+      {/* Check your Email and Phone for OTP. */}
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+       
+        <DialogTitle className="otp-box-header" id="alert-dialog-title">
           {state.emailErr !== null ? "Create Account" : "Get Started"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {state.emailErr !== null
+
+<div className="otp-msg-text ">
+{state.emailErr !== null
               ? "Please enter your phone number."
-              : "Check your Mail for OTP."}
-          </DialogContentText>
+              : "A verification code has been sent to your email and phone. Please enter the code below for verification."}
+</div>
 
           {state.emailErr === null && (
             <div className="otpWrapper">
@@ -612,22 +614,16 @@ const QuickListing = () => {
                 }}
               />
 
-              {state.timer === true ? (
-                <p>
-                  Time Remaining: {state.minutes}:
-                  {state.seconds < 10 ? `0${state.seconds}` : state.seconds}
-                </p>
-              ) : (
-                <p>Didn't recieve code?</p>
-              )}
+             
             </div>
           )}
 
           {state.emailErr !== null && (
             <TextField
-              sx={{ m: 1, width: ["100%"] }}
+              sx={{ mt: 1, width: ["100%"] }}
               id="outlined-basic"
-              variant="standard"
+              variant="outlined"
+              // variant="standard"
               size="small"
               label="Phone Number"
               className="w-full"
@@ -659,7 +655,7 @@ const QuickListing = () => {
               required
             />
           )}
-          <div className="input-group text-center">
+          <div className="input-group text-center otp-button">
             <div className="left-block" />
             {state.emailErr !== null ? (
               <button
@@ -696,6 +692,16 @@ const QuickListing = () => {
           >
             {loginStatus === "" ? "" : loginStatus}
           </div>
+          {state.emailErr === null ? (
+          state.timer === true ? (
+                <p className="otp-timer">
+                  Time Remaining: {state.minutes}:
+                  {state.seconds < 10 ? `0${state.seconds}` : state.seconds}
+                </p>
+              ) : (
+                <p className="otp-timer">Didn't recieve code?</p>
+              )
+           ): "" }
         </DialogContent>
       </Dialog>
       <Navbar />

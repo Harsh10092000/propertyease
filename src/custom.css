@@ -22256,3 +22256,61 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
     line-height: 18px;
     float: none !important;
 }
+
+
+.otp-timer {
+  text-align: center;
+  font-size: 14px;
+  line-height: 10px;
+}
+
+.otp-button {
+  padding-top: 22px;
+}
+
+
+.otp-msg-text {
+  width: 280px;
+  font-size: 14px;
+  padding-bottom: 15px;
+
+  width: 300px;
+font-size: 12px;
+padding-bottom: 15px;
+color: #b4b4b4;
+font-family: 'Roboto';
+}
+
+.otp-msg-text-2 {
+
+  font-size: 14px;
+  padding-bottom: 15px;
+
+font-size: 12px;
+padding-bottom: 15px;
+color: #b4b4b4;
+font-family: 'Roboto';
+}
+
+.otp-box-header {
+  padding-bottom: 5px !important;
+}
+
+
+.otp-email-err-msg {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin-top: -8px;
+  margin-right: 14px;
+  margin-bottom: 0;
+  margin-left: -100px;
+  color: red;
+}
+
+input.form-control.index-search::placeholder{
+  color: #939393;
+}

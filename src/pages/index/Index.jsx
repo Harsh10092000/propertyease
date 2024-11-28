@@ -327,42 +327,42 @@ const Index = () => {
       image: "images/services-icon-1.webp",
       link: "/allproperties",
       title: "Click to View All Properties",
-      alt: `Buy Property on propertyease.in`,
+      alt: `Buy Properties on propertyease.in`,
     },
     {
       heading: "Rent",
       image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
-      alt: "Rent Property on propertyease.in",
+      alt: "Rent House on propertyease.in",
     },
     {
       heading: "Residential",
       image: "images/pro-type-1.webp",
       link: "/listing/residential",
       title: "Click to View All Residential Properties",
-      alt: "Check out Residential properties on propertyease.in",
+      alt: "Check out the best Residential properties on propertyease.in",
     },
     {
       heading: "Commercial",
       image: "images/pro-type-2.webp",
       link: "/listing/commercial",
       title: "Click to View All Commercial Properties",
-      alt: "Check out Commercial properties on propertyease.in",
+      alt: "Check out best Commercial properties on propertyease.in",
     },
     {
       heading: "Land",
       image: "images/pro-type-3.webp",
       link: "/listing/land",
       title: "Click to View All Land/Plots Properties",
-      alt: "Check out Land properties on propertyease.in",
+      alt: "Check out best Land properties on propertyease.in",
     },
     {
       heading: "List Property",
       image: "images/services-icon-2.webp",
       link: "/addproperty",
       title: "List Property",
-      alt: "Sale Property on propertyease.in",
+      alt: "Sale propeties on propertyease.in",
     }
     
 
@@ -909,6 +909,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src={item.image}
                         className="card-img-top"
                         alt={item.heading}
+                        height=""
+                        width=""
                       />
                       <div className="card-body px-0  pb-0">
                         <h4 className="card-title mb-0 ">{item.heading}</h4>
@@ -1001,7 +1003,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                 
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control index-search"
                     //placeholder="Search for a property"
                     placeholder={placeholder}
                     value={searchValue}
