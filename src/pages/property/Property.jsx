@@ -182,16 +182,11 @@ const Property = () => {
       "description": desc,
       "relatedLink": {
         "@type": "URL",
-        "url": `https://propertyease.in/${data.pro_type
-          .split(",")[1]
-          .toLowerCase()}/${data.pro_type
-          .split(",")[0]
-          .replaceAll(" ", "-")
-          .toLowerCase()}`
+        "url": `https://propertyease.in/${data.pro_type ? data.pro_type.split(",")[1].toLowerCase(): ""}/${data.pro_type ? data.pro_type.split(",")[0].replaceAll(" ", "-").toLowerCase(): ""}`
       },
       "significantLink": {
         "@type": "URL",
-        "url": `https://propertyease.in/listing/${data.pro_type.split(",")[1]}`
+        "url": `https://propertyease.in/listing/${data.pro_type ? data.pro_type.split(",")[1] : ""}`
       }
     };
 
