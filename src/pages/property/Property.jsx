@@ -154,40 +154,29 @@ const Property = () => {
       .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
       .join(' ');
 
+
+     const desc = `Check out this ${
+        arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
+      }${arrproId[3] !== "for" ? arrproId[3] : ""}
+    for ${
+      arrproId[3] === "for" ? arrproId[4] : arrproId[5]
+    }. It is an ideal investment opportunity in a prime${
+        arrproId[3] !== "for"
+          ? " " + arrproId[2] + " " + arrproId[3]
+          : " " + arrproId[2] + ""
+      } area with verified property assurance.`
+
     const schema = {
       "@context": "https://schema.org",
-      "@type": "RealEstateListing",
+      "@type": "Real Estate Property",
       "name": capitalizedName, 
       "url": data.pro_url,
-       
-      "price": data.pro_amt,
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": data.pro_street,
-        "addressLocality": data.pro_locality,
-        "addressRegion": data.pro_state,
-        "postalCode": data.pro_pincode,
-        "addressCountry": "IN"
+      "datePublished": data.pro_creation_date,
+      "author": {
+        "@type": "Person",
+        "name": data.pro_ad_type
       },
-      
-      "floorSize": {
-        "@type": "QuantitativeValue",
-        "value": data.pro_area_size,
-        "unitCode": data.pro_area_size_unit
-      },
-      
-      "datePosted": data.pro_date,
-      
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+91 9996167778", 
-        "contactType": "Propertyease Real Estate Agent"
-      },
-      
-      "listedBy": {
-        "@type": "Real Estate Agent",
-        "name": data.pro_user_type
-      }
+      "description": desc,
     };
 
     setSchemaMarkup(schema);
