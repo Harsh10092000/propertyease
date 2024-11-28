@@ -1528,11 +1528,14 @@ time3.add(12, "minutes") */}
                                   Price
                                 </div>
                                 <div className="col-md-9 more-detail-left">
-                                  {data.pro_amt
+                                  {/* {data.pro_amt
                                     ? "₹" +
                                       data.pro_amt +
                                       " " +
                                       data.pro_amt_unit
+                                    : "Ask Price"} */}
+                                    {data.pro_amt
+                                    ? ShowPrice(data.pro_ad_type, data.pro_amt)
                                     : "Ask Price"}
                                 </div>
                               </div>
