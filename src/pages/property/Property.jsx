@@ -180,14 +180,18 @@ const Property = () => {
       },
    
       "description": desc,
-      "relatedLink": {
-        "@type": "URL",
-        "url": `https://propertyease.in/${data.pro_type ? data.pro_type.split(",")[1].toLowerCase(): ""}/${data.pro_type ? data.pro_type.split(",")[0].replaceAll(" ", "-").toLowerCase(): ""}`
-      },
-      "significantLink": {
-        "@type": "URL",
-        "url": `https://propertyease.in/listing/${data.pro_type ? data.pro_type.split(",")[1] : ""}`
-      }
+      "relatedLink": [`https://propertyease.in/${data.pro_type ? data.pro_type.split(",")[1].toLowerCase(): ""}/${data.pro_type ? data.pro_type.split(",")[0].replaceAll(" ", "-").toLowerCase(): ""}`],
+      "significantLink": [
+        "https://propertyease.in/allproperties",
+        "https://propertyease.in/contactus",
+        "https://propertyease.in/DC-Rates-2024-25.pdf",
+        "https://propertyease.in/documentsneededtobuyproperty.pdf",
+        "https://propertyease.in/citymap/Kurukshetra",
+        "https://propertyease.in/listing/residential",
+       "https://propertyease.in/listing/commercial",
+       "https://propertyease.in/listing/land",
+
+      ]
     };
 
     setSchemaMarkup(schema);
