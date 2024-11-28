@@ -182,9 +182,9 @@ const Property = () => {
       "description": desc,
       "relatedLink": {
         "@type": "URL",
-        "url": `https://propertyease.in/${sub.pro_type
+        "url": `https://propertyease.in/${data.pro_type
           .split(",")[1]
-          .toLowerCase()}/${sub.pro_type
+          .toLowerCase()}/${data.pro_type
           .split(",")[0]
           .replaceAll(" ", "-")
           .toLowerCase()}`
