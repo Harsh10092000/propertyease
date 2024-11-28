@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { IconEye } from "@tabler/icons-react";
+import { priceFormat } from "../helper";
+import { ShowPrice } from "../HelperComponents";
 
 const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
@@ -26,7 +28,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     width="100%"
                   />
                   <div className="top-left-1">
-                  {item.pro_views !== null &&
+                    {item.pro_views !== null &&
                       parseInt(item.pro_views) > 0 && (
                         <li className="property-view-count ">
                           <IconEye width={16} height={16} />
@@ -150,9 +152,10 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                 <div>
                   {/* <div className="details-1">Price</div> */}
                   <div className="details-2">
-                    {"₹ " + item.pro_amt + " " + item.pro_amt_unit}{" "}
-                    <span className="right-border mx-2 mobile-hidden"></span>{" "}
-                    {item.pro_area_size + " " + item.pro_area_size_unit}{" "}
+                    {/* {"₹ " + item.pro_amt + " " + item.pro_amt_unit} */}
+                    {ShowPrice(item.pro_ad_type,item.pro_amt)}
+                    <span className="right-border mx-2 mobile-hidden"></span>
+                    {item.pro_area_size + " " + item.pro_area_size_unit}
                   </div>
                 </div>
               </div>

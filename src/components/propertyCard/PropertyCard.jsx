@@ -5,6 +5,7 @@ import { IconEye, IconBrandWhatsapp, IconSend } from "@tabler/icons-react";
 import ContactUsForm from "../contactUsForm/ContactUsForm";
 import { Snackbar } from "@mui/material";
 import moment from "moment";
+import { ShowPrice } from "../HelperComponents";
 
 const PropertyCard = ({ object, index, currentUser, DateTime }) => {
 
@@ -177,7 +178,7 @@ const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
                   </strong>
                   &nbsp;
                   {object.pro_amt
-                    ? "₹" + object.pro_amt + " " + object.pro_amt_unit
+                    ? ShowPrice(object.pro_ad_type,object.pro_amt)
                     : "Ask Price"}
                 </li>
 

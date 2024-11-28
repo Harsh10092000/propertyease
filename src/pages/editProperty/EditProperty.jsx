@@ -33,6 +33,7 @@ import { stateList } from "../addProperty/State";
 import { regEx } from "../regEx";
 import Checkbox from "@mui/material/Checkbox";
 import { Skeleton } from "@mui/material";
+import { priceFormat } from "../../components/helper";
 
 const EditProperty = () => {
   const [skeleton, setSkeleton] = useState(true);
@@ -1839,16 +1840,16 @@ const EditProperty = () => {
                         </div>
 
 
-                          <div className="pro_flex">
+                          <div className="pro_flex flex-column pb-3">
                             <TextField
-                              sx={{ m: 1, width: ["80%"], mr: 0 }}
+                              sx={{ m: 1, width: ["100%"], mr: 0 }}
                               id="outlined-basic"
                               variant="outlined"
                               size="small"
                               label="Expected Amount"
                               className="w-full pro_flex_select"
                               name="Expected Amount"
-                              inputProps={{ maxLength: 10 }}
+                              inputProps={{ maxLength: 14 }}
                               value={propertyData.pro_amt}
                               FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
@@ -1868,7 +1869,10 @@ const EditProperty = () => {
                               }
                               //required
                             />
-                            <FormControl
+                            <div className="price-in-words">
+              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+            </div>
+                            {/* <FormControl
                               sx={{ mt: 1, width: ["20%"] }}
                               size="small"
                               className="pro_flex_select2"
@@ -1888,7 +1892,7 @@ const EditProperty = () => {
                                 <MenuItem value={"Lakhs"}>Lakhs</MenuItem>
                                 <MenuItem value={"Thousand"}>Thousand</MenuItem>
                               </Select>
-                            </FormControl>
+                            </FormControl> */}
                           </div>
 
                           {/* <div className="pro_flex">

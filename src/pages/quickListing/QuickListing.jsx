@@ -21,7 +21,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { InputAdornment } from "@mui/material";
-
+import { ToWords } from "to-words";
+import { priceFormat } from "../../components/helper";
 const RadioBoxSelection = ({
   heading,
   array,
@@ -118,6 +119,32 @@ const RadioBoxSelection2 = ({
 };
 
 const QuickListing = () => {
+  const toWords = new ToWords({
+    localeCode: "en-IN",
+    converterOptions: {
+      currency: true,
+      ignoreDecimal: false,
+      ignoreZeroCurrency: false,
+      doNotAddOnly: true,
+      currencyOptions: {
+        //name: 'Rupee',
+        // plural: 'Rupees',
+        symbol: "₹",
+        fractionalUnit: {
+          name: "Paisa",
+          plural: "Paise",
+          symbol: "",
+        },
+      },
+    },
+  });
+
+  const priceInWords = (val) => {
+    return toWords.convert(val, { currency: true });
+  };
+
+  
+
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
   const [searchState, setSearchState] = useState("");
@@ -136,9 +163,9 @@ const QuickListing = () => {
   const [loader1, setLoader1] = useState(false);
 
   const [userData, setUserData] = useState({
-    email: '',
-    number: '',
-    otp: '',
+    email: "",
+    number: "",
+    otp: "",
   });
 
   // const [open, setOpen] = useState(false);
@@ -169,16 +196,12 @@ const QuickListing = () => {
     prevData,
     upcomingDate,
     open,
-    handleClose
-  } = useUserLogin(userData,setUserData, currentUser);
-
- 
-  
+    handleClose,
+  } = useUserLogin(userData, setUserData, currentUser);
 
   // useEffect(() => {
   //   setLoader(loader1);
   // }, [loader1])
- 
 
   useEffect(() => {
     axios
@@ -288,7 +311,7 @@ const QuickListing = () => {
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const maxFileSize = 1000000;
   const minFileSize = 10000;
-  
+
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
   const pattern = /image-*/;
@@ -380,7 +403,7 @@ const QuickListing = () => {
     ) {
       handleClick();
     } else if (currentUser === null && state.emailFormatError === false) {
-      console.log("Sdgsdg")
+      console.log("Sdgsdg");
       fetchOtp();
     }
     // else {
@@ -551,8 +574,7 @@ const QuickListing = () => {
     <div>
       {loader && <Loader />}
       {loader1 && <Loader />}
-     
-     
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -778,245 +800,119 @@ const QuickListing = () => {
                 formSubmit={formSubmit}
               />
             )}
-            <div className="pro_flex d-flex">
-              {/* <FormControl
-                sx={{
-                  mt: 1,
-                  mb: 1,
-                  width: ["100%"],
-                  ml: { xs: 0, sm: 0, xl: 1 },
-                }}
-                size="small"
-                // error={propertyData.pro_type === "" ? true : false}
-              >
-                <InputLabel htmlFor="grouped-native-select">
-                  Property Type
-                </InputLabel>
-                <Select
-                  helpperText
-                  native
-                  defaultValue=""
-                  id="grouped-native-select"
-                  label="Property Type"
+
+            <div className="row">
+              <div className="col-md-6">
+                <TextField
+                  sx={{
+                    mt: 1,
+                    mb: 1,
+                    width: ["100%"],
+                    mr: 0,
+                    ml: 1,
+                    ml: { xs: 0, sm: 0, xl: 1 },
+                  }}
+                  id="outlined-basic"
+                  variant="outlined"
+                  size="small"
+                  label="Expected Amount"
+                  className="w-full pro_flex_select"
+                  name="Expected Amount"
+                  inputProps={{ maxLength: 14 }}
+                  value={propertyData.pro_amt != 0 ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
+                  FormHelperTextProps={{ sx: { color: "red" } }}
+                  helperText={
+                    propertyData.pro_amt > 0 || propertyData.pro_amt === ""
+                      ? ""
+                      : "Enter Valid Amount"
+                  }
                   onChange={(e) =>
                     setPropertyData({
                       ...propertyData,
-                      pro_type: e.target.value,
+                      pro_amt: e.target.value.replace(
+                        regEx[1].numberValidation,
+                        "$1"
+                      ),
                     })
                   }
-                  value={propertyData.pro_type}
-                >
-                  <option aria-label="None" value="" />
-                  <optgroup label="Residential">
-                    <option value={"Apartment,Residential"}>Apartment</option>
-                    <option value={"Independent House,Residential"}>
-                      Independent House
-                    </option>
-                    <option value={"Builder Floor,Residential"}>
-                      Builder Floor
-                    </option>
-                    <option value={"Farm House,Residential"}>Farm House</option>
-                    <option value={"Raw House,Residential"}>Raw House</option>
-                    <option value={"Retirement Community,Residential"}>
-                      Retirement Community
-                    </option>
-                    <option value={"Studio Apartment,Residential"}>
-                      Studio Apartment
-                    </option>
-                  </optgroup>
-                  <optgroup label="Land">
-                    <option value={"Residential Land,Land"}>
-                      Residential Land
-                    </option>
-                    <option value={"Commercial Land,Land"}>
-                      Commercial Land
-                    </option>
-                    <option value={"Industrial Land,Land"}>
-                      Industrial Land
-                    </option>
-                    <option value={"Agricultural Land,Land"}>
-                      Agricultural Land
-                    </option>
-                    <option value={"Farm House Land,Land"}>
-                      Farm House Land
-                    </option>
-                  </optgroup>
-                  <optgroup label="Commercial">
-                    <option value={"Retail Showroom,Commercial"}>
-                      Retail Showroom
-                    </option>
-                    <option value={"Commercial Building,Commercial"}>
-                      Commercial Building
-                    </option>
-                    <option value={"Office Complex,Commercial"}>
-                      Office Complex
-                    </option>
-                    <option value={"Software Technology Park,Commercial"}>
-                      Software Technology Park
-                    </option>
-                    <option value={"Warehouse,Commercial"}>Warehouse</option>
-                    <option value={"Industrial Estate,Commercial"}>
-                      Industrial Estate
-                    </option>
-                  </optgroup>
-                </Select>
-                {propertyData.pro_type === "" && formSubmit && (
-                  <FormHelperText sx={{ color: "red" }}>
-                    Required
-                  </FormHelperText>
-                )}
-              </FormControl> */}
+                />
+                {/* <div className="price-in-words">
+                  {propertyData.pro_amt
+                    ? "₹ " + priceInWords(propertyData.pro_amt)
+                    : "₹ Price in words"}
+                </div> */}
+                <div className="price-in-words">
+              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+            </div>
+              </div>
 
-              <TextField
-                sx={{ mt: 1, mb: 1, width: ["70%"], mr: 0, ml: 1, ml: { xs: 0, sm: 0, xl: 1 }, }}
-                id="outlined-basic"
-                variant="outlined"
-                size="small"
-                label="Expected Amount"
-                className="w-full pro_flex_select"
-                name="Expected Amount"
-                inputProps={{ maxLength: 10 }}
-                value={propertyData.pro_amt}
-                FormHelperTextProps={{ sx: { color: "red" } }}
-                helperText={
-                  propertyData.pro_amt > 0 || propertyData.pro_amt === ""
-                    ? ""
-                    : "Enter Valid Amount"
-                }
-                onChange={(e) =>
-                  setPropertyData({
-                    ...propertyData,
-                    pro_amt: e.target.value.replace(
-                      regEx[1].numberValidation,
-                      "$1"
-                    ),
-                  })
-                }
-              />
-              <FormControl
-                sx={{ mt: 1, width: ["30%"] }}
-                size="small"
-                className="pro_flex_select2"
-              >
-                <Select
-                  id="demo-simple-select"
-                  value={propertyData.pro_amt_unit}
-                  inputProps={{ "aria-label": "Without label" }}
+              <div className="col-md-6">
+                <TextField
+                  sx={{
+                    mt: 1,
+                    mb: 1,
+                    ml: 0,
+                    width: ["70%"],
+                    borderRight: 0,
+                    ml: { xs: 0, sm: 0, xl: 0 },
+                  }}
+                  id="outlined-basic"
+                  variant="outlined"
+                  size="small"
+                  required
+                  label="Area Plot Size"
+                  className="w-full pro_flex_select "
+                  name="Area Plot Size"
+                  inputProps={{ maxLength: 100 }}
+                  value={propertyData.pro_area_size}
+                  FormHelperTextProps={{ sx: { color: "red" } }}
+                  helperText={
+                    formSubmit && propertyData.pro_area_size === ""
+                      ? "Required"
+                      : ""
+                  }
                   onChange={(e) =>
                     setPropertyData({
                       ...propertyData,
-                      pro_amt_unit: e.target.value,
+                      pro_area_size: e.target.value.replace(
+                        regEx[1].numberValidation,
+                        "$1"
+                      ),
                     })
                   }
-                >
-                  <MenuItem value={"Crores"}>Crores</MenuItem>
-                  <MenuItem value={"Lakhs"}>Lakhs</MenuItem>
-                  <MenuItem value={"Thousand"}>Thousand</MenuItem>
-                </Select>
-              </FormControl>
+                />
 
-              <TextField
-                sx={{
-                  mt: 1,
-                  mb: 1,
-                  ml: 0,
-                  width: ["70%"],
-                  borderRight: 0,
-                  ml: { xs: 0, sm: 0, xl: 1 },
-                }}
-                id="outlined-basic"
-                variant="outlined"
-                size="small"
-                required
-                label="Area Plot Size"
-                className="w-full pro_flex_select "
-                name="Area Plot Size"
-                inputProps={{ maxLength: 100 }}
-                value={propertyData.pro_area_size}
-                FormHelperTextProps={{ sx: { color: "red" } }}
-                helperText={
-                  formSubmit && propertyData.pro_area_size === ""
-                    ? "Required"
-                    : ""
-                }
-                onChange={(e) =>
-                  setPropertyData({
-                    ...propertyData,
-                    pro_area_size: e.target.value.replace(
-                      regEx[1].numberValidation,
-                      "$1"
-                    ),
-                  })
-                }
-              />
-
-              <FormControl
-                sx={{ mt: 1, width: ["30%"], borderLeft: 0 }}
-                size="small"
-                className="pro_flex_select2"
-              >
-                <Select
-                  id="demo-simple-select"
-                  value={propertyData.pro_area_size_unit}
-                  inputProps={{ "aria-label": "Without label" }}
-                  onChange={(e) =>
-                    setPropertyData({
-                      ...propertyData,
-                      pro_area_size_unit: e.target.value,
-                    })
-                  }
+                <FormControl
+                  sx={{ mt: 1, width: ["30%"], borderLeft: 0 }}
+                  size="small"
+                  className="pro_flex_select2"
                 >
-                  <MenuItem value={"Sq. Yards"}>Sq. Yards</MenuItem>
-                  <MenuItem value={"Sq. Mts"}>Sq. Mts</MenuItem>
-                  <MenuItem value={"Acres"}>Acres</MenuItem>
-                  <MenuItem value={"Marla"}>Marla</MenuItem>
-                </Select>
-              </FormControl>
+                  <Select
+                    id="demo-simple-select"
+                    value={propertyData.pro_area_size_unit}
+                    inputProps={{ "aria-label": "Without label" }}
+                    onChange={(e) =>
+                      setPropertyData({
+                        ...propertyData,
+                        pro_area_size_unit: e.target.value,
+                      })
+                    }
+                  >
+                    <MenuItem value={"Sq. Yards"}>Sq. Yards</MenuItem>
+                    <MenuItem value={"Sq. Mts"}>Sq. Mts</MenuItem>
+                    <MenuItem value={"Acres"}>Acres</MenuItem>
+                    <MenuItem value={"Marla"}>Marla</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
             </div>
 
-            <div className="pro_flex d-flex">
-              <Autocomplete
-                sx={{
-                  mt: 1,
-                  mb: 1,
-                  width: ["100%"],
-                  ml: { xs: 0, sm: 0, xl: 1 },
-                }}
-                size="small"
-                //   multiple
-                limitTags={2}
-                value={selectedState}
-                id="checkboxes-tags-demo3"
-                options={stateList}
-                getOptionLabel={(option) => option.name}
-                onChange={(event, selectedValues) => {
-                  setPropertyData({
-                    ...propertyData,
-                    pro_state: selectedValues,
-                    pro_city: "",
-                    pro_sub_district: "",
-                    searchCity: "",
-                  });
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    helperText={
-                      formSubmit === true &&
-                      (propertyData.pro_state === null ||
-                        propertyData.pro_state === "") &&
-                      "Required"
-                    }
-                    FormHelperTextProps={{ sx: { color: "red" } }}
-                    onChange={(e) => setSearchState(e.target.value)}
-                    value={searchCity}
-                    label="State"
-                    placeholder="State"
-                  />
-                )}
-              />
+            {/* <div>
+              {propertyData.pro_amt && priceFormat(propertyData.pro_amt)}
+            </div> */}
 
-              {cityState && (
+            <div className="row">
+              <div className="col-md-6">
                 <Autocomplete
                   sx={{
                     mt: 1,
@@ -1025,55 +921,100 @@ const QuickListing = () => {
                     ml: { xs: 0, sm: 0, xl: 1 },
                   }}
                   size="small"
-                  // multiple
-                  limitTags={1}
-                  id="checkboxes-tags-demo"
-                  options={filterDistricts}
-                  //value={propertyData.pro_city.district}
-                  getOptionLabel={(option) => option.district}
+                  //   multiple
+                  limitTags={2}
+                  value={selectedState}
+                  id="checkboxes-tags-demo3"
+                  options={stateList}
+                  getOptionLabel={(option) => option.name}
                   onChange={(event, selectedValues) => {
                     setPropertyData({
                       ...propertyData,
-                      pro_city: selectedValues,
+                      pro_state: selectedValues,
+                      pro_city: "",
                       pro_sub_district: "",
+                      searchCity: "",
                     });
                   }}
-                  value={selectedCity}
-                  //disabled={filterDistricts.length < 0 ? true : false}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       helperText={
-                        // filterDistricts.length > 0
-                        //   ?
                         formSubmit === true &&
                         (propertyData.pro_state === null ||
                           propertyData.pro_state === "") &&
-                        (propertyData.pro_city === null ||
-                          propertyData.pro_city === "")
-                          ? "Select state to add city"
-                          : propertyData.pro_state !== null &&
-                            propertyData.pro_state !== "" &&
-                            filterDistricts.length < 1
-                          ? ""
-                          : formSubmit === true &&
-                            (propertyData.pro_city === null ||
-                              propertyData.pro_city === "")
-                          ? "Required"
-                          : ""
-                        // : ""
+                        "Required"
                       }
                       FormHelperTextProps={{ sx: { color: "red" } }}
-                      onChange={(e) => setSearchCity(e.target.value)}
-                      label="City"
-                      placeholder="City"
+                      onChange={(e) => setSearchState(e.target.value)}
+                      value={searchCity}
+                      label="State"
+                      placeholder="State"
                     />
                   )}
                 />
-              )}
+              </div>
+              <div className="col-md-6">
+                {cityState && (
+                  <Autocomplete
+                    sx={{
+                      mt: 1,
+                      mb: 1,
+                      width: ["100%"],
+                      ml: { xs: 0, sm: 0, xl: 0 },
+                    }}
+                    size="small"
+                    // multiple
+                    limitTags={1}
+                    id="checkboxes-tags-demo"
+                    options={filterDistricts}
+                    //value={propertyData.pro_city.district}
+                    getOptionLabel={(option) => option.district}
+                    onChange={(event, selectedValues) => {
+                      setPropertyData({
+                        ...propertyData,
+                        pro_city: selectedValues,
+                        pro_sub_district: "",
+                      });
+                    }}
+                    value={selectedCity}
+                    //disabled={filterDistricts.length < 0 ? true : false}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        helperText={
+                          // filterDistricts.length > 0
+                          //   ?
+                          formSubmit === true &&
+                          (propertyData.pro_state === null ||
+                            propertyData.pro_state === "") &&
+                          (propertyData.pro_city === null ||
+                            propertyData.pro_city === "")
+                            ? "Select state to add city"
+                            : propertyData.pro_state !== null &&
+                              propertyData.pro_state !== "" &&
+                              filterDistricts.length < 1
+                            ? ""
+                            : formSubmit === true &&
+                              (propertyData.pro_city === null ||
+                                propertyData.pro_city === "")
+                            ? "Required"
+                            : ""
+                          // : ""
+                        }
+                        FormHelperTextProps={{ sx: { color: "red" } }}
+                        onChange={(e) => setSearchCity(e.target.value)}
+                        label="City"
+                        placeholder="City"
+                      />
+                    )}
+                  />
+                )}
+              </div>
             </div>
 
-            <div className="pro_flex d-flex">
+            <div className="row">
+            <div className="col-md-6">
               <Autocomplete
                 sx={{
                   mt: 1,
@@ -1146,12 +1087,14 @@ const QuickListing = () => {
                   />
                 )}
               />
+              </div>
+              <div className="col-md-6">
               <TextField
                 sx={{
                   mt: 1,
                   mb: 1,
                   width: ["100%"],
-                  ml: { xs: 0, sm: 0, xl: 1 },
+                  ml: { xs: 0, sm: 0, xl: 0 },
                 }}
                 id="outlined-basic"
                 variant="outlined"
@@ -1175,6 +1118,7 @@ const QuickListing = () => {
                 }
                 required
               />
+              </div>
             </div>
 
             <RadioBoxSelection
@@ -1252,7 +1196,14 @@ const QuickListing = () => {
                               : ""}
                           </div> */}
               </div>
-              <div className=" w-30 mb-1 " style={{ width: "100%" ,  ml: { xs: 0, sm: 0, xl: 3 },  mb: { xs: 2, sm: 2, xl: 0 }, }}>
+              <div
+                className=" w-30 mb-1 "
+                style={{
+                  width: "100%",
+                  ml: { xs: 0, sm: 0, xl: 3 },
+                  mb: { xs: 2, sm: 2, xl: 0 },
+                }}
+              >
                 <TextField
                   multiline
                   sx={{ width: ["100%"], paddingBottom: "0px" }}
@@ -1320,30 +1271,28 @@ const QuickListing = () => {
                           </div>
                         )} */}
 
-{currentUser === null && (
-<div>
-      <TextField
-        sx={{ m: 1, ml: 0, width: ["100%"] }}
-        id="outlined-basic"
-        variant="outlined"
-        size="small"
-        label="Email"
-        value={userData.email}
-        onChange={(e) =>
-          setUserData({ ...userData, email: e.target.value })
-        }
-        required
-        FormHelperTextProps={{ sx: { color: "red" } }}
-        helperText={
-          formSubmit === true &&
-          state.emailFormatError !== false
-            ? state.emailFormatError
-            : ""
-        }
-      />
-      
-    </div>
-)}
+            {currentUser === null && (
+              <div>
+                <TextField
+                  sx={{ m: 1, ml: 0, width: ["100%"] }}
+                  id="outlined-basic"
+                  variant="outlined"
+                  size="small"
+                  label="Email"
+                  value={userData.email}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
+                  }
+                  required
+                  FormHelperTextProps={{ sx: { color: "red" } }}
+                  helperText={
+                    formSubmit === true && state.emailFormatError !== false
+                      ? state.emailFormatError
+                      : ""
+                  }
+                />
+              </div>
+            )}
             <div className="d-flex justify-content-end ">
               <button
                 className="btn continue-btn"
@@ -1352,7 +1301,13 @@ const QuickListing = () => {
                 //onClick={handleClick}
                 onClick={handleSubmit}
               >
-               {currentUser === null ? "Continue" : <><IconPlus /> Add Property</> }
+                {currentUser === null ? (
+                  "Continue"
+                ) : (
+                  <>
+                    <IconPlus /> Add Property
+                  </>
+                )}
               </button>
             </div>
           </div>

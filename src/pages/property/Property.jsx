@@ -34,6 +34,7 @@ import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton"
 import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
 
 import { Helmet } from "react-helmet-async";
+import { ShowPrice } from "../../components/HelperComponents";
 
 const Property = () => {
 
@@ -1086,8 +1087,11 @@ time3.add(12, "minutes") */}
                           {!skeleton ? (
                             <div className="d-flex align-items-center justify-content-between pl-md-0 ">
                               <div className="property-price">
-                                {data.pro_amt
+                                {/* {data.pro_amt
                                   ? "₹" + data.pro_amt + " " + data.pro_amt_unit
+                                  : "Ask Price"} */}
+                                 {data.pro_amt
+                                  ? ShowPrice(data.pro_ad_type, data.pro_amt)
                                   : "Ask Price"}
                               </div>
                             </div>

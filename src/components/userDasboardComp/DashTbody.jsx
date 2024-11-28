@@ -16,6 +16,7 @@ import {
 } from "@tabler/icons-react";
 import DashThead from "./DashThead";
 import axios from "axios";
+import { ShowPrice } from "../HelperComponents";
 
 const renderComplexContent = (item) => {
   return (
@@ -255,8 +256,10 @@ const renderConditional = (
       );
     case "property_type":
       return item.pro_type?.split(",")[0];
+    // case "property_price":
+    //   return item.pro_amt ? `${item.pro_amt} ${item.pro_amt_unit}` : "-";
     case "property_price":
-      return item.pro_amt ? `${item.pro_amt} ${item.pro_amt_unit}` : "-";
+      return item.pro_amt ? ShowPrice(item.pro_ad_type,item.pro_amt) : "-";
     // case "property_date":
     //   return FormatDate(item.pro_date);
     case "property_title":

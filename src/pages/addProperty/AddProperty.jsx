@@ -41,38 +41,8 @@ import moment from "moment";
 import { Skeleton } from "@mui/material";
 
 import { IconChevronsRight } from "@tabler/icons-react";
+import { priceFormat } from "../../components/helper";
 
-// const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
-//   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
-//   <div className="w-100 m-1 mb-3">
-//                               <span className="pro_heading">
-//                                 {heading}
-//                               </span>
-//                               <div className="d-flex ">
-//                                 {array.map((item) => (
-//                                   <div
-//                                     className={
-//                                       field_item === item.value
-//                                         ? "pro_radio_btn pro_selected"
-//                                         : "pro_radio_btn"
-//                                     }
-//                                     onClick={() =>
-//                                       setPropertyData({
-//                                         ...propertyData,
-//                                         field_item_val: item.value,
-//                                       })
-//                                     }
-//                                   >
-//                                     {item.value}
-//                                   </div>
-//                                 ))}
-//                               </div>
-//                               {step_val === true &&
-//                                 field_item === "" && (
-//                                   <div className="error_msg">Required</div>
-//                                 )}
-//                             </div>
-// }
 
 const BoxSelectOptions = ({
   heading,
@@ -1960,17 +1930,18 @@ const AddProperty = () => {
                           </div>
                         </div>
 
-                        <div className="pro_flex ">
+                        <div className="pro_flex flex-column pb-3 ">
                           <TextField
-                            sx={{ m: 1, width: ["80%"], mr: 0 }}
+                            sx={{ m: 1, width: ["100%"], mr: 0 }}
                             id="outlined-basic"
                             variant="outlined"
                             size="small"
                             label="Expected Amount"
                             className="w-full pro_flex_select"
                             name="Expected Amount"
-                            inputProps={{ maxLength: 10 }}
-                            value={propertyData.pro_amt}
+                            inputProps={{ maxLength: 14 }}
+                            //value={propertyData.pro_amt}
+                            value={propertyData.pro_amt != 0 ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
                             FormHelperTextProps={{ sx: { color: "red" } }}
                             helperText={
                               propertyData.pro_amt > 0 ||
@@ -1988,7 +1959,10 @@ const AddProperty = () => {
                               })
                             }
                           />
-                          <FormControl
+                           <div className="price-in-words">
+              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+            </div>
+                          {/* <FormControl
                             sx={{ mt: 1, mr: 1, width: ["20%"] }}
                             size="small"
                             className="pro_flex_select2"
@@ -2008,7 +1982,7 @@ const AddProperty = () => {
                               <MenuItem value={"Lakhs"}>Lakhs</MenuItem>
                               <MenuItem value={"Thousand"}>Thousand</MenuItem>
                             </Select>
-                          </FormControl>
+                          </FormControl> */}
                         </div>
 
                         <div className="pro_flex pro_flex_1">

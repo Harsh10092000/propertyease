@@ -18465,7 +18465,7 @@ margin-right: 15px;
   background:#393a86 no-repeat url(../images/hero-2.webp);
    
   /* height: 45vh; */
-  height: 52vh;
+  height: 55vh;
   position: relative;
   background-size: cover;
 }
@@ -22239,3 +22239,20 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
   /* / text-transform: uppercase; / */
 }
 
+
+
+.price-in-words {
+  font-weight: 600 !important;
+    line-height: 15px;
+    font-size: 14px;
+    color: #0f1e38;
+    margin-left: 8px;
+}
+
+
+.slash-month{
+  font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    float: none !important;
+}
