@@ -166,18 +166,33 @@ const Property = () => {
           : " " + arrproId[2] + ""
       } area with verified property assurance.`
 
+
+    
     const schema = {
       "@context": "https://schema.org",
-      "@type": "RealEstateProperty",
+      "@type": "RealEstateListing",
       "name": capitalizedName, 
       "url": data.pro_url,
-      "datePublished": data.pro_creation_date,
+      "datePosted": data.pro_creation_date,
       "author": {
         "@type": "Person",
         "name": data.pro_ad_type
       },
-
+   
       "description": desc,
+      "relatedLink": {
+        "@type": "URL",
+        "url": `https://propertyease.in/${sub.pro_type
+          .split(",")[1]
+          .toLowerCase()}/${sub.pro_type
+          .split(",")[0]
+          .replaceAll(" ", "-")
+          .toLowerCase()}`
+      },
+      "significantLink": {
+        "@type": "URL",
+        "url": `https://propertyease.in/listing/${data.pro_type.split(",")[1]}`
+      }
     };
 
     setSchemaMarkup(schema);
