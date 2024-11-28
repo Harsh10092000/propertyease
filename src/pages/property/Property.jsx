@@ -168,7 +168,7 @@ const Property = () => {
 
     const schema = {
       "@context": "https://schema.org",
-      "@type": "Real Estate Property",
+      "@type": "RealEstateProperty",
       "name": capitalizedName, 
       "url": data.pro_url,
       "datePublished": data.pro_creation_date,
@@ -176,6 +176,7 @@ const Property = () => {
         "@type": "Person",
         "name": data.pro_ad_type
       },
+
       "description": desc,
     };
 
