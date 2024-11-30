@@ -9,7 +9,7 @@ import {
   // IconBath,
   // IconCurrencyRupee,
   IconX,
-  IconSearch,
+  //IconSearch,
 } from "@tabler/icons-react";
 // import { BedAlt, RupeeSign } from "react-flaticons";
 // import FormControl from "@mui/material/FormControl";
@@ -38,12 +38,40 @@ import { regEx } from "../regEx";
 import { Snackbar } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-import moment from "moment";
+//import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
+
 // import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
 // import Reviews from "../../components/reviews/Reviews";
+
+// import React from "react";
+// import { Link } from "react-router-dom";
+// import { IconSend, IconArrowNarrowRight, IconX, IconSearch } from "@tabler/icons-react";
+// import { useEffect, useState, useRef } from "react";
+// import axios from "axios";
+// import { Helmet } from "react-helmet";
+// import { useNavigate } from "react-router-dom";
+// // import Loader from "../../components/loader/Loader";
+// import Dialog from "@mui/material/Dialog";
+// import { Snackbar } from "@mui/material";
+// import { AuthContext } from "../../context/AuthContext";
+// import { useContext } from "react";
+// import moment from "moment";
+// import { regEx } from "../regEx";
+// import { Suspense } from "react";
+// import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+// import Loader2 from "../../components/loader2/Loader2";
+// // Lazy load components
+// const Navbar = React.lazy(() => import("../../components/navbar/Navbar"));
+// const Footer = React.lazy(() => import("../../components/footer/Footer"));
+// //const PropertyCard2 = React.lazy(() => import("../../components/propertyCard2/PropertyCard2"));
+// const RecentListHeader = React.lazy(() => import("../../components/propertyCard2/RecentListHeader"));
+// const AllPropertyButton = React.lazy(() => import("../../components/propertyCard2/AllPropertyButton"));
+// const Loader = React.lazy(() => import("../../components/loader/Loader"));
+
+// const fallbackUI = <Loader />;
 
 const Index = () => {
 
@@ -61,49 +89,49 @@ const Index = () => {
 
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const testData = [
-    {
-      name: "Anita Sharma",
-      content: `This real estate broker made the home-buying process so easy for us. They understood our needs and showed us several options within our budget. We are very happy with our new home!`,
-      city: "Mohali",
-    },
-    {
-      name: "Vikram Patel",
-      content: `Propertyease helped us buy the perfect 3BHK flat in a great neighborhood at a very reasonable price. We had spoken to many home-selling agents before, but this one stood out.`,
-      city: "Mohali",
-    },
-    {
-      name: "Ritesh",
-      content: `I found the perfect office space for my business thanks to this real estate broker. They listened to what I needed and found several great options for me to choose from.`,
-      city: "Gurugram",
-    },
-    {
-      name: "Rabia Mullick",
-      content: `I had been struggling to find a rental property in a good area, but propertyease came through for me. They were very knowledgeable about the market and helped me find exactly what I wanted. Now i can say that they are best property dealers for rental properties.`,
-      city: "Kurukshetra",
-    },
-    {
-      name: "Sanjay Kumar",
-      content: `Working with this real estate broker was a fantastic experience. They were always available to answer my questions and guided me through buying my first home.`,
-      city: "Ambala",
-    },
-    {
-      name: "Namit Garg",
-      content: `I am incredibly impressed by how this real estate broker works. They helped me meet many sellers and landowners who were interested in selling.`,
-      city: "Ambala",
-    },
-    {
-      name: "Priya Singh",
-      content: `I was looking to sell my house quickly, and the broker did it in no time. They were professional and efficient and got me a great price.
-      .
-            `,
-      city: "Chandigarh",
-    },
-  ];
+  // const testData = [
+  //   {
+  //     name: "Anita Sharma",
+  //     content: `This real estate broker made the home-buying process so easy for us. They understood our needs and showed us several options within our budget. We are very happy with our new home!`,
+  //     city: "Mohali",
+  //   },
+  //   {
+  //     name: "Vikram Patel",
+  //     content: `Propertyease helped us buy the perfect 3BHK flat in a great neighborhood at a very reasonable price. We had spoken to many home-selling agents before, but this one stood out.`,
+  //     city: "Mohali",
+  //   },
+  //   {
+  //     name: "Ritesh",
+  //     content: `I found the perfect office space for my business thanks to this real estate broker. They listened to what I needed and found several great options for me to choose from.`,
+  //     city: "Gurugram",
+  //   },
+  //   {
+  //     name: "Rabia Mullick",
+  //     content: `I had been struggling to find a rental property in a good area, but propertyease came through for me. They were very knowledgeable about the market and helped me find exactly what I wanted. Now i can say that they are best property dealers for rental properties.`,
+  //     city: "Kurukshetra",
+  //   },
+  //   {
+  //     name: "Sanjay Kumar",
+  //     content: `Working with this real estate broker was a fantastic experience. They were always available to answer my questions and guided me through buying my first home.`,
+  //     city: "Ambala",
+  //   },
+  //   {
+  //     name: "Namit Garg",
+  //     content: `I am incredibly impressed by how this real estate broker works. They helped me meet many sellers and landowners who were interested in selling.`,
+  //     city: "Ambala",
+  //   },
+  //   {
+  //     name: "Priya Singh",
+  //     content: `I was looking to sell my house quickly, and the broker did it in no time. They were professional and efficient and got me a great price.
+  //     .
+  //           `,
+  //     city: "Chandigarh",
+  //   },
+  // ];
 
   // const cities = [{ district: "All India" }];
   // const [location, setLocation] = useState("All India");
-  const [cityData, setCityData] = useState();
+ // const [cityData, setCityData] = useState();
   const [searchValue, setSearchValue] = useState("");
   const [currentFilter, setCurrentFilter] = useState("All");
   // const [proTypeFilter, setProTypeFilter] = useState("All");
@@ -143,13 +171,13 @@ const Index = () => {
     },
   ];
 
-  useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
-      .then((res) => {
-        setCityData(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(import.meta.env.VITE_BACKEND + `/api/pro/StateDistinctCityData`)
+  //     .then((res) => {
+  //       setCityData(res.data);
+  //     });
+  // }, []);
 
   const [data, setData] = useState([]);
   const [subscribedUser, setSubscribedUser] = useState(false);
@@ -226,39 +254,39 @@ const Index = () => {
   updateOptions();
   window.addEventListener("resize", updateOptions);
 
-  const forSellers = [
-    {
-      sub_heading: "Find Buyers",
-      content: `Connect with interested buyers quickly.`,
-    },
-    {
-      sub_heading: "Free Listings",
-      content: `List your property for free to reach more people.
-        `,
-    },
-    {
-      sub_heading: "3D Tours",
-      content: `Show off your property with virtual 3D tours.
-        `,
-    },
-  ];
+  // const forSellers = [
+  //   {
+  //     sub_heading: "Find Buyers",
+  //     content: `Connect with interested buyers quickly.`,
+  //   },
+  //   {
+  //     sub_heading: "Free Listings",
+  //     content: `List your property for free to reach more people.
+  //       `,
+  //   },
+  //   {
+  //     sub_heading: "3D Tours",
+  //     content: `Show off your property with virtual 3D tours.
+  //       `,
+  //   },
+  // ];
 
-  const forBuyers = [
-    {
-      sub_heading: "Lots of Listings",
-      content: `Browse a wide range of properties easily.`,
-    },
-    {
-      sub_heading: "3D Tours",
-      content: `Explore properties online with 3D tours to save time.
-        `,
-    },
-    {
-      sub_heading: "Meet Sellers",
-      content: `After you find a property you like, we'll set up a meeting with the seller.
-        `,
-    },
-  ];
+  // const forBuyers = [
+  //   {
+  //     sub_heading: "Lots of Listings",
+  //     content: `Browse a wide range of properties easily.`,
+  //   },
+  //   {
+  //     sub_heading: "3D Tours",
+  //     content: `Explore properties online with 3D tours to save time.
+  //       `,
+  //   },
+  //   {
+  //     sub_heading: "Meet Sellers",
+  //     content: `After you find a property you like, we'll set up a meeting with the seller.
+  //       `,
+  //   },
+  // ];
 
   const services = [
     {
@@ -405,23 +433,23 @@ const Index = () => {
 
   const [selectedTypes, setSelectedTypes] = useState([]);
 
-  const handleTypeToggle = (id) => {
-    console.log(id);
-    if (selectedTypes.includes(id)) {
-      setSelectedTypes(selectedTypes.filter((item) => item !== id));
-    } else {
-      setSelectedTypes([...selectedTypes, id]);
-    }
-  };
+  // const handleTypeToggle = (id) => {
+  //   console.log(id);
+  //   if (selectedTypes.includes(id)) {
+  //     setSelectedTypes(selectedTypes.filter((item) => item !== id));
+  //   } else {
+  //     setSelectedTypes([...selectedTypes, id]);
+  //   }
+  // };
 
-  const handleAllTypes = () => {
-    setSelectedTypes((prevSelectedTypes) => {
-      const updatedTypes = propertyType
-        .map((item) => item.id)
-        .filter((type) => !prevSelectedTypes.includes(type));
-      return [...prevSelectedTypes, ...updatedTypes];
-    });
-  };
+  // const handleAllTypes = () => {
+  //   setSelectedTypes((prevSelectedTypes) => {
+  //     const updatedTypes = propertyType
+  //       .map((item) => item.id)
+  //       .filter((type) => !prevSelectedTypes.includes(type));
+  //     return [...prevSelectedTypes, ...updatedTypes];
+  //   });
+  // };
 
   const [subData, setSubData] = useState(null);
 
@@ -515,9 +543,9 @@ const Index = () => {
   // }, [proData]);
 
   const [open, setOpen] = useState(false);
-  const handleClickOpen = (data) => {
-    setOpen(true);
-  };
+  // const handleClickOpen = (data) => {
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setOpen(false);
@@ -635,9 +663,11 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
   const placeholder = placeholderText[state % placeholderText.length]
 
   return (
+    // <Suspense fallback={fallbackUI}>
     <div>
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
+        <link rel="preload" href="../images/hero-2.webp" as="image" />
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <link rel="canonical" href="https://propertyease.in/" />
@@ -1619,6 +1649,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                   src="images/pro-about-6.webp"
                   className=""
                   alt="Buy a new home"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -1641,6 +1672,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-3.webp"
                         className="about-us-icon"
                         alt="Sale Property on propertyease"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1656,6 +1688,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-1.webp"
                         className="about-us-icon"
                         alt="Buy Property on propertyease"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1673,6 +1706,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-2.webp"
                         className="about-us-icon"
                         alt="List property for free on propertyease"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1704,6 +1738,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-5.png"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1719,6 +1754,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-2.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1736,6 +1772,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src="images/about-us-1-4.webp"
                         className="about-us-icon"
                         alt="Buy a new home"
+                        loading="lazy"
                       />
                     </span>
                   </div>
@@ -1756,6 +1793,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                   src="images/pro-about-7.webp"
                   className=""
                   alt="Buy a new home"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -2408,6 +2446,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
       </div>
       <Footer />
     </div>
+    // </Suspense>
   );
 };
 

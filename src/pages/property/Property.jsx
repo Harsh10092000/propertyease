@@ -840,6 +840,9 @@ const Property = () => {
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
         />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1"></script>
+        <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0"></script>
       </Helmet>
       
       {openContactDialog ? (

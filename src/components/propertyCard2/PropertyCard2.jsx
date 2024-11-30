@@ -26,6 +26,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     className="rec-img"
                     height="100%"
                     width="100%"
+                    loading="lazy"
                   />
                   <div className="top-left-1">
                     {item.pro_views !== null &&
@@ -45,6 +46,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     alt={`https://propertyease.in/${item.pro_url}`}
                     height="100%"
                     width="100%"
+                    loading="lazy"
                   />
                   <div className="top-left-1">
                     {item.pro_views !== null &&
