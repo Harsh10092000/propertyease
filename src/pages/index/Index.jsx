@@ -453,25 +453,48 @@ const Index = () => {
 
   const [subData, setSubData] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
-      .then((res) => {
-        setSubData(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
+  //     .then((res) => {
+  //       setSubData(res.data);
+  //     });
+  // }, []);
 
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
   const [proData, setProData] = useState([]);
+  // useEffect(() => {
+  //   axios
+  //     .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+  //     .then((res) => {
+  //       setProData(res.data);
+  //       //setSkeleton(false);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
-      .then((res) => {
-        setProData(res.data);
-        //setSkeleton(false);
-      });
-  }, []);
+    const timer = setTimeout(() => {
+      axios
+        .all([
+          axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertySubCatNo"),
+          axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+        ])
+        .then(
+          axios.spread((subRes, proRes) => {
+            setSubData(subRes.data);
+            setProData(proRes.data);
+            setLoading(false);
+          })
+        )
+        .catch((error) => {
+          console.error("Error fetching data", error);
+          setLoading(false);
+        });
+    }, 500); 
+
+    return () => clearTimeout(timer); 
+  }, []); 
 
   useEffect(() => {
     const unique1 = Array.from(
