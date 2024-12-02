@@ -18878,6 +18878,7 @@ border-radius: 0;
   /* color: #0ec6d5; */
   color: #1e1d85 !important;
   color: white !important;
+  font-display: swap;
 }
 
 .hero-banner .banner-text-2 p {
@@ -19023,6 +19024,7 @@ border-radius: 0;
   text-shadow: 0px 2px 0px #32526e38;
   /* color: #0ec6d5; */
   margin-top: 85px;
+  font-display: swap;
 
 }
 
