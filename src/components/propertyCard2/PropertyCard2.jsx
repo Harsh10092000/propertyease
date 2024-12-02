@@ -19,9 +19,10 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
               {item.img_link ? (
                 <>
                   <img
-                    src={`${
-                      import.meta.env.VITE_BACKEND
-                    }/propertyImages/watermark/${item.img_link}`}
+                    // src={`${
+                    //   import.meta.env.VITE_BACKEND
+                    // }/propertyImages/watermark/${item.img_link}`}
+                    src="/images/default1.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
                     className="rec-img"
                     height="254px"
@@ -31,10 +32,13 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                   <div className="top-left-1">
                     {item.pro_views !== null &&
                       parseInt(item.pro_views) > 0 && (
+                        <ul>
+
                         <li className="property-view-count ">
                           <IconEye width={16} height={16} />
                           Views {item.pro_views}
                         </li>
+                        </ul>
                       )}
                   </div>
                 </>
@@ -51,10 +55,12 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                   <div className="top-left-1">
                     {item.pro_views !== null &&
                       parseInt(item.pro_views) > 0 && (
+                        <ul>
                         <li className="property-view-count ">
                           <IconEye width={16} height={16} />
                           Views {item.pro_views}
                         </li>
+                        </ul>
                       )}
                   </div>
                 </>

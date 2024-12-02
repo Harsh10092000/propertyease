@@ -17735,7 +17735,8 @@ width: 100%;
 
 
 .contact-us-setion {
-  background-image: url(../images/contact-us-home.webp);
+  /* background-image: url(../images/contact-us-home.webp); */
+  background-image: none;
   background-color: #eff6f7;
   background-position: right;
   background-repeat: no-repeat;
@@ -17757,10 +17758,11 @@ width: 100%;
 
 .contact-us-setion .left-sec .contact-heading {
   color: #333;
-  line-height: 48px;
+  line-height: 42px;
   font-weight: 500;
   text-decoration: none solid rgb(51, 51, 51);
   font-family: poppins, sans-serif;
+  font-size: 27px;
   
 }
 
@@ -18466,8 +18468,8 @@ margin-right: 15px;
 
 .hero-banner {
   /* background:#eff6ff no-repeat url(../images/hero-2.webp);*/
-  /* background:#393a86 no-repeat url(../images/hero-2.webp);  */
-   background-color: #393a86;
+  background:#393a86 no-repeat url(../images/hero-2.webp); 
+   /* background-color: #393a86; */
   /* height: 45vh; */
   height: 55vh;
   position: relative;
@@ -18616,6 +18618,10 @@ margin-left: 125px;
 
 
 @media only screen and (max-width: 480px) {
+  .hero-banner {
+    background-color: #393a86;
+    background-image: none;
+  }
   .search-options-2 {
     margin-left: 15px;
     margin-right: 15px;

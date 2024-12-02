@@ -647,7 +647,7 @@ const Index = () => {
                         <img
                           src={item.image}
                           className="card-img-top"
-                          alt={item.heading}
+                          alt={item.alt}
                           height=""
                           width=""
                           //loading="lazy"
