@@ -45,6 +45,7 @@ import {
   import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
   import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
   import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
+import { Helmet } from "react-helmet-async";
   
   // const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
   //   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
@@ -961,6 +962,11 @@ import {
   
     return (
       <div>
+     <Helmet>
+     <script defer src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+     </Helmet>
         {loader ? <Loader /> : ""}
         <Dialog
           open={open}

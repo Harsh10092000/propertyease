@@ -667,7 +667,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
     <div>
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
-        <link rel="preload" href="../images/hero-2.webp" as="image" />
+        {/* <link rel="preload" href="../images/hero-2.webp" as="image" /> */}
+        <link rel="preload" fetchpriority="high" as="image" href="https://api.propertyease.in/images/hero-2.webp" type="image/webp" />
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <link rel="canonical" href="https://propertyease.in/" />
@@ -1650,6 +1651,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
+                  width="526px"
+                  height="420px"
                 />
               </div>
             </div>
@@ -1673,6 +1676,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="Sale Property on propertyease"
                         loading="lazy"
+                        width="48px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1689,6 +1694,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="Buy Property on propertyease"
                         loading="lazy"
+                        width="55px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1707,6 +1714,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="List property for free on propertyease"
                         loading="lazy"
+                        width="55px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1739,6 +1748,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="Buy a new home"
                         loading="lazy"
+                        width="55px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1755,6 +1766,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="Buy a new home"
                         loading="lazy"
+                        width="55px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1773,6 +1786,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         className="about-us-icon"
                         alt="Buy a new home"
                         loading="lazy"
+                        width="55px"
+                        height="55px"
                       />
                     </span>
                   </div>
@@ -1794,6 +1809,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
+                  width="534px"
+                  height="420px"
                 />
               </div>
             </div>
@@ -1859,7 +1876,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                 <div className="ser-card border-hover shadow-2 shadow-hover-lg-1   h-100 hover-change-image">
                   <div className="row ">
                     <div className="col-sm-3 ">
-                      <img src={item.image} className="" alt={item.alt} />
+                      <img src={item.image} className="" alt={item.alt} width="126px"
+                        height="101px" />
                     </div>
                     <div className="col-sm-9 ser-text-wrapper">
                       <div>
@@ -1922,6 +1940,8 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         src={item.image}
                         className="card-img-top"
                         alt={item.heading}
+                        width="100px"
+                        height="85px"
                       />
                       <div className="card-body px-0  pb-0">
                         <h4 className="card-title mb-0 ">{item.heading}</h4>

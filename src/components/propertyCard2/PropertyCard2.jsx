@@ -24,8 +24,8 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     }/propertyImages/watermark/${item.img_link}`}
                     alt={`https://propertyease.in/${item.pro_url}`}
                     className="rec-img"
-                    height="100%"
-                    width="100%"
+                    height="254px"
+                    width="288px"
                     loading="lazy"
                   />
                   <div className="top-left-1">
@@ -44,8 +44,8 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     className="rec-img"
                     src="/images/default1.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
-                    height="100%"
-                    width="100%"
+                    height="254px"
+                    width="288px"
                     loading="lazy"
                   />
                   <div className="top-left-1">

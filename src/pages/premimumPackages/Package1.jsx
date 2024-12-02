@@ -6,6 +6,7 @@ import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 
 const Package1 = () => {
@@ -168,6 +169,10 @@ const Package1 = () => {
 
   return (
     <>
+    <Helmet>
+    <script defer src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    </Helmet>
     <Navbar />
     <div className="container ">
           <div className="row">

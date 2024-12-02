@@ -611,6 +611,7 @@ const Navbar = () => {
                     alt="Propertyease Logo"
                     width={200}
                     height={180}
+                   
                     className="img-fluid logo-only-mobile"
                   />
                 </Link>
@@ -753,7 +754,8 @@ const Navbar = () => {
           <div>
             <Link to="/">
               <span className="logo">
-                <img src="/images/logo.png" alt="logo" />
+                <img src="/images/logo.png" alt="Propertyease.in"  width="228px"
+                    height="60px" />
               </span>
             </Link>
           </div>

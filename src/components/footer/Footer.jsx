@@ -468,7 +468,8 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-logo  justify-content-between align-items-center">
 
-          <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" />
+          <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" width="228px"
+                        height="60px" />
           {/* <div className="subscribe-btn" onClick={() => setOpen1(true)}>Click to Subscribe Us</div> */}
         </div>
         <div className="footer-items">
