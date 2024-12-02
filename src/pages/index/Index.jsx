@@ -648,9 +648,9 @@ const Index = () => {
                           src={item.image}
                           className="card-img-top"
                           alt={item.alt}
-                          height=""
-                          width=""
-                          //loading="lazy"
+                          height="36px"
+                          width="45px"
+                          loading="lazy"
                         />
                         <div className="card-body px-0  pb-0">
                           <h4 className="card-title mb-0 ">{item.heading}</h4>
