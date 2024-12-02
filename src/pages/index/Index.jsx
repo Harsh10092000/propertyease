@@ -43,12 +43,12 @@ import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
-// import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
-// import Reviews from "../../components/reviews/Reviews";
+//import VoiceRecognation from "../../components/voiceRecognation/VoiceRecognation";
+//import Reviews from "../../components/reviews/Reviews";
 
 // import React from "react";
 // import { Link } from "react-router-dom";
-// import { IconSend, IconArrowNarrowRight, IconX, IconSearch } from "@tabler/icons-react";
+// import { IconSend, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
 // import { useEffect, useState, useRef } from "react";
 // import axios from "axios";
 // import { Helmet } from "react-helmet";
@@ -58,15 +58,15 @@ import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton"
 // import { Snackbar } from "@mui/material";
 // import { AuthContext } from "../../context/AuthContext";
 // import { useContext } from "react";
-// import moment from "moment";
+// //import moment from "moment";
 // import { regEx } from "../regEx";
-// import { Suspense } from "react";
-// import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+// //import { Suspense } from "react";
+// //import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 // import Loader2 from "../../components/loader2/Loader2";
 // // Lazy load components
 // const Navbar = React.lazy(() => import("../../components/navbar/Navbar"));
 // const Footer = React.lazy(() => import("../../components/footer/Footer"));
-// //const PropertyCard2 = React.lazy(() => import("../../components/propertyCard2/PropertyCard2"));
+// const PropertyCard2 = React.lazy(() => import("../../components/propertyCard2/PropertyCard2"));
 // const RecentListHeader = React.lazy(() => import("../../components/propertyCard2/RecentListHeader"));
 // const AllPropertyButton = React.lazy(() => import("../../components/propertyCard2/AllPropertyButton"));
 // const Loader = React.lazy(() => import("../../components/loader/Loader"));
@@ -453,48 +453,48 @@ const Index = () => {
 
   const [subData, setSubData] = useState(null);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
-  //     .then((res) => {
-  //       setSubData(res.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchPropertySubCatNo`)
+      .then((res) => {
+        setSubData(res.data);
+      });
+  }, []);
 
   const [suggestions, setSuggestions] = useState();
   const [openSuggestions, setOpenSuggestions] = useState(false);
   const [proData, setProData] = useState([]);
-  // useEffect(() => {
-  //   axios
-  //     .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
-  //     .then((res) => {
-  //       setProData(res.data);
-  //       //setSkeleton(false);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      axios
-        .all([
-          axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertySubCatNo"),
-          axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
-        ])
-        .then(
-          axios.spread((subRes, proRes) => {
-            setSubData(subRes.data);
-            setProData(proRes.data);
-            setLoading(false);
-          })
-        )
-        .catch((error) => {
-          console.error("Error fetching data", error);
-          setLoading(false);
-        });
-    }, 500); 
+    axios
+      .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+      .then((res) => {
+        setProData(res.data);
+        //setSkeleton(false);
+      });
+  }, []);
 
-    return () => clearTimeout(timer); 
-  }, []); 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     axios
+  //       .all([
+  //         axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertySubCatNo"),
+  //         axios.get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
+  //       ])
+  //       .then(
+  //         axios.spread((subRes, proRes) => {
+  //           setSubData(subRes.data);
+  //           setProData(proRes.data);
+  //           setLoading(false);
+  //         })
+  //       )
+  //       .catch((error) => {
+  //         console.error("Error fetching data", error);
+  //         setLoading(false);
+  //       });
+  //   }, 500); 
+
+  //   return () => clearTimeout(timer); 
+  // }, []); 
 
   useEffect(() => {
     const unique1 = Array.from(
