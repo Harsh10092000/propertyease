@@ -611,7 +611,7 @@ const Navbar = () => {
                     alt="Propertyease Logo"
                     width={200}
                     height={180}
-                   
+                   loading="lazy"
                     className="img-fluid logo-only-mobile"
                   />
                 </Link>

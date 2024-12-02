@@ -965,6 +965,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         alt={item.heading}
                         height=""
                         width=""
+                        loading="lazy"
                       />
                       <div className="card-body px-0  pb-0">
                         <h4 className="card-title mb-0 ">{item.heading}</h4>
@@ -1899,7 +1900,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                 <div className="ser-card border-hover shadow-2 shadow-hover-lg-1   h-100 hover-change-image">
                   <div className="row ">
                     <div className="col-sm-3 ">
-                      <img src={item.image} className="" alt={item.alt} width="126px"
+                      <img src={item.image} className="" loading="lazy" alt={item.alt} width="126px"
                         height="101px" />
                     </div>
                     <div className="col-sm-9 ser-text-wrapper">
@@ -1965,6 +1966,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                         alt={item.heading}
                         width="100px"
                         height="85px"
+                        loading="lazy"
                       />
                       <div className="card-body px-0  pb-0">
                         <h4 className="card-title mb-0 ">{item.heading}</h4>
@@ -2304,6 +2306,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
                           <img
                             src={`images/pro-picks-${index + 1}.webp`}
                             alt="Top property picks on https://propertyease.in/"
+                            loading="lazy"
                           />
                         </div>
                         <div className="content">
