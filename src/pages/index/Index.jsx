@@ -668,7 +668,7 @@ const placeholderText = ["Search for a property", "Sector 7", "Kurukshetra", "Ha
       {/* <div onClick={() => setOpen(true)}>open dialog</div> */}
       <Helmet>
         {/* <link rel="preload" href="../images/hero-2.webp" as="image" /> */}
-        <link rel="preload" fetchpriority="high" as="image" href="https://api.propertyease.in/images/hero-2.webp" type="image/webp" />
+        <link rel="preload" fetchpriority="high" as="image" href="https://propertyease.in/images/hero-2.webp" type="image/webp" />
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <link rel="canonical" href="https://propertyease.in/" />
