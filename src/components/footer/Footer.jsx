@@ -1,7 +1,6 @@
 
 import {
-  IconBrandFacebook,
-  IconBrandInstagram,
+
   IconCurrencyDollar,
   IconDeviceMobile,
   IconGlobe,
@@ -199,6 +198,7 @@ const Footer = () => {
 
   return (
     <>
+
     {loader1 && <Loader /> }
 
 
@@ -470,7 +470,6 @@ const Footer = () => {
 
           <img src="https://propertyease.in/images/logo.webp" alt="Propertyease" width="228px" loading="lazy"
                         height="60px" />
-          {/* <div className="subscribe-btn" onClick={() => setOpen1(true)}>Click to Subscribe Us</div> */}
         </div>
         <div className="footer-items">
           <div className="footer-lists">
@@ -646,23 +645,8 @@ const Footer = () => {
                   <span className="mobile-hidden">+91 89500 40151</span>
                 </a>
               </li>
-              {/* <li>
-                <a href="tel:9996167778" title="Call Now">
-                  <span className="mr-1">
-                    <IconPhone className="sidebar-faicon" />
-                  </span>
-                  <span className="mobile-hidden">+91 89500 40151</span>
-                </a>
-              </li> */}
-              {/* <li>
-                <a href="tel:9996167778" title="Call Now">
-                  <span className="mr-1">
-                    <IconPhone className="sidebar-faicon" />
-                  </span>
-                  <span className="mobile-hidden">+91 99961 67778
-                  </span>
-                </a>
-              </li> */}
+             
+             
             </ul>
           </div>
     </footer>

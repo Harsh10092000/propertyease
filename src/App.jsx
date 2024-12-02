@@ -13,7 +13,7 @@ import Terms from "./pages/terms/Terms";
 import Privacy from "./pages/privacy/Privacy";
 import User from "./pages/user/User";
 import UserDashboard from "./pages/userdashboard/UserDashboard";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
 import UserShortlisted from "./pages/shortlisted/UserShortlisted";
 import Property from "./pages/property/Property";
@@ -63,7 +63,7 @@ import EditCityMaps from "./pages/editCityMaps/EditCityMaps";
 import UserSubscriptionPlans from "./pages/userSubscriptionPlans/UserSubscriptionPlans";
 
 import AdminProPlanTran from "./pages/adminProPlanTran/AdminProPlanTran";
-import PaymentSucess from "./pages/paymentSuccess/PaymentSucess";
+//import PaymentSucess from "./pages/paymentSuccess/PaymentSucess";
 
 import SendJwt from "./components/SendJwt";
 import PropertyByCity from "./pages/propertyByCity/PropertyByCity";
@@ -78,14 +78,12 @@ import EmailBoardcast from "./pages/adminSettings/EmailBoardcast";
 
 import Package1 from "./pages/premimumPackages/Package1";
 import UserInsights from "./pages/userInsights/UserInsights";
-import InviteFromAdmin from "./pages/InviteUser/InviteFromAdmin";
 import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 import SmsComponent from "./components/smsComponent/SmsComponent";
 import QuickListing from "./pages/quickListing/QuickListing";
 import MailBox from "./pages/InviteUser/MailBox";
 import { HelmetProvider } from 'react-helmet-async';
 import Disclaimer from "./pages/disclaimer/Disclaimer";
-import axios from "axios";
 import redirectionData from './components/Redirection.json';
 
 const ScrollToTop = () => {
@@ -96,15 +94,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-// const Origin =()=>{
-//   const [referrer,setRefferer]=useState("")
-//   useEffect(()=>{
-//     console.log(referrer)
-//     setRefferer(document.referrer)
-//     console.log(referrer)
-//   },[])
-//   return null;
-// }
 
 const App = () => {
   const { currentUser } = useContext(AuthContext);
@@ -117,14 +106,7 @@ const App = () => {
   };
 
 
-  
 
-  const ProtectedRouteQuickList = ({ children}) => {
-    if (!currentUser) {
-      return <Navigate to="/login" replace state={{ from: "/quick-list" }} />;
-    }
-    return children;
-  };
 
   const Unprotected = ({ children }) => {
     if (currentUser) {
@@ -146,23 +128,6 @@ const App = () => {
   };
 
 
-  //const redirectionData = import.meta.env.VITE_BACKEND}/Redirection.json
-  //href={`${import.meta.env.VITE_BACKEND}/sample-csv.csv`}
-
-  //const [redirectionData, setRedirectionData] = useState([]);
-  
-  // useEffect(() => {
-  //   axios
-  //     .get(`${import.meta.env.VITE_BACKEND}/redirection`)
-  //     .then((res) => {
-  //       console.log(res)
-  //       setRedirectionData(res.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching redirection data:", error);
-  //     });
-  // }, []);
-
   const redirections = redirectionData.map((item, index) => ({
     path: item.old_url, 
     element: <Navigate key={index} to={item.new_url} />
@@ -170,15 +135,6 @@ const App = () => {
   
 
   const router = createBrowserRouter([
-    // {
-    //   path: "/166-marla-independent-house-for-sale-in-sector-4-kurukshetra-454",
-    //   replace: "/id=6-marla-independent-house-for-sale-in-sector-4-kurukshetra-454",
-    //   element: <Property />
-    // },
-
-    ...redirections,
-  
-   
     {
       path: "/",
       element: <Index />,
@@ -263,14 +219,6 @@ const App = () => {
         </>
       ),
     },
-    // {
-    //   path: "quick-list",
-    //   element: (
-    //     <ProtectedRouteQuickList>
-    //       <QuickListing />
-    //       </ProtectedRouteQuickList>
-    //   ),
-    // },
     {
       path: "/user",
       element: (
@@ -343,18 +291,6 @@ const App = () => {
             </>
           ),
         },
-
-    //     {
-    //   path: "quick-list",
-    //   element: (
-    //     <>
-    //       <SendJwt />
-    //       <QuickListing />
-    //       </>
-    //   ),
-    // },
-        
-
         {
           path: "mysubscription",
           element: (
@@ -518,11 +454,6 @@ const App = () => {
           path: "mailbroadcast",
           element: <EmailBoardcast />,
         },
-
-        // {
-        //   path: "mail",
-        //   element: <InviteFromAdmin />,
-        // },
         {
           path: "mail",
           element: <MailBox />,
@@ -580,7 +511,6 @@ const App = () => {
       element: <AgentProperties />,
     },
     {
-      // path: "/properties/:adType/:proType/:proCity",
       path: "/properties/:adType/:proType",
       element: 
       (<>

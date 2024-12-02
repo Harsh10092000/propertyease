@@ -4646,12 +4646,8 @@ select.form-control[multiple],
 select.form-control[size],
 textarea.form-control {
   height: auto;
-} /*!
- * Bootstrap v4.6.0 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
+} 
+
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
@@ -17721,6 +17717,16 @@ width: 100%;
 }
 
 
+.contact-us-setion {
+  background-image: url(../images/contact-us-home.webp);
+  background-color: #eff6f7;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
 
 @media screen and (max-width: 480px) {
   .services-wrapper .ser-card img {
@@ -17732,21 +17738,12 @@ width: 100%;
   }
 
   .contact-us-setion {
-    background-image: none;
+    background-image: none !important;
   }
   
 }
 
 
-.contact-us-setion {
-  background-image: url(../images/contact-us-home.webp);
-  background-color: #eff6f7;
-  background-position: right;
-  background-repeat: no-repeat;
-  background-size: auto;
-  padding-top: 80px;
-  padding-bottom: 80px;
-}
 
 .contact-us-setion .left-sec {
   border-left: 1px solid #eee;
