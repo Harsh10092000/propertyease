@@ -650,7 +650,7 @@ const Index = () => {
                           alt={item.heading}
                           height=""
                           width=""
-                          loading="lazy"
+                          //loading="lazy"
                         />
                         <div className="card-body px-0  pb-0">
                           <h4 className="card-title mb-0 ">{item.heading}</h4>
