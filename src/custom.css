@@ -17730,13 +17730,16 @@ width: 100%;
     padding-left: 22px;
     padding-top: 10px;
   }
+
+  .contact-us-setion {
+    background-image: none;
+  }
   
 }
 
 
 .contact-us-setion {
-  /* background-image: url(../images/contact-us-home.webp); */
-  background-image: none;
+  background-image: url(../images/contact-us-home.webp);
   background-color: #eff6f7;
   background-position: right;
   background-repeat: no-repeat;
