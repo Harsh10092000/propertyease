@@ -493,7 +493,17 @@ const Index = () => {
           as="image"
           href="https://propertyease.in/images/hero-2.webp"
           type="image/webp"
+          crossorigin="anonymous"
         />
+
+        <link
+          defer
+          loading="lazy"
+          as="image"
+          href="https://propertyease.in/images/contact-us-home.webp"
+          type="image/webp"
+        />
+
         <title>Propertyease - Buy and Sell Property</title>
       </Helmet>
       <link rel="canonical" href="https://propertyease.in/" />
@@ -864,8 +874,9 @@ const Index = () => {
             <div className="col-md-6 about-us-left about-us-left-1">
               <div className="about-us-img-wrap about-img-left">
                 <img
-                  src="images/pro-about-6.webp"
-                  srcSet="images/pro-about-resized-6.webp"
+                  // src="images/pro-about-6.webp"
+                  // srcSet="images/pro-about-resized-6.webp"
+                  src="images/pro-about-resized-6.webp"
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
@@ -1024,8 +1035,9 @@ const Index = () => {
             <div className="col-md-6 about-us-left about-us-left-2">
               <div className="about-us-img-wrap about-img-left ">
                 <img
-                  src="images/pro-about-7.webp"
-                  srcSet="images/pro-about-resized-7.webp"
+                  // src="images/pro-about-7.webp"
+                  // srcSet="images/pro-about-resized-7.webp"
+                  src="images/pro-about-resized-7.webp"
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
