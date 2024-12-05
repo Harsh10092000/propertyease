@@ -10,7 +10,7 @@
     transition: all .3s ease;
     /* width: 250px; */
     /* width: 100%; */
-    height: calc(100%-40px);
+    height: calc(100% - 40px);
     top: 100px;
     /* bottom: 20px;
     left: 20px; */
