@@ -1,5 +1,6 @@
 * {
   font-display: swap !important; 
+  font-family: "Open Sans", sans-serif !important;
 }
 .error-content,
 .error_page,
@@ -18586,7 +18587,7 @@ margin-left: 125px;
   margin: 10px;
   padding: 8px;
   padding-top: 9px;
-  width: 112px;
+  width: 115px;
   text-align: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -18868,7 +18869,7 @@ border-radius: 0;
   text-transform: capitalize;
   margin-left: 25px;
   margin-right: 25px;
-  /* margin-top: 105px; */
+  margin-top: 105px;
   font-family: sans-serif;
   word-spacing: 1px;
   /* color: #777B7F; */
@@ -19022,7 +19023,7 @@ border-radius: 0;
   /* color: #1e1d85; */
   text-shadow: 0px 2px 0px #32526e38;
   /* color: #0ec6d5; */
-  /* margin-top: 85px; */
+  margin-top: 85px;
 
 }
 
