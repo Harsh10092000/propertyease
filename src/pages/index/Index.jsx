@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { Link } from "react-router-dom";
 import { IconSend, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
@@ -9,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
-import { Snackbar } from "@mui/material";
+import { Skeleton, Snackbar } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+//import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
+const PropertyCard2 = lazy(() => import("../../components/propertyCard2/PropertyCard2"));
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
@@ -25,15 +27,11 @@ const Index = () => {
     }
   };
 
-
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  
 
-  
   const [searchValue, setSearchValue] = useState("");
   const [currentFilter, setCurrentFilter] = useState("All");
- 
 
   const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
     useState("All Properties");
@@ -65,7 +63,6 @@ const Index = () => {
     },
   ];
 
- 
   const [data, setData] = useState([]);
   const [subscribedUser, setSubscribedUser] = useState(false);
   useEffect(() => {
@@ -89,7 +86,6 @@ const Index = () => {
     }
   }, [currentUser]);
 
- 
   const handleClick = (index) => {
     navigate(
       `/allproperties?search=${searchValue}&proadtype=${propertyAdTypeFilter}&procat=${propertyTypeFilter}`
@@ -132,7 +128,6 @@ const Index = () => {
 
   updateOptions();
   window.addEventListener("resize", updateOptions);
-
 
   const services = [
     {
@@ -186,7 +181,6 @@ const Index = () => {
   ];
 
   const directSearchButtons = [
-    
     {
       heading: "Residential",
       image: "images/pro-type-resized-1.webp",
@@ -286,8 +280,6 @@ const Index = () => {
       });
   }, []);
 
- 
-
   useEffect(() => {
     const unique1 = Array.from(
       new Set(proData?.slice(0, 60).map((item) => item.pro_city.trim()))
@@ -345,8 +337,6 @@ const Index = () => {
     setSuggestions(unique);
   }, [searchValue]);
 
- 
-
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -394,7 +384,6 @@ const Index = () => {
         email: "",
         phone: "",
       });
-    
     } catch (err) {
       console.log(err);
       err.response.data.code === "ER_DUP_ENTRY"
@@ -465,7 +454,6 @@ const Index = () => {
 
   const placeholder = placeholderText[state % placeholderText.length];
 
-
   // const [isScrolled, setIsScrolled] = useState(false);
 
   // useEffect(() => {
@@ -476,21 +464,23 @@ const Index = () => {
   //       setIsScrolled(false);
   //     }
   //   };
-  
+
   //   window.addEventListener('scroll', handleScroll);
   //   return () => window.removeEventListener('scroll', handleScroll);
   // }, []);
 
-  return (
-   
-    <div>
-    
-      <Helmet>
+  const [isLoading, setIsLoading] = useState(true); 
+  const handleComponentLoad = () => {
+    setIsLoading(false); 
+  };
 
+  return (
+    <div>
+      <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
         <link defer rel="canonical" href="https://propertyease.in/" />
       </Helmet>
-      
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -581,7 +571,7 @@ const Index = () => {
                   : ""}
               </span>
             </div>
-            
+
             <div>
               <button
                 className="pf-submit hover-opacity"
@@ -615,7 +605,6 @@ const Index = () => {
         onClose={() => setOpenSubSnack(false)}
         message={"Thank You for subscribing us."}
       />
-      
 
       <div>
         <div className="image-cover hero-banner" data-select2-id="13">
@@ -626,9 +615,9 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
-                  <h1 className={"h1-2"} >Ab property bechna kharidna hoga aasan
+                  <h1 className={"h1-2"}>
+                    Ab property bechna kharidna hoga aasan
                   </h1>
-
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>
@@ -637,18 +626,14 @@ const Index = () => {
             </div>
           </div>
 
-
           <div className="hero-search">
             <div className="container hero-search-wrapper">
-             
-
               <div
                 className="d-flex search-options-2"
                 ref={scrollContainerRef}
                 onWheel={handleScroll}
               >
                 {directSearchButtons.map((item, index) => (
-                 
                   <div className="inside-search-options-2">
                     <Link to={item.link} title={item.title}>
                       <div className="search-option-item-2">
@@ -677,7 +662,6 @@ const Index = () => {
                     openPropertyAdTypeOptions ? "arrow-up" : "arrow-down"
                   }`}
                   onClick={() =>
-                    
                     setOpenPropertyAdTypeOptions(
                       openPropertyAdTypeOptions ? false : true
                     )
@@ -705,7 +689,6 @@ const Index = () => {
                       </div>
                     </div>
                   )}
-                 
                 </div>
 
                 <div
@@ -714,7 +697,6 @@ const Index = () => {
                     openPropertyTypeOptions ? "arrow-up" : "arrow-down"
                   }`}
                   onClick={() =>
-                    
                     setOpenPropertyTypeOptions(
                       openPropertyTypeOptions ? false : true
                     )
@@ -740,14 +722,12 @@ const Index = () => {
                       </div>
                     </div>
                   )}
-                 
                 </div>
 
                 <div className="col-md d-flex">
                   <input
                     type="text"
                     className="form-control index-search"
-                   
                     placeholder={placeholder}
                     value={searchValue}
                     onChange={(e) => {
@@ -768,8 +748,6 @@ const Index = () => {
                       ))}
                     </div>
                   )}
-
-                 
                 </div>
                 <div className="col-md-2">
                   <button
@@ -783,17 +761,13 @@ const Index = () => {
               </div>
             </div>
           </div>
-
-          
         </div>
-
-        
-
-     
 
         {/* ########## New Recent List Section ########## */}
 
         <section className="most-view-Property mt-5 mb-5">
+          
+         
           <div className="container">
             <RecentListHeader />
             <div className="latest-pro-filter-wrapper">
@@ -808,10 +782,11 @@ const Index = () => {
                 </button>
               ))}
             </div>
-            <div className="container">
+           
+          <div className="container">
               <div className="row ">
                 {filteredData.slice(0, 6).map((item, index) => (
-                  <PropertyCard2
+                  <PropertyCard2 
                     item={item}
                     currentUser={currentUser}
                     index={index}
@@ -820,25 +795,19 @@ const Index = () => {
               </div>
             </div>
 
+          
+
             <AllPropertyButton />
           </div>
         </section>
 
         <section className="most-view-Property mt-5 mb-5">
-          <div className="container">
-           
-          </div>
+          <div className="container"></div>
         </section>
-
-        
-
-       
 
         <div className="container about-us-wrapper-1">
           <div className="section-title text-left">
-            
             <h3 className="aboutus">
-              
               About Us
               <div className="heading-divider "></div>
             </h3>
@@ -866,7 +835,6 @@ const Index = () => {
                   loading="lazy"
                   width="526px"
                   height="420px"
-                  
                 />
               </div>
             </div>
@@ -1050,7 +1018,6 @@ const Index = () => {
                     title="Post Requirement"
                     className="explore-more post-requiremnet"
                   >
-                   
                     <span>
                       <IconSend />
                     </span>
@@ -1065,7 +1032,6 @@ const Index = () => {
 
         <div className="container services-wrapper">
           <div className="section-title text-left">
-           
             <h3 className="aboutus">
               Services Offered
               <div className="heading-divider "></div>
@@ -1138,7 +1104,7 @@ const Index = () => {
                   by Property Type
                 </h2>
                 <span className="heading-divider"></span>
-               
+
                 <Link to="/allproperties" title="Click to View All Properties">
                   <div className="pro-type-btn">
                     {Math.floor(data.length / 50) * 50}+ Available Properties
@@ -1169,12 +1135,9 @@ const Index = () => {
           </div>
         </div>
 
-        
-        
         <section className="top-categories mb-0 pb-0">
           <div className="container">
             <div className="section-title text-left">
-              
               <h3 className="aboutus">
                 Top Property Picks
                 <div className="heading-divider "></div>
@@ -1188,7 +1151,7 @@ const Index = () => {
                 personalized service every step of the way.
               </p>
             </div>
-            
+
             <div className="row">
               {subData !== null &&
                 subData
@@ -1227,7 +1190,6 @@ const Index = () => {
           </div>
         </section>
 
-        
         <section
           className="contact-us-setion py-lg-13 py-11"
           data-animated-id="8"
@@ -1254,13 +1216,11 @@ const Index = () => {
                 className="col-ld-6 col-sm-5 text-center mt-sm-0 mt-8 fadeInRight animated right-sec"
                 data-animate="fadeInRight"
               >
-                
                 <p className=" phone-number-text">Call for help now!</p>
-               
+
                 <p className=" phone-number">89500 40151</p>
                 <p className=" phone-number">99961 67778</p>
 
-                
                 <div
                   onClick={() => setOpen(true)}
                   className="btn btn-primary contact-btn "
@@ -1272,14 +1232,9 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-
-
-        
       </div>
       <Footer />
     </div>
-
   );
 };
 

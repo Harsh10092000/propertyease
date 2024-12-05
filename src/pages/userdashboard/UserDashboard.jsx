@@ -1,44 +1,27 @@
+import { lazy } from "react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-
-import { Checkbox, Snackbar } from "@mui/material";
-
 import Loader from "../../components/loader/Loader";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-
 import "./UserDashboard.css";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
-
-// import {
-//   faAngleRight,
-//   faEye,
-//   faPencilAlt,
-// } from "@fortawesome/free-solid-svg-icons";
-
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
-
-import DashTable from "../../components/userDasboardComp/DashTable";
+//import DashTable from "../../components/userDasboardComp/DashTable";
 import {
   IconEdit,
   IconEye,
   IconHome,
   IconHomeCheck,
   IconHomeOff,
-  IconInnerShadowTopLeft,
   IconUser,
+  IconCheckbox,
+  IconTrash
 } from "@tabler/icons-react";
-import { IconCheckbox } from "@tabler/icons-react";
-import { IconTrash } from "@tabler/icons-react";
-import { IconInfoSquareRounded } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import { Skeleton } from "@mui/material";
+import { Checkbox, Snackbar, Dialog, DialogActions, DialogContent, DialogTitle, Button, Skeleton,DialogContentText  } from "@mui/material";
+
+//const DashUpperBody = lazy(() => import("../../components/userDasboardComp/DashTbody"));
+const DashTable = lazy(() => import("../../components/userDasboardComp/DashTable"));
+
 
 const UserDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -623,9 +606,15 @@ const UserDashboard = () => {
     0
   );
 
+  const [isLoading, setIsLoading] = useState(true); 
+  const handleComponentLoad = () => {
+    setIsLoading(false); 
+  };
+
   return (
+  
     <>
-    {skeleton ? 
+    {skeleton && isLoading ? 
   <div className="container-fluid">
                  
             
@@ -950,7 +939,7 @@ const UserDashboard = () => {
         updateMultipleSaleStatus={updateMultipleSaleStatus}
       />
 
-      <DashTable
+      <DashTable onLoad={handleComponentLoad}
         theadArray={theadArray}
         handleAllTypes={handleAllTypes}
         allSelected={allSelected}
@@ -972,6 +961,7 @@ const UserDashboard = () => {
     </div>
      }
      </>
+    
   );
 };
 
