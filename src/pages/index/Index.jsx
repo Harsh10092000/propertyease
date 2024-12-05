@@ -614,9 +614,12 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
-                  <h1 className={"h1-2"}>
+                  <h1 className={"d-none h1-2"}>
                     Ab property bechna kharidna hoga aasan
                   </h1>
+                  <div className={" h1-2"}>
+                    Ab property bechna kharidna hoga aasan
+                  </div>
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>

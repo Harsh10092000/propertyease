@@ -18898,7 +18898,8 @@ border-radius: 0;
   /* color: #0ec6d5; */
   color: #1e1d85 !important;
   color: white !important;
-  margin-top: 25px;
+  /* margin-top: 25px; */
+  /* padding-top: 25px; */
   
 }
 
@@ -19063,7 +19064,8 @@ border-radius: 0;
   word-spacing: 1px;
   color: #777B7F;
   text-shadow: 0px 2px 0px #32526e38;
-  margin-top: 25px;
+  /* margin-top: 25px; */
+  /* padding-top: 25px; */
 }
 
 
