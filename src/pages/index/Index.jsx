@@ -466,20 +466,20 @@ const Index = () => {
   const placeholder = placeholderText[state % placeholderText.length];
 
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 100) {
+  //       setIsScrolled(true);
+  //     } else {
+  //       setIsScrolled(false);
+  //     }
+  //   };
   
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   return (
    
@@ -632,7 +632,7 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
-                  <h1 className={isScrolled ? "h1-1" : "h1-2"} >Ab property bechna kharidna hoga aasan
+                  <h1 className={"h1-2"} >Ab property bechna kharidna hoga aasan
                   </h1>
 
                 </div>

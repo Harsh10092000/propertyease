@@ -1,7 +1,3 @@
-
-
-
-
 .new-navbar {
     display: flex;
     justify-content: space-between;
@@ -9,7 +5,7 @@
     padding: 10px;
     /* padding: 0px 15px; */
     height: 70px;
-    
+
     position: relative;
     border-radius: 10px;
     background: rgb(255, 255, 255);
@@ -17,16 +13,17 @@
     font-weight: 600;
     align-items: center;
 
-    background: rgba( 255, 255, 255, 0.6 );
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-backdrop-filter: blur( 10px );
--webkit-backdrop-filter: blur( 10px );
-border-radius: 10px;
-border: 1px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
 
-background-color: white;
+    background-color: white;
 
-transition: all .5s ease;
+    transition: all 0.3s ease;
+
 }
 
 
@@ -37,18 +34,18 @@ transition: all .5s ease;
     padding: 10px;
     /* padding: 0px 15px; */
     height: 70px;
-    
-    
+
+
     background: rgb(255, 255, 255);
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     font-weight: 600;
     align-items: center;
 
-    background: rgba( 255, 255, 255, 0.6 );
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-backdrop-filter: blur( 10px );
--webkit-backdrop-filter: blur( 10px );
-background-color: white;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: white;
 }
 
 
@@ -74,14 +71,14 @@ background-color: white;
 
 .new-navbar-item {
     display: grid;
-    place-items: center; 
+    place-items: center;
     position: relative;
     font-weight: 500;
 }
 
 .new-navbar-item-search {
     display: grid;
-    place-items: center; 
+    place-items: center;
     cursor: pointer;
 }
 
@@ -177,6 +174,7 @@ background-color: white;
     .new-menu {
         display: none !important;
     }
+
     .new-mobile-nav {
         display: block;
         background-color: #eff6f7;
@@ -184,6 +182,7 @@ background-color: white;
         padding: 8px 10px;
         border-radius: 5px;
     }
+
     .new-navbar-item-search {
         display: none !important;
     }
@@ -202,6 +201,7 @@ background-color: white;
         font-size: 14px;
         font-weight: 500;
     }
+
     .new-navbar-btn-wrapper {
         padding-right: 6px !important;
     }
@@ -215,9 +215,11 @@ background-color: white;
     .logo img {
         width: 140px;
     }
+
     .new-navbar-btn {
         padding: 7px 9px;
     }
+
     .new-mobile-nav {
         padding: 5px 9px;
     }
@@ -243,4 +245,3 @@ background-color: white;
     display: flex;
     margin: 1px 30px;
 }
-
