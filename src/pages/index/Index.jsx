@@ -865,12 +865,13 @@ const Index = () => {
               <div className="about-us-img-wrap about-img-left">
                 <img
                   src="images/pro-about-6.webp"
+                  srcSet="images/pro-about-resized-6.webp"
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
                   width="526px"
                   height="420px"
-                  srcSet=""
+                  
                 />
               </div>
             </div>
@@ -1024,6 +1025,7 @@ const Index = () => {
               <div className="about-us-img-wrap about-img-left ">
                 <img
                   src="images/pro-about-7.webp"
+                  srcSet="images/pro-about-resized-7.webp"
                   className=""
                   alt="Buy a new home"
                   loading="lazy"
