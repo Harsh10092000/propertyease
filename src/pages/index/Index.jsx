@@ -486,27 +486,11 @@ const Index = () => {
     <div>
     
       <Helmet>
-       
-        <link
-          rel="preload"
-          fetchpriority="high"
-          as="image"
-          href="https://propertyease.in/images/hero-2.webp"
-          type="image/webp"
-          crossorigin="anonymous"
-        />
-
-        <link
-          defer
-          loading="lazy"
-          as="image"
-          href="https://propertyease.in/images/contact-us-home.webp"
-          type="image/webp"
-        />
 
         <title>Propertyease - Buy and Sell Property</title>
+        <link defer rel="canonical" href="https://propertyease.in/" />
       </Helmet>
-      <link rel="canonical" href="https://propertyease.in/" />
+      
       <Dialog
         open={open}
         onClose={handleClose}
