@@ -249,6 +249,20 @@ const Navbar = () => {
     </Box>
   );
   
+  const [isScrolled, setIsScrolled] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 100) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 
   return (
     <React.Fragment>
@@ -261,8 +275,8 @@ const Navbar = () => {
         {list("add")}
       </Drawer>
 
-      <div className="new-navbar-wrapper mb-5">
-        <div className="d-flex justify-content-between new-navbar">
+      <div className={isScrolled ? 'new-navbar-wrapper mb-5' : 'new-navbar-wrapper-2'}>
+        <div className={isScrolled ? "d-flex justify-content-between new-navbar" : "d-flex justify-content-between new-navbar-2" }>
           <div>
             <Link to="/">
               <span className="logo">
