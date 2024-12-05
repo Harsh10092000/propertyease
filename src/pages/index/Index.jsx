@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { IconSend, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
@@ -237,26 +236,6 @@ const Index = () => {
     { type: "Rent" },
   ];
 
-  const propertyType = [
-    { id: "t1", type: "Apartment" },
-    { id: "t2", type: "Independent House" },
-    { id: "t3", type: "Builder Floor" },
-    { id: "t4", type: "Farm HouseRaw House" },
-    { id: "t5", type: "Retirement Community" },
-    { id: "t6", type: "Studio Apartment" },
-    { id: "t7", type: "Residential Land" },
-    { id: "t8", type: "Commercial Land" },
-    { id: "t9", type: "Industrial Land" },
-    { id: "t10", type: "Agricultural Land" },
-    { id: "t11", type: "Farm House Land" },
-    { id: "t12", type: "Retail Showroom" },
-    { id: "t13", type: "Commercial Building" },
-    { id: "t14", type: "Office Complex" },
-    { id: "t15", type: "Software Technology Park" },
-    { id: "t16", type: "Warehouse" },
-    { id: "t18", type: "Industrial Estate" },
-  ];
-
   const [subData, setSubData] = useState(null);
 
   useEffect(() => {
@@ -453,26 +432,6 @@ const Index = () => {
 
   const placeholder = placeholderText[state % placeholderText.length];
 
-  // const [isScrolled, setIsScrolled] = useState(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 100) {
-  //       setIsScrolled(true);
-  //     } else {
-  //       setIsScrolled(false);
-  //     }
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
-
-  const [isLoading, setIsLoading] = useState(true); 
-  const handleComponentLoad = () => {
-    setIsLoading(false); 
-  };
-
   return (
     <div>
       <Helmet>
@@ -614,12 +573,10 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
-                  <h1 className={"d-none h1-2"}>
+                  <h1 className={"h1-2"}>
                     Ab property bechna kharidna hoga aasan
                   </h1>
-                  <div className={" h1-2"}>
-                    Ab property bechna kharidna hoga aasan
-                  </div>
+                
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>
