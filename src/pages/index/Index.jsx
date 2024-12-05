@@ -186,20 +186,7 @@ const Index = () => {
   ];
 
   const directSearchButtons = [
-    {
-      heading: "Buy",
-      image: "images/services-icon-1.webp",
-      link: "/allproperties",
-      title: "Click to View All Properties",
-      alt: `Buy Properties on propertyease.in`,
-    },
-    {
-      heading: "Rent",
-      image: "images/services-icon-2.webp",
-      link: "/addproperty",
-      title: "List Property",
-      alt: "Rent House on propertyease.in",
-    },
+    
     {
       heading: "Residential",
       image: "images/pro-type-1.webp",
@@ -220,6 +207,20 @@ const Index = () => {
       link: "/listing/land",
       title: "Click to View All Land/Plots Properties",
       alt: "Check out best Land properties on propertyease.in",
+    },
+    {
+      heading: "Buy",
+      image: "images/services-icon-1.webp",
+      link: "/allproperties",
+      title: "Click to View All Properties",
+      alt: `Buy Properties on propertyease.in`,
+    },
+    {
+      heading: "Rent",
+      image: "images/services-icon-2.webp",
+      link: "/addproperty",
+      title: "List Property",
+      alt: "Rent House on propertyease.in",
     },
     {
       heading: "List Property",
@@ -615,7 +616,9 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
-                  <h1>Ab property bechna kharidna hoga aasan</h1>
+                  <h1>Ab property bechna kharidna hoga aasan
+                  </h1>
+
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>
@@ -624,11 +627,6 @@ const Index = () => {
             </div>
           </div>
 
-        
-
-         
-
-         
 
           <div className="hero-search">
             <div className="container hero-search-wrapper">
@@ -651,6 +649,7 @@ const Index = () => {
                           height="36px"
                           width="45px"
                           loading="lazy"
+                          decoding="async"
                         />
                         <div className="card-body px-0  pb-0">
                           <h4 className="card-title mb-0 ">{item.heading}</h4>

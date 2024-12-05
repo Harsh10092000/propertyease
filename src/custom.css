@@ -17718,7 +17718,7 @@ width: 100%;
 
 
 .contact-us-setion {
-  background-image: url(../images/contact-us-home.webp);
+  background-image: url("/images/contact-us-home.webp");
   background-color: #eff6f7;
   background-position: right;
   background-repeat: no-repeat;
@@ -18439,13 +18439,11 @@ margin-right: 15px;
 
 
 
-.choose-us-bg {
-  background-image: url(../images/why-choose-us.png) ;
+/* .choose-us-bg {
+  background-image: url("/images/why-choose-us.png") ;
   background-repeat: round;
-  /* background-position: left, right bottom;
-  background-repeat: no-repeat, no-repeat;
-  background-size: auto, auto; */
-}
+ 
+} */
 
 
 
@@ -18468,7 +18466,7 @@ margin-right: 15px;
 
 .hero-banner {
   /* background:#eff6ff no-repeat url(../images/hero-2.webp);*/
-  background:#393a86 no-repeat url(../images/hero-2.webp); 
+  background:#393a86 no-repeat url("/images/hero-2.webp"); 
    /* background-color: #393a86; */
   /* height: 45vh; */
   height: 55vh;

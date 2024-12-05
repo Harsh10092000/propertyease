@@ -267,7 +267,7 @@ const Navbar = () => {
             <Link to="/">
               <span className="logo">
                 <img src="/images/logo.png" alt="Propertyease.in"  width="228px"
-                    height="60px" />
+                    height="60px" decoding="async" />
               </span>
             </Link>
           </div>
