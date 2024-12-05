@@ -261,12 +261,12 @@ const Navbar = () => {
         {list("add")}
       </Drawer>
 
-      <div className="new-navbar-wrapper mb-5">
+      <div className="new-navbar-wrapper ">
         <div className="d-flex justify-content-between new-navbar">
           <div>
             <Link to="/">
               <span className="logo">
-                <img src="/images/logo.png" alt="Propertyease.in"  width="228px"
+                <img src="/images/logo.webp" alt="Propertyease.in"  width="228px"
                     height="60px" decoding="async" />
               </span>
             </Link>
