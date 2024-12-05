@@ -1,4 +1,4 @@
-import { lazy } from "react";
+
 import { Link } from "react-router-dom";
 import { IconSend, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
@@ -10,11 +10,10 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
-import { Skeleton, Snackbar } from "@mui/material";
+import { Snackbar } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-//import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
-const PropertyCard2 = lazy(() => import("../../components/propertyCard2/PropertyCard2"));
+import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
