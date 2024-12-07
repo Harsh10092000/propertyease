@@ -706,7 +706,7 @@ const Property = () => {
   
 
   return (
-    <div className="padding-top">
+    <div >
       <Helmet>
       <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}

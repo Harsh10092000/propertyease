@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /admin
 Disallow: /api
+Disallow: /assets
+Disallow: /user
+Disallow: /property-profile
 Sitemap: https://propertyease.in/sitemap.xml
