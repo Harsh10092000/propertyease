@@ -1075,7 +1075,7 @@ const handleSubmit2 = async (e) => {
         width={"50%"}
       /> */}
 
-      <div className={"main padding-top"}>
+      <div className={"main"}>
         <section className="main-content">
           <div className="container">
             <div className="title">

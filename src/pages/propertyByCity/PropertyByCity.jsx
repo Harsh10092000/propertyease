@@ -267,7 +267,7 @@ const PropertyByCity = () => {
   console.log("serach value : " , searchValue)
 
   return (
-    <div className="pt-5">
+    <div className="">
       <Helmet>
         <title>Propertyease - {filCat}</title>
       </Helmet>

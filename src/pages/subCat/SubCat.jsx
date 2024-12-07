@@ -286,7 +286,7 @@ const SubCat = () => {
       </Helmet>
       <Navbar />
 
-      <div className={"main padding-top"}>
+      <div className={"main "}>
         <section className="main-content">
           <div className="container">
             <div className="title">
