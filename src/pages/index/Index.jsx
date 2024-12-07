@@ -574,7 +574,7 @@ const Index = () => {
               >
                 <div className="inner-banner-text ">
                   <h1 className={"h1-2"}>
-                    Ab property bechna kharidna hoga aasan
+                    Ab Property Bechna Kharidna Hoga Aasan
                   </h1>
                 
                 </div>
@@ -794,6 +794,7 @@ const Index = () => {
                   loading="lazy"
                   width="526px"
                   height="420px"
+                  fetchPriority="low"
                 />
               </div>
             </div>
@@ -954,6 +955,7 @@ const Index = () => {
                   loading="lazy"
                   width="534px"
                   height="420px"
+                  fetchPriority="low"
                 />
               </div>
             </div>
