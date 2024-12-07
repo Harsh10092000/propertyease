@@ -19,10 +19,10 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
               {item.img_link ? (
                 <>
                   <img
-                    // src={`${
-                    //   import.meta.env.VITE_BACKEND
-                    // }/propertyImages/watermark/${item.img_link}`}
-                    src="/images/default-resized.webp"
+                    src={`${
+                      import.meta.env.VITE_BACKEND
+                    }/propertyImages/watermark/${item.img_link}`}
+                    // src="/images/default-resized.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
                     className="rec-img"
                     height="254px"
@@ -46,7 +46,8 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                 <>
                   <img
                     className="rec-img"
-                    src="/images/default-resized.webp"
+                    srcSet="/images/default-resized.webp"
+                    src="/images/default4.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
                     height="254px"
                     width="288px"
