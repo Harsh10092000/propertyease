@@ -46,7 +46,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                 <>
                   <img
                     className="rec-img"
-                    srcSet="/images/default-resized.webp"
+                    // srcSet="/images/default-resized.webp"
                     src="/images/default4.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
                     height="254px"
