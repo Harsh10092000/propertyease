@@ -117,12 +117,13 @@ const Navbar = () => {
               <div>
                 <Link to="/">
                   <img
-                    src="/images/logo.png"
+                    src="/images/logo.webp"
                     alt="Propertyease Logo"
-                    width={200}
-                    height={180}
-                  //  loading="lazy"
+                    width="228px"
+                    height="60px"
+                    loading="lazy"
                     className="img-fluid logo-only-mobile"
+                    fetchPriority="low"
                   />
                 </Link>
               </div>
@@ -280,8 +281,8 @@ useEffect(() => {
           <div>
             <Link to="/">
               <span className="logo">
-                <img src="/images/logo.png" alt="Propertyease.in"  width="228px"
-                    height="60px" decoding="async" />
+                <img src="/images/logo.webp" alt="Propertyease.in" loading="lazy" width="228px"
+                    height="60px" decoding="async" fetchPriority="high" />
               </span>
             </Link>
           </div>
