@@ -18685,6 +18685,8 @@ margin-left: 125px;
 
 .hero-search input::placeholder {
   color: #1e1d85;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .hero-search .form-control {
