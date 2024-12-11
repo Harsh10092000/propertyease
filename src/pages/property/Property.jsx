@@ -1,10 +1,10 @@
 import {
   IconSend,
-  IconShare3,
+  //IconShare3,
   IconStarFilled,
   IconBrandWhatsapp,
   IconBrandFacebook,
-  IconX,
+  //IconX,
   IconEye,
 } from "@tabler/icons-react";
 import React, { useContext, useEffect, useState } from "react";
@@ -22,8 +22,8 @@ import Loader from "../../components/loader/Loader";
 
 import PopSlider from "../../components/popSlider/PopSlider";
 import { useNavigate } from "react-router-dom";
-import DateTime from "../../dateTime";
-import AdSlider from "../../components/adslider/AdSlider";
+
+//import AdSlider from "../../components/adslider/AdSlider";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 import ContactUsForm from "../../components/contactUsForm/ContactUsForm";
 import moment from "moment";
@@ -31,7 +31,7 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import GoogleMap1, { Map3 } from "../../components/googleMap/GoogleMap";
+import { Map3 } from "../../components/googleMap/GoogleMap";
 
 import { Helmet } from "react-helmet-async";
 import { ShowPrice } from "../../components/HelperComponents";
@@ -47,14 +47,6 @@ const Property = () => {
   date.setUTCHours(date.getUTCHours() + 5);
   date.setUTCMinutes(date.getUTCMinutes() + 30);
 
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  const hours = String(date.getUTCHours()).padStart(2, "0");
-  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-
-  //const formattedTimestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
@@ -136,7 +128,7 @@ const Property = () => {
     axios
       .get(import.meta.env.VITE_BACKEND + `/api/pro/fetchImagesWithId/${proId}`)
       .then((res) => {
-        setImages([...res.data, { img_link: "default.png" }]);
+        setImages([...res.data, { img_link: "default.webp" }]);
       });
     checkShortlist();
     checkInterested();
@@ -702,6 +694,32 @@ const Property = () => {
     return data ? data : "-";
   };
 
+  useEffect(() => {
+    // Load the Leaflet CSS
+    const leafletCSS = document.createElement("link");
+    leafletCSS.rel = "stylesheet";
+    leafletCSS.href = "https://unpkg.com/leaflet/dist/leaflet.css";
+    document.head.appendChild(leafletCSS);
+
+    // Load the Mappls SDK script
+    const mapplsScript = document.createElement("script");
+    mapplsScript.defer = true;
+    mapplsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1";
+    document.body.appendChild(mapplsScript);
+
+    // Load the Mappls SDK Plugins script
+    const mapplsPluginsScript = document.createElement("script");
+    mapplsPluginsScript.defer = true;
+    mapplsPluginsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0";
+    document.body.appendChild(mapplsPluginsScript);
+
+    // Cleanup function to remove the scripts after the component unmounts
+    // return () => {
+    //   document.head.removeChild(leafletCSS);
+    //   document.body.removeChild(mapplsScript);
+    //   document.body.removeChild(mapplsPluginsScript);
+    // };
+  }, []);
 
   
 
@@ -840,9 +858,9 @@ const Property = () => {
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
         />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        {/* <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1"></script>
-        <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0"></script>
+        <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0"></script> */}
       </Helmet>
       
       {openContactDialog ? (
@@ -1293,6 +1311,10 @@ time3.add(12, "minutes") */}
                                 <div>
                                   <img
                                     src="/images/default.webp"
+                                    loading="lazy"
+                                      decoding="async"
+                                      width="489px"
+                                      height="410px"
                                     alt={`Property For ${
                                       data.pro_ad_type === "Rent"
                                         ? "Rent"
@@ -1315,8 +1337,7 @@ time3.add(12, "minutes") */}
                                     //   " in " +
                                     //   data.pro_city
                                     // }
-                                    width={550}
-                                    height={550}
+                                    
                                     className="img-fluid"
                                   />
                                   {/* <marquee
@@ -1330,10 +1351,12 @@ time3.add(12, "minutes") */}
                                   <div className="top-left-2">
                                     {data.pro_views !== null &&
                                       parseInt(data.pro_views) > 0 && (
+                                        <ul>
                                         <li className="property-view-count ">
                                           <IconEye width={16} height={16} />
                                           Views {data.pro_views}
                                         </li>
+                                        </ul>
                                       )}
                                   </div>
                                 </div>
@@ -1357,7 +1380,7 @@ time3.add(12, "minutes") */}
                                     "Residential" ? (
                                     <>
                                       <div className="property-numbers">
-                                        <img src="/img/bedroom.webp" alt="" />
+                                        <img src="/img/bedroom.webp" height="15px" width="15px" loading="lazy"  alt="" />
                                         <span className="propertyHeading">
                                           Bedroom(s)
                                         </span>
@@ -1366,7 +1389,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/shower.webp" alt="" />
+                                        <img src="/img/shower.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                         <span className="propertyHeading">
                                           Washroom(s)
                                         </span>
@@ -1375,7 +1398,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/balcony.webp" alt="" />
+                                        <img src="/img/balcony.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                         <span className="propertyHeading">
                                           Balconies
                                         </span>
@@ -1384,7 +1407,7 @@ time3.add(12, "minutes") */}
                                         </span>
                                       </div>
                                       <div className="property-numbers">
-                                        <img src="/img/tiles.webp" alt="" />
+                                        <img src="/img/tiles.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                         <span className="propertyHeading">
                                           Floor(s)
                                         </span>
@@ -1401,7 +1424,7 @@ time3.add(12, "minutes") */}
                                 )}
 
                                 <div className="property-numbers">
-                                  <img src="/img/transfer.webp" alt="" />
+                                  <img src="/img/transfer.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                   <span className="propertyHeading">
                                     Side Open(s)
                                   </span>
@@ -1410,7 +1433,7 @@ time3.add(12, "minutes") */}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
-                                  <img src="/img/face-detection.webp" alt="" />
+                                  <img src="/img/face-detection.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                   <span className="propertyHeading">
                                     Facing
                                   </span>
@@ -1419,7 +1442,7 @@ time3.add(12, "minutes") */}
                                   </span>
                                 </div>
                                 <div className="property-numbers">
-                                  <img src="/img/ownership.webp" alt="" />
+                                  <img src="/img/ownership.webp"  height="15px" width="15px" loading="lazy" alt="" />
                                   <span className="propertyHeading">
                                     Possession Available
                                   </span>
@@ -1430,7 +1453,7 @@ time3.add(12, "minutes") */}
                                 {data.pro_type == "Commercial" ||
                                 data.pro_type == "Residential" ? (
                                   <div className="property-numbers">
-                                    <img src="/img/parking.webp" alt="" />
+                                    <img src="/img/parking.webp" height="15px" width="15px" loading="lazy" alt="" />
                                     <span className="propertyHeading">
                                       Car Parking(s)
                                     </span>
@@ -1440,7 +1463,7 @@ time3.add(12, "minutes") */}
                                   </div>
                                 ) : (
                                   <div className="property-numbers">
-                                    <img src="/img/age.webp" alt="" />
+                                    <img src="/img/age.webp" height="15px" width="15px" loading="lazy" alt="" />
                                     <span className="propertyHeading">
                                       Property Age
                                     </span>
@@ -1479,6 +1502,7 @@ time3.add(12, "minutes") */}
                                   src="/img/rent.webp"
                                   alt=""
                                   className="desc"
+                                   height="15px" width="15px" loading="lazy"
                                 />
                                 <span className="propertyHeading">
                                   Already Rent
@@ -1496,6 +1520,7 @@ time3.add(12, "minutes") */}
                                   src="/img/ownership-type.webp"
                                   alt=""
                                   className="desc"
+                                   height="15px" width="15px" loading="lazy"
                                 />
                                 <span className="propertyHeading">
                                   Type Of Ownership
@@ -1511,6 +1536,7 @@ time3.add(12, "minutes") */}
                                   src="/img/rent.webp"
                                   alt=""
                                   className="desc"
+                                   height="15px" width="15px" loading="lazy"
                                 />
                                 <span className="propertyHeading">
                                   Authority Approval
@@ -1532,6 +1558,7 @@ time3.add(12, "minutes") */}
                                         src="/img/age.webp"
                                         alt=""
                                         className="desc"
+                                         height="15px" width="15px" loading="lazy"
                                       />
                                       <span className="propertyHeading">
                                         Property Age
@@ -1547,6 +1574,7 @@ time3.add(12, "minutes") */}
                                         src="/img/furnishing.webp"
                                         alt=""
                                         className="desc"
+                                         height="15px" width="15px" loading="lazy"
                                       />
                                       <span className="propertyHeading">
                                         Furnishing

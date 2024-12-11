@@ -22300,10 +22300,11 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
 
 
 .price-in-words {
-  font-weight: 600 !important;
+  /* font-weight: 600 !important; */
     line-height: 15px;
-    font-size: 14px;
-    color: #0f1e38;
+    font-size: 16px;
+    /* color: #0f1e38; */
+    color: #858796;
     margin-left: 8px;
 }
 

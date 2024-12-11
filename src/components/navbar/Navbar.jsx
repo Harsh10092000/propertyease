@@ -135,17 +135,11 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-{/* 
- <Link to="/allproperties" className="search-pro-mobile pointer mt-4">
-            Search Properties
-            </Link> */}
+
           <List className="">
             {items.map((item, index) => (
               <Link to={item.linkto} key={index}>
                 <div className="p-3 m-2 d-flex pl-4 list-item">
-                  {/* <div className="list-item-icon">
-                  {item.icon}
-                  </div> */}
 
                   <div className={` pl-3 ${item.customCss} `}>
                     <ListItemText
@@ -234,11 +228,7 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
-{/* {
-      name: "Search Properties",
-      linkto: "/allproperties",
-      customCss: "search-pro-mobile",
-    }, */}
+
             <Link to="/allproperties" className="search-pro-mobile pointer mt-4">
             Search Properties
             </Link>

@@ -46,6 +46,10 @@ const EmblaCarousel = (props) => {
               
               <img
                 title="Click to Enlarge Image"
+                loading="lazy"
+                decoding="async"
+                width="438px"
+                height="304px"
                 className=" coursor-pointer bg-img"
                 src={
                   import.meta.env.VITE_BACKEND +
@@ -67,6 +71,10 @@ const EmblaCarousel = (props) => {
                 }}`}
               />
               <img
+              loading="lazy"
+              decoding="async"
+              width="438px"
+              height="304px"
                 title="Click to Enlarge Image"
                 className="embla__slide__img coursor-pointer"
                 src={
@@ -90,10 +98,13 @@ const EmblaCarousel = (props) => {
               />
               <div className="top-left">
                 {props.totalViews !== null && parseInt(props.totalViews) > 0 && (
+                  <ul>
+
                   <li className="property-view-count ">
                     <IconEye width={16} height={16} />
                     Views {props.totalViews}
                   </li>
+                  </ul>
                 )}
               
               </div>
