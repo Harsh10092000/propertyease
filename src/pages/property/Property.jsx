@@ -31,7 +31,12 @@ import moment from "moment";
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import { Map3 } from "../../components/googleMap/GoogleMap";
+//import { Map3 } from "../../components/googleMap/GoogleMap";
+
+import { Suspense, lazy } from 'react';
+//const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
+
+const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
 
 import { Helmet } from "react-helmet-async";
 import { ShowPrice } from "../../components/HelperComponents";
@@ -1707,10 +1712,14 @@ time3.add(12, "minutes") */}
                                 pro_url={data.pro_url}
                               />
                             )} */}
-                            {data &&
+                            {/* {data &&
                             // <Map3 cordinates={cordinates} data={data}/> 
                             <Map3 data={data}/>
-                            }
+                            } */}
+
+<Suspense fallback={<div>Loading map...</div>}>
+      <Map3 data={data} />
+    </Suspense>
                           </div>
                         </div>
                       </div>
