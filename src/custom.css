@@ -22302,12 +22302,16 @@ tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
 
 
 .price-in-words {
-  /* font-weight: 600 !important; */
+
     line-height: 15px;
-    font-size: 16px;
-    /* color: #0f1e38; */
-    color: #858796;
+    font-size: 15px;
     margin-left: 8px;
+
+    display: inline-block;
+    padding: 10px;
+    border-radius: 6px;
+    color: #155724;
+    background-color: #f2f6f3;
 }
 
 

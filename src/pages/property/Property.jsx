@@ -654,33 +654,33 @@ const Property = () => {
   //   formatted_address: "",
   // });
 
-  // useEffect(() => {
-  //   const location = {
-  //     name: data.pro_locality,
-  //     lat: 29.9692794,
-  //     lng: 76.8735374,
-  //     formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
-  //   };
+  useEffect(() => {
+    const location = {
+      name: data.pro_locality,
+      lat: 29.9692794,
+      lng: 76.8735374,
+      formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+    };
 
-  //   data.pro_locality !== undefined &&
-  //     axios
-  //       .get(
-  //         `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-  //       n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
-  //       )
-  //       .then((res) => {
-  //         setCodinates({
-  //           ...cordinates,
-  //           lat: res.data.results[0].geometry.location.lat,
-  //           lng: res.data.results[0].geometry.location.lng,
-  //           formatted_address: res.data.results[0].formatted_address,
-  //         }),
-  //           setCordinatesChanged(true);
-  //         //handleCordinates("lat", res.data.results[0].geometry.location.lat),
-  //         //handleCordinates("lng",res.data.results[0].geometry.location.lng),
-  //         //handleCordinates("formatted_address", res.data.results[0].formatted_address));
-  //       });
-  // }, [data]);
+    data.pro_locality !== undefined &&
+      axios
+        .get(
+          `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+        n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
+        )
+        .then((res) => {
+          setCodinates({
+            ...cordinates,
+            lat: res.data.results[0].geometry.location.lat,
+            lng: res.data.results[0].geometry.location.lng,
+            formatted_address: res.data.results[0].formatted_address,
+          }),
+            setCordinatesChanged(true);
+          //handleCordinates("lat", res.data.results[0].geometry.location.lat),
+          //handleCordinates("lng",res.data.results[0].geometry.location.lng),
+          //handleCordinates("formatted_address", res.data.results[0].formatted_address));
+        });
+  }, [data]);
 
   //console.log("cordinates : ", cordinates);
 
@@ -854,11 +854,26 @@ const Property = () => {
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
         />
-        {/* <img loading="lazy" fetchPriority="low" src="https://cdn.mapmyindia.com/mappls_web/logos/1x/mappls_mmi.png?1" width="190px" height="22px" alt="mappls.com" id="watermark_logo0"></img> */}
+        
         {/* <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1"></script>
         <script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0"></script> */}
+      
+      <link
+        rel="preload"
+          decoding="async"
+          loading="lazy"
+          as="image"
+          href="https://cdn.mapmyindia.com/mappls_web/logos/1x/mappls_mmi.png?1"
+          type="image/webp"
+          fetchpriority="low"
+          width="190px" height="22px"
+          alt="mappls.com" id="watermark_logo0"
+        />
+      
       </Helmet>
+
+      
       
       {openContactDialog ? (
         <ContactUsForm
