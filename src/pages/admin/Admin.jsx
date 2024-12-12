@@ -305,20 +305,20 @@
 
 // export default Admin;
 
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import {
   IconLogout,
-  IconMenu,
-  IconSend,
+
+
   IconStar,
   IconUser,
   IconUsers,
   IconSquareRoundedPlus,
   IconEye,
   IconAd,
-  IconCaretDownFilled,
+
   IconHome,
-  IconTicket,
+
   IconSettings,
   IconMessage,
   IconPhone,
@@ -329,15 +329,13 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import "./admin.css";
+import "../adminDashboard/admindashboard.css";;
 import React from "react";
 //import Navbar from "../../components/navbar2/Navbar";
 import Navbar from "../../components/navbar/Navbar";
 const Admin = () => {
   const { clearAdmin } = useContext(AdminContext);
-  const [adsSubMenu, setAdsSubMenu] = useState(false);
-  const [proPlanSubMenu, setProPlanSubMenu] = useState(false);
-  const [cityMapSubMenu, setCityMapSubMenu] = useState(false);
-  const [settingsMenu, setSettingsMenu] = useState(false);
+
 
   const [openSubMenu, setOpenSubMenu] = useState(null);
 
