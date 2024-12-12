@@ -17,48 +17,33 @@ const Map3 = ({ data}) => {
 
     
   };
-  // useEffect(() => {
-  //   const location = {
-  //     name: data.pro_locality,
-  //     lat: 29.9692794,
-  //     lng: 76.8735374,
-  //     formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
-  //   };
-
-  //   setCodinates({
-  //             ...cordinates,
-  //             lat: 29.9692794,
-  //             lng: 76.8735374,
-  //             formatted_address: "Sector 7, Kurukshetra, Haryana, india",
-  //           }),
-
-    // data.pro_locality !== undefined &&
-    //   axios
-    //     .get(
-    //       `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-    //     n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
-    //     )
-    //     .then((res) => {
-    //       setCodinates({
-    //         ...cordinates,
-    //         lat: res.data.results[0].geometry.location.lat,
-    //         lng: res.data.results[0].geometry.location.lng,
-    //         formatted_address: res.data.results[0].formatted_address,
-    //       }),
-    //         setCordinatesChanged(true);
-    //       //handleCordinates("lat", res.data.results[0].geometry.location.lat),
-    //       //handleCordinates("lng",res.data.results[0].geometry.location.lng),
-    //       //handleCordinates("formatted_address", res.data.results[0].formatted_address));
-    //     });
-  //}, [data]);
-
   useEffect(() => {
-    setCodinates({
-                  ...cordinates,
-                  lat: 29.9692794,
-                  lng: 76.8735374,
-                  formatted_address: "Sector 7, Kurukshetra, Haryana, india",
-                })
+    const location = {
+      name: data.pro_locality,
+      lat: 29.9692794,
+      lng: 76.8735374,
+      formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+    };
+
+  
+    data.pro_locality !== undefined &&
+      axios
+        .get(
+          `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+        n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
+        )
+        .then((res) => {
+          setCodinates({
+            ...cordinates,
+            lat: res.data.results[0].geometry.location.lat,
+            lng: res.data.results[0].geometry.location.lng,
+            formatted_address: res.data.results[0].formatted_address,
+          }),
+            setCordinatesChanged(true);
+          //handleCordinates("lat", res.data.results[0].geometry.location.lat),
+          //handleCordinates("lng",res.data.results[0].geometry.location.lng),
+          //handleCordinates("formatted_address", res.data.results[0].formatted_address));
+        });
   }, [data]);
   
   const [cordinates, setCodinates] = useState({
