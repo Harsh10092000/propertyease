@@ -57,7 +57,7 @@ import ViewUserProperties from "./pages/viewuserProperties/ViewUserProperties";
 //import EditPropertyPlanForm from "./pages/editPropertyPlanForm/EditPropertyPlanForm";
 //import AdminPropertyPlans from "./pages/adminPropertyPlans/AdminPropertyPlans";
 
-//import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
+import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
 //import AdminCityMaps from "./pages/adminCityMaps/AdminCityMaps";
 //import EditCityMaps from "./pages/editCityMaps/EditCityMaps";
 
