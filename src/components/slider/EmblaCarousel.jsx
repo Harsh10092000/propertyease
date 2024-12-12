@@ -46,7 +46,6 @@ const EmblaCarousel = (props) => {
               
               <img
                 title="Click to Enlarge Image"
-                
                 decoding="async"
                 width="438px"
                 height="304px"

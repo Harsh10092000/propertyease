@@ -27,17 +27,13 @@ import { useNavigate } from "react-router-dom";
 import PropertyPageSlider from "../../components/adslider/PropertyPageSlider";
 import ContactUsForm from "../../components/contactUsForm/ContactUsForm";
 import moment from "moment";
-
 import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
 import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 //import { Map3 } from "../../components/googleMap/GoogleMap";
-
 import { Suspense, lazy } from 'react';
 //const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
-
 const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
-
 import { Helmet } from "react-helmet-async";
 import { ShowPrice } from "../../components/HelperComponents";
 
