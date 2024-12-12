@@ -17,20 +17,20 @@ const Map3 = ({ data}) => {
 
     
   };
-  useEffect(() => {
-    const location = {
-      name: data.pro_locality,
-      lat: 29.9692794,
-      lng: 76.8735374,
-      formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
-    };
+  // useEffect(() => {
+  //   const location = {
+  //     name: data.pro_locality,
+  //     lat: 29.9692794,
+  //     lng: 76.8735374,
+  //     formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+  //   };
 
-    setCodinates({
-              ...cordinates,
-              lat: 29.9692794,
-              lng: 76.8735374,
-              formatted_address: "Sector 7, Kurukshetra, Haryana, india",
-            }),
+  //   setCodinates({
+  //             ...cordinates,
+  //             lat: 29.9692794,
+  //             lng: 76.8735374,
+  //             formatted_address: "Sector 7, Kurukshetra, Haryana, india",
+  //           }),
 
     // data.pro_locality !== undefined &&
     //   axios
@@ -50,6 +50,15 @@ const Map3 = ({ data}) => {
     //       //handleCordinates("lng",res.data.results[0].geometry.location.lng),
     //       //handleCordinates("formatted_address", res.data.results[0].formatted_address));
     //     });
+  //}, [data]);
+
+  useEffect(() => {
+    setCodinates({
+                  ...cordinates,
+                  lat: 29.9692794,
+                  lng: 76.8735374,
+                  formatted_address: "Sector 7, Kurukshetra, Haryana, india",
+                })
   }, [data]);
   
   const [cordinates, setCodinates] = useState({
