@@ -15,19 +15,7 @@ const Map3 = ({ data}) => {
       document.head.appendChild(leafletCSS);
     }
 
-    // if (!document.querySelector('script[src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1"]')) {
-    //   const mapplsScript = document.createElement("script");
-    //   mapplsScript.defer = true;
-    //   mapplsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1";
-    //   document.body.appendChild(mapplsScript);
-    // }
-
-    // if (!document.querySelector('script[src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0"]')) {
-    //   const mapplsPluginsScript = document.createElement("script");
-    //   mapplsPluginsScript.defer = true;
-    //   mapplsPluginsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0";
-    //   document.body.appendChild(mapplsPluginsScript);
-    // }
+    
   };
   useEffect(() => {
     const location = {

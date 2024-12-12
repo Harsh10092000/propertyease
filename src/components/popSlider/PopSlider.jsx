@@ -95,6 +95,7 @@ const PopSlider = (props) => {
                   item.img_link
                 }
                 alt="Propertyease"
+                
               />
             </div>
           ))}
