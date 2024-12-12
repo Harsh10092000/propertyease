@@ -48,7 +48,7 @@
 //   );
 // }
 
-// import React, { useState, useEffect } from 'react';
+
 // import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 // import 'leaflet/dist/leaflet.css';
 // //import data from './locations.json'; // Adjust the path as necessary
@@ -397,8 +397,86 @@ const PinmarkerPlugin = ({ map }) => {
   }, [map]);
 };
 
-export const Map3 = ({cordinates}) => {
+export const Map3 = ({ data}) => {
+  useEffect(() => {
+    // Load the Leaflet CSS
+    const leafletCSS = document.createElement("link");
+    leafletCSS.rel = "stylesheet";
+    leafletCSS.href = "https://unpkg.com/leaflet/dist/leaflet.css";
+    document.head.appendChild(leafletCSS);
+
+    // Load the Mappls SDK script
+    const mapplsScript = document.createElement("script");
+    mapplsScript.defer = true;
+    mapplsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&v=3.0&callback=initMap1";
+    document.body.appendChild(mapplsScript);
+
+    // Load the Mappls SDK Plugins script
+    const mapplsPluginsScript = document.createElement("script");
+    mapplsPluginsScript.defer = true;
+    mapplsPluginsScript.src = "https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk_plugins?v=3.0";
+    document.body.appendChild(mapplsPluginsScript);
+
+    // Cleanup function to remove the scripts after the component unmounts
+    // return () => {
+    //   document.head.removeChild(leafletCSS);
+    //   document.body.removeChild(mapplsScript);
+    //   document.body.removeChild(mapplsPluginsScript);
+    // };
+  }, []);
+  useEffect(() => {
+    const location = {
+      name: data.pro_locality,
+      lat: 29.9692794,
+      lng: 76.8735374,
+      formatted_address: `${data.pro_locality}, ${data.pro_city}, ${data.pro_state}, India`,
+    };
+
+    data.pro_locality !== undefined &&
+      axios
+        .get(
+          `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
+        n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
+        )
+        .then((res) => {
+          setCodinates({
+            ...cordinates,
+            lat: res.data.results[0].geometry.location.lat,
+            lng: res.data.results[0].geometry.location.lng,
+            formatted_address: res.data.results[0].formatted_address,
+          }),
+            setCordinatesChanged(true);
+          //handleCordinates("lat", res.data.results[0].geometry.location.lat),
+          //handleCordinates("lng",res.data.results[0].geometry.location.lng),
+          //handleCordinates("formatted_address", res.data.results[0].formatted_address));
+        });
+  }, [data]);
   
+  const [cordinates, setCodinates] = useState({
+    lat: "",
+    lng: "",
+    formatted_address: "",
+  });
+
+  //   const handleCordinates = (val1, val2) => {
+  //     setCodinates({...cordinates , [val1] : val2})
+  //  }
+
+  const handleCordinates = (key, value) => {
+    console.log(key, value);
+    setCodinates((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+  const [cordinatesChanged, setCordinatesChanged] = useState(false);
+
+  useEffect(() => {
+    cordinates.lat !== ""
+      ? setCordinatesChanged(true)
+      : setCordinatesChanged(false);
+  }, [cordinates, data]);
+
   const map = useRef(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef(null);
