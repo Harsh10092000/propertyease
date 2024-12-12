@@ -25,7 +25,7 @@ import EditProperty from "./pages/editProperty/EditProperty";
 import NotFound from "./pages/notfound/NotFound";
 import Admin from "./pages/admin/Admin";
 //import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
-//import { AdminContext } from "./context/AdminContext";
+import { AdminContext } from "./context/AdminContext";
 //import AdminLogin from "./pages/adminLogin/AdminLogin";
 //import AdminInterest from "./pages/adminInterest/AdminInterest";
 import NriService from "./pages/nriService/NriService";
