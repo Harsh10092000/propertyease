@@ -15222,7 +15222,7 @@ li.statusBox.current-statAppClosed {
   left: 0;
   position: relative;
   float: right;
-  margin-top: 96px;
+  margin-top: 30px;
   background-color: #f6f8fc !important; 
 }
 @media screen and (max-width: 375px) {
