@@ -23,6 +23,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { InputAdornment } from "@mui/material";
 import { ToWords } from "to-words";
 import { priceFormat } from "../../components/helper";
+//import FileResizer from "react-image-file-resizer";
+
 const RadioBoxSelection = ({
   heading,
   array,
@@ -139,9 +141,9 @@ const QuickListing = () => {
     },
   });
 
-  const priceInWords = (val) => {
-    return toWords.convert(val, { currency: true });
-  };
+  // const priceInWords = (val) => {
+  //   return toWords.convert(val, { currency: true });
+  // };
 
   
 
@@ -312,10 +314,28 @@ const QuickListing = () => {
   const maxFileSize = 1000000;
   const minFileSize = 10000;
 
+  // const resizeFile = (file) => {
+  //   console.log(file)
+  //   FileResizer.imageFileResizer(
+  //     file,
+  //     300, 
+  //     300,
+  //     'webp', 
+  //     100,
+  //     0, 
+  //     (uri) => {
+  //       console.log(uri); 
+  //     },
+  //     'base64' 
+  //   );
+  // };
+
+
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
   const pattern = /image-*/;
   const handleImage = (data) => {
+    //resizeFile(data[0]);
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
