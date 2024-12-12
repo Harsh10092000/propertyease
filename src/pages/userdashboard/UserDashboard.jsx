@@ -6,7 +6,7 @@ import Loader from "../../components/loader/Loader";
 import "./UserDashboard.css";
 import moment from "moment";
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
-//import DashTable from "../../components/userDasboardComp/DashTable";
+import DashTable from "../../components/userDasboardComp/DashTable";
 import {
   IconEdit,
   IconEye,
@@ -20,7 +20,7 @@ import {
 import { Checkbox, Snackbar, Dialog, DialogActions, DialogContent, DialogTitle, Button, Skeleton,DialogContentText  } from "@mui/material";
 
 //const DashUpperBody = lazy(() => import("../../components/userDasboardComp/DashTbody"));
-const DashTable = lazy(() => import("../../components/userDasboardComp/DashTable"));
+//const DashTable = lazy(() => import("../../components/userDasboardComp/DashTable"));
 
 
 const UserDashboard = () => {
@@ -606,41 +606,11 @@ const UserDashboard = () => {
     0
   );
 
-  const [isLoading, setIsLoading] = useState(true); 
-  const handleComponentLoad = () => {
-    setIsLoading(false); 
-  };
+ 
 
   return (
   
-    <>
-    {skeleton && isLoading ? 
-  <div className="container-fluid">
-                 
-            
-                  
-        
-  <div className="row user-profile-form-comp">
-    <div className="col-md-12">
-    <Skeleton variant="rectangular"  height={160} />
-    <Skeleton
-      variant="rectangular"
-      
-      height={100}
-      className="mt-3"
-    />
     
-    <Skeleton
-      variant="rectangular"
-      
-      height={350}
-      className="mt-3"
-    />
- 
-  </div>
-  </div>
-  </div>  
- :
     <div className="container-fluid admin-dashboard admin-icon">
       <Dialog
         open={openDel}
@@ -939,7 +909,7 @@ const UserDashboard = () => {
         updateMultipleSaleStatus={updateMultipleSaleStatus}
       />
 
-      <DashTable onLoad={handleComponentLoad}
+      <DashTable 
         theadArray={theadArray}
         handleAllTypes={handleAllTypes}
         allSelected={allSelected}
@@ -959,8 +929,7 @@ const UserDashboard = () => {
         
       />
     </div>
-     }
-     </>
+     
     
   );
 };
