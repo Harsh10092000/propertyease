@@ -799,7 +799,9 @@ const Property = () => {
           width="190px" height="22px"
           alt="mappls.com" id="watermark_logo0"
         />
-      
+
+<script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&amp;v=3.0" type="text/javascript"></script>
+<script defer src="https://apis.mappls.com/advancedmaps/api/bf1148c14b7bf6c5466b074f928ce9fc/map_sdk?layer=vector&amp;v=3.0" async="" type="text/javascript"></script>
       </Helmet>
 
       
