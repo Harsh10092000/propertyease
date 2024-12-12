@@ -7,10 +7,10 @@ import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
+
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import FormHelperText from "@mui/material/FormHelperText";
+
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
@@ -18,10 +18,8 @@ import { useNavigate } from "react-router-dom";
 import useUserLogin from "../../customHooks/useUserLogin";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { InputAdornment } from "@mui/material";
-import { ToWords } from "to-words";
 import { priceFormat } from "../../components/helper";
 //import FileResizer from "react-image-file-resizer";
 
@@ -121,29 +119,8 @@ const RadioBoxSelection2 = ({
 };
 
 const QuickListing = () => {
-  const toWords = new ToWords({
-    localeCode: "en-IN",
-    converterOptions: {
-      currency: true,
-      ignoreDecimal: false,
-      ignoreZeroCurrency: false,
-      doNotAddOnly: true,
-      currencyOptions: {
-        //name: 'Rupee',
-        // plural: 'Rupees',
-        symbol: "₹",
-        fractionalUnit: {
-          name: "Paisa",
-          plural: "Paise",
-          symbol: "",
-        },
-      },
-    },
-  });
+ 
 
-  // const priceInWords = (val) => {
-  //   return toWords.convert(val, { currency: true });
-  // };
 
   
 
