@@ -1249,7 +1249,7 @@ time3.add(12, "minutes") */}
                                 <div>
                                   <img
                                     src="/images/default.webp"
-                                    loading="lazy"
+                                    fetchPriority="high"
                                       decoding="async"
                                       width="489px"
                                       height="410px"

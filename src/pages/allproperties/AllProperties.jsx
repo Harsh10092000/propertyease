@@ -1,32 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
-//import Navbar from "../../components/navbar/Navbar";
-//import Navbar from "../../components/navbar2/Navbar";
+
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+
 import Pagination from "@mui/material/Pagination";
-import { TextField, fabClasses } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+
 import {
-  IconBrandWhatsapp,
-  IconMapPin,
-  IconEye,
+
   IconSquareCheckFilled,
   IconSquare,
-  IconAlignLeft,
+
   IconX
 } from "@tabler/icons-react";
 import { Skeleton, Snackbar } from "@mui/material";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
-import { InputAdornment } from "@mui/material";
-import SearchBar from "../../components/searchBar/SearchBar";
-import SearchBarHome from "../../components/searchBarHome/SearchBarHome";
+
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
 import { AuthContext } from "../../context/AuthContext";
@@ -38,14 +29,7 @@ import { useSearchParams } from "react-router-dom";
 import CreateAgentAd from "../../components/createAgentAd/CreateAgentAd";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
 
-//import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
-//import { Viewer } from "@photo-sphere-viewer/core";
 
-// import PhotoSphereViewer from "photo-sphere-viewer";
-// import { Viewer, AutorotatePlugin } from 'photo-sphere-viewer';
-// import { useRef } from "react";
-// import { EquirectangularTilesAdapter } from '@photo-sphere-viewer/equirectangular-tiles-adapter';
-// import ReactPannellum, { getConfig } from "react-pannellum";
 
 import Sidebar2 from "../../components/sidebar2/Sidebar2";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +37,7 @@ import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import { regEx } from "../regEx";
 import Loader from "../../components/loader/Loader";
-import GetNearByAreas from "../../components/getNearByAreas.jsx/GetNearByAreas";
+
 
 
 const AllProperties = (props) => {
@@ -79,14 +63,13 @@ const AllProperties = (props) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
-  const [proAdTypeFilter, setProAdTypeFilter] = useState("All");
-  const [proSubTypeFilter, setProSubTypeFilter] = useState();
+
   const [change, setChange] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [results, setResults] = useState("");
 
   
-  const [genData, setGenData] = useState("");
+
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND + "/api/pro/fetchPropertyData")
@@ -106,13 +89,7 @@ const AllProperties = (props) => {
       .then((res) => {
         setRentData(res.data);
       });
-    // axios
-    //   .post(import.meta.env.VITE_BACKEND + "/api/gencode/generateCode")
-    //   .then((res) => {
-    //     setGenData(res.data);
-    //     //setResults(res.data);
-    //     //setSkeleton(false);
-    //   });
+    
   }, []);
 
   
@@ -121,8 +98,7 @@ const AllProperties = (props) => {
     const myParam = searchParams.get("search");
     const proadtype = searchParams.get("proadtype");
     const proCat = searchParams.get("procat");
-    //const temp = searchParams.get("proSubTypeFilter");
-    //console.log("proadtype : " , proadtype,proCat );
+    
     if (myParam !== null && proadtype !== null) {
       setSearchValue(myParam);
       setSearchValue1(myParam);
@@ -231,9 +207,7 @@ const AllProperties = (props) => {
     setSearchValue(value);
   };
 
-  const handleUserLocation = (value) => {
-    setUserCurrLocation(value);
-  };
+
 
   const handleCurrentPage = (value) => {
     setCurrentPage(value);
@@ -254,14 +228,7 @@ const AllProperties = (props) => {
       });
   }, []);
 
-  const propertyBedrooms = [
-    { value: "0" },
-    { value: "1" },
-    { value: "2" },
-    { value: "3" },
-    { value: "4" },
-    { value: "5+" },
-  ];
+
 
   const [propertyAdTypeFilter, setPropertyAdTypeFilter] =
     useState("All Properties");
@@ -318,23 +285,7 @@ const AllProperties = (props) => {
   const [openSortByOptions, setOpenSortByOptions] = useState(false);
 
   const [selectedSubTypeFilter, setSelectedSubTypeFilter] = useState([]);
-  // "Apartment",
-  // "Independent House",
-  // "Builder Floor",
-  // "Farm HouseRaw House",
-  // "Retirement Community",
-  // "Studio Apartment",
-  // "Residential Land",
-  // "Commercial Land",
-  // "Industrial Land",
-  // "Agricultural Land",
-  // "Farm House Land",
-  // "Retail Showroom",
-  // "Commercial Building",
-  // "Office Complex",
-  // "Software Technology Park",
-  // "Warehouse",
-  // "Industrial Estate",
+  
 
   const propertySubTypeOptions = [
     { id: "t1", type: "Apartment", parent_type: "Residential" },
@@ -629,136 +580,8 @@ const AllProperties = (props) => {
   const records = results?.slice(firstIndex, lastIndex);
   const nPages = Math.ceil(results?.length / recordsPerPage);
 
-  //  const records =
-  //   searchValue === ""
-  //     ? data.slice(firstIndex, lastIndex)
-  //     : results.slice(firstIndex, lastIndex);
-
-  // const nPages = Math.ceil(
-  //   searchValue === ""
-  //     ? data.length / recordsPerPage
-  //     : results.length / recordsPerPage
-  //);
-
-  // useEffect(() => {
-  //   props.handleRecordsChange(records);
-  //   props.handleNPagesChange(nPages);
-  // }, [records, nPages]);
-
-  // const [todo , setTodo] = useState([]);
-  // const [todoVal , setTodoVal] = useState();
-  // const editTodo = (item, index) => {
-
-  //   setTodoVal(item)
-  // }
-
-  // const sphereElementRef = useRef(null);
-  // const { src } = props;
-
-  // useEffect(() => {
-  //   const shperePlayerInstance = PhotoSphereViewer({
-  //     container: sphereElementRef.current,
-  //     panorama: 'https://t3.ftcdn.net/jpg/03/22/88/26/360_F_322882600_y6JbONLD7YLdRrU5LFQReuq8YUwasfgg.jpg',
-
-  //   });
-
-  //   // unmount component instructions
-  //   return () => {
-  //     shperePlayerInstance.destroy();
-  //   };
-  // }, [src]);
-
-
-
-
-
-//   I can help you with questions about our products, and technical documentation or I can write code for you. Ask me anything!
-
-// unable to add autorotate in recat
-// To add autorotate to a React project using Photo Sphere Viewer, you can follow these steps:
-
-// Install the necessary packages:
-
-// Install the main package: npm install photo-sphere-viewer
-// Install the autorotate plugin: npm install @photo-sphere-viewer/autorotate-plugin
-// Import the necessary components in your React component:
-
-// jsx
-// import { Viewer } from 'photo-sphere-viewer';
-// import AutorotatePlugin from '@photo-sphere-viewer/autorotate-plugin';
-// Set up the viewer with the autorotate plugin:
-
-// jsx
-// const viewer = new Viewer({
-//     container: 'viewer',
-//     panorama: 'path/to/your/panorama.jpg',
-//     plugins: [
-//         [AutorotatePlugin, {
-//             autostartDelay: 1000,
-//             autorotateSpeed: '3rpm',
-//         }],
-//     ],
-// });
-// Ensure you have the necessary HTML element in your component to render the viewer:
-
-// jsx
-// <div id="viewer"></div>
-// By following these steps, you should be able to add autorotate functionality to your React project using Photo Sphere Viewer.
-
-// Sources:
-
-// https://photo-sphere-viewer.js.org/plugins/autorotate.html
-// https://photo-sphere-viewer.js.org/api/modules/autorotateplugin
-
-
-// const animatedValues = {
-//   pitch: { start: -Math.PI / 2, end: 0 },
-//   yaw: { start: Math.PI / 2, end: 0 },
-//   zoom: { start: 0, end: 50 },
-//   maxFov: { start: 130, end: 90 },
-//   fisheye: { start: 2, end: 0 },
-// }
-
-
-// const viewer = new Viewer({
-//   container: 'viewer',
-//   adapter: EquirectangularTilesAdapter,
-//   panorama: {
-//       width: 6656,
-//       cols: 16,
-//       rows: 8,
-//       baseUrl: 'your_base_url_here',
-//       tileUrl: (col, row) => {
-//           const num = row * 16 + col + 1;
-//           return `your_tile_url_here${num}.jpg`;
-//       },
-//   },
-//   caption: 'Your caption here',
-//   loadingImg: 'your_loading_image_url_here',
-//   touchmoveTwoFingers: true,
-//   mousewheelCtrlKey: true,
-// });
-
-// const viewerRef = useRef(null); 
-// useEffect(() => {
-//   //if (!viewerRef.current) return;
-//   viewerRef.current.animate({
-//     yaw: Math.PI / 2,
-//     pitch: "20deg",
-//     zoom: 40,
-//     speed: "2rpm",
-//     time_anim: "0"
-//   });
-// }, [data]); 
-
-
-
-
 const [open1, setOpen1] = useState(false);
-const handleClickOpen = () => {
-  console.log("open1 : ")
-  setOpen1(true);
-};
+
 
 const handleClose = () => {
   setOpen1(false);
@@ -855,19 +678,7 @@ const [generatedCode, setGeneratedCode] = useState('');
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState('');
 
-const handleSubmit2 = async (e) => {
-    e.preventDefault();
-    setLoading(true);
 
-    try {
-      const response = await axios.post(import.meta.env.VITE_BACKEND + "/api/gencode/generateCode", { text: inputText });
-      setGeneratedCode(response.data.code);
-    } catch (error) {
-      setError('Failed to generate code');
-      console.error('Error:', error);
-    }
-    setLoading(false);
-};
 
 // const userAgent = navigator.userAgent;
 // console.log("userAgent : " , userAgent);
@@ -881,33 +692,7 @@ const handleSubmit2 = async (e) => {
 <meta name="keywords" content={`Top real estate agents near me, Commercial real estate, Residential real estate, haryana, rent house, Property, Propertyease, houses for rent, mls,real estate agent, property for sale,  for sale near me, home, realtor, houses for sale Sale, Rent, Buy, India, Best Property `} />
 
 
-{/* <div>
-      <form onSubmit={handleSubmit2}>
-        <textarea
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          placeholder="Enter description or prompt..."
-          rows={5}
-          cols={50}
-        />
-        <br />
-        <button type="submit" disabled={loading}>
-          Generate Code
-        </button>
-      </form>
-      {loading && <p>Loading...</p>}
-      {generatedCode && (
-        <div>
-          <h3>Generated Code:</h3>
-          <pre>{generatedCode}</pre>
-        </div>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div> */}
 
-{/* <div className="mt-5 pt-5">
-      <GetNearByAreas  className="mt-5 pt-5"/>
-</div> */}
 
       <Dialog
         open={open1}
@@ -1001,10 +786,7 @@ const handleSubmit2 = async (e) => {
                 {step && emailError ? "Please enter valid email address" :dupEntry.length > 1 ? dupEntry : ""}
               </span>
             </div>
-            {/* <div className="popup-btn-text">
-              Subscribe to recieve the latest news by email about properties.
-              Unsubscribe any time.
-            </div> */}
+           
             <div>
               <button
                 class="pf-submit hover-opacity"
@@ -1066,15 +848,7 @@ const handleSubmit2 = async (e) => {
       <Navbar  />
       
 
-      {/* <div ref={viewerRef} />; */}
-      {/* <div id="viewer" ref={viewerRef}></div>;  */}
-      {/* <ReactPhotoSphereViewer
-        ref={viewerRef}
-        src="/images/360-7.jpg"
-        height={"50vh"}
-        width={"50%"}
-      /> */}
-
+  
       <div className={"main"}>
         <section className="main-content">
           <div className="container">
@@ -1085,30 +859,9 @@ const handleSubmit2 = async (e) => {
                 <span className="ml-2 numberProperties">{results.length}</span>
               </h2>
 
-              {/* <div>
-  <input type="text" value={todoVal} onChange={(e) => setTodoVal(e.target.value)}  />
-  <button onClick={() => setTodo([...todo, todoVal])}>add</button>
+              
 
-</div>
-
-<div>{todo.map((item, index) => (
-  <div>{item} <button onClick={() => editTodo(item,index)}>edit</button><button>delete</button></div>
-))}</div> */}
-
-              {/* <SearchBarHome
-                //proSubTypeFilter={proSubTypeFilter}
-                proAdTypeFilter={proAdTypeFilter}
-                searchValue1={searchValue1}
-                handleNPagesChange={handleNPagesChange}
-                handleRecordsChange={handleRecordsChange}
-                data={data}
-                handleSearchValue={handleSearchValue}
-                handleUserLocation={handleUserLocation}
-                searchValue={searchValue}
-                handleLocationSnack={handleLocationSnack}
-                handleCurrentPage={handleCurrentPage}
-                currentPage={currentPage}
-              /> */}
+              
 
               <div className="row hero-search-all-pro">
                 <div
@@ -1707,14 +1460,7 @@ const handleSubmit2 = async (e) => {
             </div>
 
             {records?.length > 0 && (
-              // <Pagination
-              //   count={nPages}
-              //   color="primary"
-              //   siblingCount={1}
-              //   page={currentPage}
-              //   onChange={(e, value) => setCurrentPage(value)}
-              //   className="col-md-6 mx-auto py-2"
-              // />
+             
               <Pagination
                 count={nPages}
                 color="primary"

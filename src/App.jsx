@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Index from "./pages/index/Index";
+import "./media.css";
 import "./custom.css";
 import "./style.css";
 import Login from "./pages/login/Login";
@@ -34,8 +35,7 @@ import NriService from "./pages/nriService/NriService";
 import PostRequirements from "./pages/postRequirements/PostRequirements";
 //import AdminShortlisted from "./pages/adminShortlisted/AdminShortlisted";
 import Rent from "./pages/rent/Rent";
-import Watermark from "./pages/watermark/Watermark";
-import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
+
 import PostRequirement from "./pages/postRequirement/PostRequirement";
 //import AdminRequirement from "./pages/adminRequirement/AdminRequirement";
 //import UserProfileForm from "./pages/userProfileForm/UserProfileForm";
@@ -87,8 +87,11 @@ import QuickListing from "./pages/quickListing/QuickListing";
 import { HelmetProvider } from 'react-helmet-async';
 import Disclaimer from "./pages/disclaimer/Disclaimer";
 import redirectionData from './components/Redirection.json';
+//import Watermark from "./pages/watermark/Watermark";
+//import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
 
-
+const Watermark = lazy(() => import('./pages/watermark/Watermark'));
+const WatermarkOthers = lazy(() => import('./pages/WatermarkOthers/WatermarkOthers'));
 
 const UserDashboard = lazy(() => import('./pages/userdashboard/UserDashboard'));
 const UserInsights = lazy(() => import('./pages/userInsights/UserInsights'));
@@ -608,7 +611,7 @@ const App = () => {
     },
     {
       path: "/watermark",
-      element: <Watermark />,
+      element: ( <Suspense fallback={<div>Loading...</div>}> <Watermark /> </Suspense>) ,
     },
     {
       path: "/agentProfile/:userId",
@@ -631,7 +634,7 @@ const App = () => {
 
     {
       path: "/watermark2",
-      element: <WatermarkOthers />,
+      element: ( <Suspense fallback={<div>Loading...</div>}> <WatermarkOthers /> </Suspense>) ,
     },
     {
       path: "/agentList",

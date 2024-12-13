@@ -111,7 +111,7 @@ export default function GetNearByAreas() {
         .then((response) => response.json())
         
         .then((data) => {
-          console.log("data : " , data);
+          
           const places = data.elements
           .filter((place) => place.tags.name && place.tags.name.trim() !== "") 
           .map((place) => ({

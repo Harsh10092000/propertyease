@@ -57,7 +57,7 @@ const Map3 = ({ data}) => {
   //  }
 
   const handleCordinates = (key, value) => {
-    console.log(key, value);
+    //console.log(key, value);
     setCodinates((prevState) => ({
       ...prevState,
       [key]: value,
@@ -166,7 +166,7 @@ const Map3 = ({ data}) => {
         )
 
         map.current.on('click', 'places-layer', (e) => {
-          console.log("e : " , e);
+          //console.log("e : " , e);
             var coordinates = e.features[0].geometry.coordinates;
             var description = e.features[0].properties.description;
             new mapplsgl.Popup()
