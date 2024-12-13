@@ -83,7 +83,7 @@ import Package1 from "./pages/premimumPackages/Package1";
 //import InviteFromUser from "./pages/InviteUser/InviteFromUser";
 import SmsComponent from "./components/smsComponent/SmsComponent";
 import QuickListing from "./pages/quickListing/QuickListing";
-import MailBox from "./pages/InviteUser/MailBox";
+//import MailBox from "./pages/InviteUser/MailBox";
 import { HelmetProvider } from 'react-helmet-async';
 import Disclaimer from "./pages/disclaimer/Disclaimer";
 import redirectionData from './components/Redirection.json';
@@ -119,7 +119,8 @@ const EditProPlanCoupon = lazy(() => import("./pages/editProPlanCoupon/EditProPl
 const EmailSet = lazy(() => import("./pages/adminSettings/EmailSet"));
 const ChangePhoneNumber = lazy(() => import("./pages/adminSettings/ChangePhoneNumber"));
 const EmailBoardcast = lazy(() => import("./pages/adminSettings/EmailBoardcast"));
-
+const ProPlanCouponForm = lazy(() => import("./pages/proPlanCouponForm/ProPlanCouponForm"));
+const MailBox = lazy(() => import("./pages/InviteUser/MailBox"));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -563,6 +564,33 @@ const App = () => {
             </Suspense>
           ),
         },
+        {
+          path: "mail",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <MailBox />
+            </Suspense>
+          ),
+        },
+        {
+          path: "addcoupon",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProPlanCouponForm />
+            </Suspense>
+          ),
+        },
+
+        {
+          path: "mailbroadcast",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <EmailBoardcast />
+            </Suspense>
+          ),
+        },
+        
+        
       ],
     },
     {
