@@ -5,9 +5,10 @@ import {
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Index from "./pages/index/Index";
-import "./media.css";
+
 import "./custom.css";
 import "./style.css";
+import "./media.css";
 import Login from "./pages/login/Login";
 import Listing from "./pages/listing/Listing";
 import AllProperties from "./pages/allproperties/AllProperties";
