@@ -6,6 +6,7 @@ import {
 import { Suspense, lazy } from "react";
 import Index from "./pages/index/Index";
 import "./custom.css";
+import "./style.css";
 import Login from "./pages/login/Login";
 import Listing from "./pages/listing/Listing";
 import AllProperties from "./pages/allproperties/AllProperties";
