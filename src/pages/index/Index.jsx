@@ -437,6 +437,7 @@ const Index = () => {
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
         <link defer rel="canonical" href="https://propertyease.in/" />
+        <meta name="description" content="Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots. Start your journey to find the perfect property today!" />
       </Helmet>
 
       <Dialog
