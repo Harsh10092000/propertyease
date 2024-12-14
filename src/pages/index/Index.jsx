@@ -478,6 +478,7 @@ const Index = () => {
         </script>
         <meta property="og:title" content="Propertyease - Buy and Sell Property" />
         <meta property="og:type" content="website" />
+        <meta property="og:description" content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance." />
         <meta property="og:url" content="https://propertyease.in/" />
         <meta
           property="og:image"
