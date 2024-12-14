@@ -17,6 +17,39 @@ import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
 import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
 
 const Index = () => {
+  const [schemaMarkup, setSchemaMarkup] = useState({});
+
+  useEffect(() => {
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      name: "Propertyease",
+      url: "https://propertyease.in",
+      datePosted: "2024-12-01",
+      author: {
+        "@type": "Company",
+        name: "Propertyease",
+      },
+      logo: "https://propertyease.in/images/logo.webp",
+      telephone: "+91-9996167778",
+      description:
+        "Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots. Start your journey to find the perfect property today!",
+      relatedLink: ["https://propertyease.in/allproperties"],
+      significantLink: [
+        "https://propertyease.in/allproperties",
+        "https://propertyease.in/listing/residential",
+        "https://propertyease.in/listing/commercial",
+        "https://propertyease.in/listing/land",
+        "https://propertyease.in/contactus",
+        "https://propertyease.in/DC-Rates-2024-25.pdf",
+        "https://propertyease.in/documentsneededtobuyproperty.pdf",
+        "https://propertyease.in/citymap/Kurukshetra",
+      ],
+    };
+
+    setSchemaMarkup(schema);
+  }, []);
+
   const scrollContainerRef = useRef(null);
 
   const handleScroll = (e) => {
@@ -437,7 +470,34 @@ const Index = () => {
       <Helmet>
         <title>Propertyease - Buy and Sell Property</title>
         <link defer rel="canonical" href="https://propertyease.in/" />
-        <meta name="description" content="Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots. Start your journey to find the perfect property today!" />
+        <meta
+          name="description"
+          content="Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots. Start your journey to find the perfect property today!"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify(schemaMarkup)}
+        </script>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://propertyease.in/" />
+        <meta
+          property="og:image"
+          content="https://api.propertyease.in/propertyImages/watermark/default.webp"
+        />
+
+        <meta
+          name="twitter:description"
+          content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
+        />
+        <meta property="twitter:domain" content="propertyease.in" />
+        <meta property="twitter:url" content="https://propertyease.in/" />
+        <meta
+          name="twitter:title"
+          content="Propertyease - Buy and Sell Property"
+        />
+        <meta
+          name="twitter:image"
+          content="https://api.propertyease.in/propertyImages/watermark/default.webp"
+        />
       </Helmet>
 
       <Dialog
@@ -577,7 +637,6 @@ const Index = () => {
                   <h1 className={"h1-2"}>
                     Ab Property Bechna Kharidna Hoga Aasan
                   </h1>
-                
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>
@@ -726,8 +785,6 @@ const Index = () => {
         {/* ########## New Recent List Section ########## */}
 
         <section className="most-view-Property mt-5 mb-5">
-          
-         
           <div className="container">
             <RecentListHeader />
             <div className="latest-pro-filter-wrapper">
@@ -742,11 +799,11 @@ const Index = () => {
                 </button>
               ))}
             </div>
-           
-          <div className="container">
+
+            <div className="container">
               <div className="row ">
                 {filteredData.slice(0, 6).map((item, index) => (
-                  <PropertyCard2 
+                  <PropertyCard2
                     item={item}
                     currentUser={currentUser}
                     index={index}
@@ -754,8 +811,6 @@ const Index = () => {
                 ))}
               </div>
             </div>
-
-          
 
             <AllPropertyButton />
           </div>
