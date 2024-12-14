@@ -27,11 +27,10 @@ const Index = () => {
       url: "https://propertyease.in",
       datePosted: "2024-12-01",
       author: {
-        "@type": "Company",
+        "@type": "Organization",
         name: "Propertyease",
       },
-      logo: "https://propertyease.in/images/logo.webp",
-      telephone: "+91-9996167778",
+      image: "https://propertyease.in/images/logo.webp",
       description:
         "Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots. Start your journey to find the perfect property today!",
       relatedLink: ["https://propertyease.in/allproperties"],
