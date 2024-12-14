@@ -476,6 +476,7 @@ const Index = () => {
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
         </script>
+        <meta property="og:title" content="Propertyease - Buy and Sell Property" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://propertyease.in/" />
         <meta
@@ -487,6 +488,8 @@ const Index = () => {
           name="twitter:description"
           content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
         />
+        <meta property="twitter:card" content="https://api.propertyease.in/propertyImages/watermark/default.webp" />
+        <meta property="twitter:site" content="https://propertyease.in/" />
         <meta property="twitter:domain" content="propertyease.in" />
         <meta property="twitter:url" content="https://propertyease.in/" />
         <meta
