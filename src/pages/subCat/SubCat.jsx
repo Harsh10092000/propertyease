@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar/Navbar";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
@@ -10,12 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { IconBrandWhatsapp, IconMapPin, IconCurrentLocation  } from "@tabler/icons-react";
+import {IconCurrentLocation  } from "@tabler/icons-react";
 import DateTime from "../../dateTime";
 import NoResult from "../../components/noResult/NoResult";
 import { Skeleton } from "@mui/material";
 import { InputAdornment } from "@mui/material";
-import SearchBar from "../../components/searchBar/SearchBar";
+
 import Autocomplete from "@mui/material/Autocomplete";
 import { AuthContext } from "../../context/AuthContext";
 import PropertyCard from "../../components/propertyCard/PropertyCard";
@@ -281,9 +281,104 @@ const SubCat = () => {
 
   return (
     <div>
+
       <Helmet>
-        <title>Propertyease - {filCat}</title>
-      </Helmet>
+  <title>Propertyease - {filCat}</title>
+  {cat === "apartment" ? (
+    <meta
+      name="description"
+      content="Browse through a selection of apartments for sale, from modern studios to expansive family units. Find a perfect fit for your lifestyle in well-connected neighborhoods with top amenities."
+    />
+  ) : cat === "independent-house" ? (
+    <meta
+      name="description"
+      content="Purchase an independent house offering privacy, ample space, and freedom to customize. Enjoy quiet living with large gardens and easy access to key locations."
+    />
+  ) : cat === "builder-floor" ? (
+    <meta
+      name="description"
+      content="Invest in a builder floor that combines independent living with modern convenience. Spacious layouts, modern designs, and the benefit of a low-maintenance home."
+    />
+  ) : cat === "farm-house" ? (
+    <meta
+      name="description"
+      content="Own a farmhouse set in serene countryside surroundings. Ideal for those looking for peace and tranquility, these properties offer large plots for agricultural use or relaxation."
+    />
+  ) : cat === "retirement-community" ? (
+    <meta
+      name="description"
+      content="Buy a property in a retirement community that offers peace of mind, comfortable living, and dedicated amenities to support an active and independent lifestyle."
+    />
+  ) : cat === "studio-apartment" ? (
+    <meta
+      name="description"
+      content="Find compact and efficient studio apartments for sale. Perfect for singles or couples looking for a stylish and affordable living space with easy access to city life."
+    />
+  ) : cat === "residential-land" ? (
+    <meta
+      name="description"
+      content="Purchase residential land in desirable locations and build the home of your dreams. These plots provide flexibility and ample space to create your vision."
+    />
+  ) : cat === "commercial-land" ? (
+    <meta
+      name="description"
+      content="Invest in prime commercial land perfect for retail, office, or mixed-use developments. These high-visibility plots are ideal for setting up successful ventures."
+    />
+  ) : cat === "industrial-land" ? (
+    <meta
+      name="description"
+      content="Purchase industrial land to set up manufacturing units, warehouses, or logistics facilities. Offering spacious plots in strategic locations with easy access to major transport routes."
+    />
+  ) : cat === "agricultural-land" ? (
+    <meta
+      name="description"
+      content="Buy agricultural land with fertile soil and abundant space, ideal for farming, livestock, or other agricultural ventures. A smart investment for long-term growth."
+    />
+  ) : cat === "farm-house-land" ? (
+    <meta
+      name="description"
+      content="Purchase land for a farmhouse, offering large plots in peaceful rural areas. Perfect for building a retreat, starting agricultural projects, or enjoying country living."
+    />
+  ) : cat === "retail-showroom" ? (
+    <meta
+      name="description"
+      content="Buy a retail showroom in bustling commercial areas with excellent foot traffic. A great investment for displaying your products and growing your business in a high-demand location."
+    />
+  ) : cat === "commercial-building" ? (
+    <meta
+      name="description"
+      content="Purchase a commercial building offering versatile spaces for offices, retail shops, or mixed-use purposes. Situated in key business districts, it's a solid investment for business owners."
+    />
+  ) : cat === "office-complex" ? (
+    <meta
+      name="description"
+      content="Invest in an office complex that offers flexible workspaces, ideal for businesses of all sizes. These modern facilities are well-located and ready to accommodate your growing workforce."
+    />
+  ) : cat === "software-technology-park" ? (
+    <meta
+      name="description"
+      content="Buy office spaces in a cutting-edge technology park designed for tech companies. Modern infrastructure, high-speed internet, and access to an innovation-driven ecosystem make these spaces ideal for growth."
+    />
+  ) : cat === "warehouse" ? (
+    <meta
+      name="description"
+      content="Invest in warehouse space offering ample storage capacity and secure facilities. Perfect for distribution, inventory management, or logistics companies looking for operational efficiency."
+    />
+  ) : cat === "industrial-estate" ? (
+    <meta
+      name="description"
+      content="Purchase land in an industrial estate equipped with the infrastructure needed for large-scale operations. Ideal for businesses looking to expand or start manufacturing, storage, or logistics."
+    />
+  ) : (
+    <meta
+      name="description"
+      content="Discover your ideal property for sale at PropertyEase.in. From luxurious homes to commercial land, explore a diverse range of listings to suit your investment or lifestyle needs."
+    />
+  )}
+</Helmet>
+
+        
+  
       <Navbar />
 
       <div className={"main "}>

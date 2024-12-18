@@ -92,9 +92,35 @@ const Listing = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Propertyease - {cat}</title>
-      </Helmet>
+     <Helmet>
+  <title>Propertyease - {cat}</title>
+  {cat === "residential" ? (
+    <meta
+      name="description"
+      content="Explore residential properties for sale, from stylish apartments to spacious family homes. Whether you're a first-time buyer or looking for an investment, these properties offer comfort, modern amenities, and prime locations, ideal for individuals or families looking for a long-term home."
+    />
+
+  ) : cat === "commercial" ? (
+    <meta
+      name="description"
+      content="Browse commercial properties for sale, including office spaces, retail stores, and mixed-use developments. These properties are located in high-demand business areas with strong foot traffic and offer excellent potential for businesses or investors seeking prime locations."
+    />
+  ) : cat === "land" ? (
+    <meta
+      name="description"
+      content="Find available land for sale, ranging from residential plots to commercial and industrial spaces. These plots are located in growing areas with great investment potential, offering the flexibility to build your dream property or develop a new venture."
+    />
+  ) : ""}
+
+{cat === "residential" ? (
+<link defer rel="canonical" href="https://propertyease.in/listing/residential" />
+) : cat === "commercial" ? (
+<link defer rel="canonical" href="https://propertyease.in/listing/commercial" />
+) : cat === "land" ? (
+<link defer rel="canonical" href="https://propertyease.in/listing/land" />
+) : ""}
+</Helmet>
+
       <Navbar />
       <div className={"main padding-top"}>
         <section className="main-content">

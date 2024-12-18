@@ -269,8 +269,168 @@ const PropertyByCity = () => {
   return (
     <div className="">
       <Helmet>
-        <title>Propertyease - {filCat}</title>
-      </Helmet>
+  <title>Propertyease - {filCat}</title>
+  {proType === "apartment" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Explore a range of rental apartments available for individuals and families. From cozy studios to spacious multi-bedroom apartments, enjoy modern living with all the essential amenities."
+          : "Buy stylish apartments in prime locations offering modern designs, comfortable layouts, and easy access to schools, shopping centers, and transportation hubs."
+      }
+    />
+  ) : proType === "independent-house" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Find independent houses for rent that offer spacious living areas, private gardens, and a peaceful environment. Ideal for families seeking comfort and privacy."
+          : "Purchase independent houses with ample space, outdoor areas, and the freedom to personalize. Perfect for those looking for privacy and a serene lifestyle."
+      }
+    />
+  ) : proType === "builder-floor" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent builder floors that offer privacy and independent living. Enjoy spacious floors with convenient access to amenities and excellent connectivity."
+          : "Buy builder floors offering spacious layouts and modern amenities. Enjoy the privacy of independent living in a vibrant neighborhood."
+      }
+    />
+  ) : proType === "farm-house" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent farmhouses that provide peaceful rural living with expansive outdoor spaces. Ideal for relaxation or agricultural activities, away from the city hustle."
+          : "Buy farmhouses offering large plots of land, perfect for farming or creating your own rural retreat. Enjoy tranquility and natural beauty."
+      }
+    />
+  ) : proType === "retirement-community" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent homes in dedicated retirement communities designed for comfort, safety, and social interaction. Enjoy a peaceful environment with senior-friendly amenities."
+          : "Invest in a retirement community home that offers comfort, security, and a fulfilling lifestyle for seniors. Perfect for those looking for peace of mind in their later years."
+      }
+    />
+  ) : proType === "studio-apartment" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent studio apartments that provide compact, efficient living spaces. Perfect for singles or couples, offering modern conveniences in a stylish setting."
+          : "Buy studio apartments that combine practicality with modern design. A great choice for first-time buyers or those looking for an affordable, low-maintenance home."
+      }
+    />
+  ) : proType === "residential-land" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent residential land and build your dream home on spacious plots in prime locations. Customize your living space to suit your needs and lifestyle."
+          : "Purchase residential land to create your ideal living environment. Choose from spacious plots in desirable areas for building a custom home."
+      }
+    />
+  ) : proType === "commercial-land" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent commercial land in prime locations to establish your business. These plots offer great visibility and accessibility for retail, office, or other commercial use."
+          : "Buy commercial land to build your business premises in high-traffic areas. Ideal for setting up retail shops, offices, or other business ventures."
+      }
+    />
+  ) : proType === "industrial-land" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent industrial land to set up factories, warehouses, or manufacturing units. These plots are located in strategic industrial hubs, providing easy access to major transport routes."
+          : "Buy industrial land in well-established zones, perfect for large-scale operations. A solid investment for manufacturing, storage, or logistics."
+      }
+    />
+  ) : proType === "agricultural-land" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent agricultural land ideal for farming or livestock raising. These plots offer fertile soil and ample space for your agricultural projects."
+          : "Purchase agricultural land to start your own farm or agricultural business. Take advantage of fertile land for crops, livestock, or other farming ventures."
+      }
+    />
+  ) : proType === "farm-house-land" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent land for a farmhouse in tranquil rural locations. Ideal for building a peaceful retreat or engaging in agricultural activities in a spacious setting."
+          : "Buy farm house land for rural living or agricultural purposes. Enjoy the freedom to build your dream home or pursue farming in a quiet environment."
+      }
+    />
+  ) : proType === "retail-showroom" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent retail showrooms in high-visibility locations. Perfect for showcasing your products in areas with high foot traffic, ensuring maximum customer exposure."
+          : "Buy retail showrooms in bustling commercial areas, ideal for businesses seeking prime visibility and a strong customer base."
+      }
+    />
+  ) : proType === "commercial-building" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent commercial buildings in key business areas, suitable for offices, retail spaces, or mixed-use purposes. These properties offer flexibility and accessibility."
+          : "Buy commercial buildings in prime locations. Ideal for businesses seeking office space, retail outlets, or multi-use properties."
+      }
+    />
+  ) : proType === "office-complex" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent office complex spaces with modern amenities and professional environments. Located in central business districts, ideal for growing businesses."
+          : "Buy office complex spaces in strategic locations, perfect for businesses looking to expand or invest in commercial real estate."
+      }
+    />
+  ) : proType === "software-technology-park" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent office spaces in tech parks designed for startups and IT businesses. Enjoy modern infrastructure and networking opportunities in a collaborative environment."
+          : "Invest in office spaces in technology parks, offering cutting-edge infrastructure, ideal for tech companies and startups looking to expand."
+      }
+    />
+  ) : proType === "warehouse" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent warehouse spaces that offer large storage areas and easy access for logistics and distribution. Perfect for businesses with storage needs."
+          : "Buy warehouse properties located in key industrial zones. Ideal for businesses needing ample storage, distribution, or manufacturing space."
+      }
+    />
+  ) : proType === "industrial-estate" ? (
+    <meta
+      name="description"
+      content={
+        adType === "rent"
+          ? "Rent space in industrial estates for manufacturing, warehouses, or large-scale operations. These properties offer ample space and are well-connected to major transport routes."
+          : "Buy land in industrial estates for large-scale production, logistics, or storage. Ideal for businesses looking to expand or set up new facilities."
+      }
+    />
+  ) : 
+  <meta
+      name="description"
+      content="Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots."
+    />
+  }
+</Helmet>
+
       <Navbar />
 
       <div className={"main pt-5"}>

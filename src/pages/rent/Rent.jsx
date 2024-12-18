@@ -180,10 +180,103 @@ const Rent = () => {
 
   return (
     <div>
-      <Helmet>
-        <title>Propertyease - {filCat}</title>
-      </Helmet>
+  <Helmet>
+  <title>Propertyease - {filCat}</title>
+  {cat === "apartment" ? (
+    <meta
+      name="description"
+      content="Explore a variety of rental apartments, from cozy studios to spacious multi-bedroom units, offering modern amenities and comfortable living for individuals and families."
+    />
+  ) : cat === "independent-house" ? (
+    <meta
+      name="description"
+      content="Find independent houses for rent, offering spacious living areas, privacy, and outdoor space. Ideal for families or individuals seeking peace away from shared living."
+    />
+  ) : cat === "builder-floor" ? (
+    <meta
+      name="description"
+      content="Explore rental builder floors providing greater privacy and spacious layouts, perfect for those desiring a peaceful living experience with fewer neighbors."
+    />
+  ) : cat === "farm-house" ? (
+    <meta
+      name="description"
+      content="Rent a farmhouse and enjoy peaceful country living. Spacious properties offering tranquility and outdoor environments, perfect for retreats away from city life."
+    />
+  ) : cat === "retirement-community" ? (
+    <meta
+      name="description"
+      content="Discover retirement communities for rent, offering comfort, support, and age-friendly amenities designed for a fulfilling lifestyle in a peaceful environment."
+    />
+  ) : cat === "studio-apartment" ? (
+    <meta
+      name="description"
+      content="Rent a studio apartment offering efficient living spaces, modern designs, and convenience for singles or couples. Enjoy comfort in a compact setting."
+    />
+  ) : cat === "residential-land" ? (
+    <meta
+      name="description"
+      content="Rent residential land and create your dream home. These plots provide flexibility, space, and the opportunity to build in your ideal location."
+    />
+  ) : cat === "commercial-land" ? (
+    <meta
+      name="description"
+      content="Rent commercial land in prime locations, perfect for setting up businesses such as retail outlets, offices, or other commercial ventures with high visibility."
+    />
+  ) : cat === "industrial-land" ? (
+    <meta
+      name="description"
+      content="Rent industrial land ideal for warehouses, factories, or large-scale operations. Offering spacious plots in key locations to meet your business needs."
+    />
+  ) : cat === "agricultural-land" ? (
+    <meta
+      name="description"
+      content="Rent agricultural land for farming, livestock, or agricultural projects. Ideal for growing crops and raising animals in fertile and expansive plots."
+    />
+  ) : cat === "farm-house-land" ? (
+    <meta
+      name="description"
+      content="Rent farm house land in a peaceful rural setting. Ideal for building a farmhouse or pursuing agricultural activities with ample space for various ventures."
+    />
+  ) : cat === "retail-showroom" ? (
+    <meta
+      name="description"
+      content="Rent retail showroom spaces in high-traffic areas for displaying your products. These properties offer excellent visibility and accessibility for customers."
+    />
+  ) : cat === "commercial-building" ? (
+    <meta
+      name="description"
+      content="Rent commercial buildings for your business needs. Whether for offices, retail spaces, or mixed-use properties, these buildings offer modern infrastructure and prime locations."
+    />
+  ) : cat === "office-complex" ? (
+    <meta
+      name="description"
+      content="Rent office complex spaces, ideal for businesses of all sizes. Flexible layouts, essential amenities, and central locations provide an ideal work environment."
+    />
+  ) : cat === "software-technology-park" ? (
+    <meta
+      name="description"
+      content="Rent office spaces in a software technology park designed for tech companies. Modern infrastructure, collaboration spaces, and networking opportunities for innovation."
+    />
+  ) : cat === "warehouse" ? (
+    <meta
+      name="description"
+      content="Rent warehouse spaces with ample storage, security, and easy access to transportation links. Perfect for businesses in need of logistics and distribution space."
+    />
+  ) : cat === "industrial-estate" ? (
+    <meta
+      name="description"
+      content="Rent space in an industrial estate, perfect for manufacturing or logistics operations. Large plots with essential infrastructure support heavy-duty business activities."
+    />
+  ) : (
+    <meta
+      name="description"
+      content="Discover your dream property at PropertyEase.in! Explore a wide range of residential and commercial listings, from luxurious homes to affordable plots."
+    />
+  )}
+</Helmet>
+
       <Navbar />
+     
       <div className={"main padding-top"}>
         <section className="main-content">
           <div className="container">
@@ -245,54 +338,7 @@ const Rent = () => {
             )}
 </div>
 <div className="col-md-3">
-                {/* <div>
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">
-                      For Sale
-                    </div>
-                    {subData.map((sub, index) => (
-                      <Link
-                        onClick={() => setSearchValue("")}
-                        to={`/${sub.pro_type
-                          .split(",")[1]
-                          .toLowerCase()}/${sub.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{sub.pro_type.split(",")[0]}</div>
-                          <div>({sub.pro_sub_cat_number})</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <div className="pt-2">
-                  <div className="p-1 shadow">
-                    <div className="p-3 font-weight-bold text-black">Rent</div>
-                    {rentData.map((rent, index) => (
-                      <Link
-                        to={`/rental/${rent.pro_type
-                          .split(",")[0]
-                          .replaceAll(" ", "-")
-                          .toLowerCase()}`}
-                        key={index}
-                        // className={
-                        //   rent.pro_type.split(",")[0] === cat
-                        //     ? "text-primary m-0"
-                        //     : "text-secondary m-0"
-                        // }
-                      >
-                        <div className="d-flex justify-content-between px-3 py-2">
-                          <div>{rent.pro_type.split(",")[0]}</div>
-                          <div>({rent.pro_sub_cat_number})</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div> */}
+                
                 <Sidebar2 handleForSale={handleForSale} handleForRent={handleForRent}/>
               </div>
               </div>
