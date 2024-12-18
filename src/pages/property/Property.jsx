@@ -661,7 +661,7 @@ const Property = () => {
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content={`https://www.propertyease.in/${
+          content={`https://propertyease.in/${
             id
           }`}
         />
@@ -711,7 +711,7 @@ const Property = () => {
         <meta property="twitter:domain" content="propertyease.in" />
         <meta
           property="twitter:url"
-          content={`https://www.propertyease.in/${
+          content={`https://propertyease.in/${
             id
           }`}
         />
@@ -1189,7 +1189,7 @@ time3.add(12, "minutes") */}
                             <button className="fb" title="Share On Facebook">
                               <a
                                 rel="noreferrer nofollow"
-                                href={`https://www.facebook.com/sharer.php?u=https://www.propertyease.in/${id}`}
+                                href={`https://www.facebook.com/sharer.php?u=https://propertyease.in/${id}`}
                                 target="_blank"
                                 className="share-property"
                               >
@@ -1208,7 +1208,7 @@ time3.add(12, "minutes") */}
                             >
                               <a
                                 rel="noreferrer nofollow"
-                                href={`https://api.whatsapp.com/send?text=https://www.propertyease.in/${id}`}
+                                href={`https://api.whatsapp.com/send?text=https://propertyease.in/${id}`}
                                 target="_blank"
                                 className="share-propertywp"
                               >
