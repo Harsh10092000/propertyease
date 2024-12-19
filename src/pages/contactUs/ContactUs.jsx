@@ -15,6 +15,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./contact.css";
 import { TextField } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 const ContactUs = () => {
   const [data, setData] = useState({
@@ -76,6 +77,14 @@ const ContactUs = () => {
 
   return (
     <>
+    <Helmet>
+    <title>Propertyease - Contact Us</title>
+    <meta name="description" content="Get in touch with us for inquiries, support, or feedback about our properties. Visit our Contact Us page to reach out to our team and receive assistance with property-related questions or concerns. We are here to help!" />
+    <link
+          rel="canonical"
+          href="https://propertyease.in/contactus"
+        ></link>
+    </Helmet>
       <Navbar />
       {loader ? <Loader /> : ""}
       <Snackbar

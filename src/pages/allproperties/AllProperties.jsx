@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 import Pagination from "@mui/material/Pagination";
 
@@ -823,7 +823,9 @@ const [error, setError] = useState('');
         }
       />
       <Helmet>
-        
+      <title>Propertyease - All Properties</title>
+      <meta name="description" content="Explore the best real estate properties in Kurukshetra, Ambala, Karal, Kaithal, Mohali, Chandigarh and Haryana. Find your ideal home, land, or commercial property at PropertyEase.in. Browse our comprehensive listings and make informed property decisions today!" />
+
     <meta
     property="og:image"
           content="https://api.propertyease.in/propertyImages/watermark/default.png"
@@ -839,9 +841,12 @@ const [error, setError] = useState('');
     property="og:description"
     content="Ab Property Bechna Kharidna Hoga Aasan"
   />
-        <title>Propertyease - All Properties</title>
+        
 
-
+        <link
+          rel="canonical"
+          href="https://propertyease.in/allproperties"
+        ></link>
 
         
       </Helmet>
