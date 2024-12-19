@@ -82,7 +82,7 @@ import PropertyByCity from "./pages/propertyByCity/PropertyByCity";
 import Package1 from "./pages/premimumPackages/Package1";
 //import UserInsights from "./pages/userInsights/UserInsights";
 //import InviteFromUser from "./pages/InviteUser/InviteFromUser";
-import SmsComponent from "./components/smsComponent/SmsComponent";
+
 import QuickListing from "./pages/quickListing/QuickListing";
 //import MailBox from "./pages/InviteUser/MailBox";
 import { HelmetProvider } from 'react-helmet-async';
@@ -354,8 +354,10 @@ const App = () => {
       path: "addproperty",
       element: (
         <>
+         <Suspense fallback={<div>Loading...</div>}>
           <ScrollToTop />
           <AddProperty />
+          </Suspense>
         </>
       ),
     },
@@ -367,10 +369,7 @@ const App = () => {
       path: "/rental/:cat",
       element: <Rent />,
     },
-    {
-      path: "/sms",
-      element: <SmsComponent />,
-    },
+  
      {
       path: "/quick-list",
       element: <QuickListing />,
@@ -383,11 +382,19 @@ const App = () => {
       path: "/editProperty/:id1",
 
       element: (
-        <ProtectedRoute>
+        <>
+        {currentUser ? (
+        <>
+        <Suspense fallback={<div>Loading...</div>}>
           <SendJwt />
           <ScrollToTop />
           <EditProperty />
-        </ProtectedRoute>
+          </Suspense>
+        </>
+        ) :
+<Navigate to="/login" />
+      }
+      </>
       ),
     },
     {
