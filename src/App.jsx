@@ -22,9 +22,9 @@ import { AuthContext } from "./context/AuthContext";
 //import UserShortlisted from "./pages/shortlisted/UserShortlisted";
 import Property from "./pages/property/Property";
 import { useLocation } from "react-router-dom";
-import AddProperty from "./pages/addProperty/AddProperty";
+//import AddProperty from "./pages/addProperty/AddProperty";
 import SubCat from "./pages/subCat/SubCat";
-import EditProperty from "./pages/editProperty/EditProperty";
+//import EditProperty from "./pages/editProperty/EditProperty";
 import NotFound from "./pages/notfound/NotFound";
 import Admin from "./pages/admin/Admin";
 //import AdminDashboard from "./pages/adminDashboard/AdminDashboard";
@@ -125,6 +125,9 @@ const ChangePhoneNumber = lazy(() => import("./pages/adminSettings/ChangePhoneNu
 const EmailBoardcast = lazy(() => import("./pages/adminSettings/EmailBoardcast"));
 const ProPlanCouponForm = lazy(() => import("./pages/proPlanCouponForm/ProPlanCouponForm"));
 const MailBox = lazy(() => import("./pages/InviteUser/MailBox"));
+
+const AddProperty = lazy(() => import("./pages/addProperty/AddProperty"));
+const EditProperty = lazy(() => import("./pages/editProperty/EditProperty"));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -354,7 +357,7 @@ const App = () => {
       path: "addproperty",
       element: (
         <>
-         <Suspense fallback={<div>Loading...</div>}>
+         <Suspense >
           <ScrollToTop />
           <AddProperty />
           </Suspense>
@@ -385,7 +388,7 @@ const App = () => {
         <>
         {currentUser ? (
         <>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense>
           <SendJwt />
           <ScrollToTop />
           <EditProperty />
