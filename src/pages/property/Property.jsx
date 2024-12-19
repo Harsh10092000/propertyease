@@ -141,12 +141,18 @@ const Property = () => {
 
   const [schemaMarkup, setSchemaMarkup] = useState({});
 
+  const capitalizedName1 = arrproId
+      .slice(0, arrproId.length - 1)
+      .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+      .join(' ');
+
   useEffect(() => {
     const capitalizedName = arrproId
       .slice(0, arrproId.length - 1)
       .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
       .join(' ');
 
+      
 
      const desc = `Check out this ${
         arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
@@ -644,11 +650,51 @@ const Property = () => {
 
   
 
-  
 
   return (
     <div >
       <Helmet>
+<title>{capitalizedName1}</title>
+      {/* <title>
+          {`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`}
+        </title> */}
+
+        <meta
+          name="description"
+          content={`Check out this ${
+            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
+          }${arrproId[3] !== "for" ? arrproId[3] : ""}
+        for ${
+          arrproId[3] === "for" ? arrproId[4] : arrproId[5]
+        }. It is an ideal investment opportunity in a prime${
+            arrproId[3] !== "for"
+              ? " " + arrproId[2] + " " + arrproId[3]
+              : " " + arrproId[2] + ""
+          } area with verified property assurance.`}
+        />
+
+<meta name="author" content="Propertyease" />
+
       <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
         </script>
@@ -744,43 +790,7 @@ const Property = () => {
           content="https://api.propertyease.in/propertyImages/watermark/default.webp"
         />
 
-        <title>
-          {`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`}
-        </title>
-
-        <meta
-          name="description"
-          content={`Check out this ${
-            arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
-          }${arrproId[3] !== "for" ? arrproId[3] : ""}
-        for ${
-          arrproId[3] === "for" ? arrproId[4] : arrproId[5]
-        }. It is an ideal investment opportunity in a prime${
-            arrproId[3] !== "for"
-              ? " " + arrproId[2] + " " + arrproId[3]
-              : " " + arrproId[2] + ""
-          } area with verified property assurance.`}
-        />
+        
         
        
       
