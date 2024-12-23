@@ -30,7 +30,7 @@ const Map3 = ({ data}) => {
       axios
         .get(
           `https://maps.gomaps.pro/maps/api/geocode/json?address=${location.formatted_address}&language=en&region=e
-        n&key=AlzaSyQObMdDT_7owxq4vy5a-d3vcwOjwmrg7GR`
+        n&key=AlzaSyfuiVyT1hNYeeIf7K2-enB9XSQqmvfTdaq`
         )
         .then((res) => {
           setCodinates({
