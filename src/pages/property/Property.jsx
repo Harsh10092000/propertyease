@@ -34,7 +34,7 @@ import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton"
 import { Suspense, lazy } from 'react';
 //const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
 const Map3 = lazy(() => import('../../components/googleMap/GoogleMap'));
-import Helmet  from "react-helmet";
+import { Helmet } from "react-helmet";
 import { ShowPrice } from "../../components/HelperComponents";
 
 
