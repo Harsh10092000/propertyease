@@ -15,7 +15,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./contact.css";
 import { TextField } from "@mui/material";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 const ContactUs = () => {
   const [data, setData] = useState({

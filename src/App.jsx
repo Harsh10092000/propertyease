@@ -85,7 +85,7 @@ import Package1 from "./pages/premimumPackages/Package1";
 
 import QuickListing from "./pages/quickListing/QuickListing";
 //import MailBox from "./pages/InviteUser/MailBox";
-import { HelmetProvider } from 'react-helmet-async';
+
 import Disclaimer from "./pages/disclaimer/Disclaimer";
 import redirectionData from './components/Redirection.json';
 //import Watermark from "./pages/watermark/Watermark";
@@ -684,11 +684,7 @@ const App = () => {
     },
   ]);
   return (
-    <>
-    <HelmetProvider>
       <RouterProvider router={router} />
-    </HelmetProvider>
-    </>
   );
 };
 

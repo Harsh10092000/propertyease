@@ -6,7 +6,7 @@ import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 
 const Package1 = () => {

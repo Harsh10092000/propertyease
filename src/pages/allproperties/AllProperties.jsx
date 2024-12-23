@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 
 import Pagination from "@mui/material/Pagination";
 

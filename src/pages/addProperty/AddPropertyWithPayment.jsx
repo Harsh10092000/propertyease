@@ -45,7 +45,7 @@ import {
   import RecentListHeader from "../../components/propertyCard2/RecentListHeader";
   import PropertyCard2 from "../../components/propertyCard2/PropertyCard2";
   import AllPropertyButton from "../../components/propertyCard2/AllPropertyButton";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet";
   
   // const SelectOptions = (heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val) => {
   //   {console.log(heading, array, field_item, field_item_val, propertyData, setPropertyData, step_val)}
