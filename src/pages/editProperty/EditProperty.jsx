@@ -564,6 +564,7 @@ const EditProperty = () => {
 
   return (
     <div>
+      {loader ? <Loader /> : ""}
       {skeleton ? (
        <>
         <Navbar />
