@@ -34,6 +34,7 @@ import { regEx } from "../regEx";
 import Checkbox from "@mui/material/Checkbox";
 import { Skeleton } from "@mui/material";
 import { priceFormat } from "../../components/helper";
+import Loader from "../../components/loader/Loader";
 
 const EditProperty = () => {
   const [skeleton, setSkeleton] = useState(true);
@@ -43,6 +44,7 @@ const EditProperty = () => {
 
   const { currentUser } = useContext(AuthContext);
 
+    const [loader, setLoader] = useState(false);
   //const { id } = useParams();
   const { id1 } = useParams();
 
@@ -490,6 +492,7 @@ const EditProperty = () => {
 
 
   const handleClick = () => {
+    setLoader(true);
     var val = propertyData.pro_locality.trim();
     var a = val.replace(/\s{2,}/g, " ");
     propertyData.pro_locality = a;
@@ -532,6 +535,7 @@ const EditProperty = () => {
       );
     }
     //navigate(`/${id}`);
+    setLoader(false);
     navigate(
       `/${
         propertyData.pro_area_size.toLowerCase() +
