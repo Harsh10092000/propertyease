@@ -505,6 +505,7 @@ const QuickListing = () => {
     { value: "Raw House,Residential", item: "Raw House" },
     { value: "Retirement Community,Residential", item: "Retirement Community" },
     { value: "Studio Apartment,Residential", item: "Studio Apartment" },
+    { value: "RK,Residential", item: "RK" },
   ];
   const proLandSubTypes = [
     { value: "Residential Land,Land", item: "Residential Land" },
@@ -822,7 +823,7 @@ const QuickListing = () => {
                   className="w-full pro_flex_select"
                   name="Expected Amount"
                   inputProps={{ maxLength: 14 }}
-                  value={propertyData.pro_amt != 0 ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
+                  value={propertyData.pro_amt != 0 && !isNaN(propertyData.pro_amt) ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
                   FormHelperTextProps={{ sx: { color: "red" } }}
                   helperText={
                     propertyData.pro_amt > 0 || propertyData.pro_amt === ""
@@ -845,7 +846,10 @@ const QuickListing = () => {
                     : "₹ Price in words"}
                 </div> */}
                 <div className="price-in-words">
-              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+                  
+              {/* {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"} */}
+              {propertyData.pro_amt && !isNaN(propertyData.pro_amt) ? "₹ " + priceFormat(propertyData.pro_amt) : "e.g. ₹ 10,00,000"}
+
             </div>
               </div>
 
@@ -923,6 +927,7 @@ const QuickListing = () => {
                     width: ["100%"],
                     ml: { xs: 0, sm: 0, xl: 1 },
                   }}
+                  
                   size="small"
                   //   multiple
                   limitTags={2}
@@ -930,6 +935,7 @@ const QuickListing = () => {
                   id="checkboxes-tags-demo3"
                   options={stateList}
                   getOptionLabel={(option) => option.name}
+                  name="unique-data-1"
                   onChange={(event, selectedValues) => {
                     setPropertyData({
                       ...propertyData,
@@ -953,6 +959,12 @@ const QuickListing = () => {
                       value={searchCity}
                       label="State"
                       placeholder="State"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: 'off',
+                      }}
+                      name="unique-data1" 
+                        id="unique-data1" 
                     />
                   )}
                 />
@@ -983,6 +995,8 @@ const QuickListing = () => {
                     value={selectedCity}
                     //disabled={filterDistricts.length < 0 ? true : false}
                     renderInput={(params) => (
+
+
                       <TextField
                         {...params}
                         helperText={
@@ -1008,8 +1022,15 @@ const QuickListing = () => {
                         FormHelperTextProps={{ sx: { color: "red" } }}
                         onChange={(e) => setSearchCity(e.target.value)}
                         label="City"
-                        placeholder="City"
+                        placeholder="City"  
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: 'off',
+                        }}
+                        name="unique-data2" 
+                        id="unique-data2"     
                       />
+                     
                     )}
                   />
                 )}
@@ -1087,6 +1108,10 @@ const QuickListing = () => {
                     onChange={(e) => setSearchSubDistrict(e.target.value)}
                     label="Sub District"
                     placeholder="Sub District"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: 'off',
+                    }}
                   />
                 )}
               />

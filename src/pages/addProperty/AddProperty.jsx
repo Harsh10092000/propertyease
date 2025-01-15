@@ -544,9 +544,12 @@ const AddProperty = () => {
   const minFileSize = 10000;
 
   const [selectedFiles, setSelectedFiles] = useState(null);
+
+  
   const formData = new FormData();
   const pattern = /image-*/;
   const handleImage = (data) => {
+    
     setFormatError(false);
     const pattern = /image-*/;
     for (let i = 0; i < data.length; i++) {
@@ -554,6 +557,7 @@ const AddProperty = () => {
         setFormatError(false);
         if (data[i].size < maxFileSize && data[i].size > minFileSize) {
           formData.append(`files`, data[i]);
+          
           setFileSizeExceeded(false);
         } else {
           setFileSizeExceeded(true);
@@ -1156,6 +1160,11 @@ const AddProperty = () => {
                                 <option value={"Studio Apartment,Residential"}>
                                   Studio Apartment
                                 </option>
+                                <option
+                                    value={"RK,Residential"}
+                                  >
+                                    RK
+                                  </option>
                               </optgroup>
                               <optgroup label="Land">
                                 <option value={"Residential Land,Land"}>
@@ -1941,7 +1950,7 @@ const AddProperty = () => {
                             name="Expected Amount"
                             inputProps={{ maxLength: 14 }}
                             //value={propertyData.pro_amt}
-                            value={propertyData.pro_amt != 0 ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
+                            value={propertyData.pro_amt != 0 && !isNaN(propertyData.pro_amt) ? "₹ " + Intl.NumberFormat().format(propertyData.pro_amt) : ""}
                             FormHelperTextProps={{ sx: { color: "red" } }}
                             helperText={
                               propertyData.pro_amt > 0 ||
@@ -1960,7 +1969,7 @@ const AddProperty = () => {
                             }
                           />
                            <div className="price-in-words">
-              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+              {propertyData.pro_amt && !isNaN(propertyData.pro_amt) ? "₹ " + priceFormat(propertyData.pro_amt) : "e.g. ₹ 10,00,000"}
             </div>
                           {/* <FormControl
                             sx={{ mt: 1, mr: 1, width: ["20%"] }}

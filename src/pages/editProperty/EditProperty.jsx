@@ -778,6 +778,12 @@ const EditProperty = () => {
                                   >
                                     Studio Apartment
                                   </option>
+                                  <option
+                                    value={"RK,Residential"}
+                                  >
+                                    RK
+                                  </option>
+                                  
                                 </optgroup>
                                 <optgroup label="Land">
                                   <option value={"Residential Land,Land"}>
@@ -1855,10 +1861,10 @@ const EditProperty = () => {
                               className="w-full pro_flex_select"
                               name="Expected Amount"
                               inputProps={{ maxLength: 14 }}
-                              value={propertyData.pro_amt}
+                              value={propertyData.pro_amt && !isNaN(propertyData.pro_amt) ? Intl.NumberFormat().format(propertyData.pro_amt) : "" }
                               FormHelperTextProps={{ sx: { color: "red" } }}
                               helperText={
-                                propertyData.pro_amt > 0 ||
+                                propertyData.pro_amt > 0  ||
                                 propertyData.pro_amt === ""
                                   ? ""
                                   : "Enter Valid Amount"
@@ -1875,7 +1881,7 @@ const EditProperty = () => {
                               //required
                             />
                             <div className="price-in-words">
-              {propertyData.pro_amt ? "₹ " + priceFormat(propertyData.pro_amt) : "₹ Price in words"}
+              {propertyData.pro_amt && !isNaN(propertyData.pro_amt) ? "₹ " + priceFormat(propertyData.pro_amt) : "e.g. ₹ 10,00,000"}
             </div>
                             {/* <FormControl
                               sx={{ mt: 1, width: ["20%"] }}
