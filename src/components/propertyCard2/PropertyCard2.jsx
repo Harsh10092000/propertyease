@@ -19,10 +19,10 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
               {item.img_link ? (
                 <>
                   <img
-                    src={`${
-                      import.meta.env.VITE_BACKEND
-                    }/propertyImages/watermark/${item.img_link}`}
-                    // src="/images/default-resized.webp"
+                     src={`${
+                       import.meta.env.VITE_BACKEND
+                     }/propertyImages/watermark/${item.img_link}`}
+                     //src="/images/default-resized.webp"
                     alt={`https://propertyease.in/${item.pro_url}`}
                     className="rec-img"
                     height="254px"
@@ -164,7 +164,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                     {/* {"₹ " + item.pro_amt + " " + item.pro_amt_unit} */}
                     {ShowPrice(item.pro_ad_type,item.pro_amt)}
                     <span className="right-border mx-2 mobile-hidden"></span>
-                    {item.pro_area_size + " " + item.pro_area_size_unit}
+                    <div>{item.pro_area_size + " " + item.pro_area_size_unit}</div>
                   </div>
                 </div>
               </div>
