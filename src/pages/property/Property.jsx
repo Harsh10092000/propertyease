@@ -656,7 +656,7 @@ const Property = () => {
   return (
     <div >
       <Helmet>
-<title>{capitalizedName1}</title>
+{/* <title>{capitalizedName1}</title> */}
       {/* <title>
           {`${
             arrproId[0] +
@@ -680,6 +680,28 @@ const Property = () => {
             arrproId[9]
           }`}
         </title> */}
+
+        <meta name="title" content= {`${
+            arrproId[0] +
+            " " +
+            arrproId[1] +
+            " " +
+            arrproId[2] +
+            " " +
+            arrproId[3] +
+            " " +
+            arrproId[4] +
+            " " +
+            arrproId[5] +
+            " " +
+            arrproId[6] +
+            " " +
+            arrproId[7] +
+            " " +
+            arrproId[8] +
+            " " +
+            arrproId[9]
+          }`} data-react-helmet="true" />
 
         <meta
           name="description"
@@ -1246,6 +1268,7 @@ time3.add(12, "minutes") */}
                           <div className="leftblock">
                             <div className="photosection">
                               {images.length > 1 ? (
+                                
                                 <EmblaCarousel
                                   pro_area_size={data.pro_area_size}
                                   pro_area_size_unit={data.pro_area_size_unit}
@@ -1790,6 +1813,7 @@ time3.add(12, "minutes") */}
                                     ""
                                   
                                   )} */}
+
 
                                     {propertyType1.map(
                                       (item) =>
