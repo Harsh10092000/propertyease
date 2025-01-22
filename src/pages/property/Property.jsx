@@ -656,7 +656,7 @@ const Property = () => {
   return (
     <div >
       <Helmet>
-{/* <title>{capitalizedName1}</title> */}
+<title>{capitalizedName1}</title>
       {/* <title>
           {`${
             arrproId[0] +
@@ -681,30 +681,11 @@ const Property = () => {
           }`}
         </title> */}
 
-        <meta name="title" content= {`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`} data-react-helmet="true" />
+       
 
         <meta
           name="description"
+           data-react-helmet="true"
           content={`Check out this ${
             arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
           }${arrproId[3] !== "for" ? arrproId[3] : ""}
@@ -736,11 +717,13 @@ const Property = () => {
           }`}
         />
         <meta
+        data-react-helmet="true"
           property="og:image"
           content="https://api.propertyease.in/propertyImages/watermark/default.webp"
         />
 
         <meta
+        data-react-helmet="true"
           property="og:title"
           content={`${
             arrproId[0] +
@@ -765,6 +748,7 @@ const Property = () => {
           }`}
         />
         <meta
+        data-react-helmet="true"
           property="og:description"
           content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
