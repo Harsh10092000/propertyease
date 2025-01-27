@@ -383,6 +383,7 @@ const EditProperty = () => {
   }
 
   const removeImage = (item, index) => {
+    console.log("index : " , index);
     const newSelectedFiles = [...selectedFiles];
     newSelectedFiles.splice(index, 1);
     setSelectedFiles(newSelectedFiles);
@@ -1618,6 +1619,7 @@ const EditProperty = () => {
                               }}
                             />
                             <label
+                             style={{width: "97.5%"}}
                               htmlFor="file-1"
                               className="border py-4 mx-2 rounded-2 border-secondary"
                               onDragEnter={handleDrag}
@@ -1631,18 +1633,8 @@ const EditProperty = () => {
                                 <div className="border py-2 px-4">Browse</div>
                               </div>
                             </label>
+                           
                             {/* <div>
-                              {selectedFiles != null &&
-                              selectedFiles != undefined
-                                ? files.map((item) => (
-                                    <div className="ml-2">
-                                      <div>{item.name}</div>
-                                      <div></div>
-                                    </div>
-                                  ))
-                                : ""}
-                            </div> */}
-                            <div>
                               <div className="add-pro-img w-100 pb-3">
                                 {selectedFiles != null &&
                                 selectedFiles != undefined
@@ -1674,26 +1666,78 @@ const EditProperty = () => {
                                   : ""}
                               </div>
                             </div>
-                            {/* <div>
-                              {selectedFiles === null &&
-                              formatError === false &&
-                              fileSizeExceeded === false
-                                ? images.map((item) => (
-                                    <div className="ml-2">
-                                      <div>{item.img_link}</div>
-                                      <div></div>
-                                    </div>
-                                  ))
-                                : ""}
-                            </div> */}
+                            */}
+
+                <div className="property-file-wrapper-block mx-2 my-2">
+                              <div className="add-pro-img w-100">
+                                {selectedFiles != null &&
+                                selectedFiles != undefined
+                                  ? files.map((item, index) => (
+                                      <div className="pt-2 no-padding">
+                                        <div className="d-flex file-name-wrapper-1 justify-content-between">
+                                          <div className="file-name-1">
+                                            {item.name}
+                                          </div>
+                                          <div
+                                            className="pointer text-[#C4C5C8]"
+                                            onClick={() =>
+                                              removeImage(item, index)
+                                            }
+                                            title="Click to remove selected file"
+                                          >
+                                            <IconX height={16} width={16} />
+                                          </div>
+                                        </div>
+                                        <div className="text-danger text-danger-1">
+                                          {item.size >= 10000 &&
+                                          item.size <= 1000000 &&
+                                          item.type.match(pattern)
+                                            ? ""
+                                            : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
+                                        </div>
+                                      </div>
+                                    ))
+                                  : ""}
+                              </div>
+                            </div>
+                           
+                           {/* <div className="property-file-wrapper-block mx-2 my-2">
+  <div className="add-pro-img w-100">
+    {selectedFiles != null && selectedFiles !== undefined
+      ? files
+          .map((item, index) => {
+            const hasError = item.size < 10000 || item.size > 1000000 || !item.type.match(pattern);
+            
+            return {item, hasError};
+          })
+          .sort((a, b) => (a.hasError ? -1 : 1) - (b.hasError ? -1 : 1))
+          .map((item, index) => (
+            <div className="pt-2 no-padding" key={index}>
+              {console.log(item)}
+              <div className="d-flex file-name-wrapper-1 justify-content-between">
+                <div className="file-name-1">{item.item.name}</div>
+                <div
+                  className="pointer text-[#C4C5C8]"
+                  onClick={() => removeImage(item.item, index)}
+                  title="Click to remove selected file"
+                >
+                  <IconX height={16} width={16} />
+                </div>
+              </div>
+              <div className="text-danger text-danger-1">
+                {item.hasError
+                  ? "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"
+                  : ""}
+              </div>
+            </div>
+          ))
+      : ""}
+  </div>
+</div> */}
+
 
                             <div>
-                              {console.log(
-                                "images : ",
-                                selectedFiles,
-                                formatError,
-                                fileSizeExceeded
-                              )}
+                             
                               <div className="add-pro-img w-100 pb-3">
                                 {selectedFiles === null
                                   ? images.map((item, index) => (
@@ -1702,13 +1746,7 @@ const EditProperty = () => {
                                           <div className="file-name">
                                             {item.img_link}
                                           </div>
-                                          {/* <div
-                                          className="pointer text-[#C4C5C8]"
-                                          onClick={()=>removeImage1(index)}
-                                          title="Click to remove selected file"
-                                        >
-                                          <IconX />
-                                        </div> */}
+                                          
                                         </div>
                                       </div>
                                     ))
@@ -1716,12 +1754,7 @@ const EditProperty = () => {
                               </div>
                             </div>
 
-                            {/* <div className="text-danger ml-2">
-                              {formatError ? "Invalid Format" : ""}
-                              {fileSizeExceeded
-                                ? "File size must be greater than 10KB and less than 1MB"
-                                : ""}
-                            </div> */}
+                            
                           </div>
 
                           <div className="d-flex justify-content-between">

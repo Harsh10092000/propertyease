@@ -12931,8 +12931,6 @@ input[type="file"] {
   background-color:  #F5F7FB;
   padding: 10px 20px;
   border-radius: 5px;
-
-
 }
 
 .user-profile-form-wrapper .file-name {
@@ -14168,6 +14166,8 @@ left: 20px;
 
 }
 
+
+
 .ad-image .file-name {
   font-size: 18px;
   font-weight: 500;
@@ -14342,6 +14342,8 @@ left: 20px;
 
 
 }
+
+
 
 .add-pro-img .file-name {
   font-size: 18px;
@@ -17319,18 +17321,42 @@ display: flex;
   padding: 0px !important;
 }
 
-
+.th-width-2 {
+  width: 10%;
+}
 
 .th-width-1 {
   width: 70%;
 }
 
-.th-width-2 {
+.th-width-5 {
+  width: 5%;
+}
+
+.th-width-6 {
+  width: 6%;
+}
+
+.th-width-7 {
+  width: 7%;
+}
+
+.th-width-8 {
+  width: 8%;
+}
+
+.th-width-9 {
+  width: 9%;
+}
+
+.th-width-10 {
   width: 10%;
 }
 
+
+
 .th-width-11 {
-  width: 12%;
+  width: 11%;
 }
 
 .th-width-12 {
@@ -19190,3 +19216,32 @@ input.form-control.index-search::placeholder{
 }
 
 
+.add-pro-img .file-name-wrapper-1 {
+  background-color:  #F5F7FB;
+  padding: 6px 16px;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.add-pro-img .file-name-1 {
+  font-size: 13px;
+  font-weight: 500;
+  color: black;
+  padding-right: 5px;
+  
+}
+
+
+.text-danger-1 {
+  font-size: 10px;
+}
+
+.property-file-wrapper-block {
+  max-height: 120px;
+  overflow-y: scroll;
+}
+
+
+.no-padding:first-child {
+  padding-top: 0 !important;
+}

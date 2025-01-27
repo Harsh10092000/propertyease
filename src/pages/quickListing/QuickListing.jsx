@@ -1187,35 +1187,40 @@ const QuickListing = () => {
                     <div>Drop Property Images here</div>
                     <div className="py-1">Or</div>
                     <div className="border py-2 px-4">Browse</div>
+                   
                   </div>
                 </label>
-                <div>
-                  <div className="add-pro-img w-100 pb-3">
-                    {selectedFiles != null && selectedFiles != undefined
-                      ? files.map((item, index) => (
-                          <div className="pt-3">
-                            <div className="d-flex file-name-wrapper justify-content-between">
-                              <div className="file-name">{item.name}</div>
-                              <div
-                                className="pointer text-[#C4C5C8]"
-                                onClick={() => removeImage(item, index)}
-                                title="Click to remove selected file"
-                              >
-                                <IconX />
+                
+               
+                {selectedFiles != null && selectedFiles != undefined && selectedFiles.length !== 0 &&
+                  <div className="property-file-wrapper-block">
+                    <div className="add-pro-img w-100">
+                      {selectedFiles != null && selectedFiles != undefined
+                        ? files.map((item, index) => (
+                            <div className="pt-2 no-padding">
+                              <div className="d-flex file-name-wrapper-1 justify-content-between">
+                                <div className="file-name-1">{item.name}</div>
+                                <div
+                                  className="pointer text-[#C4C5C8]"
+                                  onClick={() => removeImage(item, index)}
+                                  title="Click to remove selected file"
+                                >
+                                  <IconX height={16} width={16} />
+                                </div>
+                              </div>
+                              <div className="text-danger text-danger-1">
+                                {item.size >= 10000 &&
+                                item.size <= 1000000 &&
+                                item.type.match(pattern)
+                                  ? ""
+                                  : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
                               </div>
                             </div>
-                            <div className="text-danger">
-                              {item.size >= 10000 &&
-                              item.size <= 1000000 &&
-                              item.type.match(pattern)
-                                ? ""
-                                : "File size must be greater than 10KB and less than 1MB, and file format should be .png, .jpg"}
-                            </div>
-                          </div>
-                        ))
-                      : ""}
+                          ))
+                        : ""}
+                    </div>
                   </div>
-                </div>
+                }
 
                 {/* <div className="text-danger ml-2 ">
                             {formatError ? "Invalid Format" : ""}
@@ -1224,6 +1229,7 @@ const QuickListing = () => {
                               : ""}
                           </div> */}
               </div>
+              
               <div
                 className=" w-30 mb-1 "
                 style={{
