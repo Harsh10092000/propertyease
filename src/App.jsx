@@ -71,7 +71,7 @@ import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
 import SendJwt from "./components/SendJwt";
 import PropertyByCity from "./pages/propertyByCity/PropertyByCity";
 
-//import ProPlanCouponForm from "./pages/proPlanCouponForm/ProPlanCouponForm"; 
+//import ProPlanCouponForm from "./pages/proPlanCouponForm/ProPlanCouponForm";
 //import ViewCoupons from "./pages/adminCoupons/ViewCoupons";
 //import EditProPlanCoupon from "./pages/editProPlanCoupon/EditProPlanCoupon";
 
@@ -87,43 +87,80 @@ import QuickListing from "./pages/quickListing/QuickListing";
 //import MailBox from "./pages/InviteUser/MailBox";
 
 import Disclaimer from "./pages/disclaimer/Disclaimer";
-import redirectionData from './components/Redirection.json';
+import redirectionData from "./components/Redirection.json";
+import ExpiredProperties from "./pages/expiredProperties/ExpiredProperties";
+import ListedProperties from "./pages/expiredProperties/ListedProperties";
+import DelistedProperties from "./pages/expiredProperties/DelistedProperties";
+import SoldOutProperties from "./pages/expiredProperties/SoldOutProperties";
 //import Watermark from "./pages/watermark/Watermark";
 //import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
 
-const Watermark = lazy(() => import('./pages/watermark/Watermark'));
-const WatermarkOthers = lazy(() => import('./pages/WatermarkOthers/WatermarkOthers'));
+const Watermark = lazy(() => import("./pages/watermark/Watermark"));
+const WatermarkOthers = lazy(() =>
+  import("./pages/WatermarkOthers/WatermarkOthers")
+);
 
-const UserDashboard = lazy(() => import('./pages/userdashboard/UserDashboard'));
-const UserInsights = lazy(() => import('./pages/userInsights/UserInsights'));
-const UserShortlisted = lazy(() => import('./pages/shortlisted/UserShortlisted'));
-const UserProfileForm = lazy(() => import('./pages/userProfileForm/UserProfileForm'));
-const UserdashboardProfile = lazy(() => import('./pages/userdashboardProfile/UserdashboardProfile'));
-const EditUserProfile = lazy(() => import('./pages/edituserProfile/EditUserProfile'));
-const InviteFromUser = lazy(() => import('./pages/InviteUser/InviteFromUser'));
-const UserSubscriptionPlans = lazy(() => import('./pages/userSubscriptionPlans/UserSubscriptionPlans'));
+const UserDashboard = lazy(() => import("./pages/userdashboard/UserDashboard"));
+const UserInsights = lazy(() => import("./pages/userInsights/UserInsights"));
+const UserShortlisted = lazy(() =>
+  import("./pages/shortlisted/UserShortlisted")
+);
+const UserProfileForm = lazy(() =>
+  import("./pages/userProfileForm/UserProfileForm")
+);
+const UserdashboardProfile = lazy(() =>
+  import("./pages/userdashboardProfile/UserdashboardProfile")
+);
+const EditUserProfile = lazy(() =>
+  import("./pages/edituserProfile/EditUserProfile")
+);
+const InviteFromUser = lazy(() => import("./pages/InviteUser/InviteFromUser"));
+const UserSubscriptionPlans = lazy(() =>
+  import("./pages/userSubscriptionPlans/UserSubscriptionPlans")
+);
 
-
-const AdminDashboard = lazy(() => import("./pages/adminDashboard/AdminDashboard"));
+const AdminDashboard = lazy(() =>
+  import("./pages/adminDashboard/AdminDashboard")
+);
 const AdminInterest = lazy(() => import("./pages/adminInterest/AdminInterest"));
 const AdminUsers = lazy(() => import("./pages/adminUsers/AdminUsers"));
-const AdminShortlisted = lazy(() => import("./pages/adminShortlisted/AdminShortlisted"));
-const AdminRequirement = lazy(() => import("./pages/adminRequirement/AdminRequirement"));
+const AdminShortlisted = lazy(() =>
+  import("./pages/adminShortlisted/AdminShortlisted")
+);
+const AdminRequirement = lazy(() =>
+  import("./pages/adminRequirement/AdminRequirement")
+);
 const AdsForm = lazy(() => import("./pages/adsForm/AdsForm"));
 const AdminAd = lazy(() => import("./pages/adminAd/AdminAd"));
 const EditAdsForm = lazy(() => import("./pages/editAds/EditAdsForm"));
-const PropertyPlanForm = lazy(() => import("./pages/propertyPlanForm/PropertyPlanForm"));
-const EditPropertyPlanForm = lazy(() => import("./pages/editPropertyPlanForm/EditPropertyPlanForm"));
-const AdminPropertyPlans = lazy(() => import("./pages/adminPropertyPlans/AdminPropertyPlans"));
+const PropertyPlanForm = lazy(() =>
+  import("./pages/propertyPlanForm/PropertyPlanForm")
+);
+const EditPropertyPlanForm = lazy(() =>
+  import("./pages/editPropertyPlanForm/EditPropertyPlanForm")
+);
+const AdminPropertyPlans = lazy(() =>
+  import("./pages/adminPropertyPlans/AdminPropertyPlans")
+);
 const AdminCityMaps = lazy(() => import("./pages/adminCityMaps/AdminCityMaps"));
 const EditCityMaps = lazy(() => import("./pages/editCityMaps/EditCityMaps"));
-const AdminProPlanTran = lazy(() => import("./pages/adminProPlanTran/AdminProPlanTran"));
+const AdminProPlanTran = lazy(() =>
+  import("./pages/adminProPlanTran/AdminProPlanTran")
+);
 const ViewCoupons = lazy(() => import("./pages/adminCoupons/ViewCoupons"));
-const EditProPlanCoupon = lazy(() => import("./pages/editProPlanCoupon/EditProPlanCoupon"));
+const EditProPlanCoupon = lazy(() =>
+  import("./pages/editProPlanCoupon/EditProPlanCoupon")
+);
 const EmailSet = lazy(() => import("./pages/adminSettings/EmailSet"));
-const ChangePhoneNumber = lazy(() => import("./pages/adminSettings/ChangePhoneNumber"));
-const EmailBoardcast = lazy(() => import("./pages/adminSettings/EmailBoardcast"));
-const ProPlanCouponForm = lazy(() => import("./pages/proPlanCouponForm/ProPlanCouponForm"));
+const ChangePhoneNumber = lazy(() =>
+  import("./pages/adminSettings/ChangePhoneNumber")
+);
+const EmailBoardcast = lazy(() =>
+  import("./pages/adminSettings/EmailBoardcast")
+);
+const ProPlanCouponForm = lazy(() =>
+  import("./pages/proPlanCouponForm/ProPlanCouponForm")
+);
 const MailBox = lazy(() => import("./pages/InviteUser/MailBox"));
 
 const AddProperty = lazy(() => import("./pages/addProperty/AddProperty"));
@@ -137,7 +174,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-
 const App = () => {
   const { currentUser } = useContext(AuthContext);
   const { admin } = useContext(AdminContext);
@@ -147,9 +183,6 @@ const App = () => {
     }
     return children;
   };
-
-
-
 
   const Unprotected = ({ children }) => {
     if (currentUser) {
@@ -170,12 +203,10 @@ const App = () => {
     return children;
   };
 
-
   const redirections = redirectionData.map((item, index) => ({
-    path: item.old_url, 
-    element: <Navigate key={index} to={item.new_url} />
+    path: item.old_url,
+    element: <Navigate key={index} to={item.new_url} />,
   }));
-  
 
   const router = createBrowserRouter([
     {
@@ -198,7 +229,7 @@ const App = () => {
       path: "/disclaimer",
       element: <Disclaimer />,
     },
-    
+
     {
       path: "/login",
       element: (
@@ -212,7 +243,6 @@ const App = () => {
       element: <Listing />,
     },
 
-    
     {
       path: "/contactus",
 
@@ -232,8 +262,6 @@ const App = () => {
         </>
       ),
     },
-
-   
 
     {
       path: "/about",
@@ -266,7 +294,7 @@ const App = () => {
       path: "/user",
       element: (
         <ProtectedRoute>
-            <User />
+          <User />
         </ProtectedRoute>
       ),
       children: [
@@ -276,6 +304,42 @@ const App = () => {
             <Suspense fallback={<div>Loading...</div>}>
               <SendJwt />
               <UserDashboard />
+            </Suspense>
+          ),
+        },
+        {
+          path: "expired-properties",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <SendJwt />
+              <ExpiredProperties />
+            </Suspense>
+          ),
+        },
+        {
+          path: "delisted-properties",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <SendJwt />
+              <DelistedProperties />
+            </Suspense>
+          ),
+        },
+        {
+          path: "listed-properties",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <SendJwt />
+              <ListedProperties />
+            </Suspense>
+          ),
+        },
+        {
+          path: "sold-properties",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <SendJwt />
+              <SoldOutProperties />
             </Suspense>
           ),
         },
@@ -357,9 +421,9 @@ const App = () => {
       path: "addproperty",
       element: (
         <>
-         <Suspense >
-          <ScrollToTop />
-          <AddProperty />
+          <Suspense>
+            <ScrollToTop />
+            <AddProperty />
           </Suspense>
         </>
       ),
@@ -372,8 +436,8 @@ const App = () => {
       path: "/rental/:cat",
       element: <Rent />,
     },
-  
-     {
+
+    {
       path: "/quick-list",
       element: <QuickListing />,
     },
@@ -386,18 +450,18 @@ const App = () => {
 
       element: (
         <>
-        {currentUser ? (
-        <>
-        <Suspense>
-          <SendJwt />
-          <ScrollToTop />
-          <EditProperty />
-          </Suspense>
+          {currentUser ? (
+            <>
+              <Suspense>
+                <SendJwt />
+                <ScrollToTop />
+                <EditProperty />
+              </Suspense>
+            </>
+          ) : (
+            <Navigate to="/login" />
+          )}
         </>
-        ) :
-<Navigate to="/login" />
-      }
-      </>
       ),
     },
     {
@@ -603,8 +667,6 @@ const App = () => {
             </Suspense>
           ),
         },
-        
-        
       ],
     },
     {
@@ -622,7 +684,12 @@ const App = () => {
     },
     {
       path: "/watermark",
-      element: ( <Suspense fallback={<div>Loading...</div>}> <Watermark /> </Suspense>) ,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {" "}
+          <Watermark />{" "}
+        </Suspense>
+      ),
     },
     {
       path: "/agentProfile/:userId",
@@ -645,7 +712,12 @@ const App = () => {
 
     {
       path: "/watermark2",
-      element: ( <Suspense fallback={<div>Loading...</div>}> <WatermarkOthers /> </Suspense>) ,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {" "}
+          <WatermarkOthers />{" "}
+        </Suspense>
+      ),
     },
     {
       path: "/agentList",
@@ -657,12 +729,12 @@ const App = () => {
     },
     {
       path: "/properties/:adType/:proType",
-      element: 
-      (<>
-      <ScrollToTop />
-      <PropertyByCity />
-      </>
-    ),
+      element: (
+        <>
+          <ScrollToTop />
+          <PropertyByCity />
+        </>
+      ),
     },
     {
       path: "/citymap/:city",
@@ -683,9 +755,7 @@ const App = () => {
       ),
     },
   ]);
-  return (
-      <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

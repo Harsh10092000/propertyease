@@ -1,9 +1,8 @@
-import { lazy } from "react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import Loader from "../../components/loader/Loader";
-import "./UserDashboard.css";
+import "../userdashboard/UserDashboard.css";
 import moment from "moment";
 import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
 import DashTable from "../../components/userDasboardComp/DashTable";
@@ -19,11 +18,8 @@ import {
 } from "@tabler/icons-react";
 import { Checkbox, Snackbar, Dialog, DialogActions, DialogContent, DialogTitle, Button, Skeleton,DialogContentText  } from "@mui/material";
 
-//const DashUpperBody = lazy(() => import("../../components/userDasboardComp/DashTbody"));
-//const DashTable = lazy(() => import("../../components/userDasboardComp/DashTable"));
 
-
-const UserDashboard = () => {
+const ExpiredProperties = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
   const lastIndex = currentPage * recordsPerPage;
@@ -53,7 +49,7 @@ const UserDashboard = () => {
     axios
       .get(
         import.meta.env.VITE_BACKEND +
-          `/api/pro/fetchPropertyDataByUserId1/${currentUser[0].login_id}`
+          `/api/pro/fetchExpiredPropertyData/${currentUser[0].login_id}`
       )
       .then((res) => {
         if (res.data === "failed") {
@@ -104,35 +100,6 @@ const UserDashboard = () => {
 
   const [filterChange, setFilterChange] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
-
-  // useEffect(() => {
-  //   setFilteredData(
-  //     data
-  //       .filter((code) => {
-  //         if (filter === "Listed Properties") {
-  //           return code.pro_listed === 1 || code.pro_listed === null;
-  //         } else if (filter === "Delisted Properties") {
-  //           return code.pro_listed == 0;
-  //         } else if (filter === "All") {
-  //           return true;
-  //         }
-  //       })
-  //       .filter(
-  //         (code) =>
-  //           code.pro_locality
-  //             .toLowerCase()
-  //             .includes(searchValue.toLowerCase()) ||
-  //           code.pro_sub_district
-  //             .toLowerCase()
-  //             .includes(searchValue.toLowerCase()) ||
-  //           code.pro_pincode.startsWith(searchValue) ||
-  //           code.pro_modified_id.toString().startsWith(searchValue) ||
-  //           code.pro_city.toLowerCase().includes(searchValue.toLowerCase()) ||
-  //           code.pro_state.toLowerCase().startsWith(searchValue.toLowerCase())
-  //       )
-  //   );
-  // }, [filterChange, data]);
-
 
   useEffect(() => {
     setFilteredData(
@@ -247,8 +214,7 @@ const UserDashboard = () => {
 
   const listMultipleProperty = async (list_status) => {
     setLoader(true);
-    // proListingStatus.pro_listed = 1;
-    // proListingStatus.pro_id = listingids;
+    
     await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateProListingMultipleStatus",
       { pro_listed: list_status, listingids: listingids }
@@ -274,8 +240,7 @@ const UserDashboard = () => {
 
   const updateMultipleSaleStatus = async (sale_status) => {
     setLoader(true);
-    // proListingStatus.pro_listed = 1;
-    // proListingStatus.pro_id = listingids;
+    
     await axios.put(
       import.meta.env.VITE_BACKEND + "/api/pro/updateMultipleSaleStatus",
       { sale_status: sale_status, listingids: listingids }
@@ -288,14 +253,10 @@ const UserDashboard = () => {
   const handleCheckboxChange = (itemProId) => {
     setListingids((prevState) => {
       if (prevState.includes(itemProId)) {
-        // If the ID is already in the array, remove it
-        // setAllSelected(false);
+       
         return prevState.filter((id) => id !== itemProId);
       } else {
-        // Otherwise, add the ID to the array
-        // if(listingids.length === data.length) {
-        //   setAllSelected(true);
-        // }
+        
         return [...prevState, itemProId];
       }
     });
@@ -353,13 +314,7 @@ const UserDashboard = () => {
   ];
 
   const tbodyArray = [
-    // {
-    //   value: `<Checkbox
-    //   size="small"
-    //   checked={listingids.includes(item.pro_id)}
-    //   onClick={() => handleCheckboxChange(item.pro_id)}
-    // />`,
-    // },
+    
     {
       type: "checkbox",
       condition: "checkbox",
@@ -393,18 +348,7 @@ const UserDashboard = () => {
     },
     { type: "conditional", condition: "status" },
     { type: "conditionalRemark", condition: "pro_pincode"  },
-    // {
-    //   type: "conditional2",
-    //   condition: "status",
-    //   icon: (
-    //     <FontAwesomeIcon
-    //       icon={faPencilAlt}
-    //       className="action-edit-icon "
-    //       title="Edit property"
-    //     />
-    //   ),
-    //   to: "/editProperty",
-    // },
+    
 
     {
       type: "conditional2",
@@ -415,13 +359,7 @@ const UserDashboard = () => {
           icon: (
             <IconEye className="action-edit-icon " height={19} width={19} />
           ),
-          // icon: (
-          //   <FontAwesomeIcon
-          //     icon={faEye}
-          //     className="action-edit-icon "
-          //     title="View property"
-          //   />
-          // ),
+          
           to: "/",
           customClass: "action_status_btn mr-2",
           tagType: "Link",
@@ -430,13 +368,7 @@ const UserDashboard = () => {
         {
           type: "link",
           condition: "edit_btn",
-          // icon: (
-          //   <FontAwesomeIcon
-          //     icon={faPencilAlt}
-          //     className="action-edit-icon "
-          //     title="Edit property"
-          //   />
-          // ),
+          
           icon: (
             <IconEdit className="action-edit-icon " height={19} width={19} />
           ),
@@ -501,53 +433,6 @@ const UserDashboard = () => {
       ],
     },
 
-    //   {type: "conditional-btns-links",
-    //     conditons: [
-
-    //   {
-
-    //     type: "link",
-    //     condition: "edit_btn",
-    //     icon: (
-    //       <FontAwesomeIcon
-    //         icon={faPencilAlt}
-    //         className="font-awe-icon-edit "
-    //         title="Edit property"
-    //       />
-    //     ),
-    //     to: "/editProperty",
-    //     customClass: "dash-edit-btn mr-2",
-    //   },
-    //   {
-    //     type: "link",
-    //     condition: "view_btn",
-    //     icon: (
-    //       <FontAwesomeIcon
-    //         icon={faEye}
-    //         className="font-awe-icon-delete "
-    //         title="View property"
-    //       />
-    //     ),
-    //     to: "/",
-    //     customClass: "dash-edit-btn mr-2",
-    //   },
-
-    //   {
-    //     type: "button",
-    //     delisttitle: "Click to Dislist your property",
-    //     listtitle: "Click to List your property",
-    //     condition: "list_delist_btn",
-    //     classdelist: "btn btn-danger btn-sm vbtn",
-    //     classlist: "btn btn-success btn-sm vbtn",
-    //     displayVal1: "List Again",
-    //     displayVal2: "Delist",
-    //     checkval: "pro_listed",
-    //     cond1: 1,
-    //     cond2: null,
-    //   },
-    // ]
-    // }
-    // {value: `Actions`},
   ];
 
 
@@ -713,7 +598,6 @@ const UserDashboard = () => {
         <div className="col-lg-3 align-self-center mb-3 mb-lg-0 d-flex align-items-center">
           {/* <div className="d-flex align-items-center flex-row flex-wrap"> */}
           <div className="position-relative mr-3">
-            {/* <img src="https://mannatthemes.com/rizz/default/assets/images/users/avatar-7.jpg" alt="" height="120" className="rounded-circle" /> */}
 
             <img
               src="/img/person.jpg"
@@ -722,16 +606,7 @@ const UserDashboard = () => {
               width="70"
               className="rounded-circle"
             />
-            {/* {agentData.agent_image ? (
-                                <img
-                                  src={`${
-                                    import.meta.env.VITE_BACKEND
-                                  }/userImages/${agentData.agent_image}`}
-                                  alt="img"
-                                />
-                              ) : (
-                                <img src="/img/person.jpg" />
-                              )} */}
+
           </div>
           <div className="info-card-name">
             <h5 className="fw-semibold name-font-size mb-1">
@@ -778,72 +653,7 @@ const UserDashboard = () => {
               </div>
             </div>
 
-            {/* {parseInt(listingiInLast30[0]?.plan_status) !== 1 &&
-              parseInt(listingiInLast30[0]?.plan_status) !== 2 && (
-                <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-3 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
-                  <div className="info-card-icon-wrapper">
-                    <div className="info-card-icon">
-                      <IconInnerShadowTopLeft />
-                    </div>
-                  </div>
-                  <div>
-                    <h5 className="fw-semibold fs-22 mb-0 mt-1 info-heading-color">
-                      {5 - parseInt(listingiInLast30[0]?.pro_count)}
-                    </h5>
-                    <div className="d-flex justify-content-between">
-                      <p className="text-muted mb-0 fw-medium">
-                        Listing Remaining
-                      </p>
-
-                      <div className="info-popup ml-2">
-                        <IconInfoSquareRounded
-                          className="pointer"
-                          onClick={() =>
-                            setOpenInfoCard((prevState) => !prevState)
-                          }
-                        />
-                        {openInfoCard && (
-                          <div ref={dropdownRef} className="info-popup-card">
-                            <p>
-                              You have{" "}
-                              {5 - parseInt(listingiInLast30[0]?.pro_count)}{" "}
-                              more property listings available until
-                              <span>
-                                {" " +
-                                  moment(listingiInLast30[0].pro_creation_date)
-                                    .add(30, "days")
-                                    .format("MMMM DD YYYY")}
-                              </span>
-                              . Upgrade to a Pro membership for unlimited
-                              listings and enhanced features.
-                            </p>
-
-                           
-
-                            <div>
-                              <Link
-                                to="/pricing"
-                                class="package-purchase-button"
-                              >
-                                Upgrade
-                              </Link>
-                              <a
-                                href="#"
-                                class="package-purchase-button-close"
-                                onClick={() => setOpenInfoCard(false)}
-                              >
-                                Close
-                              </a>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                 
-                </div>
-              )} */}
+            
             <div className="col-md-3 dashborad-info-card dashborad-info-card-bg-4 border-dashed rounded border-theme-color info-card-sec mr-2 flex-grow-1 flex-basis-0">
               <div className="info-card-icon-wrapper">
                 <div className="info-card-icon">
@@ -860,44 +670,9 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        {/* <div className="col-lg-2 align-self-center">
-            {/* <div className="row row-cols-2"> *
-             
-              <div className="col align-self-center">
-                {/* <button
-                  type="button"
-                  className="btn btn-primary  d-inline-block"
-                >
-                  Follow
-                </button>
-                <button type="button" className="btn btn-light  d-inline-block">
-                  Hire Me
-                </button> *
-                <a class="user__profile--menu__link position-relative" href="#">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    data-lucide="gem"
-                    class="lucide lucide-gem inline-block size-4 ltr:mr-2 rtl:ml-2"
-                  >
-                    <path d="M6 3h12l4 6-10 13L2 9Z"></path>
-                    <path d="M11 3 8 9l4 13 4-13-3-6"></path>
-                    <path d="M2 9h20"></path>
-                  </svg>{" "}
-                  Upgrade <span class="profile__upgrade--badge">Pro</span>{" "}
-                </a>
-              </div>
-            /* </div> *
-          </div> */}
+        
       </div>
-      {/* )} */}
+
 
       <DashUpperBody
         data={data}
@@ -915,7 +690,7 @@ const UserDashboard = () => {
         filterOptions={filterOptions}
         selectedActions={selectedActions}
         filterAva={true}
-        selectedActionsAva={false} // for selected items
+        selectedActionsAva={false}
         searchAva={true}
         updateMultipleSaleStatus={updateMultipleSaleStatus}
       />
@@ -945,4 +720,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default ExpiredProperties;

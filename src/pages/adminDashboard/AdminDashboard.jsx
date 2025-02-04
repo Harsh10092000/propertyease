@@ -279,12 +279,13 @@ const AdminDashboard = () => {
     { value: "User" },
     { value: "Property Type" },
     
-    { value: "Posted On", customClass: "th-width-2" },
+    { value: "Posted On", customClass: "th-width-6" },
+    { value: "Expired On", customClass: "th-width-6" },
     { value: "Status" },
     { value: "Email" },
     { value: "Phone" },
     { value: "Address" },
-    { value: "Actions", customClass: "th-width-2" },
+    { value: "Actions/Manage" },
   ];
 
   
@@ -323,6 +324,11 @@ const AdminDashboard = () => {
       value: "pro_creation_date",
       //transform: (date) => moment(date).format("MMMM DD YYYY"),
       transform: (date) => moment(date).format("DD MMM, YY"),
+    },
+    {
+        value: "pro_renew_date",
+        //transform: (date) => moment(date).format("MMMM DD YYYY"),
+        transform: (date) => moment(date).format("DD MMM, YY"),
     },
     { type: "conditional", condition: "status" },
     { value: "login_email" },

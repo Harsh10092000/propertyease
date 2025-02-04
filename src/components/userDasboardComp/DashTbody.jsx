@@ -17,6 +17,8 @@ import {
 import DashThead from "./DashThead";
 import axios from "axios";
 import { ShowPrice } from "../HelperComponents";
+import moment from "moment";
+import RenewProperty from "../../pages/userdashboard/RenewProperty";
 
 const renderComplexContent = (item) => {
   return (
@@ -194,9 +196,120 @@ const renderConditionalRemark = (
   openAttReq,
   handleShowResDataId,
   showDataId,
-  resDataPopUpRef
+  resDataPopUpRef,
+  openRenewPopup,
+  handleOpenRenewPopup,
+  handleChange,
+  change
 ) => {
-  return item.pro_pincode ? (
+  const renewDate = moment(item.pro_renew_date);
+  const currentDate = moment();
+  const differenceInDays = renewDate.diff(currentDate, "days");
+
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => {
+  //     setOpen(true);
+  // }
+  // const handleClose = () => {
+  //     setOpen(false);
+  // }
+
+  return differenceInDays <= 0 ? (
+    <div
+      ref={resDataPopUpRef}
+      className="pointer"
+      onClick={() => {
+        showDataId == item.pro_id
+          ? (handleAttentionReq(false), handleShowResDataId(""))
+          : (handleAttentionReq(true), handleShowResDataId(item.pro_id));
+      }}
+    >
+      {/* {console.log("differenceInDays : " , differenceInDays)} */}
+      <div
+        className="action-required"
+        title="Attention! Your property listing has expired. Click 'Renew Now' to relist it and continue showcasing your property."
+      >
+        <IconAlertCircle height={24} width={24} className="circle pulse mr-1" />
+        Action Required
+      </div>
+
+      {openAttReq && showDataId === item.pro_id && (
+        <div className="att-req-popup">
+          Attention! Your property listing has expired. Click 'Renew Now' to
+          relist it and continue showcasing your property.
+          {/* <Link to={`${"/editProperty"}/${item.pro_url}`}> */}
+          <div
+            className="edit-property"
+            //onClick={() => handleOpenRenewPopup(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenRenewPopup(true);
+            }}
+          >
+            Renew Now
+          </div>
+          {/* </Link> */}
+        </div>
+      )}
+
+      {openRenewPopup === true && (
+        <RenewProperty
+          openRenewPopup={openRenewPopup}
+          handleOpenRenewPopup={handleOpenRenewPopup}
+          item={item}
+          handleChange={handleChange}
+          change={change}
+        />
+      )}
+    </div>
+  ) : differenceInDays <= 2 && differenceInDays > 0 ? (
+    <div
+      ref={resDataPopUpRef}
+      className="pointer"
+      onClick={() => {
+        showDataId == item.pro_id
+          ? (handleAttentionReq(false), handleShowResDataId(""))
+          : (handleAttentionReq(true), handleShowResDataId(item.pro_id));
+      }}
+    >
+     
+      <div
+        className="action-required"
+        title="Attention! Your property listing has expired. Click 'Renew Now' to relist it and continue showcasing your property."
+      >
+        <IconAlertCircle height={24} width={24} className="circle pulse mr-1" />
+        Action Required
+      </div>
+
+      {openAttReq && showDataId === item.pro_id && (
+        <div className="att-req-popup">
+          Attention! Your property listing is expiring soon. Click 'Renew Now' to keep it active and continue showcasing your property.
+          {/* <Link to={`${"/editProperty"}/${item.pro_url}`}> */}
+          <div
+            className="edit-property"
+            //onClick={() => handleOpenRenewPopup(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenRenewPopup(true);
+            }}
+          >
+            Renew Now
+          </div>
+          {/* </Link> */}
+        </div>
+      )}
+
+      {openRenewPopup === true && (
+        <RenewProperty
+          openRenewPopup={openRenewPopup}
+          handleOpenRenewPopup={handleOpenRenewPopup}
+          item={item}
+          handleChange={handleChange}
+          change={change}
+        />
+      )}
+    </div>
+  ) : item.pro_pincode ? (
     "-"
   ) : (
     <div
@@ -215,6 +328,7 @@ const renderConditionalRemark = (
         <IconAlertCircle height={24} width={24} className="circle pulse mr-1" />
         Action Required
       </div>
+
       {openAttReq && showDataId === item.pro_id && (
         <div className="att-req-popup">
           Attention! To ensure your property stands out and captures the
@@ -225,6 +339,27 @@ const renderConditionalRemark = (
           </Link>
         </div>
       )}
+
+      {/* {openAttReq && showDataId === item.pro_id && (
+  <div className="att-req-popup">
+    {differenceInDays <= 0 ? (
+      <>
+      Attention! Your property listing has expired. Click 'Renew Now' to relist it and continue showcasing your property.
+      <Link to={`${"/editProperty"}/${item.pro_url}`}>
+        <div className="edit-property">Renew Property</div>
+      </Link>
+    </>
+    ) : (
+      <>
+      Attention! To ensure your property stands out and captures the interest of the right buyers or renters, it's essential to complete your listing.
+      <Link to={`${"/editProperty"}/${item.pro_url}`}>
+        <div className="edit-property">Edit Property</div>
+      </Link>
+    </>
+     
+    )}
+  </div>
+)} */}
     </div>
   );
 };
@@ -245,21 +380,30 @@ const renderConditional = (
 ) => {
   switch (condition) {
     case "status":
-      return item.pro_sale_status === 0 ? (
+      const renewDate = moment(item.pro_renew_date);
+      const currentDate = moment();
+      const differenceInDays = renewDate.diff(currentDate, "days");
+
+      return differenceInDays <= 0 ? (
+        <span className="current-status-blue">Expired</span>
+      ) : differenceInDays < 3 && differenceInDays > 0 ? (
+        <span className="current-status-blue">Expiring</span>
+      ) : item.pro_sale_status === 0 ? (
         item.pro_listed === 1 || item.pro_listed === null ? (
           <span className="current-status-green">Listed</span>
         ) : (
           <span className="current-status-red">Delisted</span>
         )
       ) : (
-        <span className="current-status-blue ">Sold Out</span>
+        <span className="current-status-blue">Sold Out</span>
       );
+
     case "property_type":
       return item.pro_type?.split(",")[0];
     // case "property_price":
     //   return item.pro_amt ? `${item.pro_amt} ${item.pro_amt_unit}` : "-";
     case "property_price":
-      return item.pro_amt ? ShowPrice(item.pro_ad_type,item.pro_amt) : "-";
+      return item.pro_amt ? ShowPrice(item.pro_ad_type, item.pro_amt) : "-";
     // case "property_date":
     //   return FormatDate(item.pro_date);
     case "property_title":
@@ -286,154 +430,6 @@ const renderConditional = (
       return null;
   }
 };
-
-// const dropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus) => {
-//   const [open, setOpen] = useState(false);
-//   const dropdownRef = useRef(null);
-//   const handleClickOutside = (event) => {
-//     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-//       setOpen(false);
-//     }
-//   };
-//   useEffect(() => {
-//     document.addEventListener("mousedown", handleClickOutside);
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, []);
-//   return (
-//     <>
-//       <div ref={dropdownRef} className="action-dropdown-wrapper">
-//         {item.pro_sale_status !== 1 ?
-//         <span
-//           onClick={() => setOpen(!open)}
-//           className="action-dropdown arrow-down"
-//         >
-//           Actions
-//         </span>
-//         :
-//         <span
-//         onClick={() => setOpen(!open)}
-//         className="action-dropdown-blocked"
-//       >
-//         Sold Out
-//       </span> }
-//         {open && item.pro_sale_status !== 1 && (
-//           <div className="action-menu">
-//             {property.conditions.map((cond, index) =>
-//               cond.condition === "edit_btn" ? (
-//                 <div className="action-btn" ><Link className={cond.customClass} title={cond.title} to={`${cond.to}/${item.pro_url}`}  >{cond.icon} Edit</Link></div>
-//               ) : cond.condition === "view_btn" ? (
-//                 <div className="action-btn" ><a className={cond.customClass} title={cond.title} target="_blank" href={`/${item.pro_url}`} >{cond.icon} View</a></div>
-//               ) : cond.condition === "listing_status" ? (
-//                 <div className="action-btn" >{item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
-//                   <button
-//                     title={cond.delisttitle}
-//                     className={cond.classdelist}
-//                     onClick={() => handleClickOpen(item)}
-//                   >
-//                    {cond.icon2} {cond.displayVal2}
-//                   </button>
-//                 ) : (
-//                   <button
-//                     title={cond.listtitle}
-//                     className={cond.classlist}
-//                     onClick={() => listProperty(item)}
-//                   >
-//                    {cond.icon1} {cond.displayVal1}
-//                   </button>
-//                 )}</div>
-//               ) : cond.condition === "sale_status" ? (
-//                 <div className="action-btn" ><button
-//                 title={cond.title}
-//                 className={cond.customClass}
-//                 onClick={() => updateSaleStatus(item)}
-//               >
-//                {cond.icon} Mark As Sold
-//               </button></div>
-//               ) : (
-//                 ""
-//               )
-//             )}
-//           </div>
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// const dropdownButtons = (item, property, handleClickOpen, listProperty, updateSaleStatus, open, handleOpenMenu, dropdownRef) => {
-//   const handleClickOutside = (event) => {
-//     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-//       handleOpenMenu(false);
-//     }
-//   };
-//   useEffect(() => {
-//     document.addEventListener("mousedown", handleClickOutside);
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, []);
-//   return (
-
-//       <div ref={dropdownRef} className="action-dropdown-wrapper">
-//         {item.pro_sale_status !== 1 ?
-//         <span
-//           onClick={() => handleOpenMenu(!open)}
-//           className="action-dropdown arrow-down"
-//         >
-//           Actions
-//         </span>
-//         :
-//         <span
-
-//         className="action-dropdown-blocked"
-//       >
-//         Sold Out
-//       </span> }
-//         {open && item.pro_sale_status !== 1 && (
-//           <div className="action-menu">
-//             {property.conditions.map((cond) =>
-//               cond.condition === "edit_btn" ? (
-//                 <div className="action-btn" ><Link className={cond.customClass} title={cond.title} to={`${cond.to}/${item.pro_url}`}  >{cond.icon} Edit</Link></div>
-//               ) : cond.condition === "view_btn" ? (
-//                 <div className="action-btn" ><a className={cond.customClass} title={cond.title} target="_blank" href={`/${item.pro_url}`} >{cond.icon} View</a></div>
-//               ) : cond.condition === "listing_status" ? (
-//                 <div className="action-btn" >{item[cond.checkval] === cond.cond1 || item[cond.checkval] === cond.cond2 ? (
-//                   <button
-//                     title={cond.delisttitle}
-//                     className={cond.classdelist}
-//                     onClick={() => handleClickOpen(item)}
-//                   >
-//                    {cond.icon2} {cond.displayVal2}
-//                   </button>
-//                 ) : (
-//                   <button
-//                     title={cond.listtitle}
-//                     className={cond.classlist}
-//                     onClick={() => listProperty(item)}
-//                   >
-//                    {cond.icon1} {cond.displayVal1}
-//                   </button>
-//                 )}</div>
-//               ) : cond.condition === "sale_status" ? (
-//                 <div className="action-btn" ><button
-//                 title={cond.title}
-//                 className={cond.customClass}
-//                 onClick={() => updateSaleStatus(item)}
-//               >
-//                {cond.icon} Mark As Sold
-//               </button></div>
-//               ) : (
-//                 ""
-//               )
-//             )}
-//           </div>
-//          )}
-//       </div>
-
-//   );
-// };
 
 const renderConditionalLink = (item, condition, icon, to, customClass) => {
   switch (condition) {
@@ -568,6 +564,10 @@ const DropdownMenu = ({
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
+  const renewDate = moment(item.pro_renew_date);
+  const currentDate = moment();
+  const differenceInDays = renewDate.diff(currentDate, "days");
+
   return (
     <div ref={dropdownRef} className="action-dropdown-wrapper">
       {/* {item.pro_sale_status !== 1 ? ( */}
@@ -608,6 +608,32 @@ const DropdownMenu = ({
                 );
               }
               if (cond.condition === "listing_status") {
+                if(differenceInDays <= 0) {
+                  return (
+                    <div key={index} className="action-btn">
+                    {item[cond.checkval] === cond.cond1 ||
+                    item[cond.checkval] === cond.cond2 ? (
+                      <button
+                        title={cond.delisttitle}
+                        className={cond.classdelist}
+                        onClick={() => handleClickOpen(item)}
+                        disabled
+                      >
+                        {cond.icon2} {cond.displayVal2}
+                      </button>
+                    ) : (
+                      <button
+                        title={cond.listtitle}
+                        className={cond.classlist}
+                        onClick={() => listProperty(item)}
+                        disabled
+                      >
+                        {cond.icon1} {cond.displayVal1}
+                      </button>
+                    )}
+                  </div>
+                  )
+                } else {
                 return (
                   <div key={index} className="action-btn">
                     {item[cond.checkval] === cond.cond1 ||
@@ -630,6 +656,7 @@ const DropdownMenu = ({
                     )}
                   </div>
                 );
+              }
               }
               if (cond.condition === "sale_status") {
                 return (
@@ -711,10 +738,11 @@ const DashTbody = ({
   handleClickOpen,
   listProperty,
   updateSaleStatus,
+  handleChange,
+  change,
 }) => {
   // const [open, setOpen] = useState(false);
   // const dropdownRef = useRef(null);
-
   // const handleOpenMenu = (value) => {
   //   setOpen(value);
   // }
@@ -801,6 +829,10 @@ const DashTbody = ({
     };
   }, []);
 
+  const [openRenewPopup, setOpenRenewPopup] = useState(false);
+  const handleOpenRenewPopup = (val) => {
+    setOpenRenewPopup(val);
+  };
   return (
     <tbody className="text-black">
       {compData.map((item, index) => (
@@ -831,7 +863,11 @@ const DashTbody = ({
                       openAttReq,
                       handleShowResDataId,
                       showDataId,
-                      resDataPopUpRef
+                      resDataPopUpRef,
+                      openRenewPopup,
+                      handleOpenRenewPopup,
+                      handleChange,
+                      change
                     )
                   : property.type === "checkbox"
                   ? renderConditionalCheckbox(

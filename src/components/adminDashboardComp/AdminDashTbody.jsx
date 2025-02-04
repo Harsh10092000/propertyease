@@ -13,6 +13,7 @@ import { IconCaretDown, IconMenuDeep } from "@tabler/icons-react";
 import { faHeading } from "@fortawesome/free-solid-svg-icons";
 import AdminDashNavbar from "./AdminDashNavbar";
 import { ShowPrice } from "../HelperComponents";
+import moment from "moment";
 
 const renderComplexContent = (item) => {
   return (
@@ -33,7 +34,12 @@ const renderComplexContent = (item) => {
 const renderConditional = (item, condition, transform) => {
   switch (condition) {
     case "status":
-      return item.pro_sale_status === 0 ? (
+      const renewDate = moment(item.pro_renew_date);
+      const currentDate = moment();
+      const differenceInDays = renewDate.diff(currentDate, "days");
+      return differenceInDays <= 0 ? (
+        <span className="current-status-blue">Expired</span>
+      ) : item.pro_sale_status === 0 ? (
         item.pro_listed === 1 || item.pro_listed === null ? (
           <span className="current-status-green">Listed</span>
         ) : (

@@ -379,7 +379,10 @@ import {
   IconHomePlus,
   
   IconBuildingSkyscraper,
-  IconUsers
+  IconUsers,
+  IconList,
+  IconListCheck,
+  IconHome
 } from "@tabler/icons-react";
 import {
   IconBuilding,
@@ -403,6 +406,8 @@ import "./User.css";
 import Navbar from "../../components/navbar/Navbar";
 import { IconChecklist } from "@tabler/icons-react";
 import { IconReportAnalytics } from "@tabler/icons-react";
+import { IconHomeCheck } from "@tabler/icons-react";
+import { IconPlaylistX } from "@tabler/icons-react";
 
 const User = () => {
   const navigate = useNavigate();
@@ -464,7 +469,34 @@ const User = () => {
     {
       icon: <IconBuilding className="sidebar-faicon" />,
       name: "My Listed Properties",
-      linkto: "/user/dashboard",
+      linkto: null,
+      subItems: [
+        {
+          icon: <IconHome className="sidebar-faicon" />,
+          name: "All Properties",
+          linkto: "/user/dashboard",
+        },
+        {
+          icon: <IconListCheck className="sidebar-faicon" />,
+          name: "Listed Properties",
+          linkto: "/user/listed-properties",
+        },
+        {
+          icon: <IconList className="sidebar-faicon" />,
+          name: "Delisted Properties",
+          linkto: "/user/delisted-properties",
+        },
+        {
+          icon: <IconPlaylistX className="sidebar-faicon" />,
+          name: "Expired Properties",
+          linkto: "/user/expired-properties",
+        },
+        {
+          icon: <IconHomeCheck className="sidebar-faicon" />,
+          name: "Sold Properties",
+          linkto: "/user/sold-properties",
+        },
+      ],
     },
     
 

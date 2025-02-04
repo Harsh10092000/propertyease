@@ -61,6 +61,8 @@ const AllProperties = (props) => {
   }
 
 
+
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue1, setSearchValue1] = useState("");
 
