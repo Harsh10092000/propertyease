@@ -697,10 +697,9 @@ const Property = () => {
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
         />
- <Helmet>
-<meta name="author" content="Propertyease" />
+        <meta name="author" content="Propertyease" />
 
-      <script type="application/ld+json">
+        <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
         </script>
         <meta
@@ -717,13 +716,13 @@ const Property = () => {
           }`}
         />
         <meta
-        data-react-helmet="true"
+       // data-react-helmet="true"
           property="og:image"
           content="https://api.propertyease.in/propertyImages/watermark/default.webp"
         />
 
         <meta
-        data-react-helmet="true"
+        //data-react-helmet="true"
           property="og:title"
           content={`${
             arrproId[0] +
@@ -748,7 +747,7 @@ const Property = () => {
           }`}
         />
         <meta
-        data-react-helmet="true"
+       // data-react-helmet="true"
           property="og:description"
           content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance.
 "
@@ -757,6 +756,11 @@ const Property = () => {
           rel="canonical"
           href={`https://propertyease.in/${id}`}
         ></link>
+
+ <Helmet>
+
+
+      
 
         <meta
           name="twitter:description"
