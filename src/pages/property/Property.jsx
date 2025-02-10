@@ -655,9 +655,9 @@ const Property = () => {
 
   return (
     <div >
-      <Helmet>
-{/* <title>{capitalizedName1}</title> */}
-      <title>
+     
+ <title>{capitalizedName1}</title> 
+      {/* <title>
           {`${
             arrproId[0] +
             " " +
@@ -679,13 +679,13 @@ const Property = () => {
             " " +
             arrproId[9]
           }`}
-        </title>
+        </title> */}
 
        
 
         <meta
           name="description"
-           data-react-helmet="true"
+           //data-react-helmet="true"
           content={`Check out this ${
             arrproId[0] + " " + arrproId[1] + " " + arrproId[2] + " "
           }${arrproId[3] !== "for" ? arrproId[3] : ""}
@@ -697,7 +697,7 @@ const Property = () => {
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
         />
-
+ <Helmet>
 <meta name="author" content="Propertyease" />
 
       <script type="application/ld+json">
