@@ -708,20 +708,28 @@ const Property = () => {
             data !== undefined && data.pro_state
           }  `}
         />
+
+{/* <meta name="description" content={post.excerpt} /> */}
+
+      <meta property="og:title" content={capitalizedName1} />
+
+      <meta property="og:image" content="https://api.propertyease.in/propertyImages/watermark/default.webp" />
+
         <meta property="og:type" content="website" />
+
         <meta
           property="og:url"
           content={`https://propertyease.in/${
             id
           }`}
         />
-        <meta
+        {/* <meta
        // data-react-helmet="true"
           property="og:image"
           content="https://api.propertyease.in/propertyImages/watermark/default.webp"
-        />
+        /> */}
 
-        <meta
+        {/* <meta
         //data-react-helmet="true"
           property="og:title"
           content={`${
@@ -745,7 +753,7 @@ const Property = () => {
             " " +
             arrproId[9]
           }`}
-        />
+        /> */}
         <meta
        // data-react-helmet="true"
           property="og:description"
