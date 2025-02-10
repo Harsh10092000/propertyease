@@ -656,8 +656,8 @@ const Property = () => {
   return (
     <div >
       <Helmet>
-<title>{capitalizedName1}</title>
-      {/* <title>
+{/* <title>{capitalizedName1}</title> */}
+      <title>
           {`${
             arrproId[0] +
             " " +
@@ -679,7 +679,7 @@ const Property = () => {
             " " +
             arrproId[9]
           }`}
-        </title> */}
+        </title>
 
        
 
