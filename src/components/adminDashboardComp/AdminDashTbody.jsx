@@ -37,7 +37,8 @@ const renderConditional = (item, condition, transform) => {
       const renewDate = moment(item.pro_renew_date);
       const currentDate = moment();
       const differenceInDays = renewDate.diff(currentDate, "days");
-      return differenceInDays <= 0 ? (
+      // console.log(renewDate , currentDate, differenceInDays);
+      return differenceInDays <= -1 ? (
         <span className="current-status-blue">Expired</span>
       ) : item.pro_sale_status === 0 ? (
         item.pro_listed === 1 || item.pro_listed === null ? (
