@@ -720,6 +720,11 @@ const QuickListing = () => {
               <br />
             </p>
           </div>
+          <form 
+          //autocomplete="off"
+          >
+
+
           <div className="flex-col-sm mainDiv">
             <div className="pro_flex m-1 mt-3 d-flex">
               <div className="w-50 m-1">
@@ -1258,13 +1263,19 @@ const QuickListing = () => {
                   InputProps={{
                     rows: 6,
                   }}
+                  // onChange={(e) =>
+                  //   setPropertyData({
+                  //     ...propertyData,
+                  //     pro_desc: e.target.value.replace(
+                  //       /[^0-9A-Z a-z , . //\n]/g,
+                  //       ""
+                  //     ),
+                  //   })
+                  // }
                   onChange={(e) =>
                     setPropertyData({
                       ...propertyData,
-                      pro_desc: e.target.value.replace(
-                        /[^0-9A-Z a-z , . //\n]/g,
-                        ""
-                      ),
+                      pro_desc: e.target.value
                     })
                   }
                 />
@@ -1345,6 +1356,7 @@ const QuickListing = () => {
               </button>
             </div>
           </div>
+          </form>
         </div>
       </div>
       <Footer />

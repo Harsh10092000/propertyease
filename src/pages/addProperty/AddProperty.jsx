@@ -2119,13 +2119,19 @@ const AddProperty = () => {
                             InputProps={{
                               rows: 5,
                             }}
+                            // onChange={(e) =>
+                            //   setPropertyData({
+                            //     ...propertyData,
+                            //     pro_desc: e.target.value.replace(
+                            //       /[^0-9A-Z a-z , . //\n]/g,
+                            //       ""
+                            //     ),
+                            //   })
+                            // }
                             onChange={(e) =>
                               setPropertyData({
                                 ...propertyData,
-                                pro_desc: e.target.value.replace(
-                                  /[^0-9A-Z a-z , . //\n]/g,
-                                  ""
-                                ),
+                                pro_desc: e.target.value
                               })
                             }
                           />

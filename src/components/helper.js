@@ -7,7 +7,7 @@ export const priceFormat = (val) => {
       lakh_number.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
-      }) + " Lac"
+      }) + " Lacs"
     );
   } else {
     const crore_number = val / 10000000;
@@ -15,7 +15,7 @@ export const priceFormat = (val) => {
         crore_number.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
-      }) + " Crore"
+      }) + " Crores"
     );
   }
 };
