@@ -184,11 +184,11 @@ const AdminPropertyPlans = () => {
 
 
   const theadArray = [
-    {
-      value: (
-        <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
-      ),
-    },
+    // {
+    //   value: (
+    //     <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
+    //   ),
+    // },
     { value: "Sno." },
     { value: "Plan Id" },
     { value: "Plan Name" },
@@ -221,13 +221,13 @@ const AdminPropertyPlans = () => {
     //   onClick={() => handleCheckboxChange(item.pro_id)}
     // />`,
     // },
-    {
-      type: "checkbox",
-      condition: "checkbox",
-      checkcond: "listingids",
-      checkval: "pro_id",
-      size: "small",
-    },
+    // {
+    //   type: "checkbox",
+    //   condition: "checkbox",
+    //   checkcond: "listingids",
+    //   checkval: "pro_id",
+    //   size: "small",
+    // },
     { value: "serial_no" },
     { value: "pro_plan_id", transform: (id) => 7000 + parseInt(id) },
     // { type: "pro_id", value: "pro_id", id: 5000 },

@@ -264,12 +264,12 @@ const AdminProPlanTran = () => {
         //filterChange={filterChange}
         //selectedAction={selectedAction}
         //listMultipleProperty={listMultipleProperty}
-        heading={"Property Listing Plans"}
+        heading={"All Tranactions"}
         //filterOptions={filterOptions}
         //selectedActions={selectedActions}
         filterAva={false}
         selectedActionsAva={false}
-        searchAva={true}
+        searchAva={false}
       />
 
 

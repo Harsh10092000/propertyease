@@ -14,6 +14,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import moment from 'moment';
+import { AdminDashUpperBody } from '../../components/adminDashboardComp/AdminDashTbody';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ViewCoupons = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,19 +48,7 @@ const ViewCoupons = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("All");
   const filteredData = data
-    // .filter((code) => {
-    //   if (filter === "all_properties_ad_1") {
-    //     return code.ad_type === "all_properties_ad_1";
-    //   } else if (filter === "all_properties_ad_2") {
-    //     return code.ad_type === "all_properties_ad_2";
-    //   } else if (filter === "property_page_ad_1") {
-    //     return code.ad_type === "property_page_ad_1";
-    //   } else if (filter === "property_page_ad_2") {
-    //     return code.ad_type === "property_page_ad_2";
-    //   } else if (filter === "All") {
-    //     return true;
-    //   }
-    // })
+
     .filter(
       (code) =>
         code.coupon_name.toLowerCase().startsWith(searchValue.toLowerCase()) ||
@@ -115,7 +106,7 @@ const ViewCoupons = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid admin-dashboard admin-icon">
     {loader ? <Loader /> : ""}
     <Snackbar
       ContentProps={{
@@ -130,8 +121,29 @@ const ViewCoupons = () => {
       onClose={() => setSnack(false)}
       message={"Deleted Successfully"}
     />
-    <div className="card-body table-border-style">
-      <h1>All Property Listing Plans</h1>
+
+    <AdminDashUpperBody
+            data={data}
+            //handleCurreentPage={handleCurreentPage}
+            //filter={filter}
+            //listingids={listingids}
+            //handleFilterChange={handleFilterChange}
+            //handleFilterChangeprop={handleFilterChangeprop}
+            //handleSearchValue={handleSearchValue}
+            //handleSelectedAction={handleSelectedAction}
+            //filterChange={filterChange}
+            //selectedAction={selectedAction}
+            //listMultipleProperty={listMultipleProperty}
+            heading={"All Coupons"}
+            //filterOptions={filterOptions}
+            //selectedActions={selectedActions}
+            filterAva={false}
+            selectedActionsAva={false}
+            searchAva={false}
+          />
+
+    {/* <div className="card-body table-border-style"> */}
+      {/* <h1>All Property Listing Plans</h1>
       <div className="row justify-content-between align-items-center my-2">
         <Pagination
           count={nPages}
@@ -140,36 +152,7 @@ const ViewCoupons = () => {
           className="col-md-6"
         />
         <div className="col-md-6 d-flex justify-content-end">
-          {/* <FormControl
-            sx={{ m: 1, width: ["100%"] }}
-            size="small"
-            className="col-md-3 "
-          >
-            <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={filter}
-              label="Filter By"
-              onChange={(e) => {
-                setFilter(e.target.value), setCurrentPage(1);
-              }}
-            >
-              <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"all_properties_ad_1"}>
-                Property Page Ad 1
-              </MenuItem>
-              <MenuItem value={"all_properties_ad_2"}>
-                All Properties Ad 2
-              </MenuItem>
-              <MenuItem value={"property_page_ad_1"}>
-                Property Page Ad 1
-              </MenuItem>
-              <MenuItem value={"property_page_ad_2"}>
-                Property Page Ad 2
-              </MenuItem>
-            </Select>
-          </FormControl> */}
+         
           <TextField
             variant="outlined"
             className="col-md-5 mt-2"
@@ -182,13 +165,19 @@ const ViewCoupons = () => {
             }}
           />
         </div>
-      </div>
+      </div> */}
+
+<div class="wg-box">
+    <div className="card-body table-border-style table-text-infor">
       <div className="table-responsive">
         <table className="table table-hover">
+
+    
           <thead>
             <tr>
               <th>Sno.</th>
               <th>Coupon Id</th>
+              <th>Coupon Code</th>
               <th>Coupon Name</th>
               <th>Coupon Amount</th>
               <th>Coupon Valid From</th>
@@ -204,6 +193,7 @@ const ViewCoupons = () => {
                 
                 <td>{item.serial_no}</td>
                 <td>{16650 + parseInt(item.coupon_id)}</td>
+                <td>{item.coupon_code}</td>
                 <td>{item.coupon_name}</td>
                 <td>{item.coupon_amt}</td>
                 
@@ -241,20 +231,28 @@ const ViewCoupons = () => {
                   )}
 
                   
-                  <Link to={"/admin/editproplancoupon/" + item.coupon_id}>
-                    <button title="Edit Your Coupon" className="view">
+                  <Link title="Edit Your Coupon"  to={"/admin/editproplancoupon/" + item.coupon_id} className="dash-edit-btn font-awe-icon-edit">
+                   
                       {/* <Link to={"/edit/" + item.pro_id}> */}
 
-                      <IconEdit className="" />
-                    </button>
+                    <FontAwesomeIcon
+                              icon={faPencilAlt}
+                              className="font-awe-icon-edit"
+                              title="Edit property"
+                            />
+                    
                   </Link>
                   
                   <button
-                    className="del"
+                    className="del shortlist-delete-btn"
                     title="Delete"
                     onClick={() => deleteCoupon(item.coupon_id)}
                   >
-                    <IconTrashFilled />
+                    <FontAwesomeIcon
+                             icon={faTrashCan}
+                             className="font-awe-icon-delete "
+                             delisttitle="Delete Property"
+                           />
                   </button>
 
                 </td>
@@ -264,7 +262,9 @@ const ViewCoupons = () => {
         </table>
       </div>
     </div>
-  </div>
+    </div>
+    </div>
+  // </div>
   )
 }
 

@@ -104,7 +104,7 @@ const AdminCityMaps = () => {
         message={"Deleted Successfully"}
       />
       <div className="card-body table-border-style">
-        <h1>All Property Listing Plans</h1>
+        <h1>All Maps</h1>
         <div className="row justify-content-between align-items-center my-2">
           <Pagination
             count={nPages}
