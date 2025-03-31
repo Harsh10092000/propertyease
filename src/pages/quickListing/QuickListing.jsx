@@ -605,7 +605,7 @@ const QuickListing = () => {
     <></>
   )
 ) : (
-  <div>not login</div>
+  <></>
 )}
 
        
