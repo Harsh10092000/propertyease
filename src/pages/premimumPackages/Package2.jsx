@@ -3,15 +3,13 @@ import { IconCheckbox } from "@tabler/icons-react";
 import "./package.css";
 import { TextField } from "@mui/material";
 import axios from "axios";
-import Navbar from "../../components/navbar/Navbar";
-import Footer from "../../components/footer/Footer";
 import { AuthContext } from "../../context/AuthContext";
 import { Helmet } from "react-helmet";
 import PaymentSucess from "../paymentSuccess/PaymentSucess";
 import Loader from "../../components/loader/Loader";
 
-const Package1 = () => {
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+const Package2 = ({handlePaymnetStatus}) => {
+ 
   const [orderId, setOrderId] = useState("");
   const [paymentId, setPaymentId] = useState("");
   const [paymentAmt, setPaymentAmt] = useState("");
@@ -25,7 +23,7 @@ const Package1 = () => {
   const [couponAmt, setCouponAmt] = useState("");
   const [planId, setPlanId] = useState("");
   const [proListingPlan, setProListingPlan] = useState([]);
-  const [loader, setLoader] = useState(false);
+  const [loader3, setLoader3] = useState(false);
 
   // useEffect(() => {
   //   axios
@@ -83,7 +81,7 @@ const Package1 = () => {
 
   const checkoutHandler = async (item, couponAmt, planId) => {
     const couponAmt1 = item.pro_plan_id !== planId ? 0 : couponAmt;
-    setLoader(true);
+    setLoader3(true);
 
     // const planData = {
     //   user_id: currentUser[0].login_id,
@@ -103,7 +101,7 @@ const Package1 = () => {
         { amount }
       );
 
-      setLoader(false);
+      setLoader3(false);
       const orderId = response.data.id;
 
       const options = {
@@ -149,13 +147,14 @@ const Package1 = () => {
             item.pro_plan_amt - (item.pro_plan_amt * Math.abs(couponAmt1)) / 100
           );
           setPaymentId(response.razorpay_payment_id);
-          setLoader(true);
+          setLoader3(true);
           await axios.post(
             import.meta.env.VITE_BACKEND + "/api/pay/paymentVerification",
             data
           );
-          setLoader(false);
-          setPaymentSuccessful(true);
+          setLoader3(false);
+          //setPaymentSuccessful(true);
+          handlePaymnetStatus(true);
         },
       };
 
@@ -170,12 +169,12 @@ const Package1 = () => {
       //   };
       //   console.log("failedPaymentData : " , failedPaymentData);
       //   try {
-      //     setLoader(true);
+      //     setLoader3(true);
       //     await axios.post(
       //       import.meta.env.VITE_BACKEND + "/api/proplan/buyProPlan",
       //       failedPaymentData
       //     );
-      //     setLoader(false);
+      //     setLoader3(false);
       //     setErrorMessage(`Payment Failed: ${response.error.description}`);
       //   } catch (error) {
       //     console.error("Failed to record payment failure:", error);
@@ -217,17 +216,11 @@ const Package1 = () => {
 
     } catch (error) {
       console.error("Error creating order:", error);
-      setLoader(false);
+      setLoader3(false);
       setErrorMessage("Failed to initiate payment. Please try again.");
     }
   };
 
-
-
-  const handleChange = () => {
-    setPaymentSuccessful(false);
-    setErrorMessage(null);
-  };
 
   return (
     <>
@@ -235,18 +228,18 @@ const Package1 = () => {
         <script defer src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       </Helmet>
-      <Navbar />
-      {loader && <Loader />}
-      {paymentSuccessful && (
+
+      {loader3 && <Loader />}
+      {/* {paymentSuccessful && (
         <PaymentSucess
           orderId={orderId}
           paymentAmt={paymentAmt}
           paymentId={paymentId}
           handleChange={handleChange}
         />
-      )}
+      )} */}
 
-      <div className="container">
+     
         <div className="row">
           <div className="col-md-12">
             <section className="price_plan_area section_padding_130_80" id="pricing">
@@ -316,7 +309,7 @@ const Package1 = () => {
                           <button
                             className="btn btn-info btn-2 w-100"
                             onClick={() => handleBuy(item, couponAmt, planId)}
-                            disabled={loader}
+                            disabled={loader3}
                           >
                             Pay Securely
                           </button>
@@ -375,10 +368,10 @@ const Package1 = () => {
             </section>
           </div>
         </div>
-      </div>
-      <Footer />
+
+
     </>
   );
 };
 
-export default Package1;
+export default Package2;

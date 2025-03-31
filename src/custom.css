@@ -18814,10 +18814,12 @@ input:-webkit-autofill:active{
     z-index: 9;
     padding: 11px;
     width: 220px;
+    right: 15px;
 }
 
 tr:nth-last-child(1) .att-req-popup, tr:nth-last-child(2) .att-req-popup  {
-    top: -100px;
+  top: -105px;
+  right: 16px;
 }
 
 .att-req-popup .edit-property {

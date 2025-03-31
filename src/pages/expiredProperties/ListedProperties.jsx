@@ -297,8 +297,8 @@ const ListedProperties = () => {
         />
       ),
     },
-    { value: "Sno." },
-    { value: "Property Id" },
+    // { value: "Sno." },
+    { value: "propertyease Id" },
 
     { value: "Property Type" },
     { value: "Sale/Rent" },
@@ -309,8 +309,9 @@ const ListedProperties = () => {
     // { value: "Property Title", customClass: "th-width-16" },
     { value: "Responses and Views", customClass: "th-width-10" },
     { value: "Status" },
-    { value: "Remarks", customClass: "th-width-12" },
+   
     { value: "Actions", customClass: "th-width-10" },
+    { value: "Remarks", customClass: "th-width-12" },
   ];
 
   const tbodyArray = [
@@ -322,7 +323,7 @@ const ListedProperties = () => {
       checkval: "pro_id",
       size: "small",
     },
-    { value: "serial_no" },
+    // { value: "serial_no" },
     { value: "pro_id", transform: (id) => 5000 + parseInt(id) },
     // { type: "pro_id", value: "pro_id", id: 5000 },
 
@@ -347,7 +348,7 @@ const ListedProperties = () => {
       totalResponses: { totalResponses },
     },
     { type: "conditional", condition: "status" },
-    { type: "conditionalRemark", condition: "pro_pincode"  },
+   
     
 
     {
@@ -432,7 +433,7 @@ const ListedProperties = () => {
         },
       ],
     },
-
+    { type: "conditionalRemark", condition: "pro_pincode"  },
   ];
 
 

@@ -3,9 +3,19 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Snackbar } from "@mui/material";
 import Loader from "../../components/loader/Loader";
-import moment from "moment";
-import { DashUpperBody } from "../../components/userDasboardComp/DashTbody";
-import DashTable from "../../components/userDasboardComp/DashTable";
+import UserNav from "../../components/userWrapper/UserNav";
+import UserFilterSerach, {
+  UserFilterDesgin,
+} from "../../components/userWrapper/UserFilterSerach";
+import UserTableStructure from "../../components/userWrapper/UserTableStructure";
+import UserTableHead from "../../components/userWrapper/UserTableHead";
+import UserTableBody from "../../components/userWrapper/UserTableBody";
+import { TransformDate } from "../../components/userWrapper/TransformTernary";
+import PlanStatus, {
+  AdminGranted,
+  NoActivePlan,
+  PlanExpired,
+} from "../../components/userWrapper/PlanStatus";
 
 const UserSubscriptionPlans = () => {
   const { currentUser, clearUser } = useContext(AuthContext);
@@ -21,6 +31,7 @@ const UserSubscriptionPlans = () => {
   const [filter, setFilter] = useState("All");
   const [data, setData] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [activePlanData, setActivePlanData] = useState([]);
   useEffect(() => {
     axios
       .get(
@@ -38,6 +49,19 @@ const UserSubscriptionPlans = () => {
           setDataLoaded(true);
         }
       });
+
+    axios
+      .get(
+        import.meta.env.VITE_BACKEND +
+          `/api/proplan/fetchCurrentPlanDataById/${currentUser[0].login_id}`
+      )
+      .then((res) => {
+        if (res.data === "failed") {
+          clearUser();
+        } else {
+          setActivePlanData(res.data);
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -51,28 +75,25 @@ const UserSubscriptionPlans = () => {
 
   useEffect(() => {
     setFilteredData(
-      data
-        .filter((code) => {
-          if (filter === "Active") {
-            return (
-              parseInt(code.plan_status) === 1 ||
-              parseInt(code.plan_status) === 2
-            );
-          } else if (filter === "Expired") {
-            return (
-              (parseInt(code.plan_status) === 0 ||
-                parseInt(code.plan_status) === 3) &&
-              code.payment_status !== "Failed"
-            );
-          } else if (filter === "All") {
-            return true;
-          }
-        })
-        .filter(
-          (code) =>
-            code.tran_amt.toLowerCase().includes(searchValue.toLowerCase()) ||
-            code.tran_modified_id.toString().startsWith(searchValue)
-        )
+      data.filter((code) => {
+        if (filter === "Active") {
+          return (
+            parseInt(code.plan_status) === 1 || parseInt(code.plan_status) === 2
+          );
+        } else if (filter === "Expired") {
+          return (
+            (parseInt(code.plan_status) === 0 ||
+              parseInt(code.plan_status) === 3) &&
+            code.payment_status !== "Failed"
+          );
+        } else if (filter === "All") {
+          return true;
+        }
+      })
+      .filter((code) =>
+         //code.tran_amt.toLowerCase().includes(searchValue.toLowerCase()) ||
+         code.transaction_id.toLowerCase().toString().startsWith(searchValue.toLowerCase())
+       )
     );
   }, [filterChange, data]);
 
@@ -80,100 +101,27 @@ const UserSubscriptionPlans = () => {
   const nPages = Math.ceil(filteredData.length / recordsPerPage);
 
   const theadArray = [
+    // { value: "Transaction Id" },
+    // { value: "Plan Name" },
+    // { value: "Transaction Date" },
+    // { value: "Transaction Amount" },
+    // { value: "Plan Started On" },
+    // { value: "Plan Expired On" },
+    // { value: "Subscription Plan Status" },
+    // // { value: "Payment Id" , customClass: "th-width-2" },
+    // //{ value: "Order Id" },
+    // { value: "Payment Status" },
+
     { value: "SNo." },
-    { value: "Transaction Id" },
+    { value: "Tran Id" },
     { value: "Plan Name" },
-    { value: "Transaction Date" },
     { value: "Transaction Amount" },
     { value: "Plan Started On" },
     { value: "Plan Expired On" },
-    { value: "Subscription Plan Status" },
-    // { value: "Payment Id" , customClass: "th-width-2" },
-    //{ value: "Order Id" },
+    // { value: "Order Id" },
+    { value: "Payment Id" },
+    // { value: "Plan Status" },
     { value: "Payment Status" },
-  ];
-
-  const tbodyArray = [
-    { value: "serial_no" },
-    // { value: "tran_id", transform: (id) => 9000 + parseInt(id) },
-    { value: "tran_modified_id" },
-    { value: "plan_name" },
-    {
-      value: "tran_date",
-      transform: (date) => moment(date).format("MMMM DD YYYY"),
-    },
-    { value: "tran_amt" },
-
-    {
-      type: "conditional",
-      condition: "payment_status",
-      trueConditions: [
-        {
-          value: "list_plan_starts_on",
-          transform: (item) => {
-            return moment(item.list_plan_starts_on).format("MMMM DD YYYY");
-          },
-        },
-        {
-          value: "plan_end_date",
-          transform: (item) => {
-            const startDate = moment(item.list_plan_starts_on);
-            const endDate = startDate.add(
-              parseInt(item.list_plan_valid_for_days),
-              "days"
-            );
-            return parseInt(item.plan_status) === 1 ||
-              parseInt(item.plan_status) === 0
-              ? endDate.format("MMMM DD YYYY")
-              : "-";
-          },
-        },
-        // {
-        //   value: "plan_status",
-        //   transform: (status) => {
-        //     const statusMap =
-        //     {
-        //       1: "Active",
-        //       2: "Access Granted By Admin",
-        //       0: "Expired",
-
-        //     };
-        //     // const statusMap = {
-        //     //   1: { text: "Active", className: "current-status-green" },
-        //     //   2: { text: "Access Granted By Admin22", className: "current-status-green" },
-        //     //   0: { text: "Expired", className: "current-status-red" },
-        //     // };
-        //     return statusMap[parseInt(status.plan_status)] ||"Access Removed By Admin"
-        //   }
-        // }
-      ],
-      falseConditions: [
-        { value: "-", transform: () => "-" },
-        { value: "-", transform: () => "-" },
-        // { value: "-", transform: () => "-" }
-      ],
-    },
-    // { value: "payment_id" },
-    // { value: "order_id" },
-    {
-      type: "plan_status_cond",
-      statusMap: [
-        { value: 1, text: "Active", className: "current-status-green" },
-        {
-          value: 2,
-          text: "Access Granted By Admin",
-          className: "current-status-green",
-        },
-        { value: 0, text: "Expired", className: "current-status-red" },
-        {
-          value: 3,
-          text: "Access Removed By Admin",
-          className: "current-status-red",
-        },
-      ],
-    },
-
-    { value: "payment_status" },
   ];
 
   const handleCurreentPage = (value) => {
@@ -224,7 +172,47 @@ const UserSubscriptionPlans = () => {
         message={"Property Listed"}
       />
 
-      <DashUpperBody
+      <UserNav data={data?.length} heading={"My Transactions"}>
+        <UserFilterDesgin
+          filterOptions={filterOptions}
+          filter={filter}
+          filterChange={filterChange}
+          handleFilterChange={handleFilterChange}
+          handleCurreentPage={handleCurreentPage}
+          handleFilterChangeprop={handleFilterChangeprop}
+        />
+        <UserFilterSerach
+          handleCurreentPage={handleCurreentPage}
+          handleSearchValue={handleSearchValue}
+          handleFilterChangeprop={handleFilterChangeprop}
+          filterChange={filterChange}
+        />
+      </UserNav>
+{console.log("activePlanData : " , activePlanData)}
+      {activePlanData.length > 0 && ( activePlanData[0].is_lifetime_free === 1 ? (
+        <AdminGranted />
+      ) : activePlanData[0].login_plan_status === 0 ? (
+        <NoActivePlan />
+      ) : activePlanData[0].login_plan_status === 1 || activePlanData[0].login_plan_status === 2 ? (
+        <div class="wg-box">
+          <div className="card-body table-border-style table-text-infor">
+            <PlanStatus activePlanData={activePlanData} />
+          </div>
+        </div>
+      ) : activePlanData[0].login_plan_status === 3 ? (
+        <div class="wg-box">
+          <div className="card-body table-border-style table-text-infor">
+            <PlanExpired activePlanData={activePlanData} />
+          </div>
+        </div>
+      ) : (
+        <></>
+      ))}
+
+      {/* <NoActivePlan />
+        <AdminGranted /> */}
+
+      {/* <DashUpperBody
         data={data}
         handleCurreentPage={handleCurreentPage}
         filter={filter}
@@ -237,8 +225,33 @@ const UserSubscriptionPlans = () => {
         filterAva={true}
         selectedActionsAva={false}
         searchAva={true}
-      />
+      /> */}
 
+      <UserTableStructure
+        datalen={data?.length}
+        pagination={true}
+        nPages={nPages}
+        handleCurreentPage={handleCurreentPage}
+        recordsPerPage={recordsPerPage}
+      >
+        <UserTableHead theadArray={theadArray} />
+        <UserTableBody>
+          {records.map((item, index) => (
+            <tr key={index}>
+              <td>{item.serial_no}</td>
+              <td>{item.transaction_id}</td>
+              <td>{item.plan_name}</td>
+              <td>{item.transaction_amt}</td>
+              <td>{TransformDate(item.purchase_date)}</td>
+              <td>{TransformDate(item.expiry_date)}</td>
+              <td>{item.payment_id}</td>
+              <td>{item.payment_status}</td>
+            </tr>
+          ))}
+        </UserTableBody>
+      </UserTableStructure>
+
+      {/*     
       <DashTable
         theadArray={theadArray}
         tbodyArray={tbodyArray}
@@ -248,8 +261,7 @@ const UserSubscriptionPlans = () => {
         nPages={nPages}
         handleCurreentPage={handleCurreentPage}
         pagination={true}
-      />
-
+      /> */}
     </div>
   );
 };

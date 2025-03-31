@@ -1,13 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import Loader from "../../components/loader/Loader";
-import AdminDashTable from "../../components/adminDashboardComp/AdminDashTable";
-import { AdminDashUpperBody } from "../../components/adminDashboardComp/AdminDashTbody";
+import {
+  IconCircleCheck,
+  IconCircleMinus,
+  IconHome,
+  IconEye
+} from "@tabler/icons-react";
+import { TextField } from "@mui/material";
+import { AdminNav } from "../../components/adminWrapper/AdminNav";
+import AdminTableStructure from "../../components/adminWrapper/AdminTableStructure";
+import AdminTableHead from "../../components/adminWrapper/AdminTableHead";
+import AdminTableBody from "../../components/adminWrapper/AdminTableBody";
+import TransformTernary, {
+  TransformDate,
+  TransformId,
+  TransformNumber,
+  TransformPlanStatus,
+  TransformTranId,
+} from "../../components/adminWrapper/TransformTernary";
+import AdminDropdownDesgin from "../../components/adminWrapper/AdminDropdownDesgin";
+import {
+  AdminMenuBtnDesgin,
+  AdminMenuLinkDesgin,
+} from "../../components/adminWrapper/AdminMenuBtnLink";
 
-import moment from "moment";
-import {IconCircleCheck, IconCircleMinus, IconHome } from "@tabler/icons-react";
-import { IconEye } from "@tabler/icons-react";
 
 const AdminUsers = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,371 +85,143 @@ const AdminUsers = () => {
     //setSnack(true);
   };
 
-
-
-
-  
   const handleCurreentPage = (value) => {
     setCurrentPage(value);
   };
-  
-  
+
   const theadArray = [
-    // {
-    //   value: (
-    //     <Checkbox size="small" onClick={handleAllTypes} checked={allSelected} />
-    //   ),
-    // },
-    { value: "Sno." },
+    // { value: "Sno." },
     { value: "User Id" },
     { value: "User Type" },
     { value: "Email" },
     { value: "Phone" },
-    { value: "Reg. Date" , customClass: "th-width-2" },
-    
+    { value: "Reg. Date", customClass: "th-width-2" },
     { value: "Properties listed in last 30 Days", customClass: "th-width-10" },
-    // { value: "Properties Auto Inactive in", customClass: "th-width-10" },
     { value: "Transaction Id" },
     { value: "Plan Status" },
-    // { value: "Property Listing Access" },
     { value: "Actions", customClass: "th-width-12" },
   ];
 
-  
-  // const tbodyArray = [
-  //   {value: "pro_ad_type"},
-  //   {value: "pro_ad_type"},
-  // ]
-
-  function transformValue(val) {
-    if (val === null) {
-      return "30 Days";
-    }
-    if (val === "0") {
-      return "-";
-    }
-    if (val !== 0) {
-      return val + "Days";
-    }
-  }
-
-  const tbodyArray = [
-    // {
-    //   value: `<Checkbox
-    //   size="small"
-    //   checked={listingids.includes(item.pro_id)}
-    //   onClick={() => handleCheckboxChange(item.pro_id)}
-    // />`,
-    // },
-    // {
-    //   type: "checkbox",
-    //   condition: "checkbox",
-    //   checkcond: "listingids",
-    //   checkval: "pro_id",
-    //   size: "small",
-    // },
-    { value: "serial_no" },
-    { value: "login_id"},
-    // { type: "pro_id", value: "pro_id", id: 5000 },
-    {value: "agent_type", transform: (val) => val ? val : "-" },
-    { value: "login_email" },
-    {
-      value: "login_number",
-      transform: (val) => `+91 ${val}`,
-    },
-    {
-      value: "reg_date",
-      // transform: (date) => moment(date).format("MMMM DD YYYY"),
-      transform: (date) => moment(date).format("DD MMM, YY"),
-    },
-    
-    { value: "pro_count", transform: (val) => val ? val : "-"},
-    // { value: "pro_auto_inactive", transform: (val) => transformValue(val)},
-    { value: "tran_id", transform: (val) => val ? 9000 + val : "-"},
-
-    // {parseInt(item.plan_status) === 1
-    //   ? "Active"
-    //   : parseInt(item.plan_status) === 2
-    //   ? "Access Granted By Admin"
-    //   : parseInt(item.plan_status) === 3
-    //   ? "Access Remove By Admin"
-    //   : "-"}
-
-    // {
-    //   value: "plan_status",
-    //   transform: (val) => { 
-    //     const planStatusOptions = {
-    //       1 : "Active",
-    //       2 : "Access Granted By Admin",
-    //       3 : "Access Remove By Admin"
-    //     }
-    //    return val ? planStatusOptions[parseInt(val)] : "-" },
-    // },
-    { type: "plan_status"},
-    
-                  
-    // { type: "conditional", condition: "property_date" },
-    // { type: "conditional", condition: "property_title" },
-
-  //   {type: "conditional-btns-links",
-  //     conditons: [
-
-  //   {
-  //     type: "view_profile",
-  //     condition: "view_profile",
-  //     icon: <IconUserSearch />,
-  //     span: "View Profile",
-  //     to: "/",
-  //     customClass: "dash-edit-btn view_profile_btn mr-3",
-  //     transform: (val) => `/agentProfile/${val.login_id}`,
-      
-  //   },
-
-  //   {
-  //     type: "view_profile_pro",
-  //     condition: "view_profile",
-  //     icon: <IconHome />,
-  //     span: "View Properties",
-  //     to: "/",
-  //     customClass: "dash-edit-btn view_profile_pro_btn mr-3",
-  //     transform: (val) => `/view-properties/${val.login_id}`,
-  //   },
-
-  //   {
-  //     transform: (val1, val2 ) => { val1 == 5000 ? removeAccess(val2) : handleClick(val2) },
-  //     type: "view_profile_3",
-  //     //condition: "view_profile",
-  //     icon: <IconHome />,
-  //     to: "/",
-  //     customClass: "dash-edit-btn view_profile_btn_3 mr-3",
-  //     displayVal1: "Grant Access",
-  //     displayVal2: "Revoke Access",
-    
-  //   },
-
-  //   // {
-  //   //     type: "button",
-  //   //     delisttitle: "Remove Access",
-  //   //     listtitle: "Grant Access to List Property",
-  //   //     condition: "list_delist_btn",
-  //   //     classdelist: "btn btn-danger btn-sm vbtn",
-  //   //     classlist: "btn btn-success btn-sm vbtn",
-  //   //     displayVal1: "Grant Access to List Property",
-  //   //     displayVal2: "Remove Access",
-  //   //     checkval: "pro_listed",
-  //   //     cond1: 1,
-  //   //     cond2: null,
-  //   //   },
-  //   // {
-  //   //   type: "link",
-  //   //   condition: "view_btn",
-  //   //   icon: "View Profile",
-  //   //   to: "/",
-  //   //   customClass: "dash-edit-btn",
-  //   // },
-
-  //   // {
-  //   //   type: "button",
-  //   //   delisttitle: "Click to Dislist your property",
-  //   //   listtitle: "Click to List your property",
-  //   //   condition: "list_delist_btn",
-  //   //   classdelist: "btn btn-danger btn-sm vbtn",
-  //   //   classlist: "btn btn-success btn-sm vbtn",
-  //   //   displayVal1: "Grant Access to List Property",
-  //   //   displayVal2: "Remove Access",
-  //   //   checkval: "pro_listed",
-  //   //   cond1: 1,
-  //   //   cond2: null,
-  //   // },
-  // ]}
-
-    // {value: `Actions`},
-
-
-    {
-      type: "conditional2",
-      conditions: [
-       
-
-        {
-              type: "view_profile",
-              condition: "view_profile",
-              icon: <IconEye className="action-edit-icon " height={19} width={19} />,
-              span: "View Profile",
-              to: "/",
-              customClass: "action_status_btn mr-2",
-              transform: (val) => `/agentProfile/${val.login_id}`,
-              
-            },
-        
-            {
-              type: "view_profile",
-              condition: "view_profile",
-              icon: <IconHome className="action-edit-icon " height={19} width={19} />,
-              span: "View Properties",
-              to: "/",
-              customClass: "action_status_btn mr-2",
-              transform: (val) => `/view-properties/${val.login_id}`,
-            },
-
-            // {
-            //   type: "view_profile",
-            //   condition: "view_profile",
-            //   icon: <IconHome className="action-edit-icon " height={19} width={19} />,
-            //   span: "View Properties",
-            //   to: "/",
-            //   customClass: "action_status_btn mr-2",
-            //   transform: (val) => `/view-properties/${val.login_id}`,
-            // },
-
-
-            {
-              type: "view_profile_3",
-              condition: "view_profile_3",
-                  transform: (val1, val2 ) => { val1 == 5000 ? removeAccess(val2) : handleClick(val2) },
-                 
-                  icon1: <IconCircleCheck className="action-edit-icon " height={19} width={19} />,
-                  icon2: <IconCircleMinus className="action-edit-icon " height={19} width={19} />,
-                  to: "/",
-                  customClass: "action_status_btn mr-2",
-                  displayVal1: "Grant Access",
-                  displayVal2: "Revoke Access",
-                
-                },
-
-        // {
-        //   type: "link",
-        //   condition: "view_btn",
-        //   icon: <IconEye className="action-edit-icon " height={19} width={19} />,
-        //   // icon: (
-        //   //   <FontAwesomeIcon
-        //   //     icon={faEye}
-        //   //     className="action-edit-icon "
-        //   //     title="View property"
-        //   //   />
-        //   // ),
-        //   to: "/",
-        //   customClass: "action_status_btn mr-2",
-        //   tagType: "Link",
-        //   title:"View property"
-        // },
-
-        // {
-        //   condition: "listing_status",
-        //   delisttitle: "Click to Dislist your property",
-        //   listtitle: "Click to List your property",
-        //   icon1: <IconHome className="action-edit-icon " height={18} width={18} />,
-        //   icon2: <IconHomeOff className="action-edit-icon " height={18} width={18} />,
-        //   classdelist: "btn btn-sm vbtn action_status_btn",
-        //   classlist: "btn btn-sm vbtn action_status_btn",
-        //   displayVal1: "List Again",
-        //   displayVal2: "Delist",
-        //   checkval: "pro_listed",
-        //   cond1: 1,
-        //   cond2: null,
-        // },
-
-        // {
-        //   condition: "sale_status",
-        //   title: "Click to mark your property as sold",
-        //   icon: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
-        //   customClass: "btn btn-sm vbtn action_status_btn",
-        //   titleUnsold: "Click to mark your property as unsold",
-        //   icon2: <IconCheckbox className="action-edit-icon " height={18} width={18} />,
-        //   checkval: "pro_sale_status"
-         
-        // },
-
-        // {
-        //   type: "button",
-        //   condition: "delete_btn",
-        //   onClick: (object) => handleClickOpenDel(object.pro_id),
-        //   title: "Delete Property",
-        //   // icon: (
-        //   //   <FontAwesomeIcon
-        //   //     icon={faTrashCan}
-        //   //     className="font-awe-icon-delete "
-        //   //   />
-        //   // ),
-        //   icon: <IconTrash className="action-edit-icon " height={18} width={18} />,
-        //   to: "/",
-        //   customClass: "btn btn-sm vbtn action_status_btn ",
-        // },
-      ],
-    },
-
-  ];
- 
 
   return (
     <div className="container-fluid admin-dashboard admin-icon">
       {loader ? <Loader /> : ""}
-      {/* <div className="card-body table-border-style"> */}
-        {/* <h1>All Users</h1>
-        <div className="row justify-content-between align-items-center my-2">
-           <Pagination
-            count={nPages}
-            color="primary"
-            onChange={(e, value) => setCurrentPage(value)}
-            className="col-md-6"
-          /> 
-          <TextField
-            variant="outlined"
-            className="col-md-3 mx-4 mx-md-0 mt-3"
-            size="small"
-            label="Search for properties..."
-            value={searchValue}
-            onChange={(e) => {
-              setCurrentPage(1);
-              setSearchValue(e.target.value);
-            }}
-          />
-        </div> */}
-        
 
-        <AdminDashUpperBody
-        data={data}
-       handleCurreentPage={handleCurreentPage}
-       // filter={filter}
-        //listingids={listingids}
-       // handleFilterChange={handleFilterChange}
-        //handleFilterChangeprop={handleFilterChangeprop}
-        //handleSearchValue={handleSearchValue}
-        //handleSelectedAction={handleSelectedAction}
-        //filterChange={filterChange}
-        //selectedAction={selectedAction}
-        //listMultipleProperty={listMultipleProperty}
-        heading={"All Users"}
-        //filterOptions={filterOptions}
-        //selectedActions={selectedActions}
-        filterAva={false}
-        selectedActionsAva={false}
-        searchAva={true}
-      />
+      <AdminNav data={data?.length} heading={"All Users"}>
+        <TextField
+          variant="outlined"
+          className="col-md-5 mt-2"
+          size="small"
+          label="Search for Users"
+          value={searchValue}
+          onChange={(e) => {
+            setCurrentPage(1);
+            setSearchValue(e.target.value);
+          }}
+        />
+      </AdminNav>
 
-
-<AdminDashTable
-        theadArray={theadArray}
-        //handleAllTypes={handleAllTypes}
-        //allSelected={allSelected}
-        tbodyArray={tbodyArray}
-        compData={records}
-        //FormatDate={FormatDate}
-        //handleCheckboxChange={handleCheckboxChange}
-        //listingids={listingids}
-        //handleClickOpen={handleClickOpen}
-        //listProperty={listProperty}
-        context="dashboard"
-        //dataLoaded={dataLoaded}
+      <AdminTableStructure datalen={data?.length}
+        pagination={true}
         nPages={nPages}
         handleCurreentPage={handleCurreentPage}
-        pagination={true}
-      />
+        recordsPerPage={recordsPerPage}
+        >
+        <AdminTableHead theadArray={theadArray} />
+        <AdminTableBody>
+          {records.map((item, index) => (
+            <tr key={index}>
+              {/* <td>{item.serial_no}</td> */}
+              <td>{item.login_id}</td>
+              <td>{TransformTernary(item.agent_type)}</td>
+              <td>{item.login_email}</td>
+              <td>{TransformNumber(item.login_number)}</td>
+              <td>{TransformDate(item.reg_date)}</td>
+              <td>{TransformTernary(item.pro_count)}</td>
+              {/* <td>{item.is_lifetime_free == 0 && item.paid_listings_remaining > 0 ? item.active_plan_id : "-"}</td> */}
+              <td>
+                {TransformTranId(
+                  item.is_lifetime_free,
+                  item.plan_status,
+                  item.active_plan_id
+                )}
+              </td>
+             
+              <td>
+                {TransformPlanStatus(
+                  item.is_lifetime_free,
+                  item.plan_status
+                )}
+              </td>
+             
+              <td>
+                <AdminDropdownDesgin>
+                  <AdminMenuLinkDesgin
+                    className={"action_status_btn mr-2"}
+                    title={"View Profile"}
+                    to={`/agentProfile/${item.login_id}`}
+                    icon={
+                      <IconEye
+                        className="action-edit-icon "
+                        height={19}
+                        width={19}
+                      />
+                    }
+                    name={"View Profile"}
+                  />
+                  <AdminMenuLinkDesgin
+                    className={"action_status_btn mr-2"}
+                    title={"View Properties"}
+                    to={`/view-properties/${item.login_id}`}
+                    icon={
+                      <IconHome
+                        className="action-edit-icon "
+                        height={19}
+                        width={19}
+                      />
+                    }
+                    name={"View Properties"}
+                  />
+                  {item.is_lifetime_free === 0 ? (
+                    <AdminMenuBtnDesgin
+                      className={"action_status_btn mr-2"}
+                      title={"Grant Access"}
+                      onClickFun={() => handleClick(item.login_id)}
+                      icon={
+                        <IconCircleCheck
+                          className="action-edit-icon "
+                          height={19}
+                          width={19}
+                        />
+                      }
+                      name={"Grant Access"}
+                    />
+                  ) : (
+                    <AdminMenuBtnDesgin
+                      className={"action_status_btn mr-2"}
+                      title={"Revoke Access"}
+                      onClickFun={() => removeAccess(item.login_id)}
+                      icon={
+                        <IconCircleMinus
+                          className="action-edit-icon "
+                          height={19}
+                          width={19}
+                        />
+                      }
+                      name={"Revoke Access"}
+                    />
+                  )}
+                </AdminDropdownDesgin>
+              </td>
+            </tr>
+          ))}
+        </AdminTableBody>
+       
 
-
+      </AdminTableStructure>
       
-      </div>
-    // </div>
+    </div>
+
   );
 };
 

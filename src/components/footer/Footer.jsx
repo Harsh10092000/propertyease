@@ -94,6 +94,7 @@ const Footer = () => {
     { lintto: "/DC-Rates-2024-25.pdf", type: "DC Rates 2024-25" ,  target: "_blank" },
     { lintto: "/termsandconditions", type: "Terms & Conditions", target: "_self" },
     { lintto: "/privacypolicy", type: "Privacy Policy", target: "_self" },
+    { lintto: "/refundandcancellationpolicy", type: "Refund and Cancellation Policy", target: "_self" },
     { lintto: "/documentsneededtobuyproperty.pdf", type: "Documents Needed To Buy Property", target: "_blank" },
     { lintto: "/Balaji-PropertyEase-Brochure.pdf", type: "Propertyease Brochure", target: "_blank" },
     { lintto: "/disclaimer", type: "Disclaimer", target: "_self" },

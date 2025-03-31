@@ -1,60 +1,129 @@
 import React from "react";
-// import Footer from "../../components/footer/Footer";
-// import Navbar from "../../components/navbar/Navbar";
 import { IconChecks, IconHome, IconPlus } from '@tabler/icons-react';
 import { Link } from "react-router-dom";
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 const PaymentSucess = (props) => {
   return (
-    <div>
-      {/* <Navbar /> */}
-      <div class="container success-msg-wrapper">
-   
-        <div className="message-box _success">
-          <div>
-            {/* <div>
-              <IconChecks />
-               <img src="/img/payment-tik.png" /> 
-            </div>  */}
-            <div className="pb-3 success-heading" ><IconChecks height={"40px"} width={"40px"} className="mr-2"  />Payment Successful!</div>
-          </div>
-          <div className="pb-3 success-msg">Thank You! Your payment of Rs. {props.paymentAmt} has been recieived</div>
-          <div className=" success-msg">
-            Order Id : {props.orderId} <span className="left-border"></span> Payment Id : {props.paymentId}
-          </div>
-          <div className="d-flex justify-content-center mt-2">
-          <Link to="/allproperties" className="mr-3">
-                <span className="search justify-content-center" title="Go To Home">
-                  <IconHome className="sidebar-faicon " />
-                  <span>
-                    Go To Home
-                  </span>
-                </span>
-              </Link>
-            {/* <Link to="/addproperty" className="list-property"> */}
-                <span className="add pointer" title="List Property" onClick={props.handleChange}>
-                  <span>
-                    <IconPlus className="sidebar-faicon" />
-                  </span>
-                  List Property
-                   {/* <span className="blink d-none d-inline">Free</span>  */}
-                </span>
-              {/* </Link> */}
-          </div>
-        </div>
+    <Box sx={{ 
+      py: 4, 
+      px: 3, 
+      
+      mx: 'auto',
+      bgcolor: '#fff',
+      borderRadius: 2,
+      boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+      border: '1px solid #e5e7eb'
+    }}>
+      <Box sx={{ textAlign: 'center' }}>
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          mb: 2,
+          bgcolor: '#1e1d85',
+          width: 60,
+          height: 60,
+          borderRadius: '50%',
+          mx: 'auto'
+        }}>
+          <IconChecks 
+            size={32} 
+            color="#fff" 
+            stroke={1.5} 
+          />
+        </Box>
+        
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            color: '#1e1d85',
+            fontWeight: 'bold',
+            mb: 2,
+            fontFamily: 'sans-serif'
+          }}
+        >
+          Payment Successful!
+        </Typography>
 
-        {/* <div class="message-box _success">
-          <i class="fa fa-check-circle" aria-hidden="true"></i>
-          <h2> Your payment was successful </h2>
-          <p>
-            {" "}
-            Thank you for your payment. we will <br />. be in contact with more
-            details shortly{" "}
-          </p>
-        </div> */}
-      </div>
-      {/* <Footer /> */}
-    </div>
+        <Typography 
+          sx={{ 
+            color: '#444',
+            fontSize: '1.1rem',
+            mb: 2,
+            fontFamily: 'sans-serif'
+          }}
+        >
+          Thank You! Your payment of Rs. {props.paymentAmt || 'N/A'} has been received
+        </Typography>
+
+        <Box sx={{ 
+          bgcolor: '#f8f8f8',
+          p: 2,
+          borderRadius: 1,
+          mb: 3,
+          border: '1px solid #e5e7eb'
+        }}>
+          <Typography sx={{ 
+            color: '#444', 
+            fontSize: '0.95rem',
+            fontFamily: 'sans-serif'
+          }}>
+            Order ID: {props.orderId || 'N/A'} 
+            <Box component="span" sx={{ mx: 1, color: '#94a3b8' }}>|</Box> 
+            Payment ID: {props.paymentId || 'N/A'}
+          </Typography>
+        </Box>
+
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          gap: 2,
+          flexWrap: 'wrap'
+        }}>
+          <Link to="/allproperties">
+            <Button
+              variant="outlined"
+              startIcon={<IconHome />}
+              sx={{
+                textTransform: 'none',
+                color: '#1e1d85',
+                borderColor: '#1e1d85',
+                fontFamily: 'sans-serif',
+                px: 3,
+                py: 1,
+                '&:hover': {
+                  bgcolor: '#e5e7eb',
+                  borderColor: '#1e1d85'
+                }
+              }}
+            >
+              Go To Home
+            </Button>
+          </Link>
+
+          <Button
+            variant="contained"
+            startIcon={<IconPlus />}
+            //onClick={props.handleListingNotAva(false)}
+            sx={{
+              textTransform: 'none',
+              bgcolor: '#00c4cc',
+              fontFamily: 'sans-serif',
+              px: 3,
+              py: 1,
+              '&:hover': {
+                bgcolor: '#00b3b8'
+              }
+            }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

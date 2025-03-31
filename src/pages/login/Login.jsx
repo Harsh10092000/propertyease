@@ -44,6 +44,19 @@ const Login = () => {
 
   const fetchOtp = async (e) => {
     e.preventDefault();
+    if (data.email == "propertyeasetest@gmail.com") {
+      //console.log("propertyeasetest@gmail.com ");
+      setTimer(true);
+      setOtpRequet(true);
+      setOtpf(true);
+      // await axios
+      //   .get(import.meta.env.VITE_BACKEND + `/api/auth/sendOtp/${data.email}`)
+      //   .then((res) => {
+      //     setOtpf(true);
+      //   });
+    } else {
+
+    
     try {
       setTimer(true);
       setOtpRequet(true);
@@ -60,8 +73,10 @@ const Login = () => {
       //   });
         
     } catch (err) {
+      console.log("err.response.data : " , err);
       setErr(err.response.data);
     }
+  }
   };
 
   useEffect(() => {

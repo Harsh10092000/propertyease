@@ -1,0 +1,70 @@
+
+   
+
+.plan-status-container .MuiCard-root {
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  
+}
+
+.plan-status-container .MuiTypography-h5 {
+  color: #1976d2; /* MUI primary color to match the theme */
+  font-weight: 600;
+}
+
+.plan-status-container .MuiTypography-body1 {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.plan-status-container .MuiDivider-root {
+  background-color: #1976d2;
+}
+
+.plan-status-item {
+    margin-right: 20px;
+    border-right: 1px solid #858796; 
+}
+
+.plan-status-heading {
+    font-size: 13px;
+    font-weight: 500;
+    color: #858796;
+}
+
+.plan-status-val {
+    font-size: 16px;
+    font-weight: 500;
+    color: #858796;
+}
+
+
+.plan-name-tag {
+    padding-bottom: 25px;
+}
+
+.plan-name-tag .plan-status-heading {
+   font-size:22px;
+   color: black;
+   font-weight: 700;
+}
+
+.free-listing-text span , .plan-status-heading span{
+    margin-left: 10px;
+    display: inline-flex;
+    justify-content: center;
+    padding: 9px 18px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    color: #1e1d85;
+    border: none;
+    transition: 0.6s;
+    letter-spacing: 0.8px;
+    line-height: 20.18px;
+    font-family: monospace;
+    font-weight: 600;
+    font-family: sans-serif;
+    font-size: 17px;
+}
+
+

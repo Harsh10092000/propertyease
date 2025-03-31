@@ -66,7 +66,7 @@ import CityMapsForm from "./pages/cityMapsForm/CityMapsForm";
 //import UserSubscriptionPlans from "./pages/userSubscriptionPlans/UserSubscriptionPlans";
 
 //import AdminProPlanTran from "./pages/adminProPlanTran/AdminProPlanTran";
-//import PaymentSucess from "./pages/paymentSuccess/PaymentSucess";
+import PaymentSucess from "./pages/paymentSuccess/PaymentSucess";
 
 import SendJwt from "./components/SendJwt";
 import PropertyByCity from "./pages/propertyByCity/PropertyByCity";
@@ -94,7 +94,12 @@ import DelistedProperties from "./pages/expiredProperties/DelistedProperties";
 import SoldOutProperties from "./pages/expiredProperties/SoldOutProperties";
 //import Watermark from "./pages/watermark/Watermark";
 //import WatermarkOthers from "./pages/WatermarkOthers/WatermarkOthers";
+import AdminProAutoRemoval from "./pages/adminProAutoRemoval/AdminProAutoRemoval";
+import Package2 from "./pages/premimumPackages/Package2";
+import AdminMaxListSetting from "./pages/adminMaxListSetting/AdminMaxListSetting";
+import RefundAndCancellationPolicy from "./pages/refundAndCancellationPolicy/RefundAndCancellationPolicy";
 
+const AccessLogs = lazy(() => import("./pages/adminLifeTimeAccessLogs/AccessLogs"));
 const Watermark = lazy(() => import("./pages/watermark/Watermark"));
 const WatermarkOthers = lazy(() =>
   import("./pages/WatermarkOthers/WatermarkOthers")
@@ -290,6 +295,18 @@ const App = () => {
         </>
       ),
     },
+
+
+    {
+      path: "/refundandcancellationpolicy",
+      element: (
+        <>
+          <ScrollToTop />
+          <RefundAndCancellationPolicy />
+        </>
+      ),
+    },
+    
     {
       path: "/user",
       element: (
@@ -298,6 +315,15 @@ const App = () => {
         </ProtectedRoute>
       ),
       children: [
+        {
+          path: "test-payment",
+          element: (
+            <>
+              <SendJwt />
+              <Package2 />
+            </>
+          ),
+        },
         {
           path: "dashboard",
           element: (
@@ -441,10 +467,10 @@ const App = () => {
       path: "/quick-list",
       element: <QuickListing />,
     },
-    // {
-    //   path: "/payment-succesful",
-    //   element: <PaymentSucess />,
-    // },
+    {
+      path: "/payment-succesful",
+      element: <PaymentSucess />,
+    },
     {
       path: "/editProperty/:id1",
 
@@ -482,6 +508,14 @@ const App = () => {
         </ProtectedAdmin>
       ),
       children: [
+        {
+        path: "propertyautoremoval",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AdminProAutoRemoval />
+          </Suspense>
+        ),
+      },
         {
           path: "dashboard",
           element: (
@@ -567,6 +601,22 @@ const App = () => {
           element: (
             <Suspense fallback={<div>Loading...</div>}>
               <AdminPropertyPlans />
+            </Suspense>
+          ),
+        },
+        {
+          path: "accesslogs",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <AccessLogs />
+            </Suspense>
+          ),
+        },
+        {
+          path: "maxlistsetting",
+          element: (
+            <Suspense fallback={<div>Loading...</div>}>
+              <AdminMaxListSetting />
             </Suspense>
           ),
         },
@@ -759,3 +809,6 @@ const App = () => {
 };
 
 export default App;
+
+
+

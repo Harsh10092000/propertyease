@@ -423,7 +423,7 @@ const User = () => {
     setAnchorEl(null);
   };
   const logout = () => {
-    localStorage.removeItem("user2");
+    localStorage.removeItem("user5");
     clearUser();
   };
 
@@ -444,8 +444,19 @@ const User = () => {
   const closeDrawer = () => {
     setState(false);
   };
-
-  const items = [
+  let items = [];
+  console.log("currentUser[0].login_email : " , currentUser[0].login_email);
+  if (currentUser[0].login_email == "propertyeasetest@gmail.com") {
+ items = [
+  {
+    icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+    name: "Paid Plans",
+    linkto: `/user/test-payment`,
+  },
+]
+  } else {
+    
+   items = [
     {
       icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
       name: "My Profile",
@@ -486,11 +497,11 @@ const User = () => {
           name: "Delisted Properties",
           linkto: "/user/delisted-properties",
         },
-        {
-          icon: <IconPlaylistX className="sidebar-faicon" />,
-          name: "Expired Properties",
-          linkto: "/user/expired-properties",
-        },
+        // {
+        //   icon: <IconPlaylistX className="sidebar-faicon" />,
+        //   name: "Expired Properties",
+        //   linkto: "/user/expired-properties",
+        // },
         {
           icon: <IconHomeCheck className="sidebar-faicon" />,
           name: "Sold Properties",
@@ -530,6 +541,93 @@ const User = () => {
       linkto: `/user/invite-user`,
     },
   ];
+  }
+
+  // const items = [
+  //   {
+  //     icon: <IconUser width={32} height={32} className="sidebar-faicon" />,
+  //     name: "My Profile",
+  //     linkto: `/user/user-profile/${currentUser[0].login_id}`,
+  //   },
+  //   {
+  //     icon: <IconHomePlus className="sidebar-faicon" />,
+  //     //name: "Add Property",
+  //     name: (
+  //       <>
+  //         List Property <span className="blink-2 blink-3 d-none d-inline">free</span>
+  //       </>
+  //     ),
+  //     linkto: "/addproperty",
+  //   },
+  //   {
+  //     icon: <IconBuildingSkyscraper className="sidebar-faicon" />,
+  //     name: "View All Properties",
+  //     linkto: "/allproperties",
+  //   },
+  //   {
+  //     icon: <IconBuilding className="sidebar-faicon" />,
+  //     name: "My Listed Properties",
+  //     linkto: null,
+  //     subItems: [
+  //       {
+  //         icon: <IconHome className="sidebar-faicon" />,
+  //         name: "All Properties",
+  //         linkto: "/user/dashboard",
+  //       },
+  //       {
+  //         icon: <IconListCheck className="sidebar-faicon" />,
+  //         name: "Listed Properties",
+  //         linkto: "/user/listed-properties",
+  //       },
+  //       {
+  //         icon: <IconList className="sidebar-faicon" />,
+  //         name: "Delisted Properties",
+  //         linkto: "/user/delisted-properties",
+  //       },
+  //       // {
+  //       //   icon: <IconPlaylistX className="sidebar-faicon" />,
+  //       //   name: "Expired Properties",
+  //       //   linkto: "/user/expired-properties",
+  //       // },
+  //       {
+  //         icon: <IconHomeCheck className="sidebar-faicon" />,
+  //         name: "Sold Properties",
+  //         linkto: "/user/sold-properties",
+  //       },
+  //     ],
+  //   },
+    
+
+  //   {
+  //     icon: <IconCrown width={32} height={32} className="sidebar-faicon pointer" />,
+  //     name: "Subscription",
+  //     linkto: null,
+  //     subItems: [
+  //       {
+  //         icon: <IconEye className="sidebar-faicon" />,
+  //         name: "All Transactions",
+  //         linkto: "/user/mysubscription",
+  //       },
+  //     ],
+  //   },
+
+  //   {
+  //     icon: <IconChecklist className="sidebar-faicon" />,
+  //     name: "Shortlisted",
+  //     linkto: "/user/shortlisted",
+  //   },
+  //   {
+  //     icon: <IconReportAnalytics className="sidebar-faicon" />,
+  //     name: "Insights",
+  //     linkto: "/user/Insights/all",
+  //   },
+   
+  //   {
+  //     icon: <IconUsers width={32} height={32} className="sidebar-faicon" />,
+  //     name: "Invite Friends",
+  //     linkto: `/user/invite-user`,
+  //   },
+  // ];
 
   const list = (anchor) => (
     <Box sx={{ width: 300 }} role="presentation">

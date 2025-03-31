@@ -5,7 +5,7 @@
 
 // export const AuthContextProvider = ({ children }) => {
 //   const [currentUser, setCurrentUser] = useState(
-//     JSON.parse(localStorage.getItem("user2")) || null
+//     JSON.parse(localStorage.getItem("user5")) || null
 //   );
 //   const login = async (inputs) => {
 //     try {
@@ -23,7 +23,7 @@
 //     }
 //   };
 //   useEffect(() => {
-//     localStorage.setItem("user2", JSON.stringify(currentUser));
+//     localStorage.setItem("user5", JSON.stringify(currentUser));
 //   }, [currentUser]);
 //   const clearUser = () => {
 //     setCurrentUser(null);
@@ -50,7 +50,7 @@
 //   const [currentUser, setCurrentUser] = useState();
 
 //   useEffect(() => {
-//     const userToken = localStorage.getItem("user2");
+//     const userToken = localStorage.getItem("user5");
 //     setToken(userToken);
 //     if (userToken !== null && userToken !== "undefined") {
 //       //console.log("userToken : " , userToken, userToken[token])
@@ -75,7 +75,7 @@
 //       setToken(res.data.token);
 
 //       const decodedToken = jwtDecode(JSON.stringify(res.data.token));
-//       localStorage.setItem("user2", JSON.stringify(res.data.token));
+//       localStorage.setItem("user5", JSON.stringify(res.data.token));
 //       setCurrentUser([decodedToken]);
 //       //localStorage.setItem('token', JSON.stringify(res.data.token));
 //     } catch (err) {
@@ -84,7 +84,7 @@
 //   };
 
 //   // useEffect(() => {
-//   //   localStorage.setItem("user2", JSON.stringify(currentUser));
+//   //   localStorage.setItem("user5", JSON.stringify(currentUser));
 //   // }, [currentUser]);
 //   const clearUser = () => {
 //     setCurrentUser(null);
@@ -121,7 +121,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
-    const userToken = localStorage.getItem("user2");
+    const userToken = localStorage.getItem("user5");
    
     //const stringifyData = JSON.parse(userToken);
     //console.log("userToken : " ,stringifyData, stringifyData[0].login_id);
@@ -132,7 +132,7 @@ export const AuthContextProvider = ({ children }) => {
 
     //   console.log("3333333 : " , token);
     //   //setCurrentUser(null);
-    //   //localStorage.removeItem("user2");
+    //   //localStorage.removeItem("user5");
 
     // }
     setToken(userToken);
@@ -162,7 +162,7 @@ export const AuthContextProvider = ({ children }) => {
       Cookies.set('jwt2', JSON.stringify(res.data.refreshToken), { httpOnly: true });
 
       const decodedToken = jwtDecode(JSON.stringify(res.data.token));
-      localStorage.setItem("user2", JSON.stringify(res.data.token));
+      localStorage.setItem("user5", JSON.stringify(res.data.token));
       setCurrentUser([decodedToken]);
       //localStorage.setItem('token', JSON.stringify(res.data.token));
     } catch (err) {
@@ -171,7 +171,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   // useEffect(() => {
-  //   localStorage.setItem("user2", JSON.stringify(currentUser));
+  //   localStorage.setItem("user5", JSON.stringify(currentUser));
   // }, [currentUser]);
   const clearUser = () => {
     setCurrentUser(null);

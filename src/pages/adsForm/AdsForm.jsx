@@ -182,6 +182,7 @@ const AdsForm = () => {
     <div className="col-md-6">
 
 <div className="user-profile-form-wrapper ">
+  
 <div className="form-fields">
 <FormHeading heading={"Ads Form"} />
       
@@ -391,6 +392,7 @@ const AdsForm = () => {
           </button>
         </div>
       </div>
+
     </div>
     </div>
     </div>

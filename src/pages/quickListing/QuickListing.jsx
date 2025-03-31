@@ -21,6 +21,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { InputAdornment } from "@mui/material";
 import { priceFormat } from "../../components/helper";
+import CheckListingAva from "../../components/checkListingAva/CheckListingAva";
 //import FileResizer from "react-image-file-resizer";
 
 const RadioBoxSelection = ({
@@ -126,6 +127,24 @@ const QuickListing = () => {
 
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+  const [userListingDetails, setUserListingDetails] = useState("");
+  const [listingNotAva , setListingNotAva ] = useState(true);
+  const handleListingNotAva = (val) => {
+    console.log("val : " , val);
+    setListingNotAva(val);
+  };
+
+  useEffect(() => {
+    if( currentUser != null) {
+       axios
+       .get(
+         import.meta.env.VITE_BACKEND + `/api/auth/fetchListingAccessDetails/${currentUser[0].login_email}/${currentUser[0].login_number}`
+       ).then((res) => {
+        setUserListingDetails(res.data);
+         });
+     }
+   }, [currentUser]);
+
   const [searchState, setSearchState] = useState("");
   const [formSubmit, setFormSubmit] = useState(false);
 
@@ -159,6 +178,7 @@ const QuickListing = () => {
   //  // dispatch({ type: ACTION_TYPES.DIALOG_CLOSE });
   // };
 
+  console.log("currentUser  2 : " , currentUser, userListingDetails);
   const {
     state,
     verifyEmail,
@@ -290,23 +310,6 @@ const QuickListing = () => {
   const [fileSizeExceeded, setFileSizeExceeded] = useState(false);
   const maxFileSize = 1000000;
   const minFileSize = 10000;
-
-  // const resizeFile = (file) => {
-  //   console.log(file)
-  //   FileResizer.imageFileResizer(
-  //     file,
-  //     300, 
-  //     300,
-  //     'webp', 
-  //     100,
-  //     0, 
-  //     (uri) => {
-  //       console.log(uri); 
-  //     },
-  //     'base64' 
-  //   );
-  // };
-
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const formData = new FormData();
@@ -568,11 +571,45 @@ const QuickListing = () => {
     { value: "Cold Store,Commercial", item: "Cold Store" },
   ];
 
+
   return (
     <div>
       {loader && <Loader />}
       {loader1 && <Loader />}
       {/* Check your Email and Phone for OTP. */}
+
+      {/* currentUser[0].is_lifetime_free === 0 &&
+  currentUser[0].free_listings_remaining < 1 &&
+  currentUser[0].paid_listings_remaining < 1 ? ( */}
+
+
+{/* currentUser[0].is_lifetime_free === 0 &&
+  currentUser[0].free_listings_remaining === 5 &&
+  currentUser[0].paid_listings_remaining === 2 ? ( */}
+
+      {currentUser && userListingDetails != "" ? (
+  userListingDetails[0].is_lifetime_free === 0 &&
+  userListingDetails[0].free_listings_remaining < 1 &&
+  userListingDetails[0].paid_listings_remaining < 1 ? (
+    <>
+    
+      {/* <div>test11</div> */}
+      <div>{listingNotAva}</div>
+      {/* <CheckListingAva handleListingNotAva={(val) => handleListingNotAva(val)} setListingNotAva={setListingNotAva} listingNotAva={listingNotAva} /> */}
+      <CheckListingAva
+        listingNotAva={listingNotAva}
+        setListingNotAva={setListingNotAva}
+      />
+    </>
+  ) : (
+    <></>
+  )
+) : (
+  <div>not login</div>
+)}
+
+       
+
       <Dialog
         open={open}
         onClose={handleClose}

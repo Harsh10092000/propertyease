@@ -414,17 +414,21 @@ const Admin = () => {
           name: "View Transactions",
           linkto: "/admin/propertyplantranactions",
         },
-
+        {
+          icon: <IconEye className="sidebar-faicon" />,
+          name: "View Free Access Transactions",
+          linkto: "/admin/accesslogs",
+        },
         {
           icon: <IconSquareRoundedPlus className="sidebar-faicon" />,
-          name: "Add Discount Coupon",
+          name: "Add Coupon",
           linkto: "/admin/addcoupon",
         },
 
         {
           icon: <IconEye className="sidebar-faicon" />,
           name: "View Coupons",
-          linkto: "/admin/viewcoupons",
+          linkto: "/admin/coupons",
         },
       ],
     },
@@ -473,6 +477,17 @@ const Admin = () => {
           name: "Email Broadcast Settings",
           linkto: "/admin/mailbroadcast",
         },
+        {
+          icon: <IconPhone className="sidebar-faicon" />,
+          name: "Property Auto Removal",
+          linkto: "/admin/propertyautoremoval",
+        },
+        {
+          icon: <IconPhone className="sidebar-faicon" />,
+          name: "Max Property Listing",
+          linkto: "/admin/maxlistsetting",
+        },
+        
       ],
     },
   ];
