@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -22,7 +22,7 @@ const style = {
   overflowY: 'auto'
 };
 
-const CheckListingAva = ({setListingNotAva, listingNotAva }) => {
+const CheckListingAva = ({setListingNotAva, listingNotAva, handlePaySuccess }) => {
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const handleClose = () => {
     setListingNotAva(false);
@@ -30,6 +30,14 @@ const CheckListingAva = ({setListingNotAva, listingNotAva }) => {
   const handlePaymnetStatus = (val) => {
     setPaymentSuccessful(val);
   };
+
+  useEffect(() => {
+    if(paymentSuccessful) {
+      handlePaySuccess(true);
+      setListingNotAva(false);
+    }
+    
+  }, [paymentSuccessful])
 
   return (
     <Modal
@@ -40,7 +48,7 @@ const CheckListingAva = ({setListingNotAva, listingNotAva }) => {
     >
       <Box sx={style}>
         <div className="container">
-          {paymentSuccessful ? (
+          {/* {paymentSuccessful ? (
         
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <PaymentSucess />
@@ -60,7 +68,7 @@ const CheckListingAva = ({setListingNotAva, listingNotAva }) => {
                 Close
               </Button>
             </Box>
-          ) : (
+          ) : ( */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <Typography 
                 variant="h5" 
@@ -143,7 +151,7 @@ const CheckListingAva = ({setListingNotAva, listingNotAva }) => {
               </Button> */}
             </Box>
 
-          )}
+          {/* )} */}
         </div>
       </Box>
     </Modal>

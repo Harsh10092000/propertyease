@@ -1,129 +1,141 @@
 import React from "react";
-import { IconChecks, IconHome, IconPlus } from '@tabler/icons-react';
+import { IconChecks, IconHome } from '@tabler/icons-react';
 import { Link } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-const PaymentSucess = (props) => {
+const PaymentSucess = ({handleClose1}) => {
   return (
-    <Box sx={{ 
-      py: 4, 
-      px: 3, 
-      
-      mx: 'auto',
-      bgcolor: '#fff',
-      borderRadius: 2,
-      boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-      border: '1px solid #e5e7eb'
-    }}>
-      <Box sx={{ textAlign: 'center' }}>
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          mb: 2,
-          bgcolor: '#1e1d85',
-          width: 60,
-          height: 60,
-          borderRadius: '50%',
-          mx: 'auto'
-        }}>
-          <IconChecks 
-            size={32} 
-            color="#fff" 
-            stroke={1.5} 
-          />
-        </Box>
-        
-        <Typography 
-          variant="h5" 
-          sx={{ 
-            color: '#1e1d85',
-            fontWeight: 'bold',
-            mb: 2,
-            fontFamily: 'sans-serif'
-          }}
-        >
-          Payment Successful!
-        </Typography>
+    <Box
+    sx={{
+      py: 5,
+      px: 4,
+      mx: "auto",
+      maxWidth: 480, // Slightly narrower for a premium, focused look
+      bgcolor: "linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)", // Subtle gradient
+      borderRadius: 3,
+      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1)", // Deeper shadow
+      border: "1px solid rgba(30, 29, 133, 0.1)", // Subtle border with brand color
+      position: "relative",
+      overflow: "hidden",
+    }}
+  >
+    {/* Premium Accent Line */}
+    <Box
+      sx={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: 4,
+        bgcolor: "#1e1d85",
+        background: "linear-gradient(90deg, #1e1d85 0%, #00c4cc 100%)", // Gradient accent
+      }}
+    />
 
-        <Typography 
-          sx={{ 
-            color: '#444',
-            fontSize: '1.1rem',
-            mb: 2,
-            fontFamily: 'sans-serif'
-          }}
-        >
-          Thank You! Your payment of Rs. {props.paymentAmt || 'N/A'} has been received
-        </Typography>
-
-        <Box sx={{ 
-          bgcolor: '#f8f8f8',
-          p: 2,
-          borderRadius: 1,
+    <Box sx={{ textAlign: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           mb: 3,
-          border: '1px solid #e5e7eb'
-        }}>
-          <Typography sx={{ 
-            color: '#444', 
-            fontSize: '0.95rem',
-            fontFamily: 'sans-serif'
-          }}>
-            Order ID: {props.orderId || 'N/A'} 
-            <Box component="span" sx={{ mx: 1, color: '#94a3b8' }}>|</Box> 
-            Payment ID: {props.paymentId || 'N/A'}
-          </Typography>
-        </Box>
+          bgcolor: "#1e1d85",
+          width: 70,
+          height: 70,
+          borderRadius: "50%",
+          mx: "auto",
+          boxShadow: "0 4px 12px rgba(30, 29, 133, 0.3)", // Shadow for depth
+        }}
+      >
+        <IconChecks size={36} color="#fff" stroke={1.5} />
+      </Box>
 
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
+      <Typography
+        variant="h4"
+        sx={{
+          color: "#1e1d85",
+          fontWeight: "bold",
+          mb: 2,
+          fontFamily: "'Poppins', sans-serif", // Premium font
+          letterSpacing: "0.5px",
+        }}
+      >
+        Congratulations!
+      </Typography>
+
+      <Typography
+        sx={{
+          color: "#333",
+          fontSize: "1.2rem",
+          mb: 3,
+          fontFamily: "'Roboto', sans-serif",
+          fontWeight: 300, // Lighter weight for elegance
+          lineHeight: 1.5,
+        }}
+      >
+        Thank you for your payment! You're now ready to showcase your properties to the world.
+      </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
           gap: 2,
-          flexWrap: 'wrap'
-        }}>
-          <Link to="/allproperties">
-            <Button
-              variant="outlined"
-              startIcon={<IconHome />}
-              sx={{
-                textTransform: 'none',
-                color: '#1e1d85',
-                borderColor: '#1e1d85',
-                fontFamily: 'sans-serif',
-                px: 3,
-                py: 1,
-                '&:hover': {
-                  bgcolor: '#e5e7eb',
-                  borderColor: '#1e1d85'
-                }
-              }}
-            >
-              Go To Home
-            </Button>
-          </Link>
-
+          flexWrap: "wrap",
+        }}
+      >
+        <Link to="/allproperties">
           <Button
-            variant="contained"
-            startIcon={<IconPlus />}
-            //onClick={props.handleListingNotAva(false)}
+            variant="outlined"
+            startIcon={<IconHome />}
             sx={{
-              textTransform: 'none',
-              bgcolor: '#00c4cc',
-              fontFamily: 'sans-serif',
-              px: 3,
-              py: 1,
-              '&:hover': {
-                bgcolor: '#00b3b8'
-              }
+              textTransform: "none",
+              color: "#1e1d85",
+              borderColor: "#1e1d85",
+              fontFamily: "'Poppins', sans-serif",
+              fontWeight: 500,
+              px: 4,
+              py: 1.5,
+              borderRadius: "8px",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                bgcolor: "#1e1d85",
+                color: "#fff",
+                borderColor: "#1e1d85",
+                boxShadow: "0 4px 12px rgba(30, 29, 133, 0.2)",
+              },
             }}
           >
-            Close
+            Explore Properties
           </Button>
-        </Box>
+        </Link>
+
+        <Button
+          variant="contained"
+          onClick={handleClose1}
+          sx={{
+            textTransform: "none",
+            bgcolor: "#00c4cc",
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: 500,
+            px: 4,
+            py: 1.5,
+            borderRadius: "8px",
+            //boxShadow: "0 4px 12px rgba(0, 196, 204, 0.3)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              bgcolor: "#00b3b8",
+              boxShadow: "0 6px 16px rgba(0, 196, 204, 0.4)",
+            },
+          }}
+        >
+          Close
+        </Button>
       </Box>
     </Box>
+  </Box>
   );
 };
 

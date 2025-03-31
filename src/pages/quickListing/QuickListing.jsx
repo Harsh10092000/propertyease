@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { stateList } from "../addProperty/State";
-import { TextField, Autocomplete } from "@mui/material";
+import { TextField, Autocomplete, Modal } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
@@ -22,7 +22,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { InputAdornment } from "@mui/material";
 import { priceFormat } from "../../components/helper";
 import CheckListingAva from "../../components/checkListingAva/CheckListingAva";
-//import FileResizer from "react-image-file-resizer";
+
+
+import PaymentSucess from "../paymentSuccess/PaymentSucess";
 
 const RadioBoxSelection = ({
   heading,
@@ -381,7 +383,8 @@ const QuickListing = () => {
     return a;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setFormSubmit(true);
     if (
       propertyData.pro_ad_type !== "" &&
@@ -422,6 +425,17 @@ const QuickListing = () => {
     propertyData.pro_sub_district = propertyData.pro_sub_district.sub_district;
     propertyData.pro_locality = changeFormatting(propertyData.pro_locality);
     propertyData.pro_date = Date.now();
+    propertyData.is_lifetime_free = userListingDetails[0].is_lifetime_free;
+    propertyData.paid_listings_remaining = userListingDetails[0].paid_listings_remaining;
+    propertyData.free_listings_remaining = userListingDetails[0].free_listings_remaining;
+
+    // if (userListingDetails[0].is_lifetime_free === 0) {
+    //   propertyData.
+    // }
+
+  //   userListingDetails[0].free_listings_remaining < 1 &&
+  // userListingDetails[0].paid_listings_remaining < 1 
+
     // propertyData.pro_state = stateList.filter(
     //   (item) => parseInt(item.id) === parseInt(propertyData.pro_state)
     // )[0].name;
@@ -572,10 +586,21 @@ const QuickListing = () => {
   ];
 
 
+  const [paySuccess, setPaySuccess] = useState(false);
+  const handlePaySuccess = (val) => {
+    setPaySuccess(val);
+  }
+
+  const [open1, setOpen1] = useState(true);
+  const handleClose1 = () => {
+    setOpen1(false);
+  }
+
   return (
     <div>
       {loader && <Loader />}
       {loader1 && <Loader />}
+
       {/* Check your Email and Phone for OTP. */}
 
       {/* currentUser[0].is_lifetime_free === 0 &&
@@ -599,6 +624,7 @@ const QuickListing = () => {
       <CheckListingAva
         listingNotAva={listingNotAva}
         setListingNotAva={setListingNotAva}
+        handlePaySuccess={handlePaySuccess}
       />
     </>
   ) : (
@@ -740,6 +766,19 @@ const QuickListing = () => {
         </DialogContent>
       </Dialog>
       <Navbar />
+
+
+{paySuccess && 
+<Dialog
+      open={open1}
+      onClose={handleClose1}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+    <PaymentSucess handleClose1={handleClose1} />
+    </Dialog>
+    
+} 
 
       <div className="container">
         <div className="quick-list-form">
