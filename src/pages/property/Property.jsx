@@ -656,8 +656,33 @@ const Property = () => {
   return (
     <div >
      
- <title>{capitalizedName1}</title> 
-      {/* <title>
+
+     <Helmet>
+
+
+     <title>
+          {`${data.pro_area_size + " " + data.pro_area_size_unit + " "}${
+            data.pro_type ? data.pro_type.split(",")[0] : ""
+          }
+        for ${data.pro_ad_type === "Rent" ? "Rent" : "Sale"} in
+        ${data.pro_locality}
+        ${data.pro_city}
+`}
+        </title>
+
+        <meta
+          name="description"
+          content={`Check out this ${
+            data.pro_area_size + " " + data.pro_area_size_unit + " "
+          }${data.pro_type ? data.pro_type.split(",")[0] : ""}
+        for ${
+          data.pro_ad_type === "Rent" ? "Rent" : "Sale"
+        }. It is an ideal investment opportunity in a prime ${
+            data.pro_type ? data.pro_type.split(",")[0] : ""
+          } area with verified property assurance.`}
+        />
+
+     {/* <title>
           {`${
             arrproId[0] +
             " " +
@@ -683,7 +708,7 @@ const Property = () => {
 
        
 
-        <meta
+        {/* <meta
           name="description"
            //data-react-helmet="true"
           content={`Check out this ${
@@ -696,8 +721,71 @@ const Property = () => {
               ? " " + arrproId[2] + " " + arrproId[3]
               : " " + arrproId[2] + ""
           } area with verified property assurance.`}
-        />
+        /> */}
         <meta name="author" content="Propertyease" />
+      
+
+<meta
+  name="twitter:description"
+  content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
+/>
+<meta property="twitter:domain" content="propertyease.in" />
+<meta
+  property="twitter:url"
+  content={`https://propertyease.in/${
+    id
+  }`}
+/>
+<meta
+  name="twitter:title"
+  content={`${
+    arrproId[0] +
+    " " +
+    arrproId[1] +
+    " " +
+    arrproId[2] +
+    " " +
+    arrproId[3] +
+    " " +
+    arrproId[4] +
+    " " +
+    arrproId[5] +
+    " " +
+    arrproId[6] +
+    " " +
+    arrproId[7] +
+    " " +
+    arrproId[8] +
+    " " +
+    arrproId[9]
+  }`}
+/>
+<meta
+  name="twitter:image"
+  content="https://api.propertyease.in/propertyImages/watermark/default.webp"
+/>
+
+
+
+
+
+<link
+rel="preload"
+  decoding="async"
+  loading="lazy"
+  as="image"
+  href="https://cdn.mapmyindia.com/mappls_web/logos/1x/mappls_mmi.png?1"
+  type="image/webp"
+  fetchpriority="low"
+  width="190px" height="22px"
+  alt="mappls.com" id="watermark_logo0"
+/>
+
+
+</Helmet>
+
+ {/* <title>{capitalizedName1}</title>  */}
+      
 
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
@@ -765,69 +853,7 @@ const Property = () => {
           href={`https://propertyease.in/${id}`}
         ></link>
 
- <Helmet>
 
-
-      
-
-        <meta
-          name="twitter:description"
-          content="We specialize in buying, selling, and renting properties. Find your perfect home with our expert guidance."
-        />
-        <meta property="twitter:domain" content="propertyease.in" />
-        <meta
-          property="twitter:url"
-          content={`https://propertyease.in/${
-            id
-          }`}
-        />
-        <meta
-          name="twitter:title"
-          content={`${
-            arrproId[0] +
-            " " +
-            arrproId[1] +
-            " " +
-            arrproId[2] +
-            " " +
-            arrproId[3] +
-            " " +
-            arrproId[4] +
-            " " +
-            arrproId[5] +
-            " " +
-            arrproId[6] +
-            " " +
-            arrproId[7] +
-            " " +
-            arrproId[8] +
-            " " +
-            arrproId[9]
-          }`}
-        />
-        <meta
-          name="twitter:image"
-          content="https://api.propertyease.in/propertyImages/watermark/default.webp"
-        />
-
-        
-        
-       
-      
-      <link
-        rel="preload"
-          decoding="async"
-          loading="lazy"
-          as="image"
-          href="https://cdn.mapmyindia.com/mappls_web/logos/1x/mappls_mmi.png?1"
-          type="image/webp"
-          fetchpriority="low"
-          width="190px" height="22px"
-          alt="mappls.com" id="watermark_logo0"
-        />
-
-
-      </Helmet>
 
       
       
@@ -1259,6 +1285,7 @@ time3.add(12, "minutes") */}
                           </div>
                         </div>
                       </div>
+                      
                       <div className="row">
                         <div className="col-md-6">
                           <div className="leftblock">
