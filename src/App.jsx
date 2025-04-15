@@ -98,6 +98,7 @@ import AdminProAutoRemoval from "./pages/adminProAutoRemoval/AdminProAutoRemoval
 import Package2 from "./pages/premimumPackages/Package2";
 import AdminMaxListSetting from "./pages/adminMaxListSetting/AdminMaxListSetting";
 import RefundAndCancellationPolicy from "./pages/refundAndCancellationPolicy/RefundAndCancellationPolicy";
+import AdminQuickList from "./pages/adminQuickList/AdminQuickList";
 
 const AccessLogs = lazy(() => import("./pages/adminLifeTimeAccessLogs/AccessLogs"));
 const Watermark = lazy(() => import("./pages/watermark/Watermark"));
@@ -307,6 +308,7 @@ const App = () => {
       ),
     },
     
+
     {
       path: "/user",
       element: (
@@ -514,6 +516,14 @@ const App = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <AdminProAutoRemoval />
           </Suspense>
+        ),
+      },
+      {
+        path: "adminQuickList",
+        element: (
+          <> 
+            <AdminQuickList />
+          </>
         ),
       },
         {

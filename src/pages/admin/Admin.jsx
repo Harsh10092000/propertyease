@@ -324,7 +324,8 @@ import {
   IconPhone,
   IconMap,
   IconDashboard,
-  IconMail
+  IconMail,
+  IconPlus
 } from "@tabler/icons-react";
 import { useContext, useEffect, useState } from "react";
 import { AdminContext } from "../../context/AdminContext";
@@ -351,6 +352,11 @@ const Admin = () => {
       icon: <IconDashboard className="sidebar-faicon" />,
       name: "Dashboard",
       linkto: "/admin/dashboard",
+    },
+    {
+      icon: <IconPlus className="sidebar-faicon" />,
+      name: "List Property",
+      linkto: "/admin/adminQuickList",
     },
 
     {
