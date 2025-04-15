@@ -214,7 +214,7 @@ const renderConditionalRemark = (
   //     setOpen(false);
   // }
 
-  return differenceInDays <= -1 ? (
+  return differenceInDays <= 0 ? (
     <div
       ref={resDataPopUpRef}
       className="pointer"
@@ -384,7 +384,7 @@ const renderConditional = (
       const currentDate = moment();
       const differenceInDays = renewDate.diff(currentDate, "days");
 
-      return differenceInDays <= -1 ? (
+      return differenceInDays <= 0 ? (
         <span className="current-status-blue">Expired</span>
       ) : differenceInDays < 2 && differenceInDays > -1 ? (
         <span className="current-status-blue">Expiring</span>
