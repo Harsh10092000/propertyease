@@ -279,103 +279,126 @@ const SubCat = () => {
 
   console.log("serach value : " , searchValue)
 
+  // Define metadata based on category
+  const metaData = {
+    apartment: {
+      title: "Propertyease - Apartment",
+      description:
+        "Browse through a selection of apartments for sale, from modern studios to expansive family units. Find a perfect fit for your lifestyle in well-connected neighborhoods with top amenities.",
+      canonical: "https://propertyease.in/residential/apartment",
+    },
+    "independent-house": {
+      title: "Propertyease - Independent House",
+      description:
+        "Purchase an independent house offering privacy, ample space, and freedom to customize. Enjoy quiet living with large gardens and easy access to key locations.",
+      canonical: "https://propertyease.in/residential/independent-house",
+    },
+    "builder-floor": {
+      title: "Propertyease - Builder Floor",
+      description:
+        "Invest in a builder floor that combines independent living with modern convenience. Spacious layouts, modern designs, and the benefit of a low-maintenance home.",
+      canonical: "https://propertyease.in/residential/builder-floor",
+    },
+    "farm-house": {
+      title: "Propertyease - Farm House",
+      description:
+        "Own a farmhouse set in serene countryside surroundings. Ideal for those looking for peace and tranquility, these properties offer large plots for agricultural use or relaxation.",
+      canonical: "https://propertyease.in/residential/farm-house",
+    },
+    "retirement-community": {
+      title: "Propertyease - Retirement Community",
+      description:
+        "Buy a property in a retirement community that offers peace of mind, comfortable living, and dedicated amenities to support an active and independent lifestyle.",
+      canonical: "https://propertyease.in/residential/retirement-community",
+    },
+    "studio-apartment": {
+      title: "Propertyease - Studio Apartment",
+      description:
+        "Find compact and efficient studio apartments for sale. Perfect for singles or couples looking for a stylish and affordable living space with easy access to city life.",
+      canonical: "https://propertyease.in/residential/studio-apartment",
+    },
+    "residential-land": {
+      title: "Propertyease - Residential Land",
+      description:
+        "Purchase residential land in desirable locations and build the home of your dreams. These plots provide flexibility and ample space to create your vision.",
+      canonical: "https://propertyease.in/land/residential-land",
+    },
+    "commercial-land": {
+      title: "Propertyease - Commercial Land",
+      description:
+        "Invest in prime commercial land perfect for retail, office, or mixed-use developments. These high-visibility plots are ideal for setting up successful ventures.",
+      canonical: "https://propertyease.in/land/commercial-land",
+    },
+    "industrial-land": {
+      title: "Propertyease - Industrial Land",
+      description:
+        "Purchase industrial land to set up manufacturing units, warehouses, or logistics facilities. Offering spacious plots in strategic locations with easy access to major transport routes.",
+      canonical: "https://propertyease.in/land/industrial-land",
+    },
+    "agricultural-land": {
+      title: "Propertyease - Agricultural Land",
+      description:
+        "Buy agricultural land with fertile soil and abundant space, ideal for farming, livestock, or other agricultural ventures. A smart investment for long-term growth.",
+      canonical: "https://propertyease.in/land/agricultural-land",
+    },
+    "farm-house-land": {
+      title: "Propertyease - Farm House Land",
+      description:
+        "Purchase land for a farmhouse, offering large plots in peaceful rural areas. Perfect for building a retreat, starting agricultural projects, or enjoying country living.",
+      canonical: "https://propertyease.in/land/farm-house-land",
+    },
+    "retail-showroom": {
+      title: "Propertyease - Retail Showroom",
+      description:
+        "Buy a retail showroom in bustling commercial areas with excellent foot traffic. A great investment for displaying your products and growing your business in a high-demand location.",
+      canonical: "https://propertyease.in/commercial/retail-showroom",
+    },
+    "commercial-building": {
+      title: "Propertyease - Commercial Building",
+      description:
+        "Purchase a commercial building offering versatile spaces for offices, retail shops, or mixed-use purposes. Situated in key business districts, it's a solid investment for business owners.",
+      canonical: "https://propertyease.in/commercial/commercial-building",
+    },
+    "office-complex": {
+      title: "Propertyease - Office Complex",
+      description:
+        "Invest in an office complex that offers flexible workspaces, ideal for businesses of all sizes. These modern facilities are well-located and ready to accommodate your growing workforce.",
+      canonical: "https://propertyease.in/commercial/office-complex",
+    },
+    "software-technology-park": {
+      title: "Propertyease - Software Technology Park",
+      description:
+        "Buy office spaces in a cutting-edge technology park designed for tech companies. Modern infrastructure, high-speed internet, and access to an innovation-driven ecosystem make these spaces ideal for growth.",
+      canonical: "https://propertyease.in/commercial/software-technology-park",
+    },
+    warehouse: {
+      title: "Propertyease - Warehouse",
+      description:
+        "Invest in warehouse space offering ample storage capacity and secure facilities. Perfect for distribution, inventory management, or logistics companies looking for operational efficiency.",
+      canonical: "https://propertyease.in/commercial/warehouse",
+    },
+    "industrial-estate": {
+      title: "Propertyease - Industrial Estate",
+      description:
+        "Purchase land in an industrial estate equipped with the infrastructure needed for large-scale operations. Ideal for businesses looking to expand or start manufacturing, storage, or logistics.",
+      canonical: "https://propertyease.in/commercial/industrial-estate",
+    },
+    default: {
+      title: "Propertyease - Properties",
+      description:
+        "Discover your ideal property for sale at PropertyEase.in. From luxurious homes to commercial land, explore a diverse range of listings to suit your investment or lifestyle needs.",
+      canonical: `https://propertyease.in/subcat/${cat}`,
+    },
+  };
+
   return (
     <div>
 
-      <Helmet>
-  <title>Propertyease - {filCat}</title>
-  {cat === "apartment" ? (
-    <meta
-      name="description"
-      content="Browse through a selection of apartments for sale, from modern studios to expansive family units. Find a perfect fit for your lifestyle in well-connected neighborhoods with top amenities."
-    />
-  ) : cat === "independent-house" ? (
-    <meta
-      name="description"
-      content="Purchase an independent house offering privacy, ample space, and freedom to customize. Enjoy quiet living with large gardens and easy access to key locations."
-    />
-  ) : cat === "builder-floor" ? (
-    <meta
-      name="description"
-      content="Invest in a builder floor that combines independent living with modern convenience. Spacious layouts, modern designs, and the benefit of a low-maintenance home."
-    />
-  ) : cat === "farm-house" ? (
-    <meta
-      name="description"
-      content="Own a farmhouse set in serene countryside surroundings. Ideal for those looking for peace and tranquility, these properties offer large plots for agricultural use or relaxation."
-    />
-  ) : cat === "retirement-community" ? (
-    <meta
-      name="description"
-      content="Buy a property in a retirement community that offers peace of mind, comfortable living, and dedicated amenities to support an active and independent lifestyle."
-    />
-  ) : cat === "studio-apartment" ? (
-    <meta
-      name="description"
-      content="Find compact and efficient studio apartments for sale. Perfect for singles or couples looking for a stylish and affordable living space with easy access to city life."
-    />
-  ) : cat === "residential-land" ? (
-    <meta
-      name="description"
-      content="Purchase residential land in desirable locations and build the home of your dreams. These plots provide flexibility and ample space to create your vision."
-    />
-  ) : cat === "commercial-land" ? (
-    <meta
-      name="description"
-      content="Invest in prime commercial land perfect for retail, office, or mixed-use developments. These high-visibility plots are ideal for setting up successful ventures."
-    />
-  ) : cat === "industrial-land" ? (
-    <meta
-      name="description"
-      content="Purchase industrial land to set up manufacturing units, warehouses, or logistics facilities. Offering spacious plots in strategic locations with easy access to major transport routes."
-    />
-  ) : cat === "agricultural-land" ? (
-    <meta
-      name="description"
-      content="Buy agricultural land with fertile soil and abundant space, ideal for farming, livestock, or other agricultural ventures. A smart investment for long-term growth."
-    />
-  ) : cat === "farm-house-land" ? (
-    <meta
-      name="description"
-      content="Purchase land for a farmhouse, offering large plots in peaceful rural areas. Perfect for building a retreat, starting agricultural projects, or enjoying country living."
-    />
-  ) : cat === "retail-showroom" ? (
-    <meta
-      name="description"
-      content="Buy a retail showroom in bustling commercial areas with excellent foot traffic. A great investment for displaying your products and growing your business in a high-demand location."
-    />
-  ) : cat === "commercial-building" ? (
-    <meta
-      name="description"
-      content="Purchase a commercial building offering versatile spaces for offices, retail shops, or mixed-use purposes. Situated in key business districts, it's a solid investment for business owners."
-    />
-  ) : cat === "office-complex" ? (
-    <meta
-      name="description"
-      content="Invest in an office complex that offers flexible workspaces, ideal for businesses of all sizes. These modern facilities are well-located and ready to accommodate your growing workforce."
-    />
-  ) : cat === "software-technology-park" ? (
-    <meta
-      name="description"
-      content="Buy office spaces in a cutting-edge technology park designed for tech companies. Modern infrastructure, high-speed internet, and access to an innovation-driven ecosystem make these spaces ideal for growth."
-    />
-  ) : cat === "warehouse" ? (
-    <meta
-      name="description"
-      content="Invest in warehouse space offering ample storage capacity and secure facilities. Perfect for distribution, inventory management, or logistics companies looking for operational efficiency."
-    />
-  ) : cat === "industrial-estate" ? (
-    <meta
-      name="description"
-      content="Purchase land in an industrial estate equipped with the infrastructure needed for large-scale operations. Ideal for businesses looking to expand or start manufacturing, storage, or logistics."
-    />
-  ) : (
-    <meta
-      name="description"
-      content="Discover your ideal property for sale at PropertyEase.in. From luxurious homes to commercial land, explore a diverse range of listings to suit your investment or lifestyle needs."
-    />
-  )}
-</Helmet>
+{/* Metadata tags */}
+{console.log("metaData[cat] : " , metaData["residential"] , cat)}
+<title>{metaData[cat]?.title || metaData.default.title}</title>
+      <meta name="description" content={metaData[cat]?.description || metaData.default.description} />
+      <link rel="canonical" href={metaData[cat]?.canonical || metaData.default.canonical} />
 
         
   

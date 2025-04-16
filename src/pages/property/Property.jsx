@@ -657,7 +657,7 @@ const Property = () => {
     <div >
      
 
-     <Helmet>
+
 
 
      <title>
@@ -782,7 +782,7 @@ rel="preload"
 />
 
 
-</Helmet>
+
 
  {/* <title>{capitalizedName1}</title>  */}
       
