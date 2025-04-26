@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { IconEye } from "@tabler/icons-react";
 import { priceFormat } from "../helper";
-import { ShowPrice } from "../HelperComponents";
+import { ShowPrice, ShowPrice2 } from "../HelperComponents";
 
 const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
   const formatString = (str) => str.toLowerCase().replace(/ /g, "-");
@@ -163,7 +163,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                   {/* <div className="details-1">Price</div> */}
                   <div className="details-2 d-flex">
                     {/* {"₹ " + item.pro_amt + " " + item.pro_amt_unit} */}
-                    {ShowPrice(item.pro_ad_type,item.pro_amt,item.pro_negotiable)} 
+                    {ShowPrice2(item.pro_ad_type,item.pro_amt)} 
                     <span className="right-border mx-2 "></span>
                     <div>{item.pro_area_size + " " + item.pro_area_size_unit}</div>
                   </div>
