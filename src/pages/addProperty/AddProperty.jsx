@@ -2038,7 +2038,7 @@ const AddProperty = () => {
                                 icon={icon}
                                 checkedIcon={checkedIcon}
                                 style={{ marginRight: 8 }}
-                                //checked={selected}
+                                checked={propertyData.pro_negotiable === "Yes" && true}
                                 onClick={() => {
                                   setPropertyData({
                                     ...propertyData,
