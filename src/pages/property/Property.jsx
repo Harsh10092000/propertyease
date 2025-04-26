@@ -1167,7 +1167,7 @@ time3.add(12, "minutes") */}
                                   ? "₹" + data.pro_amt + " " + data.pro_amt_unit
                                   : "Ask Price"} */}
                                  {data.pro_amt
-                                  ? ShowPrice(data.pro_ad_type, data.pro_amt)
+                                  ? ShowPrice(data.pro_ad_type, data.pro_amt, data.pro_negotiable)
                                   : "Ask Price"}
                               </div>
                             </div>
@@ -1625,7 +1625,7 @@ time3.add(12, "minutes") */}
                                       data.pro_amt_unit
                                     : "Ask Price"} */}
                                     {data.pro_amt
-                                    ? ShowPrice(data.pro_ad_type, data.pro_amt)
+                                    ? ShowPrice(data.pro_ad_type, data.pro_amt, data.pro_negotiable)
                                     : "Ask Price"}
                                 </div>
                               </div>

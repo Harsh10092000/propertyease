@@ -178,7 +178,7 @@ const formatString = (str) => str.toLowerCase().replace(/ /g, '-');
                   </strong>
                   &nbsp;
                   {object.pro_amt
-                    ? ShowPrice(object.pro_ad_type,object.pro_amt)
+                    ? ShowPrice(object.pro_ad_type,object.pro_amt, object.pro_negotiable) 
                     : "Ask Price"}
                 </li>
 

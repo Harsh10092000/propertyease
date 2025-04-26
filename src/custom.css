@@ -19247,3 +19247,10 @@ input.form-control.index-search::placeholder{
 .no-padding:first-child {
   padding-top: 0 !important;
 }
+
+
+.negotiable-status {
+  font-size: 13px;
+  display: contents;
+  color: black !important;
+}

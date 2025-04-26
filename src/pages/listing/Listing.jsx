@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { Helmet } from "react-helmet";
+
 import Pagination from "@mui/material/Pagination";
 import { TextField } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
@@ -90,36 +90,49 @@ const Listing = () => {
     setCurrentPage(value);
   };
 
+
+  // Define metadata based on category
+  const metaData = {
+    residential: {
+      description:
+        "Explore residential properties for sale, from stylish apartments to spacious family homes. Whether you're a first-time buyer or looking for an investment, these properties offer comfort, modern amenities, and prime locations, ideal for individuals or families looking for a long-term home.",
+      canonical: "https://propertyease.in/listing/residential",
+    },
+    commercial: {
+      description:
+        "Browse commercial properties for sale, including office spaces, retail stores, and mixed-use developments. These properties are located in high-demand business areas with strong foot traffic and offer excellent potential for businesses or investors seeking prime locations.",
+      canonical: "https://propertyease.in/listing/commercial",
+    },
+    land: {
+      description:
+        "Find available land for sale, ranging from residential plots to commercial and industrial spaces. These plots are located in growing areas with great investment potential, offering the flexibility to build your dream property or develop a new venture.",
+      canonical: "https://propertyease.in/listing/land",
+    },
+  };
+
   return (
     <div>
-     <Helmet>
-  <title>Propertyease - {cat}</title>
-  {cat === "residential" ? (
-    <meta
-      name="description"
-      content="Explore residential properties for sale, from stylish apartments to spacious family homes. Whether you're a first-time buyer or looking for an investment, these properties offer comfort, modern amenities, and prime locations, ideal for individuals or families looking for a long-term home."
-    />
 
-  ) : cat === "commercial" ? (
-    <meta
-      name="description"
-      content="Browse commercial properties for sale, including office spaces, retail stores, and mixed-use developments. These properties are located in high-demand business areas with strong foot traffic and offer excellent potential for businesses or investors seeking prime locations."
-    />
-  ) : cat === "land" ? (
-    <meta
-      name="description"
-      content="Find available land for sale, ranging from residential plots to commercial and industrial spaces. These plots are located in growing areas with great investment potential, offering the flexibility to build your dream property or develop a new venture."
-    />
-  ) : ""}
+{/* Metadata tags */}
+<title>Propertyease - {cat}</title>
+      {metaData[cat] && (
+        <>
+          <meta name="description" content={metaData[cat].description} />
+          <link rel="canonical" href={metaData[cat].canonical} />
+        </>
+      )}
+      {metaData[cat] && (
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `Propertyease - ${cat}`,
+      description: metaData[cat].description,
+      url: metaData[cat].canonical,
+    })}
+  </script>
+)}
 
-{cat === "residential" ? (
-<link defer rel="canonical" href="https://propertyease.in/listing/residential" />
-) : cat === "commercial" ? (
-<link defer rel="canonical" href="https://propertyease.in/listing/commercial" />
-) : cat === "land" ? (
-<link defer rel="canonical" href="https://propertyease.in/listing/land" />
-) : ""}
-</Helmet>
 
       <Navbar />
       <div className={"main padding-top"}>

@@ -559,7 +559,7 @@ import { Helmet } from "react-helmet";
       pro_pincode: "",
       pro_state: "",
       pro_sub_district: "",
-      pro_negotiable: "No",
+      pro_negotiable: "Yes",
       pro_user_email: "",
       pro_login_number: "",
     });

@@ -92,19 +92,19 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import { Helmet } from "react-helmet";
+
 
 const About = () => {
   return (
     <div>
-      <Helmet>
+     
       <title>Propertyease - About Us</title>
       <meta name="description" content="Discover who we are at Propertyease.in, a trusted real estate platform dedicated to helping you find your perfect property. Learn about our team, mission, and commitment to providing top-notch real estate services in your area." />
       <link
           rel="canonical"
           href="https://propertyease.in/about"
         ></link>
-      </Helmet>
+    
       <Navbar />
       <div className="container">
         <section className="main-content">

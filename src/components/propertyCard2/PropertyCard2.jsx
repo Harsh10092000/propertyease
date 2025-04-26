@@ -163,7 +163,7 @@ const PropertyCard2 = ({ item, currentUser, index, col, padding }) => {
                   {/* <div className="details-1">Price</div> */}
                   <div className="details-2 d-flex">
                     {/* {"₹ " + item.pro_amt + " " + item.pro_amt_unit} */}
-                    {ShowPrice(item.pro_ad_type,item.pro_amt)}
+                    {ShowPrice(item.pro_ad_type,item.pro_amt,item.pro_negotiable)} 
                     <span className="right-border mx-2 "></span>
                     <div>{item.pro_area_size + " " + item.pro_area_size_unit}</div>
                   </div>
