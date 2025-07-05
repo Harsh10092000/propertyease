@@ -89,7 +89,7 @@ const Footer = () => {
   const quickLinks = [
     { lintto: "/contactus", type: "Contact Us", target: "_self" },
     { lintto: "/citymap/Kurukshetra", type: "Kurukshetra Maps", target: "_self" },
-    { lintto: "/agentlist", type: "Our Brokers", target: "_self" },
+    // { lintto: "/agentlist", type: "Our Brokers", target: "_self" },
     { lintto: "/about", type: "About Us", target: "_self" },
     { lintto: "/DC-Rates-2024-25.pdf", type: "DC Rates 2024-25" ,  target: "_blank" },
     { lintto: "/termsandconditions", type: "Terms & Conditions", target: "_self" },

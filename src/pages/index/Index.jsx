@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IconSend, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
+import { IconSend, IconArrowNarrowRight, IconX, IconLocation } from "@tabler/icons-react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useEffect, useState, useRef } from "react";
@@ -225,13 +225,21 @@ const Index = () => {
       title: "Click to View All Commercial Properties",
       alt: "Check out best Commercial properties on propertyease.in",
     },
+    // {
+    //   heading: "Land",
+    //   image: "images/pro-type-resized-3.webp",
+    //   link: "/listing/land",
+    //   title: "Click to View All Land/Plots Properties",
+    //   alt: "Check out best Land properties on propertyease.in",
+    // },
     {
-      heading: "Land",
+      heading: "Agricultural",
       image: "images/pro-type-resized-3.webp",
-      link: "/listing/land",
-      title: "Click to View All Land/Plots Properties",
-      alt: "Check out best Land properties on propertyease.in",
+      link: "/land/agricultural-land",
+      title: "Click to View All Agricultural Land Properties",
+      alt: "Check out best Agricultural Land properties on propertyease.in",
     },
+    
     {
       heading: "Buy",
       image: "images/services-icon-resized-1.webp",
@@ -239,13 +247,13 @@ const Index = () => {
       title: "Click to View All Properties",
       alt: `Buy Properties on propertyease.in`,
     },
-    {
-      heading: "Rent",
-      image: "images/services-icon-resized-2.webp",
-      link: "/addproperty",
-      title: "List Property",
-      alt: "Rent House on propertyease.in",
-    },
+    // {
+    //   heading: "Rent",
+    //   image: "images/services-icon-resized-2.webp",
+    //   link: "/addproperty",
+    //   title: "List Property",
+    //   alt: "Rent House on propertyease.in",
+    // },
     {
       heading: "List Property",
       image: "images/services-icon-resized-2.webp",
@@ -637,9 +645,14 @@ const Index = () => {
                 data-select2-id="10"
               >
                 <div className="inner-banner-text ">
+                  {/* <h1 className={"h1-2"}>
+                    Ab Property Bechna Kharidna Hoga Aasan 
+                  </h1> */}
+
                   <h1 className={"h1-2"}>
-                    Ab Property Bechna Kharidna Hoga Aasan
+                  Balaji Properties
                   </h1>
+
                 </div>
                 <div className="banner-text-2 ">
                   <p className="shadow">Find Real Properties at Best Price</p>
@@ -675,6 +688,16 @@ const Index = () => {
                     </Link>
                   </div>
                 ))}
+                <div>f</div><div className="inside-search-options-2" style={{width: "120px"}}>
+                    <a target="_blank" href="https://www.google.com/maps?sca_esv=1741dc65ab8d62be&hl=en-IN&gl=IN&lsig=AB86z5XivRxVhkHre_VhUqwDQQot&um=1&ie=UTF-8&fb=1&sa=X&geocode=Ka9VQ_BaRw45MVF1ihoMu-vY&daddr=Office:-%231667,+Devi+Dass+Pura,+Sector+5,+Kurukshetra,+Haryana+136118" title={"Get Directions"}>
+                      <div className="search-option-item-2">
+                      <IconLocation  stroke={2}  height="40px" width="45px" style={{color: "#726f9c"}}/>
+                        <div className="card-body px-0  pb-0">
+                          <h5 className="card-title mb-0 ">Get Directions</h5>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
               </div>
               <div className="row">
                 <div
